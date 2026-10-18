@@ -20,6 +20,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/trends.json` | 유행 감지 기록 `{history:{날짜:{작품명:횟수}}, top:[...], updated}`. 최근 14일. | 봇만 |
 | `data/thumbs.json`, `data/thumbs/*.jpg` | 작품 제목 → 208×117 JPEG 썸네일 경로. 파일명은 `sha1(공백 제거·소문자 제목)[:16].jpg`. | 봇만 |
 | `data/.feedcache.json` | `site` 타입 소스의 RSS 자동 탐색 결과 캐시(사이트 URL → 피드 URL). 소스 RSS 주소가 바뀌면 해당 항목을 지워야 다시 찾는다. | 봇만 |
+| `assets/og.png`, `assets/icon-512.png`, `assets/apple-touch-icon.png` | 링크 공유 미리보기 이미지(1200×630)와 파비콘·홈 화면 아이콘. `index.html` head의 og/twitter 메타와 `<link rel=icon>`이 가리킨다. 사이트 글꼴(Black Han Sans, IBM Plex Sans KR)로 Chromium에서 렌더한 PNG이며 원본 HTML은 저장소에 없다. 바꾸려면 같은 크기로 교체. | 사람 |
 | `bbs/Code.gs` | 게시판 백엔드(Apps Script). 저장소에서는 실행되지 않고, 운영자가 스프레드시트에 붙여 넣어 배포하는 원본. | 사람 |
 | `.nojekyll` | GitHub Pages가 Jekyll로 처리하지 않게 함(`.feedcache.json` 같은 점 파일 유지). | — |
 
