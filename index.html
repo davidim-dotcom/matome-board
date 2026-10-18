@@ -103,6 +103,9 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .cday{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:10px;aspect-ratio:1/1.08;padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink);cursor:pointer}
 .cday .n{font-size:13px;line-height:1}
 .cday.out{opacity:.35}
+.cday.past:not(.sel){opacity:.5}
+.row.over{opacity:.55}
+.row.over .title::after{content:" · 종료";font-size:12px;font-weight:400;color:var(--muted)}
 .cday.today .n{color:var(--pink);font-weight:700}
 .cday.sel{border-color:var(--ink);background:var(--ink);color:var(--bg)} .cday.sel .n{color:var(--bg)}
 .cday .dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:30px;min-height:6px;line-height:0}
@@ -332,7 +335,7 @@ function dateCol(it){
   if(!d) return `<div class="date none"><div class="m">날짜</div><div class="dd">–</div><div class="w">미정</div></div>`;
   return `<div class="date"><div class="m">${esc(jst(d,{month:"short"}))}</div><div class="dd">${esc(jst(d,{day:"numeric"}).replace("일",""))}</div><div class="w">${esc(jst(d,{weekday:"short"}))}</div></div>`;
 }
-function rowHtml(it,ev){
+function rowHtml(it,ev,cls=""){
   const facts=[];
   const dshort=v=>{const d=parseDate(v);return d?jst(d,{month:"numeric",day:"numeric",weekday:"short"}):""};
   if(it.endDate){const left=Math.ceil((parseDate(it.endDate)-Date.now())/DAY);facts.push(`<span>기간 ${esc(dshort(it.eventDate))} ~ ${esc(dshort(it.endDate))}${it.venue?" · "+esc(it.venue):""}${left>=0&&left<=7?` <b class="hot">${left===0?"오늘 종료":left+"일 뒤 종료"}</b>`:""}</span>`)}
@@ -341,7 +344,7 @@ function rowHtml(it,ev){
   const near=v=>{const d=parseDate(v);return d&&d-Date.now()<7*DAY&&d>Date.now()};
   if(it.ticketOpen) facts.push(`<span class="${near(it.ticketOpen)?"hot":""}">${PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작"} ${esc(fmt(it.ticketOpen))}</span>`);
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
-  return `<article class="row" data-id="${esc(it.id)}">${dateCol(it)}<div>
+  return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
     <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}${ev.hidden?`<span class="why">${esc(ev.why)}</span>`:""}</div>
     <div class="title">${esc(it.title)}</div>
@@ -428,19 +431,19 @@ function renderCalendar(shown){
   const grid=cells.map(d=>{
     const st=starts[d]||[], tk=tickets[d]||[], on=ongoing(d).length, inM=d.startsWith(ym);
     const dots=st.slice(0,3).map(x=>`<i class="dot cat-${x.it.category}"></i>`).join("")+(tk.length?`<i class="dot tk"></i>`:"")+(st.length>3?`<b>+${st.length-3}</b>`:"");
-    return `<button class="cday${inM?"":" out"}${d===today?" today":""}${d===calDay?" sel":""}" data-calday="${d}" aria-pressed="${d===calDay}" aria-label="${ymdLabel(d)} 시작 ${st.length}건 진행 중 ${on}건">
+    return `<button class="cday${inM?"":" out"}${d<today?" past":""}${d===today?" today":""}${d===calDay?" sel":""}" data-calday="${d}" aria-pressed="${d===calDay}" aria-label="${ymdLabel(d)} 시작 ${st.length}건 진행 중 ${on}건">
       <span class="n">${+d.slice(8)}</span><span class="dots">${dots}</span>${on?`<span class="on">${on}</span>`:""}</button>`}).join("");
   // 아래쪽: 고른 날의 일정, 안 골랐으면 이달 전체
   let detail="";
   if(calDay){
     const st=(starts[calDay]||[]).slice().sort(byDate), tk=tickets[calDay]||[], on=ongoing(calDay);
-    const sec=(title,list)=>list.length?`<p class="cal-sub">${title} ${list.length}</p>`+list.map(x=>rowHtml(x.it,x.ev)).join(""):"";
+    const sec=(title,list)=>list.length?`<p class="cal-sub">${title} ${list.length}</p>`+list.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join(""):"";
     detail=`<h3 class="cal-h">${esc(ymdLabel(calDay))}${calDay===today?"<small>오늘</small>":""}<small>${st.length+tk.length+on.length?"":"일정 없음"}</small></h3>`
       +sec("시작·개최",st)+sec("예매·마감",tk.map(t=>t.x).filter((x,i,a)=>a.indexOf(x)===i))+sec("진행 중",on)
       +(!st.length&&!tk.length&&!on.length?`<div class="empty">이날 시작하거나 진행 중인 일정이 없어요. 다른 날을 눌러 보세요.</div>`:"");
   }else{
     const list=Object.keys(starts).filter(d=>d.startsWith(ym)).sort().flatMap(d=>starts[d].slice().sort(byDate));
-    detail=`<h3 class="cal-h">${y}년 ${m}월 일정<small>${list.length}건</small></h3>`+(list.length?list.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">이달에 시작하는 일정이 없어요.</div>`);
+    detail=`<h3 class="cal-h">${y}년 ${m}월 일정<small>${list.length}건</small></h3>`+(list.length?list.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join(""):`<div class="empty">이달에 시작하는 일정이 없어요.</div>`);
   }
   $("#sched").innerHTML=`<div class="cal-head"><button class="btn" data-calnav="prev" aria-label="이전 달">‹</button><h2>${y}년 ${m}월</h2><button class="btn" data-calnav="next" aria-label="다음 달">›</button><button class="btn" data-calnav="today">오늘</button></div>
     <div class="cal-wd">${WD.map(w=>`<span>${w}</span>`).join("")}</div><div class="cal-grid">${grid}</div>
