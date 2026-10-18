@@ -78,6 +78,10 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .cat-goods,.cat-campaign,.cat-other{color:var(--muted)} .cat-stream{color:var(--cyan)}
 .title{font-weight:700;font-size:16px;line-height:1.4;margin:2px 0 4px}
 .sum{margin:0 0 6px;font-size:14px}
+.head{display:flex;gap:10px;align-items:flex-start}
+.head .txt{flex:1;min-width:0}
+.pic{flex:none;width:84px;height:84px;object-fit:cover;border-radius:8px;background:var(--line);margin-top:2px}
+@media (max-width:420px){.pic{width:64px;height:64px}}
 .facts{font-size:13px;margin:0 0 8px;display:grid;gap:2px}
 .facts .hot{color:var(--pink);font-weight:500}
 .actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -243,6 +247,7 @@ function normalize(raw){
     venue:String(raw.venue||"").trim(),
     ticketUrl:safeUrl(raw.ticketUrl||""), url:safeUrl(raw.url||""),
     summary:String(raw.summary||"").slice(0,400).trim(),
+    image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
     addedAt:raw.addedAt||new Date().toISOString(),
     fb:raw.fb||0, manualHide:!!raw.manualHide
   };
@@ -337,9 +342,11 @@ function rowHtml(it,ev){
   if(it.ticketOpen) facts.push(`<span class="${near(it.ticketOpen)?"hot":""}">${PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작"} ${esc(fmt(it.ticketOpen))}</span>`);
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
   return `<article class="row" data-id="${esc(it.id)}">${dateCol(it)}<div>
+    <div class="head"><div class="txt">
     <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}${ev.hidden?`<span class="why">${esc(ev.why)}</span>`:""}</div>
     <div class="title">${esc(it.title)}</div>
     ${it.summary?`<p class="sum">${esc(it.summary)}</p>`:""}
+    </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
     ${facts.length?`<div class="facts">${facts.join("")}</div>`:""}
     <div class="actions">
       ${it.ticketUrl?`<a class="btn ticket" href="${esc(it.ticketUrl)}" target="_blank" rel="noopener">${esc(ticketSite(it.ticketUrl))}에서 예약</a>`:""}
