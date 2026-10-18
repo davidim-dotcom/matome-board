@@ -21,38 +21,27 @@ jobs:
       - name: 소스 점검 (--check)
         continue-on-error: true
         run: python collector.py --check
-      - name: コラボカフェ 변형 탐색
+      - name: コラボカフェ REST 글 타입 탐색
         run: |
           python - <<'PY'
-          import urllib.request, urllib.error, gzip
-          import xml.etree.ElementTree as ET
+          import urllib.request, json
           UA = "matome-board-collector/0.1 (personal use)"
-          def get(url, extra=None):
-              req = urllib.request.Request(url, headers={"User-Agent": UA, **(extra or {})})
+          def get(url):
+              req = urllib.request.Request(url, headers={"User-Agent": UA})
               try:
-                  with urllib.request.urlopen(req, timeout=20) as r:
-                      b = r.read()
-                      if r.headers.get("content-encoding") == "gzip": b = gzip.decompress(b)
-                      return r.status, b
-              except urllib.error.HTTPError as e: return e.code, b""
+                  with urllib.request.urlopen(req, timeout=30) as r: return r.status, r.read()
               except Exception as e: return f"ERR {e}", b""
-          def info(b):
-              try: root = ET.fromstring(b)
-              except Exception as e: return f"not-xml len={len(b)} head={b[:60]!r}"
-              return f"items={len(list(root.iter('item')))} title={root.findtext('channel/title')!r}"
-          for u, extra in [
-              ("https://collabo-cafe.com/feed/", {"Cookie": "pll_language=ja"}),
-              ("https://collabo-cafe.com/feed/", {"Cookie": "pll_language=ja", "Accept-Language": "ja"}),
-              ("https://collabo-cafe.com/ja/feed/", None),
-              ("https://collabo-cafe.com/feed/?lang=ja", None),
-              ("https://collabo-cafe.com/en/feed/", None),
-              ("https://collabo-cafe.com/events/category/matome-column/feed/", None),
-              ("https://collabo-cafe.com/events/tag/anime-matome/feed/", None),
-              ("https://collabo-cafe.com/wp-json/wp/v2/posts?per_page=3", None),
-              ("https://collabo-cafe.com/sitemap_index.xml", None),
-              ("https://dengekionline.com/newsSitemap.xml", None),
-          ]:
-              st, b = get(u, extra)
-              print(f"{u} extra={extra} -> {st} {info(b) if st == 200 else ''}")
-              if u.endswith("sitemap_index.xml") or "newsSitemap" in u: print("   ", b[:600])
+          st, b = get("https://collabo-cafe.com/wp-json/wp/v2/types")
+          print("types ->", st)
+          if st == 200:
+              for k, v in json.loads(b).items(): print("  ", k, "rest_base=", v.get("rest_base"), "name=", v.get("name"))
+          for u in ["https://collabo-cafe.com/wp-json/wp/v2/posts?per_page=5&orderby=date&order=desc&sticky=false&_fields=title,link,date",
+                    "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=5&orderby=date&order=desc&_fields=title,link,date",
+                    "https://collabo-cafe.com/wp-json/wp/v2/event?per_page=5&orderby=date&order=desc&_fields=title,link,date"]:
+              st, b = get(u)
+              print(u, "->", st, len(b))
+              if st == 200:
+                  try:
+                      for p in json.loads(b)[:5]: print("   ", p.get("date"), p.get("title", {}).get("rendered"), p.get("link"))
+                  except Exception as e: print("   ", b[:200])
           PY

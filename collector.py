@@ -13,6 +13,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로). Google 뉴스 사이트맵도 읽음.
                "headers": {...} 를 주면 요청에 함께 보냄(쿠키 등)
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
+  - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
 실행: python3 collector.py          →  items.json(소식)
@@ -47,8 +48,8 @@ SOURCES = [
     {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml"},
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
-    # 콜라보 카페·팝업. Polylang 언어 쿠키가 없으면 /feed/ 가 빈 응답을 돌려줘서 쿠키를 함께 보냄
-    {"type": "rss", "name": "コラボカフェ", "url": "https://collabo-cafe.com/feed/", "headers": {"Cookie": "pll_language=ja"}},
+    # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
+    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/posts?per_page=40&orderby=date&order=desc&sticky=false&_fields=title,excerpt,link,date"},
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},
     # 공식 행사·동인 즉매회
@@ -201,6 +202,14 @@ def parse_feed(xml_bytes):
     return entries
 
 
+def wp_entries(data):
+    """WordPress REST API(/wp-json/wp/v2/posts 등)의 글 목록을 (제목, 발췌, 링크)로. RSS가 비어 있는 WP 사이트용."""
+    if not isinstance(data, list):
+        raise ValueError(f"WP REST 응답이 목록이 아님: {str(data)[:80]}")
+    return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""))
+            for p in data if isinstance(p, dict)]
+
+
 CACHE = os.path.join(DATA, ".feedcache.json")
 _cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
 
@@ -230,12 +239,14 @@ SEEN_TEXT = []  # 유행 감지용: (제목+본문)
 
 def collect(src, ref):
     t = src["type"]
-    if t in ("rss", "youtube", "site"):
-        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]),
+    if t in ("rss", "youtube", "site", "wpjson"):
+        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"],
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
+        raw = fetch(url, src.get("headers"))
+        entries = wp_entries(json.loads(raw)) if t == "wpjson" else parse_feed(raw)
         out = []
-        for ti, de, li in parse_feed(fetch(url, src.get("headers"))):
+        for ti, de, li in entries:
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
