@@ -72,7 +72,9 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .meta{font-size:13px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
 .cat{font-weight:700}
 .cat-live{color:var(--pink)} .cat-event{color:var(--cyan)} .cat-collab,.cat-popup{color:var(--amber)} .cat-exhibit,.cat-manga{color:var(--cyan)} .cat-official{color:var(--pink)} .cat-doujin{color:var(--amber)}
-.sec-h{font-weight:700;font-size:15px;margin:18px 0 0;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.chip.sort{color:var(--muted);border-style:dashed}
+.chip.sort.first{margin-left:10px}
+.chip.sort[aria-pressed="true"]{color:var(--bg);border-style:solid}
 .cat-goods,.cat-campaign,.cat-other{color:var(--muted)} .cat-stream{color:var(--cyan)}
 .title{font-weight:700;font-size:16px;line-height:1.4;margin:2px 0 4px}
 .sum{margin:0 0 6px;font-size:14px}
@@ -130,19 +132,13 @@ textarea{min-height:110px;resize:vertical}
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="feed" aria-selected="true">피드<span class="cnt" id="cFeed"></span></button>
     <button role="tab" data-tab="sched" aria-selected="false">일정</button>
-    <button role="tab" data-tab="events" aria-selected="false">행사·즉매회<span class="cnt" id="cEvents"></span></button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
-    <button role="tab" data-tab="collab" aria-selected="false">콜라보·팝업<span class="cnt" id="cCollab"></span></button>
-    <button role="tab" data-tab="manga" aria-selected="false">만화·전시<span class="cnt" id="cManga"></span></button>
     <button role="tab" data-tab="rules" aria-selected="false">내 설정</button>
   </nav>
 
   <section id="feed"></section>
   <section id="sched" hidden></section>
   <section id="anime" hidden></section>
-  <section id="collab" hidden></section>
-  <section id="manga" hidden></section>
-  <section id="events" hidden></section>
   <section id="hidden" hidden></section>
 
   <section id="rules" hidden>
@@ -174,7 +170,10 @@ textarea{min-height:110px;resize:vertical}
 <script>
 const CATS = {live:"공연",event:"이벤트",collab:"콜라보",popup:"팝업",exhibit:"전시·원화전",manga:"만화 소식",official:"공식 행사",doujin:"동인·온리전",goods:"굿즈",stream:"방송",campaign:"캠페인",other:"기타"};
 const PERIOD_CATS = ["collab","popup","exhibit","official","doujin"];
-const EVENT_CATS = ["official","doujin"];
+// 버튜버 소식 판별: 전용 소스이거나(공식 뉴스·Holodex), 제목/요약/작품/출처에 버튜버 그룹·용어가 있으면
+const VT_SOURCES = new Set(["PANORA","ホロライブ公式","にじさんじ公式","ぶいすぽっ！公式"]);
+const VT_RE = /VTuber|Vtuber|ブイチューバー|バーチャルYouTuber|Vライバー|ホロライブ|hololive|にじさんじ|NIJISANJI|ぶいすぽ|VSPO|VShojo|ネオポルテ|Neo-Porte|あおぎり高校|のりプロ|ななしいんく|774inc|Re:AcT|ぶいらび|VEE|Nornis|ROF-MAO|HIMEHINA|キズナアイ/i;
+function isVtuber(it){return VT_SOURCES.has(it.source)||it.platform==="holodex"||VT_RE.test([it.title,it.summary,it.works.join(" "),it.source].join(" "))}
 const TICKET_SITES = [
   ["eplus.jp","e+"],["l-tike.com","ローチケ"],["pia.jp","チケットぴあ"],["ticket.rakuten.co.jp","楽天チケット"],
   ["livepocket.jp","LivePocket"],["tiget.net","TIGET"],["zaiko.io","ZAIKO"],["teket.jp","teket"],
@@ -193,7 +192,7 @@ const tkey = t=>String(t||"").replace(/[\s　]/g,"").toLowerCase();
 const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 미정"];
 let items = new Map();
 let backend = null; // {saveState, saveItem, removeItem}
-let filterCat = null;
+let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬
 
 /* ---------- utilities ---------- */
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -337,22 +336,27 @@ function render(){
   const shown=all.filter(x=>!x.ev.hidden), hid=all.filter(x=>x.ev.hidden);
   $("#openHidden").textContent=`숨긴 소식 보기 (${hid.length})`;
   renderStubs();
-  const cats=[...new Set(shown.filter(notOver).map(x=>x.it.category))];
   const live=shown.filter(notOver);
   $("#cFeed").textContent=live.length||"";
-  const feed=live.filter(x=>!filterCat||x.it.category===filterCat)
-    .sort((a,b)=>(b.it.fb===1)-(a.it.fb===1)||(b.ev.score||0)-(a.ev.score||0)+0||new Date(b.it.addedAt)-new Date(a.it.addedAt));
-  $("#feed").innerHTML = (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
-    + (feed.length?feed.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요.</div>`);
+  const nVt=live.filter(x=>isVtuber(x.it)).length;
+  const genre=live.filter(x=>filterVt==="all"||(filterVt==="vt")===isVtuber(x.it));
+  const cats=[...new Set(genre.map(x=>x.it.category))];
+  if(filterCat&&!cats.includes(filterCat)) filterCat=null; // 장르를 바꿔서 분류가 사라지면 전체로
+  const SORTS={rec:(a,b)=>(b.it.fb===1)-(a.it.fb===1)||(b.ev.score||0)-(a.ev.score||0)||new Date(b.it.addedAt)-new Date(a.it.addedAt),
+    new:(a,b)=>new Date(b.it.addedAt)-new Date(a.it.addedAt),
+    date:(a,b)=>(parseDate(a.it.eventDate)||Infinity)-(parseDate(b.it.eventDate)||Infinity)||new Date(b.it.addedAt)-new Date(a.it.addedAt)};
+  const feed=genre.filter(x=>!filterCat||x.it.category===filterCat).sort(SORTS[sortMode]||SORTS.rec);
+  const vtChips=[["all","전부"],["vt",`버튜버 ${nVt}`],["novt","버튜버 제외"]].map(([k,l])=>`<button class="chip" data-vt="${k}" aria-pressed="${filterVt===k}">${l}</button>`).join("");
+  const sortChips=[["rec","추천순"],["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("");
+  $("#feed").innerHTML = `<div class="filters">${vtChips}${sortChips}</div>`
+    + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
+    + (feed.length?feed.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">${filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
   const now=Date.now()-DAY;
   const sched=shown.filter(x=>{const d=parseDate(x.it.eventDate);return d&&d>now}).sort((a,b)=>parseDate(a.it.eventDate)-parseDate(b.it.eventDate));
   let html="",last="";
   for(const x of sched){const m=jst(parseDate(x.it.eventDate),{year:"numeric",month:"long"});if(m!==last){html+=`<h3 class="month-h">${esc(m)}</h3>`;last=m}html+=rowHtml(x.it,x.ev)}
   $("#sched").innerHTML=html||`<div class="empty">날짜가 정해진 다가오는 행사가 없어요.</div>`;
   renderAnime(all);
-  renderCollab(shown);
-  renderManga(shown);
-  renderEvents(shown);
   $("#hidden").innerHTML=hid.length?hid.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">숨긴 소식이 없어요.</div>`;
   renderRules();
 }
@@ -368,39 +372,8 @@ function renderRules(){
 }
 
 
-/* ---------- collab & popup ---------- */
-let collabFilter="all";
-function periodSections(list,emptyMsg){
-  const now=Date.now(), start=x=>parseDate(x.it.eventDate), end=x=>parseDate(x.it.endDate);
-  const live=list.filter(x=>{const s=start(x);return !s||s<=now}).sort((a,b)=>(end(a)||Infinity)-(end(b)||Infinity));
-  const soon=list.filter(x=>{const s=start(x);return s&&s>now}).sort((a,b)=>start(a)-start(b));
-  return (live.length?`<h3 class="sec-h">진행 중 · 끝나는 순</h3>${live.map(x=>rowHtml(x.it,x.ev)).join("")}`:"")
-    +(soon.length?`<h3 class="sec-h">곧 시작 · 시작하는 순</h3>${soon.map(x=>rowHtml(x.it,x.ev)).join("")}`:"")
-    +(!live.length&&!soon.length?`<div class="empty">${emptyMsg}</div>`:"");
-}
+/* ---------- feed helpers ---------- */
 function notOver(x){const e=parseDate(x.it.endDate)||parseDate(x.it.eventDate);return !e||e>Date.now()-DAY/2}
-function renderCollab(shown){
-  const list=shown.filter(x=>["collab","popup"].includes(x.it.category)).filter(notOver);
-  $("#cCollab").textContent=list.length||"";
-  const f=list.filter(x=>collabFilter==="all"||x.it.category===collabFilter);
-  const chips=["all","collab","popup"].map(k=>`<button class="chip" data-cfil="${k}" aria-pressed="${collabFilter===k}">${k==="all"?"전체":CATS[k]}</button>`).join("");
-  $("#collab").innerHTML=`<div class="filters">${chips}</div>`+periodSections(f,"진행 중이거나 예정된 콜라보·팝업이 없어요.");
-}
-let eventFilter="all";
-function renderEvents(shown){
-  const list=shown.filter(x=>EVENT_CATS.includes(x.it.category)).filter(notOver);
-  $("#cEvents").textContent=list.length||"";
-  const f=list.filter(x=>eventFilter==="all"||x.it.category===eventFilter);
-  const chips=["all",...EVENT_CATS].map(k=>`<button class="chip" data-efil="${k}" aria-pressed="${eventFilter===k}">${k==="all"?"전체":CATS[k]}</button>`).join("");
-  $("#events").innerHTML=`<div class="filters">${chips}</div>`+periodSections(f,"예정된 행사가 없어요.");
-}
-function renderManga(shown){
-  const ex=shown.filter(x=>x.it.category==="exhibit").filter(notOver);
-  const news=shown.filter(x=>x.it.category==="manga").sort((a,b)=>new Date(b.it.addedAt)-new Date(a.it.addedAt)).slice(0,60);
-  $("#cManga").textContent=(ex.length+news.length)||"";
-  $("#manga").innerHTML=`<h3 class="month-h">전시·원화전</h3>`+periodSections(ex,"진행 중이거나 예정된 전시가 없어요.")
-    +`<h3 class="month-h">만화 소식</h3>`+(news.length?news.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">신간, 연재, 애니화 같은 만화 소식은 수집기가 コミックナタリー 등에서 가져와 여기에 쌓아요.</div>`);
-}
 
 /* ---------- airing anime ---------- */
 function baseTitle(t){return String(t||"").replace(/[\s　]*(第\d+期|第\d+クール|Season\s*\d+|シーズン\d+|\d+(st|nd|rd|th)\s*Season|2nd Season|II|Ⅱ|特別篇|（続編）)/gi," ").replace(/\s+/g," ").trim()}
@@ -467,8 +440,8 @@ document.addEventListener("click",async e=>{
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
-  const ef=e.target.closest("[data-efil]"); if(ef){eventFilter=ef.dataset.efil;render();return}
-  const cf=e.target.closest("[data-cfil]"); if(cf){collabFilter=cf.dataset.cfil;render();return}
+  const vt=e.target.closest("[data-vt]"); if(vt){filterVt=vt.dataset.vt;render();return}
+  const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
   const cr=e.target.closest("[data-catrule]"); if(cr){const k=cr.dataset.catrule;S.rules.cats=S.rules.cats.includes(k)?S.rules.cats.filter(x=>x!==k):[...S.rules.cats,k];await backend.saveState();render();return}
   onAction(e);
 });
