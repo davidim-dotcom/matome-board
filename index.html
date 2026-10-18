@@ -89,6 +89,30 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .row.open .more{display:flex}
 .why{font-size:12px;background:var(--pink-soft);color:var(--pink);padding:2px 8px;border-radius:6px}
 .month-h{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:20px;margin:22px 0 2px}
+/* 캘린더 */
+.cal-head{display:flex;align-items:center;gap:6px;margin:12px 0 8px}
+.cal-head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:22px;margin:0;flex:1;text-align:center;letter-spacing:-.3px}
+.cal-head .btn{padding:5px 11px;line-height:1}
+.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-wd span{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 4px}
+.cal-wd span:first-child{color:var(--pink)} .cal-wd span:last-child{color:var(--cyan)}
+.cday{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:10px;aspect-ratio:1/1.08;padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink);cursor:pointer}
+.cday .n{font-size:13px;line-height:1}
+.cday.out{opacity:.35}
+.cday.today .n{color:var(--pink);font-weight:700}
+.cday.sel{border-color:var(--ink);background:var(--ink);color:var(--bg)} .cday.sel .n{color:var(--bg)}
+.cday .dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:30px;min-height:6px;line-height:0}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:var(--muted)}
+.dot.cat-live,.dot.cat-official{background:var(--pink)} .dot.cat-event,.dot.cat-exhibit,.dot.cat-manga,.dot.cat-stream{background:var(--cyan)} .dot.cat-collab,.dot.cat-popup,.dot.cat-doujin{background:var(--amber)}
+.dot.tk{background:transparent;border:2px solid var(--amber);width:4px;height:4px}
+.cday .dots b{font-size:9px;line-height:6px;font-weight:600;color:var(--muted)} .cday.sel .dots b{color:var(--bg)}
+.cday .on{position:absolute;right:3px;top:3px;font-size:9px;line-height:1;color:var(--muted);background:var(--bg);border-radius:6px;padding:2px 3px}
+.cday.sel .on{color:var(--ink)}
+.cal-legend{display:flex;gap:12px;font-size:11px;color:var(--muted);margin:8px 2px 0;flex-wrap:wrap;align-items:center}
+.cal-legend .dot{margin-right:4px;vertical-align:middle}
+.cal-h{font-weight:700;font-size:16px;margin:20px 0 2px;display:flex;align-items:baseline;gap:8px}
+.cal-h small{font-weight:400;font-size:12px;color:var(--muted)}
+.cal-sub{font-size:12px;color:var(--muted);margin:14px 0 0;font-weight:600;letter-spacing:.02em}
 
 /* Forms */
 .panel{background:var(--surface);border-radius:12px;padding:16px;margin:14px 0}
@@ -131,7 +155,7 @@ textarea{min-height:110px;resize:vertical}
 
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="feed" aria-selected="true">피드<span class="cnt" id="cFeed"></span></button>
-    <button role="tab" data-tab="sched" aria-selected="false">일정</button>
+    <button role="tab" data-tab="sched" aria-selected="false">캘린더</button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="rules" aria-selected="false">내 설정</button>
   </nav>
@@ -193,6 +217,7 @@ const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 �
 let items = new Map();
 let backend = null; // {saveState, saveItem, removeItem}
 let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬
+let calYM = null, calDay = null; // 캘린더가 보여 주는 달 {y,m} 과 고른 날 "YYYY-MM-DD"
 
 /* ---------- utilities ---------- */
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -351,11 +376,7 @@ function render(){
   $("#feed").innerHTML = `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (feed.length?feed.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">${filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
-  const now=Date.now()-DAY;
-  const sched=shown.filter(x=>{const d=parseDate(x.it.eventDate);return d&&d>now}).sort((a,b)=>parseDate(a.it.eventDate)-parseDate(b.it.eventDate));
-  let html="",last="";
-  for(const x of sched){const m=jst(parseDate(x.it.eventDate),{year:"numeric",month:"long"});if(m!==last){html+=`<h3 class="month-h">${esc(m)}</h3>`;last=m}html+=rowHtml(x.it,x.ev)}
-  $("#sched").innerHTML=html||`<div class="empty">날짜가 정해진 다가오는 행사가 없어요.</div>`;
+  renderCalendar(shown);
   renderAnime(all);
   $("#hidden").innerHTML=hid.length?hid.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">숨긴 소식이 없어요.</div>`;
   renderRules();
@@ -374,6 +395,51 @@ function renderRules(){
 
 /* ---------- feed helpers ---------- */
 function notOver(x){const e=parseDate(x.it.endDate)||parseDate(x.it.eventDate);return !e||e>Date.now()-DAY/2}
+
+/* ---------- calendar ---------- */
+// 날짜 계산은 전부 "YYYY-MM-DD"(JST) 문자열로 한다. 달력 격자는 시간대와 무관한 순수 날짜 계산이라 UTC 산술을 쓴다.
+const WD=["일","월","화","수","목","금","토"];
+function jstYmd(d){return d?new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(d):""}
+function ymd(y,m,d){return new Date(Date.UTC(y,m-1,d)).toISOString().slice(0,10)}
+function ymdLabel(s){const d=new Date(s+"T00:00:00Z");return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 (${WD[d.getUTCDay()]})`}
+function renderCalendar(shown){
+  const today=jstYmd(new Date());
+  if(!calYM){calYM={y:+today.slice(0,4),m:+today.slice(5,7)};calDay=today}
+  const {y,m}=calYM, ym=`${y}-${String(m).padStart(2,"0")}`;
+  // 날짜별 색인: 시작일, 예매·마감일, 기간(시작<날≤끝)
+  const starts={}, tickets={}, periods=[];
+  for(const x of shown){
+    const it=x.it, s=jstYmd(parseDate(it.eventDate)), e=jstYmd(parseDate(it.endDate));
+    if(s){(starts[s]??=[]).push(x); if(e&&e>s) periods.push({x,s,e})}
+    for(const k of ["ticketOpen","deadline"]){const d=jstYmd(parseDate(it[k])); if(d) (tickets[d]??=[]).push({x,k})}
+  }
+  const ongoing=day=>periods.filter(p=>p.s<day&&day<=p.e).map(p=>p.x);
+  const byDate=(a,b)=>parseDate(a.it.eventDate)-parseDate(b.it.eventDate)||new Date(b.it.addedAt)-new Date(a.it.addedAt);
+  // 격자
+  const lead=new Date(Date.UTC(y,m-1,1)).getUTCDay(), days=new Date(Date.UTC(y,m,0)).getUTCDate();
+  const cells=[]; for(let i=0,n=Math.ceil((lead+days)/7)*7;i<n;i++) cells.push(ymd(y,m,i-lead+1));
+  const grid=cells.map(d=>{
+    const st=starts[d]||[], tk=tickets[d]||[], on=ongoing(d).length, inM=d.startsWith(ym);
+    const dots=st.slice(0,3).map(x=>`<i class="dot cat-${x.it.category}"></i>`).join("")+(tk.length?`<i class="dot tk"></i>`:"")+(st.length>3?`<b>+${st.length-3}</b>`:"");
+    return `<button class="cday${inM?"":" out"}${d===today?" today":""}${d===calDay?" sel":""}" data-calday="${d}" aria-pressed="${d===calDay}" aria-label="${ymdLabel(d)} 시작 ${st.length}건 진행 중 ${on}건">
+      <span class="n">${+d.slice(8)}</span><span class="dots">${dots}</span>${on?`<span class="on">${on}</span>`:""}</button>`}).join("");
+  // 아래쪽: 고른 날의 일정, 안 골랐으면 이달 전체
+  let detail="";
+  if(calDay){
+    const st=(starts[calDay]||[]).slice().sort(byDate), tk=tickets[calDay]||[], on=ongoing(calDay);
+    const sec=(title,list)=>list.length?`<p class="cal-sub">${title} ${list.length}</p>`+list.map(x=>rowHtml(x.it,x.ev)).join(""):"";
+    detail=`<h3 class="cal-h">${esc(ymdLabel(calDay))}${calDay===today?"<small>오늘</small>":""}<small>${st.length+tk.length+on.length?"":"일정 없음"}</small></h3>`
+      +sec("시작·개최",st)+sec("예매·마감",tk.map(t=>t.x).filter((x,i,a)=>a.indexOf(x)===i))+sec("진행 중",on)
+      +(!st.length&&!tk.length&&!on.length?`<div class="empty">이날 시작하거나 진행 중인 일정이 없어요. 다른 날을 눌러 보세요.</div>`:"");
+  }else{
+    const list=Object.keys(starts).filter(d=>d.startsWith(ym)).sort().flatMap(d=>starts[d].slice().sort(byDate));
+    detail=`<h3 class="cal-h">${y}년 ${m}월 일정<small>${list.length}건</small></h3>`+(list.length?list.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">이달에 시작하는 일정이 없어요.</div>`);
+  }
+  $("#sched").innerHTML=`<div class="cal-head"><button class="btn" data-calnav="prev" aria-label="이전 달">‹</button><h2>${y}년 ${m}월</h2><button class="btn" data-calnav="next" aria-label="다음 달">›</button><button class="btn" data-calnav="today">오늘</button></div>
+    <div class="cal-wd">${WD.map(w=>`<span>${w}</span>`).join("")}</div><div class="cal-grid">${grid}</div>
+    <div class="cal-legend"><span><i class="dot cat-live"></i>공연·공식 행사</span><span><i class="dot cat-collab"></i>콜라보·팝업·동인</span><span><i class="dot cat-event"></i>이벤트·전시·만화</span><span><i class="dot tk"></i>예매·마감</span><span>숫자 = 진행 중</span></div>
+    ${detail}<p class="note" style="margin-top:14px">날을 누르면 그날 시작하는 일정, 예매·마감, 진행 중인 기간 행사를 보여 줘요. 고른 날을 다시 누르면 이달 전체 목록으로 돌아가요.</p>`;
+}
 
 /* ---------- airing anime ---------- */
 function baseTitle(t){return String(t||"").replace(/[\s　]*(第\d+期|第\d+クール|Season\s*\d+|シーズン\d+|\d+(st|nd|rd|th)\s*Season|2nd Season|II|Ⅱ|特別篇|（続編）)/gi," ").replace(/\s+/g," ").trim()}
@@ -441,6 +507,12 @@ document.addEventListener("click",async e=>{
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
   const vt=e.target.closest("[data-vt]"); if(vt){filterVt=vt.dataset.vt;render();return}
+  const cn=e.target.closest("[data-calnav]"); if(cn){const k=cn.dataset.calnav;
+    if(k==="today"){const t=jstYmd(new Date());calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay=t}
+    else{let {y,m}=calYM;m+=k==="next"?1:-1;if(m>12){m=1;y++}if(m<1){m=12;y--}calYM={y,m};calDay=null}
+    render();return}
+  const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
+    if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
   const cr=e.target.closest("[data-catrule]"); if(cr){const k=cr.dataset.catrule;S.rules.cats=S.rules.cats.includes(k)?S.rules.cats.filter(x=>x!==k):[...S.rules.cats,k];await backend.saveState();render();return}
   onAction(e);
