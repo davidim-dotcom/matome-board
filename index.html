@@ -310,9 +310,9 @@ function upcomingDeadlines(){
   for(const it of items.values()){
     if(evaluate(it).hidden) continue;
     for(const [k,label] of [["ticketOpen",PERIOD_CATS.includes(it.category)?"예약 시작":"판매 시작"],["deadline","마감"]]){
-      const d=parseDate(it[k]); if(d && d-now>-DAY/2 && d-now<21*DAY) out.push({it,d,label});
+      const d=parseDate(it[k]); if(d && d>now && d-now<21*DAY) out.push({it,d,label}); // 이미 지난 예매 시작·마감은 띄우지 않는다
     }
-    if(PERIOD_CATS.includes(it.category)&&it.endDate){const d=parseDate(it.endDate);if(d&&d-now>-DAY/2&&d-now<5*DAY)out.push({it,d,label:"기간 종료"})}
+    if(PERIOD_CATS.includes(it.category)&&it.endDate){const d=parseDate(it.endDate);if(d&&d>now&&d-now<5*DAY)out.push({it,d,label:"기간 종료"})}
   }
   return out.sort((a,b)=>a.d-b.d).slice(0,10);
 }
