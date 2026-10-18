@@ -1,0 +1,76 @@
+name: 소스 점검
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 피드 주소 탐색
+        run: |
+          python - <<'PY'
+          import re, urllib.request, urllib.error, urllib.parse, html, sys
+          import xml.etree.ElementTree as ET
+          UAS = {
+            "script": "matome-board-collector/0.1 (personal use)",
+            "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+          }
+          def get(url, ua):
+              req = urllib.request.Request(url, headers={"User-Agent": UAS[ua], "Accept": "*/*"})
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      return r.status, r.headers.get("content-type",""), r.read(), r.geturl()
+              except urllib.error.HTTPError as e:
+                  return e.code, e.headers.get("content-type","") if e.headers else "", e.read()[:200], url
+              except Exception as e:
+                  return f"ERR {type(e).__name__}: {e}", "", b"", url
+          def feedinfo(body):
+              try:
+                  root = ET.fromstring(body)
+              except Exception as e:
+                  return f"not-xml ({str(e)[:40]}) head={body[:80]!r}"
+              n = len(list(root.iter("item"))) + len(root.findall("{http://www.w3.org/2005/Atom}entry"))
+              return f"xml root={root.tag} items={n}"
+          SITES = ["https://natalie.mu/comic", "https://natalie.mu/music", "https://www.animatetimes.com/",
+                   "https://anime.eiga.com/", "https://dengekionline.com/", "https://www.comiket.co.jp/",
+                   "https://shimeken.com/", "https://collabo-cafe.com/"]
+          print("==== 홈페이지: UA별 응답과 <link rel=alternate>, rss/feed 링크")
+          for s in SITES:
+              for ua in UAS:
+                  st, ct, body, final = get(s, ua)
+                  print(f"\n[{s}] UA={ua} -> {st} {ct[:40]} final={final}")
+                  if isinstance(st, int) and st == 200:
+                      page = body.decode("utf-8", "replace")
+                      alts = [t for t in re.findall(r"<link[^>]+>", page, re.I) if re.search(r"alternate", t, re.I) and re.search(r"(rss|atom)\+xml", t, re.I)]
+                      for t in alts: print("   alt:", html.unescape(t)[:200])
+                      hrefs = set(re.findall(r"href=[\"']([^\"']*(?:rss|feed|atom|\.rdf|\.xml)[^\"']*)", page, re.I))
+                      for h in sorted(hrefs)[:15]: print("   href:", urllib.parse.urljoin(s, html.unescape(h)))
+          CANDS = {
+            "natalie comic": ["https://natalie.mu/comic/feed/news", "https://natalie.mu/comic/feed/news.rss"],
+            "natalie music": ["https://natalie.mu/music/feed/news"],
+            "animatetimes": ["https://www.animatetimes.com/rss/index.xml", "https://www.animatetimes.com/rss/", "https://www.animatetimes.com/feed/", "https://www.animatetimes.com/rss.xml", "https://www.animatetimes.com/news/rss/"],
+            "anime hack": ["https://anime.eiga.com/rss/", "https://anime.eiga.com/rss/news/", "https://anime.eiga.com/rss/news.xml", "https://anime.eiga.com/feed/", "https://eiga.com/rss/news.xml"],
+            "dengeki": ["https://dengekionline.com/rss/news.xml", "https://dengekionline.com/rss/", "https://dengekionline.com/rss.xml", "https://dengekionline.com/feed/", "https://dengekionline.com/feed.rss", "https://dengekionline.com/rss/index.xml"],
+            "comiket": ["https://www.comiket.co.jp/rss.xml", "https://www.comiket.co.jp/feed/", "https://www.comiket.co.jp/info-a/", "https://www.comiket.co.jp/news/"],
+            "shimeken": ["https://shimeken.com/rss", "https://shimeken.com/feed", "https://shimeken.com/rss.xml", "https://shimeken.com/event/rss", "https://shimeken.com/feed.xml"],
+            "collabo-cafe": ["https://collabo-cafe.com/feed/", "https://collabo-cafe.com/feed"],
+          }
+          print("\n==== 후보 피드 주소 (browser UA, 실패 시 script UA도)")
+          for name, urls in CANDS.items():
+              for u in urls:
+                  st, ct, body, final = get(u, "browser")
+                  info = feedinfo(body) if isinstance(st, int) and st == 200 else ""
+                  print(f"[{name}] {u} -> {st} {ct[:40]} {info}")
+                  if isinstance(st, int) and st == 200 and "items=" in info and not info.endswith("items=0"):
+                      st2, ct2, body2, _ = get(u, "script")
+                      print(f"     script UA -> {st2} {feedinfo(body2) if isinstance(st2,int) and st2==200 else ''}")
+          PY
