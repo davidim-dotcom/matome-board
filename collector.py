@@ -136,12 +136,25 @@ def urls_in(text):
     return re.findall(r"https?://[^\s\"'<>）)」]+", text or "")
 
 
-def ticket_url(urls):
+def ticket_site(u):
+    """주소가 어느 티켓 사이트 것인지(TICKET_DOMAINS 의 값). 아니면 ""."""
+    host = urllib.parse.urlparse(u).hostname or ""
+    return next((d for d in TICKET_DOMAINS if d in host), "")
+
+
+def ticket_urls(urls):
+    """티켓 사이트 링크만 골라 사이트별로 첫 번째 하나씩(e+, ローチケ, ぴあ … 순서는 등장 순)."""
+    out, seen = [], set()
     for u in urls:
-        host = urllib.parse.urlparse(u).hostname or ""
-        if any(d in host for d in TICKET_DOMAINS):
-            return u
-    return ""
+        d = ticket_site(u)
+        if d and d not in seen:
+            seen.add(d); out.append(u)
+    return out
+
+
+def ticket_url(urls):
+    tk = ticket_urls(urls)
+    return tk[0] if tk else ""
 
 
 DATE_RE = re.compile(
@@ -202,7 +215,7 @@ def build(title, body, link, src, ref, default_cat="other"):
     return {
         "title": title[:200], "category": classify(text, default_cat), "source": src.get("name", ""),
         "platform": src["type"], "works": works[:5], "eventDate": event, "endDate": end, "ticketOpen": opening,
-        "deadline": deadline, "venue": "", "ticketUrl": ticket_url(urls_in(body) + [link]),
+        "deadline": deadline, "venue": "", "ticketUrl": ticket_url(urls_in(body) + [link]), "ticketUrls": ticket_urls(urls_in(body) + [link]),
         "url": link, "summary": re.sub(r"\s+", " ", body)[:140],
     }
 
@@ -307,7 +320,7 @@ def ld_item(ev, src, ref):
     works = list(src.get("works", [])) + [w for w in WATCH if w.lower() in text.lower() and w not in src.get("works", [])]
     return {"title": title[:200], "category": classify(text, "event"), "source": src.get("name", ""), "platform": src["type"],
             "works": works[:5], "eventDate": start, "endDate": end, "ticketOpen": "", "deadline": "", "venue": venue[:80],
-            "ticketUrl": ticket_url([str(offers.get("url") or "")]), "url": link, "summary": kind[:140],
+            "ticketUrl": ticket_url([str(offers.get("url") or "")]), "ticketUrls": ticket_urls([str(offers.get("url") or "")]), "url": link, "summary": kind[:140],
             "image": ev["image"] if isinstance(ev.get("image"), str) else ""}
 
 
@@ -568,18 +581,25 @@ def og_from_html(page, base):
     return ""
 
 
-def ticket_link_in(page, exclude=()):
-    """페이지 안의 첫 티켓 사이트 링크(e+, ぴあ, ローチケ …). 기사 본문(<article>/<main>) 안을 먼저 보고, 없으면 전체.
+def ticket_links_in(page, exclude=()):
+    """페이지 안의 티켓 사이트 링크를 사이트별로 하나씩(e+, ローチケ, ぴあ …). 기사 본문(<article>/<main>) 안에 하나라도 있으면 거기서만, 없으면 전체에서.
     사이트 첫 화면으로 가는 링크(경로 없음), 이미지·스크립트 주소, exclude(사이트 공통 배너)는 제외."""
     regions = re.findall(r"<article[\s>].*?</article>", page, re.S | re.I) or re.findall(r"<main[\s>].*?</main>", page, re.S | re.I)
-    for text in [*regions, page]:
+    for text in [" ".join(regions), page]:
+        cands = []
         for u in LINK_RE.findall(html.unescape(text)):
             u = u.rstrip(".,、。")
             p = urllib.parse.urlparse(u)
-            if any(d in (p.hostname or "") for d in TICKET_DOMAINS) and p.path.strip("/") and u not in exclude \
-                    and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
-                return u
-    return ""
+            if ticket_site(u) and p.path.strip("/") and u not in exclude and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
+                cands.append(u)
+        if cands:
+            return ticket_urls(cands)
+    return []
+
+
+def ticket_link_in(page, exclude=()):
+    tk = ticket_links_in(page, exclude)
+    return tk[0] if tk else ""
 
 
 _site_links = {}
@@ -598,18 +618,16 @@ def site_ticket_links(url):
 
 
 def page_info(url):
-    """기사 페이지를 한 번 열어 (og:image, 첫 티켓 링크)를 돌려준다. 실패하면 ("", "")."""
+    """기사 페이지를 한 번 열어 (og:image, 티켓 링크 목록)을 돌려준다. 실패하면 ("", [])."""
     try:
         page = fetch(url).decode("utf-8", "replace")
     except Exception:
-        return "", ""
-    banners = site_ticket_links(url)
-    tk = ticket_link_in(page, banners)
-    return og_from_html(page, url), tk
+        return "", []
+    return og_from_html(page, url), ticket_links_in(page, site_ticket_links(url))
 
 
 def enrich(items):
-    """소식마다 기사 페이지를 한 번 열어 빠진 썸네일(og:image)과 티켓 링크(ticketUrl)를 채운다.
+    """소식마다 기사 페이지를 한 번 열어 빠진 썸네일(og:image)과 티켓 링크(ticketUrls, 사이트별 하나씩)를 채운다.
     한 번 연 소식은 "scanned": true 로 표시해 다시 열지 않는다. 새 소식부터 차례로 ENRICH_MAX 건까지."""
     tried = imgs = 0
     found = []  # (항목, 링크): 같은 출처에서 같은 링크가 여러 기사에 나오면 사이트 공통 배너로 보고 버린다
@@ -622,21 +640,27 @@ def enrich(items):
         if tried >= ENRICH_MAX:
             break
         tried += 1
-        img, tk = page_info(it["url"])
+        img, tks_found = page_info(it["url"])
         it["scanned"] = True
         if not it.get("image"):
             it["image"] = img
             imgs += bool(img)
-        if not it.get("ticketUrl") and tk:
+        for tk in tks_found:
             found.append((it, tk))
     dup = {}
     for it, tk in found:
         dup[(it.get("source"), tk)] = dup.get((it.get("source"), tk), 0) + 1
     tks = 0
     for it, tk in found:
-        if dup[(it.get("source"), tk)] < 3:
-            it["ticketUrl"] = tk
-            tks += 1
+        if dup[(it.get("source"), tk)] >= 3:
+            continue
+        have = it.get("ticketUrls") or ([it["ticketUrl"]] if it.get("ticketUrl") else [])
+        if ticket_site(tk) in {ticket_site(u) for u in have}:
+            continue  # 그 사이트 링크는 이미 있다
+        have.append(tk)
+        it["ticketUrls"] = have
+        it["ticketUrl"] = have[0]
+        tks += 1
     if tried:
         print(f"기사 보강: {tried}건 열어 썸네일 {imgs}건, 티켓 링크 {tks}건 채움")
 

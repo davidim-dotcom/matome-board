@@ -31,7 +31,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 ```json
 {"title":"", "category":"live", "source":"출처", "platform":"site|rss|wpjson|json|youtube|holodex",
  "works":["작품명"], "eventDate":"2026-12-19T18:00", "endDate":"", "ticketOpen":"", "deadline":"",
- "venue":"", "ticketUrl":"", "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)", "addedAt":"ISO"}
+ "venue":"", "ticketUrl":"", "ticketUrls":["예매처별 링크(선택)"], "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)", "addedAt":"ISO"}
 ```
 
 - 날짜는 **JST**이며 시간대 표기가 없으면 페이지가 `+09:00`을 붙여 해석한다.
@@ -39,7 +39,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - `id`는 저장하지 않고 페이지가 `hashId(url|title|eventDate)`로 만든다. 따라서 **title·url·eventDate가 바뀌면 다른 항목**이 되어 각자의 "관심 있어요/숨김" 기록과 끊어진다.
 - 수집기 쪽 중복 판정은 `(url, title)` 쌍이다.
 - `image`는 **주소만** 둔다(파일은 저장하지 않음). 수집기가 피드의 enclosure/media/본문 `<img>`, WP 대표 이미지, JSON의 image 키에서 뽑는다. 페이지는 https 주소만 받아 84px 썸네일로 보여 주고, 못 불러오면 조용히 지운다(`onerror`). 방영 목록 썸네일(`data/thumbs/`)과는 다른 경로다.
-- 기사 보강(`enrich`): 소식마다 기사 페이지를 **한 번만** 열어(실행당 `ENRICH_MAX`=120건, 새 소식부터) 빠진 `image`(og:image)와 빠진 `ticketUrl`(`<article>`/`<main>` 안의 첫 e+·ぴあ·ローチケ 등 `TICKET_DOMAINS` 링크, 사이트 첫 화면 링크와 그 사이트 첫 화면에 걸린 배너 링크(`site_ticket_links`)는 제외, 같은 출처에서 3개 이상 기사에 똑같이 나오는 링크도 배너로 보고 버림)을 채우고 `scanned: true`로 표시한다. 방송 항목(holodex/youtube)은 열지 않는다. e+ 자체(eplus.jp, spice.eplus.jp)는 GitHub Actions에서 503/403으로 막혀 소스로 쓸 수 없다(2026-10).
+- `ticketUrls`는 예매처(e+, ローチケ, ぴあ …)별로 하나씩 모은 링크 목록이고 `ticketUrl`은 그 첫 번째(옛 데이터 호환). 페이지는 둘을 합쳐 예매처마다 버튼을 하나씩 그린다(최대 4개).
+- 기사 보강(`enrich`): 소식마다 기사 페이지를 **한 번만** 열어(실행당 `ENRICH_MAX`=120건, 새 소식부터) 빠진 `image`(og:image)와 아직 없는 예매처의 링크(`<article>`/`<main>` 안의 첫 e+·ぴあ·ローチケ 등 `TICKET_DOMAINS` 링크, 사이트 첫 화면 링크와 그 사이트 첫 화면에 걸린 배너 링크(`site_ticket_links`)는 제외, 같은 출처에서 3개 이상 기사에 똑같이 나오는 링크도 배너로 보고 버림)을 채우고 `scanned: true`로 표시한다. 방송 항목(holodex/youtube)은 열지 않는다. e+ 자체(eplus.jp, spice.eplus.jp)는 GitHub Actions에서 503/403으로 막혀 소스로 쓸 수 없다(2026-10).
 
 ### 방영 목록 (`anime.json`)
 
