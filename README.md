@@ -22,7 +22,7 @@ GitHub Pages로 공개되고, GitHub Actions가 하루 4번(일본 시간 6·12�
 |---|---|
 | 소식을 직접 추가 | `data/manual.json` |
 | 공개 보드에서 소식 빼기 | `data/blocklist.json` (`urls`, `titles`에 추가) |
-| 수집할 사이트 바꾸기 | `collector.py`의 `SOURCES` |
+| 수집할 사이트 바꾸기 | `collector.py`의 `SOURCES` (고친 뒤 *Actions → 소스 점검 → Run workflow*로 OK/FAIL 확인) |
 | 방송 요일·시각 고치기 | `data/anime.json` |
 
 GitHub 웹에서 파일을 열고 연필 아이콘으로 고친 뒤 *Commit changes*를 누르면 몇 분 안에 반영됩니다.
