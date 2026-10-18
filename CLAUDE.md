@@ -20,6 +20,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/trends.json` | 유행 감지 기록 `{history:{날짜:{작품명:횟수}}, top:[...], updated}`. 최근 14일. | 봇만 |
 | `data/thumbs.json`, `data/thumbs/*.jpg` | 작품 제목 → 208×117 JPEG 썸네일 경로. 파일명은 `sha1(공백 제거·소문자 제목)[:16].jpg`. | 봇만 |
 | `data/.feedcache.json` | `site` 타입 소스의 RSS 자동 탐색 결과 캐시(사이트 URL → 피드 URL). 소스 RSS 주소가 바뀌면 해당 항목을 지워야 다시 찾는다. | 봇만 |
+| `bbs/Code.gs` | 게시판 백엔드(Apps Script). 저장소에서는 실행되지 않고, 운영자가 스프레드시트에 붙여 넣어 배포하는 원본. | 사람 |
 | `.nojekyll` | GitHub Pages가 Jekyll로 처리하지 않게 함(`.feedcache.json` 같은 점 파일 유지). | — |
 
 `data/items.json`에는 현재 `SOURCES`에 없는 출처(e+, オレンジ工房 등)의 항목도 있다. 이전 보드에서 가져온 초기 데이터이므로 "소스 목록과 안 맞는다"고 지우지 말 것. 정리 규칙에 따라 자연히 빠진다.
@@ -80,7 +81,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록뿐이며 localStorage 키 `matome-public-v1`에 `{S:{watching:[]}}`로 저장된다(예전 구조의 `S.watching`만 읽어 호환). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
 - 탭: 피드 · 캘린더 · 방영중 · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
-- 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 저장소는 Google 폼(쓰기, `no-cors` POST)과 응답 시트의 '웹에 게시' CSV(읽기)이며 `index.html` 위쪽 `BBS` 상수에 네 값을 적는다(비어 있으면 '준비 중'). 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
+- 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.
 - 피드 상단 칩: 장르(전부 · 버튜버 · 버튜버 제외) + 정렬(최신순, 날짜순) 한 줄, 그 아래 분류 칩. 버튜버 판별은 `isVtuber()`: 전용 소스(`VT_SOURCES`)·`platform=="holodex"`·`VT_RE`(그룹명·용어 정규식) 중 하나. 새 버튜버 그룹을 다루게 되면 `VT_RE`에 더한다.
 - 상단 "티켓 마감 임박"은 아직 오지 않은 시각만 보여준다: 3주 안의 `ticketOpen`/`deadline`, 기간형 분류는 5일 안의 `endDate`, 최대 10개. 지난 것은 바로 빠진다.
