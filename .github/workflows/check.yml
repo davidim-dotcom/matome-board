@@ -18,64 +18,41 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: 피드 주소 탐색 2차
+      - name: 소스 점검 (--check)
+        continue-on-error: true
+        run: python collector.py --check
+      - name: コラボカフェ 변형 탐색
         run: |
           python - <<'PY'
-          import re, urllib.request, urllib.error, urllib.parse, html, gzip
+          import urllib.request, urllib.error, gzip
           import xml.etree.ElementTree as ET
-          BROWSER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-                     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                     "Accept-Language": "ja,en;q=0.8", "Accept-Encoding": "gzip"}
-          SCRIPT = {"User-Agent": "matome-board-collector/0.1 (personal use)"}
-          def get(url, hdr=BROWSER, extra=None):
-              h = {**hdr, **(extra or {})}
-              req = urllib.request.Request(url, headers=h)
+          UA = "matome-board-collector/0.1 (personal use)"
+          def get(url, extra=None):
+              req = urllib.request.Request(url, headers={"User-Agent": UA, **(extra or {})})
               try:
                   with urllib.request.urlopen(req, timeout=20) as r:
-                      body = r.read()
-                      if r.headers.get("content-encoding") == "gzip":
-                          body = gzip.decompress(body)
-                      return r.status, dict(r.headers), body
-              except urllib.error.HTTPError as e:
-                  return e.code, dict(e.headers or {}), e.read()[:300]
-              except Exception as e:
-                  return f"ERR {type(e).__name__}: {e}", {}, b""
-          def feedinfo(body):
-              try: root = ET.fromstring(body)
-              except Exception as e: return f"not-xml ({str(e)[:40]}) len={len(body)} head={body[:100]!r}"
-              n = len(list(root.iter("item"))) + len(root.findall("{http://www.w3.org/2005/Atom}entry"))
-              t = root.findtext("channel/title") or root.findtext("{http://www.w3.org/2005/Atom}title") or ""
-              return f"xml root={root.tag} items={n} title={t!r}"
-          def hdrs(h): return {k: v for k, v in h.items() if k.lower() in ("server","content-length","content-encoding","cf-ray","x-cache","cache-control","vary","set-cookie","location")}
-          print("==== robots.txt 와 본문 속 rss/feed 언급")
-          for s in ["https://natalie.mu/", "https://www.animatetimes.com/", "https://dengekionline.com/", "https://shimeken.com/", "https://collabo-cafe.com/", "https://www.comiket.co.jp/"]:
-              st, h, b = get(s + "robots.txt")
-              lines = [l for l in b.decode("utf-8","replace").splitlines() if re.search(r"rss|feed|xml|sitemap", l, re.I)]
-              print(f"\n[{s}robots.txt] -> {st}; " + " | ".join(lines[:8]))
-              st, h, b = get(s)
-              print(f"[{s}] -> {st} len={len(b)} {hdrs(h)}")
-              if isinstance(st, int) and st == 200:
-                  page = b.decode("utf-8", "replace")
-                  for m in list(re.finditer(r"rss|feed|\.rdf|atom", page, re.I))[:12]:
-                      print("   ctx:", re.sub(r"\s+", " ", page[max(0, m.start()-90): m.end()+60]))
-          print("\n==== natalie: 헤더 조합")
-          for extra in [{}, {"Referer": "https://natalie.mu/"}, {"Accept": "application/rss+xml"}]:
-              st, h, b = get("https://natalie.mu/comic/feed/news", extra=extra)
-              print(f"  extra={extra} -> {st} {hdrs(h)} {feedinfo(b) if st == 200 else b[:120]!r}")
-          st, h, b = get("http://natalie.mu/comic/feed/news"); print(f"  http:// -> {st} {hdrs(h)}")
-          print("\n==== 후보 (browser 헤더)")
-          CANDS = {
-            "anime hack": ["https://anime.eiga.com/feed/news/rss.xml"],
-            "animatetimes": ["https://www.animatetimes.com/rss/index.xml", "https://www.animatetimes.com/rss/news.xml", "https://www.animatetimes.com/rss/articles.xml", "https://www.animatetimes.com/rss/index.rdf", "https://www.animatetimes.com/index.rdf", "https://www.animatetimes.com/rss/latest.xml", "https://www.animatetimes.com/feed.xml", "https://www.animatetimes.com/atom.xml", "https://www.animatetimes.com/rss/news/index.xml", "https://www.animatetimes.com/news/"],
-            "dengeki": ["https://dengekionline.com/rss/news.rss", "https://dengekionline.com/rss/articles.xml", "https://dengekionline.com/rss/dengekionline.xml", "https://dengekionline.com/rss/index.rdf", "https://dengekionline.com/index.rdf", "https://dengekionline.com/feed.xml", "https://dengekionline.com/atom.xml", "https://dengekionline.com/rss/news/index.xml", "https://dengekionline.com/articles/feed", "https://dengekionline.com/sitemap.xml"],
-            "shimeken": ["https://shimeken.com/?feed=rss2", "https://shimeken.com/index.php/feed", "https://shimeken.com/events/feed", "https://shimeken.com/sitemap.xml", "https://shimeken.com/atom.xml", "https://shimeken.com/index.rdf"],
-            "collabo-cafe": ["https://collabo-cafe.com/feed/", "https://collabo-cafe.com/?feed=rss2", "https://collabo-cafe.com/feed/?paged=1", "https://collabo-cafe.com/events/feed/", "https://collabo-cafe.com/feed/atom/", "https://collabo-cafe.com/feed/rdf/", "https://collabo-cafe.com/comments/feed/"],
-          }
-          for name, urls in CANDS.items():
-              for u in urls:
-                  st, h, b = get(u)
-                  print(f"[{name}] {u} -> {st} {hdrs(h)} {feedinfo(b) if st == 200 else ''}")
-                  if st == 200 and "items=" in feedinfo(b) and "items=0" not in feedinfo(b):
-                      st2, h2, b2 = get(u, SCRIPT)
-                      print(f"     script UA -> {st2} {feedinfo(b2) if st2 == 200 else ''}")
+                      b = r.read()
+                      if r.headers.get("content-encoding") == "gzip": b = gzip.decompress(b)
+                      return r.status, b
+              except urllib.error.HTTPError as e: return e.code, b""
+              except Exception as e: return f"ERR {e}", b""
+          def info(b):
+              try: root = ET.fromstring(b)
+              except Exception as e: return f"not-xml len={len(b)} head={b[:60]!r}"
+              return f"items={len(list(root.iter('item')))} title={root.findtext('channel/title')!r}"
+          for u, extra in [
+              ("https://collabo-cafe.com/feed/", {"Cookie": "pll_language=ja"}),
+              ("https://collabo-cafe.com/feed/", {"Cookie": "pll_language=ja", "Accept-Language": "ja"}),
+              ("https://collabo-cafe.com/ja/feed/", None),
+              ("https://collabo-cafe.com/feed/?lang=ja", None),
+              ("https://collabo-cafe.com/en/feed/", None),
+              ("https://collabo-cafe.com/events/category/matome-column/feed/", None),
+              ("https://collabo-cafe.com/events/tag/anime-matome/feed/", None),
+              ("https://collabo-cafe.com/wp-json/wp/v2/posts?per_page=3", None),
+              ("https://collabo-cafe.com/sitemap_index.xml", None),
+              ("https://dengekionline.com/newsSitemap.xml", None),
+          ]:
+              st, b = get(u, extra)
+              print(f"{u} extra={extra} -> {st} {info(b) if st == 200 else ''}")
+              if u.endswith("sitemap_index.xml") or "newsSitemap" in u: print("   ", b[:600])
           PY

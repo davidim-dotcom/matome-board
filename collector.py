@@ -10,7 +10,8 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
 (아래는 원래 설명)
 
   - site     : 사이트 주소만 적으면 RSS를 스스로 찾아서 읽음
-  - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로)
+  - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로). Google 뉴스 사이트맵도 읽음.
+               "headers": {...} 를 주면 요청에 함께 보냄(쿠키 등)
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
@@ -35,21 +36,25 @@ KEEP = 600  # items.json에 남길 최대 건수
 # ── 여기만 고쳐서 쓰면 된다 ─────────────────────────────────────
 SOURCES = [
     # 넓게 훑는 뉴스 소스: 유행 감지의 재료이자, 공연·이벤트 공지만 걸러서 보드로 보냄
-    {"type": "site", "name": "コミックナタリー", "url": "https://natalie.mu/comic"},
-    {"type": "site", "name": "音楽ナタリー", "url": "https://natalie.mu/music"},
+    # natalie.mu는 GitHub Actions(해외 IP)의 모든 요청을 405로 거부해 수집 불가(2026-10 확인). 국내 PC에서 돌릴 때만 켤 것.
+    # {"type": "rss", "name": "コミックナタリー", "url": "https://natalie.mu/comic/feed/news"},
+    # {"type": "rss", "name": "音楽ナタリー", "url": "https://natalie.mu/music/feed/news"},
     {"type": "site", "name": "アニメ!アニメ!", "url": "https://animeanime.jp/"},
-    {"type": "site", "name": "アニメイトタイムズ", "url": "https://www.animatetimes.com/"},
-    {"type": "site", "name": "アニメハック", "url": "https://anime.eiga.com/"},
-    {"type": "site", "name": "電撃オンライン", "url": "https://dengekionline.com/"},
+    # アニメイトタイムズ: RSS 없음(/rss/*.xml 은 빈 응답). 2026-10 확인.
+    # {"type": "site", "name": "アニメイトタイムズ", "url": "https://www.animatetimes.com/"},
+    {"type": "rss", "name": "アニメハック", "url": "https://anime.eiga.com/feed/news/rss.xml"},
+    # 電撃オンライン: RSS가 없어 Google 뉴스 사이트맵(제목+링크만)을 피드처럼 읽음
+    {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml"},
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
-    # 콜라보 카페·팝업
-    {"type": "site", "name": "コラボカフェ", "url": "https://collabo-cafe.com/"},
+    # 콜라보 카페·팝업. Polylang 언어 쿠키가 없으면 /feed/ 가 빈 응답을 돌려줘서 쿠키를 함께 보냄
+    {"type": "rss", "name": "コラボカフェ", "url": "https://collabo-cafe.com/feed/", "headers": {"Cookie": "pll_language=ja"}},
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},
     # 공식 행사·동인 즉매회
-    {"type": "site", "name": "コミックマーケット", "url": "https://www.comiket.co.jp/"},
-    {"type": "site", "name": "同人イベントNAVI", "url": "https://shimeken.com/"},
+    # コミックマーケット, 同人イベントNAVI(shimeken.com): RSS 없음. 2026-10 확인. 소식은 data/manual.json에 직접 추가.
+    # {"type": "site", "name": "コミックマーケット", "url": "https://www.comiket.co.jp/"},
+    # {"type": "site", "name": "同人イベントNAVI", "url": "https://shimeken.com/"},
     {"type": "site", "name": "スイーツパラダイス", "url": "https://www.sweets-paradise.jp/collaboration/"},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
@@ -188,6 +193,11 @@ def parse_feed(xml_bytes):
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
         entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else ""))
+    sm = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "n": "http://www.google.com/schemas/sitemap-news/0.9"}
+    for u in root.findall("s:url", sm):  # Google 뉴스 사이트맵(RSS가 없는 사이트용): 제목과 링크만 있다
+        title = u.findtext("n:news/n:title", default="", namespaces=sm)
+        if title:
+            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm)))
     return entries
 
 
@@ -225,7 +235,7 @@ def collect(src, ref):
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
         out = []
-        for ti, de, li in parse_feed(fetch(url)):
+        for ti, de, li in parse_feed(fetch(url, src.get("headers"))):
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
