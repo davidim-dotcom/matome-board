@@ -13,7 +13,8 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로). Google 뉴스 사이트맵도 읽음.
                "headers": {...} 를 주면 요청에 함께 보냄(쿠키 등)
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
-  - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용
+  - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용.
+               "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
 실행: python3 collector.py          →  items.json(소식)
@@ -49,7 +50,8 @@ SOURCES = [
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
     # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
-    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/posts?per_page=40&orderby=date&order=desc&sticky=false&_fields=title,excerpt,link,date"},
+    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&lang=ja&_fields=title,excerpt,link",
+     "link_prefix": "https://collabo-cafe.com/events/"},  # 콜라보 글은 'event' 글 타입. 번역본(/en/, /zh-hant/ …)은 링크 접두사로 걸러낸다
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},
     # 공식 행사·동인 즉매회
@@ -202,12 +204,13 @@ def parse_feed(xml_bytes):
     return entries
 
 
-def wp_entries(data):
-    """WordPress REST API(/wp-json/wp/v2/posts 등)의 글 목록을 (제목, 발췌, 링크)로. RSS가 비어 있는 WP 사이트용."""
+def wp_entries(data, link_prefix=""):
+    """WordPress REST API(/wp-json/wp/v2/posts 등)의 글 목록을 (제목, 발췌, 링크)로. RSS가 비어 있는 WP 사이트용.
+    link_prefix 를 주면 그 주소로 시작하는 글만 남긴다(다국어 사이트의 번역본 제외용)."""
     if not isinstance(data, list):
         raise ValueError(f"WP REST 응답이 목록이 아님: {str(data)[:80]}")
     return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""))
-            for p in data if isinstance(p, dict)]
+            for p in data if isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)]
 
 
 CACHE = os.path.join(DATA, ".feedcache.json")
@@ -244,7 +247,7 @@ def collect(src, ref):
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
         raw = fetch(url, src.get("headers"))
-        entries = wp_entries(json.loads(raw)) if t == "wpjson" else parse_feed(raw)
+        entries = wp_entries(json.loads(raw), src.get("link_prefix", "")) if t == "wpjson" else parse_feed(raw)
         out = []
         for ti, de, li in entries:
             ti, de = clean(ti), clean(de)

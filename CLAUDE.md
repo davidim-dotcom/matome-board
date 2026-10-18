@@ -59,7 +59,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 수집 (`python3 collector.py`)
 
-1. `SOURCES`를 순서대로 돈다. 타입: `site`(RSS 자동 탐색) · `rss`(RSS/Atom, Google 뉴스 사이트맵도 읽음) · `youtube`(채널 RSS) · `holodex`(`HOLODEX_API_KEY` 필요, 없으면 건너뜀). 소스에 `"headers": {...}`를 주면 요청 헤더(쿠키 등)에 덧붙인다. 한 소스가 실패해도 `stderr`에 `이름: 실패 (...)`만 찍고 계속한다. **종료 코드는 항상 0**이므로 Actions에서 실패가 보이지 않는다. 소스 상태는 Actions 로그 stderr나 "소스 점검" 워크플로(`--check`)로 확인.
+1. `SOURCES`를 순서대로 돈다. 타입: `site`(RSS 자동 탐색) · `rss`(RSS/Atom, Google 뉴스 사이트맵도 읽음) · `wpjson`(WordPress REST API 글 목록, RSS가 비어 있는 WP 사이트용) · `youtube`(채널 RSS) · `holodex`(`HOLODEX_API_KEY` 필요, 없으면 건너뜀). 소스에 `"headers": {...}`를 주면 요청 헤더(쿠키 등)에 덧붙인다. 한 소스가 실패해도 `stderr`에 `이름: 실패 (...)`만 찍고 계속한다. **종료 코드는 항상 0**이므로 Actions에서 실패가 보이지 않는다. 소스 상태는 Actions 로그 stderr나 "소스 점검" 워크플로(`--check`)로 확인.
 2. `build()`: 제목+본문에 `MUST_HAVE_ANY` 단어가 하나도 없으면 버림(youtube의 `stream`은 예외). 날짜는 `DATE_RE`로 뽑아 기간(`A〜B`) → 마감(`END_WORDS` 문맥) → 판매 시작(`OPEN_WORDS`) → 행사일 순으로 배정. 연도가 없고 60일 이상 과거면 내년으로 본다.
 3. `classify()`: `CAT_RULES`를 위에서부터 검사해 **첫 매치**를 쓴다. 순서가 곧 우선순위(doujin > official > live > exhibit > popup > collab > event > …).
 4. 작품 태그: `WORKS_SEED` + `trends.json`의 `top`을 합친 `WATCH` 목록으로 본문을 검사(대소문자 무시, 최대 5개).
