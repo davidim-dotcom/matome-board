@@ -326,7 +326,7 @@ def collect(src, ref):
             start = v.get("start_scheduled", "")
             ev = datetime.fromisoformat(start.replace("Z", "+00:00")).astimezone(JST).strftime("%Y-%m-%dT%H:%M") if start else ""
             ch = (v.get("channel") or {}).get("name", "")
-            out.append({"title": v.get("title", "")[:200], "category": "stream", "source": ch, "platform": "youtube",
+            out.append({"title": v.get("title", "")[:200], "category": "stream", "source": ch, "platform": "holodex",
                         "works": [ch] if ch else [], "eventDate": ev, "ticketOpen": "", "deadline": "", "venue": "",
                         "ticketUrl": "", "url": f"https://www.youtube.com/watch?v={v.get('id','')}", "summary": ""})
         return out

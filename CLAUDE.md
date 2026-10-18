@@ -29,7 +29,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 ### 소식 항목 (`items.json`, `manual.json` 공통)
 
 ```json
-{"title":"", "category":"live", "source":"출처", "platform":"site|rss|youtube|holodex",
+{"title":"", "category":"live", "source":"출처", "platform":"site|rss|wpjson|json|youtube|holodex",
  "works":["작품명"], "eventDate":"2026-12-19T18:00", "endDate":"", "ticketOpen":"", "deadline":"",
  "venue":"", "ticketUrl":"", "url":"원문", "summary":"", "addedAt":"ISO"}
 ```
@@ -77,7 +77,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 localStorage 키 `matome-public-v1` 하나에 `{S:{rules,weights,watching,deleted}, FB:{id:1|-1}}`로 저장된다. 키 이름이나 구조를 바꾸면 모든 사용자의 설정이 초기화되니 바꾸지 않는다.
 - 학습: 관심 있어요/없음을 누르면 `features()`(계정·작품·분류·제목 단어)에 ±1 가중치, `score() <= HIDE_AT(-1)`이면 자동 숨김. '보는 중'은 `작품:기본제목`에 ±2.
-- 탭: 피드(끝나지 않은 것, 관심→점수→최신 정렬) · 일정(eventDate 있는 것, 월별) · 행사·즉매회(`official`,`doujin`) · 방영중 · 콜라보·팝업(`collab`,`popup`) · 만화·전시(`exhibit` + `manga`) · 내 설정 · 숨긴 소식.
+- 탭: 피드 · 일정(eventDate 있는 것, 월별) · 방영중 · 내 설정 · 숨긴 소식(내 설정에서 열림). 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
+- 피드 상단 칩: 장르(전부 · 버튜버 · 버튜버 제외) + 정렬(추천순=관심→점수→최신, 최신순, 날짜순) 한 줄, 그 아래 분류 칩. 버튜버 판별은 `isVtuber()`: 전용 소스(`VT_SOURCES`)·`platform=="holodex"`·`VT_RE`(그룹명·용어 정규식) 중 하나. 새 버튜버 그룹을 다루게 되면 `VT_RE`에 더한다.
 - 상단 "티켓 마감 임박"은 3주 안의 `ticketOpen`/`deadline`, 기간형 분류는 5일 안의 `endDate`를 최대 10개 보여준다.
 
 ## 작업 규칙
