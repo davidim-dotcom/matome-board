@@ -59,7 +59,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 수집 (`python3 collector.py`)
 
-1. `SOURCES`를 순서대로 돈다. 타입: `site`(RSS 자동 탐색) · `rss`(RSS/Atom, Google 뉴스 사이트맵도 읽음) · `wpjson`(WordPress REST API 글 목록, RSS가 비어 있는 WP 사이트용) · `youtube`(채널 RSS) · `holodex`(`HOLODEX_API_KEY` 필요, 없으면 건너뜀). 소스에 `"headers": {...}`를 주면 요청 헤더(쿠키 등)에 덧붙인다. 한 소스가 실패해도 `stderr`에 `이름: 실패 (...)`만 찍고 계속한다. **종료 코드는 항상 0**이므로 Actions에서 실패가 보이지 않는다. 소스 상태는 Actions 로그 stderr나 "소스 점검" 워크플로(`--check`)로 확인.
+1. `SOURCES`를 순서대로 돈다. 타입: `site`(RSS 자동 탐색) · `rss`(RSS/Atom, Google 뉴스 사이트맵도 읽음) · `wpjson`(WordPress REST API 글 목록, RSS가 비어 있는 WP 사이트용) · `json`(임의 JSON API, `items`/`title`/`date` 필드명과 `link` 틀 지정) · `youtube`(채널 RSS) · `holodex`(`HOLODEX_API_KEY` 필요, 없으면 건너뜀). 소스 공통 옵션: `works`(모든 소식에 붙일 작품 태그), `extra_words`(`MUST_HAVE_ANY`에 더할 통과 단어), `headers`(요청 헤더). 게시일이 있는 글은 `FRESH_DAYS`(60일)보다 오래되면 무시한다. 한 소스가 실패해도 `stderr`에 `이름: 실패 (...)`만 찍고 계속한다. **종료 코드는 항상 0**이므로 Actions에서 실패가 보이지 않는다. 소스 상태는 Actions 로그 stderr나 "소스 점검" 워크플로(`--check`)로 확인.
 2. `build()`: 제목+본문에 `MUST_HAVE_ANY` 단어가 하나도 없으면 버림(youtube의 `stream`은 예외). 날짜는 `DATE_RE`로 뽑아 기간(`A〜B`) → 마감(`END_WORDS` 문맥) → 판매 시작(`OPEN_WORDS`) → 행사일 순으로 배정. 연도가 없고 60일 이상 과거면 내년으로 본다.
 3. `classify()`: `CAT_RULES`를 위에서부터 검사해 **첫 매치**를 쓴다. 순서가 곧 우선순위(doujin > official > live > exhibit > popup > collab > event > …).
 4. 작품 태그: `WORKS_SEED` + `trends.json`의 `top`을 합친 `WATCH` 목록으로 본문을 검사(대소문자 무시, 최대 5개).
@@ -86,7 +86,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - **로컬에서 수집기를 돌리면 `data/`가 바뀐다.** 테스트는 저장소를 다른 곳에 복사해서 돌리거나, 끝나고 `git checkout -- data`로 되돌린다. Pillow 외 의존성은 없고 Python 3.12 기준(Actions)이다.
 - 이 저장소를 다루는 Claude Code 클라우드 세션에서는 외부 사이트 접근이 프록시에서 403으로 막혀 **모든 `site` 소스가 실패한다.** 수집기 실제 동작은 GitHub Actions 로그(`소식 자동 업데이트` 워크플로의 `소식 수집` 스텝 stderr)로 확인한다. 샌드박스에서의 403은 소스 장애가 아니다.
 - 소스를 추가·삭제할 때는 `collector.py`의 `SOURCES`만 고친다. `site` 타입은 RSS를 못 찾으면 `rss` 타입으로 피드 주소를 직접 적는다. 사이트 RSS 주소가 바뀌었으면 `.feedcache.json`의 해당 키를 지운다(봇이 다음 실행에서 다시 찾는다). 고친 뒤에는 Actions의 "소스 점검"을 돌려 OK/FAIL을 본다.
-- 꺼 둔 소스(주석)는 사유를 함께 적는다. 2026-10 기준: natalie.mu는 GitHub Actions의 요청을 405로 거부(해외 IP 차단으로 추정), アニメイトタイムズ·コミックマーケット·同人イベントNAVI는 RSS 자체가 없다.
+- 꺼 둔 소스(주석)는 사유를 함께 적는다. 2026-10 기준: natalie.mu는 GitHub Actions의 요청을 405로 거부(해외 IP 차단으로 추정), アニメイトタイムズ·コミックマーケット·同人イベントNAVI는 RSS 자체가 없다. コラボカフェ는 RSS가 빈 응답이라 WP REST(`events` 글 타입)를, 電撃オンライン은 뉴스 사이트맵을, にじさんじ公式은 JSON API를 읽는다.
+- 버튜버 소식은 PANORA·KAI-YOU(일반 뉴스)와 ホロライブ·にじさんじ·ぶいすぽっ 공식 뉴스에서 온다. 공식 소스에는 그룹명을 `works`로 붙여 두었으므로 페이지에서 작품 단위로 끄거나 점수를 줄 수 있다.
 - 분류를 추가하면 세 곳을 함께 고친다: `collector.py`의 `CAT_RULES`, `index.html`의 `CATS`(필요하면 `PERIOD_CATS`/`EVENT_CATS`와 탭 렌더 함수), `README.md`의 category 설명. 소식 필드를 추가하면 `build()`와 `normalize()`를 함께 고친다.
 - `index.html`은 한 파일을 유지한다. 빌드 도구·프레임워크·npm을 들이지 않는다. 외부 스크립트도 넣지 않는다(현재 외부 리소스는 Google Fonts만).
 - 다크 모드는 `prefers-color-scheme` + `:root[data-theme]` 토큰으로 동작한다. 색은 `:root` 변수로만 추가한다.

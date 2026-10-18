@@ -1,16 +1,16 @@
 name: 소스 점검
 
+# 수집 소스를 하나씩 가져와 보고 OK/FAIL 만 출력한다. data/ 는 바꾸지 않는다.
+# collector.py 의 SOURCES 를 고친 뒤 Actions 화면에서 'Run workflow' 로 확인할 때 쓴다.
+
 on:
   workflow_dispatch: {}
-  push:
-    branches: [claude/japan-events-board-setup-co2nzo]
-    paths: [.github/workflows/check.yml]
 
 permissions:
   contents: read
 
 jobs:
-  probe:
+  check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -18,22 +18,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: 소스 점검 (--check)
-        continue-on-error: true
+      - name: 소스 점검
+        env:
+          HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: にじさんじ 링크 형식 확인
-        run: |
-          python - <<'PY'
-          import sys, urllib.request
-          sys.path.insert(0, ".")
-          import collector as C
-          src = next(s for s in C.SOURCES if s.get("name") == "にじさんじ公式")
-          ents = C.json_entries(C.json.loads(C.fetch(src["url"])), src)
-          print(len(ents), "건")
-          for t, b, l, w in ents[:4]:
-              req = urllib.request.Request(l, method="HEAD", headers=C.UA)
-              try:
-                  with urllib.request.urlopen(req, timeout=20) as r: st = f"{r.status} final={r.geturl()}"
-              except Exception as e: st = f"실패 {e}"
-              print("  ", w, t[:50], "|", l, "->", st)
-          PY
