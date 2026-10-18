@@ -249,6 +249,7 @@ function normalize(raw){
     eventDate:raw.eventDate||"", endDate:raw.endDate||"", ticketOpen:raw.ticketOpen||"", deadline:raw.deadline||"",
     venue:String(raw.venue||"").trim(),
     ticketUrl:safeUrl(raw.ticketUrl||""), url:safeUrl(raw.url||""),
+    ticketUrls:[...new Set([raw.ticketUrl,...(Array.isArray(raw.ticketUrls)?raw.ticketUrls:[])].map(u=>safeUrl(u||"")).filter(Boolean))].slice(0,4), // 예매처별 링크(e+, ローチケ …)
     summary:String(raw.summary||"").slice(0,400).trim(),
     image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
     addedAt:raw.addedAt||new Date().toISOString(),
@@ -352,7 +353,7 @@ function rowHtml(it,ev,cls=""){
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
     ${facts.length?`<div class="facts">${facts.join("")}</div>`:""}
     <div class="actions">
-      ${it.ticketUrl?`<a class="btn ticket" href="${esc(it.ticketUrl)}" target="_blank" rel="noopener">${esc(ticketSite(it.ticketUrl))}에서 예약</a>`:""}
+      ${it.ticketUrls.map(u=>`<a class="btn ticket" href="${esc(u)}" target="_blank" rel="noopener">${esc(ticketSite(u))}에서 예약</a>`).join("")}
       ${it.url?`<a class="btn" href="${esc(it.url)}" target="_blank" rel="noopener">원문</a>`:""}
       ${ev.hidden
         ? `<button class="btn" data-act="restore">다시 보기</button>${ev.kind&&ev.kind!=="fb"&&ev.kind!=="score"?`<button class="btn ghost" data-act="unrule" data-kind="${ev.kind}" data-val="${esc(ev.val)}">규칙 해제</button>`:""}`
