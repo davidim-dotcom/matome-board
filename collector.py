@@ -16,6 +16,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용.
                "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
   - json     : 임의의 JSON API. "items"(목록 키 경로) "title" "body" "date" 필드명과 "link" 틀("https://…/{id}")을 적는다
+  - ldjson   : 페이지의 schema.org Event(JSON-LD) 목록. url 의 {ym} 에 YYYYMM 이 들어가며 "months" 달치를 읽는다
   공통 옵션: "works": [...] 모든 소식에 붙일 작품 태그, "extra_words": [...] MUST_HAVE_ANY 에 더할 통과 단어
 썸네일: 피드의 enclosure/media:*/본문 <img>, WP 대표 이미지, JSON 의 image 키에서 그림 주소를 "image" 에 담는다.
 기사 보강: 소식마다 기사 페이지를 한 번 열어(실행당 ENRICH_MAX 건) 빠진 og:image 와 e+ 등 티켓 링크를 채우고 "scanned" 로 표시.
@@ -53,6 +54,9 @@ SOURCES = [
     # アニメイトタイムズ: RSS 없음(/rss/*.xml 은 빈 응답). 2026-10 확인.
     # {"type": "site", "name": "アニメイトタイムズ", "url": "https://www.animatetimes.com/"},
     {"type": "rss", "name": "アニメハック", "url": "https://anime.eiga.com/feed/news/rss.xml"},
+    # アニメハック 이벤트 캘린더: 페이지의 schema.org Event(JSON-LD)에서 공연·이벤트·전시를 날짜·장소째 가져온다(이번 달부터 3달).
+    # e+ 등 티켓 링크는 기사 보강(enrich)이 상세 페이지에서 찾는다. e+ 자체는 Actions 에서 503 으로 막혀 소스로 못 쓴다(2026-10).
+    {"type": "ldjson", "name": "アニメハック イベント", "url": "https://anime.eiga.com/event/cal/{ym}/", "months": 3},
     # 電撃オンライン: RSS가 없어 Google 뉴스 사이트맵(제목+링크만)을 피드처럼 읽음
     {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml"},
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
@@ -268,6 +272,45 @@ def parse_feed(xml_bytes):
     return entries
 
 
+def ld_events(page):
+    """HTML 속 JSON-LD 블록에서 schema.org Event 노드만 모은다."""
+    out = []
+    for block in re.findall(r"<script[^>]+ld\+json[^>]*>(.*?)</script>", page, re.S):
+        try:
+            data = json.loads(html.unescape(block.strip()))
+        except Exception:
+            continue
+        nodes = data if isinstance(data, list) else (data.get("@graph") or [data]) if isinstance(data, dict) else []
+        out += [n for n in nodes if isinstance(n, dict) and n.get("@type") == "Event"]
+    return out
+
+
+def ld_when(v):
+    """schema.org 날짜("2026-10-12T10:00:00" / "2026-10-12") → "YYYY-MM-DDTHH:MM"(JST)."""
+    m = re.match(r"(\d{4}-\d{2}-\d{2})(?:T(\d{2}:\d{2}))?", str(v or ""))
+    return f"{m.group(1)}T{m.group(2) or '00:00'}" if m else ""
+
+
+def ld_item(ev, src, ref):
+    """JSON-LD Event 하나 → 소식 항목. 제목·날짜·장소가 구조화돼 있어 본문 날짜 추출을 거치지 않는다."""
+    title, link = clean(str(ev.get("name") or "")), str(ev.get("url") or "")
+    if not title or not link:
+        return None
+    kind = clean(str(ev.get("description") or ""))
+    start, end = ld_when(ev.get("startDate")), ld_when(ev.get("endDate"))
+    if end and end[:10] <= start[:10]:
+        end = ""
+    loc = ev.get("location") if isinstance(ev.get("location"), dict) else {}
+    venue = clean(str(loc.get("name") or ""))
+    offers = ev.get("offers") if isinstance(ev.get("offers"), dict) else {}
+    text = f"{title} {kind}"
+    works = list(src.get("works", [])) + [w for w in WATCH if w.lower() in text.lower() and w not in src.get("works", [])]
+    return {"title": title[:200], "category": classify(text, "event"), "source": src.get("name", ""), "platform": src["type"],
+            "works": works[:5], "eventDate": start, "endDate": end, "ticketOpen": "", "deadline": "", "venue": venue[:80],
+            "ticketUrl": ticket_url([str(offers.get("url") or "")]), "url": link, "summary": kind[:140],
+            "image": ev["image"] if isinstance(ev.get("image"), str) else ""}
+
+
 def wp_entries(data, link_prefix=""):
     """WordPress REST API(/wp-json/wp/v2/posts 등)의 글 목록을 (제목, 발췌, 링크)로. RSS가 비어 있는 WP 사이트용.
     link_prefix 를 주면 그 주소로 시작하는 글만 남긴다(다국어 사이트의 번역본 제외용)."""
@@ -361,6 +404,16 @@ def collect(src, ref):
             if x:
                 if img: x["image"] = urllib.parse.urljoin(li or src.get("url", ""), img.strip())  # 피드에 그림이 있으면 그대로, 없으면 main()에서 og:image 를 찾는다
                 out.append(x)
+        return out
+    if t == "ldjson":
+        out, seen_u = [], set()
+        for k in range(src.get("months", 1)):
+            y, m = ref.year + (ref.month - 1 + k) // 12, (ref.month - 1 + k) % 12 + 1
+            page = fetch(src["url"].format(ym=f"{y}{m:02d}"), src.get("headers")).decode("utf-8", "replace")
+            for ev in ld_events(page):
+                x = ld_item(ev, src, ref)
+                if x and x["url"] not in seen_u:
+                    seen_u.add(x["url"]); out.append(x)
         return out
     if t == "holodex":
         key = os.environ.get("HOLODEX_API_KEY")
@@ -516,11 +569,14 @@ def og_from_html(page, base):
 
 
 def ticket_link_in(page):
-    """페이지 안의 첫 티켓 사이트 링크(e+, ぴあ, ローチケ …). 사이트 첫 화면으로 가는 링크(경로 없음)는 제외."""
-    for u in LINK_RE.findall(html.unescape(page)):
-        p = urllib.parse.urlparse(u)
-        if any(d in (p.hostname or "") for d in TICKET_DOMAINS) and p.path.strip("/") and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
-            return u.rstrip(".,、。")
+    """페이지 안의 첫 티켓 사이트 링크(e+, ぴあ, ローチケ …). 기사 본문(<article>/<main>) 안을 먼저 보고, 없으면 전체.
+    사이트 첫 화면으로 가는 링크(경로 없음)와 이미지·스크립트 주소는 제외."""
+    regions = re.findall(r"<article[\s>].*?</article>", page, re.S | re.I) or re.findall(r"<main[\s>].*?</main>", page, re.S | re.I)
+    for text in [*regions, page]:
+        for u in LINK_RE.findall(html.unescape(text)):
+            p = urllib.parse.urlparse(u)
+            if any(d in (p.hostname or "") for d in TICKET_DOMAINS) and p.path.strip("/") and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
+                return u.rstrip(".,、。")
     return ""
 
 
@@ -536,7 +592,8 @@ def page_info(url):
 def enrich(items):
     """소식마다 기사 페이지를 한 번 열어 빠진 썸네일(og:image)과 티켓 링크(ticketUrl)를 채운다.
     한 번 연 소식은 "scanned": true 로 표시해 다시 열지 않는다. 새 소식부터 차례로 ENRICH_MAX 건까지."""
-    tried = imgs = tks = 0
+    tried = imgs = 0
+    found = []  # (항목, 링크): 같은 출처에서 같은 링크가 여러 기사에 나오면 사이트 공통 배너로 보고 버린다
     for it in items:
         if it.get("scanned") or not it.get("url"):
             continue
@@ -552,6 +609,13 @@ def enrich(items):
             it["image"] = img
             imgs += bool(img)
         if not it.get("ticketUrl") and tk:
+            found.append((it, tk))
+    dup = {}
+    for it, tk in found:
+        dup[(it.get("source"), tk)] = dup.get((it.get("source"), tk), 0) + 1
+    tks = 0
+    for it, tk in found:
+        if dup[(it.get("source"), tk)] < 3:
             it["ticketUrl"] = tk
             tks += 1
     if tried:

@@ -18,40 +18,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: 이벤트 캘린더 후보와 공연 기사 티켓 링크
+      - name: ldjson 소스와 티켓 링크 보강 확인
         run: |
+          python collector.py --check
           python - <<'PY'
-          import sys, json, re, html
+          import sys, json
           sys.path.insert(0, ".")
           import collector as C
-          def show_page(u):
-              try:
-                  page = C.fetch(u).decode("utf-8", "replace")
-              except Exception as e:
-                  print(f"[{u}] 실패 {e}"); return ""
-              tk = re.findall(r"https?://[^\s\"'<>()]*(?:eplus\.jp|pia\.jp|l-tike\.com)[^\s\"'<>()]*", html.unescape(page))
-              print(f"[{u}] len={len(page)} 티켓 링크 {len(set(tk))}개 예:{sorted(set(tk))[:3]} ld+json={page.count('ld+json')} Event={page.count('\"@type\":\"Event\"')+page.count('\"@type\": \"Event\"')}")
-              return page
-          print("==== アニメハック 이벤트 캘린더")
-          for u in ["https://anime.eiga.com/event/cal/202611/", "https://anime.eiga.com/event/", "https://anime.eiga.com/event/cal/"]:
-              page = show_page(u)
-              if page:
-                  m = re.search(r"eplus\.jp", page)
-                  if m: print("   eplus 주변:", re.sub(r"\s+", " ", page[max(0, m.start()-900): m.start()+300])[:1200])
-                  for ld in re.findall(r'<script[^>]+ld\+json[^>]*>(.*?)</script>', page, re.S)[:1]: print("   ld:", re.sub(r"\s+", " ", ld)[:600])
-          print("\n==== Eventernote")
-          for u in ["https://www.eventernote.com/", "https://www.eventernote.com/events", "https://www.eventernote.com/events/rss", "https://www.eventernote.com/feed", "https://www.eventernote.com/events.rss"]:
-              try:
-                  raw = C.fetch(u); page = raw.decode("utf-8", "replace")
-                  try: ents = C.parse_feed(raw); print(f"[{u}] feed {len(ents)}건", [C.clean(e[0])[:40] for e in ents[:3]])
-                  except Exception: print(f"[{u}] html len={len(page)} feed hrefs:", sorted(set(re.findall(r'href=["\']([^"\']*(?:rss|feed|atom)[^"\']*)', page, re.I)))[:6])
-              except Exception as e: print(f"[{u}] 실패 {e}")
-          print("\n==== 공연·공식 소스 기사에서 티켓 링크")
+          ref = C.datetime.now(C.JST)
+          src = next(s for s in C.SOURCES if s["type"] == "ldjson")
+          got = C.collect(src, ref)
+          print(len(got), "건; 분류:", {c: sum(1 for g in got if g["category"] == c) for c in set(g["category"] for g in got)})
+          for g in got[:5]: print("  ", g["eventDate"], g["endDate"] or "-", g["category"], g["title"][:40], "|", g["venue"], "|", g["url"])
+          print("==== 상세 페이지 티켓 링크(앞 10건)")
+          for g in got[:10]:
+              img, tk = C.page_info(g["url"]); print("  ", g["title"][:36], "->", tk or "-", "| img" if img else "")
+          print("==== PANORA 배너 제외 확인")
           items = json.load(open("data/items.json", encoding="utf-8"))
-          picked = [i for i in items if i.get("source") in ("PANORA", "ホロライブ公式", "にじさんじ公式", "KAI-YOU", "アニメ!アニメ!") and i.get("category") in ("live", "event", "official") and not i.get("ticketUrl")][:16]
-          found = 0
-          for i in picked:
-              img, tk = C.page_info(i["url"]); found += bool(tk)
-              print(f"  [{i['category']}] {i['source']} | {i['title'][:40]} -> {tk or '-'}")
-          print(f"→ {len(picked)}건 중 티켓 링크 {found}건")
+          for i in [i for i in items if i.get("source") == "PANORA"][:5]:
+              print("  ", i["title"][:36], "->", C.page_info(i["url"])[1] or "-")
           PY
