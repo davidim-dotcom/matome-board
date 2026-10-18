@@ -15,6 +15,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
   - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용.
                "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
+  공통 옵션: "works": [...] 모든 소식에 붙일 작품 태그, "extra_words": [...] MUST_HAVE_ANY 에 더할 통과 단어
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
 실행: python3 collector.py          →  items.json(소식)
@@ -157,7 +158,8 @@ def classify(text, default="other"):
 
 def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
-    if MUST_HAVE_ANY and default_cat != "stream" and not any(w in text for w in MUST_HAVE_ANY):
+    words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
+    if words and default_cat != "stream" and not any(w in text for w in words):
         return None
     event = opening = deadline = end = ""
     rng = re.search(DATE_RE.pattern + r"\s*[〜～~\-－]\s*" + DATE_RE.pattern.replace("?P<", "?P<e_"), text)
