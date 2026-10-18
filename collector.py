@@ -5,6 +5,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   python3 collector.py           소식 수집 → data/items.json, data/meta.json
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
+  python3 collector.py --translate-test   일본어 한 문장을 번역해 보고 결과만 출력(번역 경로 점검)
 직접 추가할 소식은 data/manual.json, 공개 보드에서 빼고 싶은 소식은 data/blocklist.json에 적는다.
 
 (아래는 원래 설명)
@@ -30,7 +31,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
           자주 나온 이름을 다음 실행부터 작품 태그로 자동 사용한다.
 표준 라이브러리만 사용. GitHub Actions나 cron으로 하루 몇 번 돌리면 된다.
 """
-import json, os, re, sys, html
+import json, os, re, sys, html, time
 import urllib.request, urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
@@ -541,6 +542,7 @@ def main():
     for n in new:
         n["addedAt"] = ref.isoformat()
     enrich(new + old)
+    translate_items(new + old)
     update_trends(_tr, ref)
     json.dump(_cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False)
     # 정리: 끝난 지 30일 넘은 것, 날짜 없이 45일 지난 것, 차단 목록에 걸린 것은 뺀다
@@ -564,6 +566,43 @@ def main():
     meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "count": len(items)})
     save_json(os.path.join(DATA, "meta.json"), meta)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
+
+
+TRANSLATE_MAX = 150  # 한 번 실행에서 한국어로 번역할 최대 소식 수(제목+요약, 소식당 요청 2번)
+JA_RE = re.compile(r"[\u3040-\u30ff\u4e00-\u9fff]")  # 가나·한자가 있으면 일본어 글
+
+
+def translate_ja_ko(text):
+    """Google 번역(키 없는 gtx 엔드포인트)으로 일본어 → 한국어. 실패하면 예외."""
+    q = urllib.parse.urlencode({"client": "gtx", "sl": "ja", "tl": "ko", "dt": "t", "q": text})
+    data = json.loads(fetch("https://translate.googleapis.com/translate_a/single?" + q,
+                            {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"}))
+    return "".join(seg[0] for seg in (data[0] or []) if seg and seg[0]).strip()
+
+
+def translate_items(items):
+    """아직 번역하지 않은 소식의 제목·요약을 한국어로 번역해 title_ko / summary_ko 에 넣는다.
+    일본어가 없는 글은 빈 문자열(원문 그대로 표시). 번역이 실패하면 그 자리에서 멈추고 다음 실행에 다시 시도한다(키를 안 남김)."""
+    done = 0
+    for it in items:
+        if "title_ko" in it:
+            continue
+        if done >= TRANSLATE_MAX:
+            break
+        try:
+            if JA_RE.search(it.get("title", "")):
+                it["title_ko"] = translate_ja_ko(it["title"])[:200]
+                time.sleep(0.2)
+                it["summary_ko"] = translate_ja_ko(it["summary"])[:400] if it.get("summary") and JA_RE.search(it["summary"]) else ""
+                time.sleep(0.2)
+            else:
+                it["title_ko"], it["summary_ko"] = "", ""
+            done += 1
+        except Exception as e:
+            print(f"번역 중단: {e} (다음 실행에서 다시 시도)", file=sys.stderr)
+            break
+    if done:
+        print(f"번역: {done}건")
 
 
 ENRICH_MAX = 120  # 한 번 실행에서 기사 페이지를 열어 볼 최대 건수(썸네일·티켓 링크 보강)
@@ -780,6 +819,9 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(DATA, "thumbs"), exist_ok=True)
     if "--check" in sys.argv:
         sys.exit(check())
+    if "--translate-test" in sys.argv:
+        print(translate_ja_ko("「薬屋のひとりごと」原画展が池袋で10月31日より開催、前売券はe+で発売中"))
+        sys.exit(0)
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
     else:

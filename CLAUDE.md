@@ -33,7 +33,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 ```json
 {"title":"", "category":"live", "source":"출처", "platform":"site|rss|wpjson|json|youtube|holodex",
  "works":["작품명"], "eventDate":"2026-12-19T18:00", "endDate":"", "ticketOpen":"", "deadline":"",
- "venue":"", "ticketUrl":"", "ticketUrls":["예매처별 링크(선택)"], "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)", "addedAt":"ISO"}
+ "venue":"", "ticketUrl":"", "ticketUrls":["예매처별 링크(선택)"], "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)",
+ "title_ko":"한국어 제목(선택)", "summary_ko":"한국어 요약(선택)", "addedAt":"ISO"}
 ```
 
 - 날짜는 **JST**이며 시간대 표기가 없으면 페이지가 `+09:00`을 붙여 해석한다.
@@ -42,6 +43,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 수집기 쪽 중복 판정은 `(url, title)` 쌍이다.
 - `image`는 **주소만** 둔다(파일은 저장하지 않음). 수집기가 피드의 enclosure/media/본문 `<img>`, WP 대표 이미지, JSON의 image 키에서 뽑는다. 페이지는 https 주소만 받아 84px 썸네일로 보여 주고, 못 불러오면 조용히 지운다(`onerror`). 방영 목록 썸네일(`data/thumbs/`)과는 다른 경로다.
 - `ticketUrls`는 예매처(e+, ローチケ, ぴあ …)별로 하나씩 모은 링크 목록이고 `ticketUrl`은 그 첫 번째(옛 데이터 호환). 페이지는 둘을 합쳐 예매처마다 버튼을 하나씩 그린다(최대 4개).
+- 한국어 번역(`translate_items`): 아직 `title_ko` 키가 없는 소식의 제목·요약을 Google 번역(키 없는 `translate.googleapis.com/translate_a/single?client=gtx`)으로 일본어→한국어 번역해 `title_ko`/`summary_ko`에 넣는다(실행당 `TRANSLATE_MAX`=150건, 요청 사이 0.2초). 일본어 글자가 없는 글은 `""`(원문 그대로 표시). 요청이 실패하면 키를 남기지 않고 그 실행의 번역을 멈춰 다음 실행에 다시 시도한다. 비공식 엔드포인트라 막히면 번역만 비고 수집은 영향 없다. `python3 collector.py --translate-test`로 경로를 점검한다(클라우드 세션에서는 막힘).
 - 기사 보강(`enrich`): 소식마다 기사 페이지를 **한 번만** 열어(실행당 `ENRICH_MAX`=120건, 새 소식부터) 빠진 `image`(og:image)와 아직 없는 예매처의 링크(`<article>`/`<main>` 안의 첫 e+·ぴあ·ローチケ 등 `TICKET_DOMAINS` 링크, 사이트 첫 화면 링크와 그 사이트 첫 화면에 걸린 배너 링크(`site_ticket_links`)는 제외, 같은 출처에서 3개 이상 기사에 똑같이 나오는 링크도 배너로 보고 버림)을 채우고 `scanned: true`로 표시한다. 방송 항목(holodex/youtube)은 열지 않는다. e+ 자체(eplus.jp, spice.eplus.jp)는 GitHub Actions에서 503/403으로 막혀 소스로 쓸 수 없다(2026-10).
 
 ### 방영 목록 (`anime.json`)
@@ -81,6 +83,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - `normalize()`가 모든 입력 필드를 화이트리스트·길이 제한·`safeUrl()`로 걸러 들어온다. 새 필드를 쓰려면 여기 반드시 추가.
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록뿐이며 localStorage 키 `matome-public-v1`에 `{S:{watching:[]}}`로 저장된다(예전 구조의 `S.watching`만 읽어 호환). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
+- 표시 언어: 맨 위 `原文 / 한국어` 전환(`lang`, localStorage `matome-lang`, 기본 한국어). `tx(it,"title")`/`tx(it,"summary")`가 번역이 있으면 `*_ko`, 없으면 원문을 돌려준다. 카드 제목·요약과 상단 띠 제목에만 적용하고 장소·작품명·방영 목록은 원문 그대로.
 - 탭: 피드 · 캘린더 · 방영중 · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.
