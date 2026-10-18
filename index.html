@@ -52,6 +52,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wrap{max-width:760px;margin:0 auto;padding:20px 16px 64px}
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 4px;letter-spacing:-.5px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.langsw{display:flex;flex:none;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
+.langsw button{border:0;background:none;padding:5px 12px;font-size:13px;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
+.langsw button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:700}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
@@ -177,7 +181,10 @@ textarea{min-height:110px;resize:vertical}
 <body>
 <div class="wrap">
   <h1>마토메 보드</h1>
-  <p class="sub" id="storeNote">일본 게임·애니·버튜버·만화 공연과 이벤트 소식</p>
+  <div class="topbar">
+    <p class="sub" id="storeNote">일본 게임·애니·버튜버·만화 공연과 이벤트 소식</p>
+    <div class="langsw" role="group" aria-label="표시 언어"><button type="button" data-lang="ja" aria-pressed="false">原文</button><button type="button" data-lang="ko" aria-pressed="true">한국어</button></div>
+  </div>
 
   <div id="stubs" class="stubs" aria-label="티켓 마감 임박"></div>
 
@@ -195,7 +202,7 @@ textarea{min-height:110px;resize:vertical}
     <div class="panel">
       <h2>사이트 개요</h2>
       <p>tera가 필요해서 만듬.</p>
-      <p class="help">일본 게임·애니·버튜버·만화의 공연, 이벤트, 콜라보, 팝업, 전시 소식을 공식 사이트와 뉴스 RSS에서 모아 하루 네 번 갱신합니다. 날짜는 일본 시간이고, 예매와 일정은 원문에서 꼭 확인해 주세요. 피드에서 버튜버만 골라 보거나 날짜순으로 볼 수 있고, 캘린더에서 날을 누르면 그날의 일정이 나옵니다.</p>
+      <p class="help">일본 게임·애니·버튜버·만화의 공연, 이벤트, 콜라보, 팝업, 전시 소식을 공식 사이트와 뉴스 RSS에서 모아 하루 네 번 갱신합니다. 날짜는 일본 시간이고, 예매와 일정은 원문에서 꼭 확인해 주세요. 피드에서 버튜버만 골라 보거나 날짜순으로 볼 수 있고, 캘린더에서 날을 누르면 그날의 일정이 나옵니다. 맨 위의 原文/한국어로 표시 언어를 고를 수 있는데, 한국어는 Google 번역을 거친 기계 번역이라 제목과 요약만 바뀌고 장소·작품명은 원문 그대로입니다.</p>
     </div>
     <div class="panel">
       <h2>게시판</h2>
@@ -239,6 +246,8 @@ const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 �
 let items = new Map();
 let filterCat = null, filterVt = "all", sortMode = "new"; // 피드 필터(분류·버튜버)와 정렬
 let calYM = null, calDay = null; // 캘린더가 보여 주는 달 {y,m} 과 고른 날 "YYYY-MM-DD"
+let lang = "ko"; try{ lang = localStorage.getItem("matome-lang") === "ja" ? "ja" : "ko" }catch{} // 표시 언어: 한국어(번역) 또는 원문
+const tx = (it,k)=> lang==="ko" && it[k+"_ko"] ? it[k+"_ko"] : it[k]; // 번역이 있으면 번역, 없으면 원문
 
 /* ---------- utilities ---------- */
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -265,6 +274,7 @@ function normalize(raw){
     ticketUrl:safeUrl(raw.ticketUrl||""), url:safeUrl(raw.url||""),
     ticketUrls:[...new Set([raw.ticketUrl,...(Array.isArray(raw.ticketUrls)?raw.ticketUrls:[])].map(u=>safeUrl(u||"")).filter(Boolean))].slice(0,4), // 예매처별 링크(e+, ローチケ …)
     summary:String(raw.summary||"").slice(0,400).trim(),
+    title_ko:String(raw.title_ko||"").slice(0,200).trim(), summary_ko:String(raw.summary_ko||"").slice(0,400).trim(), // 수집기가 Google 번역으로 만든 한국어
     image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
     addedAt:raw.addedAt||new Date().toISOString()
   };
@@ -314,7 +324,7 @@ function renderStubs(){
     const link = it.ticketUrl||it.url;
     return `<div class="stub"><div class="d"><b>${dn}</b><small>${esc(jst(d,{month:"numeric",day:"numeric"}))}</small></div>
       <div class="t"><span class="k">${label} ${esc(jst(d,{hour:"2-digit",minute:"2-digit",hour12:false}))}</span>
-      <span class="n">${esc(it.title)}</span>${link?`<a href="${esc(link)}" target="_blank" rel="noopener">${esc(it.ticketUrl?ticketSite(it.ticketUrl):"원문")} 열기</a>`:""}</div></div>`}).join("")
+      <span class="n">${esc(tx(it,"title"))}</span>${link?`<a href="${esc(link)}" target="_blank" rel="noopener">${esc(it.ticketUrl?ticketSite(it.ticketUrl):"원문")} 열기</a>`:""}</div></div>`}).join("")
    : `<div class="empty-stub">3주 안에 열리거나 마감되는 티켓이 없어요.</div>`;
 }
 function dateCol(it){
@@ -334,8 +344,8 @@ function rowHtml(it,ev,cls=""){
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
     <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}</div>
-    <div class="title">${esc(it.title)}</div>
-    ${it.summary?`<p class="sum">${esc(it.summary)}</p>`:""}
+    <div class="title">${esc(tx(it,"title"))}</div>
+    ${tx(it,"summary")?`<p class="sum">${esc(tx(it,"summary"))}</p>`:""}
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
     ${facts.length?`<div class="facts">${facts.join("")}</div>`:""}
     <div class="actions">
@@ -512,9 +522,12 @@ document.addEventListener("click",e=>{
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
     if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
+  const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang",lang)}catch{}syncLang();render();return}
   onAction(e);
 });
 
+function syncLang(){document.querySelectorAll(".langsw [data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)))}
+syncLang();
 initStore();
 </script>
 </body>
