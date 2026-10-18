@@ -101,7 +101,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 공연·이벤트·전시의 날짜·장소는 アニメハック 이벤트 캘린더(`ldjson`)에서 오고, e+ 등 예매 링크는 그 상세 페이지를 `enrich`가 열어 찾는다.
 - 버튜버 소식은 PANORA·KAI-YOU(일반 뉴스)와 ホロライブ·にじさんじ·ぶいすぽっ 공식 뉴스에서 온다. 공식 소스에는 그룹명을 `works`로 붙여 두었으므로 페이지에서 작품 단위로 끄거나 점수를 줄 수 있다.
 - 분류를 추가하면 세 곳을 함께 고친다: `collector.py`의 `CAT_RULES`, `index.html`의 `CATS`(필요하면 `PERIOD_CATS`/`EVENT_CATS`와 탭 렌더 함수), `README.md`의 category 설명. 소식 필드를 추가하면 `build()`와 `normalize()`를 함께 고친다.
-- `index.html`은 한 파일을 유지한다. 빌드 도구·프레임워크·npm을 들이지 않는다. 외부 스크립트도 넣지 않는다(현재 외부 리소스는 Google Fonts만).
+- `index.html`은 한 파일을 유지한다. 빌드 도구·프레임워크·npm을 들이지 않는다. 외부 리소스는 Google Fonts와 방문자 집계용 GoatCounter 스크립트(`gc.zgo.at/count.js`, 대시보드 teraee.goatcounter.com) 둘뿐이며 더 늘리지 않는다.
 - 다크 모드는 `prefers-color-scheme` + `:root[data-theme]` 토큰으로 동작한다. 색은 `:root` 변수로만 추가한다.
 - 커밋 메시지는 기존대로 한국어 한 줄로 쓴다.
 
