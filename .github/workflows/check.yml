@@ -21,47 +21,21 @@ jobs:
       - name: 소스 점검 (--check)
         continue-on-error: true
         run: python collector.py --check
-      - name: 버튜버 소스 후보 탐색
+      - name: にじさんじ API 와 ぶいすぽ 피드 날짜 확인
         run: |
           python - <<'PY'
-          import sys, re, html, urllib.request, urllib.parse
+          import sys, json
           sys.path.insert(0, ".")
           import collector as C
-          def show(name, url, n=6):
+          ref = C.datetime.now(C.JST)
+          for u in ["https://www.nijisanji.jp/api/news?limit=5", "https://www.nijisanji.jp/api/news"]:
               try:
-                  raw = C.fetch(url)
-                  ents = C.parse_feed(raw)
-                  print(f"OK  {name}: {url} -> {len(ents)}건")
-                  for t, d, l in ents[:n]: print("     -", C.clean(t)[:70], "|", l)
-              except Exception as e:
-                  print(f"BAD {name}: {url} -> {e}")
-          for name, site in [("PANORA", "https://panora.tokyo/"), ("hololivepro", "https://hololivepro.com/"), ("hololivepro news", "https://hololivepro.com/news/"),
-                             ("nijisanji", "https://www.nijisanji.jp/news"), ("vspo", "https://vspo.jp/news"), ("vspo top", "https://vspo.jp/"),
-                             ("KAI-YOU", "https://kai-you.net/"), ("MoguLive vtuber", "https://www.moguravr.com/category/vtuber/"),
-                             ("VTuber Post", "https://vtuberpost.com/"), ("V-Tuber ZERO", "https://v-tuber-zero.com/"), ("Vtuber Antenna", "https://vtuber-antenna.net/")]:
-              try:
-                  u = C.discover(site)
-                  print(f"discover {name}: {site} -> {u}")
-                  show(name, u)
-              except Exception as e:
-                  print(f"discover {name}: {site} -> 실패 {e}")
-                  try:
-                      page = C.fetch(site).decode("utf-8", "replace")
-                      hrefs = sorted(set(re.findall(r"href=[\"']([^\"']*(?:rss|feed|atom|\.rdf|\.xml)[^\"']*)", page, re.I)))[:8]
-                      print("     hrefs:", [urllib.parse.urljoin(site, html.unescape(h)) for h in hrefs], "len", len(page))
-                      for m in list(re.finditer(r"__NEXT_DATA__|wp-json|/api/", page))[:3]: print("     hint:", page[m.start()-40:m.end()+60].replace("\n", " "))
-                  except Exception as e2: print("     fetch 실패", e2)
-          for u in ["https://hololivepro.com/feed/", "https://hololivepro.com/news/feed/", "https://hololivepro.com/wp-json/wp/v2/posts?per_page=3&_fields=title,link,date",
-                    "https://www.moguravr.com/category/vtuber/feed/", "https://panora.tokyo/feed", "https://kai-you.net/feed", "https://kai-you.net/rss",
-                    "https://www.nijisanji.jp/api/news?limit=5", "https://vspo.jp/api/news", "https://shop.hololivepro.com/blogs/news.atom"]:
-              show("cand", u, 3)
-          print("==== PR TIMES 회사 검색")
-          for q in ["ANYCOLOR", "カバー株式会社", "ブイスポ"]:
-              try:
-                  page = C.fetch("https://prtimes.jp/main/action.php?run=html&page=searchkey&search_word=" + urllib.parse.quote(q)).decode("utf-8", "replace")
-                  ids = sorted(set(re.findall(r"company_id/(\d+)", page)))[:5]
-                  print(q, "->", ids)
-                  for i in ids[:2]:
-                      show(f"prtimes {i}", f"https://prtimes.jp/companyrdf.php?company_id={i}", 3)
-              except Exception as e: print(q, "-> 실패", e)
+                  raw = C.fetch(u); print(u, "->", len(raw), "bytes"); print("  ", raw[:700].decode("utf-8", "replace"))
+              except Exception as e: print(u, "-> 실패", e)
+          ents = C.parse_feed(C.fetch("https://vspo.jp/news/feed"))
+          fresh = [e for e in ents if e[3] and e[3] >= ref - C.timedelta(days=C.FRESH_DAYS)]
+          print("vspo:", len(ents), "건 중 최근", C.FRESH_DAYS, "일", len(fresh), "건; 날짜 없는 글", sum(1 for e in ents if not e[3]))
+          for t, d, l, w in ents[:5]: print("  ", w, C.clean(t)[:60])
+          for name, u in [("PANORA", "https://panora.tokyo/feed"), ("hololive", "https://hololivepro.com/news/feed/"), ("KAI-YOU", "https://kai-you.net/contents/feed.rss")]:
+              ents = C.parse_feed(C.fetch(u)); print(name, "첫 글 게시일:", ents[0][3] if ents else None)
           PY

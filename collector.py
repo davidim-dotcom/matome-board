@@ -29,6 +29,7 @@ import json, os, re, sys, html
 import urllib.request, urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 
 JST = timezone(timedelta(hours=9))
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +38,8 @@ OUT = os.path.join(DATA, "items.json")
 KEEP = 600  # items.json에 남길 최대 건수
 
 # ── 여기만 고쳐서 쓰면 된다 ─────────────────────────────────────
+VTUBER_WORDS = ["グッズ", "フェア", "物販", "受注", "周年", "お披露目", "展"]  # 버튜버 전용 소스에서 추가로 통과시키는 단어
+FRESH_DAYS = 60  # 게시일이 이보다 오래된 글은 피드에 남아 있어도 무시(오래된 글이 쌓인 피드 대비)
 SOURCES = [
     # 넓게 훑는 뉴스 소스: 유행 감지의 재료이자, 공연·이벤트 공지만 걸러서 보드로 보냄
     # natalie.mu는 GitHub Actions(해외 IP)의 모든 요청을 405로 거부해 수집 불가(2026-10 확인). 국내 PC에서 돌릴 때만 켤 것.
@@ -60,6 +63,12 @@ SOURCES = [
     # {"type": "site", "name": "コミックマーケット", "url": "https://www.comiket.co.jp/"},
     # {"type": "site", "name": "同人イベントNAVI", "url": "https://shimeken.com/"},
     {"type": "site", "name": "スイーツパラダイス", "url": "https://www.sweets-paradise.jp/collaboration/"},
+    # 버튜버 이벤트·라이브·상품전. 전용 소스라 그룹명을 작품 태그로 붙이고, 굿즈·전시 단어도 통과시킨다
+    {"type": "rss", "name": "PANORA", "url": "https://panora.tokyo/feed", "extra_words": VTUBER_WORDS},
+    {"type": "rss", "name": "KAI-YOU", "url": "https://kai-you.net/contents/feed.rss"},
+    {"type": "rss", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS},
+    {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
+    # にじさんじ 공식(nijisanji.jp)은 RSS가 없음(Next.js). 소식은 PANORA·KAI-YOU 로 들어온다.
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
@@ -188,21 +197,39 @@ def build(title, body, link, src, ref, default_cat="other"):
     }
 
 
+def parse_when(text):
+    """RFC 822(RSS pubDate)나 ISO 8601(Atom, 사이트맵, WP) 날짜 문자열 → aware datetime. 모르면 None."""
+    text = (text or "").strip()
+    if not text:
+        return None
+    try:
+        dt = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        try:
+            dt = parsedate_to_datetime(text)
+        except Exception:
+            return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=JST)
+
+
 def parse_feed(xml_bytes):
+    """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None)]"""
     root = ET.fromstring(xml_bytes)
-    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/"}
+    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/"}
     entries = []
-    for it in root.iter("item"):  # RSS 2.0
-        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or ""))
+    for it in root.iter("item"):  # RSS 2.0 (RSS 1.0/RDF 의 item 도 잡힌다)
+        when = parse_when(it.findtext("pubDate") or it.findtext("dc:date", default="", namespaces=ns))
+        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when))
     for e in root.findall("a:entry", ns):  # Atom(유튜브 포함)
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
-        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else ""))
+        when = parse_when(e.findtext("a:published", default="", namespaces=ns) or e.findtext("a:updated", default="", namespaces=ns))
+        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else "", when))
     sm = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "n": "http://www.google.com/schemas/sitemap-news/0.9"}
     for u in root.findall("s:url", sm):  # Google 뉴스 사이트맵(RSS가 없는 사이트용): 제목과 링크만 있다
         title = u.findtext("n:news/n:title", default="", namespaces=sm)
         if title:
-            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm)))
+            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm), parse_when(u.findtext("n:news/n:publication_date", default="", namespaces=sm))))
     return entries
 
 
@@ -211,7 +238,7 @@ def wp_entries(data, link_prefix=""):
     link_prefix 를 주면 그 주소로 시작하는 글만 남긴다(다국어 사이트의 번역본 제외용)."""
     if not isinstance(data, list):
         raise ValueError(f"WP REST 응답이 목록이 아님: {str(data)[:80]}")
-    return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""))
+    return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""), parse_when(p.get("date_gmt") and p["date_gmt"] + "+00:00" or p.get("date")))
             for p in data if isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)]
 
 
@@ -251,7 +278,9 @@ def collect(src, ref):
         raw = fetch(url, src.get("headers"))
         entries = wp_entries(json.loads(raw), src.get("link_prefix", "")) if t == "wpjson" else parse_feed(raw)
         out = []
-        for ti, de, li in entries:
+        for ti, de, li, when in entries:
+            if when and when < ref - timedelta(days=FRESH_DAYS):
+                continue
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
