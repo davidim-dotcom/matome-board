@@ -50,7 +50,7 @@ SOURCES = [
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
     # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
-    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&lang=ja&_fields=title,excerpt,link",
+    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_fields=title,excerpt,link",
      "link_prefix": "https://collabo-cafe.com/events/"},  # 콜라보 글은 'event' 글 타입. 번역본(/en/, /zh-hant/ …)은 링크 접두사로 걸러낸다
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},

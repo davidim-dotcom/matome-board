@@ -21,14 +21,47 @@ jobs:
       - name: 소스 점검 (--check)
         continue-on-error: true
         run: python collector.py --check
-      - name: コラボカフェ events 확인
+      - name: 버튜버 소스 후보 탐색
         run: |
           python - <<'PY'
-          import urllib.request, json
-          u = "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&lang=ja&_fields=title,excerpt,link"
-          req = urllib.request.Request(u, headers={"User-Agent": "matome-board-collector/0.1 (personal use)"})
-          data = json.loads(urllib.request.urlopen(req, timeout=30).read())
-          print(len(data), "건; lang=ja 로 걸러진 비율:", sum(1 for p in data if p["link"].startswith("https://collabo-cafe.com/events/")), "/", len(data))
-          for p in data[:6]:
-              print(" ", p["title"]["rendered"][:60], "|", (p.get("excerpt") or {}).get("rendered", "")[:80].replace("\n", " "), "|", p["link"])
+          import sys, re, html, urllib.request, urllib.parse
+          sys.path.insert(0, ".")
+          import collector as C
+          def show(name, url, n=6):
+              try:
+                  raw = C.fetch(url)
+                  ents = C.parse_feed(raw)
+                  print(f"OK  {name}: {url} -> {len(ents)}건")
+                  for t, d, l in ents[:n]: print("     -", C.clean(t)[:70], "|", l)
+              except Exception as e:
+                  print(f"BAD {name}: {url} -> {e}")
+          for name, site in [("PANORA", "https://panora.tokyo/"), ("hololivepro", "https://hololivepro.com/"), ("hololivepro news", "https://hololivepro.com/news/"),
+                             ("nijisanji", "https://www.nijisanji.jp/news"), ("vspo", "https://vspo.jp/news"), ("vspo top", "https://vspo.jp/"),
+                             ("KAI-YOU", "https://kai-you.net/"), ("MoguLive vtuber", "https://www.moguravr.com/category/vtuber/"),
+                             ("VTuber Post", "https://vtuberpost.com/"), ("V-Tuber ZERO", "https://v-tuber-zero.com/"), ("Vtuber Antenna", "https://vtuber-antenna.net/")]:
+              try:
+                  u = C.discover(site)
+                  print(f"discover {name}: {site} -> {u}")
+                  show(name, u)
+              except Exception as e:
+                  print(f"discover {name}: {site} -> 실패 {e}")
+                  try:
+                      page = C.fetch(site).decode("utf-8", "replace")
+                      hrefs = sorted(set(re.findall(r"href=[\"']([^\"']*(?:rss|feed|atom|\.rdf|\.xml)[^\"']*)", page, re.I)))[:8]
+                      print("     hrefs:", [urllib.parse.urljoin(site, html.unescape(h)) for h in hrefs], "len", len(page))
+                      for m in list(re.finditer(r"__NEXT_DATA__|wp-json|/api/", page))[:3]: print("     hint:", page[m.start()-40:m.end()+60].replace("\n", " "))
+                  except Exception as e2: print("     fetch 실패", e2)
+          for u in ["https://hololivepro.com/feed/", "https://hololivepro.com/news/feed/", "https://hololivepro.com/wp-json/wp/v2/posts?per_page=3&_fields=title,link,date",
+                    "https://www.moguravr.com/category/vtuber/feed/", "https://panora.tokyo/feed", "https://kai-you.net/feed", "https://kai-you.net/rss",
+                    "https://www.nijisanji.jp/api/news?limit=5", "https://vspo.jp/api/news", "https://shop.hololivepro.com/blogs/news.atom"]:
+              show("cand", u, 3)
+          print("==== PR TIMES 회사 검색")
+          for q in ["ANYCOLOR", "カバー株式会社", "ブイスポ"]:
+              try:
+                  page = C.fetch("https://prtimes.jp/main/action.php?run=html&page=searchkey&search_word=" + urllib.parse.quote(q)).decode("utf-8", "replace")
+                  ids = sorted(set(re.findall(r"company_id/(\d+)", page)))[:5]
+                  print(q, "->", ids)
+                  for i in ids[:2]:
+                      show(f"prtimes {i}", f"https://prtimes.jp/companyrdf.php?company_id={i}", 3)
+              except Exception as e: print(q, "-> 실패", e)
           PY
