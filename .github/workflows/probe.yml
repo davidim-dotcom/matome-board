@@ -18,23 +18,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: ldjson 소스와 티켓 링크 보강 확인
+      - name: 배너 제외 확인
         run: |
-          python collector.py --check
           python - <<'PY'
           import sys, json
           sys.path.insert(0, ".")
           import collector as C
-          ref = C.datetime.now(C.JST)
-          src = next(s for s in C.SOURCES if s["type"] == "ldjson")
-          got = C.collect(src, ref)
-          print(len(got), "건; 분류:", {c: sum(1 for g in got if g["category"] == c) for c in set(g["category"] for g in got)})
-          for g in got[:5]: print("  ", g["eventDate"], g["endDate"] or "-", g["category"], g["title"][:40], "|", g["venue"], "|", g["url"])
-          print("==== 상세 페이지 티켓 링크(앞 10건)")
-          for g in got[:10]:
-              img, tk = C.page_info(g["url"]); print("  ", g["title"][:36], "->", tk or "-", "| img" if img else "")
-          print("==== PANORA 배너 제외 확인")
           items = json.load(open("data/items.json", encoding="utf-8"))
-          for i in [i for i in items if i.get("source") == "PANORA"][:5]:
-              print("  ", i["title"][:36], "->", C.page_info(i["url"])[1] or "-")
+          for name in ("PANORA", "ホロライブ公式", "KAI-YOU"):
+              for i in [i for i in items if i.get("source") == name][:4]:
+                  print(f"  [{name}] {i['title'][:36]} ->", C.page_info(i["url"])[1] or "-")
+          print("배너로 본 링크:", {h: sorted(v)[:4] for h, v in C._site_links.items()})
           PY

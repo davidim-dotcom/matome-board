@@ -568,16 +568,33 @@ def og_from_html(page, base):
     return ""
 
 
-def ticket_link_in(page):
+def ticket_link_in(page, exclude=()):
     """페이지 안의 첫 티켓 사이트 링크(e+, ぴあ, ローチケ …). 기사 본문(<article>/<main>) 안을 먼저 보고, 없으면 전체.
-    사이트 첫 화면으로 가는 링크(경로 없음)와 이미지·스크립트 주소는 제외."""
+    사이트 첫 화면으로 가는 링크(경로 없음), 이미지·스크립트 주소, exclude(사이트 공통 배너)는 제외."""
     regions = re.findall(r"<article[\s>].*?</article>", page, re.S | re.I) or re.findall(r"<main[\s>].*?</main>", page, re.S | re.I)
     for text in [*regions, page]:
         for u in LINK_RE.findall(html.unescape(text)):
+            u = u.rstrip(".,、。")
             p = urllib.parse.urlparse(u)
-            if any(d in (p.hostname or "") for d in TICKET_DOMAINS) and p.path.strip("/") and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
-                return u.rstrip(".,、。")
+            if any(d in (p.hostname or "") for d in TICKET_DOMAINS) and p.path.strip("/") and u not in exclude \
+                    and not re.search(r"\.(png|jpe?g|gif|svg|css|js)$", p.path, re.I):
+                return u
     return ""
+
+
+_site_links = {}
+
+
+def site_ticket_links(url):
+    """기사가 실린 사이트 첫 화면에 걸려 있는 티켓 링크 모음(헤더·사이드바 배너). 기사에서 찾은 링크가 여기 있으면 기사 것이 아니다."""
+    host = urllib.parse.urlparse(url).hostname or ""
+    if host not in _site_links:
+        try:
+            page = html.unescape(fetch(f"https://{host}/").decode("utf-8", "replace"))
+            _site_links[host] = {u.rstrip(".,、。") for u in LINK_RE.findall(page) if any(d in (urllib.parse.urlparse(u).hostname or "") for d in TICKET_DOMAINS)}
+        except Exception:
+            _site_links[host] = set()
+    return _site_links[host]
 
 
 def page_info(url):
@@ -586,7 +603,9 @@ def page_info(url):
         page = fetch(url).decode("utf-8", "replace")
     except Exception:
         return "", ""
-    return og_from_html(page, url), ticket_link_in(page)
+    banners = site_ticket_links(url)
+    tk = ticket_link_in(page, banners)
+    return og_from_html(page, url), tk
 
 
 def enrich(items):
