@@ -22,3 +22,5 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 번역 경로 점검 (임시)
+        run: python collector.py --translate-test
