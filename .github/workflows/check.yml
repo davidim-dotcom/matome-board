@@ -21,21 +21,19 @@ jobs:
       - name: 소스 점검 (--check)
         continue-on-error: true
         run: python collector.py --check
-      - name: にじさんじ API 와 ぶいすぽ 피드 날짜 확인
+      - name: にじさんじ 링크 형식 확인
         run: |
           python - <<'PY'
-          import sys, json
+          import sys, urllib.request
           sys.path.insert(0, ".")
           import collector as C
-          ref = C.datetime.now(C.JST)
-          for u in ["https://www.nijisanji.jp/api/news?limit=5", "https://www.nijisanji.jp/api/news"]:
+          src = next(s for s in C.SOURCES if s.get("name") == "にじさんじ公式")
+          ents = C.json_entries(C.json.loads(C.fetch(src["url"])), src)
+          print(len(ents), "건")
+          for t, b, l, w in ents[:4]:
+              req = urllib.request.Request(l, method="HEAD", headers=C.UA)
               try:
-                  raw = C.fetch(u); print(u, "->", len(raw), "bytes"); print("  ", raw[:700].decode("utf-8", "replace"))
-              except Exception as e: print(u, "-> 실패", e)
-          ents = C.parse_feed(C.fetch("https://vspo.jp/news/feed"))
-          fresh = [e for e in ents if e[3] and e[3] >= ref - C.timedelta(days=C.FRESH_DAYS)]
-          print("vspo:", len(ents), "건 중 최근", C.FRESH_DAYS, "일", len(fresh), "건; 날짜 없는 글", sum(1 for e in ents if not e[3]))
-          for t, d, l, w in ents[:5]: print("  ", w, C.clean(t)[:60])
-          for name, u in [("PANORA", "https://panora.tokyo/feed"), ("hololive", "https://hololivepro.com/news/feed/"), ("KAI-YOU", "https://kai-you.net/contents/feed.rss")]:
-              ents = C.parse_feed(C.fetch(u)); print(name, "첫 글 게시일:", ents[0][3] if ents else None)
+                  with urllib.request.urlopen(req, timeout=20) as r: st = f"{r.status} final={r.geturl()}"
+              except Exception as e: st = f"실패 {e}"
+              print("  ", w, t[:50], "|", l, "->", st)
           PY

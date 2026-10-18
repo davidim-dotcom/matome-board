@@ -15,6 +15,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
   - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용.
                "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
+  - json     : 임의의 JSON API. "items"(목록 키 경로) "title" "body" "date" 필드명과 "link" 틀("https://…/{id}")을 적는다
   공통 옵션: "works": [...] 모든 소식에 붙일 작품 태그, "extra_words": [...] MUST_HAVE_ANY 에 더할 통과 단어
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
@@ -68,7 +69,9 @@ SOURCES = [
     {"type": "rss", "name": "KAI-YOU", "url": "https://kai-you.net/contents/feed.rss"},
     {"type": "rss", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS},
     {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
-    # にじさんじ 공식(nijisanji.jp)은 RSS가 없음(Next.js). 소식은 PANORA·KAI-YOU 로 들어온다.
+    # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
+    {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
+     "title": "title", "date": "publishedAtForUser", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
@@ -242,6 +245,26 @@ def wp_entries(data, link_prefix=""):
             for p in data if isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)]
 
 
+def json_entries(data, src):
+    """임의의 JSON API 글 목록 → (제목, 본문, 링크, 게시일).
+    src: "items" 목록까지의 키 경로("a.b"), "title"/"body"/"date" 필드명, "link" 은 "https://…/{id}" 처럼 필드명을 끼운 틀."""
+    for k in [k for k in src.get("items", "").split(".") if k]:
+        data = data[k]
+    if not isinstance(data, list):
+        raise ValueError(f"JSON 글 목록이 아님: {str(data)[:80]}")
+    out = []
+    for x in data:
+        if not isinstance(x, dict):
+            continue
+        body = str(x.get(src["body"], "") or "") if src.get("body") else ""
+        try:
+            link = src["link"].format(**{k: v for k, v in x.items() if isinstance(v, (str, int))})
+        except (KeyError, IndexError):
+            continue
+        out.append((str(x.get(src.get("title", "title"), "") or ""), body, link, parse_when(str(x.get(src.get("date", ""), "") or ""))))
+    return out
+
+
 CACHE = os.path.join(DATA, ".feedcache.json")
 _cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
 
@@ -271,12 +294,17 @@ SEEN_TEXT = []  # 유행 감지용: (제목+본문)
 
 def collect(src, ref):
     t = src["type"]
-    if t in ("rss", "youtube", "site", "wpjson"):
-        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"],
+    if t in ("rss", "youtube", "site", "wpjson", "json"):
+        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"], "json": lambda: src["url"],
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
         raw = fetch(url, src.get("headers"))
-        entries = wp_entries(json.loads(raw), src.get("link_prefix", "")) if t == "wpjson" else parse_feed(raw)
+        if t == "wpjson":
+            entries = wp_entries(json.loads(raw), src.get("link_prefix", ""))
+        elif t == "json":
+            entries = json_entries(json.loads(raw), src)
+        else:
+            entries = parse_feed(raw)
         out = []
         for ti, de, li, when in entries:
             if when and when < ref - timedelta(days=FRESH_DAYS):
