@@ -2,6 +2,9 @@ name: 소스 점검
 
 on:
   workflow_dispatch: {}
+  push:
+    branches: [claude/japan-events-board-setup-co2nzo]
+    paths: [.github/workflows/check.yml]
 
 permissions:
   contents: read
