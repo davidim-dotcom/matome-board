@@ -1,0 +1,1195 @@
+[
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "event",
+  "deadline": "",
+  "eventDate": "2026-11-21T18:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "에일리언 스테이지 전시회. 30분 단위 일시 지정권, 선착 판매 중.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/event/anime/tokyo/p27",
+  "title": "ALIEN STAGE EXHIBITION -表裏-",
+  "url": "https://eplus.jp/sf/event/anime/tokyo/p27",
+  "venue": "アニメイト池袋本店 Space Galleria",
+  "works": [
+   "ALIEN STAGE"
+  ],
+  "id": "alienstage"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "event",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-20T11:00",
+  "id": "bungo-fukuoka",
+  "platform": "site",
+  "source": "e+",
+  "summary": "문스독 아트 & 디자인 전시 후쿠오카 회장. 일시 지정권, 접수 전으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/event/anime/fukuoka",
+  "title": "文豪ストレイドッグス ART & DESIGN EXHIBITION 福岡",
+  "url": "https://eplus.jp/sf/event/anime/fukuoka",
+  "venue": "Space Galleria FUKUOKA",
+  "works": [
+   "文豪ストレイドッグス"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-11T23:59",
+  "eventDate": "2026-10-22T00:00",
+  "id": "c-aikatsustars-halloween",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "아이카츠 스타즈 할로윈 콜라보 카페, 할로윈 의상 신규 일러스트 굿즈.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "アイカツスターズ! HALLOWEEN PARTY CAFE",
+  "url": "https://collabo-cafe.com/events/category/cafe/",
+  "venue": "AMO CAFE 池袋店・なんばマルイ店",
+  "works": [
+   "アイカツ"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2027-01-11T23:59",
+  "eventDate": "2026-11-11T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "드퀘·FF 합동 콜라보 카페. 지금 예약 가능한 건 11/11~12/11분, 후반은 추후 예약 시작. 예약료 550엔.",
+  "ticketOpen": "2026-10-15T18:00",
+  "ticketUrl": "",
+  "title": "ドラクエ × FF カフェ「スラチョコキッチン」in みなとみらい",
+  "url": "https://collabo-cafe.com/events/collabo/dragonquest-final-fantasy-cafe-slachoco-kitchen-2026/",
+  "venue": "横浜ランドマークプラザ5F Cafe Fan Base",
+  "works": [
+   "ドラゴンクエスト",
+   "ファイナルファンタジー"
+  ],
+  "id": "c-dqff-slachoco"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-12-06T23:59",
+  "eventDate": "2026-11-03T00:00",
+  "id": "c-haikyu-winter",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "하이큐 겨울 방과후 콘셉트 콜라보 카페, 6개 매장.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ハイキュー!! 冬の放課後カフェ",
+  "url": "https://collabo-cafe.com/",
+  "venue": "6店舗",
+  "works": [
+   "ハイキュー!!"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-29T23:59",
+  "eventDate": "2026-11-05T00:00",
+  "id": "c-hanako2-decotto",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "하나코군 2 콜라보 카페.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "地縛少年花子くん2 カフェ in DECOTTO 池袋",
+  "url": "https://collabo-cafe.com/events/category/cafe/",
+  "venue": "DECOTTO 池袋",
+  "works": [
+   "地縛少年花子くん"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-12-20T23:59",
+  "eventDate": "2026-10-16T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "히로아카 콜라보 카페. 매장마다 기간이 다름. 예약금 715엔, 예약 특전 스티커.",
+  "ticketOpen": "2026-10-01T18:00",
+  "ticketUrl": "",
+  "title": "僕のヒーローアカデミアカフェ「WE ARE HERO HOLICS」",
+  "url": "https://collabo-cafe.com/events/collabo/heroaca-cafe-we-are-hero-holics-box-cafe-2026/",
+  "venue": "東京・大阪・愛知・北海道の4店舗",
+  "works": [
+   "僕のヒーローアカデミア"
+  ],
+  "id": "c-heroaca-holics"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-15T23:59",
+  "eventDate": "2026-10-16T00:00",
+  "platform": "site",
+  "source": "スイーツパラダイス",
+  "summary": "가면라이더 55주년 스위파라 콜라보.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "仮面ライダー55th ANNIVERSARY CAFE in SWEETS PARADISE",
+  "url": "https://www.sweets-paradise.jp/collaboration/",
+  "venue": "スイーツパラダイス",
+  "works": [
+   "仮面ライダー"
+  ],
+  "id": "c-kamenrider55-swepara"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-01T23:59",
+  "eventDate": "2026-10-06T00:00",
+  "platform": "site",
+  "source": "ufotable Cafe",
+  "summary": "귀멸의 칼날 유포테이블 카페 콜라보.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "鬼滅の刃 シリーズ全編再放送 コラボレーションカフェ ～結んだ縁～",
+  "url": "https://www.ufotable.co.jp/cafe/collaboration/kimetu/",
+  "venue": "ufotable Cafe",
+  "works": [
+   "鬼滅の刃"
+  ],
+  "id": "c-kimetsu-ufotable"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-10T23:59",
+  "eventDate": "2026-10-15T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "쿠로마죠상 콜라보, 카페 의상 미니캐릭터 굿즈와 코스터 특전.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "黒魔女さんが通る!! × アニメイトカフェ",
+  "url": "https://collabo-cafe.com/events/category/cafe/",
+  "venue": "アニメイトカフェスタンド池袋4号店",
+  "works": [
+   "黒魔女さんが通る!!"
+  ],
+  "id": "c-kuromajo-ikebukuro"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-23T23:59",
+  "eventDate": "2026-10-30T00:00",
+  "id": "c-kusuriya-swepara3",
+  "platform": "site",
+  "source": "スイーツパラダイス",
+  "summary": "약사의 혼잣말 스위파라 콜라보 세 번째. 지금 방영 중인 3기 2쿨과 같은 시기.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "薬屋のひとりごと × スイーツパラダイス コラボカフェ 第3弾",
+  "url": "https://www.sweets-paradise.jp/collaboration/",
+  "venue": "スイーツパラダイス",
+  "works": [
+   "薬屋のひとりごと"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-29T23:59",
+  "eventDate": "2026-11-03T00:00",
+  "id": "c-mochiwasa-swepara",
+  "platform": "site",
+  "source": "スイーツパラダイス",
+  "summary": "모치와사비 스위파라 콜라보 카페.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "もちわさ日 Collaboration Cafe",
+  "url": "https://www.sweets-paradise.jp/collaboration/",
+  "venue": "スイーツパラダイス",
+  "works": [
+   "もちわさ日"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-08T23:59",
+  "eventDate": "2026-10-09T00:00",
+  "id": "c-newtype40-gratte",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "월간 뉴타입과 애니메이트 40주년 기념 그랏테.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "月刊ニュータイプ × アニメイト 40周年記念 グラッテ",
+  "url": "https://collabo-cafe.com/events/category/cafe/",
+  "venue": "アニメイトグラッテ池袋本店",
+  "works": [
+   "ニュータイプ"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-10-31T23:59",
+  "eventDate": "2026-10-02T00:00",
+  "platform": "site",
+  "source": "スイーツパラダイス",
+  "summary": "니지산지 스위파라 콜라보 16탄. 이달 말 종료.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "にじさんじ × スイーツパラダイス コラボカフェ 第16弾",
+  "url": "https://www.sweets-paradise.jp/collaboration/",
+  "venue": "スイーツパラダイス",
+  "works": [
+   "にじさんじ"
+  ],
+  "id": "c-nijisanji-swepara16"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-10-28T23:59",
+  "eventDate": "2026-10-02T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "폰포코·피너츠군 콜라보 카페. 예약은 스위파라 앱에서만, 이용일 5주 전부터 전날 20시까지. 종료일은 매장마다 다름.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ぽこピー × スイーツパラダイス「POKOPEA WORLD KITCHEN」",
+  "url": "https://collabo-cafe.com/events/collabo/pokopea-cafe-sweets-paradise-2026/",
+  "venue": "東京・大阪・愛知・兵庫・広島の5店舗",
+  "works": [
+   "ぽこピー"
+  ],
+  "id": "c-pokopea-swepara"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-24T23:59",
+  "eventDate": "2026-10-30T00:00",
+  "id": "c-shinycolors-swepara",
+  "platform": "site",
+  "source": "スイーツパラダイス",
+  "summary": "샤니마스 스위파라 콜라보 카페. 10/16 발표.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "アイドルマスター シャイニーカラーズ × スイーツパラダイス コラボカフェ",
+  "url": "https://www.sweets-paradise.jp/collaboration/",
+  "venue": "スイーツパラダイス",
+  "works": [
+   "アイドルマスター",
+   "シャイニーカラーズ"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-15T23:59",
+  "eventDate": "2026-10-23T00:00",
+  "id": "c-touken-tounyan6",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "토켄란부 고양이 콜라보 카페. 완전 예약제, 70분제. 11/6부터 후반 특전으로 바뀜.",
+  "ticketOpen": "2026-10-02T12:00",
+  "ticketUrl": "",
+  "title": "刀剣乱舞 刀猫Cafe 第六弾",
+  "url": "https://collabo-cafe.com/events/collabo/toukenranbu-tounyan-cafe-collabo-cafe-honpo-vol6-2026/",
+  "venue": "コラボカフェ本舗 秋葉原店・大阪日本橋店",
+  "works": [
+   "刀剣乱舞"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-15T23:59",
+  "eventDate": "2026-10-24T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "트위스테 마스터 셰프 테마 콜라보 카페.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ツイステカフェ in 表参道 マスターシェフ",
+  "url": "https://collabo-cafe.com/",
+  "venue": "表参道",
+  "works": [
+   "ツイステッドワンダーランド"
+  ],
+  "id": "c-twst-omotesando"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "collab",
+  "deadline": "",
+  "endDate": "2026-11-23T23:59",
+  "eventDate": "2026-11-07T00:00",
+  "id": "c-utapri-gratte",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "우타프리·스타마이·브레마이 그랏테 콜라보.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "うたプリ/スタマイ/ブレマイ × グラッテ",
+  "url": "https://collabo-cafe.com/",
+  "venue": "アニメイトグラッテ",
+  "works": [
+   "うたの☆プリンスさまっ♪"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "2026-12-13T23:59",
+  "eventDate": "2026-12-11T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "온라인 온리전.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "世界が認めた宿敵（ブルーロック 潔世一×糸師凛 WEBオンリー）",
+  "url": "https://www.orangekoubou.com/special/privilege_eventsupport_schedule.php",
+  "venue": "pictSQUARE（온라인）",
+  "works": [
+   "ブルーロック"
+  ],
+  "id": "d-bluelock-web"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "2026-12-31T16:00",
+  "eventDate": "2026-12-29T10:30",
+  "platform": "site",
+  "source": "KAI-YOU",
+  "summary": "2019년 이후 처음인 3일 개최. 입장권은 리스트밴드제, 가격·발매일은 공식 발표 대기 중.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "コミックマーケット109（冬コミ）",
+  "url": "https://kai-you.net/article/94962",
+  "venue": "東京ビッグサイト（東456ホール除く）",
+  "works": [
+   "コミケ"
+  ],
+  "id": "d-c109"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-29T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "올장르 동인 즉매회. 같은 날 같은 회장에서 트위스테 잭×레오나 프치 온리 등 동시 개최.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "COMIC CITY 東京 153",
+  "url": "https://www.orangekoubou.com/schedule/schedule_event.php",
+  "venue": "東京ビッグサイト",
+  "works": [
+   "COMIC CITY"
+  ],
+  "id": "d-comiccity153"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-12-13T00:00",
+  "platform": "site",
+  "source": "同人イベントNAVI",
+  "summary": "올장르 동인 즉매회.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "コミックライブin名古屋 ウィンター2026",
+  "url": "https://shimeken.com/events/schedule/%E3%82%AA%E3%83%BC%E3%83%AB%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%AB",
+  "venue": "名古屋",
+  "works": [],
+  "id": "d-comiclive-nagoya-w26"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-12-13T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "오리지널 창작 전문 동인 즉매회.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "COMITIA158",
+  "url": "https://www.orangekoubou.com/schedule/schedule_event.php",
+  "venue": "東京ビッグサイト",
+  "works": [
+   "COMITIA"
+  ],
+  "id": "d-comitia158"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-12-20T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "DOZEN ROSE FES 2026",
+  "url": "https://www.orangekoubou.com/schedule/schedule_event.php",
+  "venue": "東京ビッグサイト",
+  "works": [],
+  "id": "d-dozenrose2026"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-12-13T11:30",
+  "platform": "site",
+  "source": "キニナルベル",
+  "summary": "11:30~16:00. 블루아카 하이랜더 철도학원·발키리 경찰학교 온리 등 동시 개최.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ようこそ榛名の故郷へⅡ（艦これ 榛名中心金剛型オンリー）",
+  "url": "https://kininaruberu.com/kancolledoujin/doujinevent2026",
+  "venue": "デザイン・クリエイティブセンター神戸（KIITO）",
+  "works": [
+   "艦これ",
+   "ブルーアーカイブ"
+  ],
+  "id": "d-kancolle-haruna"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-29T00:00",
+  "platform": "site",
+  "source": "キニナルベル",
+  "summary": "칸코레 키리시마 온리 즉매회.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "マイクチェック、ワンツー！改二乙（艦これ 霧島オンリー）",
+  "url": "https://kininaruberu.com/kancolledoujin/doujinevent2026",
+  "venue": "東京文具共和会館 3階",
+  "works": [
+   "艦これ"
+  ],
+  "id": "d-kancolle-kirishima"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-01T11:00",
+  "platform": "site",
+  "source": "おもしろ同人誌バザール",
+  "summary": "정보계 동인지·인디즈 책 즉매회. 11:00~16:00.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "おもしろ同人誌バザール＠神保町 10周年記念開催",
+  "url": "https://omobaza.com/",
+  "venue": "ベルサール神保町＆アネックス",
+  "works": [],
+  "id": "d-omobaza-jimbocho10"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-12-06T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "여러 작품 온리전이 함께 열리는 스튜디오 YOU 주최 행사.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "TRCオンリーライブ2026 Dec.06",
+  "url": "https://www.orangekoubou.com/schedule/schedule_event.php",
+  "venue": "東京流通センター（TRC）",
+  "works": [],
+  "id": "d-trc-dec06"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-29T00:00",
+  "platform": "site",
+  "source": "オレンジ工房",
+  "summary": "트위스테 프치 온리.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "月夜の荒野にきらめく牙（ツイステ ジャック×レオナ プチオンリー）",
+  "url": "https://www.orangekoubou.com/special/privilege_eventsupport_schedule.php",
+  "venue": "東京ビッグサイト",
+  "works": [
+   "ツイステッドワンダーランド"
+  ],
+  "id": "d-twst-jackleona"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "doujin",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-14T00:00",
+  "platform": "x",
+  "source": "@VGGC_info",
+  "summary": "부이스포 온리 동인 즉매회. 서클 배치는 9월 말 공개 예정이었음.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "VGGC 12th/AUT26（ぶいすぽっ！オンリー）",
+  "url": "https://x.com/vggc_info",
+  "venue": "",
+  "works": [
+   "ぶいすぽっ"
+  ],
+  "id": "d-vggc12"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "eventDate": "2026-12-06T15:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "드래곤 퀘스트 관악 오케스트라 공연. 선착순, 아직 접수 전으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/anime/kanto/p54",
+  "title": "「ドラゴンクエスト」ウインドオーケストラコンサート",
+  "url": "https://eplus.jp/sf/anime/kanto/p54",
+  "venue": "栃木県総合文化センター メインホール",
+  "works": [
+   "ドラゴンクエスト"
+  ],
+  "id": "dq-wind"
+ },
+ {
+  "addedAt": "2026-10-18T12:00:00+09:00",
+  "category": "official",
+  "deadline": "2026-10-26T17:59",
+  "endDate": "2026-12-20T17:00",
+  "eventDate": "2026-12-19T09:00",
+  "platform": "site",
+  "source": "アニメ!アニメ!",
+  "summary": "입장 무료, 사전 응모·초대제. 정기구독자 한정 응모는 10/19 10:00~10/26 17:59, 일반 입장권 응모는 11/2 10:00~11/16 17:59.",
+  "ticketOpen": "2026-11-02T10:00",
+  "ticketUrl": "",
+  "title": "ジャンプフェスタ2027",
+  "url": "https://animeanime.jp/article/2026/09/28/103297.html",
+  "venue": "幕張メッセ 展示ホール1~9・11",
+  "works": [
+   "週刊少年ジャンプ",
+   "ONE PIECE",
+   "呪術廻戦",
+   "NARUTO",
+   "カグラバチ"
+  ],
+  "id": "e-jf2027"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "eventDate": "2026-12-26T00:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "출판사 어스 스타 엔터테인먼트 20주년 페스. 선착순 판매.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/anime/kanto/p54",
+  "title": "アース・スター エンターテイメント 20周年FES ~ずっと「ありがとう」、ずっと「よろしくね」!~",
+  "url": "https://eplus.jp/sf/anime/kanto/p54",
+  "venue": "",
+  "works": [
+   "アース・スター"
+  ],
+  "id": "earthstar20"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "eventDate": "2026-11-28T17:30",
+  "platform": "site",
+  "source": "e+",
+  "summary": "성우 후루카와 마코토 3rd 라이브 투어. e+ 추첨 접수 중으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/anime/kanto/p54",
+  "title": "古川慎 3rd Live Tour「Nine Lives」埼玉公演",
+  "url": "https://anime.eiga.com/event/cal/202611/",
+  "venue": "川口リリア・フカガワみらいホール",
+  "works": [
+   "古川慎"
+  ],
+  "id": "furukawa3rd"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-03T18:00",
+  "id": "gbc-sekishoku",
+  "platform": "site",
+  "source": "アイムエンタープライズ",
+  "summary": "애니 『걸즈 밴드 크라이』 스페셜 라이브. 티켓은 작품 공식 X 확인.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ガールズバンドクライ Special LIVE “赤色の響祭”",
+  "url": "https://www.imenterprise.jp/info.php?id=7",
+  "venue": "ぴあアリーナMM",
+  "works": [
+   "ガールズバンドクライ"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "event",
+  "deadline": "",
+  "eventDate": "2026-11-22T14:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "성우 이나가키 노노미 솔로 이벤트. e+ 추첨 접수 중으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/event/anime/tokyo/p27",
+  "title": "「稲垣好 はおうの城」ソロイベント～「好」～",
+  "url": "https://eplus.jp/sf/event/anime/tokyo/p27",
+  "venue": "関交協ハーモニックホール",
+  "works": [
+   "稲垣好"
+  ],
+  "id": "inagaki-solo"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "event",
+  "deadline": "",
+  "eventDate": "2026-12-06T14:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "애니화 30주년 기념 이벤트. 14:00, 17:30 2회. e+ 추첨 접수 중으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/anime/kanto/p54",
+  "title": "「爆走兄弟レッツ&ゴー!!」アニメ化30周年記念イベント",
+  "url": "https://eplus.jp/sf/anime/kanto/p54",
+  "venue": "幕張国際研修センター シンポジウムホール",
+  "works": [
+   "レッツ&ゴー!!"
+  ],
+  "id": "letsgo30"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-07T17:45",
+  "id": "lisa-fukuoka",
+  "platform": "site",
+  "source": "e+",
+  "summary": "LiSA 투어 후쿠오카 공연. 추첨 접수 중으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/event/anime/fukuoka",
+  "title": "LiSA 福岡公演",
+  "url": "https://eplus.jp/sf/event/anime/fukuoka",
+  "venue": "福岡サンパレス",
+  "works": [
+   "LiSA"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-10-29T00:00",
+  "id": "miko2nd",
+  "platform": "site",
+  "source": "eeo Media",
+  "summary": "홀로라이브 사쿠라 미코의 두 번째 솔로 라이브. 시간과 남은 티켓은 공식 공지 확인 필요.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "Sakura Miko 2nd Live “Blooming Parade!!”",
+  "url": "https://eeo.today/media/2026/08/06/379516/",
+  "venue": "",
+  "works": [
+   "ホロライブ",
+   "さくらみこ"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "goods",
+  "deadline": "",
+  "eventDate": "2026-12-26T00:00",
+  "platform": "site",
+  "source": "にじさんじ公式",
+  "summary": "타카라토미에서 나오는 니지산지 TCG 발매. 걸즈 아이돌 페스 회장에서 먼저 체험 가능.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "NIJISANJI 7 Colors Card Game 発売",
+  "url": "https://www.nijisanji.jp/news/tyibyhe2j",
+  "venue": "",
+  "works": [
+   "にじさんじ"
+  ],
+  "id": "niji-tcg"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "2026-11-03T23:59",
+  "eventDate": "2026-12-19T18:00",
+  "platform": "site",
+  "source": "にじさんじ公式",
+  "summary": "니지산지 첫 걸즈 아이돌 페스. 여성 VTuber 16명이 12/19 Iris Stage, 12/20 Prism Stage로 나눠 출연. 일반판매(선착)는 11/21 12:00부터.",
+  "ticketOpen": "2026-10-15T12:00",
+  "ticketUrl": "https://eplus.jp/nijikimi/",
+  "title": "にじさんじ Girls Idol Festival 〜虹をつないで、未来を見つけて〜",
+  "url": "https://www.nijisanji.jp/news/tyibyhe2j",
+  "venue": "インテックス大阪5号館",
+  "works": [
+   "にじさんじ",
+   "月ノ美兎",
+   "リゼ・ヘルエスタ"
+  ],
+  "id": "nijigirls2026"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "popup",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-19T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "코난 다이너 11/19 오픈, 예약 상세 공개됨.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "名探偵コナンダイナー",
+  "url": "https://collabo-cafe.com/",
+  "venue": "",
+  "works": [
+   "名探偵コナン"
+  ],
+  "id": "p-conan-diner"
+ },
+ {
+  "addedAt": "2026-10-18T10:00:00+09:00",
+  "category": "popup",
+  "deadline": "",
+  "endDate": "2026-11-23T23:59",
+  "eventDate": "2026-10-31T00:00",
+  "id": "p-keroro-akiba",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "이번 분기 방영 중인 케로로 군조☆ 팝업스토어.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ケロロ軍曹☆ キャラポップストア in 秋葉原",
+  "url": "https://collabo-cafe.com/",
+  "venue": "秋葉原",
+  "works": [
+   "ケロロ軍曹"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "eventDate": "2026-11-28T11:00",
+  "platform": "site",
+  "source": "e+",
+  "summary": "프리큐어 클래식 콘서트. 11:00, 14:30 2회. 추첨 접수 중으로 표시됨.",
+  "ticketOpen": "",
+  "ticketUrl": "https://eplus.jp/sf/event/anime/hiroshima",
+  "title": "プリキュアクラシックコンサート 2026 広島公演",
+  "url": "https://eplus.jp/sf/event/anime/hiroshima",
+  "venue": "はつかいち文化ホール さくらぴあ 大ホール",
+  "works": [
+   "プリキュア"
+  ],
+  "id": "precure-hiroshima"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "eventDate": "2026-11-08T00:00",
+  "platform": "site",
+  "source": "PR TIMES",
+  "summary": "아이돌 VTuber 유닛의 2주년 라이브. 역대 최대 규모 회장에서 25곡, 2인 체제 마지막 무대.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "らびぱれ!! 2nd Anniversary Live Drawing Voyage ~宝物を増やして~",
+  "url": "https://prtimes.jp/main/html/rd/p/000000186.000109030.html",
+  "venue": "",
+  "works": [
+   "らびぱれ!!"
+  ],
+  "id": "rabipare2nd"
+ },
+ {
+  "addedAt": "2026-10-18T09:00:00+09:00",
+  "category": "live",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-19T19:00",
+  "id": "suga-newborn",
+  "platform": "site",
+  "source": "アニメハック",
+  "summary": "스가 카나와 라이브. 티켓 정보는 원문 캘린더에서 확인.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "菅叶和 NEW BORN LIVE",
+  "url": "https://anime.eiga.com/event/cal/202611/",
+  "venue": "KT Zepp Yokohama",
+  "works": [
+   "菅叶和"
+  ]
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-11-29T23:59",
+  "eventDate": "2026-10-24T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "원작 만화 첫 복제원화전. 입장자 선착 레플리카 티켓 특전.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "マンガ メイドインアビス展",
+  "url": "https://collabo-cafe.com/events/tag/gengaten/",
+  "venue": "西武池袋本店 書籍館",
+  "works": [
+   "メイドインアビス"
+  ],
+  "id": "x-abyss-ten"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-12-06T23:59",
+  "eventDate": "2026-11-13T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "블랙 라굼 연재 25주년 원화전. 전시 내용은 추후 발표.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "BLACK LAGOON25周年原画展",
+  "url": "https://collabo-cafe.com/events/tag/gengaten/",
+  "venue": "サンシャイン60展望台",
+  "works": [
+   "BLACK LAGOON"
+  ],
+  "id": "x-blacklagoon25"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-10-25T23:59",
+  "eventDate": "2026-10-01T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "디트로이트 메탈 시티 연재 20주년 원화전. 이번 주 일요일 종료.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "デトロイト・メタル・シティ 原画展",
+  "url": "https://collabo-cafe.com/events/tag/gengaten/",
+  "venue": "EDITION88 フラッグシップショップ（五反田）",
+  "works": [
+   "デトロイト・メタル・シティ"
+  ],
+  "id": "x-dmc-genga"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2027-01-04T23:59",
+  "eventDate": "2026-12-10T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "닥터 스톤 전시.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "Dr.STONE展",
+  "url": "https://collabo-cafe.com/events/category/gengaten-tenjikai/",
+  "venue": "池袋サンシャインシティ",
+  "works": [
+   "Dr.STONE"
+  ],
+  "id": "x-drstone-ten"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-11-15T19:00",
+  "eventDate": "2026-10-30T11:00",
+  "platform": "site",
+  "source": "EDITION88",
+  "summary": "후지시마 코스케 데뷔 40주년 원화전 오사카. 약 100점, 사쿠라 대전 일러스트 포함. 당일권 1,500엔.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "デビュー40周年記念 藤島康介 原画展（大阪）",
+  "url": "https://edition-88.com/pages/kosukefujishima-exhibit2026",
+  "venue": "なんばマルイ 5F",
+  "works": [
+   "藤島康介",
+   "サクラ大戦"
+  ],
+  "id": "x-fujishima40-osaka"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2027-01-11T23:59",
+  "eventDate": "2026-10-30T00:00",
+  "platform": "site",
+  "source": "原画展.info",
+  "summary": "하이큐 세 번째 원화전. 원작자 신규 비주얼 포함.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "古舗春一 ハイキュー!!展 挑戦者たち",
+  "url": "https://gengaten.info/",
+  "venue": "東京",
+  "works": [
+   "ハイキュー!!"
+  ],
+  "id": "x-haikyu-ten"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-11-23T23:59",
+  "eventDate": "2026-11-07T00:00",
+  "platform": "site",
+  "source": "原画展.info",
+  "summary": "헤타리아 20주년 원화전 오사카 회장.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ヘタリア20周年原画展 WorldFesta（大阪）",
+  "url": "https://gengaten.info/",
+  "venue": "大阪",
+  "works": [
+   "ヘタリア"
+  ],
+  "id": "x-hetalia20-osaka"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-10-28T23:59",
+  "eventDate": "2026-10-17T00:00",
+  "platform": "site",
+  "source": "原画展.info",
+  "summary": "헤타리아 20주년 원화전 도쿄 회장. 오사카는 11/7~11/23.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "ヘタリア20周年原画展 WorldFesta（東京）",
+  "url": "https://gengaten.info/category/2026/",
+  "venue": "東京",
+  "works": [
+   "ヘタリア"
+  ],
+  "id": "x-hetalia20-tokyo"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-11-29T23:59",
+  "eventDate": "2026-11-14T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "호오즈키의 냉철 연재 15주년 특별 전시. 신규 일러스트 굿즈 선행 판매. 도쿄 텐노즈 원화전은 2027/2/4부터.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "鬼灯の冷徹 15周年記念 アニメイト特別展示",
+  "url": "https://collabo-cafe.com/events/category/gengaten-tenjikai/",
+  "venue": "アニメイト池袋本店・ラシック福岡天神店",
+  "works": [
+   "鬼灯の冷徹"
+  ],
+  "id": "x-hozuki15"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-12-07T23:59",
+  "eventDate": "2026-09-16T00:00",
+  "platform": "site",
+  "source": "原画展.info",
+  "summary": "MAPPA 15주년 전시.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "MAPPA EXPO 15th Anniversary",
+  "url": "https://gengaten.info/category/2026/",
+  "venue": "東京",
+  "works": [
+   "MAPPA"
+  ],
+  "id": "x-mappa-expo15"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2027-01-11T23:59",
+  "eventDate": "2026-11-28T00:00",
+  "platform": "site",
+  "source": "原画展.info",
+  "summary": "데빌맨·마징가Z의 나가이 고 화업을 돌아보는 교토 전시.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "不滅の力 永井豪 ―永井豪記念館リバイバル―",
+  "url": "https://gengaten.info/category/2026/",
+  "venue": "京都",
+  "works": [
+   "永井豪"
+  ],
+  "id": "x-nagaigo-kyoto"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "",
+  "eventDate": "2026-11-28T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "나츠노 히로코 10년치 원화전. 교토는 2027/1/8부터.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "夏野寛子展",
+  "url": "https://collabo-cafe.com/events/tag/gengaten/",
+  "venue": "有楽町マルイ",
+  "works": [
+   "夏野寛子",
+   "25時、赤坂で"
+  ],
+  "id": "x-natsuno-ten"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-12-20T23:59",
+  "eventDate": "2026-11-13T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "월간소녀 노자키군 15주년 전시, 사이타마·신주쿠 순차 개최.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "月刊少女野崎くん 15周年展",
+  "url": "https://collabo-cafe.com/events/category/gengaten-tenjikai/",
+  "venue": "埼玉・新宿",
+  "works": [
+   "月刊少女野崎くん"
+  ],
+  "id": "x-nozaki15"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2027-02-08T23:59",
+  "eventDate": "2026-10-28T00:00",
+  "platform": "site",
+  "source": "メディア芸術カレントコンテンツ",
+  "summary": "하기오 모토, 야마기시 료코, 야마토 와키 3인의 소녀만화 전시.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "少女漫画・インフィニティ 萩尾望都×山岸凉子×大和和紀 三人展",
+  "url": "https://macc.bunka.go.jp/558/",
+  "venue": "国立新美術館",
+  "works": [
+   "萩尾望都",
+   "山岸凉子",
+   "大和和紀"
+  ],
+  "id": "x-shojo-infinity"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2026-11-23T23:59",
+  "eventDate": "2026-08-08T00:00",
+  "platform": "site",
+  "source": "日本漫画家協会",
+  "summary": "츠노다 지로 탄생 90주년 기념전.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "生誕90周年記念 つのだじろう なんでも描いてやろう！",
+  "url": "https://nihonmangakakyokai.or.jp/archives/tag/%E5%B1%95%E8%A6%A7%E4%BC%9A%EF%BD%A5%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E6%83%85%E5%A0%B1",
+  "venue": "豊島区立トキワ荘マンガミュージアム",
+  "works": [
+   "つのだじろう"
+  ],
+  "id": "x-tsunoda90"
+ },
+ {
+  "addedAt": "2026-10-18T11:00:00+09:00",
+  "category": "exhibit",
+  "deadline": "",
+  "endDate": "2027-05-09T23:59",
+  "eventDate": "2026-12-11T00:00",
+  "platform": "site",
+  "source": "コラボカフェ",
+  "summary": "우주전함 야마토 전기록전, 키타센주·쿠레 개최.",
+  "ticketOpen": "",
+  "ticketUrl": "",
+  "title": "宇宙戦艦ヤマト 全記録展",
+  "url": "https://collabo-cafe.com/events/category/gengaten-tenjikai/",
+  "venue": "北千住・呉",
+  "works": [
+   "宇宙戦艦ヤマト"
+  ],
+  "id": "x-yamato-zenkiroku"
+ }
+]
