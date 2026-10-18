@@ -4,6 +4,7 @@
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
   python3 collector.py           소식 수집 → data/items.json, data/meta.json
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
+  python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
 직접 추가할 소식은 data/manual.json, 공개 보드에서 빼고 싶은 소식은 data/blocklist.json에 적는다.
 
 (아래는 원래 설명)
@@ -468,8 +469,26 @@ def export_anime(ref):
     print(f"→ data/anime.json {len(doc['list'])}편, 썸네일 새로 {got}개 (전체 {len(thumbs)}개)")
 
 
+def check():
+    """소스마다 가져오기만 해 보고 결과를 출력한다. 파일은 쓰지 않는다. 실패가 있으면 종료 코드 1."""
+    ref = datetime.now(JST)
+    bad = 0
+    for src in SOURCES:
+        name = src.get("name", src["type"])
+        try:
+            got = collect(src, ref)
+            print(f"OK   {name}: {len(got)}건")
+        except Exception as e:
+            bad += 1
+            print(f"FAIL {name}: {e}")
+    print(f"→ 실패 {bad}/{len(SOURCES)}")
+    return 1 if bad else 0
+
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(DATA, "thumbs"), exist_ok=True)
+    if "--check" in sys.argv:
+        sys.exit(check())
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
     else:
