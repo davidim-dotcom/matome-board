@@ -4,13 +4,19 @@
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
   python3 collector.py           소식 수집 → data/items.json, data/meta.json
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
+  python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
 직접 추가할 소식은 data/manual.json, 공개 보드에서 빼고 싶은 소식은 data/blocklist.json에 적는다.
 
 (아래는 원래 설명)
 
   - site     : 사이트 주소만 적으면 RSS를 스스로 찾아서 읽음
-  - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로)
+  - rss      : 공식 사이트 뉴스 RSS, 또는 직접 띄운 RSSHub 주소(X·인스타 경로). Google 뉴스 사이트맵도 읽음.
+               "headers": {...} 를 주면 요청에 함께 보냄(쿠키 등)
   - youtube  : 유튜브 채널 RSS (API 키 불필요)
+  - wpjson   : WordPress REST API 글 목록(/wp-json/wp/v2/posts?...). RSS가 비어 있는 WP 사이트용.
+               "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
+  - json     : 임의의 JSON API. "items"(목록 키 경로) "title" "body" "date" 필드명과 "link" 틀("https://…/{id}")을 적는다
+  공통 옵션: "works": [...] 모든 소식에 붙일 작품 태그, "extra_words": [...] MUST_HAVE_ANY 에 더할 통과 단어
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
 실행: python3 collector.py          →  items.json(소식)
@@ -24,6 +30,7 @@ import json, os, re, sys, html
 import urllib.request, urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 
 JST = timezone(timedelta(hours=9))
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -32,24 +39,39 @@ OUT = os.path.join(DATA, "items.json")
 KEEP = 600  # items.json에 남길 최대 건수
 
 # ── 여기만 고쳐서 쓰면 된다 ─────────────────────────────────────
+VTUBER_WORDS = ["グッズ", "フェア", "物販", "受注", "周年", "お披露目", "展"]  # 버튜버 전용 소스에서 추가로 통과시키는 단어
+FRESH_DAYS = 60  # 게시일이 이보다 오래된 글은 피드에 남아 있어도 무시(오래된 글이 쌓인 피드 대비)
 SOURCES = [
     # 넓게 훑는 뉴스 소스: 유행 감지의 재료이자, 공연·이벤트 공지만 걸러서 보드로 보냄
-    {"type": "site", "name": "コミックナタリー", "url": "https://natalie.mu/comic"},
-    {"type": "site", "name": "音楽ナタリー", "url": "https://natalie.mu/music"},
+    # natalie.mu는 GitHub Actions(해외 IP)의 모든 요청을 405로 거부해 수집 불가(2026-10 확인). 국내 PC에서 돌릴 때만 켤 것.
+    # {"type": "rss", "name": "コミックナタリー", "url": "https://natalie.mu/comic/feed/news"},
+    # {"type": "rss", "name": "音楽ナタリー", "url": "https://natalie.mu/music/feed/news"},
     {"type": "site", "name": "アニメ!アニメ!", "url": "https://animeanime.jp/"},
-    {"type": "site", "name": "アニメイトタイムズ", "url": "https://www.animatetimes.com/"},
-    {"type": "site", "name": "アニメハック", "url": "https://anime.eiga.com/"},
-    {"type": "site", "name": "電撃オンライン", "url": "https://dengekionline.com/"},
+    # アニメイトタイムズ: RSS 없음(/rss/*.xml 은 빈 응답). 2026-10 확인.
+    # {"type": "site", "name": "アニメイトタイムズ", "url": "https://www.animatetimes.com/"},
+    {"type": "rss", "name": "アニメハック", "url": "https://anime.eiga.com/feed/news/rss.xml"},
+    # 電撃オンライン: RSS가 없어 Google 뉴스 사이트맵(제목+링크만)을 피드처럼 읽음
+    {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml"},
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
-    # 콜라보 카페·팝업
-    {"type": "site", "name": "コラボカフェ", "url": "https://collabo-cafe.com/"},
+    # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
+    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_fields=title,excerpt,link",
+     "link_prefix": "https://collabo-cafe.com/events/"},  # 콜라보 글은 'event' 글 타입. 번역본(/en/, /zh-hant/ …)은 링크 접두사로 걸러낸다
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},
     # 공식 행사·동인 즉매회
-    {"type": "site", "name": "コミックマーケット", "url": "https://www.comiket.co.jp/"},
-    {"type": "site", "name": "同人イベントNAVI", "url": "https://shimeken.com/"},
+    # コミックマーケット, 同人イベントNAVI(shimeken.com): RSS 없음. 2026-10 확인. 소식은 data/manual.json에 직접 추가.
+    # {"type": "site", "name": "コミックマーケット", "url": "https://www.comiket.co.jp/"},
+    # {"type": "site", "name": "同人イベントNAVI", "url": "https://shimeken.com/"},
     {"type": "site", "name": "スイーツパラダイス", "url": "https://www.sweets-paradise.jp/collaboration/"},
+    # 버튜버 이벤트·라이브·상품전. 전용 소스라 그룹명을 작품 태그로 붙이고, 굿즈·전시 단어도 통과시킨다
+    {"type": "rss", "name": "PANORA", "url": "https://panora.tokyo/feed", "extra_words": VTUBER_WORDS},
+    {"type": "rss", "name": "KAI-YOU", "url": "https://kai-you.net/contents/feed.rss"},
+    {"type": "rss", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS},
+    {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
+    # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
+    {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
+     "title": "title", "date": "publishedAtForUser", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
@@ -148,7 +170,8 @@ def classify(text, default="other"):
 
 def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
-    if MUST_HAVE_ANY and default_cat != "stream" and not any(w in text for w in MUST_HAVE_ANY):
+    words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
+    if words and default_cat != "stream" and not any(w in text for w in words):
         return None
     event = opening = deadline = end = ""
     rng = re.search(DATE_RE.pattern + r"\s*[〜～~\-－]\s*" + DATE_RE.pattern.replace("?P<", "?P<e_"), text)
@@ -177,17 +200,69 @@ def build(title, body, link, src, ref, default_cat="other"):
     }
 
 
+def parse_when(text):
+    """RFC 822(RSS pubDate)나 ISO 8601(Atom, 사이트맵, WP) 날짜 문자열 → aware datetime. 모르면 None."""
+    text = (text or "").strip()
+    if not text:
+        return None
+    try:
+        dt = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        try:
+            dt = parsedate_to_datetime(text)
+        except Exception:
+            return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=JST)
+
+
 def parse_feed(xml_bytes):
+    """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None)]"""
     root = ET.fromstring(xml_bytes)
-    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/"}
+    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/"}
     entries = []
-    for it in root.iter("item"):  # RSS 2.0
-        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or ""))
+    for it in root.iter("item"):  # RSS 2.0 (RSS 1.0/RDF 의 item 도 잡힌다)
+        when = parse_when(it.findtext("pubDate") or it.findtext("dc:date", default="", namespaces=ns))
+        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when))
     for e in root.findall("a:entry", ns):  # Atom(유튜브 포함)
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
-        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else ""))
+        when = parse_when(e.findtext("a:published", default="", namespaces=ns) or e.findtext("a:updated", default="", namespaces=ns))
+        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else "", when))
+    sm = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "n": "http://www.google.com/schemas/sitemap-news/0.9"}
+    for u in root.findall("s:url", sm):  # Google 뉴스 사이트맵(RSS가 없는 사이트용): 제목과 링크만 있다
+        title = u.findtext("n:news/n:title", default="", namespaces=sm)
+        if title:
+            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm), parse_when(u.findtext("n:news/n:publication_date", default="", namespaces=sm))))
     return entries
+
+
+def wp_entries(data, link_prefix=""):
+    """WordPress REST API(/wp-json/wp/v2/posts 등)의 글 목록을 (제목, 발췌, 링크)로. RSS가 비어 있는 WP 사이트용.
+    link_prefix 를 주면 그 주소로 시작하는 글만 남긴다(다국어 사이트의 번역본 제외용)."""
+    if not isinstance(data, list):
+        raise ValueError(f"WP REST 응답이 목록이 아님: {str(data)[:80]}")
+    return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""), parse_when(p.get("date_gmt") and p["date_gmt"] + "+00:00" or p.get("date")))
+            for p in data if isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)]
+
+
+def json_entries(data, src):
+    """임의의 JSON API 글 목록 → (제목, 본문, 링크, 게시일).
+    src: "items" 목록까지의 키 경로("a.b"), "title"/"body"/"date" 필드명, "link" 은 "https://…/{id}" 처럼 필드명을 끼운 틀."""
+    for k in [k for k in src.get("items", "").split(".") if k]:
+        data = data[k]
+    if not isinstance(data, list):
+        raise ValueError(f"JSON 글 목록이 아님: {str(data)[:80]}")
+    out = []
+    for x in data:
+        if not isinstance(x, dict):
+            continue
+        body = str(x.get(src["body"], "") or "") if src.get("body") else ""
+        try:
+            link = src["link"].format(**{k: v for k, v in x.items() if isinstance(v, (str, int))})
+        except (KeyError, IndexError):
+            continue
+        out.append((str(x.get(src.get("title", "title"), "") or ""), body, link, parse_when(str(x.get(src.get("date", ""), "") or ""))))
+    return out
 
 
 CACHE = os.path.join(DATA, ".feedcache.json")
@@ -219,12 +294,21 @@ SEEN_TEXT = []  # 유행 감지용: (제목+본문)
 
 def collect(src, ref):
     t = src["type"]
-    if t in ("rss", "youtube", "site"):
-        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]),
+    if t in ("rss", "youtube", "site", "wpjson", "json"):
+        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"], "json": lambda: src["url"],
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
+        raw = fetch(url, src.get("headers"))
+        if t == "wpjson":
+            entries = wp_entries(json.loads(raw), src.get("link_prefix", ""))
+        elif t == "json":
+            entries = json_entries(json.loads(raw), src)
+        else:
+            entries = parse_feed(raw)
         out = []
-        for ti, de, li in parse_feed(fetch(url)):
+        for ti, de, li, when in entries:
+            if when and when < ref - timedelta(days=FRESH_DAYS):
+                continue
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
@@ -468,8 +552,26 @@ def export_anime(ref):
     print(f"→ data/anime.json {len(doc['list'])}편, 썸네일 새로 {got}개 (전체 {len(thumbs)}개)")
 
 
+def check():
+    """소스마다 가져오기만 해 보고 결과를 출력한다. 파일은 쓰지 않는다. 실패가 있으면 종료 코드 1."""
+    ref = datetime.now(JST)
+    bad = 0
+    for src in SOURCES:
+        name = src.get("name", src["type"])
+        try:
+            got = collect(src, ref)
+            print(f"OK   {name}: {len(got)}건")
+        except Exception as e:
+            bad += 1
+            print(f"FAIL {name}: {e}")
+    print(f"→ 실패 {bad}/{len(SOURCES)}")
+    return 1 if bad else 0
+
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(DATA, "thumbs"), exist_ok=True)
+    if "--check" in sys.argv:
+        sys.exit(check())
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
     else:

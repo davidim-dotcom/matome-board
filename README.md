@@ -12,7 +12,7 @@ GitHub Pages로 공개되고, GitHub Actions가 하루 4번(일본 시간 6·12�
 3. **자동 업데이트 권한**: *Settings → Actions → General → Workflow permissions*에서 `Read and write permissions`를 고릅니다.
 4. **(선택) 키 등록**: *Settings → Secrets and variables → Actions → New repository secret*
    - `ANNICT_TOKEN`: annict.com 설정 → 애플리케이션에서 발급. 방영 목록 갱신과 공식 사이트 썸네일에 사용.
-   - `HOLODEX_API_KEY`: holodex.net 계정 설정에서 발급. 버튜버 방송 예정에 사용.
+   - `HOLODEX_API_KEY`: holodex.net 계정 설정에서 발급. 버튜버 방송 예정에 사용. (키가 없어도 ホロライブ·にじさんじ·ぶいすぽっ 공식 뉴스와 PANORA 의 버튜버 이벤트·굿즈 소식은 들어옵니다.)
    키가 없어도 뉴스 수집과 PV 썸네일은 동작합니다.
 5. **첫 실행**: *Actions → 소식 자동 업데이트 → Run workflow*. 이후로는 알아서 돌아갑니다.
 
@@ -22,7 +22,7 @@ GitHub Pages로 공개되고, GitHub Actions가 하루 4번(일본 시간 6·12�
 |---|---|
 | 소식을 직접 추가 | `data/manual.json` |
 | 공개 보드에서 소식 빼기 | `data/blocklist.json` (`urls`, `titles`에 추가) |
-| 수집할 사이트 바꾸기 | `collector.py`의 `SOURCES` |
+| 수집할 사이트 바꾸기 | `collector.py`의 `SOURCES` (고친 뒤 *Actions → 소스 점검 → Run workflow*로 OK/FAIL 확인) |
 | 방송 요일·시각 고치기 | `data/anime.json` |
 
 GitHub 웹에서 파일을 열고 연필 아이콘으로 고친 뒤 *Commit changes*를 누르면 몇 분 안에 반영됩니다.
