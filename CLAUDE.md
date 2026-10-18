@@ -31,13 +31,14 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 ```json
 {"title":"", "category":"live", "source":"출처", "platform":"site|rss|wpjson|json|youtube|holodex",
  "works":["작품명"], "eventDate":"2026-12-19T18:00", "endDate":"", "ticketOpen":"", "deadline":"",
- "venue":"", "ticketUrl":"", "url":"원문", "summary":"", "addedAt":"ISO"}
+ "venue":"", "ticketUrl":"", "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)", "addedAt":"ISO"}
 ```
 
 - 날짜는 **JST**이며 시간대 표기가 없으면 페이지가 `+09:00`을 붙여 해석한다.
 - `category`는 `live event official doujin collab popup exhibit manga goods stream campaign other` 중 하나. 모르는 값은 페이지에서 `other`로 떨어진다.
 - `id`는 저장하지 않고 페이지가 `hashId(url|title|eventDate)`로 만든다. 따라서 **title·url·eventDate가 바뀌면 다른 항목**이 되어 각자의 "관심 있어요/숨김" 기록과 끊어진다.
 - 수집기 쪽 중복 판정은 `(url, title)` 쌍이다.
+- `image`는 **주소만** 둔다(파일은 저장하지 않음). 수집기가 피드의 enclosure/media/본문 `<img>`, WP 대표 이미지, JSON의 image 키에서 뽑고, 없으면 기사 페이지의 og:image를 찾는다(`fill_images`, 실행당 `IMAGE_FILL_MAX`=120건, 키가 없으면 아직 안 해 본 것 · `""`면 해 봤지만 없는 것). 페이지는 https 주소만 받아 84px 썸네일로 보여 주고, 못 불러오면 조용히 지운다(`onerror`). 방영 목록 썸네일(`data/thumbs/`)과는 다른 경로다.
 
 ### 방영 목록 (`anime.json`)
 

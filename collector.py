@@ -17,6 +17,8 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
                "link_prefix" 를 주면 그 주소로 시작하는 글만 남김(번역본 제외)
   - json     : 임의의 JSON API. "items"(목록 키 경로) "title" "body" "date" 필드명과 "link" 틀("https://…/{id}")을 적는다
   공통 옵션: "works": [...] 모든 소식에 붙일 작품 태그, "extra_words": [...] MUST_HAVE_ANY 에 더할 통과 단어
+썸네일: 피드의 enclosure/media:*/본문 <img>, WP 대표 이미지, JSON 의 image 키에서 그림 주소를 "image" 에 담고,
+        없으면 기사 페이지의 og:image 를 찾는다(실행당 IMAGE_FILL_MAX 건). 그림 파일은 저장하지 않고 주소만 둔다.
   - holodex  : 버튜버 방송 예정 (환경변수 HOLODEX_API_KEY 필요)
 
 실행: python3 collector.py          →  items.json(소식)
@@ -55,7 +57,7 @@ SOURCES = [
     {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
     # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
-    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_fields=title,excerpt,link",
+    {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_embed=wp:featuredmedia&_fields=title,excerpt,link,date_gmt,_links,_embedded",
      "link_prefix": "https://collabo-cafe.com/events/"},  # 콜라보 글은 'event' 글 타입. 번역본(/en/, /zh-hant/ …)은 링크 접두사로 걸러낸다
     # 만화·전시
     {"type": "site", "name": "原画展.info", "url": "https://gengaten.info/"},
@@ -71,7 +73,7 @@ SOURCES = [
     {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
-     "title": "title", "date": "publishedAtForUser", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
+     "title": "title", "date": "publishedAtForUser", "image": "thumbnail.url", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
@@ -215,24 +217,53 @@ def parse_when(text):
     return dt if dt.tzinfo else dt.replace(tzinfo=JST)
 
 
+IMG_SRC_RE = re.compile(r"<img[^>]+src=[\"']([^\"']+)", re.I)
+
+
+def first_img(html_text):
+    """본문 HTML 속 첫 <img src>. 1px 추적 이미지·이모지는 건너뛴다."""
+    for u in IMG_SRC_RE.findall(html_text or ""):
+        u = html.unescape(u)
+        if re.search(r"emoji|/s\.w\.org/|pixel|1x1|spacer|blank\.gif|feedburner|gravatar", u, re.I):
+            continue
+        return u
+    return ""
+
+
+def feed_image(el, ns):
+    """RSS/Atom 항목에서 대표 이미지 주소: enclosure → media:content/thumbnail → 본문 첫 <img> 순."""
+    for tag in ("enclosure", "media:content", "media:thumbnail"):
+        for m in el.findall(tag, ns):
+            u = m.get("url") or m.get("href") or ""
+            if u and (tag != "enclosure" or (m.get("type") or "image").startswith("image")):
+                return u
+    for m in el.findall("media:group/media:thumbnail", ns):
+        if m.get("url"):
+            return m.get("url")
+    return first_img((el.findtext("content:encoded", default="", namespaces=ns) or "") + (el.findtext("description") or "")
+                     + (el.findtext("a:content", default="", namespaces=ns) or "") + (el.findtext("a:summary", default="", namespaces=ns) or ""))
+
+
 def parse_feed(xml_bytes):
-    """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None)]"""
+    """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None, 이미지 주소)]"""
     root = ET.fromstring(xml_bytes)
-    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/"}
+    ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/",
+          "content": "http://purl.org/rss/1.0/modules/content/"}
     entries = []
     for it in root.iter("item"):  # RSS 2.0 (RSS 1.0/RDF 의 item 도 잡힌다)
         when = parse_when(it.findtext("pubDate") or it.findtext("dc:date", default="", namespaces=ns))
-        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when))
+        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when, feed_image(it, ns)))
     for e in root.findall("a:entry", ns):  # Atom(유튜브 포함)
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
         when = parse_when(e.findtext("a:published", default="", namespaces=ns) or e.findtext("a:updated", default="", namespaces=ns))
-        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else "", when))
-    sm = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "n": "http://www.google.com/schemas/sitemap-news/0.9"}
+        entries.append((e.findtext("a:title", default="", namespaces=ns), desc, link.get("href") if link is not None else "", when, feed_image(e, ns)))
+    sm = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9", "n": "http://www.google.com/schemas/sitemap-news/0.9", "i": "http://www.google.com/schemas/sitemap-image/1.1"}
     for u in root.findall("s:url", sm):  # Google 뉴스 사이트맵(RSS가 없는 사이트용): 제목과 링크만 있다
         title = u.findtext("n:news/n:title", default="", namespaces=sm)
         if title:
-            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm), parse_when(u.findtext("n:news/n:publication_date", default="", namespaces=sm))))
+            entries.append((title, "", u.findtext("s:loc", default="", namespaces=sm), parse_when(u.findtext("n:news/n:publication_date", default="", namespaces=sm)),
+                            u.findtext("i:image/i:loc", default="", namespaces=sm)))
     return entries
 
 
@@ -241,13 +272,23 @@ def wp_entries(data, link_prefix=""):
     link_prefix 를 주면 그 주소로 시작하는 글만 남긴다(다국어 사이트의 번역본 제외용)."""
     if not isinstance(data, list):
         raise ValueError(f"WP REST 응답이 목록이 아님: {str(data)[:80]}")
-    return [((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""), parse_when(p.get("date_gmt") and p["date_gmt"] + "+00:00" or p.get("date")))
-            for p in data if isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)]
+    out = []
+    for p in data:
+        if not (isinstance(p, dict) and (p.get("link") or "").startswith(link_prefix)):
+            continue
+        media = ((p.get("_embedded") or {}).get("wp:featuredmedia") or [{}])[0] or {}
+        sizes = (media.get("media_details") or {}).get("sizes") or {}
+        img = (sizes.get("medium_large") or sizes.get("medium") or {}).get("source_url") or media.get("source_url") \
+            or p.get("jetpack_featured_media_url") or first_img((p.get("content") or {}).get("rendered", ""))
+        out.append(((p.get("title") or {}).get("rendered", ""), (p.get("excerpt") or {}).get("rendered", ""), p.get("link", ""),
+                    parse_when(p.get("date_gmt") and p["date_gmt"] + "+00:00" or p.get("date")), img or ""))
+    return out
 
 
 def json_entries(data, src):
     """임의의 JSON API 글 목록 → (제목, 본문, 링크, 게시일).
-    src: "items" 목록까지의 키 경로("a.b"), "title"/"body"/"date" 필드명, "link" 은 "https://…/{id}" 처럼 필드명을 끼운 틀."""
+    src: "items" 목록까지의 키 경로("a.b"), "title"/"body"/"date" 필드명, "image" 는 이미지 주소까지의 키 경로("thumbnail.url"),
+    "link" 은 "https://…/{id}" 처럼 필드명을 끼운 틀."""
     for k in [k for k in src.get("items", "").split(".") if k]:
         data = data[k]
     if not isinstance(data, list):
@@ -261,7 +302,11 @@ def json_entries(data, src):
             link = src["link"].format(**{k: v for k, v in x.items() if isinstance(v, (str, int))})
         except (KeyError, IndexError):
             continue
-        out.append((str(x.get(src.get("title", "title"), "") or ""), body, link, parse_when(str(x.get(src.get("date", ""), "") or ""))))
+        img = x
+        for k in [k for k in (src.get("image") or "").split(".") if k]:
+            img = img.get(k) if isinstance(img, dict) else None
+        out.append((str(x.get(src.get("title", "title"), "") or ""), body, link, parse_when(str(x.get(src.get("date", ""), "") or "")),
+                    img if isinstance(img, str) else ""))
     return out
 
 
@@ -306,13 +351,15 @@ def collect(src, ref):
         else:
             entries = parse_feed(raw)
         out = []
-        for ti, de, li, when in entries:
+        for ti, de, li, when, img in entries:
             if when and when < ref - timedelta(days=FRESH_DAYS):
                 continue
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
-            if x: out.append(x)
+            if x:
+                if img: x["image"] = urllib.parse.urljoin(li or src.get("url", ""), img.strip())  # 피드에 그림이 있으면 그대로, 없으면 main()에서 og:image 를 찾는다
+                out.append(x)
         return out
     if t == "holodex":
         key = os.environ.get("HOLODEX_API_KEY")
@@ -326,7 +373,7 @@ def collect(src, ref):
             start = v.get("start_scheduled", "")
             ev = datetime.fromisoformat(start.replace("Z", "+00:00")).astimezone(JST).strftime("%Y-%m-%dT%H:%M") if start else ""
             ch = (v.get("channel") or {}).get("name", "")
-            out.append({"title": v.get("title", "")[:200], "category": "stream", "source": ch, "platform": "holodex",
+            out.append({"title": v.get("title", "")[:200], "category": "stream", "source": ch, "platform": "holodex", "image": f"https://i.ytimg.com/vi/{v.get('id','')}/mqdefault.jpg" if v.get("id") else "",
                         "works": [ch] if ch else [], "eventDate": ev, "ticketOpen": "", "deadline": "", "venue": "",
                         "ticketUrl": "", "url": f"https://www.youtube.com/watch?v={v.get('id','')}", "summary": ""})
         return out
@@ -426,6 +473,7 @@ def main():
             print(f"{src.get('name', src['type'])}: 실패 ({e})", file=sys.stderr)
     for n in new:
         n["addedAt"] = ref.isoformat()
+    fill_images(new + old)
     update_trends(_tr, ref)
     json.dump(_cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False)
     # 정리: 끝난 지 30일 넘은 것, 날짜 없이 45일 지난 것, 차단 목록에 걸린 것은 뺀다
@@ -449,6 +497,26 @@ def main():
     meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "count": len(items)})
     save_json(os.path.join(DATA, "meta.json"), meta)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
+
+
+IMAGE_FILL_MAX = 120  # 한 번 실행에서 기사 페이지를 열어 og:image 를 찾아볼 최대 건수
+
+
+def fill_images(items):
+    """피드에 그림이 없던 소식은 기사 페이지의 og:image 를 찾아 "image" 에 넣는다.
+    "image" 키가 없으면 아직 안 해 본 것, "" 이면 해 봤지만 없는 것. 새 소식부터 차례로 IMAGE_FILL_MAX 건까지."""
+    tried = got = 0
+    for it in items:
+        if "image" in it or not it.get("url"):
+            continue
+        if tried >= IMAGE_FILL_MAX:
+            break
+        tried += 1
+        it["image"] = og_image(it["url"])
+        if it["image"]:
+            got += 1
+    if tried:
+        print(f"썸네일: 기사 {tried}건 확인, {got}건에서 og:image 찾음")
 
 
 def og_image(site):
@@ -560,7 +628,7 @@ def check():
         name = src.get("name", src["type"])
         try:
             got = collect(src, ref)
-            print(f"OK   {name}: {len(got)}건")
+            print(f"OK   {name}: {len(got)}건 (피드에 그림 {sum(1 for g in got if g.get('image'))}건)")
         except Exception as e:
             bad += 1
             print(f"FAIL {name}: {e}")
