@@ -37,6 +37,9 @@ jobs:
           ANNICT_TOKEN: ${{ secrets.ANNICT_TOKEN }}
         run: python collector.py --anime
 
+      - name: 연재 만화 색인
+        run: python collector.py --comics
+
       - name: 바뀐 내용 저장
         run: |
           git config user.name "matome-bot"

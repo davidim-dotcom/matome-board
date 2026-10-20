@@ -22,24 +22,13 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 디시 점검 (임시)
+      - name: 연재 만화 시험 (임시)
         if: always()
         run: |
+          python collector.py --comics
           python - <<'PY'
-          import re, gzip, html, urllib.request, urllib.error
-          H = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
-               "Accept": "text/html,*/*", "Accept-Language": "ko", "Accept-Encoding": "gzip", "Referer": "https://m.dcinside.com/"}
-          def get(u):
-              with urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=20) as r:
-                  b = r.read(); b = gzip.decompress(b) if r.headers.get("content-encoding") == "gzip" else b
-                  return b.decode("utf-8", "replace")
-          t = get("https://m.dcinside.com/robots.txt"); i = t.find("그 외 모든 봇"); print("[robots m]", t[i-10:i+1200])
-          t = get("https://m.dcinside.com/board/comic_new6/6723707")
-          for kw in ["[시리즈]", "series", "시리즈"]:
-              for m in list(re.finditer(re.escape(kw), t))[:4]:
-                  print(f"\n[{kw} @ {m.start()}]", re.sub(r"\s+", " ", t[max(0, m.start()-300): m.start()+1500]))
-          print("\n[classes containing seri]", sorted(set(re.findall(r'class="([^"]*seri[^"]*)"', t))))
-          print("[adult markers]", sorted(set(re.findall(r'(adult[^"\s]{0,30}|성인[^<"]{0,20})', t)))[:15])
-          t = get("https://m.dcinside.com/board/comic_new6/6741849")
-          print("\n[POST 6741849] adult markers", sorted(set(re.findall(r'(adult[^"\s]{0,30}|성인[^<"]{0,20}|19금)', t)))[:15], "len", len(t))
+          import json; d=json.load(open("data/comics.json",encoding="utf-8")); S=d["series"]
+          print(len(S), "편; 회차 합계", sum(len(s["episodes"]) for s in S), "; 확인한 글", len(d["scanned"]))
+          for s in sorted(S, key=lambda s: -len(s["episodes"]))[:15]:
+              print(f'  {len(s["episodes"]):3d}화 | {s["name"][:26]} | {s["author"]} | rec {s["rec"]} | {s["updatedAt"]} | 최신 {s["episodes"][-1]["title"][:30]} | cover {"Y" if s["cover"] else "-"}')
           PY
