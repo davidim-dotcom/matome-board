@@ -945,7 +945,7 @@ DC_SEARCH_SLACK = 60000  # 검색 블록 위치(s_pos)는 삭제된 글을 빼�
 DC_UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
          "Accept-Language": "ko", "Referer": "https://m.dcinside.com/"}
 COMICS = os.path.join(DATA, "comics.json")
-COMICS_V = 2          # 형식·필터가 바뀌면 올린다. 올리면 확인한 글 목록을 비우고 표지를 다시 검사한다
+COMICS_V = 3          # 형식·필터가 바뀌면 올린다. 올리면 확인한 글 목록을 비우고 표지를 다시 검사한다
 EP_RE = re.compile(r"(\d+(?:[-~]\d+)?)\s*화|第\s*\d+\s*話|\b(?:ep|EP|Ep)\.?\s*\d+|#\d+|(?:^|\s)\d{1,4}(?:\s*,\s*\d{1,4})*\s*$")
 EP_NUM_RE = re.compile(r"(\d{1,4})\s*화?\s*(?:[\(\[（【][^)\]）】]*[\)\]）】]\s*)?$")  # 제목 끝의 회차 번호
 LINKS_RE = re.compile(r"링크\s*모음")
@@ -1299,6 +1299,10 @@ def export_comics(ref):
         author = p["uid"] or p["nick"]
         key = series_key(name, "") if series_key(name, "") in follow else series_key(name, author)
         s = by.get(key) or {"id": key, "name": name, "author": p["nick"], "episodes": [], "rec": 0, "cover": ""}
+        other = {no: g for g, no, _ in eps if g != DC_GALL}
+        for e in s["episodes"]:  # 예전 형식은 갤러리를 몰라 옛 갤러리 화도 기본 갤러리로 적혀 있다 → 상자에서 알게 된 갤러리로 고친다
+            if not e.get("g") and e["no"] in other:
+                e["g"] = other[e["no"]]
         known = {ep_ref(e): e for e in s["episodes"]}
         for g, no, t in eps:  # [시리즈] 상자의 순서가 작가가 정한 회차 순서
             e = {"no": no, "title": t} | ({"g": g} if g != DC_GALL else {})
@@ -1319,6 +1323,16 @@ def export_comics(ref):
             recover(s)
         if s["id"] in follow:
             s["title"] = follow[s["id"]]["title"]
+    # 같은 이름의 작품 중 회차가 다른 작품에 다 들어 있는 것은 뺀다(낚시글 작성자 이름으로 생겼던 묶음 등)
+    groups = {}
+    for s in by.values():
+        groups.setdefault(series_key(s.get("title") or s["name"], ""), []).append(s)
+    for g in groups.values():
+        for a in g:
+            na = {e["no"] for e in a["episodes"]}
+            if any(b is not a and na <= {e["no"] for e in b["episodes"]} and (len(b["episodes"]) > len(na) or b.get("updatedAt", "") > a.get("updatedAt", ""))
+                   for b in g):
+                by.pop(a["id"], None)
     cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
     series = [s for s in by.values() if (s.get("updatedAt", "") >= cutoff or s["id"] in follow) and s["episodes"]
               and not any(k in s["name"].lower() or k in s.get("title", "").lower() or k == s["author"].lower() for k in block)
