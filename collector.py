@@ -1091,9 +1091,9 @@ def expand_links(eps, n=6):
         time.sleep(1)
         box = [e for e in parse_post(t)[1] if not LINKS_RE.search(e[2])]
         # 상자는 50개까지만 보이므로 나머지 화는 본문에 붙은 링크에서 읽는다(상자 속 회차와 같은 작품 이름인 링크만)
-        bases = {series_key(strip_ep(x[2]), "") for x in box if ep_num(x[2])}
+        bases = {series_base(x[2]) for x in box if ep_num(x[2])}
         seen = {(x[0], x[1]) for x in box}
-        out += box + [e for e in dc_links(t) if series_key(strip_ep(e[2]), "") in bases and (e[0], e[1]) not in seen]
+        out += box + [e for e in dc_links(t) if series_base(e[2]) in bases and (e[0], e[1]) not in seen]
     return out
 
 
@@ -1139,17 +1139,10 @@ def ep_ref(e):
     return f"{e.get('g') or DC_GALL}/{e['no']}"
 
 
-def num_order(eps):
-    """회차 번호 순으로 세우고 같은 번호는 먼저 나온 글만 둔다(번호 없는 화는 바로 앞 화 뒤). 고정 추적 작품에 쓴다."""
-    keyed, last, seen = [], 0, set()
-    for i, e in enumerate(eps):
-        n = ep_num(e["title"])
-        if n is not None and n in seen:
-            continue
-        seen.add(n)
-        last = n if n is not None else last
-        keyed.append(((last, n is not None, i), e))
-    return [e for _, e in sorted(keyed, key=lambda x: x[0])]
+def series_base(title):
+    """제목 → 회차·말머리를 뗀 비교용 이름. 오타가 잦아 너그럽게 뗀다('번엽) … 모음62' → '…모음')"""
+    t = re.sub(r"^\s*[^\s()]{1,5}\)\s*", "", title or "")
+    return series_key(re.sub(r"\d+\s*화?\s*$", "", strip_ep(t)), "")
 
 
 def merge_order(old, new):
@@ -1253,12 +1246,15 @@ def export_comics(ref):
         have = {ep_ref(e) for e in s["episodes"]}
         for row in dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor):
             ref_ = f"{DC_GALL}/{row['no']}"
-            if row["no"] > floor and ref_ not in have and ref_ not in bad and ep_num(row["title"]) \
-                    and series_key(strip_ep(row["title"]), "") == fk:
-                s["episodes"].append({"no": row["no"], "title": row["title"]}); have.add(ref_)
+            # 회차 번호는 오타가 잦아(같은 번호 두 번, 번호 건너뜀) 순서는 모음 글 순서 + 그 뒤 글 번호 순으로 둔다
+        new = {ep_num(e["title"]) for e in s["episodes"] if not e.get("g") and e["no"] > floor}
+        for row in sorted(dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor), key=lambda r: r["no"]):
+            ref_, n = f"{DC_GALL}/{row['no']}", ep_num(row["title"])
+            if row["no"] > floor and ref_ not in have and ref_ not in bad and n and n not in new \
+                    and series_base(row["title"]) == fk:
+                s["episodes"].append({"no": row["no"], "title": row["title"]}); have.add(ref_); new.add(n)
         if b[0] >= 0 and newest:
             s["seenTo"] = newest
-        s["episodes"] = num_order(s["episodes"])
         last = s["episodes"][-1]
         if not last.get("date"):  # 최신 화를 열어 날짜·표지를 얻는다
             try:
@@ -1324,7 +1320,6 @@ def export_comics(ref):
         if any(ep_ref(e) in bad for e in s["episodes"]) or s.get("coverNo") in bad:
             recover(s)
         if s["id"] in follow:
-            s["episodes"] = num_order(s["episodes"])
             s["title"] = follow[s["id"]]["title"]
     cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
     series = [s for s in by.values() if (s.get("updatedAt", "") >= cutoff or s["id"] in follow) and s["episodes"]
