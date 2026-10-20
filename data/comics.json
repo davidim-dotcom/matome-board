@@ -1,6 +1,6 @@
 {
- "v": 2,
- "updated": "2026-10-21T00:57:18.927991+09:00",
+ "v": 3,
+ "updated": "2026-10-21T01:02:45.118042+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -71,7 +71,7 @@
      "date": "2026-10-21T00:37"
     }
    ],
-   "rec": 129,
+   "rec": 130,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc0c345a77f7b196cf2e550f36019d120dcb98857db261b6479fba602715118041fa6748e283601",
    "title": "히토너",
    "coverNo": "comic_new6/6747152",
@@ -159,7 +159,7 @@
      "date": "2026-10-20T23:03"
     }
    ],
-   "rec": 99,
+   "rec": 101,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc1c345c9e70e57d16072289679be05800b332debbc4c49d52257ae3b7e2f4ce7c19839d4862c0076",
    "title": "검성, 메이드 전생, 빗자루, 무쌍",
    "updatedAt": "2026-10-20T23:03",
@@ -176,7 +176,7 @@
      "date": "2026-10-20T22:21"
     }
    ],
-   "rec": 80,
+   "rec": 82,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc1c345c9e70e57d16072289679bb018b083524d47150b87dc2a1a0fe348e3db4d4a0202254df32",
    "title": "스카이 하이 헤븐",
    "updatedAt": "2026-10-20T22:21",
@@ -357,84 +357,11 @@
      "date": "2026-10-20T20:34"
     }
    ],
-   "rec": 94,
+   "rec": 96,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc1c345c9e70e57d16072289679b7088b0e332ec342b428ff9ea9567af4c38c87e65c679497bfbe",
    "title": "꿈 없는 선생님의 진로지도",
    "updatedAt": "2026-10-20T20:34",
    "coverNo": "comic_new6/6743582"
-  },
-  {
-   "id": "히토너|clearly7658",
-   "name": "히토너",
-   "author": "ㅇㅇ",
-   "episodes": [
-    {
-     "no": 173087,
-     "title": "번역) 히토너 [단편]"
-    },
-    {
-     "no": 3984851,
-     "title": "번역) 히토너 2화 (정식 연재)"
-    },
-    {
-     "no": 4098203,
-     "title": "번역) 히토너 3화"
-    },
-    {
-     "no": 4212233,
-     "title": "번역) 히토너 4화 (처녀막 상실)"
-    },
-    {
-     "no": 4413324,
-     "title": "번역) 히토너 5화 (불륜)"
-    },
-    {
-     "no": 4632788,
-     "title": "번역) 히토너 6화"
-    },
-    {
-     "no": 4869127,
-     "title": "번역) 히토너 7화 (새로운 히로인)"
-    },
-    {
-     "no": 5088783,
-     "title": "번역) 히토너 8화 (흑막)"
-    },
-    {
-     "no": 5289149,
-     "title": "번역) 히토너 9화 (출하 무빙)"
-    },
-    {
-     "no": 5515750,
-     "title": "번역) 히토너 10화 (역전재판)"
-    },
-    {
-     "no": 5734067,
-     "title": "번역) 히토너 11화 (패왕색 패기)"
-    },
-    {
-     "no": 5929123,
-     "title": "번역) 히토너 라이징"
-    },
-    {
-     "no": 6124187,
-     "title": "번역) 히토너 12화 (울트론 침공)"
-    },
-    {
-     "no": 6320261,
-     "title": "번역) 히토너 13화 (+ 1권 오마케)"
-    },
-    {
-     "no": 6747152,
-     "title": "번역) 히토너 14화",
-     "date": "2026-10-21T00:37"
-    }
-   ],
-   "rec": 137,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc0c345a77f7b196cf2e550f36019d120dcb98857db261b6479fba602715118041fa6748e283601",
-   "title": "히토너",
-   "updatedAt": "2026-10-20T19:07",
-   "coverNo": "comic_new6/6747152"
   },
   {
    "id": "사호코퀘스트|pizza3427",
@@ -447,7 +374,7 @@
      "date": "2026-10-20T16:21"
     }
    ],
-   "rec": 81,
+   "rec": 82,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc1c345c9e70e57d16072289679b8018c0e3b24961fd73ae1794a12e44820e7aa11a57a80c56b14",
    "title": "사호코 퀘스트",
    "updatedAt": "2026-10-20T16:21",
@@ -822,11 +749,11 @@
      "date": "2026-10-20T06:35"
     }
    ],
-   "rec": 67,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc1c345c9e70e57d16072289679b7008d0f352dda527bc4cc543c2a679554db2ee59f88c06fa8bf",
+   "rec": 68,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983a16e0ae4a5276bceda240e3f56e9530d9ff9565d5f28801781e",
    "title": "패계왕 ~가오가이가 대 베터맨",
    "updatedAt": "2026-10-20T06:35",
-   "coverNo": "comic_new6/6734532"
+   "coverNo": "comic_new6/6713961"
   },
   {
    "id": "요이미야나기가매니저에게야식을|kg5155",
@@ -981,10 +908,6 @@
    "episodes": [
     {
      "no": 523,
-     "title": "1화"
-    },
-    {
-     "no": 523,
      "title": "1화",
      "g": "ljmdream"
     },
@@ -1132,28 +1055,6 @@
    "coverNo": "comic_new6/6724561"
   },
   {
-   "id": "이상향여자도감|pill3546",
-   "name": "이상향 여자도감",
-   "author": "잇치",
-   "episodes": [
-    {
-     "no": 6709817,
-     "title": "번역) 이상향 여자도감 2-1화(셀프 질문 상자)",
-     "date": "2026-10-18T16:20"
-    },
-    {
-     "no": 6724088,
-     "title": "번역) 이상향 여자도감 2-2화(셀프 질문 상자)",
-     "date": "2026-10-19T14:48"
-    }
-   ],
-   "rec": 101,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec8c3450d6875b0db846224f4123b01e1aef3e1132bfd0fbc2de2d9fce671546bda839a53ba887d",
-   "title": "이상향 여자도감",
-   "updatedAt": "2026-10-19T14:48",
-   "coverNo": "comic_new6/6724088"
-  },
-  {
    "id": "착한아이의시간|nessydaddy",
    "name": "착한 아이의 시간",
    "author": "끄드럭",
@@ -1275,23 +1176,6 @@
    "title": "죄수전생",
    "updatedAt": "2026-10-19T00:19",
    "coverNo": "comic_new6/6716754"
-  },
-  {
-   "id": "츠루코의은혜갚기|nessydaddy",
-   "name": "츠루코의 은혜갚기",
-   "author": "끄드럭",
-   "episodes": [
-    {
-     "no": 6716056,
-     "title": "번역) 츠루코의 은혜갚기 1화 (넙치양 작가)",
-     "date": "2026-10-18T23:33"
-    }
-   ],
-   "rec": 251,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983a1de1a84f5c5db2f450c1b64c8275d23f858db7d7f303bb1421",
-   "title": "츠루코의 은혜갚기",
-   "updatedAt": "2026-10-18T23:33",
-   "coverNo": "comic_new6/6716056"
   },
   {
    "id": "봇펀맨|poiulkjhmmm",
@@ -2946,6 +2830,7 @@
   }
  ],
  "scanned": [
+  6713961,
   6714446,
   6716056,
   6716754,
