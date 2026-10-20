@@ -22,27 +22,44 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 표지 점검 (임시)
+      - name: 검색·히토너 점검 (임시)
         if: always()
         run: |
           pip install -q pillow
           python - <<'PY'
-          import json, hashlib, io, base64, sys
+          import json, re, io, sys, urllib.parse, html
           sys.path.insert(0, ".")
           import collector as C
           from PIL import Image
+          def dh(u):
+              im = Image.open(io.BytesIO(C.fetch(u, C.DC_UA))).convert("L").resize((9, 8), Image.LANCZOS); px = list(im.getdata()); b = 0
+              for y in range(8):
+                  for x in range(8): b = (b << 1) | (px[y*9+x] > px[y*9+x+1])
+              return f"{b:016x}"
+          REF = "fce6666664b033d1"; dist = lambda a, b: bin(int(a, 16) ^ int(b, 16)).count("1")
           d = json.load(open("data/comics.json", encoding="utf-8"))
-          seen = {}
-          for s in d["series"]:
-              u = s.get("cover", "")
-              if not u: print("NOCOVER", s["title"]); continue
-              try: raw = C.fetch(u, C.DC_UA)
-              except Exception as e: print("FAIL", s["title"], e); continue
-              h = hashlib.md5(raw).hexdigest()[:10]
-              im = Image.open(io.BytesIO(raw)).convert("RGB"); w, hh = im.size
-              im.thumbnail((90, 120)); b = io.BytesIO(); im.save(b, "JPEG", quality=60)
-              seen.setdefault(h, []).append(s["title"])
-              print(f"IMG|{h}|{w}x{hh}|{len(raw)}|{s['title'][:20]}|{u[-40:]}|" + base64.b64encode(b.getvalue()).decode())
-          print("DUP", {k: v for k, v in seen.items() if len(v) > 1})
+          hs = next(s for s in d["series"] if s["title"] == "히토너")
+          print("히토너 회차:", [(e["no"], e["title"]) for e in hs["episodes"]])
+          for e in hs["episodes"][-6:]:
+              t = C.dc_fetch(f"https://m.dcinside.com/board/comic_new6/{e['no']}")
+              og = re.search(r'<meta property="og:image" content="([^"]+)"', t)
+              imgs = re.findall(r'(?:data-original|src)="(https://dcimg[^"]+)"', t)
+              print(" ", e["no"], e["title"], "img", len(imgs), "og dist", dist(REF, dh(html.unescape(og.group(1)))) if og else None)
+          q = "호리데이 야스미"
+          for u in [f"https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval={urllib.parse.quote(q)}",
+                    f"https://m.dcinside.com/board/comic_new6?s_type=subject&serval={urllib.parse.quote(q)}",
+                    f"https://gall.dcinside.com/board/lists/?id=comic_new6&s_type=search_subject&s_keyword={urllib.parse.quote(q)}"]:
+              try: t = C.dc_fetch(u)
+              except Exception as e: print("SEARCH FAIL", u, e); continue
+              rows = C.dc_list.__wrapped__(t) if hasattr(C.dc_list, "__wrapped__") else None
+              nos = re.findall(r'(?:comic_new6/|no=)(\d{6,8})[^"]*"[^>]*>\s*(?:<[^>]+>\s*)*([^<]{0,80}호리데이[^<]{0,40})', t)
+              print("\n[SEARCH]", u, "len", len(t), "hits", len(nos))
+              for n, ti in nos[:12]: print("   ", n, ti.strip())
+              nxt = re.findall(r'href="([^"]*search_pos=[^"]*)"', t); print("   search_pos links:", [html.unescape(x)[:160] for x in nxt[:4]])
+              pg = re.findall(r'href="([^"]*page=\d+[^"]*serval[^"]*)"', t)[:3]; print("   page links:", [html.unescape(x)[:160] for x in pg])
+          t = C.dc_fetch("https://m.dcinside.com/board/comic_new6/6708224")
+          print("\n[호리데이 239]", "series box", 'dc_series' in t)
+          name, eps, when, cover = C.dc_post(6708224); print("  ", name, len(eps), eps[:3], eps[-3:])
+          body = t[t.find('thum-txtin'):][:30000]
+          print("   본문 글번호 링크:", sorted(set(re.findall(r"no=(\d{6,8})|comic_new6/(\d{6,8})", body)))[:20])
           PY
-
