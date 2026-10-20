@@ -757,11 +757,36 @@ def save_thumb(title, url, thumbs):
         return False
 
 
-ANILIST_Q = """query($page:Int,$status:MediaStatus,$season:MediaSeason,$year:Int){
+ANILIST_Q = """query($page:Int,$status:MediaStatus,$startBefore:FuzzyDateInt,$startAfter:FuzzyDateInt){
   Page(page:$page,perPage:50){pageInfo{hasNextPage}
-    media(type:ANIME,status:$status,season:$season,seasonYear:$year,countryOfOrigin:"JP",format_in:[TV,TV_SHORT,ONA],sort:POPULARITY_DESC){
-      title{native romaji} format status startDate{year month day} popularity coverImage{large}
+    media(type:ANIME,status:$status,startDate_lesser:$startBefore,startDate_greater:$startAfter,countryOfOrigin:"JP",format_in:[TV,TV_SHORT,ONA],isAdult:false,sort:POPULARITY_DESC){
+      title{native romaji} format status isAdult episodes startDate{year month day} popularity coverImage{large}
       trailer{id site} externalLinks{url site type} nextAiringEpisode{airingAt episode}}}}"""
+
+
+def anilist_skip(m):
+    """목록에서 뺄 작품: 성인물, 그리고 TV 방송도 스트리밍 링크도 공식 사이트도 없는 단편·티저(볼 곳이 없는 것)."""
+    if m.get("isAdult"):
+        return "성인물"
+    links = [l for l in (m.get("externalLinks") or []) if isinstance(l, dict)]
+    has_stream = any(l.get("type") == "STREAMING" for l in links)
+    has_info = any(l.get("type") == "INFO" for l in links)
+    if m.get("format") == "ONA" and not (m.get("nextAiringEpisode") or {}).get("airingAt") and not has_stream and not has_info:
+        return "볼 곳 없음"
+    if (m.get("episodes") or 0) <= 3 and re.search(r"PV|ティザー|予告|CM\b|MV|プロモーション", (m.get("title") or {}).get("native") or ""):
+        return "티저·PV"  # 화수가 적거나 미정인데 제목이 예고 영상이면 작품이 아니다
+    return ""
+
+
+def anilist_start(m):
+    """startDate → date. 월이 없으면 None(날짜 미정으로 본다)."""
+    sd = m.get("startDate") or {}
+    if not (sd.get("year") and sd.get("month")):
+        return None
+    try:
+        return datetime(sd["year"], sd["month"], sd.get("day") or 1, tzinfo=JST)
+    except ValueError:
+        return None
 
 
 def anilist(variables, pages=1):
@@ -833,11 +858,23 @@ def export_anime(ref):
         doc = {"season": season, "name": f"{ref.year}년 {names[season.split('-')[1]]} 애니", "src": "Annict", "list": []}
     by = {tkey(a["t"]): a for a in doc["list"]}
     extra = {}  # title -> 표지 이미지
-    al_season = {"winter": "WINTER", "spring": "SPRING", "summer": "SUMMER", "autumn": "FALL"}[season.split("-")[1]]
     try:
-        media = anilist({"status": "RELEASING"}, pages=5) + anilist({"status": "NOT_YET_RELEASED", "season": al_season, "year": ref.year}, pages=1)
-        fresh, seen = {}, set()
+        # ① 방영 중 전부 ② 앞으로 75일 안에 시작하는 예정작(시즌 분류가 어긋난 작품도 날짜로 잡는다)
+        # ③ 최근 30일 안에 시작해 이미 '완결'인 작품(넷플릭스처럼 전편을 한 번에 공개한 것은 AniList 에서 바로 FINISHED 가 된다)
+        lo, hi = ref - timedelta(days=30), ref + timedelta(days=75)
+        media = anilist({"status": "RELEASING"}, pages=5) \
+            + anilist({"status": "NOT_YET_RELEASED", "startBefore": int(hi.strftime("%Y%m%d"))}, pages=2) \
+            + anilist({"status": "FINISHED", "startAfter": int(lo.strftime("%Y%m%d"))}, pages=1)
+        fresh, seen, skipped = {}, set(), {}
         for m in media:
+            why = anilist_skip(m)
+            if not why and m.get("status") != "RELEASING":
+                sd = anilist_start(m)
+                if not sd or not (lo <= sd <= hi):
+                    why = "기간 밖·날짜 미정"
+            if why:
+                skipped[why] = skipped.get(why, 0) + 1
+                continue
             a, cover = anilist_entry(m, by.get(tkey((m.get("title") or {}).get("native") or (m.get("title") or {}).get("romaji") or ""), {}))
             k = tkey(a["t"])
             if not a["t"] or k in seen:
@@ -850,7 +887,7 @@ def export_anime(ref):
             for i, a in enumerate(sorted(by.values(), key=lambda a: -(a.get("w") or 0)), 1):
                 a["r"] = i if a.get("w") else None
             doc["src"] = f"AniList 방영 정보 ({ref.month}/{ref.day} 기준)"
-            print(f"AniList: 방영 중·예정 {len(fresh)}편")
+            print(f"AniList: 방영 중·예정 {len(fresh)}편" + (f", 제외 {skipped}" if skipped else ""))
     except Exception as e:
         print(f"AniList 실패: {e} (기존 목록 유지)", file=sys.stderr)
     token = os.environ.get("ANNICT_TOKEN")
