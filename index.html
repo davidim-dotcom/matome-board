@@ -508,7 +508,7 @@ async function loadComics(){
   const raw=await getJSON("data/comics.json",null);
   const list=raw&&Array.isArray(raw.series)?raw.series:[];
   comics={gallery:/^[\w]+$/.test(raw&&raw.gallery||"")?raw.gallery:"comic_new6", updated:String(raw&&raw.updated||""),
-    series:list.map(x=>({id:String(x.id||"").slice(0,200), name:String(x.name||"").slice(0,120), author:String(x.author||"").slice(0,40),
+    series:list.map(x=>({id:String(x.id||"").slice(0,200), name:String(x.name||"").slice(0,120), title:String(x.title||x.name||"").slice(0,120), author:String(x.author||"").slice(0,40),
       rec:Number.isFinite(x.rec)?x.rec:0, updatedAt:String(x.updatedAt||"").slice(0,16),
       cover:/^https:\/\//.test(x.cover||"")?safeUrl(x.cover):"",
       eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0).map(e=>({no:e.no,title:String(e.title||"").slice(0,160)}))}))
@@ -520,21 +520,21 @@ function renderComics(){
   const el=$("#comics"); if(!el) return;
   if(!comics){el.innerHTML=`<div class="empty">불러오는 중…</div>`;return}
   const q=comicQ.trim().toLowerCase();
-  let list=comics.series.filter(x=>!q||x.name.toLowerCase().includes(q)||x.author.toLowerCase().includes(q));
+  let list=comics.series.filter(x=>!q||x.title.toLowerCase().includes(q)||x.name.toLowerCase().includes(q)||x.author.toLowerCase().includes(q));
   list=[...list].sort(comicSort==="rec"?(a,b)=>b.rec-a.rec:(a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const cards=list.map(x=>{
     const last=x.eps[x.eps.length-1], readNo=comicRead[x.id], ri=x.eps.findIndex(e=>e.no===readNo);
     const next=ri>=0&&ri<x.eps.length-1?x.eps[ri+1]:null, isNew=ri>=0&&ri<x.eps.length-1;
-    const hue=parseInt(hashId(x.name).slice(1),36)%360;
-    const cv=`<div class="cvt" style="background:linear-gradient(160deg,hsl(${hue} 40% 58%),hsl(${(hue+40)%360} 45% 36%))" aria-hidden="true">${esc([...x.name][0]||"")}</div>`;
+    const hue=parseInt(hashId(x.id).slice(1),36)%360;
+    const cv=`<div class="cvt" style="background:linear-gradient(160deg,hsl(${hue} 40% 58%),hsl(${(hue+40)%360} 45% 36%))" aria-hidden="true">${esc([...x.title][0]||"")}</div>`;
     const pic=x.cover?`<div style="position:relative">${cv}<img class="cv" style="position:absolute;inset:0" src="${esc(x.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>`:cv;
     const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${label}</a>`;
     const btns=[next?link(next,"이어 보기","btn ticket"):"", link(x.eps[0],"1화부터"), x.eps.length>1?link(last,"최신화"):"",
       `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">회차 ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
     const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
     return `<article class="comic">${pic}<div>
-      <div class="nm">${esc(x.name)}${isNew?`<span class="newep">새 화</span>`:""}</div>
-      <div class="sub2">${esc(x.author||"익명")} · ${x.eps.length}화 · ${esc(relDay(x.updatedAt))} 갱신</div>
+      <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
+      <div class="sub2">${esc(x.author||"익명")} · 회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
       <p class="last">최신: ${esc(last.title)}</p>
       <div class="actions">${btns}</div></div>${eps}</article>`}).join("");
   el.innerHTML=`<p class="aside">디시인사이드 만화 갤러리 개념글 중 회차가 이어지는 연재작 ${comics.series.length}편${comics.updated?" · "+esc(relDay(comics.updated))+" 확인":""}. 누르면 원문(디시)이 열리고, 마지막으로 연 화는 이 브라우저에 기억해 ‘이어 보기’로 이어 줘요.</p>

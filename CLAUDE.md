@@ -14,7 +14,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `.github/workflows/check.yml` | 수동 실행 전용 "소스 점검". `collector.py --check`를 돌려 소스별 OK/FAIL만 출력하고 `data/`는 건드리지 않는다. 소스를 고친 뒤 확인용. | 사람 |
 | `data/manual.json` | 직접 추가하는 소식 배열. 자동 수집보다 먼저 읽혀 같은 id면 우선. | 사람 |
 | `data/blocklist.json` | `{"urls":[], "titles":[], "ids":[], "comics":[]}`. 수집기와 페이지 양쪽에서 제외. `titles`는 소문자 부분일치. `comics`는 연재 만화에서 뺄 작품명(부분일치) 또는 작성자 닉네임(일치). | 사람 |
-| `data/comics.json` | 연재 만화 색인 `{updated, gallery, series:[{id,name,author,episodes:[{no,title,date?}],rec,cover,updatedAt}], scanned:[글번호]}`. | 봇만 |
+| `data/comics.json` | 연재 만화 색인 `{updated, gallery, series:[{id,name,title,author,episodes:[{no,title,date?}],rec,cover,updatedAt}], scanned:[글번호]}`. `name`은 [시리즈] 상자 이름(작가 별칭일 수 있음), `title`은 최신 화 제목에서 회차를 뗀 이름으로 카드 제목에 쓴다. | 봇만 |
 | `data/anime.json` | 이번 시즌 방영 목록. 요일·시각 등은 사람이 고치고, `--anime`가 Annict 정보를 덧붙인다. | 사람 + 봇 |
 | `data/items.json` | 수집된 소식(최대 `KEEP`=600건). | 봇만 |
 | `data/meta.json` | `{updated, trends(상위 20), count}`. 페이지 상단 "n/n hh:mm 업데이트" 표기용. | 봇만 |

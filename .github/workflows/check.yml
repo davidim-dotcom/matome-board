@@ -22,13 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 연재 만화 시험 (임시)
-        if: always()
-        run: |
-          python collector.py --comics
-          python - <<'PY'
-          import json; d=json.load(open("data/comics.json",encoding="utf-8")); S=d["series"]
-          print(len(S), "편; 회차 합계", sum(len(s["episodes"]) for s in S), "; 확인한 글", len(d["scanned"]))
-          for s in sorted(S, key=lambda s: -len(s["episodes"]))[:15]:
-              print(f'  {len(s["episodes"]):3d}화 | {s["name"][:26]} | {s["author"]} | rec {s["rec"]} | {s["updatedAt"]} | 최신 {s["episodes"][-1]["title"][:30]} | cover {"Y" if s["cover"] else "-"}')
-          PY

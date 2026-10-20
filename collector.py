@@ -1075,13 +1075,15 @@ def export_comics(ref):
         order = [no for no, _ in eps] + [p["no"]]
         rank = {no: i for i, no in enumerate(dict.fromkeys(order))}
         s["episodes"] = sorted(known.values(), key=lambda e: (rank.get(e["no"], 10**6), e["no"]))
+        s["title"] = strip_ep(s["episodes"][-1]["title"])  # 카드에 크게 쓸 이름(최신 화 제목에서). name 은 [시리즈] 상자의 별칭일 수 있다
         s["rec"] = max(s.get("rec", 0), p["rec"])
         s["cover"] = cover or s.get("cover", "")
         s["updatedAt"] = max(s.get("updatedAt", ""), when[:16] or ref.strftime("%Y-%m-%dT%H:%M"))
         by[key] = s
     cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
-    series = [s for s in by.values() if s.get("updatedAt", "") >= cutoff and not any(k in s["name"].lower() or k == s["author"].lower() for k in block)
-              and not COMIC_ADULT_RE.search(s["name"])]
+    series = [s for s in by.values() if s.get("updatedAt", "") >= cutoff
+              and not any(k in s["name"].lower() or k in s.get("title", "").lower() or k == s["author"].lower() for k in block)
+              and not COMIC_ADULT_RE.search(s["name"] + " " + s.get("title", ""))]
     series.sort(key=lambda s: s.get("updatedAt", ""), reverse=True)
     doc = {"updated": ref.isoformat(), "gallery": DC_GALL, "series": series[:200], "scanned": sorted(scanned)[-3000:]}
     save_json(COMICS, doc)
