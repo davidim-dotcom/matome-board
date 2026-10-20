@@ -22,3 +22,19 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 나니와 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys
+          sys.path.insert(0, ".")
+          import collector as C
+          for no in [6737503, 6742738, 6723707, 6748146]:
+              t = C.dc_fetch(f"https://m.dcinside.com/board/comic_new6/{no}")
+              h = re.search(r'"headline":"([^"]*)"', t)
+              name, box, when, cover = C.parse_post(t)
+              print(no, "제목", h.group(1) if h else None, "길이", len(t), "상자", name, len(box))
+              print("   ", [(b[1], b[2][-8:]) for b in box if (C.ep_num(b[2]) or 0) >= 30])
+          rows = C.dc_search("나니와 금융도", 6, [6])
+          print("검색", [(r["no"], r["title"]) for r in rows])
+          PY
