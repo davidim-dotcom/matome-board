@@ -22,6 +22,31 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 야스미 상자 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, html, time
+          sys.path.insert(0, ".")
+          import collector as C
+          for g, no in [("comic_new4", 1154038), ("comic_new6", 7470), ("comic_new3", 12895156), ("comic_new6", 2739299), ("comic_new6", 6708224)]:
+              t = C.dc_fetch(f"https://m.dcinside.com/board/{g}/{no}"); time.sleep(1)
+              name, eps, when, cover = C.dc_post(no, g)
+              nums = [C.ep_num(x[2]) for x in eps]
+              print(f"\n[{g}/{no}] 상자 '{name}' {len(eps)}개 번호 {nums[:3]}..{nums[-3:]} 날짜 {when}")
+              print("   상자 처음", eps[:2], "끝", eps[-2:])
+              i = t.find('class="dc_series"')
+              print("   상자 뒤 300자:", re.sub(r"\s+", " ", t[t.find("</div>", t.find("[시리즈]", i)+10) if i>=0 else 0:][:0]))
+              allv = [(x[0], x[1], x[2]) for x in C.dc_links(t) if "야스미" in x[2]]
+              out = [x for x in allv if x not in eps]
+              print("   상자 밖 '야스미' 링크", len(out), out[:3], out[-3:])
+              for kw in ["더보기", "more", "series_more", "시리즈 더", "dc_series_more", "page="]:
+                  j = t.find(kw, i if i >= 0 else 0)
+                  if 0 <= j < (i + 30000 if i >= 0 else 10**9): print("   kw", kw, re.sub(r"\s+", " ", t[j-200:j+200]))
+              if i >= 0:
+                  e = t.find("</div>", t.find("[시리즈]", i) + 10)
+                  print("   상자 끝 근처:", re.sub(r"\s+", " ", t[e-400:e+300]))
+          PY
       - name: 연재 만화 시험 (임시)
         if: always()
         run: |
