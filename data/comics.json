@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-20T23:57:57.775753+09:00",
+ "updated": "2026-10-21T00:32:05.850768+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -319,6 +319,21 @@
    "author": "gyner",
    "episodes": [
     {
+     "no": 6678899,
+     "title": "번역) Sweet Life 2nd 229, 230",
+     "date": "2026-10-16T13:39"
+    },
+    {
+     "no": 6693362,
+     "title": "번역) Sweet Life 2nd 231, 232, 233",
+     "date": "2026-10-17T14:58"
+    },
+    {
+     "no": 6708258,
+     "title": "번역) Sweet Life 2nd 234, 235",
+     "date": "2026-10-18T14:00"
+    },
+    {
      "no": 6722441,
      "title": "번역) Sweet Life 2nd 236, 237",
      "date": "2026-10-19T12:14"
@@ -329,8 +344,8 @@
      "date": "2026-10-20T13:50"
     }
    ],
-   "rec": 59,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec8c3450d6875b0db846224f4123300e6aff0e11c95d778349a6fcc56a82fb43efe564fb78df2b0",
+   "rec": 72,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d2f19ac1d05f577ed123bd58ebb364ce6e8b576839dce0eae5a1",
    "title": "Sweet Life 2nd",
    "updatedAt": "2026-10-20T13:50"
   },
@@ -425,31 +440,38 @@
     },
     {
      "no": 6674682,
-     "title": "번역) 나니와 금융도 22화"
+     "title": "번역) 나니와 금융도 22화",
+     "date": "2026-10-16T03:00"
     },
     {
      "no": 6677454,
-     "title": "번역) 나니와 금융도 23화"
+     "title": "번역) 나니와 금융도 23화",
+     "date": "2026-10-16T11:14"
     },
     {
      "no": 6688017,
-     "title": "번역) 나니와 금융도 24화"
+     "title": "번역) 나니와 금융도 24화",
+     "date": "2026-10-17T02:56"
     },
     {
      "no": 6691035,
-     "title": "번역) 나니와 금융도 25화"
+     "title": "번역) 나니와 금융도 25화",
+     "date": "2026-10-17T11:02"
     },
     {
      "no": 6694465,
-     "title": "번역) 나니와 금융도 26화"
+     "title": "번역) 나니와 금융도 26화",
+     "date": "2026-10-17T16:29"
     },
     {
      "no": 6700385,
-     "title": "번역) 나니와 금융도 27화"
+     "title": "번역) 나니와 금융도 27화",
+     "date": "2026-10-18T00:05"
     },
     {
      "no": 6708946,
-     "title": "번역) 나니와 금융도 28화"
+     "title": "번역) 나니와 금융도 28화",
+     "date": "2026-10-18T15:01"
     },
     {
      "no": 6712877,
@@ -482,8 +504,8 @@
      "date": "2026-10-20T12:38"
     }
    ],
-   "rec": 262,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983511e2a3485a8d5c15889fbbb05f5ec1fcdf38607d4e78b68580",
+   "rec": 343,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d7f699c1d3592b92954f662835f0f3e71f687283cdcda4014825",
    "title": "나니와 금융도",
    "updatedAt": "2026-10-20T12:38"
   },
@@ -751,7 +773,8 @@
     },
     {
      "no": 6685314,
-     "title": "번역) 혼다 카노코의 책장 속간미정편 6화 (유데 이론 살인 사건)"
+     "title": "번역) 혼다 카노코의 책장 속간미정편 6화 (유데 이론 살인 사건)",
+     "date": "2026-10-16T22:50"
     },
     {
      "no": 6731114,
@@ -764,8 +787,8 @@
      "date": "2026-10-19T23:36"
     }
    ],
-   "rec": 191,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec8c3450d6875b0db846224f4123106e6a4f5e03ed213c9a7a125fb4f0e541c83668dc84bc69452",
+   "rec": 193,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d7f192c6d1592436599ba6e5f37d8f929795d581142f25f1753f",
    "title": "혼다 카노코의 책장 속간미정편",
    "updatedAt": "2026-10-19T23:36"
   },
@@ -987,13 +1010,18 @@
    "author": "잇치",
    "episodes": [
     {
+     "no": 6709817,
+     "title": "번역) 이상향 여자도감 2-1화(셀프 질문 상자)",
+     "date": "2026-10-18T16:20"
+    },
+    {
      "no": 6724088,
      "title": "번역) 이상향 여자도감 2-2화(셀프 질문 상자)",
      "date": "2026-10-19T14:48"
     }
    ],
-   "rec": 78,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec8c3450d6875b0db846224f4123b01e1aef3e1132bfd0fbc2de2d9fce671546bda839a53ba887d",
+   "rec": 101,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a598371ce7ab465d43793b52d9c76b7d5274eb4d426070ee26d27aa6",
    "title": "이상향 여자도감",
    "updatedAt": "2026-10-19T14:48"
   },
@@ -1031,13 +1059,28 @@
    "author": "gyner",
    "episodes": [
     {
+     "no": 6679648,
+     "title": "번역) 매력 무쌍 7화",
+     "date": "2026-10-16T14:47"
+    },
+    {
+     "no": 6694663,
+     "title": "번역) 매력 무쌍 8화",
+     "date": "2026-10-17T16:44"
+    },
+    {
+     "no": 6709579,
+     "title": "번역) 매력 무쌍 9화",
+     "date": "2026-10-18T16:01"
+    },
+    {
      "no": 6723276,
      "title": "번역) 매력 무쌍 10화",
      "date": "2026-10-19T13:32"
     }
    ],
-   "rec": 189,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec8c3450d6875b0db846224f4123b01eca5fee5dc139e36a6270568a5bd58e0af5397515eaef174",
+   "rec": 219,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d5f79bc1d45ef9651e5f30dfa8da238e34c91cf4f81be5153793",
    "title": "매력 무쌍",
    "updatedAt": "2026-10-19T13:32"
   },
@@ -1136,9 +1179,555 @@
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983114e2ac4f589e2187bff08cf81be49c13a605ebf42224c8ea90",
    "title": "봇펀맨",
    "updatedAt": "2026-10-18T21:44"
+  },
+  {
+   "id": "넙치양번역모음|saving7533",
+   "name": "넙치양 번역 모음",
+   "author": "ㅇㅇ",
+   "episodes": [
+    {
+     "no": 6711410,
+     "title": "번역) 넙치양 6화 (미간교정을 받은 넙치양)",
+     "date": "2026-10-18T18:27"
+    }
+   ],
+   "rec": 81,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983512e7aa4a59634a6659dac1f98a1eef05678bf8f03503ea052111078abed6f6b4d9bf",
+   "title": "넙치양",
+   "updatedAt": "2026-10-18T18:27"
+  },
+  {
+   "id": "레어해충|pizza3427",
+   "name": "레어? 해충",
+   "author": "gyner",
+   "episodes": [
+    {
+     "no": 6710231,
+     "title": "번역) 레어 몬스터? 그냥 해충 69화",
+     "date": "2026-10-18T16:55"
+    }
+   ],
+   "rec": 85,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983b15e3a24a523e902cffb6261b2b9f69353838d2044b1b938117",
+   "title": "레어 몬스터? 그냥 해충",
+   "updatedAt": "2026-10-18T16:55"
+  },
+  {
+   "id": "심폐소생술로일가족따먹기|hunsss",
+   "name": "심폐소생술로 일가족 따먹기",
+   "author": "거신상",
+   "episodes": [
+    {
+     "no": 6707919,
+     "title": "번역) 심폐소생술로 일가족 따먹기 5화",
+     "date": "2026-10-18T13:38"
+    }
+   ],
+   "rec": 92,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983a1ce2ab4e5ec3d2e998e678064abd4232f1e8162ec10a6ade75",
+   "title": "심폐소생술로 일가족 따먹기",
+   "updatedAt": "2026-10-18T13:38"
+  },
+  {
+   "id": "비밀법인데스메이커|mainly1124",
+   "name": "비밀법인 데스메이커",
+   "author": "파리오므라..",
+   "episodes": [
+    {
+     "no": 6706257,
+     "title": "번역) 비밀법인 데스메이커 42화 (바디페인팅)",
+     "date": "2026-10-18T11:11"
+    }
+   ],
+   "rec": 151,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983617e1ab4b5b55d204b1d7e9ceaac6d4747722c1c110fb3c8b44",
+   "title": "비밀법인 데스메이커",
+   "updatedAt": "2026-10-18T11:11"
+  },
+  {
+   "id": "고물로이드하마양|boorandang23",
+   "name": "고물로이드 하마양",
+   "author": "유토니움",
+   "episodes": [
+    {
+     "no": 6704294,
+     "title": "번역) 고물로이드 하마양 26화",
+     "date": "2026-10-18T06:01"
+    },
+    {
+     "no": 6704973,
+     "title": "번역) 고물로이드 하마양 27화 (배틀개막)",
+     "date": "2026-10-18T08:20"
+    }
+   ],
+   "rec": 295,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983111e3ab4b596c22b35c3b117b38087f61f7f3bb7a950ba99f89",
+   "title": "고물로이드 하마양",
+   "updatedAt": "2026-10-18T08:20"
+  },
+  {
+   "id": "난폭한아가씨는사랑을고민한다|psychoville",
+   "name": "난폭한 아가씨는 사랑을 고민한다",
+   "author": "\u0001",
+   "episodes": [
+    {
+     "no": 6701675,
+     "title": "번역) 난폭한 아가씨는 사랑을 고민한다 65화",
+     "date": "2026-10-18T01:19"
+    }
+   ],
+   "rec": 204,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983712e4a24a5e4b9632a5887e2dc84e803d95b471b1557e1a6963",
+   "title": "난폭한 아가씨는 사랑을 고민한다",
+   "updatedAt": "2026-10-18T01:19"
+  },
+  {
+   "id": "대역신부로시집왔는데아무래도서방님도대역인것같아요|yns0207",
+   "name": "대역 신부로 시집왔는데 아무래도 서방님도 대역인 것 같아요?",
+   "author": "ㅇㅇ",
+   "episodes": [
+    {
+     "no": 6697999,
+     "title": "번역) 대역 신부로 시집왔는데 아무래도 서방님도 대역인 것 같아요? 6화",
+     "date": "2026-10-17T21:12"
+    }
+   ],
+   "rec": 70,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81ac67d1aeb57f006b220097418490256334e2b41a60f43a064914",
+   "title": "대역 신부로 시집왔는데 아무래도 서방님도 대역인 것 같아요?",
+   "updatedAt": "2026-10-17T21:12"
+  },
+  {
+   "id": "아스미쨩은레즈풍속에흥미가있습니다|poiulkjhmmm",
+   "name": "아스미 쨩은 레즈풍속에 흥미가 있습니다!",
+   "author": "공략법",
+   "episodes": [
+    {
+     "no": 6697997,
+     "title": "번역) 아스미 쨩은 레즈풍속에 흥미가 있습니다! 36화",
+     "date": "2026-10-17T21:12"
+    }
+   ],
+   "rec": 96,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81a366d6afb37f79e0a86916b3cfcdf9ffb757a29ad9dc03cdfa1b",
+   "title": "아스미 쨩은 레즈풍속에 흥미가 있습니다!",
+   "updatedAt": "2026-10-17T21:12"
+  },
+  {
+   "id": "도시전설청소부|nessydaddy",
+   "name": "도시전설 청소부",
+   "author": "끄드럭",
+   "episodes": [
+    {
+     "no": 5760622,
+     "title": "번역) 도시전설 청소부 1화"
+    },
+    {
+     "no": 5761630,
+     "title": "번역) 도시전설 청소부 2화 (대두마을)"
+    },
+    {
+     "no": 5775748,
+     "title": "번역) 도시전설 청소부 3화"
+    },
+    {
+     "no": 5786561,
+     "title": "번역) 도시전설 청소부 4화"
+    },
+    {
+     "no": 6340651,
+     "title": "번역) 도시전설 청소부 5화"
+    },
+    {
+     "no": 6690473,
+     "title": "번역) 도시전설 청소부 6화 (캣맘)",
+     "date": "2026-10-17T10:08"
+    },
+    {
+     "no": 6693106,
+     "title": "번역) 도시전설 청소부 7화 (슬램덩크)",
+     "date": "2026-10-17T14:32"
+    }
+   ],
+   "rec": 156,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81a363d4afb57f2c4f631285e4e95e7e3957ac9259d56d504c30e8",
+   "title": "도시전설 청소부",
+   "updatedAt": "2026-10-17T14:32"
+  },
+  {
+   "id": "우에스기군은여자를그만두고싶어|toyong0129",
+   "name": "우에스기 군은 여자를 그만두고 싶어",
+   "author": "토용",
+   "episodes": [
+    {
+     "no": 6692855,
+     "title": "번역) 우에스기 군은 여자를 그만두고 싶어 38화",
+     "date": "2026-10-17T14:05"
+    }
+   ],
+   "rec": 293,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81a262d7aeb67b6689883216242f2dec99acfabf3e6119cf9f65e2",
+   "title": "우에스기 군은 여자를 그만두고 싶어",
+   "updatedAt": "2026-10-17T14:05"
+  },
+  {
+   "id": "꿀잼데이트|evasco",
+   "name": "꿀잼 데이트",
+   "author": "정제",
+   "episodes": [
+    {
+     "no": 6502338,
+     "title": "번역) 재미없는 데이트 42화"
+    },
+    {
+     "no": 6692811,
+     "title": "번역) 재미없는 데이트 43화",
+     "date": "2026-10-17T14:00"
+    }
+   ],
+   "rec": 269,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81a964d0a9b27ec34aadb7291666108427d802b8d6e872b8488af1",
+   "title": "재미없는 데이트",
+   "updatedAt": "2026-10-17T14:00"
+  },
+  {
+   "id": "비와너와|evasco",
+   "name": "비와 너와",
+   "author": "정제",
+   "episodes": [
+    {
+     "no": 6479920,
+     "title": "번역) 이것은 개인가? 너구리인가? 163화"
+    },
+    {
+     "no": 6691268,
+     "title": "번역) 이것은 개인가? 너구리인가? 164화",
+     "date": "2026-10-17T11:22"
+    }
+   ],
+   "rec": 159,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec6c345d647f8778161d78bff81ab62d1acb578961545904cb20c0fd69747fb798e9570bb592935",
+   "title": "이것은 개인가? 너구리인가?",
+   "updatedAt": "2026-10-17T11:22"
+  },
+  {
+   "id": "마왕님리리리벤지|jsa2021",
+   "name": "마왕님, 리리리벤지!",
+   "author": "ㅇㅇ",
+   "episodes": [
+    {
+     "no": 6683634,
+     "title": "번역) 마왕님, 리리리벤지! 3화",
+     "date": "2026-10-16T20:51"
+    }
+   ],
+   "rec": 130,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d2f193c5d55f40c953eae71033fc1ab56967db63fae538fab7c0",
+   "title": "마왕님, 리리리벤지!",
+   "updatedAt": "2026-10-16T20:51"
+  },
+  {
+   "id": "바테렌괴담|gkapozj65",
+   "name": "바테렌 괴담",
+   "author": "지카포",
+   "episodes": [
+    {
+     "no": 890666,
+     "title": "번역) 바테렌 괴담 1화 (점플 신작)"
+    },
+    {
+     "no": 938774,
+     "title": "번역) 바테렌 괴담 2화"
+    },
+    {
+     "no": 1059028,
+     "title": "번역) 바테렌 괴담 3화"
+    },
+    {
+     "no": 1305418,
+     "title": "번역) 바테렌 괴담 4화 (구마 시작)"
+    },
+    {
+     "no": 1611866,
+     "title": "번역) 바테렌 괴담 5화 (보리)"
+    },
+    {
+     "no": 1728112,
+     "title": "번역) 바테렌 괴담 6화 (정통 역사물)"
+    },
+    {
+     "no": 2017753,
+     "title": "번역) 바테렌 괴담 7화 (구마배틀)"
+    },
+    {
+     "no": 2191886,
+     "title": "번역) 바테렌 괴담 8화 (비밀)"
+    },
+    {
+     "no": 2418868,
+     "title": "번역) 바테렌 괴담 9화"
+    },
+    {
+     "no": 2636948,
+     "title": "번역) 바테렌 괴담 10화 (기도)"
+    },
+    {
+     "no": 2988094,
+     "title": "번역) 바테렌 괴담 11화 (무기한 휴재)"
+    },
+    {
+     "no": 4449957,
+     "title": "번역) 바테렌 괴담 12화 (휴재 복귀)"
+    },
+    {
+     "no": 4680724,
+     "title": "번역) 바테렌 괴담 13화"
+    },
+    {
+     "no": 5327937,
+     "title": "번역) 바테렌 괴담 14화"
+    },
+    {
+     "no": 5563944,
+     "title": "번역) 바테렌 괴담 15화"
+    },
+    {
+     "no": 6063127,
+     "title": "번역) 바테렌 괴담 16화"
+    },
+    {
+     "no": 6683519,
+     "title": "번역) 바테렌 괴담 17화 (다음화 완결)",
+     "date": "2026-10-16T20:42"
+    }
+   ],
+   "rec": 138,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d9f29fc1d2574f1eb68c933dd6a0e984ee56935700a3f67bdde1",
+   "title": "바테렌 괴담",
+   "updatedAt": "2026-10-16T20:42"
+  },
+  {
+   "id": "슬랩샷걸즈|careless8766",
+   "name": "슬랩샷 걸즈",
+   "author": "ㅇㅇ",
+   "episodes": [
+    {
+     "no": 6640001,
+     "title": "번역) 슬랩샷 걸즈 1화"
+    },
+    {
+     "no": 6656863,
+     "title": "번역) 슬랩샷 걸즈 2화"
+    },
+    {
+     "no": 6682892,
+     "title": "번역) 슬랩샷 걸즈 3화",
+     "date": "2026-10-16T19:51"
+    }
+   ],
+   "rec": 121,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d7f59ccddd5e43ab7e5410569db03e7a9238c4c2ffb617dbe6a2",
+   "title": "슬랩샷 걸즈",
+   "updatedAt": "2026-10-16T19:51"
+  },
+  {
+   "id": "모리노양은귀찮게얽혀온다|dongwook3000",
+   "name": "모리노양은 귀찮게 얽혀온다.",
+   "author": "코욱이",
+   "episodes": [
+    {
+     "no": 1102785,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 1화 (영점프 신작)"
+    },
+    {
+     "no": 6139994,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 2화"
+    },
+    {
+     "no": 6233992,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 3화"
+    },
+    {
+     "no": 6476077,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 4화"
+    },
+    {
+     "no": 6574925,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 5화"
+    },
+    {
+     "no": 6681787,
+     "title": "번역) 모리노양은 귀찮게 얽혀온다 6화",
+     "date": "2026-10-16T18:12"
+    }
+   ],
+   "rec": 126,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d6f29bc0d7586d365ec1494d04964b1889c9319657331041d57b",
+   "title": "모리노양은 귀찮게 얽혀온다",
+   "updatedAt": "2026-10-16T18:12"
+  },
+  {
+   "id": "미투꿉|qsdf1235",
+   "name": "미투꿉",
+   "author": "ㅇㅇ",
+   "episodes": [
+    {
+     "no": 6681299,
+     "title": "번역) 미투꿉 12-1화",
+     "date": "2026-10-16T17:26"
+    }
+   ],
+   "rec": 165,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d9f49ac3dd5bdbce5fbf3e9ba55c89979dbecba0ecbbc299085acad3169a21741e1c",
+   "title": "미투꿉",
+   "updatedAt": "2026-10-16T17:26"
+  },
+  {
+   "id": "범골신병의몬스터라이프|pizza3427",
+   "name": "범골 신병의 몬스터 라이프",
+   "author": "gyner",
+   "episodes": [
+    {
+     "no": 6680361,
+     "title": "번역) 범골 신병의 몬스터 라이프 21-2화",
+     "date": "2026-10-16T15:58"
+    }
+   ],
+   "rec": 183,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d6f692c4d656796c1b37b0b1f22f184338b1ee444a257df0ba6b",
+   "title": "범골 신병의 몬스터 라이프",
+   "updatedAt": "2026-10-16T15:58"
+  },
+  {
+   "id": "격투만세32|cycle3635",
+   "name": "격투만세 32",
+   "author": "헤비카와",
+   "episodes": [
+    {
+     "no": 6680271,
+     "title": "ai번역)격투만세 32화(수간)",
+     "date": "2026-10-16T15:48"
+    }
+   ],
+   "rec": 174,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d9f29ec7d3590984eb4ee126a847012165f963ab28d67675f2c35bc0a87d0d08b0ddefaf5b74236cc6d27fbd27c1d14b4ec63a2e0a7c353a675572b065cefb",
+   "title": "ai번역)격투만세",
+   "updatedAt": "2026-10-16T15:48"
+  },
+  {
+   "id": "츠즈라선배는전여친|bulmv5hker9k",
+   "name": "츠즈라 선배는 전여친",
+   "author": "따아악",
+   "episodes": [
+    {
+     "no": 6679666,
+     "title": "번역) 츠즈라 선배는 전여친이니까 12화",
+     "date": "2026-10-16T14:48"
+    }
+   ],
+   "rec": 107,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d3f29dcddd5726eaf5b4d1b36e39b4420cc33c14b8d06034d098f6b0",
+   "title": "츠즈라 선배는 전여친이니까",
+   "updatedAt": "2026-10-16T14:48"
+  },
+  {
+   "id": "구스노기고교데뷔실패|rest2810",
+   "name": "구스노기 고교데뷔 실패",
+   "author": "kataude",
+   "episodes": [
+    {
+     "no": 6678460,
+     "title": "번역) 구스노기 고교데뷔 실패 59-1화",
+     "date": "2026-10-16T12:54"
+    }
+   ],
+   "rec": 78,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d9fc98cdd459d43580cef4424575006639c3da1156f9dabc42d9",
+   "title": "구스노기 고교데뷔 실패",
+   "updatedAt": "2026-10-16T12:54"
+  },
+  {
+   "id": "쿠스노키양은세탁중|focus5063",
+   "name": "쿠스노키 양은 세탁 중",
+   "author": "오체만족청..",
+   "episodes": [
+    {
+     "no": 6678427,
+     "title": "번역) 쿠스노키 양은 세탁 중 59화 (정실 달린다)",
+     "date": "2026-10-16T12:52"
+    }
+   ],
+   "rec": 132,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d0fc9bc1d35e805a31a69f44c8a3a888e9bd3e5eada80b2becf4",
+   "title": "쿠스노키 양은 세탁 중",
+   "updatedAt": "2026-10-16T12:52"
+  },
+  {
+   "id": "나니와금융도|114.200",
+   "name": "나니와 금융도",
+   "author": "ㅇㅇ(114.200)",
+   "episodes": [
+    {
+     "no": 6664097,
+     "title": "번역) 나니와 금융도 21화"
+    },
+    {
+     "no": 6674392,
+     "title": "번역) 나니와 금융도 22화",
+     "date": "2026-10-16T02:21"
+    }
+   ],
+   "rec": 215,
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d2f79dc6d657a7351df80022ce4d5603689c4ef75c9acba202c3",
+   "title": "나니와 금융도",
+   "updatedAt": "2026-10-16T02:21"
   }
  ],
  "scanned": [
+  6674392,
+  6674682,
+  6677454,
+  6678427,
+  6678460,
+  6678899,
+  6679648,
+  6679666,
+  6680271,
+  6680361,
+  6680851,
+  6680961,
+  6681299,
+  6681787,
+  6682892,
+  6683519,
+  6683634,
+  6685314,
+  6688017,
+  6690473,
+  6691035,
+  6691268,
+  6692811,
+  6692855,
+  6693106,
+  6693362,
+  6694465,
+  6694663,
+  6695655,
+  6697997,
+  6697999,
+  6700385,
+  6701675,
+  6704294,
+  6704973,
+  6706257,
+  6707919,
+  6708224,
+  6708258,
+  6708946,
+  6709579,
+  6709817,
+  6710231,
+  6711410,
   6712877,
   6713961,
   6714446,
