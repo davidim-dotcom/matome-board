@@ -1,6 +1,6 @@
 {
- "v": 4,
- "updated": "2026-10-21T05:36:34.046498+09:00",
+ "v": 5,
+ "updated": "2026-10-21T05:40:49.230825+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1109,27 +1109,29 @@
     },
     {
      "no": 6478163,
-     "title": "번역) 호리데이 야스미 트위터 모음 236"
+     "title": "번역) 호리데이 야스미 트위터 모음 236",
+     "date": "2026-10-03T08:56"
     },
     {
      "no": 6568461,
-     "title": "번역) 호리데이 야스미 트위터 모음 235"
-    },
-    {
-     "no": 6708224,
-     "title": "번역) 호리데이 야스미 트위터 모음 239",
-     "date": "2026-10-18T13:57"
+     "title": "번역) 호리데이 야스미 트위터 모음 235",
+     "date": "2026-10-08T23:27"
     },
     {
      "no": 6635324,
      "title": "번역) 호리데이 야스미 트위터 모음 238",
      "date": "2026-10-13T12:22"
+    },
+    {
+     "no": 6708224,
+     "title": "번역) 호리데이 야스미 트위터 모음 239",
+     "date": "2026-10-18T13:57"
     }
    ],
    "rec": 251,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec2c34559c95c7d4d66adbe89bc96f13dacf7b60a86b6597b680e1fa21008ffe04a7209e263358d5740a13a9e5250192ec9410f81bc",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983511e6ac485f028011f4ecd23ed0cc6e6b9eeb2ad04180dfd01a1378db036731c9bd0e27047275fe",
    "seenTo": 6748443,
-   "coverNo": "comic_new6/6635324",
+   "coverNo": "comic_new6/6708224",
    "updatedAt": "2026-10-18T13:57"
   },
   {
@@ -1264,31 +1266,24 @@
      "title": "번역) 나니와 금융도 33화"
     },
     {
-     "no": 6723707,
-     "title": "번역) 나니와 금융도 32화"
-    },
-    {
-     "no": 6737503,
-     "title": "번역) 나니와 금융도 34화"
+     "no": 6742738,
+     "title": "방본만) 나니와 금융도 34화",
+     "date": "2026-10-20T19:31"
     },
     {
      "no": 6748146,
-     "title": "번역) 나니와 금융도 35화"
-    },
-    {
-     "no": 6674392,
-     "title": "번역) 나니와 금융도 22화",
-     "date": "2026-10-16T02:21"
+     "title": "번역) 나니와 금융도 35화",
+     "date": "2026-10-21T02:07"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec7c3457112474ed917cfac81d8d2f79dc6d657a7351df80022ce4d5603689c4ef75c9acba202c3",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc0c345a77f7b196cf2e550f36012dc26dcbc88feb81921eed0d7fc19c98febfb47e2799533047a",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
    "seenTo": 6748443,
-   "coverNo": "comic_new6/6674392",
-   "updatedAt": "2026-10-16T02:21"
+   "coverNo": "comic_new6/6748146",
+   "updatedAt": "2026-10-21T02:07"
   }
  ],
  "scanned": [
