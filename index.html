@@ -52,6 +52,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .wrap{max-width:760px;margin:0 auto;padding:20px 16px 64px}
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 4px;letter-spacing:-.5px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.hotbadge{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px}
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .langsw{display:flex;flex:none;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .langsw button{border:0;background:none;padding:5px 12px;font-size:13px;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
@@ -246,7 +247,8 @@ let thumbs = new Map(); // titleKey -> data URI
 const tkey = t=>String(t||"").replace(/[\s　]/g,"").toLowerCase();
 const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 미정"];
 let items = new Map();
-let filterCat = null, filterVt = "all", sortMode = "new"; // 피드 필터(분류·버튜버)와 정렬
+let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬(추천순이 기본)
+let trends = []; // meta.json 의 유행 작품(최근 14일 기사에 많이 나온 이름, 순위순)
 let calYM = null, calDay = null; // 캘린더가 보여 주는 달 {y,m} 과 고른 날 "YYYY-MM-DD"
 let lang = "ko"; try{ lang = localStorage.getItem("matome-lang") === "ja" ? "ja" : "ko" }catch{} // 표시 언어: 한국어(번역) 또는 원문
 const tx = (it,k)=> lang==="ko" && it[k+"_ko"] ? it[k+"_ko"] : it[k]; // 번역이 있으면 번역, 없으면 원문
@@ -303,6 +305,7 @@ async function initStore(){
   }
   if(anime&&Array.isArray(anime.list)) season={id:anime.season||"current",name:anime.name||"",src:anime.src||"",list:anime.list.map(normAnime).filter(a=>a.t)};
   thumbs=new Map(Object.entries(thumbMap||{}).filter(([,v])=>typeof v==="string"&&/^(data\/thumbs\/[\w.\-]+|https:\/\/)/.test(v)).map(([k,v])=>[tkey(k),v]));
+  trends=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x).toLowerCase()).filter(Boolean).slice(0,20);
   if(meta.updated){const d=new Date(meta.updated);$("#storeNote").textContent=`일본 게임·애니·버튜버·만화 소식 · ${jst(d,{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false})} 업데이트`}
   render();
 }
@@ -345,7 +348,7 @@ function rowHtml(it,ev,cls=""){
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
-    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}</div>
+    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${hotScore(it).why===1?"유행":"방영 중"}</span>`:""}${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}</div>
     <div class="title">${esc(tx(it,"title"))}</div>
     ${tx(it,"summary")?`<p class="sum">${esc(tx(it,"summary"))}</p>`:""}
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
@@ -364,11 +367,13 @@ function render(){
   const genre=live.filter(x=>filterVt==="all"||(filterVt==="vt")===isVtuber(x.it));
   const cats=[...new Set(genre.map(x=>x.it.category))];
   if(filterCat&&!cats.includes(filterCat)) filterCat=null; // 장르를 바꿔서 분류가 사라지면 전체로
-  const SORTS={new:(a,b)=>new Date(b.it.addedAt)-new Date(a.it.addedAt),
+  hotCache.clear();
+  const SORTS={rec:(a,b)=>hotScore(b.it).s-hotScore(a.it).s||new Date(b.it.addedAt)-new Date(a.it.addedAt),
+    new:(a,b)=>new Date(b.it.addedAt)-new Date(a.it.addedAt),
     date:(a,b)=>(parseDate(a.it.eventDate)||Infinity)-(parseDate(b.it.eventDate)||Infinity)||new Date(b.it.addedAt)-new Date(a.it.addedAt)};
-  const feed=genre.filter(x=>!filterCat||x.it.category===filterCat).sort(SORTS[sortMode]||SORTS.new);
+  const feed=genre.filter(x=>!filterCat||x.it.category===filterCat).sort(SORTS[sortMode]||SORTS.rec);
   const vtChips=[["all","전부"],["vt",`버튜버 ${nVt}`],["novt","버튜버 제외"]].map(([k,l])=>`<button class="chip" data-vt="${k}" aria-pressed="${filterVt===k}">${l}</button>`).join("");
-  const sortChips=[["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("");
+  const sortChips=[["rec","추천순"],["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("");
   $("#feed").innerHTML = `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (feed.length?feed.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">${filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
@@ -377,6 +382,18 @@ function render(){
 }
 /* ---------- feed helpers ---------- */
 function notOver(x){const e=parseDate(x.it.endDate)||parseDate(x.it.eventDate);return !e||e>Date.now()-DAY/2}
+// 추천 점수: 최근 유행 작품(trends 순위)과 방영 중 인기작(AniList 인기도) 관련 소식을 올리고, 오래된 소식은 서서히 내린다.
+const hotCache=new Map();
+function hotScore(it){
+  if(hotCache.has(it.id)) return hotCache.get(it.id);
+  const text=(it.title+" "+it.works.join(" ")).toLowerCase();
+  let s=0, why=0;
+  trends.forEach((n,i)=>{if(n.length>=2&&text.includes(n)){s+=(20-i)/4;why=1}});
+  if(season){for(const a of season.list){if(!a.w)continue;const b=baseTitle(a.t).toLowerCase();if(b.length>=3&&text.includes(b)){s+=Math.min(5,Math.log10(a.w||1));why=why||2;break}}}
+  if(it.ticketUrls.length) s+=0.5;
+  const r={s:s-(Date.now()-new Date(it.addedAt))/DAY/5, why};
+  hotCache.set(it.id,r); return r;
+}
 
 /* ---------- calendar ---------- */
 // 날짜 계산은 전부 "YYYY-MM-DD"(JST) 문자열로 한다. 달력 격자는 시간대와 무관한 순수 날짜 계산이라 UTC 산술을 쓴다.

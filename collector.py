@@ -100,6 +100,18 @@ TREND_MIN = 3        # 이만큼 이상 다른 기사에 나와야 유행으로 
 TREND_TOP = 30
 # 이 단어가 하나도 없으면 버린다(빈 리스트면 전부 통과). 공지 이외 잡담을 1차로 거른다.
 MUST_HAVE_ANY = ["即売会", "オンリー", "コミケ", "コミックマーケット", "COMITIA", "単行本", "新連載", "完結", "アニメ化", "原画展", "展覧会", "ライブ", "LIVE", "公演", "イベント", "チケット", "先行", "抽選", "コラボ", "開催", "ツアー", "フェス", "POP UP", "ポップアップ", "カフェ", "ストア"]
+# 제목이 이런 식이면 반복성 기사로 보고 버린다: 어디서 볼 수 있나, 몇 화 줄거리·선행 컷, 감상·고찰, 주간 순위, 세일.
+# 단 상영회·이벤트·개최·라이브처럼 행사 단어가 함께 있으면 남긴다.
+NOISE_RE = re.compile(r"どこで(見|観|視聴)|配信(サービス|サイト|先)|視聴方法|見逃し|無料(で|配信|視聴)|見る順番|何話まで|第\d+話|話数|"
+                      r"あらすじ|先行カット|ネタバレ|感想|考察|レビュー|週間ランキング|今週の|来週の|ランキング(TOP|まとめ)|セール|%OFF|％OFF|Kindle|電子書籍|"
+                      r"放送時間|放送日程|いつから|何時から|サービス終了情報まとめ|人気投票|アンケート|診断", re.I)
+EVENT_WORDS_RE = re.compile(r"上映会|イベント|開催|ライブ|LIVE|公演|展|フェス|コラボ|ポップアップ|POP ?UP", re.I)
+
+
+def is_noise(title):
+    return bool(NOISE_RE.search(title or "")) and not EVENT_WORDS_RE.search(title or "")
+
+
 # ────────────────────────────────────────────────────────────────
 
 TICKET_DOMAINS = ["eplus.jp", "l-tike.com", "pia.jp", "ticket.rakuten.co.jp", "livepocket.jp",
@@ -122,8 +134,8 @@ END_WORDS = r"締切|〆切|しめきり|まで"
 UA = {"User-Agent": "matome-board-collector/0.1 (personal use)"}
 
 
-def fetch(url, headers=None):
-    req = urllib.request.Request(url, headers={**UA, **(headers or {})})
+def fetch(url, headers=None, data=None):
+    req = urllib.request.Request(url, headers={**UA, **(headers or {})}, data=data)
     with urllib.request.urlopen(req, timeout=20) as r:
         return r.read()
 
@@ -191,6 +203,8 @@ def classify(text, default="other"):
 
 def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
+    if is_noise(title):
+        return None
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
     if words and default_cat != "stream" and not any(w in text for w in words):
         return None
@@ -548,7 +562,7 @@ def main():
     # 정리: 끝난 지 30일 넘은 것, 날짜 없이 45일 지난 것, 차단 목록에 걸린 것은 뺀다
     keep = []
     for it in new + old:
-        if blocked(it, block):
+        if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))):
             continue
         end = item_end(it)
         if end and end < ref - timedelta(days=30):
@@ -743,10 +757,64 @@ def save_thumb(title, url, thumbs):
         return False
 
 
+ANILIST_Q = """query($page:Int,$status:MediaStatus,$season:MediaSeason,$year:Int){
+  Page(page:$page,perPage:50){pageInfo{hasNextPage}
+    media(type:ANIME,status:$status,season:$season,seasonYear:$year,countryOfOrigin:"JP",format_in:[TV,TV_SHORT,ONA],sort:POPULARITY_DESC){
+      title{native romaji} format status startDate{year month day} popularity coverImage{large}
+      trailer{id site} externalLinks{url site type} nextAiringEpisode{airingAt episode}}}}"""
+
+
+def anilist(variables, pages=1):
+    """AniList 공개 GraphQL API(키 불필요). 페이지마다 50편."""
+    out = []
+    for page in range(1, pages + 1):
+        body = json.dumps({"query": ANILIST_Q, "variables": {**variables, "page": page}}).encode()
+        data = json.loads(fetch("https://graphql.anilist.co", {"Content-Type": "application/json", "Accept": "application/json"}, body))
+        pg = (data.get("data") or {}).get("Page") or {}
+        out += pg.get("media") or []
+        if not (pg.get("pageInfo") or {}).get("hasNextPage"):
+            break
+        time.sleep(0.7)  # 분당 90회 제한
+    return out
+
+
+def anilist_entry(m, old):
+    """AniList 작품 하나 → anime.json 항목. 방송국(st)처럼 AniList에 없는 값은 기존 항목에서 이어받는다."""
+    t = (m.get("title") or {}).get("native") or (m.get("title") or {}).get("romaji") or ""
+    a = {"t": t, "d": old.get("d", 8), "tm": old.get("tm", ""), "st": old.get("st", ""), "s": old.get("s", ""), "r": None,
+         "pv": old.get("pv", ""), "site": old.get("site", ""), "x": old.get("x", ""), "w": m.get("popularity")}
+    nae = m.get("nextAiringEpisode") or {}
+    if nae.get("airingAt"):
+        dt = datetime.fromtimestamp(nae["airingAt"], JST)
+        h, d = dt.hour, (dt.weekday() + 1) % 7  # 0=일
+        if h < 5:  # 심야 방송은 전날 25:30 식으로
+            h, d = h + 24, (d - 1) % 7
+        a["d"], a["tm"] = d, f"{h:02d}:{dt.minute:02d}"
+    elif m.get("format") == "ONA":
+        a["d"] = 7
+    sd = m.get("startDate") or {}
+    if sd.get("year") and sd.get("month"):
+        a["s"] = f"{sd['year']}-{sd['month']:02d}-{sd.get('day') or 1:02d}"
+    tr = m.get("trailer") or {}
+    if tr.get("site") == "youtube" and tr.get("id"):
+        a["pv"] = f"https://www.youtube.com/watch?v={tr['id']}"
+    links = [l for l in (m.get("externalLinks") or []) if isinstance(l, dict) and l.get("url")]
+    official = next((l["url"] for l in links if l.get("type") == "INFO" and "official" in (l.get("site") or "").lower()), "") \
+        or next((l["url"] for l in links if l.get("type") == "INFO"), "")
+    if official:
+        a["site"] = official
+    tw = next((l["url"] for l in links if (l.get("site") or "").lower() in ("twitter", "x")), "")
+    if tw:
+        a["x"] = tw.rstrip("/").split("/")[-1]
+    return a, (m.get("coverImage") or {}).get("large") or ""
+
+
 def export_anime(ref):
     """방영 목록 갱신 + 썸네일.
-    - ANNICT_TOKEN이 있으면 이번 시즌 작품 목록·공식 사이트·공식 X를 받아 합친다(요일·시각은 기존 값 유지).
-    - 썸네일은 ① 공식 사이트 og:image ② Annict 이미지 ③ 공식 PV(YouTube) 대표 이미지 순서로 찾는다."""
+    - AniList(키 불필요)에서 지금 방영 중(RELEASING)인 일본 TV·ONA 작품 전부와 이번 시즌에 시작 예정인 작품을 받아 목록을 새로 만든다.
+      요일·시각은 다음 화 방영 시각(JST)에서 계산하고, 방송국처럼 AniList에 없는 값은 기존 항목에서 이어받는다.
+    - ANNICT_TOKEN이 있으면 Annict 정보(공식 사이트·X·시청자 수)를 덧붙인다.
+    - 썸네일은 ① AniList 표지 ② 공식 사이트 og:image ③ 공식 PV(YouTube) 대표 이미지 순서로 찾는다."""
     path = os.path.join(DATA, "anime.json")
     doc = load_json(path, {"season": "", "name": "", "src": "", "list": []})
     m = ref.month
@@ -755,7 +823,27 @@ def export_anime(ref):
     if doc.get("season") != season:  # 시즌이 바뀌면 새 목록으로
         doc = {"season": season, "name": f"{ref.year}년 {names[season.split('-')[1]]} 애니", "src": "Annict", "list": []}
     by = {tkey(a["t"]): a for a in doc["list"]}
-    extra = {}  # title -> annict image
+    extra = {}  # title -> 표지 이미지
+    al_season = {"winter": "WINTER", "spring": "SPRING", "summer": "SUMMER", "autumn": "FALL"}[season.split("-")[1]]
+    try:
+        media = anilist({"status": "RELEASING"}, pages=5) + anilist({"status": "NOT_YET_RELEASED", "season": al_season, "year": ref.year}, pages=1)
+        fresh, seen = {}, set()
+        for m in media:
+            a, cover = anilist_entry(m, by.get(tkey((m.get("title") or {}).get("native") or (m.get("title") or {}).get("romaji") or ""), {}))
+            k = tkey(a["t"])
+            if not a["t"] or k in seen:
+                continue
+            seen.add(k); fresh[k] = a
+            if cover:
+                extra[a["t"]] = cover
+        if fresh:
+            by = fresh  # AniList 결과로 목록을 새로 만든다(방영이 끝난 작품은 자연히 빠진다)
+            for i, a in enumerate(sorted(by.values(), key=lambda a: -(a.get("w") or 0)), 1):
+                a["r"] = i if a.get("w") else None
+            doc["src"] = f"AniList 방영 정보 ({ref.month}/{ref.day} 기준)"
+            print(f"AniList: 방영 중·예정 {len(fresh)}편")
+    except Exception as e:
+        print(f"AniList 실패: {e} (기존 목록 유지)", file=sys.stderr)
     token = os.environ.get("ANNICT_TOKEN")
     if token:
         page = 1
@@ -777,21 +865,20 @@ def export_anime(ref):
             if not data.get("next_page"):
                 break
             page += 1
-    else:
-        print("ANNICT_TOKEN 없음: 기존 방영 목록으로 썸네일만 갱신", file=sys.stderr)
     doc["list"] = list(by.values())
     save_json(path, doc)
     thumbs = load_json(os.path.join(DATA, "thumbs.json"), {})
     got = 0
-    for a in doc["list"][:200]:
+    for a in doc["list"][:300]:
         t = a["t"]
         if t in thumbs and os.path.exists(os.path.join(ROOT, thumbs[t])):
             continue
-        cands = [og_image(a.get("site", "")), extra.get(t, "")]
+        cands = [lambda: extra.get(t, ""), lambda: og_image(a.get("site", ""))]  # 표지 → 공식 사이트 og:image → PV (필요할 때만 연다)
         pv = re.search(r"[?&]v=([\w-]{11})", a.get("pv", "") or "")
         if pv:
-            cands.append(f"https://i.ytimg.com/vi/{pv.group(1)}/hqdefault.jpg")
-        for u in cands:
+            cands.append(lambda pv=pv: f"https://i.ytimg.com/vi/{pv.group(1)}/hqdefault.jpg")
+        for get in cands:
+            u = get()
             if u and save_thumb(t, u, thumbs):
                 got += 1
                 break

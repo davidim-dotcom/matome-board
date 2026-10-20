@@ -68,7 +68,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 ### 수집 (`python3 collector.py`)
 
 1. `SOURCES`를 순서대로 돈다. 타입: `site`(RSS 자동 탐색) · `rss`(RSS/Atom, Google 뉴스 사이트맵도 읽음) · `wpjson`(WordPress REST API 글 목록, RSS가 비어 있는 WP 사이트용) · `json`(임의 JSON API, `items`/`title`/`date` 필드명과 `link` 틀 지정) · `ldjson`(페이지의 schema.org Event JSON-LD 목록, `{ym}`에 YYYYMM, `months`달치. 날짜·장소가 구조화돼 있어 본문 날짜 추출과 `MUST_HAVE_ANY`를 거치지 않음) · `youtube`(채널 RSS) · `holodex`(`HOLODEX_API_KEY` 필요, 없으면 건너뜀). 소스 공통 옵션: `works`(모든 소식에 붙일 작품 태그), `extra_words`(`MUST_HAVE_ANY`에 더할 통과 단어), `headers`(요청 헤더). 게시일이 있는 글은 `FRESH_DAYS`(60일)보다 오래되면 무시한다. 한 소스가 실패해도 `stderr`에 `이름: 실패 (...)`만 찍고 계속한다. **종료 코드는 항상 0**이므로 Actions에서 실패가 보이지 않는다. 소스 상태는 Actions 로그 stderr나 "소스 점검" 워크플로(`--check`)로 확인.
-2. `build()`: 제목+본문에 `MUST_HAVE_ANY` 단어가 하나도 없으면 버림(youtube의 `stream`은 예외). 날짜는 `DATE_RE`로 뽑아 기간(`A〜B`) → 마감(`END_WORDS` 문맥) → 판매 시작(`OPEN_WORDS`) → 행사일 순으로 배정. 연도가 없고 60일 이상 과거면 내년으로 본다.
+2. `build()`: 제목이 `NOISE_RE`(어디서 볼 수 있나·몇 화 줄거리·선행 컷·감상·주간 순위·세일 등 반복성 기사)에 걸리고 `EVENT_WORDS_RE`(상영회·이벤트·개최·라이브 등)가 없으면 버림(`is_noise`, 정리 단계에서 옛 항목에도 적용, `ldjson`은 예외). 그다음 제목+본문에 `MUST_HAVE_ANY` 단어가 하나도 없으면 버림(youtube의 `stream`은 예외). 날짜는 `DATE_RE`로 뽑아 기간(`A〜B`) → 마감(`END_WORDS` 문맥) → 판매 시작(`OPEN_WORDS`) → 행사일 순으로 배정. 연도가 없고 60일 이상 과거면 내년으로 본다.
 3. `classify()`: `CAT_RULES`를 위에서부터 검사해 **첫 매치**를 쓴다. 순서가 곧 우선순위(doujin > official > live > exhibit > popup > collab > event > …).
 4. 작품 태그: `WORKS_SEED` + `trends.json`의 `top`을 합친 `WATCH` 목록으로 본문을 검사(대소문자 무시, 최대 5개).
 5. 유행 감지: 모든 기사 제목·본문의 『』「」 안 이름을 세어 `trends.json` 갱신. `TREND_MIN`=3회 이상이면 `top`에 올라 다음 실행부터 작품 태그로 쓰인다.
@@ -76,7 +76,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 방영 목록·썸네일 (`python3 collector.py --anime`)
 
-`ANNICT_TOKEN`이 있으면 Annict API로 이번 시즌 작품(최대 6페이지×50)을 받아 합치고, 없으면 기존 목록으로 썸네일만 갱신한다. 썸네일 후보는 ① 공식 사이트 `og:image`/`twitter:image` ② Annict 추천 이미지 ③ `pv`의 YouTube `hqdefault.jpg` 순. 이미 파일이 있으면 다시 받지 않는다.
+목록은 **AniList 공개 GraphQL API**(`graphql.anilist.co`, 키 불필요, 분당 90회)에서 새로 만든다: 지금 방영 중(`RELEASING`)인 일본 TV·TV_SHORT·ONA 작품 최대 250편 + 이번 시즌 시작 예정(`NOT_YET_RELEASED`) 50편. 제목은 `title.native`, 요일·시각은 `nextAiringEpisode.airingAt`을 JST로 바꿔 계산(05시 전 방송은 전날 25:30 식), 순위 `r`은 인기도(`popularity`) 순, `pv`는 YouTube 트레일러, `site`/`x`는 externalLinks. 방송국 `st`처럼 AniList에 없는 값은 같은 제목(`tkey`)의 기존 항목에서 이어받는다. AniList가 실패하면 기존 목록을 유지한다. `ANNICT_TOKEN`이 있으면 Annict 정보를 덧붙인다. 썸네일 후보는 ① AniList 표지 ② 공식 사이트 `og:image`/`twitter:image` ③ `pv`의 YouTube `hqdefault.jpg` 순이고 이미 파일이 있으면 다시 받지 않는다.
 
 ### 페이지 (`index.html`)
 
@@ -88,7 +88,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 탭: 피드 · 캘린더 · 방영중 · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.
-- 피드 상단 칩: 장르(전부 · 버튜버 · 버튜버 제외) + 정렬(최신순, 날짜순) 한 줄, 그 아래 분류 칩. 버튜버 판별은 `isVtuber()`: 전용 소스(`VT_SOURCES`)·`platform=="holodex"`·`VT_RE`(그룹명·용어 정규식) 중 하나. 새 버튜버 그룹을 다루게 되면 `VT_RE`에 더한다.
+- 피드 상단 칩: 장르(전부 · 버튜버 · 버튜버 제외) + 정렬(추천순=기본, 최신순, 날짜순) 한 줄, 그 아래 분류 칩. 추천순은 `hotScore()`: `meta.trends`(유행 작품 순위, 1위 5점에서 20위 0.25점까지)와 방영 중 인기작(`season.list`의 `w`, 최대 5점) 관련 소식에 점수를 주고 예매 링크 +0.5, 추가된 지 5일마다 1점 감점. 걸린 소식에는 "유행"/"방영 중" 배지. 버튜버 판별은 `isVtuber()`: 전용 소스(`VT_SOURCES`)·`platform=="holodex"`·`VT_RE`(그룹명·용어 정규식) 중 하나. 새 버튜버 그룹을 다루게 되면 `VT_RE`에 더한다.
 - 상단 "티켓 마감 임박"은 아직 오지 않은 시각만 보여준다: 3주 안의 `ticketOpen`/`deadline`, 기간형 분류는 5일 안의 `endDate`, 최대 10개. 지난 것은 바로 빠진다.
 
 ## 작업 규칙
