@@ -1,6 +1,6 @@
 {
- "v": 5,
- "updated": "2026-10-21T05:40:49.230825+09:00",
+ "v": 6,
+ "updated": "2026-10-21T05:47:22.465026+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1130,7 +1130,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983511e6ac485f028011f4ecd23ed0cc6e6b9eeb2ad04180dfd01a1378db036731c9bd0e27047275fe",
-   "seenTo": 6748443,
+   "seenTo": 6748929,
    "coverNo": "comic_new6/6708224",
    "updatedAt": "2026-10-18T13:57"
   },
@@ -1262,13 +1262,16 @@
      "title": "번역) 나니와 금융도 31화"
     },
     {
+     "no": 6723707,
+     "title": "번역) 나니와 금융도 32화"
+    },
+    {
      "no": 6733255,
      "title": "번역) 나니와 금융도 33화"
     },
     {
-     "no": 6742738,
-     "title": "방본만) 나니와 금융도 34화",
-     "date": "2026-10-20T19:31"
+     "no": 6737503,
+     "title": "번역) 나니와 금융도 34화"
     },
     {
      "no": 6748146,
@@ -1281,7 +1284,7 @@
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6748443,
+   "seenTo": 6748929,
    "coverNo": "comic_new6/6748146",
    "updatedAt": "2026-10-21T02:07"
   }
