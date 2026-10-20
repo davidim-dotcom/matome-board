@@ -791,7 +791,9 @@ def anilist_entry(m, old):
         if h < 5:  # 심야 방송은 전날 25:30 식으로
             h, d = h + 24, (d - 1) % 7
         a["tm"] = f"{h:02d}:{dt.minute:02d}"
-        if ona:
+        # AniList 의 ONA 에는 TV 심야 편성(22:00~28:59)에 맞춰 나오는 작품도 섞여 있다. 그런 건 TV 방송작으로 보고 요일 칸에 둔다.
+        # 넷플릭스류 글로벌 공개는 보통 16~17시라 스트리밍 칸에 남는다.
+        if ona and not (22 <= h < 29):
             a["d"], a["rd"] = 7, d  # rd: 매주 공개되는 요일
         else:
             a["d"] = d
