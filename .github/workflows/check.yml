@@ -22,24 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: AniList 점검 (임시)
-        if: always()
-        run: |
-          python - <<'PY'
-          import sys, json
-          sys.path.insert(0, ".")
-          import collector as C
-          ref = C.datetime.now(C.JST); lo, hi = ref - C.timedelta(days=30), ref + C.timedelta(days=75)
-          media = C.anilist({"status": "RELEASING"}, pages=5) + C.anilist({"status": "NOT_YET_RELEASED", "startBefore": int(hi.strftime("%Y%m%d"))}, pages=2) + C.anilist({"status": "FINISHED", "startAfter": int(lo.strftime("%Y%m%d"))}, pages=1)
-          keep, sk = [], {}
-          for m in media:
-              w = C.anilist_skip(m)
-              if not w and m["status"] != "RELEASING":
-                  sd = C.anilist_start(m)
-                  if not sd or not (lo <= sd <= hi): w = "기간 밖·날짜 미정"
-              (sk.setdefault(w, []) if w else keep).append((m["title"]["native"] or m["title"]["romaji"])[:28] + f" [{m['status'][:4]} {m['startDate']['year']}-{m['startDate']['month']}-{m['startDate']['day']}]")
-          print("총", len(media), "→ 유지", len(keep), "; 제외:", {k: len(v) for k, v in sk.items()})
-          for k, v in sk.items(): print("  ", k, v[:10])
-          print("완결·예정 중 유지:", [t for t in keep if "RELE" not in t][:20])
-          print("엣지러너:", [t for t in keep if "エッジ" in t])
-          PY

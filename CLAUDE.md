@@ -77,7 +77,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 방영 목록·썸네일 (`python3 collector.py --anime`)
 
-목록은 **AniList 공개 GraphQL API**(`graphql.anilist.co`, 키 불필요, 분당 90회)에서 새로 만든다: 지금 방영 중(`RELEASING`)인 일본 TV·TV_SHORT·ONA 작품 최대 250편 + 이번 시즌 시작 예정(`NOT_YET_RELEASED`) 50편. 제목은 `title.native`, 요일·시각은 `nextAiringEpisode.airingAt`을 JST로 바꿔 계산(05시 전 방송은 전날 25:30 식), 순위 `r`은 인기도(`popularity`) 순(표시는 안 함), ONA는 `d=7`에 두고 공개 요일을 `rd`에 적되, 공개 시각이 TV 심야 편성대(22:00~28:59)면 TV 방송작으로 보고 요일 칸에 둔다(AniList의 ONA 분류가 'TV 방송 없음'과 꼭 같지는 않아서). `pv`는 YouTube 트레일러, `site`/`x`는 externalLinks. 방송국 `st`처럼 AniList에 없는 값은 같은 제목(`tkey`)의 기존 항목에서 이어받는다. AniList가 실패하면 기존 목록을 유지한다. `ANNICT_TOKEN`이 있으면 Annict 정보를 덧붙인다. 썸네일 후보는 ① AniList 표지 ② 공식 사이트 `og:image`/`twitter:image` ③ `pv`의 YouTube `hqdefault.jpg` 순이고 이미 파일이 있으면 다시 받지 않는다.
+목록은 **AniList 공개 GraphQL API**(`graphql.anilist.co`, 키 불필요, 분당 90회)에서 새로 만든다: ① 지금 방영 중(`RELEASING`)인 일본 TV·TV_SHORT·ONA 작품 최대 250편 ② 앞으로 75일 안에 시작하는 예정작(`NOT_YET_RELEASED`, 월까지 확정된 날짜만) ③ 최근 30일 안에 시작해 이미 `FINISHED`인 작품(넷플릭스처럼 전편 일괄 공개된 것, 예: サイバーパンク: エッジランナーズ2). 성인물(`isAdult`)은 조회에서 빼고, `anilist_skip`이 TV 방송·스트리밍 링크·공식 사이트가 모두 없는 ONA와 제목이 티저·PV인 항목을 뺀다. 제목은 `title.native`, 요일·시각은 `nextAiringEpisode.airingAt`을 JST로 바꿔 계산(05시 전 방송은 전날 25:30 식), 순위 `r`은 인기도(`popularity`) 순(표시는 안 함), ONA는 `d=7`에 두고 공개 요일을 `rd`에 적되, 공개 시각이 TV 심야 편성대(22:00~28:59)면 TV 방송작으로 보고 요일 칸에 둔다(AniList의 ONA 분류가 'TV 방송 없음'과 꼭 같지는 않아서). `pv`는 YouTube 트레일러, `site`/`x`는 externalLinks. 방송국 `st`처럼 AniList에 없는 값은 같은 제목(`tkey`)의 기존 항목에서 이어받는다. AniList가 실패하면 기존 목록을 유지한다. `ANNICT_TOKEN`이 있으면 Annict 정보를 덧붙인다. 썸네일 후보는 ① AniList 표지 ② 공식 사이트 `og:image`/`twitter:image` ③ `pv`의 YouTube `hqdefault.jpg` 순이고 이미 파일이 있으면 다시 받지 않는다.
 
 ### 페이지 (`index.html`)
 

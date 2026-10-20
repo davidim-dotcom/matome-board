@@ -773,8 +773,8 @@ def anilist_skip(m):
     has_info = any(l.get("type") == "INFO" for l in links)
     if m.get("format") == "ONA" and not (m.get("nextAiringEpisode") or {}).get("airingAt") and not has_stream and not has_info:
         return "볼 곳 없음"
-    if (m.get("episodes") or 99) <= 3 and re.search(r"PV|ティザー|予告|CM\b|MV|プロモーション", (m.get("title") or {}).get("native") or ""):
-        return "티저·PV"
+    if (m.get("episodes") or 0) <= 3 and re.search(r"PV|ティザー|予告|CM\b|MV|プロモーション", (m.get("title") or {}).get("native") or ""):
+        return "티저·PV"  # 화수가 적거나 미정인데 제목이 예고 영상이면 작품이 아니다
     return ""
 
 
