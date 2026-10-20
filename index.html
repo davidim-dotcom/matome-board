@@ -502,7 +502,7 @@ function renderAnime(all){
 /* ---------- 연재 만화 (디시 만화갤러리 개념글 색인, 원문 링크만) ---------- */
 let comics=null, comicQ="", comicSort="new", comicOpen=null;
 let comicRead={}; try{comicRead=JSON.parse(localStorage.getItem("matome-comics-read")||"{}")||{}}catch{} // 작품 id → 마지막으로 연 글 번호
-const dcUrl=no=>`https://m.dcinside.com/board/${encodeURIComponent((comics&&comics.gallery)||"comic_new6")}/${no}`;
+const dcUrl=e=>`https://m.dcinside.com/board/${encodeURIComponent(e.g||(comics&&comics.gallery)||"comic_new6")}/${e.no}`; // 옛 회차는 다른 갤러리(comic_new3·4)에 있다
 async function loadComics(){
   if(comics) return;
   const raw=await getJSON("data/comics.json",null);
@@ -511,7 +511,7 @@ async function loadComics(){
     series:list.map(x=>({id:String(x.id||"").slice(0,200), name:String(x.name||"").slice(0,120), title:String(x.title||x.name||"").slice(0,120), author:String(x.author||"").slice(0,40),
       rec:Number.isFinite(x.rec)?x.rec:0, updatedAt:String(x.updatedAt||"").slice(0,16),
       cover:/^https:\/\//.test(x.cover||"")?safeUrl(x.cover):"",
-      eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0).map(e=>({no:e.no,title:String(e.title||"").slice(0,160)}))}))
+      eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0).map(e=>({no:e.no,g:/^\w{1,40}$/.test(e.g||"")?e.g:"",title:String(e.title||"").slice(0,160)}))}))
       .filter(x=>x.id&&x.name&&x.eps.length)};
   renderComics();
 }
@@ -528,10 +528,10 @@ function renderComics(){
     const hue=parseInt(hashId(x.id).slice(1),36)%360;
     const cv=`<div class="cvt" style="background:linear-gradient(160deg,hsl(${hue} 40% 58%),hsl(${(hue+40)%360} 45% 36%))" aria-hidden="true">${esc([...x.title][0]||"")}</div>`;
     const pic=x.cover?`<div style="position:relative">${cv}<img class="cv" style="position:absolute;inset:0" src="${esc(x.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>`:cv;
-    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${label}</a>`;
+    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${label}</a>`;
     const btns=[next?link(next,"이어 보기","btn ticket"):"", link(x.eps[0],"1화부터"), x.eps.length>1?link(last,"최신화"):"",
       `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">회차 ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
-    const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
+    const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
     return `<article class="comic">${pic}<div>
       <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
       <div class="sub2">${esc(x.author||"익명")} · 회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>

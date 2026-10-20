@@ -22,37 +22,27 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 링크 모음 점검 (임시)
+      - name: 연재 만화 시험 (임시)
         if: always()
         run: |
+          pip install -q pillow
           python - <<'PY'
-          import re, sys, urllib.parse, html
+          import json, re, sys
           sys.path.insert(0, ".")
           import collector as C
-          A = re.compile(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S)
-          L = re.compile(r'(?:m\.dcinside\.com/board/(\w+)/(\d+)|gall\.dcinside\.com/(?:mgallery/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))')
-          for g, no in [("comic_new4", 1154038), ("comic_new6", 7470)]:
-              t = C.dc_fetch(f"https://m.dcinside.com/board/{g}/{no}")
-              title = re.search(r'"headline":"([^"]+)"', t)
-              print(f"\n[{g}/{no}] len {len(t)} title {title.group(1) if title else None}")
-              for kw in ['class="thum-txtin"', 'writing_view_box', 'class="recom', 'gall-thum-btm', 'dc_series']:
-                  print("   marker", kw, t.find(kw))
-              links = [(h, re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", x))).strip()) for h, x in A.findall(t)]
-              dl = [(h, x) for h, x in links if L.search(html.unescape(h))]
-              print("   DC 글 링크", len(dl))
-              for h, x in dl[:8] + [("...", "...")] + dl[-8:]: print("     ", html.unescape(h)[:90], "|", x[:60])
-              plain = re.findall(r'(?<!href=")(https?://(?:m|gall)\.dcinside\.com/[^\s"<]+)', t)
-              print("   본문 속 일반 텍스트 URL", len(plain), plain[:3])
-              i = t.find('class="thum-txtin"'); print("   본문 시작:", re.sub(r"\s+", " ", t[i:i+1200]) if i >= 0 else None)
-          q = urllib.parse.quote("호리데이 야스미 트위터 모음")
-          u = f"https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval={q}"
-          for step in range(3):
-              t = C.dc_fetch(u); rows = []
-              for li in t.split('<div class="gall-detail-lnktb">')[1:]:
-                  m = re.search(r"/board/comic_new6/(\d+)", li); sub = re.search(r'<span class="subjectin">(.*?)</span>\s*<div', li, re.S)
-                  if m and sub: rows.append((m.group(1), C.clean(sub.group(1))))
-              nxt = re.search(r'href="([^"]*s_pos=[^"]*)" class="next"', t)
-              print(f"\n[SEARCH step {step}] {len(rows)}건", rows[:4], rows[-2:], "next:", html.unescape(nxt.group(1))[-60:] if nxt else None)
-              if not nxt: break
-              u = html.unescape(nxt.group(1))
+          from datetime import datetime, timezone
+          rows = C.dc_search("호리데이 야스미 트위터 모음", 2, [2])
+          print("검색", len(rows), [(r["no"], r["title"]) for r in rows[:5]])
+          C.export_comics(datetime.now(timezone.utc))
+          d = json.load(open("data/comics.json", encoding="utf-8"))
+          print("bad", d.get("bad"))
+          for s in d["series"]:
+              e = s["episodes"]; gs = sorted({x.get("g", "-") for x in e})
+              print(f"{s['title'][:30]:32} {len(e):4}화 {gs} cover={s.get('coverNo')}")
+              if "호리데이" in s["title"] or "히토너" in s["title"]:
+                  nums = [C.ep_num(x["title"]) for x in e]
+                  have = {n for n in nums if n}
+                  print("   처음", e[:3]); print("   끝", e[-3:])
+                  print("   빠진 번호", [n for n in range(2, max(have or {0}) + 1) if n not in have][:60])
+                  print("   번호 역순", [(a, b) for a, b in zip(nums, nums[1:]) if a and b and b < a][:20])
           PY
