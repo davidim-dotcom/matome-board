@@ -22,3 +22,48 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 디시 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, gzip, html, urllib.request, urllib.error
+          H = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
+               "Accept": "text/html,*/*", "Accept-Language": "ko,ja;q=0.8", "Accept-Encoding": "gzip", "Referer": "https://m.dcinside.com/"}
+          def get(u):
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(u, headers=H), timeout=20) as r:
+                      b = r.read(); b = gzip.decompress(b) if r.headers.get("content-encoding") == "gzip" else b
+                      return r.status, b.decode("utf-8", "replace")
+              except urllib.error.HTTPError as e: return e.code, ""
+              except Exception as e: return f"ERR {e}", ""
+          st, t = get("https://m.dcinside.com/robots.txt"); print("robots m", st); print(t[:800])
+          st, t = get("https://gall.dcinside.com/robots.txt"); print("robots gall", st); print(t[:800])
+          for u in ["https://m.dcinside.com/board/comic_new6?recommend=1", "https://m.dcinside.com/board/comic_new6?recommend=1&page=2"]:
+              st, t = get(u); print("\n[LIST]", u, st, len(t))
+              items = re.findall(r'href="(https://m\.dcinside\.com/board/comic_new6/(\d+)[^"]*)"[^>]*>(.*?)</a>', t, re.S)
+              seen = set()
+              for href, no, inner in items:
+                  if no in seen: continue
+                  seen.add(no)
+                  txt = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+                  print("  ", no, "|", txt[:110])
+                  if len(seen) >= 25: break
+              m = re.search(r'gall-detail-lst', t); print("  block marker:", bool(m))
+              i = t.find("comic_new6/"); print("  sample html:", re.sub(r"\s+", " ", t[max(0,i-500):i+900]))
+          st, t = get("https://m.dcinside.com/board/comic_new6/6723707"); print("\n[POST] 6723707", st, len(t))
+          title = re.search(r'<span class="tit">(.*?)</span>', t, re.S) or re.search(r"<title>(.*?)</title>", t, re.S)
+          print("  title:", re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", title.group(1) if title else ""))).strip()[:150])
+          nick = re.search(r'class="nick[^"]*"[^>]*>(.*?)</', t, re.S); print("  nick:", re.sub(r"<[^>]+>", "", nick.group(1)).strip() if nick else None)
+          ginfo = re.findall(r'class="ginfo2"[^>]*>(.*?)</ul>', t, re.S); print("  ginfo:", re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", ginfo[0]))[:200] if ginfo else None)
+          body = re.search(r'<div class="thum-txtin">(.*?)<div class="(?:btn-recommend|recom)', t, re.S)
+          body = body.group(1) if body else t
+          links = re.findall(r'href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)
+          print("  본문 링크:")
+          for h, inner in links[:40]:
+              if "dcinside" in h and re.search(r"comic_new6|/(\d{6,})", h): print("    ", h, "|", re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html.unescape(inner))).strip()[:60])
+          print("  본문 글자 속 글번호 링크:", sorted(set(re.findall(r"(?:m|gall)\.dcinside\.com/[^\s\"'<>]*?(\d{6,8})", body)))[:40])
+          print("  이미지 도메인:", sorted(set(re.findall(r'(?:src|data-original)="https?://([^/"]+)', body)))[:10])
+          i = body.find("1화"); print("  '1화' 주변:", re.sub(r"\s+", " ", body[max(0,i-300):i+600]) if i >= 0 else None)
+          st, t = get("https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend"); print("\n[PC LIST]", st, len(t))
+          PY
+
