@@ -22,19 +22,37 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 검색·시리즈 상자 점검 (임시)
+      - name: 링크 모음 점검 (임시)
         if: always()
         run: |
           python - <<'PY'
           import re, sys, urllib.parse, html
           sys.path.insert(0, ".")
           import collector as C
-          t = C.dc_fetch("https://m.dcinside.com/board/comic_new6/6708224")
-          i = t.find('class="dc_series"'); print("[BOX]", re.sub(r"\s+", " ", t[i:i+2500]))
-          q = urllib.parse.quote("호리데이 야스미")
-          for u in [f"https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval={q}", f"https://gall.dcinside.com/board/lists/?id=comic_new6&s_type=search_subject&s_keyword={q}"]:
-              t = C.dc_fetch(u)
-              print("\n[SEARCH]", u)
-              for kw in ["subjectin", "gall_tit", "search_pos", "다음검색", "검색 결과", "page="]:
-                  m = t.find(kw); print("  ", kw, m, re.sub(r"\s+", " ", t[max(0,m-200):m+500]) if m >= 0 else "")
+          A = re.compile(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S)
+          L = re.compile(r'(?:m\.dcinside\.com/board/(\w+)/(\d+)|gall\.dcinside\.com/(?:mgallery/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))')
+          for g, no in [("comic_new4", 1154038), ("comic_new6", 7470)]:
+              t = C.dc_fetch(f"https://m.dcinside.com/board/{g}/{no}")
+              title = re.search(r'"headline":"([^"]+)"', t)
+              print(f"\n[{g}/{no}] len {len(t)} title {title.group(1) if title else None}")
+              for kw in ['class="thum-txtin"', 'writing_view_box', 'class="recom', 'gall-thum-btm', 'dc_series']:
+                  print("   marker", kw, t.find(kw))
+              links = [(h, re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", x))).strip()) for h, x in A.findall(t)]
+              dl = [(h, x) for h, x in links if L.search(html.unescape(h))]
+              print("   DC 글 링크", len(dl))
+              for h, x in dl[:8] + [("...", "...")] + dl[-8:]: print("     ", html.unescape(h)[:90], "|", x[:60])
+              plain = re.findall(r'(?<!href=")(https?://(?:m|gall)\.dcinside\.com/[^\s"<]+)', t)
+              print("   본문 속 일반 텍스트 URL", len(plain), plain[:3])
+              i = t.find('class="thum-txtin"'); print("   본문 시작:", re.sub(r"\s+", " ", t[i:i+1200]) if i >= 0 else None)
+          q = urllib.parse.quote("호리데이 야스미 트위터 모음")
+          u = f"https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval={q}"
+          for step in range(3):
+              t = C.dc_fetch(u); rows = []
+              for li in t.split('<div class="gall-detail-lnktb">')[1:]:
+                  m = re.search(r"/board/comic_new6/(\d+)", li); sub = re.search(r'<span class="subjectin">(.*?)</span>\s*<div', li, re.S)
+                  if m and sub: rows.append((m.group(1), C.clean(sub.group(1))))
+              nxt = re.search(r'href="([^"]*s_pos=[^"]*)" class="next"', t)
+              print(f"\n[SEARCH step {step}] {len(rows)}건", rows[:4], rows[-2:], "next:", html.unescape(nxt.group(1))[-60:] if nxt else None)
+              if not nxt: break
+              u = html.unescape(nxt.group(1))
           PY
