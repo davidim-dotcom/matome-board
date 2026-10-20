@@ -22,3 +22,27 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: AniList 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import sys, json
+          sys.path.insert(0, ".")
+          import collector as C
+          q = """query($s:String){Page(perPage:5){media(type:ANIME,search:$s,sort:POPULARITY_DESC){title{native romaji} format status isAdult episodes season seasonYear startDate{year month day} popularity nextAiringEpisode{airingAt} externalLinks{site type}}}}"""
+          for s in ["Cyberpunk: Edgerunners 2", "エッジランナーズ"]:
+              data = json.loads(C.fetch("https://graphql.anilist.co", {"Content-Type": "application/json"}, json.dumps({"query": q, "variables": {"s": s}}).encode()))
+              for m in data["data"]["Page"]["media"]:
+                  print(s, "->", m["title"], m["format"], m["status"], "season", m["season"], m["seasonYear"], "start", m["startDate"], "pop", m["popularity"], "next", (m["nextAiringEpisode"] or {}).get("airingAt"), [ (l["site"], l["type"]) for l in m["externalLinks"]][:6])
+          ref = C.datetime.now(C.JST)
+          start_before = int((ref + C.timedelta(days=75)).strftime("%Y%m%d"))
+          media = C.anilist({"status": "RELEASING"}, pages=5) + C.anilist({"status": "NOT_YET_RELEASED", "startBefore": start_before}, pages=2)
+          sk = {}
+          for m in media:
+              w = C.anilist_skip(m)
+              if w: sk.setdefault(w, []).append((m["title"]["native"] or m["title"]["romaji"])[:30])
+          print("총", len(media), "편; 제외:", {k: len(v) for k, v in sk.items()})
+          for k, v in sk.items(): print("  ", k, v[:12])
+          up = [m for m in media if m["status"] == "NOT_YET_RELEASED"]
+          print("예정작", len(up), [ (m["title"]["native"] or "")[:20] + " " + str(m["startDate"]) for m in sorted(up, key=lambda m: -(m["popularity"] or 0))[:8]])
+          PY
