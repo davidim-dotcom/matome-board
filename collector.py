@@ -946,7 +946,11 @@ COMICS = os.path.join(DATA, "comics.json")
 COMICS_V = 2          # 형식·필터가 바뀌면 올린다. 올리면 확인한 글 목록을 비우고 표지를 다시 검사한다
 EP_RE = re.compile(r"(\d+(?:[-~]\d+)?)\s*화|第\s*\d+\s*話|\b(?:ep|EP|Ep)\.?\s*\d+|#\d+|(?:^|\s)\d{1,4}(?:\s*,\s*\d{1,4})*\s*$")
 EP_NUM_RE = re.compile(r"(\d{1,4})\s*화?\s*(?:[\(\[（【][^)\]）】]*[\)\]）】]\s*)?$")  # 제목 끝의 회차 번호
-LINKS_RE = re.compile(r"링크\s*모음")  # 회차 링크만 모아 둔 글. 열어서 그 안의 [시리즈] 상자를 회차로 쓴다
+LINKS_RE = re.compile(r"링크\s*모음")
+# 개념글에 안 올라와도 늘 따라가는 작품: 작가가 회차를 '링크 모음' 글로 묶어 두는 장편. 매 실행 모음 글을 다시 열어 새 화를 더한다.
+COMIC_FOLLOW = [
+    {"title": "호리데이 야스미 트위터 모음", "author": "", "links": [("comic_new4", 1154038), ("comic_new6", 7470)]},  # 1~140화, 141화~ (번역물)
+]  # 회차 링크만 모아 둔 글. 열어서 그 안의 [시리즈] 상자를 회차로 쓴다
 # 공개 보드라 성인 수위로 보이는 작품은 뺀다(제목 기준). 놓친 작품은 data/blocklist.json 의 "comics" 에 이름이나 닉네임을 넣는다.
 # '야스'는 '호리데이 야스미' 같은 정상 작품을 막아서 넣지 않는다.
 COMIC_ADULT_RE = re.compile(r"NTR|ntr|젖|섹스|야한|처녀|자는|엣찌|엣지한|에로|야짤|19금|18금|R-?18|성인|음란|후방|꼴리|페티|촉수|임신|보지|자지|가슴|빨통|정액|최면|능욕|조교|노출|씹|엉덩|팬티|유부녀|불륜|ㅇㅎ|H한|섹시", re.I)
@@ -1199,6 +1203,31 @@ def export_comics(ref):
             if r and r[3]:
                 s["cover"], s["coverNo"] = r[3], ep_ref(e)
 
+    follow = {series_key(f["title"], ""): f for f in COMIC_FOLLOW}
+    for fk, f in follow.items():  # 고정 추적 작품: 모음 글을 펼쳐 회차를 다시 맞춘다
+        eps = expand_links([(g, no, "링크 모음") for g, no in f["links"]], len(f["links"]))
+        if not eps:
+            continue
+        s = by.get(fk) or {"id": fk, "name": f["title"], "title": f["title"], "author": f["author"], "episodes": [], "rec": 0, "cover": ""}
+        known = {ep_ref(e): e for e in s["episodes"]}
+        for g, no, t in eps:
+            e = {"no": no, "title": t} | ({"g": g} if g != DC_GALL else {})
+            known.setdefault(ep_ref(e), e)
+        order = merge_order([ep_ref(e) for e in s["episodes"]], [f"{g}/{no}" for g, no, _ in eps])
+        s["episodes"] = [known[r] for r in order if r not in bad]
+        last = s["episodes"][-1]
+        if not last.get("date"):  # 최신 화를 열어 날짜·표지를 얻는다
+            try:
+                r = open_post(last["no"], last.get("g") or DC_GALL)
+            except Exception as e:
+                r = None; print(f"연재 만화: {f['title']} 최신 화 실패 ({e})", file=sys.stderr)
+            if r:
+                last["date"] = r[2][:16]
+                if r[3]:
+                    s["cover"], s["coverNo"] = r[3], ep_ref(last)
+        s["updatedAt"] = max(s.get("updatedAt", ""), last.get("date", ""))
+        by[fk] = s
+
     if upgrade:  # 이전 형식: 표지가 낚시 그림인 작품은 그 표지를 낸 화(가장 최근 연 화)를 낚시글로 본다
         for s in by.values():
             if s.get("cover") and is_bait(img_hash(s["cover"]), baits):
@@ -1237,7 +1266,7 @@ def export_comics(ref):
         if COMIC_ADULT_RE.search(name):
             stats["skipped"] += 1; continue
         author = p["uid"] or p["nick"]
-        key = series_key(name, author)
+        key = series_key(name, "") if series_key(name, "") in follow else series_key(name, author)
         s = by.get(key) or {"id": key, "name": name, "author": p["nick"], "episodes": [], "rec": 0, "cover": ""}
         known = {ep_ref(e): e for e in s["episodes"]}
         for g, no, t in eps:  # [시리즈] 상자의 순서가 작가가 정한 회차 순서
@@ -1258,7 +1287,7 @@ def export_comics(ref):
         if any(ep_ref(e) in bad for e in s["episodes"]) or s.get("coverNo") in bad:
             recover(s)
     cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
-    series = [s for s in by.values() if s.get("updatedAt", "") >= cutoff and s["episodes"]
+    series = [s for s in by.values() if (s.get("updatedAt", "") >= cutoff or s["id"] in follow) and s["episodes"]
               and not any(k in s["name"].lower() or k in s.get("title", "").lower() or k == s["author"].lower() for k in block)
               and not COMIC_ADULT_RE.search(s["name"] + " " + s.get("title", ""))]
     series.sort(key=lambda s: s.get("updatedAt", ""), reverse=True)

@@ -31,8 +31,13 @@ jobs:
           sys.path.insert(0, ".")
           import collector as C
           from datetime import datetime, timezone
-          rows = C.dc_search("호리데이 야스미 트위터 모음", 2, [2])
-          print("검색", len(rows), [(r["no"], r["title"]) for r in rows[:5]])
+          import urllib.parse
+          t = C.dc_fetch("https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval=" + urllib.parse.quote("히토너"))
+          print("검색 len", len(t), "lnktb", t.count("gall-detail-lnktb"), "subjectin", t.count("subjectin"), "comic_new6/", t.count("/board/comic_new6/"))
+          for kw in ["gall-detail-lnk", "subjectin", "히토너", "s_pos"]:
+              i = t.find(kw, 30000 if kw == "히토너" else 0); print("  @", kw, i, re.sub(r"\s+", " ", t[max(0, i - 300):i + 900]) if i >= 0 else "")
+          rows = C.dc_search("히토너", 3, [3])
+          print("검색", len(rows), [(r["no"], r["title"]) for r in rows[:8]])
           C.export_comics(datetime.now(timezone.utc))
           d = json.load(open("data/comics.json", encoding="utf-8"))
           print("bad", d.get("bad"))
