@@ -22,3 +22,27 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 표지 점검 (임시)
+        if: always()
+        run: |
+          pip install -q pillow
+          python - <<'PY'
+          import json, hashlib, io, base64, sys
+          sys.path.insert(0, ".")
+          import collector as C
+          from PIL import Image
+          d = json.load(open("data/comics.json", encoding="utf-8"))
+          seen = {}
+          for s in d["series"]:
+              u = s.get("cover", "")
+              if not u: print("NOCOVER", s["title"]); continue
+              try: raw = C.fetch(u, C.DC_UA)
+              except Exception as e: print("FAIL", s["title"], e); continue
+              h = hashlib.md5(raw).hexdigest()[:10]
+              im = Image.open(io.BytesIO(raw)).convert("RGB"); w, hh = im.size
+              im.thumbnail((90, 120)); b = io.BytesIO(); im.save(b, "JPEG", quality=60)
+              seen.setdefault(h, []).append(s["title"])
+              print(f"IMG|{h}|{w}x{hh}|{len(raw)}|{s['title'][:20]}|{u[-40:]}|" + base64.b64encode(b.getvalue()).decode())
+          print("DUP", {k: v for k, v in seen.items() if len(v) > 1})
+          PY
+
