@@ -54,11 +54,12 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | 키 | 뜻 |
 |---|---|
 | `t` | 제목(썸네일·보는 중 목록의 키) |
-| `d` | 요일. 0=일 … 6=토, 7=스트리밍(배신), 8=요일 미정 |
+| `d` | 요일. 0=일 … 6=토, 7=스트리밍(TV 방송 없이 넷플릭스 등 스트리밍으로만 나오는 작품, AniList `format=ONA`), 8=요일 미정 |
+| `rd` | 스트리밍 작품(d=7)의 매주 공개 요일 0~6(선택). 페이지에 "매주 ○요일 공개"로 표시 |
 | `tm` | 방송 시각 `"HH:MM"`(JST, `26:00`처럼 24시 넘는 표기 허용) |
 | `st` | 방송국 문자열 |
 | `s` | 첫 방송일 `YYYY-MM-DD` |
-| `r` | 평가 순위(숫자 또는 null) |
+| `r` | 인기 순위(숫자 또는 null). 정렬에만 쓰고 페이지에 표시하지 않는다 |
 | `pv`, `site`, `x`, `w` | PV URL, 공식 사이트, X 아이디, Annict 시청자 수 |
 
 시즌은 월로 결정된다(1–3 winter, 4–6 spring, 7–9 summer, 10–12 autumn). `--anime` 실행 시 `season`이 달라지면 목록을 **통째로 새로 만든다**. 같은 시즌이면 기존 항목을 유지하고 `site/x/w`만 덧쓴다.
@@ -76,7 +77,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 방영 목록·썸네일 (`python3 collector.py --anime`)
 
-목록은 **AniList 공개 GraphQL API**(`graphql.anilist.co`, 키 불필요, 분당 90회)에서 새로 만든다: 지금 방영 중(`RELEASING`)인 일본 TV·TV_SHORT·ONA 작품 최대 250편 + 이번 시즌 시작 예정(`NOT_YET_RELEASED`) 50편. 제목은 `title.native`, 요일·시각은 `nextAiringEpisode.airingAt`을 JST로 바꿔 계산(05시 전 방송은 전날 25:30 식), 순위 `r`은 인기도(`popularity`) 순, `pv`는 YouTube 트레일러, `site`/`x`는 externalLinks. 방송국 `st`처럼 AniList에 없는 값은 같은 제목(`tkey`)의 기존 항목에서 이어받는다. AniList가 실패하면 기존 목록을 유지한다. `ANNICT_TOKEN`이 있으면 Annict 정보를 덧붙인다. 썸네일 후보는 ① AniList 표지 ② 공식 사이트 `og:image`/`twitter:image` ③ `pv`의 YouTube `hqdefault.jpg` 순이고 이미 파일이 있으면 다시 받지 않는다.
+목록은 **AniList 공개 GraphQL API**(`graphql.anilist.co`, 키 불필요, 분당 90회)에서 새로 만든다: 지금 방영 중(`RELEASING`)인 일본 TV·TV_SHORT·ONA 작품 최대 250편 + 이번 시즌 시작 예정(`NOT_YET_RELEASED`) 50편. 제목은 `title.native`, 요일·시각은 `nextAiringEpisode.airingAt`을 JST로 바꿔 계산(05시 전 방송은 전날 25:30 식), 순위 `r`은 인기도(`popularity`) 순(표시는 안 함), ONA는 요일·시각이 있어도 `d=7`에 두고 공개 요일을 `rd`에 적는다. `pv`는 YouTube 트레일러, `site`/`x`는 externalLinks. 방송국 `st`처럼 AniList에 없는 값은 같은 제목(`tkey`)의 기존 항목에서 이어받는다. AniList가 실패하면 기존 목록을 유지한다. `ANNICT_TOKEN`이 있으면 Annict 정보를 덧붙인다. 썸네일 후보는 ① AniList 표지 ② 공식 사이트 `og:image`/`twitter:image` ③ `pv`의 YouTube `hqdefault.jpg` 순이고 이미 파일이 있으면 다시 받지 않는다.
 
 ### 페이지 (`index.html`)
 

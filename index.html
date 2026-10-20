@@ -171,7 +171,6 @@ textarea{min-height:110px;resize:vertical}
 .thumbcol .tz{font-size:11px;color:var(--muted)}
 .watch{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 10px;font-size:13px}
 .watch[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);font-weight:700}
-.rank{color:var(--amber);font-weight:700}
 .soon{color:var(--pink);font-weight:500}
 .aside{font-size:13px;color:var(--muted);margin:6px 0 2px}
 .toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
@@ -446,7 +445,7 @@ function jstDay(){return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(new
 function normAnime(a){
   const d=Number.isInteger(a.d)&&a.d>=0&&a.d<=8?a.d:8;
   return {t:String(a.t||a.title||"").trim().slice(0,160),d,tm:/^\d{1,2}:\d{2}$/.test(a.tm||"")?a.tm:"",st:String(a.st||"").slice(0,80),
-    s:String(a.s||"").slice(0,10),r:Number.isFinite(a.r)?a.r:null,pv:safeUrl(a.pv||""),site:safeUrl(a.site||""),
+    s:String(a.s||"").slice(0,10),r:Number.isFinite(a.r)?a.r:null,rd:Number.isInteger(a.rd)&&a.rd>=0&&a.rd<=6?a.rd:null,pv:safeUrl(a.pv||""),site:safeUrl(a.site||""),
     x:String(a.x||"").replace(/^@/,"").replace(/[^\w]/g,"").slice(0,30),w:Number.isFinite(a.w)?a.w:null};
 }
 function relatedCount(all,t){const b=baseTitle(t).toLowerCase();if(b.length<2)return 0;return all.filter(x=>(x.it.title.toLowerCase().includes(b)||x.it.works.some(w=>w.toLowerCase()===b))).length}
@@ -464,11 +463,11 @@ function renderAnime(all){
   const rows=list.map(a=>{
     const rel=relatedCount(all,a.t);
     const upcoming=a.s&&a.s>todayIso;
-    const meta=[a.st&&esc(a.st), a.s&&(upcoming?`<span class="soon">${esc(a.s.slice(5).replace("-","/"))} 시작</span>`:`${esc(a.s.slice(5).replace("-","/"))}부터`), a.r&&`<span class="rank">평가 ${a.r}위</span>`, animeOnlyWatch&&DAYS[a.d]+(a.d<7?"요일":"")].filter(Boolean).join(" · ");
+    const meta=[a.st&&esc(a.st), a.d===7&&a.rd!==null&&`매주 ${DAYS[a.rd]}요일 공개`, a.s&&(upcoming?`<span class="soon">${esc(a.s.slice(5).replace("-","/"))} 시작</span>`:`${esc(a.s.slice(5).replace("-","/"))}부터`), animeOnlyWatch&&(a.d<7?DAYS[a.d]+"요일":DAYS[a.d])].filter(Boolean).join(" · ");
     const img=thumbs.get(tkey(a.t));
     const hue=parseInt(hashId(a.t).slice(1),36)%360;
     const pic=img?`<img class="thumb" src="${esc(img)}" alt="" loading="lazy">`:`<div class="tile" style="background:linear-gradient(160deg,hsl(${hue} 35% 62%),hsl(${(hue+40)%360} 40% 38%))" aria-hidden="true"></div>`;
-    return `<article class="row arow" data-anime="${esc(a.t)}"><div class="thumbcol">${pic}<div class="tm">${a.tm?esc(a.tm):(a.d<7?"–":a.d===7?"배신":"미정")}</div>${a.tm?`<div class="tz">JST</div>`:""}</div><div>
+    return `<article class="row arow" data-anime="${esc(a.t)}"><div class="thumbcol">${pic}<div class="tm">${a.tm?esc(a.tm):(a.d<7?"–":a.d===7?"스트리밍":"미정")}</div>${a.tm?`<div class="tz">JST</div>`:""}</div><div>
       <div class="meta">${meta}</div>
       <div class="title">${esc(a.t)}</div>
       <div class="actions">
@@ -480,7 +479,7 @@ function renderAnime(all){
       </div></div></article>`}).join("");
   el.innerHTML=`<p class="aside">${esc(season.name)} · ${season.list.length}편${season.src?" · 출처 "+esc(season.src):""}</p><div class="filters">${chips}</div>`
     +(rows||`<div class="empty">${animeOnlyWatch?"‘보는 중에 추가’를 누른 작품이 여기 모여요.":"이 요일에 방송하는 작품이 없어요."}</div>`)
-    +`<p class="note" style="margin-top:14px">‘보는 중’ 목록은 이 브라우저에만 저장돼요. 방송 시각은 일본 시간이고 24시 이후 표기는 다음 날 새벽이에요.</p>`;
+    +`<p class="note" style="margin-top:14px">‘보는 중’ 목록은 이 브라우저에만 저장돼요. 방송 시각은 일본 시간이고 24시 이후 표기는 다음 날 새벽이에요. ‘스트리밍’에는 TV 방송 없이 넷플릭스 같은 스트리밍으로만 나오는 작품이 모여요.</p>`;
 }
 /* ---------- 게시판 (익명, 게시 후 수정 불가) ---------- */
 const bbsReady=()=>/^https:\/\/script\.google\.com\/macros\//.test(BBS.api);

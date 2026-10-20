@@ -784,14 +784,21 @@ def anilist_entry(m, old):
     a = {"t": t, "d": old.get("d", 8), "tm": old.get("tm", ""), "st": old.get("st", ""), "s": old.get("s", ""), "r": None,
          "pv": old.get("pv", ""), "site": old.get("site", ""), "x": old.get("x", ""), "w": m.get("popularity")}
     nae = m.get("nextAiringEpisode") or {}
+    ona = m.get("format") == "ONA"  # TV 방송 없이 넷플릭스 등 스트리밍으로만 나오는 작품 → '스트리밍' 칸(d=7)
     if nae.get("airingAt"):
         dt = datetime.fromtimestamp(nae["airingAt"], JST)
         h, d = dt.hour, (dt.weekday() + 1) % 7  # 0=일
         if h < 5:  # 심야 방송은 전날 25:30 식으로
             h, d = h + 24, (d - 1) % 7
-        a["d"], a["tm"] = d, f"{h:02d}:{dt.minute:02d}"
-    elif m.get("format") == "ONA":
+        a["tm"] = f"{h:02d}:{dt.minute:02d}"
+        if ona:
+            a["d"], a["rd"] = 7, d  # rd: 매주 공개되는 요일
+        else:
+            a["d"] = d
+            a.pop("rd", None)
+    elif ona:
         a["d"] = 7
+        a.pop("rd", None)
     sd = m.get("startDate") or {}
     if sd.get("year") and sd.get("month"):
         a["s"] = f"{sd['year']}-{sd['month']:02d}-{sd.get('day') or 1:02d}"
