@@ -940,8 +940,8 @@ DC_PAGES = 5          # 개념글 목록을 몇 쪽 읽을지(쪽당 약 25건)
 DC_POST_MAX = 40      # 한 번 실행에서 새로 열어 볼 글 수
 DC_KEEP_DAYS = 90     # 이 기간 동안 새 화가 없으면 목록에서 뺀다
 DC_SEARCH_MAX = 20    # 한 번 실행에서 낚시글 대체용으로 읽을 검색 블록 수(블록당 글 1만 건 ≈ 하루치)
-DC_FOLLOW_SEARCH = 45 # 고정 추적 작품의 새 화를 찾으려 읽을 검색 블록 수 상한
-DC_SEARCH_SLACK = 120000  # 검색 블록 위치(s_pos)는 삭제된 글을 빼고 세어 글 번호보다 작다. floor 아래로 이만큼 더 읽어 빈틈을 막는다
+DC_FOLLOW_SEARCH = 60 # 고정 추적 작품의 새 화를 찾으려 읽을 검색 블록 수 상한
+DC_SEARCH_SLACK = 60000  # 검색 블록 위치(s_pos)는 삭제된 글을 빼고 세어 글 번호보다 작다. floor 아래로 이만큼 더 읽어 빈틈을 막는다
 DC_UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
          "Accept-Language": "ko", "Referer": "https://m.dcinside.com/"}
 COMICS = os.path.join(DATA, "comics.json")
@@ -1244,10 +1244,8 @@ def export_comics(ref):
         floor = max([s.get("seenTo", 0)] + [e["no"] for e in s["episodes"] if not e.get("g")])
         b = [DC_FOLLOW_SEARCH]
         have = {ep_ref(e) for e in s["episodes"]}
-        for row in dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor):
-            ref_ = f"{DC_GALL}/{row['no']}"
-            # 회차 번호는 오타가 잦아(같은 번호 두 번, 번호 건너뜀) 순서는 모음 글 순서 + 그 뒤 글 번호 순으로 둔다
-        new = {ep_num(e["title"]) for e in s["episodes"] if not e.get("g") and e["no"] > floor}
+        # 회차 번호는 오타가 잦아(같은 번호 두 번, 번호 건너뜀) 순서는 모음 글 순서 + 그 뒤 글 번호 순으로 둔다
+        new = set()  # 이번에 찾은 화 번호(번역·재업이 같이 걸리면 먼저 올라온 글만)
         for row in sorted(dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor), key=lambda r: r["no"]):
             ref_, n = f"{DC_GALL}/{row['no']}", ep_num(row["title"])
             if row["no"] > floor and ref_ not in have and ref_ not in bad and n and n not in new \
