@@ -534,14 +534,14 @@ function renderComics(){
     const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
     return `<article class="comic">${pic}<div>
       <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
-      <div class="sub2">${esc(x.author||"익명")} · 회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
+      <div class="sub2">${x.author?esc(x.author)+" · ":""}회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
       <p class="last">최신: ${esc(last.title)}</p>
       <div class="actions">${btns}</div></div>${eps}</article>`}).join("");
-  el.innerHTML=`<p class="aside">디시인사이드 만화 갤러리 개념글 중 회차가 이어지는 연재작 ${comics.series.length}편${comics.updated?" · "+esc(relDay(comics.updated))+" 확인":""}. 누르면 원문(디시)이 열리고, 마지막으로 연 화는 이 브라우저에 기억해 ‘이어 보기’로 이어 줘요.</p>
+  el.innerHTML=`<p class="aside">디시인사이드 만화 갤러리에서 고른 연재작 ${comics.series.length}편을 1화부터 모았어요${comics.updated?" · "+esc(relDay(comics.updated))+" 확인":""}. 누르면 원문(디시)이 열리고, 마지막으로 연 화는 이 브라우저에 기억해 ‘이어 보기’로 이어 줘요.</p>
     <div class="cm-bar"><input type="text" id="cmQ" placeholder="작품·작성자 검색" value="${esc(comicQ)}" autocomplete="off">
     <button class="chip" data-cmsort="new" aria-pressed="${comicSort==="new"}">최근 갱신</button><button class="chip" data-cmsort="rec" aria-pressed="${comicSort==="rec"}">추천 많은</button></div>`
     +(cards||`<div class="empty">${q?"찾는 작품이 없어요.":"아직 모인 연재작이 없어요."}</div>`)
-    +`<p class="note" style="margin-top:14px">그림은 이 사이트에 저장하지 않고 원문 링크만 모읍니다. 성인 수위로 보이는 작품은 제목 기준으로 뺐어요. 빠져야 할 작품이 보이면 사이트 개요의 게시판에 알려 주세요.</p>`;
+    +`<p class="note" style="margin-top:14px">그림은 이 사이트에 저장하지 않고 원문 링크만 모읍니다. 운영자가 지정한 작품만 올라오고 새 화는 자동으로 붙어요. 추가하고 싶은 작품은 사이트 개요의 게시판에 알려 주세요.</p>`;
   const inp=$("#cmQ"); if(inp){inp.oninput=e=>{comicQ=e.target.value;const pos=e.target.selectionStart;renderComics();const n=$("#cmQ");if(n){n.focus();n.setSelectionRange(pos,pos)}}}
 }
 

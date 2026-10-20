@@ -1,0 +1,7 @@
+{
+ "_설명": "만갤 탭에 모을 연재작. title=작품 이름(디시 글 제목에서 말머리·회차를 뗀 이름과 같아야 새 화를 알아본다), posts=회차 목록을 읽을 글 주소([시리즈] 상자가 있는 아무 화나 '링크 모음' 글). 1화부터 모두 모은다.",
+ "follow": [
+  {"title": "호리데이 야스미 트위터 모음", "author": "", "posts": ["https://m.dcinside.com/board/comic_new4/1154038", "https://m.dcinside.com/board/comic_new6/7470"]},
+  {"title": "나니와 금융도", "author": "", "posts": ["https://m.dcinside.com/board/comic_new6/6737503"]}
+ ]
+}
