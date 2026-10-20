@@ -13,8 +13,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `.github/workflows/update.yml` | 하루 4번(JST 06/12/18/24시, UTC `0 21,3,9,15`) + 수동 실행. `collector.py` → `collector.py --anime` → `collector.py --comics` → `data/` 변경분을 `main`에 커밋·푸시 | 사람 |
 | `.github/workflows/check.yml` | 수동 실행 전용 "소스 점검". `collector.py --check`를 돌려 소스별 OK/FAIL만 출력하고 `data/`는 건드리지 않는다. 소스를 고친 뒤 확인용. | 사람 |
 | `data/manual.json` | 직접 추가하는 소식 배열. 자동 수집보다 먼저 읽혀 같은 id면 우선. | 사람 |
-| `data/blocklist.json` | `{"urls":[], "titles":[], "ids":[], "comics":[]}`. 수집기와 페이지 양쪽에서 제외. `titles`는 소문자 부분일치. `comics`는 연재 만화에서 뺄 작품명(부분일치) 또는 작성자 닉네임(일치). | 사람 |
-| `data/comics.json` | 연재 만화 색인 `{updated, gallery, series:[{id,name,title,author,episodes:[{no,title,date?}],rec,cover,updatedAt}], scanned:[글번호]}`. `name`은 [시리즈] 상자 이름(작가 별칭일 수 있음), `title`은 최신 화 제목에서 회차를 뗀 이름으로 카드 제목에 쓴다. | 봇만 |
+| `data/blocklist.json` | `{"urls":[], "titles":[], "ids":[], "comics":[]}`. 수집기와 페이지 양쪽에서 제외. `titles`는 소문자 부분일치. `comics`는 연재 만화에서 뺄 작품명(부분일치) 또는 작성자 닉네임(일치). `comic_images`(선택)는 낚시 그림의 dHash 16진수 16자리 목록. | 사람 |
+| `data/comics.json` | 연재 만화 색인 `{v, updated, gallery, series:[{id,name,title,author,episodes:[{no,g?,title,date?}],rec,cover,coverNo,updatedAt,seenTo?}], scanned:[글번호], bad:["갤러리/글번호"]}`. `g`는 `gallery`와 다른 갤러리(옛 `comic_new3`·`comic_new4`)에 있는 화에만 붙는다. `bad`는 낚시글로 판정해 다시 넣지 않는 글. `name`은 [시리즈] 상자 이름(작가 별칭일 수 있음), `title`은 최신 화 제목에서 회차를 뗀 이름으로 카드 제목에 쓴다. | 봇만 |
 | `data/anime.json` | 이번 시즌 방영 목록. 요일·시각 등은 사람이 고치고, `--anime`가 Annict 정보를 덧붙인다. | 사람 + 봇 |
 | `data/items.json` | 수집된 소식(최대 `KEEP`=600건). | 봇만 |
 | `data/meta.json` | `{updated, trends(상위 20), count}`. 페이지 상단 "n/n hh:mm 업데이트" 표기용. | 봇만 |
@@ -73,8 +73,12 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 1. 먼저 `m.dcinside.com/robots.txt`의 `User-agent: *` 묶음이 `/board/`를 막는지 확인하고, 막으면 아무것도 하지 않는다(`dc_allowed`).
 2. 개념글 목록(`?recommend=1`) `DC_PAGES`=5쪽을 읽는다(`dc_list`, 항목은 `<div class="gall-detail-lnktb">` 단위, 닉·`data-info` 아이디·조회·추천).
 3. 제목에 회차 표시(`EP_RE`: `N화`, `N-M화`, `第N話`, `#N`, 끝의 숫자 `238, 239`)가 있고 `[단편]`이 아닌 글만, 아직 `scanned`에 없는 것부터 실행당 `DC_POST_MAX`=40건 연다(요청 사이 1초).
-4. 글 안의 **[시리즈] 상자**(`class="dc_series"`)에서 시리즈 이름과 1화부터의 회차 링크(`no=`)를 순서대로 읽는다(`dc_post`). 상자가 없으면 제목에서 회차를 떼어(`strip_ep`) 이름으로 쓴다. 작품 키는 이름(기호 제거) + 작성자 아이디(없으면 닉).
-5. 성인 수위로 보이는 제목(`COMIC_ADULT_RE`)과 `blocklist.json`의 `comics`에 걸린 작품·닉은 뺀다. `DC_KEEP_DAYS`=90일 동안 새 화가 없는 작품은 목록에서 빠진다(최대 200편).
+4. 글 안의 **[시리즈] 상자**(`class="dc_series"`)에서 시리즈 이름과 1화부터의 회차 링크를 순서대로 읽는다(`dc_post`/`dc_links`: `m.dcinside.com/board/{갤}/{no}`와 `gall.dcinside.com/...?id=&no=` 둘 다, 속성 순서 무관, 갤러리도 함께). 상자가 없으면 제목에서 회차를 떼어(`strip_ep`) 이름으로 쓴다. 작품 키는 이름(기호 제거) + 작성자 아이디(없으면 닉). 회차 순서는 이번 상자 순서를 기본으로, 상자에 없는 예전 화는 예전 목록에서 앞이던 화 뒤에 끼운다(`merge_order`).
+   - **링크 모음 펼치기**(`expand_links`): 상자 안 항목 제목이 `LINKS_RE`(`링크 모음`)이면 그 글을 열어 그 글의 상자를 회차로 끼워 넣는다(한 단계, 최대 6개). [시리즈] 상자는 **50개까지만** 보이므로 본문에 붙은 링크 중 상자 회차와 같은 작품 이름(`series_base`: 말머리·회차를 너그럽게 뗀 이름. `번엽)`, `모음62` 같은 오타 대응)인 것도 함께 읽는다. 제목이 링크 모음인 글 자체는 회차로 열지 않는다.
+   - **고정 추적 작품**(`COMIC_FOLLOW`): 개념글에 안 올라와도 매 실행 모음 글을 다시 펼친다. 지금은 호리데이 야스미 트위터 모음(`comic_new4/1154038`=1~140화, `comic_new6/7470`=141~235화, 번역물이라 성인물 아님). 모음에 아직 없는 최근 화는 제목 검색(`dc_search`, 1만 글 단위 블록을 `s_pos`로 거슬러 감)으로 채우고 이미 훑은 최신 글 번호를 `seenTo`에 둔다(처음 한 번만 수십 블록, 이후 몇 블록). 이 작품은 회차 번호 오타(같은 번호 두 번 등)가 잦아 번호로 정렬하지 않고 모음 글 순서 + 그 뒤 글 번호 순으로 둔다. 작품 키는 작성자 없이 제목만(`series_key(title, "")`)이라 개념글에서 들어온 화도 같은 작품에 붙는다.
+   - **낚시글**: 연재작 제목을 달고 니세코이 짤을 올리는 글이 있다. 연 글의 og:image dHash(9×8 흑백, `img_hash`, Pillow 필요)가 `BAIT_HASHES`(+ blocklist `comic_images`)와 `BAIT_DIST`=10비트 이하로 가까우면 `bad`에 넣고 회차에서 빼며, 같은 작품·같은 회차 번호의 다른 글을 제목 검색(`dc_search`, 최근 3블록)으로 찾아 대신 넣고(`refind`), 표지가 그 글에서 왔으면 남은 화에서 다시 찾는다(`recover`). Pillow가 없으면 이 판정은 건너뛴다.
+   - `COMICS_V`를 올리면 다음 실행에서 `scanned`를 비우고 모든 표지를 한 번 검사한다(필터를 바꿨을 때 예전에 뺀 글을 다시 보게).
+5. 성인 수위로 보이는 제목(`COMIC_ADULT_RE`, `야스`는 호리데이 야스미를 막아서 넣지 않음)과 `blocklist.json`의 `comics`에 걸린 작품·닉은 뺀다. `DC_KEEP_DAYS`=90일 동안 새 화가 없는 작품은 목록에서 빠진다(최대 200편).
 6. 예외는 모두 삼켜서 이 단계가 실패해도 워크플로는 이어 간다.
 
 ### 수집 (`python3 collector.py`)
@@ -97,7 +101,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록뿐이며 localStorage 키 `matome-public-v1`에 `{S:{watching:[]}}`로 저장된다(예전 구조의 `S.watching`만 읽어 호환). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
 - 표시 언어: 맨 위 `原文 / 한국어` 전환(`lang`, localStorage `matome-lang`, 기본 한국어). `tx(it,"title")`/`tx(it,"summary")`가 번역이 있으면 `*_ko`, 없으면 원문을 돌려준다. 카드 제목·요약과 상단 띠 제목에만 적용하고 장소·작품명·방영 목록은 원문 그대로.
-- 연재 만화 탭(`section#comics`): 탭을 처음 열 때 `data/comics.json`을 불러온다(`loadComics`). 작품 카드에 이어 보기 · 1화부터 · 최신화 · 회차 목록(펼침). 모든 링크는 원문 `m.dcinside.com/board/{gallery}/{no}`(새 탭)이고, 누르면 그 화를 localStorage `matome-comics-read`(작품 id → 글 번호)에 기억해 다음 화로 "이어 보기"와 "새 화" 배지를 띄운다. 검색(작품·작성자)과 정렬(최근 갱신·추천 많은). 표지는 og:image 주소를 `referrerpolicy=no-referrer`로 시도하고 실패하면 색 타일.
+- 연재 만화 탭(`section#comics`): 탭을 처음 열 때 `data/comics.json`을 불러온다(`loadComics`). 작품 카드에 이어 보기 · 1화부터 · 최신화 · 회차 목록(펼침). 모든 링크는 원문 `m.dcinside.com/board/{g 또는 gallery}/{no}`(새 탭)이고, 누르면 그 화를 localStorage `matome-comics-read`(작품 id → 글 번호)에 기억해 다음 화로 "이어 보기"와 "새 화" 배지를 띄운다. 검색(작품·작성자)과 정렬(최근 갱신·추천 많은). 표지는 og:image 주소를 `referrerpolicy=no-referrer`로 시도하고 실패하면 색 타일.
 - 탭: 피드 · 캘린더 · 방영중 · 연재 만화 · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.

@@ -939,12 +939,28 @@ DC_GALL = "comic_new6"
 DC_PAGES = 5          # 개념글 목록을 몇 쪽 읽을지(쪽당 약 25건)
 DC_POST_MAX = 40      # 한 번 실행에서 새로 열어 볼 글 수
 DC_KEEP_DAYS = 90     # 이 기간 동안 새 화가 없으면 목록에서 뺀다
+DC_SEARCH_MAX = 20    # 한 번 실행에서 낚시글 대체용으로 읽을 검색 블록 수(블록당 글 1만 건 ≈ 하루치)
+DC_FOLLOW_SEARCH = 60 # 고정 추적 작품의 새 화를 찾으려 읽을 검색 블록 수 상한
+DC_SEARCH_SLACK = 60000  # 검색 블록 위치(s_pos)는 삭제된 글을 빼고 세어 글 번호보다 작다. floor 아래로 이만큼 더 읽어 빈틈을 막는다
 DC_UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
          "Accept-Language": "ko", "Referer": "https://m.dcinside.com/"}
 COMICS = os.path.join(DATA, "comics.json")
+COMICS_V = 2          # 형식·필터가 바뀌면 올린다. 올리면 확인한 글 목록을 비우고 표지를 다시 검사한다
 EP_RE = re.compile(r"(\d+(?:[-~]\d+)?)\s*화|第\s*\d+\s*話|\b(?:ep|EP|Ep)\.?\s*\d+|#\d+|(?:^|\s)\d{1,4}(?:\s*,\s*\d{1,4})*\s*$")
+EP_NUM_RE = re.compile(r"(\d{1,4})\s*화?\s*(?:[\(\[（【][^)\]）】]*[\)\]）】]\s*)?$")  # 제목 끝의 회차 번호
+LINKS_RE = re.compile(r"링크\s*모음")
+# 개념글에 안 올라와도 늘 따라가는 작품: 작가가 회차를 '링크 모음' 글로 묶어 두는 장편. 매 실행 모음 글을 다시 열어 새 화를 더한다.
+COMIC_FOLLOW = [
+    {"title": "호리데이 야스미 트위터 모음", "author": "", "links": [("comic_new4", 1154038), ("comic_new6", 7470)]},  # 1~140화, 141화~ (번역물)
+]  # 회차 링크만 모아 둔 글. 열어서 그 안의 [시리즈] 상자를 회차로 쓴다
 # 공개 보드라 성인 수위로 보이는 작품은 뺀다(제목 기준). 놓친 작품은 data/blocklist.json 의 "comics" 에 이름이나 닉네임을 넣는다.
-COMIC_ADULT_RE = re.compile(r"NTR|ntr|젖|섹스|야한|처녀|자는|엣찌|엣지한|에로|야짤|19금|18금|R-?18|성인|음란|후방|꼴리|페티|촉수|임신|보지|자지|가슴|빨통|정액|최면|능욕|조교|노출|씹|엉덩|팬티|유부녀|불륜|ㅇㅎ|H한|야스|섹시", re.I)
+# '야스'는 '호리데이 야스미' 같은 정상 작품을 막아서 넣지 않는다.
+COMIC_ADULT_RE = re.compile(r"NTR|ntr|젖|섹스|야한|처녀|자는|엣찌|엣지한|에로|야짤|19금|18금|R-?18|성인|음란|후방|꼴리|페티|촉수|임신|보지|자지|가슴|빨통|정액|최면|능욕|조교|노출|씹|엉덩|팬티|유부녀|불륜|ㅇㅎ|H한|섹시", re.I)
+# 연재작 제목을 달고 엉뚱한 그림(니세코이 짤)을 올리는 낚시글. 대표 이미지의 dHash(9×8 흑백, 64비트)가 가까우면 회차에서 빼고 진짜 글을 다시 찾는다.
+# 새 낚시 그림은 data/blocklist.json 의 "comic_images" 에 16진수 해시를 더한다.
+BAIT_HASHES = ["fce6666664b033d1"]
+BAIT_DIST = 10
+DC_LINK_RE = re.compile(r'<a\s[^>]*?href="(?:https?:)?//(?:m\.dcinside\.com/board/(\w+)/(\d+)|gall\.dcinside\.com/(?:mgallery/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))[^"]*"[^>]*>(.*?)</a>', re.S)
 
 
 def dc_fetch(url):
@@ -981,42 +997,125 @@ def dc_allowed():
     return True
 
 
-def dc_list(page):
-    """개념글 목록 한 쪽 → [{no, title, nick, uid, views, rec}]"""
-    t = dc_fetch(f"https://m.dcinside.com/board/{DC_GALL}?recommend=1&page={page}")
+def span_text(t, start):
+    """start 위치의 <span ...> 안쪽 글자(안에 든 <span> 강조 표시까지 포함해 짝을 맞춰 자른다)"""
+    depth = 0
+    for m in re.compile(r"<(/?)span\b[^>]*>", re.I).finditer(t, start):
+        depth += -1 if m.group(1) else 1
+        if depth == 0:
+            return re.sub(r"\s+", " ", clean(t[t.find(">", start) + 1:m.start()]))
+    return ""
+
+
+def dc_rows(t):
+    """목록·검색 결과 페이지 → [{no, title, nick, uid, views, rec}]"""
     out = []
     for li in t.split('<div class="gall-detail-lnktb">')[1:]:  # 항목마다 이 div 로 시작한다(안쪽 <li> 때문에 </li> 로는 못 자른다)
-        li = li.split('<div class="gall-detail-lnktb">')[0][:6000]
+        li = li[:6000]
         m = re.search(rf"/board/{DC_GALL}/(\d+)", li)
-        sub = re.search(r'<span class="subjectin">(.*?)</span>', li, re.S)
-        if not (m and sub):
+        i = li.find('<span class="subjectin"')
+        if not m or i < 0:
             continue
         nick = re.search(r'<li class="list-nick">(.*?)<', li, re.S)
         uid = re.search(r'data-info="([^"]*)"', li)
         num = lambda pat: int((re.search(pat, li) or [0, "0"])[1] or 0)
-        out.append({"no": int(m.group(1)), "title": clean(sub.group(1)), "nick": clean(nick.group(1)) if nick else "",
+        out.append({"no": int(m.group(1)), "title": span_text(li, i), "nick": clean(nick.group(1)) if nick else "",
                     "uid": uid.group(1) if uid else "", "views": num(r"조회 (\d+)"), "rec": num(r"추천 <span>(\d+)")})
     return out
 
 
-def dc_post(no):
-    """글 하나 → (시리즈 이름, [(글번호, 제목)], 게시 시각, 대표 이미지)"""
-    t = dc_fetch(f"https://m.dcinside.com/board/{DC_GALL}/{no}")
+def dc_list(page):
+    """개념글 목록 한 쪽"""
+    return dc_rows(dc_fetch(f"https://m.dcinside.com/board/{DC_GALL}?recommend=1&page={page}"))
+
+
+def dc_search(q, blocks, budget, floor=0):
+    """제목 검색. 첫 결과는 최근 글 1만 건 범위이고 '다음 검색'으로 더 오래된 범위를 읽는다. budget=[남은 블록 수].
+    floor 를 주면 그 글 번호 아래 범위로는 내려가지 않는다(다 읽었으면 budget 이 남는다)."""
+    u, rows = f"https://m.dcinside.com/board/{DC_GALL}?s_type=subject_m&serval={urllib.parse.quote(q)}", []
+    for _ in range(blocks):
+        if budget[0] <= 0:
+            break
+        budget[0] -= 1
+        try:
+            t = dc_fetch(u)
+        except Exception as e:
+            print(f"연재 만화: 검색 '{q}' 실패 ({e})", file=sys.stderr); break
+        time.sleep(1)
+        rows += dc_rows(t)
+        nxt = re.search(r'href="([^"]*s_pos=-?(\d+)[^"]*)"[^>]*class="next"', t)
+        if not nxt or int(nxt.group(2)) < floor - DC_SEARCH_SLACK:
+            return rows
+        u = urllib.parse.urljoin("https://m.dcinside.com/", html.unescape(nxt.group(1)))
+    budget[0] = min(budget[0], -1) if floor else budget[0]  # floor 까지 못 내려감
+    return rows
+
+
+def dc_links(seg):
+    """HTML 조각 안의 디시 글 링크 → [(갤러리, 글번호, 링크 글자)]"""
+    return [(m.group(1) or m.group(3), int(m.group(2) or m.group(4)), clean(m.group(5)).lstrip("·").strip())
+            for m in DC_LINK_RE.finditer(seg)]
+
+
+def dc_post(no, g=DC_GALL):
+    """글 하나 → (시리즈 이름, [(갤러리, 글번호, 제목)], 게시 시각, 대표 이미지)"""
+    return parse_post(dc_fetch(f"https://m.dcinside.com/board/{g}/{no}"))
+
+
+def parse_post(t):
     name, eps = "", []
     i = t.find('class="dc_series"')
-    if i >= 0:
-        seg = t[i:i + 60000]
-        h = re.search(r"\[시리즈\]\s*(.*?)\s*</div>", seg, re.S)
-        if h:
-            name = clean(h.group(1))
-            pos = h.end()
-            item = re.compile(r'\s*<a href="[^"]*?[?&;]no=(\d+)[^"]*"[^>]*>(.*?)</a>\s*(?:<br\s*/?>)?', re.S)
-            while (m := item.match(seg, pos)):  # 상자 안의 링크가 끊길 때까지 차례로 읽는다
-                eps.append((int(m.group(1)), clean(m.group(2)).lstrip("·").strip()))
-                pos = m.end()
+    h = re.compile(r"\[시리즈\]\s*(.*?)\s*</div>", re.S).search(t, i, i + 3000) if i >= 0 else None
+    if h:  # 상자 = 굵은 제목 div 다음에 링크가 <br> 로 이어지다 </div> 로 닫힌다
+        name = clean(h.group(1))
+        end = t.find("</div>", h.end())
+        eps = dc_links(t[h.end():end if end > 0 else h.end() + 100000])
     when = re.search(r'"datePublished":"([^"]+)"', t)
     og = re.search(r'<meta property="og:image" content="([^"]+)"', t)
     return name, eps, (when.group(1) if when else ""), (html.unescape(og.group(1)) if og else "")
+
+
+def expand_links(eps, n=6):
+    """회차 목록 안의 '링크 모음' 글을 열어 그 글의 [시리즈] 상자 회차로 바꿔 끼운다(한 단계만)."""
+    out = []
+    for g, no, t in eps:
+        if not LINKS_RE.search(t):
+            out.append((g, no, t)); continue
+        if n <= 0:
+            continue
+        n -= 1
+        try:
+            t = dc_fetch(f"https://m.dcinside.com/board/{g}/{no}")
+        except Exception as e:
+            print(f"연재 만화: 링크 모음 {g}/{no} 실패 ({e})", file=sys.stderr); continue
+        time.sleep(1)
+        box = [e for e in parse_post(t)[1] if not LINKS_RE.search(e[2])]
+        # 상자는 50개까지만 보이므로 나머지 화는 본문에 붙은 링크에서 읽는다(상자 속 회차와 같은 작품 이름인 링크만)
+        bases = {series_base(x[2]) for x in box if ep_num(x[2])}
+        seen = {(x[0], x[1]) for x in box}
+        out += box + [e for e in dc_links(t) if series_base(e[2]) in bases and (e[0], e[1]) not in seen]
+    return out
+
+
+def img_hash(url):
+    """대표 이미지의 dHash(16진수). Pillow 가 없거나 못 받으면 None"""
+    if not url.startswith("http"):
+        return None
+    try:
+        from PIL import Image
+        import io
+        im = Image.open(io.BytesIO(fetch(url, DC_UA))).convert("L").resize((9, 8), Image.LANCZOS)
+    except Exception:
+        return None
+    px, b = im.tobytes(), 0
+    for y in range(8):
+        for x in range(8):
+            b = (b << 1) | (px[y * 9 + x] > px[y * 9 + x + 1])
+    return f"{b:016x}"
+
+
+def is_bait(h, baits):
+    return bool(h) and any(bin(int(h, 16) ^ int(k, 16)).count("1") <= BAIT_DIST for k in baits)
 
 
 def series_key(name, author):
@@ -1025,10 +1124,36 @@ def series_key(name, author):
 
 def strip_ep(title):
     """'번역) 나니와 금융도 32화(파멸)' → '나니와 금융도'"""
-    t = re.sub(r"^\s*(번역|창작|단편|연재|공식|웹툰)\s*\)\s*", "", title)
+    t = re.sub(r"^\s*(번역|창작|단편|연재|공식|웹툰|재업|재번역)\s*\)\s*", "", title)
     t = re.sub(r"\s*[\(\[（【][^)\]）】]*[\)\]）】]\s*$", "", t)
     m = EP_RE.search(t)
     return (t[:m.start()] if m else t).strip(" -~:：·") or t.strip()
+
+
+def ep_num(title):
+    m = EP_NUM_RE.search(title or "")
+    return int(m.group(1)) if m else None
+
+
+def ep_ref(e):
+    return f"{e.get('g') or DC_GALL}/{e['no']}"
+
+
+def series_base(title):
+    """제목 → 회차·말머리를 뗀 비교용 이름. 오타가 잦아 너그럽게 뗀다('번엽) … 모음62' → '…모음')"""
+    t = re.sub(r"^\s*[^\s()]{1,5}\)\s*", "", title or "")
+    return series_key(re.sub(r"\d+\s*화?\s*$", "", strip_ep(t)), "")
+
+
+def merge_order(old, new):
+    """new(이번 [시리즈] 상자 순서)를 기본으로, 거기 없는 예전 화는 예전 목록에서 바로 앞이던 화 뒤에 끼운다."""
+    out = list(dict.fromkeys(new))
+    prev = None
+    for r in old:
+        if r not in out:
+            out.insert(out.index(prev) + 1 if prev in out else 0, r)
+        prev = r
+    return out
 
 
 def export_comics(ref):
@@ -1036,9 +1161,65 @@ def export_comics(ref):
     doc = load_json(COMICS, {"updated": "", "gallery": DC_GALL, "series": [], "scanned": []})
     if not dc_allowed():
         return
-    block = [k.lower() for k in load_json(os.path.join(DATA, "blocklist.json"), {}).get("comics", []) if k]
+    blk = load_json(os.path.join(DATA, "blocklist.json"), {})
+    block = [k.lower() for k in blk.get("comics", []) if k]
+    baits = BAIT_HASHES + [k for k in blk.get("comic_images", []) if re.fullmatch(r"[0-9a-fA-F]{16}", str(k))]
+    upgrade = doc.get("v", 1) < COMICS_V
     by = {s["id"]: s for s in doc.get("series", [])}
-    scanned = set(doc.get("scanned", []))
+    scanned = set() if upgrade else set(doc.get("scanned", []))
+    bad = set(doc.get("bad", []))
+    budget = [DC_SEARCH_MAX]
+    stats = {"opened": 0, "skipped": 0, "bait": 0, "found": 0}
+
+    def open_post(no, g=DC_GALL):
+        """글을 열어 낚시글이면 bad 에 넣고 None, 아니면 (이름, 회차, 시각, 표지)"""
+        stats["opened"] += 1
+        r = dc_post(no, g)
+        time.sleep(1)
+        if is_bait(img_hash(r[3]), baits):
+            bad.add(f"{g}/{no}"); stats["bait"] += 1
+            print(f"연재 만화: 낚시글 제외 {g}/{no}", file=sys.stderr)
+            return None
+        return r
+
+    def refind(s, title):
+        """낚시글 대신 같은 제목의 진짜 글을 검색으로 찾아 넣는다."""
+        have = {ep_ref(e) for e in s["episodes"]}
+        for row in dc_search(strip_ep(title), 3, budget):
+            ref_ = f"{DC_GALL}/{row['no']}"
+            if ref_ in bad or ref_ in have or ep_num(row["title"]) != ep_num(title) \
+                    or series_key(strip_ep(row["title"]), "") != series_key(strip_ep(title), ""):
+                continue
+            if stats["opened"] >= DC_POST_MAX * 2:
+                break
+            r = open_post(row["no"])
+            if r:
+                n, eps = ep_num(title), s["episodes"]
+                at = max((i + 1 for i, e in enumerate(eps) if n is not None and (ep_num(e["title"]) or 0) < n), default=len(eps))
+                eps.insert(at, {"no": row["no"], "title": row["title"], "date": r[2][:16]})
+                s["cover"] = r[3] or s.get("cover", ""); s["coverNo"] = ref_
+                stats["found"] += 1
+                return True
+        return False
+
+    def recover(s):
+        """bad 글을 회차에서 지우고, 표지가 지워졌으면 남은 화에서 다시 찾는다."""
+        gone = [e for e in s["episodes"] if ep_ref(e) in bad]
+        s["episodes"] = [e for e in s["episodes"] if ep_ref(e) not in bad]
+        for e in gone:
+            refind(s, e["title"])
+        if s.get("coverNo") in bad or (gone and not s.get("coverNo")):
+            s["cover"], s["coverNo"] = "", ""
+        for e in reversed(s["episodes"]):
+            if s.get("cover") or stats["opened"] >= DC_POST_MAX * 2:
+                break
+            try:
+                r = open_post(e["no"], e.get("g") or DC_GALL)
+            except Exception:
+                continue
+            if r and r[3]:
+                s["cover"], s["coverNo"] = r[3], ep_ref(e)
+
     posts = []
     for page in range(1, DC_PAGES + 1):
         try:
@@ -1046,48 +1227,108 @@ def export_comics(ref):
         except Exception as e:
             print(f"연재 만화: 목록 {page}쪽 실패 ({e})", file=sys.stderr); break
         time.sleep(1)
-    opened = skipped = 0
+    newest = max((p["no"] for p in posts), default=0)  # 지금 갤러리의 대략 최신 글 번호
+    follow = {series_key(f["title"], ""): f for f in COMIC_FOLLOW}
+    for fk, f in follow.items():  # 고정 추적 작품: 모음 글을 펼쳐 회차를 다시 맞춘다
+        eps = expand_links([(g, no, "링크 모음") for g, no in f["links"]], len(f["links"]))
+        if not eps:
+            continue
+        s = by.get(fk) or {"id": fk, "name": f["title"], "title": f["title"], "author": f["author"], "episodes": [], "rec": 0, "cover": ""}
+        known = {ep_ref(e): e for e in s["episodes"]}
+        for g, no, t in eps:
+            e = {"no": no, "title": t} | ({"g": g} if g != DC_GALL else {})
+            known.setdefault(ep_ref(e), e)
+        order = merge_order([ep_ref(e) for e in s["episodes"]], [f"{g}/{no}" for g, no, _ in eps])
+        s["episodes"] = [known[r] for r in order if r not in bad]
+        # 모음 글에 아직 없는 최근 화는 제목 검색으로 채운다. 이미 훑은 범위(seenTo)와 모음의 마지막 화 아래로는 내려가지 않는다
+        floor = max([s.get("seenTo", 0)] + [e["no"] for e in s["episodes"] if not e.get("g")])
+        b = [DC_FOLLOW_SEARCH]
+        have = {ep_ref(e) for e in s["episodes"]}
+        # 회차 번호는 오타가 잦아(같은 번호 두 번, 번호 건너뜀) 순서는 모음 글 순서 + 그 뒤 글 번호 순으로 둔다
+        new = set()  # 이번에 찾은 화 번호(번역·재업이 같이 걸리면 먼저 올라온 글만)
+        for row in sorted(dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor), key=lambda r: r["no"]):
+            ref_, n = f"{DC_GALL}/{row['no']}", ep_num(row["title"])
+            if row["no"] > floor and ref_ not in have and ref_ not in bad and n and n not in new \
+                    and series_base(row["title"]) == fk:
+                s["episodes"].append({"no": row["no"], "title": row["title"]}); have.add(ref_); new.add(n)
+        if b[0] >= 0 and newest:
+            s["seenTo"] = newest
+        last = s["episodes"][-1]
+        if not last.get("date"):  # 최신 화를 열어 날짜·표지를 얻는다
+            try:
+                r = open_post(last["no"], last.get("g") or DC_GALL)
+            except Exception as e:
+                r = None; print(f"연재 만화: {f['title']} 최신 화 실패 ({e})", file=sys.stderr)
+            if r:
+                last["date"] = r[2][:16]
+                if r[3]:
+                    s["cover"], s["coverNo"] = r[3], ep_ref(last)
+        s["updatedAt"] = max(s.get("updatedAt", ""), last.get("date", ""))
+        by[fk] = s
+
+    if upgrade:  # 이전 형식: 표지가 낚시 그림인 작품은 그 표지를 낸 화(가장 최근 연 화)를 낚시글로 본다
+        for s in by.values():
+            if s.get("cover") and is_bait(img_hash(s["cover"]), baits):
+                dated = [e for e in s["episodes"] if e.get("date")]
+                if dated:
+                    bad.add(ep_ref(max(dated, key=lambda e: e["date"])))
+                s["cover"] = ""
+                print(f"연재 만화: '{s.get('title')}' 표지가 낚시 그림", file=sys.stderr)
+            time.sleep(0.3)
+
     for p in posts:
-        if p["no"] in scanned or "[단편]" in p["title"] or not EP_RE.search(re.sub(r"[\(\[（【][^)\]）】]*[\)\]）】]", " ", p["title"])):
+        if p["no"] in scanned or f"{DC_GALL}/{p['no']}" in bad or "[단편]" in p["title"] or LINKS_RE.search(p["title"]) \
+                or not EP_RE.search(re.sub(r"[\(\[（【][^)\]）】]*[\)\]）】]", " ", p["title"])):
             continue
         if COMIC_ADULT_RE.search(p["title"]) or any(k in p["title"].lower() or k == p["nick"].lower() for k in block):
-            skipped += 1; scanned.add(p["no"]); continue
-        if opened >= DC_POST_MAX:
+            stats["skipped"] += 1; scanned.add(p["no"]); continue
+        if stats["opened"] >= DC_POST_MAX:
             break
-        opened += 1
         try:
-            name, eps, when, cover = dc_post(p["no"])
+            r = open_post(p["no"])
         except Exception as e:
             print(f"연재 만화: 글 {p['no']} 실패 ({e})", file=sys.stderr); continue
-        time.sleep(1)
         scanned.add(p["no"])
-        name = name or strip_ep(p["title"])
+        if not r:
+            continue
+        name, eps, when, cover = r
+        eps = expand_links(eps)
+        name = name if name and not LINKS_RE.search(name) else strip_ep(p["title"])
         if COMIC_ADULT_RE.search(name):
-            skipped += 1; continue
+            stats["skipped"] += 1; continue
         author = p["uid"] or p["nick"]
-        key = series_key(name, author)
+        key = series_key(name, "") if series_key(name, "") in follow else series_key(name, author)
         s = by.get(key) or {"id": key, "name": name, "author": p["nick"], "episodes": [], "rec": 0, "cover": ""}
-        known = {e["no"]: e for e in s["episodes"]}
-        for no, t in eps:  # [시리즈] 상자의 순서가 작가가 정한 회차 순서
-            known.setdefault(no, {"no": no, "title": t})
-        known.setdefault(p["no"], {"no": p["no"], "title": p["title"]})
-        known[p["no"]]["date"] = when[:16]
-        order = [no for no, _ in eps] + [p["no"]]
-        rank = {no: i for i, no in enumerate(dict.fromkeys(order))}
-        s["episodes"] = sorted(known.values(), key=lambda e: (rank.get(e["no"], 10**6), e["no"]))
+        known = {ep_ref(e): e for e in s["episodes"]}
+        for g, no, t in eps:  # [시리즈] 상자의 순서가 작가가 정한 회차 순서
+            e = {"no": no, "title": t} | ({"g": g} if g != DC_GALL else {})
+            known.setdefault(ep_ref(e), e)
+        ref_me = f"{DC_GALL}/{p['no']}"
+        me = known.setdefault(ref_me, {"no": p["no"], "title": p["title"]})
+        me["date"] = when[:16]
+        order = merge_order([ep_ref(e) for e in s["episodes"]], [f"{g}/{no}" for g, no, _ in eps] + [ref_me])
+        s["episodes"] = [known[r] for r in order if r not in bad]
         s["title"] = strip_ep(s["episodes"][-1]["title"])  # 카드에 크게 쓸 이름(최신 화 제목에서). name 은 [시리즈] 상자의 별칭일 수 있다
         s["rec"] = max(s.get("rec", 0), p["rec"])
-        s["cover"] = cover or s.get("cover", "")
+        if cover:
+            s["cover"], s["coverNo"] = cover, ref_me
         s["updatedAt"] = max(s.get("updatedAt", ""), when[:16] or ref.strftime("%Y-%m-%dT%H:%M"))
         by[key] = s
+    for s in by.values():
+        if any(ep_ref(e) in bad for e in s["episodes"]) or s.get("coverNo") in bad:
+            recover(s)
+        if s["id"] in follow:
+            s["title"] = follow[s["id"]]["title"]
     cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
-    series = [s for s in by.values() if s.get("updatedAt", "") >= cutoff
+    series = [s for s in by.values() if (s.get("updatedAt", "") >= cutoff or s["id"] in follow) and s["episodes"]
               and not any(k in s["name"].lower() or k in s.get("title", "").lower() or k == s["author"].lower() for k in block)
               and not COMIC_ADULT_RE.search(s["name"] + " " + s.get("title", ""))]
     series.sort(key=lambda s: s.get("updatedAt", ""), reverse=True)
-    doc = {"updated": ref.isoformat(), "gallery": DC_GALL, "series": series[:200], "scanned": sorted(scanned)[-3000:]}
+    doc = {"v": COMICS_V, "updated": ref.isoformat(), "gallery": DC_GALL, "series": series[:200],
+           "scanned": sorted(scanned)[-3000:], "bad": sorted(bad)[-500:]}
     save_json(COMICS, doc)
-    print(f"→ data/comics.json: 연재작 {len(doc['series'])}편 (이번에 글 {opened}건 확인, 수위 등으로 {skipped}건 제외)")
+    print(f"→ data/comics.json: 연재작 {len(doc['series'])}편 (이번에 글 {stats['opened']}건 확인, 수위 등으로 {stats['skipped']}건 제외, "
+          f"낚시글 {stats['bait']}건 제외·대체 {stats['found']}건)")
 
 
 def check():
