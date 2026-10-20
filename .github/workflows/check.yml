@@ -22,13 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 방영 목록 점검 (임시)
-        if: always()
-        run: |
-          python collector.py --anime
-          python - <<'PY'
-          import json; d=json.load(open("data/anime.json",encoding="utf-8")); L=d["list"]
-          print(d["season"], d["src"], len(L), "편; 시각 있음", sum(1 for a in L if a["tm"]), "; 요일별", {k: sum(1 for a in L if a["d"]==k) for k in range(9)})
-          for a in sorted(L, key=lambda a: a["r"] or 999)[:12]: print("  ", a["r"], a["d"], a["tm"], a["t"][:30], "|", a["st"][:14], "|", a["s"], "| pv" if a["pv"] else "", "| site" if a["site"] else "")
-          th=json.load(open("data/thumbs.json",encoding="utf-8")); print("thumbs", len(th))
-          PY
