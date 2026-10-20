@@ -22,26 +22,27 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 야스미 빠진 화 점검 (임시)
+      - name: 연재 만화 시험 (임시)
         if: always()
         run: |
+          pip install -q pillow
           python - <<'PY'
-          import re, sys, time
+          import json, re, sys, time
           sys.path.insert(0, ".")
           import collector as C
-          eps = C.expand_links([("comic_new4", 1154038, "링크 모음"), ("comic_new6", 7470, "링크 모음")])
-          W = set(range(60, 65)) | set(range(115, 120)) | set(range(182, 187)) | set(range(222, 227))
-          for i, e in enumerate(eps):
-              n = C.ep_num(e[2])
-              if n is None or n in W: print("  ", i, n, e)
-          for g, no in [("comic_new4", 1154038), ("comic_new6", 7470)]:
-              t = C.dc_fetch(f"https://m.dcinside.com/board/{g}/{no}"); time.sleep(1)
-              odd = [x for x in C.dc_links(t) if "야스" in x[2] and C.series_key(C.strip_ep(x[2]), "") != "호리데이야스미트위터모음|"]
-              print(g, no, "다른 표기", odd)
-              for m in re.finditer(r"(?:62|117|184|224)", re.sub(r"<[^>]+>", " ", t)):
-                  pass
-          rows = C.dc_search("호리데이", 25, [25])
-          print("검색 '호리데이'", [(r["no"], r["title"]) for r in rows])
-          rows = C.dc_search("야스미", 25, [25])
-          print("검색 '야스미'", [(r["no"], r["title"]) for r in rows])
+          from datetime import datetime, timezone
+          t0 = time.time()
+          C.export_comics(datetime.now(timezone.utc))
+          d = json.load(open("data/comics.json", encoding="utf-8"))
+          print("bad", d.get("bad"), "시간", int(time.time() - t0), "초")
+          for s in d["series"]:
+              e = s["episodes"]
+              print(f"{s['title'][:30]:32} {len(e):4}화 cover={s.get('coverNo')}")
+              if "호리데이" in s["title"] or "히토너" in s["title"]:
+                  print("   처음", e[:2]); print("   끝", e[-6:], "seenTo", s.get("seenTo"), "갱신", s.get("updatedAt"))
+                  print("   58~64·115~119", [(x["no"], x["title"][-8:]) for x in e if (C.ep_num(x["title"]) or 0) in list(range(58, 65)) + list(range(115, 120))])
+          C.export_comics(datetime.now(timezone.utc)); t1 = time.time()
+          d = json.load(open("data/comics.json", encoding="utf-8"))
+          h = [s for s in d["series"] if "호리데이" in s["title"]]
+          print("두 번째 실행", int(time.time() - t1), "초", len(h[0]["episodes"]) if h else None, "화")
           PY
