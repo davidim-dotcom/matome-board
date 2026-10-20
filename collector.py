@@ -1151,15 +1151,19 @@ def series_base(title):
     return series_key(re.sub(r"\d+\s*화?\s*$", "", strip_ep(t)), "")
 
 
-def merge_order(old, new):
-    """new(이번 [시리즈] 상자 순서)를 기본으로, 거기 없는 예전 화는 예전 목록에서 바로 앞이던 화 뒤에 끼운다."""
-    out = list(dict.fromkeys(new))
-    prev = None
-    for r in old:
-        if r not in out:
-            out.insert(out.index(prev) + 1 if prev in out else 0, r)
-        prev = r
-    return out
+def order_eps(canon, eps):
+    """회차 순서: 지정 글의 상자·링크 모음 순서(canon)를 그대로 쓰고, 거기 없는 화는 같은 갤러리에서
+    글 번호가 바로 앞인 canon 화 뒤에 글 번호 순으로 둔다. 회차 번호는 오타가 잦아 정렬에 쓰지 않는다."""
+    pos = {r: i for i, r in enumerate(dict.fromkeys(canon))}
+    anchors = [(r.split("/")[0], int(r.split("/")[1]), i) for r, i in pos.items()]
+
+    def key(e):
+        r = ep_ref(e)
+        if r in pos:
+            return (pos[r], 0, 0)
+        g = e.get("g") or DC_GALL
+        return (max((i for gg, no, i in anchors if gg == g and no < e["no"]), default=-1), 1, e["no"])
+    return sorted(eps, key=key)
 
 
 def comic_follows():
@@ -1214,47 +1218,45 @@ def export_comics(ref):
         key = series_key(f["title"], "")
         s = by.get(key) or {"id": key, "episodes": [], "rec": 0, "cover": ""}
         s.update({"name": f["title"], "title": f["title"], "author": f["author"]})
-        found = []  # 지정 글의 상자·링크 모음 순서 = 작가가 정한 회차 순서
+        canon = []  # 지정 글의 상자·링크 모음 순서 = 작가가 정한 회차 순서
         for g, no in f["posts"]:
             try:
-                found += read_series(g, no)[0]
+                canon += read_series(g, no)[0]
             except Exception as e:
                 print(f"연재 만화: {f['title']} 글 {g}/{no} 실패 ({e})", file=sys.stderr)
-        # 개념글에 올라온 새 화: 제목이 같은 작품이면 열어 본다(그 글의 상자도 읽는다)
-        for p in posts:
-            if p["no"] in scanned or f"{DC_GALL}/{p['no']}" in bad or series_base(p["title"]) != key or stats["opened"] >= DC_POST_MAX:
-                continue
-            scanned.add(p["no"])
-            try:
-                r = open_post(p["no"])
-            except Exception as e:
-                print(f"연재 만화: 글 {p['no']} 실패 ({e})", file=sys.stderr); continue
-            if r:
-                found += expand_box(r[1]) + [(DC_GALL, p["no"], p["title"])]
-                s["rec"] = max(s.get("rec", 0), p["rec"])
+        if doc.get("v", 0) < 5 and canon:  # 순서·중복 규칙을 바꿔서 한 번 처음부터 다시 모은다(지정 글을 못 읽었으면 예전 목록 유지)
+            s["episodes"], s["seenTo"] = [], 0
         known = {ep_ref(e): e for e in s["episodes"]}
-        for g, no, t in found:
+        for g, no, t in canon:
             e = {"no": no, "title": t} | ({"g": g} if g != DC_GALL else {})
             known.setdefault(ep_ref(e), e)
-        order = merge_order([ep_ref(e) for e in s["episodes"]], [f"{g}/{no}" for g, no, _ in found])
-        s["episodes"] = [known[r] for r in order if r not in bad]
-        # 아직 못 찾은 최근 화는 제목 검색으로 채운다. 이미 훑은 범위(seenTo)와 지금 아는 마지막 화 아래로는 내려가지 않는다.
-        # 회차 번호는 오타가 잦아(같은 번호 두 번, 번호 건너뜀) 번호로 정렬하지 않고 찾은 순서 + 글 번호 순으로 둔다.
-        floor = max([s.get("seenTo", 0)] + [e["no"] for e in s["episodes"] if not e.get("g")])
-        b, new, have = [DC_FOLLOW_SEARCH], set(), {ep_ref(e) for e in s["episodes"]}
-        for row in sorted(dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor), key=lambda r: r["no"]):
-            ref_, n = f"{DC_GALL}/{row['no']}", ep_num(row["title"])
-            if row["no"] <= floor or ref_ in have or ref_ in bad or not n or n in new or series_base(row["title"]) != key:
+        # 새 화: 지금 아는 마지막 화·이미 훑은 범위(seenTo)보다 뒤에 올라온 같은 작품 글만 받는다(다른 사람이 예전 화를 다시 올린 글은 거른다).
+        # 개념글에서 먼저 찾고, 없으면 제목 검색으로 채운다. 같은 번호가 둘 걸리면 먼저 올라온 글만.
+        floor = max([s.get("seenTo", 0)] + [e["no"] for e in known.values() if not e.get("g")])
+        cands = {p["no"]: p for p in posts if p["no"] > floor and p["no"] not in scanned and series_base(p["title"]) == key}
+        scanned.update(cands)
+        b = [DC_FOLLOW_SEARCH]
+        for row in dc_search(f["title"], DC_FOLLOW_SEARCH, b, floor):
+            cands.setdefault(row["no"], row)
+        new = set()
+        for no in sorted(cands):
+            row = cands[no]
+            ref_, n = f"{DC_GALL}/{no}", ep_num(row["title"])
+            if no <= floor or ref_ in known or ref_ in bad or not n or n in new or series_base(row["title"]) != key:
                 continue
+            if stats["opened"] >= DC_POST_MAX:
+                break
             try:
-                r = open_post(row["no"])
-            except Exception:
-                continue
+                r = open_post(no)
+            except Exception as e:
+                print(f"연재 만화: 글 {no} 실패 ({e})", file=sys.stderr); continue
             if r:
-                s["episodes"].append({"no": row["no"], "title": row["title"], "date": r[2][:16]})
-                have.add(ref_); new.add(n); stats["new"] += 1
+                known[ref_] = {"no": no, "title": row["title"], "date": r[2][:16]}
+                new.add(n); stats["new"] += 1
+                s["rec"] = max(s.get("rec", 0), row.get("rec", 0))
         if b[0] >= 0 and newest:
             s["seenTo"] = newest
+        s["episodes"] = order_eps([f"{g}/{no}" for g, no, _ in canon], [e for r, e in known.items() if r not in bad])
         if not s["episodes"]:
             continue
         last = s["episodes"][-1]
@@ -1270,7 +1272,7 @@ def export_comics(ref):
                 s["episodes"].pop()
         s["updatedAt"] = max(s.get("updatedAt", ""), (s["episodes"][-1].get("date") or "") if s["episodes"] else "")
         series.append(s)
-    doc = {"v": 4, "updated": ref.isoformat(), "gallery": DC_GALL, "series": series,
+    doc = {"v": 5, "updated": ref.isoformat(), "gallery": DC_GALL, "series": series,
            "scanned": sorted(scanned)[-3000:], "bad": sorted(bad)[-500:]}
     save_json(COMICS, doc)
     print(f"→ data/comics.json: 지정 연재작 {len(series)}편, 회차 {sum(len(s['episodes']) for s in series)}개 "
