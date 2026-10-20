@@ -22,27 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 연재 만화 시험 (임시)
-        if: always()
-        run: |
-          pip install -q pillow
-          python - <<'PY'
-          import json, re, sys, time
-          sys.path.insert(0, ".")
-          import collector as C
-          from datetime import datetime, timezone
-          t0 = time.time()
-          C.export_comics(datetime.now(timezone.utc))
-          d = json.load(open("data/comics.json", encoding="utf-8"))
-          print("bad", d.get("bad"), "시간", int(time.time() - t0), "초")
-          for s in d["series"]:
-              e = s["episodes"]
-              print(f"{s['title'][:30]:32} {len(e):4}화 cover={s.get('coverNo')}")
-              if "호리데이" in s["title"] or "히토너" in s["title"]:
-                  print("   처음", e[:2]); print("   끝", e[-6:], "seenTo", s.get("seenTo"), "갱신", s.get("updatedAt"))
-                  print("   58~64·115~119", [(x["no"], x["title"][-8:]) for x in e if (C.ep_num(x["title"]) or 0) in list(range(58, 65)) + list(range(115, 120))])
-          C.export_comics(datetime.now(timezone.utc)); t1 = time.time()
-          d = json.load(open("data/comics.json", encoding="utf-8"))
-          h = [s for s in d["series"] if "호리데이" in s["title"]]
-          print("두 번째 실행", int(time.time() - t1), "초", len(h[0]["episodes"]) if h else None, "화")
-          PY
