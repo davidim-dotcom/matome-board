@@ -22,31 +22,6 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 야스미 상자 점검 (임시)
-        if: always()
-        run: |
-          python - <<'PY'
-          import re, sys, html, time
-          sys.path.insert(0, ".")
-          import collector as C
-          for g, no in [("comic_new4", 1154038), ("comic_new6", 7470), ("comic_new3", 12895156), ("comic_new6", 2739299), ("comic_new6", 6708224)]:
-              t = C.dc_fetch(f"https://m.dcinside.com/board/{g}/{no}"); time.sleep(1)
-              name, eps, when, cover = C.dc_post(no, g)
-              nums = [C.ep_num(x[2]) for x in eps]
-              print(f"\n[{g}/{no}] 상자 '{name}' {len(eps)}개 번호 {nums[:3]}..{nums[-3:]} 날짜 {when}")
-              print("   상자 처음", eps[:2], "끝", eps[-2:])
-              i = t.find('class="dc_series"')
-              print("   상자 뒤 300자:", re.sub(r"\s+", " ", t[t.find("</div>", t.find("[시리즈]", i)+10) if i>=0 else 0:][:0]))
-              allv = [(x[0], x[1], x[2]) for x in C.dc_links(t) if "야스미" in x[2]]
-              out = [x for x in allv if x not in eps]
-              print("   상자 밖 '야스미' 링크", len(out), out[:3], out[-3:])
-              for kw in ["더보기", "more", "series_more", "시리즈 더", "dc_series_more", "page="]:
-                  j = t.find(kw, i if i >= 0 else 0)
-                  if 0 <= j < (i + 30000 if i >= 0 else 10**9): print("   kw", kw, re.sub(r"\s+", " ", t[j-200:j+200]))
-              if i >= 0:
-                  e = t.find("</div>", t.find("[시리즈]", i) + 10)
-                  print("   상자 끝 근처:", re.sub(r"\s+", " ", t[e-400:e+300]))
-          PY
       - name: 연재 만화 시험 (임시)
         if: always()
         run: |
@@ -56,23 +31,17 @@ jobs:
           sys.path.insert(0, ".")
           import collector as C
           from datetime import datetime, timezone
-          import urllib.parse
-          t = C.dc_fetch("https://m.dcinside.com/board/comic_new6?s_type=subject_m&serval=" + urllib.parse.quote("히토너"))
-          print("검색 len", len(t), "lnktb", t.count("gall-detail-lnktb"), "subjectin", t.count("subjectin"), "comic_new6/", t.count("/board/comic_new6/"))
-          for kw in ["gall-detail-lnk", "subjectin", "히토너", "s_pos"]:
-              i = t.find(kw, 30000 if kw == "히토너" else 0); print("  @", kw, i, re.sub(r"\s+", " ", t[max(0, i - 300):i + 900]) if i >= 0 else "")
-          rows = C.dc_search("히토너", 3, [3])
-          print("검색", len(rows), [(r["no"], r["title"]) for r in rows[:8]])
+          import time; t0 = time.time()
           C.export_comics(datetime.now(timezone.utc))
           d = json.load(open("data/comics.json", encoding="utf-8"))
-          print("bad", d.get("bad"))
+          print("bad", d.get("bad"), "시간", int(time.time() - t0), "초")
           for s in d["series"]:
               e = s["episodes"]; gs = sorted({x.get("g", "-") for x in e})
               print(f"{s['title'][:30]:32} {len(e):4}화 {gs} cover={s.get('coverNo')}")
               if "호리데이" in s["title"] or "히토너" in s["title"]:
                   nums = [C.ep_num(x["title"]) for x in e]
                   have = {n for n in nums if n}
-                  print("   처음", e[:3]); print("   끝", e[-3:])
+                  print("   처음", e[:3]); print("   끝", e[-5:], "seenTo", s.get("seenTo"), "갱신", s.get("updatedAt"))
                   print("   빠진 번호", [n for n in range(2, max(have or {0}) + 1) if n not in have][:60])
                   print("   번호 역순", [(a, b) for a, b in zip(nums, nums[1:]) if a and b and b < a][:20])
           PY
