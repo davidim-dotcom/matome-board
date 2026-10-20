@@ -4,6 +4,7 @@
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
   python3 collector.py           소식 수집 → data/items.json, data/meta.json
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
+  python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
   python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
   python3 collector.py --translate-test   일본어 한 문장을 번역해 보고 결과만 출력(번역 경로 점검)
 직접 추가할 소식은 data/manual.json, 공개 보드에서 빼고 싶은 소식은 data/blocklist.json에 적는다.
@@ -932,6 +933,163 @@ def export_anime(ref):
     print(f"→ data/anime.json {len(doc['list'])}편, 썸네일 새로 {got}개 (전체 {len(thumbs)}개)")
 
 
+# ── 연재 만화: 디시 만화갤러리 개념글 중 회차가 있는 연재작 색인 ─────────────────────────
+# 그림은 저장하지 않고 원문 글 번호와 제목만 모은다. 회차 목록은 작가가 글에 붙이는 [시리즈] 상자(dc_series)에서 읽는다.
+DC_GALL = "comic_new6"
+DC_PAGES = 5          # 개념글 목록을 몇 쪽 읽을지(쪽당 약 25건)
+DC_POST_MAX = 40      # 한 번 실행에서 새로 열어 볼 글 수
+DC_KEEP_DAYS = 90     # 이 기간 동안 새 화가 없으면 목록에서 뺀다
+DC_UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36",
+         "Accept-Language": "ko", "Referer": "https://m.dcinside.com/"}
+COMICS = os.path.join(DATA, "comics.json")
+EP_RE = re.compile(r"(\d+(?:[-~]\d+)?)\s*화|第\s*\d+\s*話|\b(?:ep|EP|Ep)\.?\s*\d+|#\d+|(?:^|\s)\d{1,4}(?:\s*,\s*\d{1,4})*\s*$")
+# 공개 보드라 성인 수위로 보이는 작품은 뺀다(제목 기준). 놓친 작품은 data/blocklist.json 의 "comics" 에 이름이나 닉네임을 넣는다.
+COMIC_ADULT_RE = re.compile(r"NTR|ntr|젖|섹스|야한|처녀|자는|엣찌|엣지한|에로|야짤|19금|18금|R-?18|성인|음란|후방|꼴리|페티|촉수|임신|보지|자지|가슴|빨통|정액|최면|능욕|조교|노출|씹|엉덩|팬티|유부녀|불륜|ㅇㅎ|H한|야스|섹시", re.I)
+
+
+def dc_fetch(url):
+    b = fetch(url, DC_UA)
+    return b.decode("utf-8", "replace")
+
+
+def dc_allowed():
+    """robots.txt 의 'User-agent: *' 묶음이 /board/ 를 막고 있으면 수집하지 않는다."""
+    try:
+        txt = dc_fetch("https://m.dcinside.com/robots.txt")
+    except Exception as e:
+        print(f"연재 만화: robots.txt 를 못 읽음({e}) → 건너뜀", file=sys.stderr)
+        return False
+    agents, rules, groups = [], [], []
+    for line in txt.splitlines():
+        line = line.split("#", 1)[0].strip()
+        if not line or ":" not in line:
+            continue
+        k, v = [x.strip() for x in line.split(":", 1)]
+        if k.lower() == "user-agent":
+            if rules:
+                groups.append((agents, rules)); agents, rules = [], []
+            agents.append(v)
+        elif k.lower() in ("allow", "disallow"):
+            rules.append((k.lower(), v))
+    groups.append((agents, rules))
+    star = [r for a, r in groups if "*" in a]
+    for rules in star:
+        best = max(((len(v), kind) for kind, v in rules if v and "/board/comic_new6".startswith(v)), default=None)
+        if best and best[1] == "disallow":
+            print("연재 만화: robots.txt 가 /board/ 수집을 막음 → 건너뜀", file=sys.stderr)
+            return False
+    return True
+
+
+def dc_list(page):
+    """개념글 목록 한 쪽 → [{no, title, nick, uid, views, rec}]"""
+    t = dc_fetch(f"https://m.dcinside.com/board/{DC_GALL}?recommend=1&page={page}")
+    out = []
+    for li in t.split('<div class="gall-detail-lnktb">')[1:]:  # 항목마다 이 div 로 시작한다(안쪽 <li> 때문에 </li> 로는 못 자른다)
+        li = li.split('<div class="gall-detail-lnktb">')[0][:6000]
+        m = re.search(rf"/board/{DC_GALL}/(\d+)", li)
+        sub = re.search(r'<span class="subjectin">(.*?)</span>', li, re.S)
+        if not (m and sub):
+            continue
+        nick = re.search(r'<li class="list-nick">(.*?)<', li, re.S)
+        uid = re.search(r'data-info="([^"]*)"', li)
+        num = lambda pat: int((re.search(pat, li) or [0, "0"])[1] or 0)
+        out.append({"no": int(m.group(1)), "title": clean(sub.group(1)), "nick": clean(nick.group(1)) if nick else "",
+                    "uid": uid.group(1) if uid else "", "views": num(r"조회 (\d+)"), "rec": num(r"추천 <span>(\d+)")})
+    return out
+
+
+def dc_post(no):
+    """글 하나 → (시리즈 이름, [(글번호, 제목)], 게시 시각, 대표 이미지)"""
+    t = dc_fetch(f"https://m.dcinside.com/board/{DC_GALL}/{no}")
+    name, eps = "", []
+    i = t.find('class="dc_series"')
+    if i >= 0:
+        seg = t[i:i + 60000]
+        h = re.search(r"\[시리즈\]\s*(.*?)\s*</div>", seg, re.S)
+        if h:
+            name = clean(h.group(1))
+            pos = h.end()
+            item = re.compile(r'\s*<a href="[^"]*?[?&;]no=(\d+)[^"]*"[^>]*>(.*?)</a>\s*(?:<br\s*/?>)?', re.S)
+            while (m := item.match(seg, pos)):  # 상자 안의 링크가 끊길 때까지 차례로 읽는다
+                eps.append((int(m.group(1)), clean(m.group(2)).lstrip("·").strip()))
+                pos = m.end()
+    when = re.search(r'"datePublished":"([^"]+)"', t)
+    og = re.search(r'<meta property="og:image" content="([^"]+)"', t)
+    return name, eps, (when.group(1) if when else ""), (html.unescape(og.group(1)) if og else "")
+
+
+def series_key(name, author):
+    return re.sub(r"[\s　・·:：!！?？~〜\-_.,()（）\[\]【】「」『』]", "", (name or "").lower()) + "|" + (author or "").lower()
+
+
+def strip_ep(title):
+    """'번역) 나니와 금융도 32화(파멸)' → '나니와 금융도'"""
+    t = re.sub(r"^\s*(번역|창작|단편|연재|공식|웹툰)\s*\)\s*", "", title)
+    t = re.sub(r"\s*[\(\[（【][^)\]）】]*[\)\]）】]\s*$", "", t)
+    m = EP_RE.search(t)
+    return (t[:m.start()] if m else t).strip(" -~:：·") or t.strip()
+
+
+def export_comics(ref):
+    """개념글 목록을 읽어 회차가 있는 연재작을 data/comics.json 에 쌓는다. 실패해도 다른 수집에 영향이 없게 예외를 삼킨다."""
+    doc = load_json(COMICS, {"updated": "", "gallery": DC_GALL, "series": [], "scanned": []})
+    if not dc_allowed():
+        return
+    block = [k.lower() for k in load_json(os.path.join(DATA, "blocklist.json"), {}).get("comics", []) if k]
+    by = {s["id"]: s for s in doc.get("series", [])}
+    scanned = set(doc.get("scanned", []))
+    posts = []
+    for page in range(1, DC_PAGES + 1):
+        try:
+            posts += dc_list(page)
+        except Exception as e:
+            print(f"연재 만화: 목록 {page}쪽 실패 ({e})", file=sys.stderr); break
+        time.sleep(1)
+    opened = skipped = 0
+    for p in posts:
+        if p["no"] in scanned or "[단편]" in p["title"] or not EP_RE.search(re.sub(r"[\(\[（【][^)\]）】]*[\)\]）】]", " ", p["title"])):
+            continue
+        if COMIC_ADULT_RE.search(p["title"]) or any(k in p["title"].lower() or k == p["nick"].lower() for k in block):
+            skipped += 1; scanned.add(p["no"]); continue
+        if opened >= DC_POST_MAX:
+            break
+        opened += 1
+        try:
+            name, eps, when, cover = dc_post(p["no"])
+        except Exception as e:
+            print(f"연재 만화: 글 {p['no']} 실패 ({e})", file=sys.stderr); continue
+        time.sleep(1)
+        scanned.add(p["no"])
+        name = name or strip_ep(p["title"])
+        if COMIC_ADULT_RE.search(name):
+            skipped += 1; continue
+        author = p["uid"] or p["nick"]
+        key = series_key(name, author)
+        s = by.get(key) or {"id": key, "name": name, "author": p["nick"], "episodes": [], "rec": 0, "cover": ""}
+        known = {e["no"]: e for e in s["episodes"]}
+        for no, t in eps:  # [시리즈] 상자의 순서가 작가가 정한 회차 순서
+            known.setdefault(no, {"no": no, "title": t})
+        known.setdefault(p["no"], {"no": p["no"], "title": p["title"]})
+        known[p["no"]]["date"] = when[:16]
+        order = [no for no, _ in eps] + [p["no"]]
+        rank = {no: i for i, no in enumerate(dict.fromkeys(order))}
+        s["episodes"] = sorted(known.values(), key=lambda e: (rank.get(e["no"], 10**6), e["no"]))
+        s["title"] = strip_ep(s["episodes"][-1]["title"])  # 카드에 크게 쓸 이름(최신 화 제목에서). name 은 [시리즈] 상자의 별칭일 수 있다
+        s["rec"] = max(s.get("rec", 0), p["rec"])
+        s["cover"] = cover or s.get("cover", "")
+        s["updatedAt"] = max(s.get("updatedAt", ""), when[:16] or ref.strftime("%Y-%m-%dT%H:%M"))
+        by[key] = s
+    cutoff = (ref - timedelta(days=DC_KEEP_DAYS)).strftime("%Y-%m-%dT%H:%M")
+    series = [s for s in by.values() if s.get("updatedAt", "") >= cutoff
+              and not any(k in s["name"].lower() or k in s.get("title", "").lower() or k == s["author"].lower() for k in block)
+              and not COMIC_ADULT_RE.search(s["name"] + " " + s.get("title", ""))]
+    series.sort(key=lambda s: s.get("updatedAt", ""), reverse=True)
+    doc = {"updated": ref.isoformat(), "gallery": DC_GALL, "series": series[:200], "scanned": sorted(scanned)[-3000:]}
+    save_json(COMICS, doc)
+    print(f"→ data/comics.json: 연재작 {len(doc['series'])}편 (이번에 글 {opened}건 확인, 수위 등으로 {skipped}건 제외)")
+
+
 def check():
     """소스마다 가져오기만 해 보고 결과를 출력한다. 파일은 쓰지 않는다. 실패가 있으면 종료 코드 1."""
     ref = datetime.now(JST)
@@ -957,5 +1115,10 @@ if __name__ == "__main__":
         sys.exit(0)
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
+    elif "--comics" in sys.argv:
+        try:
+            export_comics(datetime.now(JST))
+        except Exception as e:  # 연재 만화 수집이 실패해도 워크플로는 이어 간다
+            print(f"연재 만화 수집 실패: {e}", file=sys.stderr)
     else:
         main()

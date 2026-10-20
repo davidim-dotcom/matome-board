@@ -53,6 +53,22 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 4px;letter-spacing:-.5px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 .hotbadge{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px}
+/* 연재 만화 */
+.cm-bar{display:flex;gap:8px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
+.cm-bar input{flex:1;min-width:160px}
+.comic{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.comic .cv{width:64px;height:86px;border-radius:8px;object-fit:cover;background:var(--line)}
+.comic .cvt{width:64px;height:86px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:"Black Han Sans",sans-serif;font-size:26px}
+.comic .nm{font-weight:700;font-size:15px;line-height:1.35}
+.comic .sub2{font-size:12px;color:var(--muted);margin:2px 0 6px}
+.comic .last{font-size:13px;margin:0 0 8px;color:var(--ink);opacity:.85}
+.newep{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.eps{grid-column:1/-1;margin:6px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;max-height:320px;overflow:auto;background:var(--surface);list-style:none}
+.eps li{padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.eps li:last-child{border-bottom:0}
+.eps a{color:var(--ink);text-decoration:none;display:block}
+.eps li.read a{color:var(--muted)}
+.eps li.cur a{font-weight:700;color:var(--pink)}
 .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .langsw{display:flex;flex:none;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
 .langsw button{border:0;background:none;padding:5px 12px;font-size:13px;color:var(--muted);font:inherit;font-size:13px;cursor:pointer}
@@ -78,7 +94,7 @@ button{cursor:pointer}
 
 /* Tabs */
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:6px;overflow-x:auto}
-nav.tabs button{border:0;background:none;padding:8px 12px;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
+nav.tabs button{border:0;background:none;padding:8px 10px;flex:none;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
 nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 
@@ -192,12 +208,14 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="feed" aria-selected="true">피드<span class="cnt" id="cFeed"></span></button>
     <button role="tab" data-tab="sched" aria-selected="false">캘린더</button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
+    <button role="tab" data-tab="comics" aria-selected="false">연재 만화</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
   </nav>
 
   <section id="feed"></section>
   <section id="sched" hidden></section>
   <section id="anime" hidden></section>
+  <section id="comics" hidden></section>
   <section id="about" hidden>
     <div class="panel">
       <h2>사이트 개요</h2>
@@ -481,6 +499,52 @@ function renderAnime(all){
     +(rows||`<div class="empty">${animeOnlyWatch?"‘보는 중에 추가’를 누른 작품이 여기 모여요.":"이 요일에 방송하는 작품이 없어요."}</div>`)
     +`<p class="note" style="margin-top:14px">‘보는 중’ 목록은 이 브라우저에만 저장돼요. 방송 시각은 일본 시간이고 24시 이후 표기는 다음 날 새벽이에요. ‘스트리밍’에는 TV 방송 없이 넷플릭스 같은 스트리밍으로만 나오는 작품이 모여요.</p>`;
 }
+/* ---------- 연재 만화 (디시 만화갤러리 개념글 색인, 원문 링크만) ---------- */
+let comics=null, comicQ="", comicSort="new", comicOpen=null;
+let comicRead={}; try{comicRead=JSON.parse(localStorage.getItem("matome-comics-read")||"{}")||{}}catch{} // 작품 id → 마지막으로 연 글 번호
+const dcUrl=no=>`https://m.dcinside.com/board/${encodeURIComponent((comics&&comics.gallery)||"comic_new6")}/${no}`;
+async function loadComics(){
+  if(comics) return;
+  const raw=await getJSON("data/comics.json",null);
+  const list=raw&&Array.isArray(raw.series)?raw.series:[];
+  comics={gallery:/^[\w]+$/.test(raw&&raw.gallery||"")?raw.gallery:"comic_new6", updated:String(raw&&raw.updated||""),
+    series:list.map(x=>({id:String(x.id||"").slice(0,200), name:String(x.name||"").slice(0,120), title:String(x.title||x.name||"").slice(0,120), author:String(x.author||"").slice(0,40),
+      rec:Number.isFinite(x.rec)?x.rec:0, updatedAt:String(x.updatedAt||"").slice(0,16),
+      cover:/^https:\/\//.test(x.cover||"")?safeUrl(x.cover):"",
+      eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0).map(e=>({no:e.no,title:String(e.title||"").slice(0,160)}))}))
+      .filter(x=>x.id&&x.name&&x.eps.length)};
+  renderComics();
+}
+function relDay(v){const d=parseDate(v);if(!d)return"";const n=Math.floor((Date.now()-d)/DAY);return n<=0?"오늘":n===1?"어제":n<30?n+"일 전":jst(d,{month:"numeric",day:"numeric"})}
+function renderComics(){
+  const el=$("#comics"); if(!el) return;
+  if(!comics){el.innerHTML=`<div class="empty">불러오는 중…</div>`;return}
+  const q=comicQ.trim().toLowerCase();
+  let list=comics.series.filter(x=>!q||x.title.toLowerCase().includes(q)||x.name.toLowerCase().includes(q)||x.author.toLowerCase().includes(q));
+  list=[...list].sort(comicSort==="rec"?(a,b)=>b.rec-a.rec:(a,b)=>b.updatedAt.localeCompare(a.updatedAt));
+  const cards=list.map(x=>{
+    const last=x.eps[x.eps.length-1], readNo=comicRead[x.id], ri=x.eps.findIndex(e=>e.no===readNo);
+    const next=ri>=0&&ri<x.eps.length-1?x.eps[ri+1]:null, isNew=ri>=0&&ri<x.eps.length-1;
+    const hue=parseInt(hashId(x.id).slice(1),36)%360;
+    const cv=`<div class="cvt" style="background:linear-gradient(160deg,hsl(${hue} 40% 58%),hsl(${(hue+40)%360} 45% 36%))" aria-hidden="true">${esc([...x.title][0]||"")}</div>`;
+    const pic=x.cover?`<div style="position:relative">${cv}<img class="cv" style="position:absolute;inset:0" src="${esc(x.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>`:cv;
+    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${label}</a>`;
+    const btns=[next?link(next,"이어 보기","btn ticket"):"", link(x.eps[0],"1화부터"), x.eps.length>1?link(last,"최신화"):"",
+      `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">회차 ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
+    const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e.no))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
+    return `<article class="comic">${pic}<div>
+      <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
+      <div class="sub2">${esc(x.author||"익명")} · 회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
+      <p class="last">최신: ${esc(last.title)}</p>
+      <div class="actions">${btns}</div></div>${eps}</article>`}).join("");
+  el.innerHTML=`<p class="aside">디시인사이드 만화 갤러리 개념글 중 회차가 이어지는 연재작 ${comics.series.length}편${comics.updated?" · "+esc(relDay(comics.updated))+" 확인":""}. 누르면 원문(디시)이 열리고, 마지막으로 연 화는 이 브라우저에 기억해 ‘이어 보기’로 이어 줘요.</p>
+    <div class="cm-bar"><input type="text" id="cmQ" placeholder="작품·작성자 검색" value="${esc(comicQ)}" autocomplete="off">
+    <button class="chip" data-cmsort="new" aria-pressed="${comicSort==="new"}">최근 갱신</button><button class="chip" data-cmsort="rec" aria-pressed="${comicSort==="rec"}">추천 많은</button></div>`
+    +(cards||`<div class="empty">${q?"찾는 작품이 없어요.":"아직 모인 연재작이 없어요."}</div>`)
+    +`<p class="note" style="margin-top:14px">그림은 이 사이트에 저장하지 않고 원문 링크만 모읍니다. 성인 수위로 보이는 작품은 제목 기준으로 뺐어요. 빠져야 할 작품이 보이면 사이트 개요의 게시판에 알려 주세요.</p>`;
+  const inp=$("#cmQ"); if(inp){inp.oninput=e=>{comicQ=e.target.value;const pos=e.target.selectionStart;renderComics();const n=$("#cmQ");if(n){n.focus();n.setSelectionRange(pos,pos)}}}
+}
+
 /* ---------- 게시판 (익명, 게시 후 수정 불가) ---------- */
 const bbsReady=()=>/^https:\/\/script\.google\.com\/macros\//.test(BBS.api);
 async function loadBbs(){
@@ -528,7 +592,8 @@ function onAction(e){
 document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
-    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();return}
+    const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
+    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();return}
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
@@ -540,6 +605,9 @@ document.addEventListener("click",e=>{
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
     if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
+  const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=Number(ce.dataset.ep);try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(renderComics,0);return} // 링크는 그대로 열린다
+  const co=e.target.closest("[data-cmopen]"); if(co){comicOpen=comicOpen===co.dataset.cmopen?null:co.dataset.cmopen;renderComics();return}
+  const cs=e.target.closest("[data-cmsort]"); if(cs){comicSort=cs.dataset.cmsort;renderComics();return}
   const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang",lang)}catch{}syncLang();render();return}
   onAction(e);
 });
