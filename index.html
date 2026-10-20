@@ -94,7 +94,7 @@ button{cursor:pointer}
 
 /* Tabs */
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;padding:8px 0;border-bottom:1px solid var(--line);margin-bottom:6px;overflow-x:auto}
-nav.tabs button{border:0;background:none;padding:8px 12px;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
+nav.tabs button{border:0;background:none;padding:8px 10px;flex:none;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
 nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 
@@ -592,6 +592,7 @@ function onAction(e){
 document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
+    const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
     document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();return}
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
