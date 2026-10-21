@@ -1,5 +1,113 @@
 [
  {
+  "title": "【ホロライブ】『アソビ★まわり隊！』が10月22日19時から『マイクラ』に上陸！ “ホロ鯖かくれんぼ”を配信",
+  "category": "live",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [
+   "ホロライブ",
+   "アソビ★まわり隊！"
+  ],
+  "eventDate": "2026-10-22T19:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202610/91648",
+  "summary": "",
+  "addedAt": "2026-10-22T00:32:48.658511+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/91648/ogp_Qvwf.jpg?x=1280",
+  "title_ko": "【홀로 라이브】『아소비★주위대! '이 10월 22일 19시부터 '마이쿠라'에 상륙! \"홀로 사바라 쿠렌보\"를 전달",
+  "summary_ko": ""
+ },
+ {
+  "title": "『りゅうみこ』新八葉・永倉新八（声優：八代拓）実装決定！ 10月27日よりストーリー先行公開＆召喚開始",
+  "category": "other",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "2026-10-27T00:00",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202610/91637",
+  "summary": "",
+  "addedAt": "2026-10-22T00:32:48.658511+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/91637/ogp_kEOu.jpg?x=1280",
+  "title_ko": "『류미코』 신하치바・나가쿠라 신하치(성우：야시로 타쿠) 실장 결정! 10월 27일부터 스토리 선행 공개 & 소환 개시",
+  "summary_ko": ""
+ },
+ {
+  "title": "『モンギル：STAR DIVE』新★5格闘家クロエ参戦。ハーフアニバーサリー記念にエステル＆ナギ復刻、特別イベント開催",
+  "category": "event",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202610/91597",
+  "summary": "",
+  "addedAt": "2026-10-22T00:32:48.658511+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/91597/ogp_jAuY.jpg?x=1280",
+  "title_ko": "『몽길：STAR DIVE』신★5 격투가 클로에 참전. 하프 애니버서리 기념으로 에스테르&나기 복각, 특별 이벤트 개최",
+  "summary_ko": ""
+ },
+ {
+  "title": "シャインポスト 猫耳メイドVer. ストア in 秋葉原 11月13日より開催!",
+  "category": "popup",
+  "source": "コラボカフェ",
+  "platform": "wpjson",
+  "works": [],
+  "eventDate": "2026-11-13T00:00",
+  "endDate": "2026-11-29T00:00",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://collabo-cafe.com/events/collabo/shinepost-pop-up-store-amiami-akihabara-2026/",
+  "summary": "シャインポストのポップアップストアが、秋葉原にて2026年11月13日〜11月29日まで開催される。新作グッズが多数ラインナップ!",
+  "image": "https://collabo-cafe.com/wp-content/uploads/b0386d8704679b3f231cf50790ef72c9-768x543.jpeg",
+  "addedAt": "2026-10-22T00:32:48.658511+09:00",
+  "scanned": true,
+  "title_ko": "샤인 포스트 고양이 귀 메이드 Ver. 스토어 in 아키하바라 11월 13일부터 개최!",
+  "summary_ko": "샤인 포스트의 팝업 스토어가 아키하바라에서 2026년 11월 13일~11월 29일까지 개최된다. 신작 상품이 다수 라인업!"
+ },
+ {
+  "title": "「地縛少年花子くん2」アニメイトフェア 12月12日より開催!",
+  "category": "event",
+  "source": "コラボカフェ",
+  "platform": "wpjson",
+  "works": [],
+  "eventDate": "2026-12-12T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://collabo-cafe.com/events/collabo/hanakokun2-animate-fair-2026/",
+  "summary": "TVアニメ「地縛少年花子くん２」のアニメイトフェアが、2026年12月12日よりアニメイト池袋本店・秋葉原店・大阪日本橋店など全国9店舗で開催決定!『ゆめかわチャイナ』をコンセプトにした描き下ろしイラストの新商品が多数先行販売されるほか、期間中は関連グッズ3,300円(税込)購入",
+  "image": "https://collabo-cafe.com/wp-content/uploads/hanakokun2-animate-fair-eyecatch-768x431.jpg",
+  "addedAt": "2026-10-22T00:32:48.658511+09:00",
+  "scanned": true,
+  "title_ko": "\"지박 소년 하나코 군 2\"애니메이트 페어 12 월 12 일부터 개최!",
+  "summary_ko": "TV 애니메이션 \"지박 소년 하나코 군 2\"의 애니메이트 페어가 2026 년 12 월 12 일부터 애니메이트 이케부쿠로 본점 아키하바라 점 오사카 니혼 바시 점 등 전국 9 점포에서 개최 결정!"
+ },
+ {
   "title": "“一生オタク 略して一オタ” インパクト強めワードが最高!! どこまでも推し活に注ぐ人へ贈る、大阪コラボカフェ開催決定！",
   "category": "collab",
   "source": "アニメ!アニメ!",
@@ -16,7 +124,9 @@
   "summary": "『Chugai推しアピシリーズ』より、初のコラボカフェが開催。好きな文字を入れられるスイーツや、わたがしを溶かすとキラキラと煌めく推し色オーロラドリンクのほか、推し活に役立つ新作グッズが登場する。",
   "image": "https://animeanime.jp/imgs/rss/946083.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "“평생 오타쿠 약어 한 오타” 임팩트 강화 워드가 최고!!",
+  "summary_ko": "「Chugai 추격 아피 시리즈」보다, 첫 콜라보 카페가 개최. 좋아하는 문자를 넣을 수 있는 디저트나, 나를 녹이면 반짝반짝 빛나는 추색 오로라 음료 외에 추억활에 도움이 되는 신작 상품이 등장한다."
  },
  {
   "title": "「アニメ化してほしいマンガランキング 2027」開催決定！歴代30作品以上がアニメ化― 結果発表は「AJ27」にて",
@@ -35,7 +145,9 @@
   "summary": "記念すべき第10回を迎える「アニメ化してほしいマンガランキング 2027」の開催が決定した。歴代 30 作品以上がアニメ化を果たしてきたもので、2027年3月にインテックス大阪で開かれる世界最大級のアニメイベント「AnimeJapan 2027」内で結果が発表される。",
   "image": "https://animeanime.jp/imgs/rss/945881.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「애니메이션화해 주었으면 하는 만화 랭킹 2027」개최 결정! 역대 30 작품 이상이 애니메이션화 - 결과 발표는 \"AJ27\"에서",
+  "summary_ko": "기념해야 할 제10회를 맞이하는 ‘애니메이션화해 주었으면 하는 만화 랭킹 2027’ 개최가 결정되었다. 역대 30 작품 이상이 애니메이션화를 완수해 온 것으로, 2027년 3월에 INTEX 오사카에서 열리는 세계 최대급의 애니메이션 이벤트 「AnimeJapan 2027」내에서 결과가 발표된다."
  },
  {
   "title": "「ウマ娘 シングレ」原作の描き下ろしビジュ、疾走感がたまらん…！ 原画展にオグリキャップら13人が集結",
@@ -58,7 +170,9 @@
   "summary": "漫画『ウマ娘 シンデレラグレイ』より、初の原画展が開催。新規描き下ろしメインビジュアルが公開され、2026年10月26日18時より前売券の販売が開始される。",
   "image": "https://animeanime.jp/imgs/rss/945991.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「말딸 싱레」원작의 신작 비주, 질주감이 쌓이지… 원화전에 오그리캡 등 13명이 집결",
+  "summary_ko": "만화 「말 딸 신데렐라 그레이」에서 첫 원화전이 개최. 신규 신작 메인 비주얼이 공개되어 2026년 10월 26일 18시부터 예매권 판매가 시작된다."
  },
  {
   "title": "『楽園追放 心のレゾナンス』完成披露舞台挨拶",
@@ -79,7 +193,9 @@
   "summary": "アニメ公式イベント",
   "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "『낙원 추방 마음의 레조넌스』 완성 피로 무대 인사",
+  "summary_ko": "애니메이션 공식 이벤트"
  },
  {
   "title": "『最終楽章 響け！ユーフォニアム』後編 フィナーレ舞台挨拶【1回目】",
@@ -100,7 +216,9 @@
   "summary": "アニメ公式イベント",
   "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "『최종 악장 울려라! 유포니엄」후편 피날레 무대 인사【1회째】",
+  "summary_ko": "애니메이션 공식 이벤트"
  },
  {
   "title": "『最終楽章 響け！ユーフォニアム』後編 フィナーレ舞台挨拶【2回目】",
@@ -121,7 +239,9 @@
   "summary": "アニメ公式イベント",
   "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "『최종 악장 울려라! 유포니엄」후편 피날레 무대 인사【2회째】",
+  "summary_ko": "애니메이션 공식 이벤트"
  },
  {
   "title": "TVアニメ「Dr.STONE」展 科学王国ミュージアム",
@@ -142,7 +262,9 @@
   "summary": "展示会",
   "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "TV애니메이션 「Dr.STONE」전 과학왕국 박물관",
+  "summary_ko": "전시회"
  },
  {
   "title": "『FFX』25周年コラボカフェ後期メニューまとめ。ワッカの髪の毛（？）を再現したカルパッチョも!?（10/23～）",
@@ -161,7 +283,9 @@
   "summary": "",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/91442/ogp_jgPN.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/91442/ogp_jgPN.jpg?x=1280",
+  "title_ko": "『FFX』25주년 콜라보 카페 후기 메뉴 정리. 와카의 머리카락(?)을 재현한 카르파쵸도!? (10/23~)",
+  "summary_ko": ""
  },
  {
   "title": "【最大84％OFF】『デジモンストーリー』や『テイルズ』がお買い得。バンナムDL版セール開催",
@@ -180,7 +304,9 @@
   "summary": "",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/91595/ogp_kPLC.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/91595/ogp_kPLC.jpg?x=1280",
+  "title_ko": "【최대 84%OFF】『디지몬 스토리』나『테일즈』가 이득. 반남 DL판 세일 개최",
+  "summary_ko": ""
  },
  {
   "title": "【雪ミク2027】テーマは“ひみつの☆めたもる”！ 8年ぶりライブ開催＆電車ラストラン発表",
@@ -201,7 +327,9 @@
   "summary": "",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/91589/ogp_vVkV.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/91589/ogp_vVkV.jpg?x=1280",
+  "title_ko": "【유키 미쿠 2027】 테마는 \"비밀의 ☆ 메타 모루\"! 8년 만에 라이브 개최 & 기차 라스트란 발표",
+  "summary_ko": ""
  },
  {
   "title": "『モンハンNow』ハロウィン2026で“部位破壊スキルの効果10倍”など、秋の特別イベントが開催！",
@@ -220,7 +348,9 @@
   "summary": "",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/91587/ogp_phXN.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/91587/ogp_phXN.jpg?x=1280",
+  "title_ko": "『몽한 Now』 할로윈 2026에서 “부위 파괴 스킬의 효과 10배” 등 가을 특별 이벤트가 개최!",
+  "summary_ko": ""
  },
  {
   "title": "【推しの子】×『マビノギモバイル』コラボが11月4日より開催決定！ アイが登場するティザー映像も公開",
@@ -239,7 +369,9 @@
   "summary": "",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/91574/ogp_AllG.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/91574/ogp_AllG.jpg?x=1280",
+  "title_ko": "【추시의 아이】×「마비노기 모바일」콜라보레이션이 11월 4일부터 개최 결정! 아이가 등장하는 티저 영상도 공개",
+  "summary_ko": ""
  },
  {
   "title": "カバー株式会社、ホロライブ所属VTuberの投稿と、誹謗中傷・嫌がらせへの対応に関して見解を発表",
@@ -260,7 +392,9 @@
   "summary": "10月20日、カバー株式会社が所属タレントの投稿と、誹謗中傷・性的嫌がらせへの対応に関するお知らせを公表しました。対象となったのは、ホロライブプロダクション所属のラプラス・ダークネスが10月17日にXへ行った投稿です。同 […] The post カバー株式会社、ホロライブ所属V",
   "image": "https://assets.moguravr.com/uploads/2026/10/2a64f9dc99b99491beb7ac2e256bbff1-kix.67l0ym825soo-300x114.webp",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "커버 주식회사, 홀로 라이브 소속 VTuber의 투고와 비방 중상・괴롭힘에 대한 대응에 관하여 견해를 발표",
+  "summary_ko": "10월 20일, 커버 주식회사가 소속 탤런트의 투고와, 비방 중상·성적 괴롭힘에의 대응에 관한 소식을 공표했습니다. 대상이 된 것은, 홀로 라이브 프로덕션 소속의 라플라스 다크니스가 10월 17일에 X에 간 포스트입니다. 동 […] The post 커버 주식회사, 홀로 라이브 소속 V"
  },
  {
   "title": "富士フイルム「VR PHOTO COMPETITION 2026」開催決定、六本木のフォトサロンで展示",
@@ -279,7 +413,9 @@
   "summary": "10月20日、バーチャル空間で撮影した写真のコンペティション「VR PHOTO COMPETITION 2026」の開催が発表されました。会期は2026年12月4日から17日までです。会場は東京・六本木のフジフイルム ス […] The post 富士フイルム「VR PHOTO ",
   "image": "https://assets.moguravr.com/uploads/2026/10/a5a7c200b02875572b2191267738b58b-kix.6bgllqmi0e62-300x169.webp",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "후지 필름 「VR PHOTO COMPETITION 2026」개최 결정, 롯폰기의 포토 살롱에서 전시",
+  "summary_ko": "10월 20일, 가상 공간에서 촬영한 사진의 대회 「VR PHOTO COMPETITION 2026」의 개최가 발표되었습니다. 회기는 2026년 12월 4일부터 17일까지입니다. 회장은 도쿄·롯폰기의 후지필름스 […] The post 후지필름 「VR PHOTO"
  },
  {
   "title": "はぴだんぶい 限定アイテム 11月中旬よりサンキューマートに登場!",
@@ -298,7 +434,9 @@
   "summary": "サンリオの「はぴだんぶい」の限定アイテムが、2026年11月中旬より全国のサンキューマートで順次発売決定!ピンク×ネイビーを基調に、ピースポーズの6にんをデザインした巾着やクリアペンケース、Tシャツキーホルダー、ステッカーなど全30アイテムが全品390円（税込429円）で登場し、",
   "image": "https://collabo-cafe.com/wp-content/uploads/hapidanbui-thankyoumart-eyecatch-768x432.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "하피 단부이 한정 아이템 11 월 중순부터 선큐 마트에 등장!",
+  "summary_ko": "산리오의 「하피 덴부이」의 한정 아이템이, 2026년 11월 중순부터 전국의 선큐 마트에서 순차 발매 결정!"
  },
  {
   "title": "『終天教団』 × 灸場メロ アニメイトフェア 12月12日より開催!",
@@ -317,7 +455,9 @@
   "summary": "マルチジャンルアドベンチャーゲーム「終天教団」とイラストレーター・灸場メロ先生による「『終天教団』×灸場メロ アニメイトフェア」が、2026年12月12日よりアニメイト池袋本店など全国10店舗とアニメイト通販にて開催決定!「チェック衣装」をコンセプトにした新規描き起こしイラストの",
   "image": "https://collabo-cafe.com/wp-content/uploads/shuten-kyodan-9bamelo-animate-eyecatch-768x431.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「종천 교단」 × 뜸바 멜로 애니메이트 페어 12 월 12 일부터 개최!",
+  "summary_ko": "멀티 장르 어드벤처 게임 「종천 교단」과 일러스트 레이터 · 뜸바 멜로 선생님에 의한 「 「종천 교단」× 뜸장 멜로 애니메이트 페어」가 2026 년 12 월 12 일부터 애니메이트 이케부쿠로 본점 등 전국 10 점포와 애니메이트 통신 판매에서 개최 결정! 「체크 의상」을 컨셉으로"
  },
  {
   "title": "TRIGUN STARGAZE アラビアンVer. ストア in 新宿 11月12日より開催!",
@@ -336,7 +476,9 @@
   "summary": "TRIGUN STARGAZEのポップアップストアが、新宿にて2026年11月12日〜11月25日まで開催される。新作グッズが多数登場！",
   "image": "https://collabo-cafe.com/wp-content/uploads/6f13c5aa70bb13e98a1b50c0403c304b-2-e1792569371200-768x594.webp",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "TRIGUN STARGAZE 아라비안 Ver. 스토어 in 신주쿠 11월 12일부터 개최!",
+  "summary_ko": "TRIGUN STARGAZE의 팝업 스토어가 신주쿠에서 2026년 11월 12일~11월 25일까지 개최된다. 신작 상품이 다수 등장!"
  },
  {
   "title": "グノーシア ウィンターフェア2026 in アニメイト 12月12日開催!",
@@ -355,7 +497,9 @@
   "summary": "TVアニメ「グノーシア」の「ウィンターフェア2026 in アニメイト」が、2026年12月12日より全国のアニメイト・アニメイト通販で開催決定!期間中に「グノーシア」関連グッズを税込1,100円購入・予約するごとにポストカード(全6種)が1枚プレゼントされるほか、12月12日に",
   "image": "https://collabo-cafe.com/wp-content/uploads/gnosia-winter-fair-2026-eyecatch-768x542.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "그노시아 윈터 페어 2026 in 애니메이트 12월 12일 개최!",
+  "summary_ko": "TV 애니메이션 「그노시아」의 「윈터 페어 2026 in 애니메이트」가, 2026년 12월 12일부터 전국의 애니메이트·애니메이트 통판으로 개최 결정!기간 중에 「그노시아」관련 상품을 부가세 포함 1,100엔 구입·예약할 때마다 엽서(전 6종)가 1장 선물된다"
  },
  {
   "title": "東リベ 梵天 カフェ in E-DINER池袋 10月20日より開催!",
@@ -376,7 +520,9 @@
   "summary": "和久井健先生による大人気漫画を原作とするTVアニメ「東京リベンジャーズ」のコラボカフェ「東京リベンジャーズ カフェ in E-DINER -Bar 梵天-」が、2026年10月20日〜11月8日までE-DINER池袋本店で開催。梵天の8人をイメージしたコラボフード・ドリンクとコー",
   "image": "https://collabo-cafe.com/wp-content/uploads/tokyo-revengers-toman-cafe-e-diner-bonten-ikebukuro-2026-eyecatch-768x403.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "히가시 리베 가미 텐 카페 in E-DINER 이케부쿠로 10 월 20 일부터 개최!",
+  "summary_ko": "와쿠이 켄 선생님에 의한 대인기 만화를 원작으로 하는 TV 애니메이션 「도쿄 리벤저즈」의 콜라보 카페 「도쿄 리벤저즈 카페 in E-DINER -Bar 梵天-」가, 2026년 10월 20일~11월 8일까지 E-DINER 이케부쿠로 본점에서 개최. 범천의 8 명을 이미지 한 콜라보 푸드 음료와 코"
  },
  {
   "title": "満州アヘンスクワッド 麗華のパーカーなどモチーフアパレル 発売!",
@@ -395,7 +541,9 @@
   "summary": "連載再開&アニメ化が決定した漫画「満州アヘンスクワッド」より、印象的なシーンをグラフィック化したアパレルが2026年11月発売!",
   "image": "https://collabo-cafe.com/wp-content/uploads/086711674d70f7e953b3416296c989a7-247-768x403.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "만주 아헨 스쿼드 여화의 파커 등 모티프 어패럴 발매!",
+  "summary_ko": "연재 재개 & 애니메이션화가 결정한 만화 「만슈 아헨 스쿼드」보다, 인상적인 씬을 그래픽화한 어패럴이 2026년 11월 발매!"
  },
  {
   "title": "ゆびさきと恋々 Preppy style フェア in アニメイト 12月11日開催!",
@@ -414,7 +562,9 @@
   "summary": "「ゆびさきと恋々」の「『ゆびさきと恋々』Preppy style フェア in アニメイト」が、2026年12月11日よりアニメイト15店舗とアニメイト通販で開催決定!期間中は関連グッズや書籍の購入・予約でブロマイド(全7種)がもらえるほか、アニメイト池袋本店3F ミニミュージア",
   "image": "https://collabo-cafe.com/wp-content/uploads/renren-preppy-style-fair-animate-eyecatch-768x576.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "유비사키와 사랑스러운 Preppy style 페어 in 애니메이트 12월 11일 개최!",
+  "summary_ko": "「유비사키와 사랑스러운」의 「『유비사키와 사랑스러운』 Preppy style 페어 in 애니메이트」가 2026년 12월 11일부터 애니메이트 15점포와 애니메이트 통신판매로 개최 결정!"
  },
  {
   "title": "ガルクラ 特別企画展 in アニメ東京ステーション 11月14日より開催",
@@ -433,7 +583,9 @@
   "summary": "東映アニメーションが贈るオリジナルTVアニメ「ガールズバンドクライ (ガルクラ)」の特別企画展が、2026年11月14日〜2027年1月31日まで池袋のアニメ東京ステーションで入場無料で開催。等身大アクリルスタンドや作中シーンの再現コーナー、歴代LIVEポスター＆CD展示、井芹仁",
   "image": "https://collabo-cafe.com/wp-content/uploads/girls-band-cry-gengaten-tenjikai-anime-tokyo-station-2026-eyecatch-768x1083.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "가르쿠라 특별 기획전 in 애니메이션 도쿄 스테이션 11월 14일부터 개최",
+  "summary_ko": "도에이 애니메이션이 주는 오리지널 TV 애니메이션 「걸즈 밴드 클라이(가르쿠라)」의 특별 기획전이, 2026년 11월 14일~2027년 1월 31일까지 이케부쿠로의 애니메이션 도쿄 스테이션에서 입장 무료로 개최. 등신대 아크릴 스탠드와 작중 장면의 재현 코너, 역대 LIVE 포스터 & CD 전시, 이세이 진"
  },
  {
   "title": "風を継ぐもの 劇場先行版 1週目特典はB6カード 11月13日配布!",
@@ -452,7 +604,9 @@
   "summary": "成井豊さんが脚本を手がけ、幕末の京都で壬生浪士組の若者たちを描くオリジナルTVアニメ「風を継ぐもの」の劇場先行版『風を継ぐもの -はじまり-』の第1週目来場者特典は、キャラクターデザイン・蝦名芙美さん描き下ろしのB6イラストカードに決定。2026年11月13日〜11月19日に数量",
   "image": "https://collabo-cafe.com/wp-content/uploads/kaze-tsugu-event-hajimari-novelty-1st-week-2026-eyecatch-500x281.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "바람을 이어받는 것 극장 선행판 1주차 특전은 B6 카드 11월 13일 배포!",
+  "summary_ko": "나리이 토요 씨가 각본을 다루고, 막부 말기의 교토에서 임생 나시구미의 젊은이들을 그리는 오리지널 TV 애니메이션 “바람을 이어주는 것”의 극장 선행판 “바람을 이어받는 것 - 시작-”의 제1주째 방문자 특전은, 캐릭터 디자인·아키나 아사미씨 신작의 B6 일러스트 카드 2026년 11월 13일~11월 19일 수량"
  },
  {
   "title": "THE GUNDAM BASE POP-UP in 長野 11月27日より開催!",
@@ -473,7 +627,9 @@
   "summary": "ガンプラ総合施設「THE GUNDAM BASE」の期間限定出張イベント「THE GUNDAM BASE POP-UP in NAGANO」が、2026年11月27日より12月20日まで長野・ながの東急百貨店 5階 催事場にて開催決定!「MG 1/100 ガンダムベース限定 ユニ",
   "image": "https://collabo-cafe.com/wp-content/uploads/gundam-base-popup-nagano-eyecatch-768x542.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "THE GUNDAM BASE POP-UP in 나가노 11월 27일부터 개최!",
+  "summary_ko": "건프라 종합 시설 「THE GUNDAM BASE」의 기간 한정 출장 이벤트 「THE GUNDAM BASE POP-UP in NAGANO」가 2026년 11월 27일부터 12월 20일까지 나가노・나가노 도큐 백화점 5층 행사장에서 개최 결정!"
  },
  {
   "title": "光が死んだ夏 完結記念 原画展 2027年夏に東京で開催決定!",
@@ -492,7 +648,9 @@
   "summary": "モクモクれん先生が「ヤングエースUP」で連載し、2026年10月20日配信の最終話で完結した漫画「光が死んだ夏」の原画展が、2027年夏に東京で開催決定。原画展の公式Xアカウントも開設され、2025年に開催されたアニメ「光が死んだ夏」展との違いとあわせて、現時点で発表されている内",
   "image": "https://collabo-cafe.com/wp-content/uploads/hikarugashinda-gengaten-tenjikai-tokyo-2027-eyecatch-768x768.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "빛이 죽은 여름 완결 기념 원화전 2027년 여름에 도쿄에서 개최 결정!",
+  "summary_ko": "모쿠모쿠렌 선생님이 「영 에이스 UP」로 연재해, 2026년 10월 20일 전달의 최종화로 완결한 만화 「빛이 죽은 여름」의 원화전이, 2027년 여름에 도쿄에서 개최 결정. 원화전의 공식 X 계정도 개설되어 2025년에 개최된 애니메이션 「빛이 죽은 여름」전과의 차이와 아울러, 현시점에서 발표되고 있는 중"
  },
  {
   "title": "ナツイロココロログ 10周年 POP UP in 秋葉原 11月14日より開催!",
@@ -511,7 +669,9 @@
   "summary": "恋愛アドベンチャーゲーム「ナツイロココロログ」の10周年を記念した「『ナツイロココロログ』10th Anniversary POP UP SHOP」が、2026年11月14日より12月6日までエターナルトイズAKIHABARAにて開催決定!白もち桜先生の新規描き下ろしイラストを使",
   "image": "https://collabo-cafe.com/wp-content/uploads/9c29a02a88bbfc211c27c59d2f5de7f7-768x494.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "나츠이로 코코로로그 10주년 POP UP in 아키하바라 11월 14일부터 개최!",
+  "summary_ko": "연애 어드벤처 게임 「나츠이로 코콜로그」의 10주년을 기념한 「『나츠이로 코콜로그』 10th Anniversary POP UP SHOP」가 2026년 11월 14일부터 12월 6일까지 이터널 토이즈 AKIHABARA에서 개최 결정!"
  },
  {
   "title": "ペルソナ POP UP STORE in 京都・渋谷 10月30日より順次開催!",
@@ -530,7 +690,9 @@
   "summary": "劇場版「ペルソナ３」、TVアニメ「ペルソナ４」／「ペルソナ４ ザ・ゴールデン」、TVアニメ「ペルソナ５」の「Persona Series The Animation POP UP STORE」が、2026年10月30日より京都 IP書店のアニプレックスオフィシャルストアで開催決定",
   "image": "https://collabo-cafe.com/wp-content/uploads/persona-anime-popup-eyecatch-768x432.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "페르소나 POP UP STORE in 교토 시부야 10월 30일부터 순차적으로 개최!",
+  "summary_ko": "극장판 「페르소나 3」, TV 애니메이션 「페르소나 4」/ 「페르소나 4 더 골든」, TV 애니메이션 「페르소나 5」의 「Persona Series The Animation POP UP STORE」가, 2026년 10월 30일부터 교토 IP서점의 애니플렉스 오피셜 스토어에서 개최 결정"
  },
  {
   "title": "チアリステイルズ POP UP STORE in 心斎橋 10月30日より開催!",
@@ -549,7 +711,9 @@
   "summary": "サンリオのマロンクリーム・ウサハナ・ウィッシュミーメル・ぼんぼんりぼんによる新ユニット「チアリステイルズ」初のPOP UP STOREが、2026年10月30日より心斎橋PARCO 6F EVENT SPACEで開催決定!カップケーキなどのお菓子をモチーフにした限定グッズが登場し",
   "image": "https://collabo-cafe.com/wp-content/uploads/1a7e11d832cf33b3443f8ec52d844675-768x463.jpeg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "치아리스테일즈 POP UP STORE in 신사이바시 10월 30일부터 개최!",
+  "summary_ko": "산리오의 말론 크림, 우사하나, 위시 미멜, 혼봉 리본에 의한 신 유닛 「치아리스테일즈」 최초의 POP UP STORE가, 2026년 10월 30일부터 신사이바시 PARCO 6F EVENT SPACE에서 개최 결정!컵케이크 등의 과자를 모티프로 한"
  },
  {
   "title": "リラックマ ブックカフェ in 岡山・岩手 11月13日より開催!",
@@ -568,7 +732,9 @@
   "summary": "サンエックスの人気キャラクター「リラックマ」の検定試験「リラックマ検定2027」の開催を記念して、全国12書店で「リラックマブックフェア」、岡山のうのまち珈琲店と岩手のVicky’sで2026年11月13日より順次「リラックマブックカフェ」が開催。ハニートーストやドーナツなどのコ",
   "image": "https://collabo-cafe.com/wp-content/uploads/rilakkuma-cafe-book-fair-kentei-okayama-iwate-2026-eyecatch-768x565.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "리락쿠마 북 카페 in 오카야마 이와테 11 월 13 일부터 개최!",
+  "summary_ko": "산엑스의 인기 캐릭터 '리락쿠마' 검정 시험 '리락쿠마 검정 2027' 개최를 기념하여 전국 12서점에서 '리락쿠마 북 페어', 오카야마의 우노마치 커피점과 이와테의 Vicky's에서 2026년 11월 13일부터 순차 '리락쿠마북 카페' 꿀 토스트와 도넛 등"
  },
  {
   "title": "夢喰いメリー POP-UP SHOP in 秋葉原 10月23日より開催!",
@@ -587,7 +753,9 @@
   "summary": "牛木義隆先生による漫画「夢喰いメリー」のPOPUPショップが、2026年10月23日より11月1日まで秋葉原のTOKYO OTAKU SHOP 3F（メロンブックス秋葉原店舗受取館）にて開催決定!描き下ろしイラストを使用したアクリルスタンドやB3タペストリー、絵馬などのグッズ販売",
   "image": "https://collabo-cafe.com/wp-content/uploads/yumekui-merry-popup-akihabara-eyecatch-768x432.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "꿈꾸는 메리 POP-UP SHOP in 아키하바라 10월 23일부터 개최!",
+  "summary_ko": "우시기 요시타카 선생님에 의한 만화 「꿈꾸는 메리」의 POPUP 숍이, 2026년 10월 23일부터 11월 1일까지 아키하바라의 TOKYO OTAKU SHOP 3F(멜론 북스 아키하바라 점포 수취관)에서 개최 결정!신작 일러스트를 사용한 아크릴 스탠드나 B3"
  },
  {
   "title": "鳴潮 × グラッテ 第3弾 in アニメイト 10月30日より開催!",
@@ -608,7 +776,9 @@
   "summary": "KURO GAMESが開発・運営するゲーム「鳴潮」とアニメイトのグラッテによるコラボ第3弾「Gratteで共鳴ハロウィン〜鳴潮 x Gratte 第3弾〜」が、2026年10月30日〜11月29日まで全国のアニメイト対象店舗で開催。16種から選べるラテ・クッキー・アイスと10月3",
   "image": "https://collabo-cafe.com/wp-content/uploads/wutheringwaves-cafe-gratte-animate-3rd-2026-eyecatch-768x542.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "나루시오 × 그라테 제3탄 in 애니메이트 10월 30일부터 개최!",
+  "summary_ko": "KURO GAMES가 개발·운영하는 게임 “나루시오”와 애니메이트의 그라테에 의한 콜라보레이션 제3탄 “Gratte로 공명 할로윈~나루시오 x Gratte 제3탄~”가, 2026년 10월 30일~11월 29일까지 전국의 애니메이트 대상 점포에서 개최. 16종 중에서 선택할 수 있는 라떼 쿠키 아이스와 10월 3"
  },
  {
   "title": "星街すいせい × 東急歌舞伎町タワー 10月23日よりコラボ開催!",
@@ -631,7 +801,9 @@
   "summary": "星街すいせいと東急歌舞伎町タワーのコラボ『KABUKICHO STELLAR TOWER』が2026年10月23日〜11月8日に開催され、新曲「ゾンビゾンビゾンビ」をテーマにしたたこやきフィギュアやアクリルスタンドなど8種のグッズと、館内4店舗の全12品のコラボフード・ドリンクが",
   "image": "https://collabo-cafe.com/wp-content/uploads/hoshimachi-suisei-event-tokyu-kabukicho-tower-2026-keyvisual-768x432.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "호시가 수이세이 × 도큐 가부키초 타워 10월 23일부터 콜라보레이션 개최!",
+  "summary_ko": "호시 가이 스이 세이와 도큐 카부키 쵸 타워의 협업 \"KABUKICHO STELLAR TOWER」가 2026년 10월 23일~11월 8일에 개최되어, 신곡 「좀비 좀비 좀비」를 테마로 한 타코야키 피규어나 아크릴 스탠드 등 8종의 상품과, 관내 4점포의 전12품의 콜라보 푸드・드링크가"
  },
  {
   "title": "青ブタ ディアフレンド 2週目特典 ミニ色紙など 10月24日配布!",
@@ -653,7 +825,9 @@
   "summary": "鴨志田一先生による人気ライトノベルを原作とするアニメ「青春ブタ野郎」シリーズの完結編、「青春ブタ野郎はディアフレンドの夢を見ない」の第2週目来場者特典が解禁。2026年10月24日〜10月30日は、田村里美さん描き下ろしのミニ色紙(桜島麻衣・赤城郁実・姫路紗良・梓川花楓の全4種ラ",
   "image": "https://collabo-cafe.com/wp-content/uploads/aobuta-event-dearfriend-novelty-2nd-week-2026-eyecatch-768x864.jpg",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "블루 돼지 디아프렌드 2주차 특전 미니 색종이 등 10월 24일 배포!",
+  "summary_ko": "가모시다 이치 선생님에 의한 인기 라이트 노벨을 원작으로 하는 애니메이션 「청춘 돼지 놈」시리즈의 완결편, 「청춘 돼지 놈은 디아프렌드의 꿈을 보지 않는다」의 제2주째 방문자 특전이 해금. 2026 년 10 월 24 일 ~ 10 월 30 일은 타무라 사토미 씨 신작의 미니 색종이"
  },
  {
   "title": "どっとライブ所属 カルロ・ピノ、ニコニコ生放送「VTuberと観る！映画実況シリーズ」に出演　「プラネット・デューン 砂漠の惑星」を12/10実況生放送",
@@ -672,7 +846,9 @@
   "summary": "株式会社ドワンゴ ニコニコ事業本部 株式会社ドワンゴが運営するニコニコ公式チャンネル「VTuberのあそびば～ニコニコVパーク～」の生放送番組「VTuberと観る！映画実況シリーズ」に、どっとライブ所属 カルロ・ピノの出 The post どっとライブ所属 カルロ・ピノ、ニコニコ",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21180633/56982-1429-bdb0a214b0731cb264919a6679aaf656-1920x1080-2.webp"
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21180633/56982-1429-bdb0a214b0731cb264919a6679aaf656-1920x1080-2.webp",
+  "title_ko": "드디어 라이브 소속 카를로 피노, 니코니코 생방송 「VTuber와 본다! 영화 실황 시리즈」에 출연 「플래닛 댕 사막의 행성」",
+  "summary_ko": "주식회사 도완고 니코니코 사업본부 주식회사 도완고가 운영하는 니코니코 공식 채널 「VTuber의 놀이~니코니코 V파크~」의 생방송 프로그램 「VTuber라고 본다!"
  },
  {
   "title": "にじさんじ「Sleepy Sheepy」グッズが10/22 18時から販売開始　ケース付き缶バッジ、アクリルスタンドなど全9種類登場",
@@ -693,7 +869,9 @@
   "summary": "ANYCOLOR株式会社 2026年10月22日(木)18時から「Sleepy Sheepy」グッズの販売を開始！ にじさんじから「Sleepy Sheepy」の販売が決定！ 参加ライバーは、天宮こころ、鏑木ろこ、来栖夏 The post にじさんじ「Sleepy Sheepy」",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21180453/30865-1660-bd2d0c685e7ca29e313c2ec3c4d78d61-1920x1080-1.webp"
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21180453/30865-1660-bd2d0c685e7ca29e313c2ec3c4d78d61-1920x1080-1.webp",
+  "title_ko": "니지 산지 \"Sleepy Sheepy\"상품이 10/22 18시부터 판매 개시 케이스 포함 캔 배지, 아크릴 스탠드 등 전 9 종류 등장",
+  "summary_ko": "ANYCOLOR 주식회사 2026년 10월 22일(목) 18시부터 “Sleepy Sheepy” 상품의 판매를 개시! 니지 산지에서 \"Sleepy Sheepy\"의 판매가 결정! 참가 라이버는 아마미야 마음, 가모기 로코, 내추 여름 The post 니지산지 「Sleepy Sheepy」"
  },
  {
   "title": "ホロライブ「FLOW GLOW」と「マリオンクレープ」のコラボが開催決定　描き下ろしイラストを使用したオリジナルグッズが登場",
@@ -715,7 +893,9 @@
   "summary": "中外鉱業株式会社 コラボ情報・通販はこちら！ hololiveに所属する音楽アーティストVTuberグループ『FLOW GLOW』とマリオンクレープのコラボレーションが決定！ 「響咲 リオナ」「虎金妃 笑虎」「水宮 枢」 The post ホロライブ「FLOW GLOW」と「マリ",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
   "scanned": true,
-  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21143649/59072-893-1c0cf007b52b4c78ef266f0832f1248d-1920x1080-1.webp"
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/21143649/59072-893-1c0cf007b52b4c78ef266f0832f1248d-1920x1080-1.webp",
+  "title_ko": "홀로 라이브 「FLOW GLOW」와 「마리온 크레페」의 콜라보레이션이 개최 결정 그린 일러스트를 사용한 오리지널 상품이 등장",
+  "summary_ko": "중외 광업 주식회사 콜라보 정보·통판은 이쪽! hololive에 소속된 음악 아티스트 VTuber 그룹 'FLOW GLOW'와 마리온 크레페의 콜라보레이션이 결정! 히비사키 리오나, 호랑이 비비 웃음호랑"
  },
  {
   "title": "ホロライブ ラプラス・ダークネス「セクハラ男オタク」発言を謝罪　運営は本人への性的嫌がらせを公表",
@@ -736,7 +916,9 @@
   "summary": "VTuberグループ・ホロライブを運営するカバー株式会社が10月20日、所属タレントのラプラス・ダークネスさんのアカウントに、局部を露出した性的な画像が送り付けられる被害が発生していたことを公表した。ラプラス・ダークネスさんは10月17日、Xで視聴者による性的な発言に対して注意喚",
   "image": "https://img.kai-you.net/storage/2026/10/9fbf2ce2-af41-4535-b836-99f74b82411b/main/rapurasu.webp",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "홀로 라이브 라플라스 다크니스 「성희롱 남자 오타쿠」발언을 사과 운영은 본인에게의 성적 괴롭힘을 공표",
+  "summary_ko": "VTuber 그룹 홀로라이브를 운영하는 커버 주식회사가 10월 20일 소속 탤런트인 라플라스 다크니스의 계정에 국부를 노출한 성적인 이미지가 보내지는 피해가 발생했음을 공표했다. 라플라스 다크니스는 10월 17일 X에서 시청자에 의한 성적인 발언에 대해 주의환"
  },
  {
   "title": "hololive RECORDS MUSIC STAGE 2027＠Kアリーナ横浜 情報解禁！",
@@ -761,7 +943,9 @@
   "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、ホロライブプロダクションの音楽レーベル『hololive RECORDS（ホロライブ レコーズ）』の初のリアルライブ《hololive RECORDS MUSIC STAGE […]",
   "image": "https://hololive.hololivepro.com/wp-content/uploads/2026/10/261021_main.webp",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "hololive RECORDS MUSIC STAGE 2027 @ K 아레나 요코하마 정보 해금!",
+  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 홀로 라이브 프로덕션의 음악 라벨 「hololive RECORDS(홀로 라이브 녹음)」의 첫 리얼 라이브《hololive RECORDS MUSIC STAGE […]"
  },
  {
   "title": "にじさんじから「Sleepy Sheepy」グッズを2026年10月22日(木)18時から販売開始！",
@@ -782,7 +966,9 @@
   "summary": "",
   "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/67c13f84924b47fcb56b201467ef796f/SleepySheepy_KV_CMS.png",
   "addedAt": "2026-10-21T18:31:01.425989+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "니지산지로부터 「Sleepy Sheepy」 상품을 2026년 10월 22일(목) 18시부터 판매 개시!",
+  "summary_ko": ""
  },
  {
   "title": "「文スト」×「Zoff」初コラボ☆中島敦、太宰治、中原中也らがメガネに！“異能力”デザインがクール♪",
