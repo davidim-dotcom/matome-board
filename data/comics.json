@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-21T06:29:30.570267+09:00",
+ "updated": "2026-10-21T12:31:06.200050+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1130,7 +1130,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983511e6ac485f028011f4ecd23ed0cc6e6b9eeb2ad04180dfd01a1378db036731c9bd0e27047275fe",
-   "seenTo": 6748929,
+   "seenTo": 6751713,
    "coverNo": "comic_new6/6708224",
    "updatedAt": "2026-10-18T13:57"
   },
@@ -1277,16 +1277,21 @@
      "no": 6748146,
      "title": "번역) 나니와 금융도 35화",
      "date": "2026-10-21T02:07"
+    },
+    {
+     "no": 6751713,
+     "title": "번역) 나니와 금융도 36화",
+     "date": "2026-10-21T11:55"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc0c345a77f7b196cf2e550f36012dc26dcbc88feb81921eed0d7fc19c98febfb47e2799533047a",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc0c345a77f7b196cf2e550f36012dc22d9ba8b116f3ec422006d23a48858d0781f804209e1d772",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6748929,
-   "coverNo": "comic_new6/6748146",
-   "updatedAt": "2026-10-21T02:07"
+   "seenTo": 6751713,
+   "coverNo": "comic_new6/6751713",
+   "updatedAt": "2026-10-21T11:55"
   }
  ],
  "scanned": [
@@ -1350,7 +1355,8 @@
   6745588,
   6745804,
   6747152,
-  6748146
+  6748146,
+  6751713
  ],
  "bad": [
   "comic_new6/6742384"
