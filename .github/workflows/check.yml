@@ -22,22 +22,28 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 홀로라이브 피드 점검 (임시)
+      - name: 홀로라이브 피드 점검 2 (임시)
         if: always()
         run: |
           python - <<'PY'
-          import re, sys, html, json
+          import re, sys, html
           sys.path.insert(0, ".")
           import collector as C
-          for u in ["https://hololivepro.com/news/feed/", "https://hololivepro.com/feed/", "https://hololivepro.com/news/?feed=rss2", "https://hololivepro.com/?feed=rss2",
-                    "https://hololivepro.com/?post_type=news&feed=rss2", "https://hololivepro.com/category/news/feed/", "https://hololivepro.com/news/",
-                    "https://hololivepro.com/wp-json/wp/v2/news?per_page=3&_fields=title,link,date_gmt", "https://hololivepro.com/wp-json/wp/v2/posts?per_page=3&_fields=title,link,date_gmt",
-                    "https://hololivepro.com/wp-json/wp/v2/types", "https://hololivepro.com/en/news/feed/", "https://hololive.hololivepro.com/news/feed/", "https://hololive.hololivepro.com/news/"]:
-              try:
-                  b = C.fetch(u); t = b.decode("utf-8", "replace")
-                  alt = re.findall(r'<link[^>]+type="application/(?:rss|atom)\+xml"[^>]*>', t)
-                  items = re.findall(r"<title>(.*?)</title>", t)[:4]
-                  print("OK ", u, len(b), "alt:", [html.unescape(a)[:120] for a in alt][:4], "titles:", [html.unescape(x)[:50] for x in items], t[:120].replace("\n", " ") if "json" in u else "")
-              except Exception as e:
-                  print("ERR", u, e)
+          for u in ["https://hololivepro.com/news/", "https://hololive.hololivepro.com/news/"]:
+              t = C.fetch(u).decode("utf-8", "replace")
+              alts = re.findall(r'<link[^>]+type="application/(?:rss|atom)\+xml"[^>]*href="([^"]+)"', t) + re.findall(r'href="([^"]+)"[^>]*type="application/(?:rss|atom)\+xml"', t)
+              print("\n==", u, "alt", alts)
+              for a in alts:
+                  try:
+                      b = C.fetch(html.unescape(a)); print("   feed OK", a, len(b), b[:150])
+                  except Exception as e: print("   feed ERR", a, e)
+              # 뉴스 목록 구조
+              i = t.find("news"); 
+              arts = re.findall(r"<(article|li)[^>]*>.*?</\1>", t, re.S)
+              print("   article/li 수", len(arts))
+              links = re.findall(r'<a [^>]*href="(https?://[^"]*news/[^"]+)"[^>]*>(.*?)</a>', t, re.S)
+              print("   news 링크", len(links))
+              for h, x in links[:8]: print("     ", h[:80], "|", re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()[:80])
+              j = t.find(links[0][0]) if links else -1
+              print("   HTML 근처:", re.sub(r"\s+", " ", t[max(0, j-1200):j+800]))
           PY
