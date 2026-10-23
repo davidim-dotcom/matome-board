@@ -1039,12 +1039,12 @@ def span_text(t, start):
     return ""
 
 
-def dc_rows(t):
-    """목록·검색 결과 페이지 → [{no, title, nick, uid, views, rec}]"""
+def dc_rows(t, g=DC_GALL):
+    """목록·검색 결과 페이지 → [{no, title, nick, uid, views, rec}]. 미니 갤러리(/mini/{g}/)도 같은 틀이다"""
     out = []
     for li in t.split('<div class="gall-detail-lnktb">')[1:]:  # 항목마다 이 div 로 시작한다(안쪽 <li> 때문에 </li> 로는 못 자른다)
         li = li[:6000]
-        m = re.search(rf"/board/{DC_GALL}/(\d+)", li)
+        m = re.search(rf"/(?:board|mini)/{g}/(\d+)", li)
         i = li.find('<span class="subjectin"')
         if not m or i < 0:
             continue
@@ -1225,8 +1225,159 @@ def order_eps(canon, eps):
     return sorted(eps, key=key)
 
 
+# ── 색인 글형 작품(닌자 슬레이어): 운영자가 정리해 둔 '코믹스 정리' 글을 부(◆…◆)·권(제N권)·에피소드(「…」)·회차(#n 링크)로 읽는다 ──
+IDX_LINK_RE = re.compile(r"(?:m\.dcinside\.com/(mini|board)/(\w+)/(\d+)|gall\.dcinside\.com/(mini/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))")
+IDX_SKIP_RE = re.compile(r"미번역|원본|미식질|노번역|영문|질문|어디서|언제|없냐|있냐|어째서|\?|브금|재업|화질|식질|개인용|곰익스")  # 번역이 아닌 글·재업·잡담 제목
+
+
+def dc_link(href):
+    """디시 글 주소 → (갤러리, 글번호, 미니갤 여부) 또는 None"""
+    m = IDX_LINK_RE.search(html.unescape(href))
+    if not m:
+        return None
+    return (m.group(2) or m.group(5), int(m.group(3) or m.group(6)), bool(m.group(1) == "mini" or m.group(4)))
+
+
+def dc_post_url(g, no, mini=False):
+    return f"https://m.dcinside.com/{'mini' if mini else 'board'}/{g}/{no}"
+
+
+def parse_index(url, part="", depth=1):
+    """정리 글 → [{part, vol, arc, label, u, g, no}] 본문 순서대로. 본문 안의 다른 정리 글(제1권~제5권 같은 링크)은 depth 만큼 따라 들어간다."""
+    t = dc_fetch(url)
+    time.sleep(1)
+    i = t.find('class="thum-txtin"')
+    j = t.find('class="gall-detail-lst', i)
+    body = t[i:j] if i >= 0 else ""
+    body = re.sub(r"<(?!a\s|/a>)[^>]+>", " ", body)  # <a> 만 남기고 다른 태그는 공백으로(「」가 글꼴 태그로 쪼개져 있어서)
+    out, vol, arc = [], "", ""
+    for href, atext, text in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>|([^<]+)', body, re.S):
+        if href:
+            if href.startswith(("javascript", "#", "/pum/")):
+                break  # 본문이 끝나고 추천·공유 버튼이 시작됨
+            lab = clean(atext)
+            if not lab:
+                continue
+            link = dc_link(href)
+            if link and depth > 0 and re.search(r"권|정리|모음", lab) and not re.match(r"#", lab):  # 하위 정리 글
+                try:
+                    sub = parse_index(dc_post_url(*link), part, depth - 1)
+                except Exception as e:
+                    print(f"연재 만화: 하위 정리 글 {lab} 실패 ({e})", file=sys.stderr); sub = []
+                if sub:
+                    out += sub; continue
+            u = dc_post_url(*link) if link else html.unescape(href)
+            if not u.startswith("http"):
+                continue
+            out.append({"part": part, "vol": vol, "arc": arc, "label": lab, "u": u, "g": link[0] if link else "", "no": link[1] if link else 0})
+        else:
+            for mm in re.finditer(r"◆([^◆]+)◆|제\s*(\d+)\s*권|「\s*([^」]+?)\s*」", clean(text)):
+                if mm.group(1):
+                    part, vol, arc = mm.group(1).strip(), "", ""
+                elif mm.group(2):
+                    vol = mm.group(2)
+                else:
+                    arc = mm.group(3).strip()
+    return out
+
+
+def arc_key(name):
+    return re.sub(r"[\s　・·ㆍ:：!！?？~〜\-_.,()（）\[\]【】「」『』]", "", name or "").lower()
+
+
+def guess_arc(title, known, aliases):
+    """갤러리 글 제목 → (에피소드 이름, 회차 라벨). 이름은 색인에 있는 에피소드와 맞춰 본다(별칭 → 그대로 → 앞 4글자)."""
+    t = re.sub(r"^\s*(?:번역|닌슬|직결중점|킬즈|킬러즈)\s*[\)\-:]\s*|^\s*\[[^\]]*\]\s*", "", title)
+    NUM = r"#\s*(\d+)(?:\s*[,/]\s*#?\s*(\d+))?|(\d+)\s*(?:화|#)|(?<=[가-힣A-Za-z\s])(\d{1,3})(?=\s*(?:번역|$|\(|입니다|직결|배달|의\s))"
+    m = re.search(NUM, t)
+    if not m:
+        return None, ""
+    label = "#" + m.group(1) + (", #" + m.group(2) if m.group(2) else "") if m.group(1) else "#" + (m.group(3) or m.group(4))
+    name = clean(re.sub(NUM + r"|\(완\)|\(.*?\)|번역|입니다|이와요|이사와요|배달|직결\s*(?:포탈|링크|중점)\S*|의\s*$|및.*$", " ", t)).strip(" -:·,")
+    k = arc_key(name)
+    for a, full in aliases.items():
+        if k.startswith(arc_key(a)):
+            return full, label
+    for kk, full in known.items():
+        if k == kk or (len(k) >= 4 and (kk.startswith(k) or k.startswith(kk[:4]))):
+            return full, label
+    return name, label
+
+
+def build_index_series(f, s, scanned):
+    """색인 글형 작품 하나를 만든다. 정리 글의 순서를 그대로 쓰고, 갤러리에서 새로 올라온 번역 글(색인에 없는 회차)을 뒤에 더한다."""
+    eps = []
+    for u in f["index"]:
+        try:
+            eps += parse_index(u)
+        except Exception as e:
+            print(f"연재 만화: {f['title']} 정리 글 {u} 실패 ({e})", file=sys.stderr)
+    if not eps:
+        return None
+    have = {(e["part"], arc_key(e["arc"]), e["label"]): e for e in eps}
+    known = {arc_key(e["arc"]): e["arc"] for e in eps if e["arc"]}
+    arc_parts = {}
+    for e in eps:
+        arc_parts.setdefault(arc_key(e["arc"]), set()).add(e["part"])
+    extra = []
+    g, mini = f.get("gallery", ""), f.get("mini", True)
+    if g:
+        rows, last = [], None
+        for pg in range(1, 40):  # 미니 갤러리는 글이 적어 전부 읽는다(쪽당 ~25건)
+            try:
+                r = dc_rows(dc_fetch(f"https://m.dcinside.com/{'mini' if mini else 'board'}/{g}?page={pg}"), g)
+            except Exception as e:
+                print(f"연재 만화: {f['title']} 목록 {pg}쪽 실패 ({e})", file=sys.stderr); break
+            time.sleep(0.7)
+            if not r or r[0]["no"] == last:
+                break
+            rows += r; last = r[0]["no"]
+        in_index = {(e["g"], e["no"]) for e in eps}
+        for row in sorted(rows, key=lambda r: r["no"]):
+            if (g, row["no"]) in in_index or IDX_SKIP_RE.search(row["title"]) or any(row["nick"].startswith(n) for n in f.get("raw_nicks", [])):
+                continue
+            name, label = guess_arc(row["title"], known, f.get("aliases", {}))
+            if not name or len(arc_key(name)) < 2:
+                continue
+            parts = arc_parts.get(arc_key(name), set())
+            part = next(iter(parts)) if len(parts) == 1 else ""
+            if "[킬즈]" in row["title"] or "킬즈)" in row["title"]:
+                part = next((p for p in parts if "킬즈" in p and "킬러즈" not in p), part)
+            if "[킬러즈]" in row["title"]:
+                part = next((p for p in parts if "킬러즈" in p), part)
+            if any((p, arc_key(name), label) in have for p in (parts or {part})):
+                continue  # 색인에 이미 있는 회차의 재업·중복
+            if not part:
+                part = "색인에 아직 없는 번역"
+            e = {"part": part, "vol": "", "arc": name, "label": label, "u": dc_post_url(g, row["no"], mini), "g": g, "no": row["no"], "title": row["title"]}
+            have[(part, arc_key(name), label)] = e
+            extra.append(e)
+    # 색인에 없는 회차는 같은 에피소드의 마지막 회차 뒤에 끼우고, 에피소드 자체가 새로우면 맨 뒤 부에 둔다
+    for e in extra:
+        at = max((i + 1 for i, x in enumerate(eps) if x["part"] == e["part"] and arc_key(x["arc"]) == arc_key(e["arc"])), default=None)
+        if at is None:
+            eps.append(e)
+        else:
+            eps.insert(at, e)
+    parts = []
+    for e in eps:
+        p = next((p for p in parts if p["name"] == e["part"]), None)
+        if not p:
+            p = {"name": e["part"], "arcs": []}; parts.append(p)
+        a = p["arcs"][-1] if p["arcs"] and p["arcs"][-1]["name"] == e["arc"] and p["arcs"][-1]["vol"] == e["vol"] else None
+        if not a:
+            a = {"name": e["arc"], "vol": e["vol"], "eps": []}; p["arcs"].append(a)
+        a["eps"].append({k: e[k] for k in ("label", "u", "g", "no") if e.get(k) or k == "label"})
+    s.update({"name": f["title"], "title": f["title"], "author": f.get("author", ""), "kind": "index", "parts": parts,
+              "episodes": [{"no": e["no"], "g": e["g"], "title": f"{e['arc']} {e['label']}".strip(), "u": e["u"]} for e in eps],
+              "updatedAt": max([s.get("updatedAt", "")] + [datetime.now(JST).strftime("%Y-%m-%dT%H:%M") if extra else ""])})
+    print(f"연재 만화: {f['title']} 색인 {len(eps) - len(extra)}회차 + 갤러리 추가 {len(extra)}회차", file=sys.stderr)
+    return s
+
+
 def comic_follows():
-    """data/comics_follow.json → [{title, author, posts:[(갤러리, 글번호)]}]. posts 는 디시 글 주소나 '갤러리/글번호'."""
+    """data/comics_follow.json → [{title, author, posts:[(갤러리, 글번호)]}]. posts 는 디시 글 주소나 '갤러리/글번호'.
+    색인 글형은 {title, index:[정리 글 주소], gallery, mini, aliases, raw_nicks}."""
     out = []
     for f in load_json(COMICS_FOLLOW, {}).get("follow", []):
         posts = []
@@ -1235,7 +1386,8 @@ def comic_follows():
             if m:
                 posts.append((m.group(1), int(m.group(2))))
         if f.get("title"):
-            out.append({"title": f["title"], "author": f.get("author", ""), "posts": posts})
+            out.append({"title": f["title"], "author": f.get("author", ""), "posts": posts, "index": [u for u in f.get("index", []) if str(u).startswith("http")],
+                        "gallery": f.get("gallery", ""), "mini": f.get("mini", True), "aliases": f.get("aliases", {}), "raw_nicks": f.get("raw_nicks", [])})
     return out
 
 
@@ -1276,6 +1428,16 @@ def export_comics(ref):
     for f in follows:
         key = series_key(f["title"], "")
         s = by.get(key) or {"id": key, "episodes": [], "rec": 0, "cover": ""}
+        if f["index"]:  # 색인 글형(닌자 슬레이어): 정리 글 + 갤러리 새 번역 글
+            try:
+                r = build_index_series(f, s, scanned)
+            except Exception as e:
+                r = None; print(f"연재 만화: {f['title']} 실패 ({e})", file=sys.stderr)
+            if r:
+                series.append(r)
+            elif s.get("parts"):
+                series.append(s)  # 이번에 못 읽었으면 예전 것을 유지
+            continue
         s.update({"name": f["title"], "title": f["title"], "author": f["author"]})
         canon = []  # 지정 글의 상자·링크 모음 순서 = 작가가 정한 회차 순서
         for g, no in f["posts"]:
