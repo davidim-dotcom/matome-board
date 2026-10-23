@@ -101,7 +101,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - `normalize()`가 모든 입력 필드를 화이트리스트·길이 제한·`safeUrl()`로 걸러 들어온다. 새 필드를 쓰려면 여기 반드시 추가.
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록뿐이며 localStorage 키 `matome-public-v1`에 `{S:{watching:[]}}`로 저장된다(예전 구조의 `S.watching`만 읽어 호환). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
-- 표시 언어: 맨 위 `原文 / 한국어` 전환(`lang`, localStorage `matome-lang`, 기본 한국어). `tx(it,"title")`/`tx(it,"summary")`가 번역이 있으면 `*_ko`, 없으면 원문을 돌려준다. 카드 제목·요약과 상단 띠 제목에만 적용하고 장소·작품명·방영 목록은 원문 그대로.
+- 표시 언어: 맨 위 `原文 / 한국어` 전환(`lang`, localStorage `matome-lang2`, **기본 원문**. 2026-10에 기계 번역이 어색해 기본을 한국어→원문으로 바꾸면서 저장 키를 바꿔 예전 선택을 버렸다). `tx(it,"title")`/`tx(it,"summary")`가 번역이 있으면 `*_ko`, 없으면 원문을 돌려준다. 카드 제목·요약과 상단 띠 제목에만 적용하고 장소·작품명·방영 목록은 원문 그대로.
 - 만갤 탭(연재 만화, `section#comics`): 탭을 처음 열 때 `data/comics.json`을 불러온다(`loadComics`). 작품 카드에 이어 보기 · 1화부터 · 최신화 · 회차 목록(펼침). 모든 링크는 원문 `m.dcinside.com/board/{g 또는 gallery}/{no}`(새 탭)이고, 누르면 그 화를 localStorage `matome-comics-read`(작품 id → 글 번호)에 기억해 다음 화로 "이어 보기"와 "새 화" 배지를 띄운다. 검색(작품·작성자)과 정렬(최근 갱신·추천 많은). 작성자가 비어 있으면 카드에 표시하지 않는다. 표지는 og:image 주소를 `referrerpolicy=no-referrer`로 시도하고 실패하면 색 타일.
 - 탭: 피드 · 캘린더 · 방영중 · 만갤(연재 만화) · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
