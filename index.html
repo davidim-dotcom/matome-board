@@ -69,6 +69,18 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .eps{grid-column:1/-1;margin:6px 0 0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;max-height:320px;overflow:auto;background:var(--surface);list-style:none}
 .eps li{padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px}
 .eps li:last-child{border-bottom:0}
+/* 색인 글형 목차: 부 제목 → 에피소드 줄(권·이름·회차 알약) */
+.eps.toc{max-height:70vh}
+.toc h4{margin:10px 0 4px;font-size:13px;color:var(--pink)} .toc h4:first-child{margin-top:0}
+.toc .arc{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.toc .arc:last-child{border-bottom:0}
+.toc .vol{font-size:11px;color:var(--muted);flex:none}
+.toc .an{font-weight:500;flex:1 1 140px;min-width:0}
+.toc .chips{display:flex;flex-wrap:wrap;gap:4px}
+.toc .epc{font-size:12px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-decoration:none}
+.toc .epc.ext{color:var(--muted);border-style:dashed}
+.toc .epc.read{opacity:.5}
+.toc .epc.cur{border-color:var(--pink);color:var(--pink);font-weight:700}
 .eps a{color:var(--ink);text-decoration:none;display:block}
 .eps li.read a{color:var(--muted)}
 .eps li.cur a{font-weight:700;color:var(--pink)}
@@ -668,7 +680,11 @@ async function loadComics(){
     series:list.map(x=>({id:String(x.id||"").slice(0,200), name:String(x.name||"").slice(0,120), title:String(x.title||x.name||"").slice(0,120), author:String(x.author||"").slice(0,40),
       rec:Number.isFinite(x.rec)?x.rec:0, updatedAt:String(x.updatedAt||"").slice(0,16),
       cover:/^https:\/\//.test(x.cover||"")?safeUrl(x.cover):"",
-      eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0).map(e=>({no:e.no,g:/^\w{1,40}$/.test(e.g||"")?e.g:"",title:String(e.title||"").slice(0,160)}))}))
+      // 색인 글형(닌자 슬레이어): parts[{name, arcs[{name, vol, eps[{label,u}]}]}] 목차. 회차 링크는 u(디시·외부 https 주소)
+      parts:x.kind==="index"&&Array.isArray(x.parts)?x.parts.slice(0,20).map(p=>({name:String(p.name||"").slice(0,60),
+        arcs:(Array.isArray(p.arcs)?p.arcs:[]).slice(0,200).map(a=>({name:String(a.name||"").slice(0,80),vol:String(a.vol||"").slice(0,4),
+          eps:(Array.isArray(a.eps)?a.eps:[]).slice(0,60).map(e=>({label:String(e.label||"").slice(0,30),u:safeUrl(e.u||""),ext:!/dcinside\.com/.test(e.u||"")})).filter(e=>e.u)})).filter(a=>a.eps.length)})).filter(p=>p.arcs.length):null,
+      eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0||e.u).map(e=>({no:Number.isInteger(e.no)?e.no:0,g:/^\w{1,40}$/.test(e.g||"")?e.g:"",u:safeUrl(e.u||""),title:String(e.title||"").slice(0,160)})).filter(e=>e.no||e.u)}))
       .filter(x=>x.id&&x.name&&x.eps.length)};
   renderComics();
 }
@@ -680,18 +696,23 @@ function renderComics(){
   let list=comics.series.filter(x=>!q||x.title.toLowerCase().includes(q)||x.name.toLowerCase().includes(q)||x.author.toLowerCase().includes(q));
   list=[...list].sort(comicSort==="rec"?(a,b)=>b.rec-a.rec:(a,b)=>b.updatedAt.localeCompare(a.updatedAt));
   const cards=list.map(x=>{
-    const last=x.eps[x.eps.length-1], readNo=comicRead[x.id], ri=x.eps.findIndex(e=>e.no===readNo);
+    const last=x.eps[x.eps.length-1], readNo=comicRead[x.id], ri=x.eps.findIndex(e=>(e.u||e.no)===readNo);
     const next=ri>=0&&ri<x.eps.length-1?x.eps[ri+1]:null, isNew=ri>=0&&ri<x.eps.length-1;
     const hue=parseInt(hashId(x.id).slice(1),36)%360;
     const cv=`<div class="cvt" style="background:linear-gradient(160deg,hsl(${hue} 40% 58%),hsl(${(hue+40)%360} 45% 36%))" aria-hidden="true">${esc([...x.title][0]||"")}</div>`;
     const pic=x.cover?`<div style="position:relative">${cv}<img class="cv" style="position:absolute;inset:0" src="${esc(x.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></div>`:cv;
-    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${label}</a>`;
+    const href=e=>e.u||dcUrl(e), key=e=>e.u||e.no;
+    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(href(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(String(key(e)))}">${label}</a>`;
     const btns=[next?link(next,"이어 보기","btn ticket"):"", link(x.eps[0],"1화부터"), x.eps.length>1?link(last,"최신화"):"",
-      `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">회차 ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
-    const eps=comicOpen===x.id?`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${e.no}">${esc(e.title)}</a></li>`).join("")}</ol>`:"";
+      `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">${x.parts?"목차":"회차"} ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
+    const readIdx=new Map(x.eps.map((e,i)=>[key(e),i]));
+    const eps=comicOpen!==x.id?"":x.parts
+      ?`<div class="eps toc">${x.parts.map(p=>`<h4>${esc(p.name)}</h4>${p.arcs.map(a=>`<div class="arc">${a.vol?`<span class="vol">${esc(a.vol)}권</span>`:""}<span class="an">${esc(a.name)}</span><span class="chips">${a.eps.map(e=>{const i=readIdx.get(e.u);return `<a class="epc${i<ri?" read":""}${i===ri?" cur":""}${e.ext?" ext":""}" href="${esc(e.u)}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(e.u)}" title="${e.ext?"외부 사이트":"디시"}">${esc(e.label)}</a>`}).join("")}</span></div>`).join("")}`).join("")}
+        <p class="note" style="margin:8px 0 0">회색 글자 = 디시 밖(아카라이브 등)으로 연결되는 회차. 운영자가 정리 글을 고치면 다음 갱신 때 같이 바뀌어요.</p></div>`
+      :`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(href(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(String(key(e)))}">${esc(e.title)}</a></li>`).join("")}</ol>`;
     return `<article class="comic">${pic}<div>
       <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
-      <div class="sub2">${x.author?esc(x.author)+" · ":""}회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
+      <div class="sub2">${x.author?esc(x.author)+" · ":""}${x.parts?`${x.parts.length}부 · `:""}회차 ${x.eps.length}개 · ${esc(relDay(x.updatedAt))} 갱신${x.name&&x.name!==x.title?` · 시리즈 ‘${esc(x.name)}’`:""}</div>
       <p class="last">최신: ${esc(last.title)}</p>
       <div class="actions">${btns}</div></div>${eps}</article>`}).join("");
   el.innerHTML=`<p class="aside">디시인사이드 만화 갤러리에서 고른 연재작 ${comics.series.length}편을 1화부터 모았어요${comics.updated?" · "+esc(relDay(comics.updated))+" 확인":""}. 누르면 원문(디시)이 열리고, 마지막으로 연 화는 이 브라우저에 기억해 ‘이어 보기’로 이어 줘요.</p>
@@ -781,7 +802,7 @@ document.addEventListener("click",e=>{
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
     if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
-  const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=Number(ce.dataset.ep);try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(renderComics,0);return} // 링크는 그대로 열린다
+  const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=/^\d+$/.test(ce.dataset.ep)?Number(ce.dataset.ep):ce.dataset.ep;try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(renderComics,0);return} // 링크는 그대로 열린다
   const co=e.target.closest("[data-cmopen]"); if(co){comicOpen=comicOpen===co.dataset.cmopen?null:co.dataset.cmopen;renderComics();return}
   const cs=e.target.closest("[data-cmsort]"); if(cs){comicSort=cs.dataset.cmsort;renderComics();return}
   const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang2",lang)}catch{}syncLang();render();return}
