@@ -261,7 +261,7 @@ textarea{min-height:110px;resize:vertical}
   <h1>마토메 보드</h1>
   <div class="topbar">
     <p class="sub" id="storeNote">일본 게임·애니·버튜버·만화 공연과 이벤트 소식</p>
-    <div class="langsw" role="group" aria-label="표시 언어"><button type="button" data-lang="ja" aria-pressed="false">原文</button><button type="button" data-lang="ko" aria-pressed="true">한국어</button></div>
+    <div class="langsw" role="group" aria-label="표시 언어"><button type="button" data-lang="ja" aria-pressed="true">原文</button><button type="button" data-lang="ko" aria-pressed="false">한국어</button></div>
   </div>
 
   <div id="stubs" class="stubs" aria-label="티켓 마감 임박"></div>
@@ -283,7 +283,7 @@ textarea{min-height:110px;resize:vertical}
       <h2>사이트 개요</h2>
       <p>tera가 필요해서 만듬.</p>
       <p class="help" id="mochiBack" hidden>오른쪽 아래 도로롱을 숨겼어요. <button class="btn ghost" type="button" id="mochiCall">다시 부르기</button></p>
-      <p class="help">일본 게임·애니·버튜버·만화의 공연, 이벤트, 콜라보, 팝업, 전시 소식을 공식 사이트와 뉴스 RSS에서 모아 하루 네 번 갱신합니다. 날짜는 일본 시간이고, 예매와 일정은 원문에서 꼭 확인해 주세요. 피드에서 버튜버만 골라 보거나 날짜순으로 볼 수 있고, 캘린더에서 날을 누르면 그날의 일정이 나옵니다. 맨 위의 原文/한국어로 표시 언어를 고를 수 있는데, 한국어는 Google 번역을 거친 기계 번역이라 제목과 요약만 바뀌고 장소·작품명은 원문 그대로입니다.</p>
+      <p class="help">일본 게임·애니·버튜버·만화의 공연, 이벤트, 콜라보, 팝업, 전시 소식을 공식 사이트와 뉴스 RSS에서 모아 하루 네 번 갱신합니다. 날짜는 일본 시간이고, 예매와 일정은 원문에서 꼭 확인해 주세요. 피드에서 버튜버만 골라 보거나 날짜순으로 볼 수 있고, 캘린더에서 날을 누르면 그날의 일정이 나옵니다. 기본은 일본어 원문이고, 맨 위의 한국어를 누르면 Google 기계 번역으로 제목과 요약만 바꿔 볼 수 있습니다(어색한 번역이 많으니 참고용).</p>
     </div>
     <div class="panel">
       <h2>게시판</h2>
@@ -337,7 +337,8 @@ let items = new Map();
 let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬(추천순이 기본)
 let trends = []; // meta.json 의 유행 작품(최근 14일 기사에 많이 나온 이름, 순위순)
 let calYM = null, calDay = null; // 캘린더가 보여 주는 달 {y,m} 과 고른 날 "YYYY-MM-DD"
-let lang = "ko"; try{ lang = localStorage.getItem("matome-lang") === "ja" ? "ja" : "ko" }catch{} // 표시 언어: 한국어(번역) 또는 원문
+// 표시 언어: 기본은 원문(일본어). 기계 번역이 어색해 2026-10에 기본값을 원문으로 바꾸면서 저장 키도 바꿔(matome-lang → matome-lang2) 모두 원문에서 다시 시작한다
+let lang = "ja"; try{ lang = localStorage.getItem("matome-lang2") === "ko" ? "ko" : "ja" }catch{}
 const tx = (it,k)=> lang==="ko" && it[k+"_ko"] ? it[k+"_ko"] : it[k]; // 번역이 있으면 번역, 없으면 원문
 
 /* ---------- utilities ---------- */
@@ -783,7 +784,7 @@ document.addEventListener("click",e=>{
   const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=Number(ce.dataset.ep);try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(renderComics,0);return} // 링크는 그대로 열린다
   const co=e.target.closest("[data-cmopen]"); if(co){comicOpen=comicOpen===co.dataset.cmopen?null:co.dataset.cmopen;renderComics();return}
   const cs=e.target.closest("[data-cmsort]"); if(cs){comicSort=cs.dataset.cmsort;renderComics();return}
-  const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang",lang)}catch{}syncLang();render();return}
+  const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang2",lang)}catch{}syncLang();render();return}
   onAction(e);
 });
 
