@@ -3911,7 +3911,7 @@
  },
  {
   "title": "デアラ ギャル制服 POP UP SHOP in 新宿 12月26日より開催!",
-  "category": "live",
+  "category": "popup",
   "source": "コラボカフェ",
   "platform": "wpjson",
   "works": [],
@@ -6348,7 +6348,7 @@
  },
  {
   "title": "ミリマス ARC-FLAGS POP UP in 東京・大阪 11月6日より開催!",
-  "category": "live",
+  "category": "popup",
   "source": "コラボカフェ",
   "platform": "wpjson",
   "works": [
@@ -7202,7 +7202,7 @@
  },
  {
   "title": "ホロライブの公式ショップ「hololive production official shop in Tokyo Station」、11/13に新商品「hololive Station Classical」とともに移転オープン",
-  "category": "live",
+  "category": "popup",
   "source": "PANORA",
   "platform": "rss",
   "works": [
@@ -7293,7 +7293,7 @@
  },
  {
   "title": "公式ショップ「hololive production official shop in Tokyo Station」、新区画にてリニューアルオープン決定！",
-  "category": "live",
+  "category": "popup",
   "source": "ホロライブ公式",
   "platform": "rss",
   "works": [
@@ -7920,7 +7920,7 @@
  },
  {
   "title": "ガールズバンドクライ 学園祭ライブVer. ストア in 東京 10月30日より開催!",
-  "category": "live",
+  "category": "popup",
   "source": "コラボカフェ",
   "platform": "wpjson",
   "works": [],
@@ -12620,7 +12620,7 @@
  },
  {
   "title": "ラブライブ!サンシャイン!! POP UP in HMV 12月2日より開催!",
-  "category": "live",
+  "category": "popup",
   "source": "コラボカフェ",
   "platform": "wpjson",
   "works": [
