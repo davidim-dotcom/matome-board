@@ -22,35 +22,41 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 닌자슬레이어 점검 2 (임시)
+      - name: 닌자슬레이어 점검 3 (임시)
         if: always()
         run: |
           python - <<'PY'
-          import re, sys, html, time
+          import re, sys, html, time, json
           sys.path.insert(0, ".")
           import collector as C
           clean = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
+          for ua in [{"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1", "Accept": "text/html", "Accept-Language": "ko-KR,ko;q=0.9"}, {"User-Agent": "curl/8.5.0"}]:
+              try:
+                  t = C.fetch("https://arca.live/b/manhwa/37486873", ua).decode("utf-8", "replace"); print("ARCA OK", len(t), re.search(r"<title>(.*?)</title>", t, re.S).group(1)[:80]); break
+              except Exception as e: print("ARCA", ua["User-Agent"][:20], e)
           t = C.dc_fetch("https://m.dcinside.com/mini/yukiyogo/95")
-          h = re.search(r'"headline":"([^"]*)"', t); print("95 제목", h.group(1) if h else None, "len", len(t), "dc_series", t.find('class="dc_series"'))
-          i = t.find('class="thum-txtin"'); body = t[i:t.find("gall-detail-lst", i)] if i >= 0 else t
-          links = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)
-          print("본문 링크", len(links))
-          for hh, x in links: print("   ", html.unescape(hh)[:85], "|", clean(x)[:70])
-          print("본문 텍스트", clean(body)[:3000])
-          print("robots mini", [l for l in C.dc_fetch("https://m.dcinside.com/robots.txt").splitlines() if "mini" in l.lower() or "board" in l.lower()][:10])
-          allrows = []
-          for pg in range(1, 30):
-              u = f"https://m.dcinside.com/mini/yukiyogo?page={pg}"
-              tt = C.dc_fetch(u); time.sleep(0.7)
-              rows = []
-              for li in tt.split('<div class="gall-detail-lnktb">')[1:]:
-                  li = li[:6000]
-                  m = re.search(r"/mini/yukiyogo/(\d+)", li); j = li.find('<span class="subjectin"')
-                  if not m or j < 0: continue
-                  nick = re.search(r'<li class="list-nick">(.*?)<', li, re.S); d = re.search(r"<li>(\d\d\.\d\d(?:\.\d\d)?|\d\d:\d\d)</li>", li)
-                  rows.append((int(m.group(1)), C.span_text(li, j), clean(nick.group(1)) if nick else "", d.group(1) if d else ""))
-              if not rows or (allrows and rows[0][0] == allrows[-1][0]): break
-              allrows += rows
-          print("전체 글", len(allrows))
-          for r in allrows: print("   ", r)
+          i = t.find('class="thum-txtin"'); j = t.find('class="gall-detail-lst', i); body = t[i:j]
+          k = body.find("제1부"); print("RAW HTML 1", body[k-600:k+2500])
+          k = body.find("섀도 콘"); print("RAW HTML 2", body[k-800:k+900])
+          # 초안 파서: 본문을 순서대로 훑어 부/권/작품/회차 링크를 뽑는다
+          toks = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>|([^<]+)', body, re.S)
+          out, part, vol, arc = [], "", "", ""
+          for href, atext, text in toks:
+              if href:
+                  lab = clean(atext)
+                  m = re.search(r"(?:m\.dcinside\.com/(?:mini|board)/(\w+)/(\d+)|gall\.dcinside\.com/(?:mini/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))", html.unescape(href))
+                  if lab: out.append((part, vol, arc, lab, (m.group(1) or m.group(3), int(m.group(2) or m.group(4))) if m else html.unescape(href)[:60]))
+              else:
+                  x = clean(text)
+                  if not x: continue
+                  for mm in re.finditer(r"◆([^◆]+)◆|제(\d+)권|「\s*([^」]+?)\s*」", x):
+                      if mm.group(1): part, vol, arc = mm.group(1).strip(), "", ""
+                      elif mm.group(2): vol = mm.group(2)
+                      else: arc = mm.group(3).strip()
+          print("PARSED", len(out))
+          for o in out: print("   ", o)
+          for no in (101, 264):
+              tt = C.dc_fetch(f"https://m.dcinside.com/mini/yukiyogo/{no}"); time.sleep(1)
+              i = tt.find('class="thum-txtin"'); j = tt.find('class="gall-detail-lst', i)
+              print(f"\n[{no}]", clean(tt[i:j])[:1500])
           PY
