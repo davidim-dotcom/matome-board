@@ -22,22 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 닌슬 링크 확인 시험 (임시)
-        if: always()
-        run: |
-          python - <<'PY'
-          import sys, json, time
-          sys.path.insert(0, ".")
-          import collector as C
-          C.LINK_CHECK_MAX = 300
-          f = [x for x in C.comic_follows() if x["index"]][0]
-          t0 = time.time()
-          s = C.build_index_series(f, {"id": "x", "episodes": [], "rec": 0, "cover": ""}, set())
-          print("시간", int(time.time() - t0), "초, 회차", len(s["episodes"]), "부 순서", [p["name"] for p in s["parts"]])
-          eps = [(p["name"], a["name"], e) for p in s["parts"] for a in p["arcs"] for e in a["eps"]]
-          dead = [(p, a, e["label"], e["u"]) for p, a, e in eps if e.get("dead")]
-          print("깨짐", len(dead)); [print("   ", d) for d in dead]
-          red = [(k, v["u"]) for k, v in s["links"].items() if v["u"] != k]
-          print("직결", len(red)); [print("   ", k, "->", v) for k, v in red]
-          print("미확인", sum(1 for p, a, e in eps if e.get("g") and e["u"] not in s["links"] and not any(v["u"] == e["u"] for v in s["links"].values())))
-          PY

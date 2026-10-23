@@ -1348,7 +1348,8 @@ def resolve_link(url):
     i = t.find('class="thum-txtin"')
     j = t.find('class="gall-detail-lst', i)
     body = t[i:j] if i >= 0 else ""
-    if body.count("viewimage.php") > 2:
+    imgs = body.count("viewimage.php")
+    if imgs > 2:
         return "ok", None
     for href, _ in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S):
         href = html.unescape(href)
@@ -1359,7 +1360,7 @@ def resolve_link(url):
             return "link", dc_post_url(*link)
         if href.startswith("http") and not re.search(r"dcinside\.com|youtu\.?be|youtube\.com|x\.com|twitter\.com", href):
             return "link", href
-    return "ok", None
+    return ("empty" if imgs == 0 and i >= 0 else "ok"), None  # 그림도 링크도 없는 글 = 그림이 지워진 글
 
 
 def check_links(eps, cache, today):
@@ -1369,7 +1370,9 @@ def check_links(eps, cache, today):
         if not e.get("g"):
             continue  # 디시 밖 링크(아카라이브)는 Actions 에서 못 열어 그대로 둔다
         c = cache.get(e["u"])
-        stale = c and not c.get("ok") and c.get("t", "") < (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=LINK_RECHECK_DAYS)).strftime("%Y-%m-%d")
+        ago = lambda d: (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=d)).strftime("%Y-%m-%d")
+        # 한 번 없었던 글(n=1)은 다음 날 다시, 깨진 걸로 굳힌 글은 LINK_RECHECK_DAYS 마다 다시 본다
+        stale = c and c.get("n", 0) > 0 and c.get("t", "") <= (ago(1) if c.get("ok") else ago(LINK_RECHECK_DAYS))
         if (c is None or stale) and budget > 0:
             budget -= 1
             try:
@@ -1377,9 +1380,9 @@ def check_links(eps, cache, today):
             except Exception as ex:
                 print(f"연재 만화: 링크 확인 실패 {e['u']} ({ex})", file=sys.stderr); continue
             time.sleep(0.8)
-            if kind == "dead":
-                n = (c or {}).get("n", 0) + 1
-                cache[e["u"]] = {"u": e["u"], "ok": n < 2, "n": n, "t": today}  # 두 번 연속 없어야 깨진 것으로 본다
+            if kind in ("dead", "empty"):
+                n = (c or {}).get("n", 0) + (2 if kind == "empty" else 1)
+                cache[e["u"]] = {"u": e["u"], "ok": n < 2, "n": n, "t": today}  # 403/404는 두 번 연속 없어야 깨진 것으로, 그림이 하나도 없는 글은 바로 깨진 것으로
             else:
                 cache[e["u"]] = {"u": to or e["u"], "ok": True, "n": 0, "t": today}
             c = cache[e["u"]]
