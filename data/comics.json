@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-23T21:05:39.798286+09:00",
+ "updated": "2026-10-23T21:46:02.587353+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1135,7 +1135,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc2c34551298ab700259adba7c183eed7b70ca140d8be239e3dbf5bd6928fef95308540f47bb22850157349afcef311d16f04c7f5fb",
-   "seenTo": 6780463,
+   "seenTo": 6782494,
    "coverNo": "comic_new6/6775786",
    "updatedAt": "2026-10-23T10:13"
   },
@@ -1314,7 +1314,7 @@
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6780463,
+   "seenTo": 6782494,
    "coverNo": "comic_new6/6778319",
    "updatedAt": "2026-10-23T14:48"
   },
@@ -2486,6 +2486,90 @@
      "u": "https://m.dcinside.com/mini/yukiyogo/309"
     },
     {
+     "no": 310,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #2",
+     "u": "https://m.dcinside.com/mini/yukiyogo/310"
+    },
+    {
+     "no": 312,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #3",
+     "u": "https://m.dcinside.com/mini/yukiyogo/312"
+    },
+    {
+     "no": 317,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #5",
+     "u": "https://m.dcinside.com/mini/yukiyogo/317"
+    },
+    {
+     "no": 319,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #6",
+     "u": "https://m.dcinside.com/mini/yukiyogo/319"
+    },
+    {
+     "no": 321,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #7",
+     "u": "https://m.dcinside.com/mini/yukiyogo/321"
+    },
+    {
+     "no": 323,
+     "g": "yukiyogo",
+     "title": "토비게리 버서스 앰니지어 #8",
+     "u": "https://m.dcinside.com/mini/yukiyogo/323"
+    },
+    {
+     "no": 347,
+     "g": "yukiyogo",
+     "title": "케지메 #3",
+     "u": "https://m.dcinside.com/mini/yukiyogo/347"
+    },
+    {
+     "no": 349,
+     "g": "yukiyogo",
+     "title": "케지메 #4",
+     "u": "https://m.dcinside.com/mini/yukiyogo/349"
+    },
+    {
+     "no": 351,
+     "g": "yukiyogo",
+     "title": "케지메 #5",
+     "u": "https://m.dcinside.com/mini/yukiyogo/351"
+    },
+    {
+     "no": 353,
+     "g": "yukiyogo",
+     "title": "케지메 #6",
+     "u": "https://m.dcinside.com/mini/yukiyogo/353"
+    },
+    {
+     "no": 355,
+     "g": "yukiyogo",
+     "title": "헬 온 어스 #1",
+     "u": "https://m.dcinside.com/mini/yukiyogo/355"
+    },
+    {
+     "no": 358,
+     "g": "yukiyogo",
+     "title": "헬 온 어스 #2",
+     "u": "https://m.dcinside.com/mini/yukiyogo/358"
+    },
+    {
+     "no": 361,
+     "g": "yukiyogo",
+     "title": "헬 온 어스 #3",
+     "u": "https://m.dcinside.com/mini/yukiyogo/361"
+    },
+    {
+     "no": 364,
+     "g": "yukiyogo",
+     "title": "헬 온 어스 #4",
+     "u": "https://m.dcinside.com/mini/yukiyogo/364"
+    },
+    {
      "no": 67,
      "g": "yukiyogo",
      "title": "제로 탈러런트 산수화 #1",
@@ -2856,90 +2940,6 @@
      "g": "yukiyogo",
      "title": "단행본 1~5권 권말 부록 모음",
      "u": "https://m.dcinside.com/mini/yukiyogo/295"
-    },
-    {
-     "no": 310,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #2",
-     "u": "https://m.dcinside.com/mini/yukiyogo/310"
-    },
-    {
-     "no": 312,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #3",
-     "u": "https://m.dcinside.com/mini/yukiyogo/312"
-    },
-    {
-     "no": 317,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #5",
-     "u": "https://m.dcinside.com/mini/yukiyogo/317"
-    },
-    {
-     "no": 319,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #6",
-     "u": "https://m.dcinside.com/mini/yukiyogo/319"
-    },
-    {
-     "no": 321,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #7",
-     "u": "https://m.dcinside.com/mini/yukiyogo/321"
-    },
-    {
-     "no": 323,
-     "g": "yukiyogo",
-     "title": "토비게리 버서스 앰니지어 #8",
-     "u": "https://m.dcinside.com/mini/yukiyogo/323"
-    },
-    {
-     "no": 347,
-     "g": "yukiyogo",
-     "title": "케지메 #3",
-     "u": "https://m.dcinside.com/mini/yukiyogo/347"
-    },
-    {
-     "no": 349,
-     "g": "yukiyogo",
-     "title": "케지메 #4",
-     "u": "https://m.dcinside.com/mini/yukiyogo/349"
-    },
-    {
-     "no": 351,
-     "g": "yukiyogo",
-     "title": "케지메 #5",
-     "u": "https://m.dcinside.com/mini/yukiyogo/351"
-    },
-    {
-     "no": 353,
-     "g": "yukiyogo",
-     "title": "케지메 #6",
-     "u": "https://m.dcinside.com/mini/yukiyogo/353"
-    },
-    {
-     "no": 355,
-     "g": "yukiyogo",
-     "title": "헬 온 어스 #1",
-     "u": "https://m.dcinside.com/mini/yukiyogo/355"
-    },
-    {
-     "no": 358,
-     "g": "yukiyogo",
-     "title": "헬 온 어스 #2",
-     "u": "https://m.dcinside.com/mini/yukiyogo/358"
-    },
-    {
-     "no": 361,
-     "g": "yukiyogo",
-     "title": "헬 온 어스 #3",
-     "u": "https://m.dcinside.com/mini/yukiyogo/361"
-    },
-    {
-     "no": 364,
-     "g": "yukiyogo",
-     "title": "헬 온 어스 #4",
-     "u": "https://m.dcinside.com/mini/yukiyogo/364"
     }
    ],
    "rec": 0,
@@ -4390,6 +4390,113 @@
      ]
     },
     {
+     "name": "색인에 아직 없는 번역",
+     "arcs": [
+      {
+       "name": "토비게리 버서스 앰니지어",
+       "vol": "",
+       "eps": [
+        {
+         "label": "#2",
+         "u": "https://m.dcinside.com/mini/yukiyogo/310",
+         "g": "yukiyogo",
+         "no": 310
+        },
+        {
+         "label": "#3",
+         "u": "https://m.dcinside.com/mini/yukiyogo/312",
+         "g": "yukiyogo",
+         "no": 312
+        },
+        {
+         "label": "#5",
+         "u": "https://m.dcinside.com/mini/yukiyogo/317",
+         "g": "yukiyogo",
+         "no": 317
+        },
+        {
+         "label": "#6",
+         "u": "https://m.dcinside.com/mini/yukiyogo/319",
+         "g": "yukiyogo",
+         "no": 319
+        },
+        {
+         "label": "#7",
+         "u": "https://m.dcinside.com/mini/yukiyogo/321",
+         "g": "yukiyogo",
+         "no": 321
+        },
+        {
+         "label": "#8",
+         "u": "https://m.dcinside.com/mini/yukiyogo/323",
+         "g": "yukiyogo",
+         "no": 323
+        }
+       ]
+      },
+      {
+       "name": "케지메",
+       "vol": "",
+       "eps": [
+        {
+         "label": "#3",
+         "u": "https://m.dcinside.com/mini/yukiyogo/347",
+         "g": "yukiyogo",
+         "no": 347
+        },
+        {
+         "label": "#4",
+         "u": "https://m.dcinside.com/mini/yukiyogo/349",
+         "g": "yukiyogo",
+         "no": 349
+        },
+        {
+         "label": "#5",
+         "u": "https://m.dcinside.com/mini/yukiyogo/351",
+         "g": "yukiyogo",
+         "no": 351
+        },
+        {
+         "label": "#6",
+         "u": "https://m.dcinside.com/mini/yukiyogo/353",
+         "g": "yukiyogo",
+         "no": 353
+        }
+       ]
+      },
+      {
+       "name": "헬 온 어스",
+       "vol": "",
+       "eps": [
+        {
+         "label": "#1",
+         "u": "https://m.dcinside.com/mini/yukiyogo/355",
+         "g": "yukiyogo",
+         "no": 355
+        },
+        {
+         "label": "#2",
+         "u": "https://m.dcinside.com/mini/yukiyogo/358",
+         "g": "yukiyogo",
+         "no": 358
+        },
+        {
+         "label": "#3",
+         "u": "https://m.dcinside.com/mini/yukiyogo/361",
+         "g": "yukiyogo",
+         "no": 361
+        },
+        {
+         "label": "#4",
+         "u": "https://m.dcinside.com/mini/yukiyogo/364",
+         "g": "yukiyogo",
+         "no": 364
+        }
+       ]
+      }
+     ]
+    },
+    {
      "name": "글래머러스 킬러즈",
      "arcs": [
       {
@@ -4914,116 +5021,431 @@
        ]
       }
      ]
-    },
-    {
-     "name": "색인에 아직 없는 번역",
-     "arcs": [
-      {
-       "name": "토비게리 버서스 앰니지어",
-       "vol": "",
-       "eps": [
-        {
-         "label": "#2",
-         "u": "https://m.dcinside.com/mini/yukiyogo/310",
-         "g": "yukiyogo",
-         "no": 310
-        },
-        {
-         "label": "#3",
-         "u": "https://m.dcinside.com/mini/yukiyogo/312",
-         "g": "yukiyogo",
-         "no": 312
-        },
-        {
-         "label": "#5",
-         "u": "https://m.dcinside.com/mini/yukiyogo/317",
-         "g": "yukiyogo",
-         "no": 317
-        },
-        {
-         "label": "#6",
-         "u": "https://m.dcinside.com/mini/yukiyogo/319",
-         "g": "yukiyogo",
-         "no": 319
-        },
-        {
-         "label": "#7",
-         "u": "https://m.dcinside.com/mini/yukiyogo/321",
-         "g": "yukiyogo",
-         "no": 321
-        },
-        {
-         "label": "#8",
-         "u": "https://m.dcinside.com/mini/yukiyogo/323",
-         "g": "yukiyogo",
-         "no": 323
-        }
-       ]
-      },
-      {
-       "name": "케지메",
-       "vol": "",
-       "eps": [
-        {
-         "label": "#3",
-         "u": "https://m.dcinside.com/mini/yukiyogo/347",
-         "g": "yukiyogo",
-         "no": 347
-        },
-        {
-         "label": "#4",
-         "u": "https://m.dcinside.com/mini/yukiyogo/349",
-         "g": "yukiyogo",
-         "no": 349
-        },
-        {
-         "label": "#5",
-         "u": "https://m.dcinside.com/mini/yukiyogo/351",
-         "g": "yukiyogo",
-         "no": 351
-        },
-        {
-         "label": "#6",
-         "u": "https://m.dcinside.com/mini/yukiyogo/353",
-         "g": "yukiyogo",
-         "no": 353
-        }
-       ]
-      },
-      {
-       "name": "헬 온 어스",
-       "vol": "",
-       "eps": [
-        {
-         "label": "#1",
-         "u": "https://m.dcinside.com/mini/yukiyogo/355",
-         "g": "yukiyogo",
-         "no": 355
-        },
-        {
-         "label": "#2",
-         "u": "https://m.dcinside.com/mini/yukiyogo/358",
-         "g": "yukiyogo",
-         "no": 358
-        },
-        {
-         "label": "#3",
-         "u": "https://m.dcinside.com/mini/yukiyogo/361",
-         "g": "yukiyogo",
-         "no": 361
-        },
-        {
-         "label": "#4",
-         "u": "https://m.dcinside.com/mini/yukiyogo/364",
-         "g": "yukiyogo",
-         "no": 364
-        }
-       ]
-      }
-     ]
     }
    ],
-   "updatedAt": "2026-10-23T21:06"
+   "updatedAt": "2026-10-23T21:49",
+   "links": {
+    "https://m.dcinside.com/mini/yukiyogo/1": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/1",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/2": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/2",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/3": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/3",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/4": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/4",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/5": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/5",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/7": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/7",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/8": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/8",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/9": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/9",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/10": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/10",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/11": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/11",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/12": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/12",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/13": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/13",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/14": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/14",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/15": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/15",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/16": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/16",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/17": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/17",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/18": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/18",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/19": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/19",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/20": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/20",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/21": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/21",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/22": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/22",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/23": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/23",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/24": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/24",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/25": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/25",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/26": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/26",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/27": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/27",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/28": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/28",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/29": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/29",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/30": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/30",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/31": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/31",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/32": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/32",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/33": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/33",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/34": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/34",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7152768": {
+     "u": "https://m.dcinside.com/board/comic_new2/7152768",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7166165": {
+     "u": "https://m.dcinside.com/board/comic_new2/7166165",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7352024": {
+     "u": "https://m.dcinside.com/board/comic_new2/7352024",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7367620": {
+     "u": "https://m.dcinside.com/board/comic_new2/7367620",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7379137": {
+     "u": "https://m.dcinside.com/board/comic_new2/7379137",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7385750": {
+     "u": "https://m.dcinside.com/board/comic_new2/7385750",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7397011": {
+     "u": "https://m.dcinside.com/board/comic_new2/7397011",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7400899": {
+     "u": "https://m.dcinside.com/board/comic_new2/7400899",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/35": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/35",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/36": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/36",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/47": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/47",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/48": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/48",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/49": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/49",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/50": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/50",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/51": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/51",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/52": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/52",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/53": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/53",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/54": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/54",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/55": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/55",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/56": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/56",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/57": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/57",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/58": {
+     "u": "https://m.dcinside.com/mini/yukiyogo/58",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7474337": {
+     "u": "https://m.dcinside.com/board/comic_new2/7474337",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7527898": {
+     "u": "https://m.dcinside.com/board/comic_new2/7527898",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7528877": {
+     "u": "https://m.dcinside.com/board/comic_new2/7528877",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7552298": {
+     "u": "https://m.dcinside.com/board/comic_new2/7552298",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7569712": {
+     "u": "https://m.dcinside.com/board/comic_new2/7569712",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7572899": {
+     "u": "https://m.dcinside.com/board/comic_new2/7572899",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7573801": {
+     "u": "https://m.dcinside.com/board/comic_new2/7573801",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7422063": {
+     "u": "https://m.dcinside.com/board/comic_new2/7422063",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7426195": {
+     "u": "https://m.dcinside.com/board/comic_new2/7426195",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7428326": {
+     "u": "https://m.dcinside.com/board/comic_new2/7428326",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7435551": {
+     "u": "https://m.dcinside.com/board/comic_new2/7435551",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7439713": {
+     "u": "https://m.dcinside.com/board/comic_new2/7439713",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7445503": {
+     "u": "https://m.dcinside.com/board/comic_new2/7445503",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7454200": {
+     "u": "https://m.dcinside.com/board/comic_new2/7454200",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/board/comic_new2/7463395": {
+     "u": "https://m.dcinside.com/board/comic_new2/7463395",
+     "ok": true,
+     "n": 0,
+     "t": "2026-10-23"
+    }
+   }
   }
  ],
  "scanned": [
