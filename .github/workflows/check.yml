@@ -22,18 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 닌자슬레이어 색인 시험 (임시)
-        if: always()
-        run: |
-          python - <<'PY'
-          import sys, json
-          sys.path.insert(0, ".")
-          import collector as C
-          f = [x for x in C.comic_follows() if x["index"]][0]
-          s = C.build_index_series(f, {"id": "x", "episodes": [], "rec": 0, "cover": ""}, set())
-          print("회차", len(s["episodes"]))
-          for p in s["parts"]:
-              print("◆", p["name"], sum(len(a["eps"]) for a in p["arcs"]))
-              for a in p["arcs"]:
-                  print("   ", f"[{a['vol']}권]" if a["vol"] else "     ", a["name"], " ".join(e["label"] for e in a["eps"]), "" if all(e.get("g") for e in a["eps"]) else "(외부 링크 포함)")
-          PY

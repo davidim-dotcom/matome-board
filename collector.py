@@ -1281,8 +1281,8 @@ def parse_index(url, part="", depth=1):
                     vol = mm.group(2)
                 else:
                     arc = mm.group(3).strip()
-            rest = re.sub(r"[／/,，]|KILLs\s*\w+|완결|※.*", " ", x).strip()
-            if not hit and 2 <= len(rest) <= 20:  # 「」 없이 적힌 이름(예고편, 단행본 권말 부록 모음 …)도 에피소드로 본다
+            rest = re.sub(r"◆[^◆]+◆|제\s*\d+\s*권|[／/,，]|KILLs\s*\w+|완결|※.*", " ", x).strip()
+            if "「" not in x and 2 <= len(rest) <= 20:  # 「」 없이 적힌 이름(예고편, 단행본 권말 부록 모음 …)도 에피소드로 본다
                 arc = rest
     return out
 
