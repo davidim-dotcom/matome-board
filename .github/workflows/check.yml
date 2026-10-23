@@ -22,3 +22,22 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 홀로라이브 피드 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, html, json
+          sys.path.insert(0, ".")
+          import collector as C
+          for u in ["https://hololivepro.com/news/feed/", "https://hololivepro.com/feed/", "https://hololivepro.com/news/?feed=rss2", "https://hololivepro.com/?feed=rss2",
+                    "https://hololivepro.com/?post_type=news&feed=rss2", "https://hololivepro.com/category/news/feed/", "https://hololivepro.com/news/",
+                    "https://hololivepro.com/wp-json/wp/v2/news?per_page=3&_fields=title,link,date_gmt", "https://hololivepro.com/wp-json/wp/v2/posts?per_page=3&_fields=title,link,date_gmt",
+                    "https://hololivepro.com/wp-json/wp/v2/types", "https://hololivepro.com/en/news/feed/", "https://hololive.hololivepro.com/news/feed/", "https://hololive.hololivepro.com/news/"]:
+              try:
+                  b = C.fetch(u); t = b.decode("utf-8", "replace")
+                  alt = re.findall(r'<link[^>]+type="application/(?:rss|atom)\+xml"[^>]*>', t)
+                  items = re.findall(r"<title>(.*?)</title>", t)[:4]
+                  print("OK ", u, len(b), "alt:", [html.unescape(a)[:120] for a in alt][:4], "titles:", [html.unescape(x)[:50] for x in items], t[:120].replace("\n", " ") if "json" in u else "")
+              except Exception as e:
+                  print("ERR", u, e)
+          PY
