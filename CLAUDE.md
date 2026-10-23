@@ -37,7 +37,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 {"title":"", "category":"live", "source":"출처", "platform":"site|rss|wpjson|json|youtube|holodex",
  "works":["작품명"], "eventDate":"2026-12-19T18:00", "endDate":"", "ticketOpen":"", "deadline":"",
  "venue":"", "ticketUrl":"", "ticketUrls":["예매처별 링크(선택)"], "url":"원문", "summary":"", "image":"대표 이미지 주소(선택)",
- "title_ko":"한국어 제목(선택)", "summary_ko":"한국어 요약(선택)", "addedAt":"ISO"}
+ "title_ko":"한국어 제목(선택)", "summary_ko":"한국어 요약(선택)", "geo":[위도, 경도], "address":"주소(선택)", "addedAt":"ISO"}
 ```
 
 - 날짜는 **JST**이며 시간대 표기가 없으면 페이지가 `+09:00`을 붙여 해석한다.
@@ -45,6 +45,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - `id`는 저장하지 않고 페이지가 `hashId(url|title|eventDate)`로 만든다. 따라서 **title·url·eventDate가 바뀌면 다른 항목**이 되어 각자의 "관심 있어요/숨김" 기록과 끊어진다.
 - 수집기 쪽 중복 판정은 `(url, title)` 쌍이다.
 - `image`는 **주소만** 둔다(파일은 저장하지 않음). 수집기가 피드의 enclosure/media/본문 `<img>`, WP 대표 이미지, JSON의 image 키에서 뽑는다. 페이지는 https 주소만 받아 84px 썸네일로 보여 주고, 못 불러오면 조용히 지운다(`onerror`). 방영 목록 썸네일(`data/thumbs/`)과는 다른 경로다.
+- `geo`·`address`는 `ldjson`(アニメハック 이벤트 캘린더)의 schema.org `Place`에서 온다(`ld_place`: `geo.latitude/longitude`, `address`의 지역·시·거리). 장소를 감춘 `都内某所` 같은 행사는 좌표를 두지 않는다. 이미 저장된 소식도 다시 수집될 때 빈 `geo`/`address`를 채운다(`main`의 `by_key`). 다른 소스는 `venue`가 비어 있어 좌표가 없다.
 - `ticketUrls`는 예매처(e+, ローチケ, ぴあ …)별로 하나씩 모은 링크 목록이고 `ticketUrl`은 그 첫 번째(옛 데이터 호환). 페이지는 둘을 합쳐 예매처마다 버튼을 하나씩 그린다(최대 4개).
 - 한국어 번역(`translate_items`): 아직 `title_ko` 키가 없는 소식의 제목·요약을 Google 번역(키 없는 `translate.googleapis.com/translate_a/single?client=gtx`)으로 일본어→한국어 번역해 `title_ko`/`summary_ko`에 넣는다(실행당 `TRANSLATE_MAX`=150건, 요청 사이 0.2초). 일본어 글자가 없는 글은 `""`(원문 그대로 표시). 요청이 실패하면 키를 남기지 않고 그 실행의 번역을 멈춰 다음 실행에 다시 시도한다. 비공식 엔드포인트라 막히면 번역만 비고 수집은 영향 없다. `python3 collector.py --translate-test`로 경로를 점검한다(클라우드 세션에서는 막힘).
 - 기사 보강(`enrich`): 소식마다 기사 페이지를 **한 번만** 열어(실행당 `ENRICH_MAX`=120건, 새 소식부터) 빠진 `image`(og:image)와 아직 없는 예매처의 링크(`<article>`/`<main>` 안의 첫 e+·ぴあ·ローチケ 등 `TICKET_DOMAINS` 링크, 사이트 첫 화면 링크와 그 사이트 첫 화면에 걸린 배너 링크(`site_ticket_links`)는 제외, 같은 출처에서 3개 이상 기사에 똑같이 나오는 링크도 배너로 보고 버림)을 채우고 `scanned: true`로 표시한다. 방송 항목(holodex/youtube)은 열지 않는다. e+ 자체(eplus.jp, spice.eplus.jp)는 GitHub Actions에서 503/403으로 막혀 소스로 쓸 수 없다(2026-10).
@@ -104,6 +105,8 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 - 탭: 피드 · 캘린더 · 방영중 · 만갤(연재 만화) · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.
+- 장소: `venue`가 있으면 카드에 장소 줄을 두고 누르면 구글 지도 검색(`gmapUrl`: `https://www.google.com/maps/search/?api=1&query=장소 주소`, 장소가 없으면 좌표)을 새 탭으로 연다. `某所`는 링크 없이 글자만.
+- 도쿄 지도(`renderMap`, 피드 맨 위 `<details class="mapbox">`, 열림 상태는 localStorage `matome-map`): 바깥 타일·스크립트 없이 SVG로 그린다. 구·시 경계 `TOKYO`는 `dataofjapan/land`의 `tokyo.geojson`(国土数値情報 행정구역) 중 23구·다마를 Douglas–Peucker로 단순화해 넣은 `[이름, path, 중심x, 중심y, 23구여부]` 배열이고, 투영은 `x=(경도-138.93)·cos35.7°·1231.4`, `y=(35.92-위도)·1231.4`(`mproj`). 보기는 23구 / 도쿄도 전체(`MAPV`의 viewBox·글자·점 크기). 지금 피드 필터(장르·분류)를 통과한 끝나지 않은 소식 중 `geo`가 도쿄 범위 안인 것을 장소별로 모으고, 그 보기에서 겹칠 만큼 가까운 장소는 한 점으로 묶는다. 점을 누르면 아래에 장소·구글 지도 링크·행사 목록, 행사를 누르면 피드의 그 카드로 이동해 잠깐 강조(`.row.flash`). 색은 `--sea`/`--land`/`--land23` 토큰.
 - 피드 상단 칩: 장르(전부 · 버튜버 · 버튜버 제외) + 정렬(추천순=기본, 최신순, 날짜순) 한 줄, 그 아래 분류 칩. 추천순은 `hotScore()`: `meta.trends`(유행 작품 순위, 1위 5점에서 20위 0.25점까지)와 방영 중 인기작(`season.list`의 `w`, 최대 5점) 관련 소식에 점수를 주고 예매 링크 +0.5, 추가된 지 5일마다 1점 감점. 걸린 소식에는 "유행"/"방영 중" 배지. 버튜버 판별은 `isVtuber()`: 전용 소스(`VT_SOURCES`)·`platform=="holodex"`·`VT_RE`(그룹명·용어 정규식) 중 하나. 새 버튜버 그룹을 다루게 되면 `VT_RE`에 더한다.
 - 상단 "티켓 마감 임박"은 아직 오지 않은 시각만 보여준다: 3주 안의 `ticketOpen`/`deadline`, 기간형 분류는 5일 안의 `endDate`, 최대 10개. 지난 것은 바로 빠진다.
 
