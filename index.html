@@ -81,6 +81,7 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .toc .epc.ext{color:var(--muted);border-style:dashed}
 .toc .epc.read{opacity:.5}
 .toc .epc.cur{border-color:var(--pink);color:var(--pink);font-weight:700}
+.toc .epc.dead{color:var(--muted);text-decoration:line-through;opacity:.55;border-color:transparent;background:transparent;cursor:not-allowed}
 .eps a{color:var(--ink);text-decoration:none;display:block}
 .eps li.read a{color:var(--muted)}
 .eps li.cur a{font-weight:700;color:var(--pink)}
@@ -683,7 +684,7 @@ async function loadComics(){
       // 색인 글형(닌자 슬레이어): parts[{name, arcs[{name, vol, eps[{label,u}]}]}] 목차. 회차 링크는 u(디시·외부 https 주소)
       parts:x.kind==="index"&&Array.isArray(x.parts)?x.parts.slice(0,20).map(p=>({name:String(p.name||"").slice(0,60),
         arcs:(Array.isArray(p.arcs)?p.arcs:[]).slice(0,200).map(a=>({name:String(a.name||"").slice(0,80),vol:String(a.vol||"").slice(0,4),
-          eps:(Array.isArray(a.eps)?a.eps:[]).slice(0,60).map(e=>({label:String(e.label||"").slice(0,30),u:safeUrl(e.u||""),ext:!/dcinside\.com/.test(e.u||"")})).filter(e=>e.u)})).filter(a=>a.eps.length)})).filter(p=>p.arcs.length):null,
+          eps:(Array.isArray(a.eps)?a.eps:[]).slice(0,60).map(e=>({label:String(e.label||"").slice(0,30),u:safeUrl(e.u||""),ext:!/dcinside\.com/.test(e.u||""),dead:e.dead===true})).filter(e=>e.u)})).filter(a=>a.eps.length)})).filter(p=>p.arcs.length):null,
       eps:(Array.isArray(x.episodes)?x.episodes:[]).filter(e=>Number.isInteger(e.no)&&e.no>0||e.u).map(e=>({no:Number.isInteger(e.no)?e.no:0,g:/^\w{1,40}$/.test(e.g||"")?e.g:"",u:safeUrl(e.u||""),title:String(e.title||"").slice(0,160)})).filter(e=>e.no||e.u)}))
       .filter(x=>x.id&&x.name&&x.eps.length)};
   renderComics();
@@ -707,8 +708,8 @@ function renderComics(){
       `<button class="btn ghost" data-cmopen="${esc(x.id)}" aria-expanded="${comicOpen===x.id}">${x.parts?"목차":"회차"} ${x.eps.length}${comicOpen===x.id?" ▴":" ▾"}</button>`].join("");
     const readIdx=new Map(x.eps.map((e,i)=>[key(e),i]));
     const eps=comicOpen!==x.id?"":x.parts
-      ?`<div class="eps toc">${x.parts.map(p=>`<h4>${esc(p.name)}</h4>${p.arcs.map(a=>`<div class="arc">${a.vol?`<span class="vol">${esc(a.vol)}권</span>`:""}<span class="an">${esc(a.name)}</span><span class="chips">${a.eps.map(e=>{const i=readIdx.get(e.u);return `<a class="epc${i<ri?" read":""}${i===ri?" cur":""}${e.ext?" ext":""}" href="${esc(e.u)}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(e.u)}" title="${e.ext?"외부 사이트":"디시"}">${esc(e.label)}</a>`}).join("")}</span></div>`).join("")}`).join("")}
-        <p class="note" style="margin:8px 0 0">회색 글자 = 디시 밖(아카라이브 등)으로 연결되는 회차. 운영자가 정리 글을 고치면 다음 갱신 때 같이 바뀌어요.</p></div>`
+      ?`<div class="eps toc">${x.parts.map(p=>`<h4>${esc(p.name)}</h4>${p.arcs.map(a=>`<div class="arc">${a.vol?`<span class="vol">${esc(a.vol)}권</span>`:""}<span class="an">${esc(a.name)}</span><span class="chips">${a.eps.map(e=>{if(e.dead)return `<span class="epc dead" title="지워진 글이에요">${esc(e.label)}</span>`;const i=readIdx.get(e.u);return `<a class="epc${i<ri?" read":""}${i===ri?" cur":""}${e.ext?" ext":""}" href="${esc(e.u)}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(e.u)}" title="${e.ext?"외부 사이트":"디시"}">${esc(e.label)}</a>`}).join("")}</span></div>`).join("")}`).join("")}
+        <p class="note" style="margin:8px 0 0">회색 점선 = 디시 밖(아카라이브 등)으로 연결되는 회차, 줄 그은 것 = 지워져서 열 수 없는 회차. 다른 글로 안내만 하는 글은 그 글로 바로 연결해요. 운영자가 정리 글을 고치면 다음 갱신 때 같이 바뀌어요.</p></div>`
       :`<ol class="eps">${x.eps.map((e,i)=>`<li class="${i<ri?"read":""}${i===ri?" cur":""}"><a href="${esc(href(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(String(key(e)))}">${esc(e.title)}</a></li>`).join("")}</ol>`;
     return `<article class="comic">${pic}<div>
       <div class="nm">${esc(x.title)}${isNew?`<span class="newep">새 화</span>`:""}</div>
