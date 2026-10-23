@@ -76,7 +76,9 @@ SOURCES = [
     # 버튜버 이벤트·라이브·상품전. 전용 소스라 그룹명을 작품 태그로 붙이고, 굿즈·전시 단어도 통과시킨다
     {"type": "rss", "name": "PANORA", "url": "https://panora.tokyo/feed", "extra_words": VTUBER_WORDS},
     {"type": "rss", "name": "KAI-YOU", "url": "https://kai-you.net/contents/feed.rss"},
-    {"type": "rss", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS},
+    # 2026-10 부터 hololivepro.com 이 RSS(/news/feed/)와 WP REST 를 모두 닫아(404) 뉴스 목록 HTML 을 직접 읽는다
+    {"type": "html", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS,
+     "item": r'<a href="(?P<link>/news/[^"]+)" class="news_li">.*?<img src="(?P<image>[^"]*)".*?<p class="date">(?P<date>[\d.]+)</p>\s*<h2 class="tit">(?P<title>.*?)</h2>\s*<p class="txt">(?P<summary>.*?)</p>'},
     {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
@@ -440,10 +442,28 @@ def discover(site):
 SEEN_TEXT = []  # 유행 감지용: (제목+본문)
 
 
+def html_entries(page, src):
+    """뉴스 목록 HTML → (제목, 요약, 링크, 게시일, 그림). src["item"] 은 항목 하나에 맞는 정규식(이름 묶음 link·title·date·summary·image, re.S).
+    RSS 도 API 도 없는 사이트용. 날짜는 2026.10.20 / 2026-10-20 / 2026/10/20 꼴을 JST 로 읽는다."""
+    out = []
+    for m in re.finditer(src["item"], page, re.S):
+        d = m.groupdict()
+        link = urllib.parse.urljoin(src["url"], html.unescape(d.get("link") or ""))
+        when = None
+        dm = re.search(r"(\d{4})[./-](\d{1,2})[./-](\d{1,2})", d.get("date") or "")
+        if dm:
+            try:
+                when = datetime(int(dm.group(1)), int(dm.group(2)), int(dm.group(3)), tzinfo=JST)
+            except ValueError:
+                pass
+        out.append((d.get("title") or "", d.get("summary") or "", link, when, d.get("image") or ""))
+    return out
+
+
 def collect(src, ref):
     t = src["type"]
-    if t in ("rss", "youtube", "site", "wpjson", "json"):
-        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"], "json": lambda: src["url"],
+    if t in ("rss", "youtube", "site", "wpjson", "json", "html"):
+        url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"], "json": lambda: src["url"], "html": lambda: src["url"],
                "youtube": lambda: f"https://www.youtube.com/feeds/videos.xml?channel_id={src['channel_id']}"}[t]()
         cat = "stream" if t == "youtube" else "other"
         raw = fetch(url, src.get("headers"))
@@ -451,6 +471,8 @@ def collect(src, ref):
             entries = wp_entries(json.loads(raw), src.get("link_prefix", ""))
         elif t == "json":
             entries = json_entries(json.loads(raw), src)
+        elif t == "html":
+            entries = html_entries(raw.decode("utf-8", "replace"), src)
         else:
             entries = parse_feed(raw)
         out = []
