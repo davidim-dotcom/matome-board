@@ -22,28 +22,23 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 홀로라이브 피드 점검 2 (임시)
+      - name: 홀로라이브 피드 점검 3 (임시)
         if: always()
         run: |
           python - <<'PY'
           import re, sys, html
           sys.path.insert(0, ".")
           import collector as C
+          clean = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
           for u in ["https://hololivepro.com/news/", "https://hololive.hololivepro.com/news/"]:
               t = C.fetch(u).decode("utf-8", "replace")
-              alts = re.findall(r'<link[^>]+type="application/(?:rss|atom)\+xml"[^>]*href="([^"]+)"', t) + re.findall(r'href="([^"]+)"[^>]*type="application/(?:rss|atom)\+xml"', t)
-              print("\n==", u, "alt", alts)
-              for a in alts:
-                  try:
-                      b = C.fetch(html.unescape(a)); print("   feed OK", a, len(b), b[:150])
-                  except Exception as e: print("   feed ERR", a, e)
-              # 뉴스 목록 구조
-              i = t.find("news"); 
-              arts = re.findall(r"<(article|li)[^>]*>.*?</\1>", t, re.S)
-              print("   article/li 수", len(arts))
-              links = re.findall(r'<a [^>]*href="(https?://[^"]*news/[^"]+)"[^>]*>(.*?)</a>', t, re.S)
+              print("\n==", u, len(t))
+              links = [(m.start(), m.group(1), clean(m.group(2))) for m in re.finditer(r'<a [^>]*href="([^"]*news/[^"]*)"[^>]*>(.*?)</a>', t, re.S)]
               print("   news 링크", len(links))
-              for h, x in links[:8]: print("     ", h[:80], "|", re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()[:80])
-              j = t.find(links[0][0]) if links else -1
-              print("   HTML 근처:", re.sub(r"\s+", " ", t[max(0, j-1200):j+800]))
+              for pos, h, x in links[:10]: print("     ", h[:90], "|", x[:90])
+              if links:
+                  pos = links[2][0] if len(links) > 2 else links[0][0]
+                  print("   HTML 근처:", re.sub(r"\s+", " ", t[max(0, pos-700):pos+900]))
+              print("   json 언급", [m[:100] for m in re.findall(r'["\'](https?://[^"\']*\.json[^"\']*|/[^"\']*\.json[^"\']*)["\']', t)][:8])
+              print("   time 태그", re.findall(r"<time[^>]*>.*?</time>", t, re.S)[:3], re.findall(r"\d{4}[./]\d{2}[./]\d{2}", t)[:5])
           PY
