@@ -22,36 +22,3 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 장소 점검 (임시)
-        if: always()
-        run: |
-          python - <<'PY'
-          import json, re, sys, time, urllib.parse, html
-          sys.path.insert(0, ".")
-          import collector as C
-          t = C.fetch("https://anime.eiga.com/event/cal/202610/").decode("utf-8", "replace")
-          evs = C.ld_events(t)
-          print("ldjson", len(evs))
-          for e in evs[:4]: print(json.dumps(e.get("location"), ensure_ascii=False)[:400])
-          u = evs[0].get("url")
-          p = C.fetch(u).decode("utf-8", "replace")
-          print("상세", u, len(p))
-          for kw in ["住所", "address", "maps.google", "google.com/maps", "latitude", "geo", "会場", "アクセス"]:
-              i = p.find(kw); print("  @", kw, i, re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", p[max(0,i-150):i+250])) if i >= 0 else "")
-          w = json.loads(C.fetch("https://collabo-cafe.com/wp-json/wp/v2/events?per_page=3&_fields=link"))
-          for x in w[:2]:
-              p = C.fetch(x["link"]).decode("utf-8", "replace"); txt = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "\n", p)))
-              print("콜라보", x["link"])
-              for m in re.finditer(r"(会場|開催場所|場所|住所|所在地)\s*[:：]?\s*.{0,80}", txt): print("    ", m.group(0)[:100])
-          UA = {"User-Agent": "matome-board/1.0 (https://github.com/davidim-dotcom/matome-board)"}
-          for q in ["東京国際フォーラム", "新宿バルト9", "TOHOシネマズ シャンテ", "Shibuya LOVEZ", "調布市文化会館たづくり くすのきホール", "豊洲PIT", "サンシャインシティ 展示ホールA"]:
-              try:
-                  r = json.loads(C.fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=jp&q=" + urllib.parse.quote(q), UA))
-                  print("NOM", q, [(x["lat"], x["lon"], x["display_name"][:60]) for x in r])
-              except Exception as e: print("NOM", q, "ERR", e)
-              time.sleep(1.2)
-              try:
-                  r = json.loads(C.fetch("https://msearch.gsi.go.jp/address-search/AddressSearch?q=" + urllib.parse.quote(q)))
-                  print("GSI", q, [(x["geometry"]["coordinates"], x["properties"]["title"]) for x in r[:2]])
-              except Exception as e: print("GSI", q, "ERR", e)
-          PY

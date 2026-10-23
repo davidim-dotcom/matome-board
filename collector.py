@@ -331,13 +331,28 @@ def ld_item(ev, src, ref):
         end = ""
     loc = ev.get("location") if isinstance(ev.get("location"), dict) else {}
     venue = clean(str(loc.get("name") or ""))
+    geo, addr = ld_place(loc, venue)
     offers = ev.get("offers") if isinstance(ev.get("offers"), dict) else {}
     text = f"{title} {kind}"
     works = list(src.get("works", [])) + [w for w in WATCH if w.lower() in text.lower() and w not in src.get("works", [])]
     return {"title": title[:200], "category": classify(text, "event"), "source": src.get("name", ""), "platform": src["type"],
             "works": works[:5], "eventDate": start, "endDate": end, "ticketOpen": "", "deadline": "", "venue": venue[:80],
             "ticketUrl": ticket_url([str(offers.get("url") or "")]), "ticketUrls": ticket_urls([str(offers.get("url") or "")]), "url": link, "summary": kind[:140],
-            "image": ev["image"] if isinstance(ev.get("image"), str) else ""}
+            "image": ev["image"] if isinstance(ev.get("image"), str) else "", "geo": geo, "address": addr}
+
+
+def ld_place(loc, venue):
+    """schema.org Place → ([위도, 경도], 주소 문자열). '都内某所'처럼 장소를 감춘 행사는 좌표를 두지 않는다."""
+    a = loc.get("address") if isinstance(loc.get("address"), dict) else {}
+    addr = " ".join(clean(str(a.get(k) or "")) for k in ("addressRegion", "addressLocality", "streetAddress") if a.get(k))
+    g = loc.get("geo") if isinstance(loc.get("geo"), dict) else {}
+    try:
+        lat, lon = float(g.get("latitude")), float(g.get("longitude"))
+    except (TypeError, ValueError):
+        return [], addr[:80]
+    if "某所" in venue or not (20 < lat < 46 and 122 < lon < 154):
+        return [], addr[:80]
+    return [round(lat, 6), round(lon, 6)], addr[:80]
 
 
 def wp_entries(data, link_prefix=""):
@@ -544,10 +559,16 @@ def main():
     old = load_json(OUT, [])
     block = load_json(os.path.join(DATA, "blocklist.json"), {})
     seen = {(o.get("url"), o.get("title")) for o in old}
+    by_key = {(o.get("url"), o.get("title")): o for o in old}
     new = []
     for src in SOURCES:
         try:
             got = collect(src, ref)
+            for g in got:  # 이미 있는 소식에도 나중에 생긴 필드(좌표·주소)를 채운다
+                o = by_key.get((g["url"], g["title"]))
+                for k in ("geo", "address"):
+                    if o is not None and g.get(k) and not o.get(k):
+                        o[k] = g[k]
             fresh = [g for g in got if (g["url"], g["title"]) not in seen and not blocked(g, block)]
             seen.update((g["url"], g["title"]) for g in fresh)
             new += fresh
