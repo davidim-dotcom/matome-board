@@ -33,7 +33,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
 표준 라이브러리만 사용. GitHub Actions나 cron으로 하루 몇 번 돌리면 된다.
 """
 import json, os, re, sys, html, time
-import urllib.request, urllib.parse
+import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
@@ -1332,6 +1332,66 @@ def guess_arc(title, known, aliases):
     return name, label
 
 
+LINK_CHECK_MAX = 70   # 한 번 실행에서 열어 보는 회차 링크 수(처음엔 몇 번에 나눠 다 확인하고, 그 뒤로는 새 회차만)
+LINK_RECHECK_DAYS = 7 # 깨진 링크는 이 간격으로 다시 확인한다(디시가 일시적으로 403을 낼 수 있어서)
+
+
+def resolve_link(url):
+    """회차 글을 한 번 열어 본다 → ("dead", None) 글이 없음(403/404) / ("link", 주소) 본문이 그림 없이 다른 글로 안내하는 '직결' 글 / ("ok", None).
+    직결 글은 그림이 2장 이하이고 본문에 다른 디시 글이나 바깥 사이트 링크가 있다."""
+    try:
+        t = dc_fetch(url)
+    except urllib.error.HTTPError as e:
+        if e.code in (403, 404, 410):
+            return "dead", None
+        raise
+    i = t.find('class="thum-txtin"')
+    j = t.find('class="gall-detail-lst', i)
+    body = t[i:j] if i >= 0 else ""
+    if body.count("viewimage.php") > 2:
+        return "ok", None
+    for href, _ in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S):
+        href = html.unescape(href)
+        if href.startswith(("javascript", "#", "/")):
+            break  # 본문이 끝나고 추천·공유 버튼이 시작됨
+        link = dc_link(href)
+        if link:
+            return "link", dc_post_url(*link)
+        if href.startswith("http") and not re.search(r"dcinside\.com|youtu\.?be|youtube\.com|x\.com|twitter\.com", href):
+            return "link", href
+    return "ok", None
+
+
+def check_links(eps, cache, today):
+    """회차 링크를 확인해 cache({원래 주소: {u, ok, n, t}})를 채우고, 각 회차에 u(최종 주소)·dead 를 적는다. 한 번에 LINK_CHECK_MAX 개까지."""
+    budget = LINK_CHECK_MAX
+    for e in eps:
+        if not e.get("g"):
+            continue  # 디시 밖 링크(아카라이브)는 Actions 에서 못 열어 그대로 둔다
+        c = cache.get(e["u"])
+        stale = c and not c.get("ok") and c.get("t", "") < (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=LINK_RECHECK_DAYS)).strftime("%Y-%m-%d")
+        if (c is None or stale) and budget > 0:
+            budget -= 1
+            try:
+                kind, to = resolve_link(e["u"])
+            except Exception as ex:
+                print(f"연재 만화: 링크 확인 실패 {e['u']} ({ex})", file=sys.stderr); continue
+            time.sleep(0.8)
+            if kind == "dead":
+                n = (c or {}).get("n", 0) + 1
+                cache[e["u"]] = {"u": e["u"], "ok": n < 2, "n": n, "t": today}  # 두 번 연속 없어야 깨진 것으로 본다
+            else:
+                cache[e["u"]] = {"u": to or e["u"], "ok": True, "n": 0, "t": today}
+            c = cache[e["u"]]
+        if c:
+            e["o"] = e["u"]
+            if c["u"] != e["u"]:
+                e["u"] = c["u"]
+            if not c.get("ok"):
+                e["dead"] = True
+    return budget
+
+
 def build_index_series(f, s, scanned):
     """색인 글형 작품 하나를 만든다. 정리 글의 순서를 그대로 쓰고, 갤러리에서 새로 올라온 번역 글(색인에 없는 회차)을 뒤에 더한다."""
     eps = []
@@ -1383,14 +1443,26 @@ def build_index_series(f, s, scanned):
             e = {"part": part, "vol": "", "arc": name, "label": label, "u": dc_post_url(g, row["no"], mini), "g": g, "no": row["no"], "title": row["title"]}
             have.setdefault((part, arc_key(name)), set()).update(nums(label))
             extra.append(e)
-    # 색인에 없는 회차는 같은 에피소드의 마지막 회차 뒤에(권도 이어받아) 끼우고, 에피소드 자체가 새로우면 맨 뒤 부에 둔다
+    # 색인에 없는 회차는 같은 에피소드의 마지막 회차 뒤에(권도 이어받아) 끼우고, 에피소드 자체가 새로우면 '색인에 아직 없는 번역' 부에 둔다
+    # 그 부는 extra_before 로 지정한 부 앞에(없으면 맨 뒤) 들어간다
+    before = f.get("extra_before", "")
+    at_part = next((i for i, x in enumerate(eps) if before and before in x["part"]), len(eps))
     for e in extra:
         at = max((i + 1 for i, x in enumerate(eps) if x["part"] == e["part"] and arc_key(x["arc"]) == arc_key(e["arc"])), default=None)
         if at is None:
-            eps.append(e)
+            at = at_part if e["part"] == "색인에 아직 없는 번역" else len(eps)
+            eps.insert(at, e)
+            if at <= at_part:
+                at_part += 1
         else:
             e["vol"] = eps[at - 1]["vol"]
             eps.insert(at, e)
+            if at <= at_part:
+                at_part += 1
+    # 회차 링크 확인: 없는 글은 dead, '직결' 글은 가리키는 주소로 바꾼다(결과는 links 에 남겨 다시 열지 않는다)
+    cache = s.get("links") or {}
+    left = check_links(eps, cache, datetime.now(JST).strftime("%Y-%m-%d"))
+    s["links"] = {k: v for k, v in cache.items() if any(e.get("o") == k or e["u"] == k for e in eps)}
     parts = []
     for e in eps:
         p = next((p for p in parts if p["name"] == e["part"]), None)
@@ -1399,11 +1471,12 @@ def build_index_series(f, s, scanned):
         a = p["arcs"][-1] if p["arcs"] and p["arcs"][-1]["name"] == e["arc"] and p["arcs"][-1]["vol"] == e["vol"] else None
         if not a:
             a = {"name": e["arc"], "vol": e["vol"], "eps": []}; p["arcs"].append(a)
-        a["eps"].append({k: e[k] for k in ("label", "u", "g", "no") if e.get(k) or k == "label"})
+        a["eps"].append({k: e[k] for k in ("label", "u", "g", "no", "dead") if e.get(k) or k == "label"})
+    dead = sum(1 for e in eps if e.get("dead"))
     s.update({"name": f["title"], "title": f["title"], "author": f.get("author", ""), "kind": "index", "parts": parts,
-              "episodes": [{"no": e["no"], "g": e["g"], "title": f"{e['arc']} {e['label']}".strip(), "u": e["u"]} for e in eps],
+              "episodes": [{"no": e["no"], "g": e["g"], "title": f"{e['arc']} {e['label']}".strip(), "u": e["u"]} for e in eps if not e.get("dead")],
               "updatedAt": max([s.get("updatedAt", "")] + [datetime.now(JST).strftime("%Y-%m-%dT%H:%M") if extra else ""])})
-    print(f"연재 만화: {f['title']} 색인 {len(eps) - len(extra)}회차 + 갤러리 추가 {len(extra)}회차", file=sys.stderr)
+    print(f"연재 만화: {f['title']} 색인 {len(eps) - len(extra)}회차 + 갤러리 추가 {len(extra)}회차, 링크 확인 {LINK_CHECK_MAX - left}건(깨짐 {dead}, 직결 {sum(1 for e in eps if e.get('o') and e['o'] != e['u'])}, 미확인 {sum(1 for e in eps if e.get('g') and not e.get('o'))})", file=sys.stderr)
     return s
 
 
@@ -1419,7 +1492,7 @@ def comic_follows():
                 posts.append((m.group(1), int(m.group(2))))
         if f.get("title"):
             out.append({"title": f["title"], "author": f.get("author", ""), "posts": posts, "index": [u for u in f.get("index", []) if str(u).startswith("http")],
-                        "gallery": f.get("gallery", ""), "mini": f.get("mini", True), "aliases": f.get("aliases", {}), "raw_nicks": f.get("raw_nicks", [])})
+                        "gallery": f.get("gallery", ""), "mini": f.get("mini", True), "aliases": f.get("aliases", {}), "raw_nicks": f.get("raw_nicks", []), "extra_before": f.get("extra_before", "")})
     return out
 
 

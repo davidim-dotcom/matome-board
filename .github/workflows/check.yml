@@ -22,27 +22,22 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 닌슬 링크 점검 (임시)
+      - name: 닌슬 링크 확인 시험 (임시)
         if: always()
         run: |
           python - <<'PY'
-          import re, sys, html, urllib.error
+          import sys, json, time
           sys.path.insert(0, ".")
           import collector as C
-          clean = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
-          for u in ["https://m.dcinside.com/mini/yukiyogo/323", "https://m.dcinside.com/mini/yukiyogo/321", "https://m.dcinside.com/mini/yukiyogo/364", "https://m.dcinside.com/mini/yukiyogo/6",
-                    "https://m.dcinside.com/mini/yukiyogo/80", "https://m.dcinside.com/board/comic_new2/7152768", "https://m.dcinside.com/board/comic_new3/13201690", "https://m.dcinside.com/board/comic_new4/1773757", "https://m.dcinside.com/mini/yukiyogo/999999"]:
-              try:
-                  t = C.dc_fetch(u)
-              except urllib.error.HTTPError as e:
-                  print("\n##", u, "HTTP", e.code); continue
-              except Exception as e:
-                  print("\n##", u, "ERR", e); continue
-              h = re.search(r'"headline":"([^"]*)"', t); title = re.search(r"<title>(.*?)</title>", t, re.S)
-              i = t.find('class="thum-txtin"'); j = t.find('class="gall-detail-lst', i); body = t[i:j] if i >= 0 else ""
-              imgs = body.count("viewimage.php")
-              links = [(html.unescape(a), clean(x)[:50]) for a, x in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)]
-              print("\n##", u, "len", len(t), "headline", h.group(1)[:50] if h else None, "| title", clean(title.group(1))[:60] if title else None, "| body", len(body), "imgs", imgs)
-              for a, x in links[:12]: print("    ", a[:100], "|", x)
-              if not h: print("   본문 앞:", clean(t[:3000])[:400])
+          C.LINK_CHECK_MAX = 300
+          f = [x for x in C.comic_follows() if x["index"]][0]
+          t0 = time.time()
+          s = C.build_index_series(f, {"id": "x", "episodes": [], "rec": 0, "cover": ""}, set())
+          print("시간", int(time.time() - t0), "초, 회차", len(s["episodes"]), "부 순서", [p["name"] for p in s["parts"]])
+          eps = [(p["name"], a["name"], e) for p in s["parts"] for a in p["arcs"] for e in a["eps"]]
+          dead = [(p, a, e["label"], e["u"]) for p, a, e in eps if e.get("dead")]
+          print("깨짐", len(dead)); [print("   ", d) for d in dead]
+          red = [(k, v["u"]) for k, v in s["links"].items() if v["u"] != k]
+          print("직결", len(red)); [print("   ", k, "->", v) for k, v in red]
+          print("미확인", sum(1 for p, a, e in eps if e.get("g") and e["u"] not in s["links"] and not any(v["u"] == e["u"] for v in s["links"].values())))
           PY
