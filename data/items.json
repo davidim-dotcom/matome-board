@@ -1,5 +1,76 @@
 [
  {
+  "title": "スターレイル開拓ゲーム in 横浜 10月31日よりコラボ開催!",
+  "category": "collab",
+  "source": "コラボカフェ",
+  "platform": "wpjson",
+  "works": [
+   "崩壊：スターレイル"
+  ],
+  "eventDate": "2026-10-31T00:00",
+  "endDate": "2026-11-10T00:00",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://collabo-cafe.com/events/collabo/houkai-starrail-event-yokohama-kaitaku-game-2026/",
+  "summary": "「崩壊：スターレイル」と横浜市のコラボキャンペーン「スターレイル開拓ゲーム in 横浜」が、2026年10月31日〜11月10日まで横浜で開催。約230店舗でもらえるオリジナルカード全10種、横浜の街なかのフォトスポット、みなとみらい線の「二相楽園」メモリアルトレインと一日乗車券",
+  "image": "https://collabo-cafe.com/wp-content/uploads/houkai-starrail-event-yokohama-kaitaku-game-2026-one-day-ticket-768x520.jpg",
+  "addedAt": "2026-10-23T20:04:45.004990+09:00",
+  "scanned": true,
+  "title_ko": "스타 레일 개척 게임 in 요코하마 10월 31일부터 콜라보레이션 개최!",
+  "summary_ko": "「붕괴：스타 레일」과 요코하마시의 콜라보레이션 캠페인 「스타 레일 개척 게임 in 요코하마」가, 2026년 10월 31일~11월 10일까지 요코하마에서 개최. 약 230 점포에서 받을 수 있는 오리지널 카드 전 10종, 요코하마의 거리 안의 포토 스포트, 미나토미라이선의 “2상 낙원” 메모리얼 트레인과 하루 승차권"
+ },
+ {
+  "title": "【にじさんじ】星川サラ 2ndミニアルバム『Stella Note』試聴動画・楽曲詳細を公開！また、「圧倒的☆スター星」先行配信開始&MV公開決定！",
+  "category": "stream",
+  "source": "にじさんじ公式",
+  "platform": "json",
+  "works": [
+   "にじさんじ"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "https://eplus.jp/hoshikuzu_shiningday_2nd/sp/",
+  "ticketUrls": [
+   "https://eplus.jp/hoshikuzu_shiningday_2nd/sp/"
+  ],
+  "url": "https://www.nijisanji.jp/news/t40g8znb7pl",
+  "summary": "",
+  "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/c72cfa11638c4994bab6b75fe7ffa484/KV.png",
+  "addedAt": "2026-10-23T20:04:45.004990+09:00",
+  "scanned": true,
+  "title_ko": "【니지 산지】 호시카와 사라 2nd 미니 앨범 「Stella Note」시청 동영상・악곡 상세를 공개! 또, 「압도적☆스타별」 선행 전달 개시&MV 공개 결정!",
+  "summary_ko": ""
+ },
+ {
+  "title": "にじさんじから「NIJISANJI Replay Mode Type:Ibrahim&Ex Albio」グッズが登場！2026年10月14日(水)19時から販売開始！",
+  "category": "goods",
+  "source": "にじさんじ公式",
+  "platform": "json",
+  "works": [
+   "にじさんじ"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "2026-10-14T19:00",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.nijisanji.jp/news/eh-v5sddn",
+  "summary": "",
+  "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/df206b9475bd4711abbf7e5188859d22/KV_CMS.png",
+  "addedAt": "2026-10-23T20:04:45.004990+09:00",
+  "scanned": true,
+  "title_ko": "니지산지로부터 「NIJISANJI Replay Mode Type:Ibrahim&Ex Albio」굿즈가 등장! 2026년 10월 14일(수) 19시부터 판매 개시!",
+  "summary_ko": ""
+ },
+ {
   "title": "「ジョジョの奇妙な冒険」×Shokzコラボイヤホン発売！ ジョナサン＆ディオをイメージした限定モデル",
   "category": "collab",
   "source": "アニメ!アニメ!",
@@ -9497,10 +9568,7 @@
   "scanned": true,
   "title_ko": "애니메이션 10주년 기념 전시회 “이 멋진 세계에 축복을! 전시회」~Cheerful~",
   "summary_ko": "전시회",
-  "geo": [
-   35.689487,
-   139.691706
-  ],
+  "geo": [],
   "address": "東京都"
  },
  {
@@ -13164,78 +13232,5 @@
   "scanned": true,
   "title_ko": "주식회사 Aiming과 커버 주식회사의 협업 타이틀 「홀로 라이브 마작 -호로쨩-」타이틀 발표＆사전 등록 접수 개시!",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키, 이하 「커버」)는, 주식회사 Aiming(본사: 도쿄도 시부야구, 대표 이사 사장: 시바 다다시, 이하 「Aiming」)과 협업 타이틀로서, 2026년 전달 예정의 신작 게임 「홀로 라이브 마 […]"
- },
- {
-  "title": "鷹嶺ルイ 1stライブ＠Kanadevia Hall 情報解禁！",
-  "category": "live",
-  "source": "ホロライブ公式",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "2026-12-16T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "https://l-tike.com/takanelui/",
-  "url": "https://hololivepro.com/news/20261004-01-307/",
-  "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、弊社が運営する女性VTuberグループ「ホロライブ」所属の「鷹嶺ルイ」のソロライブ 鷹嶺ルイ1stライブ “REBELLION”が2026年12月16日 […]",
-  "addedAt": "2026-10-18T15:27:39.777960+09:00",
-  "image": "https://hololivepro.com/wp-content/themes/hololive_production/images/rnew/ogp_rnew.jpg",
-  "scanned": true,
-  "ticketUrls": [
-   "https://l-tike.com/takanelui/",
-   "https://hololive-production.zaiko.io/item/385308"
-  ],
-  "title_ko": "타카미네 루이 1st 라이브@Kanadevia Hall 정보 해금!",
-  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 폐사가 운영하는 여성 VTuber 그룹 「홀로 라이브」소속의 「타카미네 루이」의 솔로 라이브"
- },
- {
-  "title": "ハコス・ベールズ 1stライブ＠Kanadevia Hall 情報解禁！",
-  "category": "live",
-  "source": "ホロライブ公式",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "https://l-tike.com/hakosbaelz/",
-  "url": "https://hololivepro.com/news/20260928-02-34/",
-  "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、弊社が運営する女性VTuberグループ「ホロライブ」所属の「ハコス・ベールズ」のソロライブ Hakos Baelz 1st Concert “REGALIA”が2026年12月 […]",
-  "addedAt": "2026-10-18T15:27:39.777960+09:00",
-  "image": "https://hololivepro.com/wp-content/themes/hololive_production/images/rnew/ogp_rnew.jpg",
-  "scanned": true,
-  "ticketUrls": [
-   "https://l-tike.com/hakosbaelz/"
-  ],
-  "title_ko": "하코스 베일즈 1st 라이브 @ Kanadevia Hall 정보 해금!",
-  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 폐사가 운영하는 여성 VTuber 그룹 「홀로 라이브」 소속의 「하코스・베일즈」의 솔로 라이브 Hakos Baelz 1st Concert “REGALIA”가 2026년 12월 […]"
- },
- {
-  "title": "「アソビ★まわり隊！」デビュー記念イベント「アキバ★かくれんぼ！」が秋葉原で開催決定！",
-  "category": "live",
-  "source": "ホロライブ公式",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "2026-10-03T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "url": "https://hololivepro.com/news/20260928-01-306/",
-  "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、弊社が運営する「ホロライブ」のVTuberユニット「アソビ★まわり隊！」のデビューを記念し、2026年10月3日（土）と 10月4日（日）の2日間、秋葉原 ダイビルイベントスペ […]",
-  "addedAt": "2026-10-18T15:27:39.777960+09:00",
-  "image": "https://hololivepro.com/wp-content/themes/hololive_production/images/rnew/ogp_rnew.jpg",
-  "scanned": true,
-  "title_ko": "「아소비★주위대!」데뷔 기념 이벤트 「아키바★카쿠렌보!」가 아키하바라에서 개최 결정!",
-  "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표이사 사장：타니고 모토아키)는, 폐사가 운영하는 「홀로 라이브」의 VTuber 유닛 「아소비★주변대!」의 데뷔를 기념해, 2026년 10월 3일(토)와 10월 4일(일)의 2일간, 아키하바라 다이빌"
  }
 ]
