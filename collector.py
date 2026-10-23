@@ -341,18 +341,31 @@ def ld_item(ev, src, ref):
             "image": ev["image"] if isinstance(ev.get("image"), str) else "", "geo": geo, "address": addr}
 
 
+# アニメハック이 장소를 못 찾으면 東京都庁 좌표를 넣는다(예: 秋葉原UDX가 新宿에 찍힘). 이 좌표는 新宿 쪽 장소가 아니면 버린다.
+GEO_FALLBACK = (35.689487, 139.691706)
+
+
+def geo_ok(geo, venue):
+    """좌표가 쓸 만한가: 일본 범위 안이고, 장소를 감춘 행사(某所)나 都庁 대체 좌표가 아니어야 한다."""
+    try:
+        lat, lon = float(geo[0]), float(geo[1])
+    except (TypeError, ValueError, IndexError):
+        return False
+    if "某所" in (venue or "") or not (20 < lat < 46 and 122 < lon < 154):
+        return False
+    near_gov = abs(lat - GEO_FALLBACK[0]) < 0.002 and abs(lon - GEO_FALLBACK[1]) < 0.002
+    return not (near_gov and not re.search(r"新宿|都庁", venue or ""))
+
+
 def ld_place(loc, venue):
-    """schema.org Place → ([위도, 경도], 주소 문자열). '都内某所'처럼 장소를 감춘 행사는 좌표를 두지 않는다."""
+    """schema.org Place → ([위도, 경도], 주소 문자열). '都内某所'처럼 장소를 감춘 행사와 都庁 대체 좌표는 좌표를 두지 않는다."""
     a = loc.get("address") if isinstance(loc.get("address"), dict) else {}
     addr = " ".join(clean(str(a.get(k) or "")) for k in ("addressRegion", "addressLocality", "streetAddress") if a.get(k))
     g = loc.get("geo") if isinstance(loc.get("geo"), dict) else {}
-    try:
-        lat, lon = float(g.get("latitude")), float(g.get("longitude"))
-    except (TypeError, ValueError):
+    geo = [g.get("latitude"), g.get("longitude")]
+    if not geo_ok(geo, venue):
         return [], addr[:80]
-    if "某所" in venue or not (20 < lat < 46 and 122 < lon < 154):
-        return [], addr[:80]
-    return [round(lat, 6), round(lon, 6)], addr[:80]
+    return [round(float(geo[0]), 6), round(float(geo[1]), 6)], addr[:80]
 
 
 def wp_entries(data, link_prefix=""):
@@ -584,6 +597,8 @@ def main():
     # 정리: 끝난 지 30일 넘은 것, 날짜 없이 45일 지난 것, 차단 목록에 걸린 것은 뺀다
     keep = []
     for it in new + old:
+        if it.get("geo") and not geo_ok(it["geo"], it.get("venue", "")):  # 예전에 저장된 都庁 대체 좌표 정리
+            it["geo"] = []
         if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))):
             continue
         end = item_end(it)
