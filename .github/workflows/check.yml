@@ -22,39 +22,35 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
-      - name: 닌자슬레이어 점검 (임시)
+      - name: 닌자슬레이어 점검 2 (임시)
         if: always()
         run: |
           python - <<'PY'
-          import re, sys, html, json
+          import re, sys, html, time
           sys.path.insert(0, ".")
           import collector as C
-          UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Accept-Language": "ko"}
-          def show(name, t, n=1500):
-              print(f"\n=== {name} len={len(t)}")
-              print(re.sub(r"\s+", " ", t[:n]))
-          try:
-              t = C.fetch("https://arca.live/b/manhwa/37486873", UA).decode("utf-8", "replace")
-              h = re.search(r"<title>(.*?)</title>", t, re.S); print("ARCA title", h.group(1).strip() if h else None, len(t))
-              i = t.find('class="article-content'); j = t.find("article-comment", i)
-              body = t[i:j] if i >= 0 else t
-              links = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)
-              print("ARCA body links", len(links))
-              for hh, x in links[:12] + links[-6:]: print("   ", html.unescape(hh)[:90], "|", re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", x))).strip()[:60])
-              txt = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "\n", body)))
-              print("ARCA body text", txt[:2500])
-          except Exception as e:
-              print("ARCA ERR", e)
-          for u in ["https://m.dcinside.com/board/yukiyogo", "https://m.dcinside.com/board/yukiyogo?page=2", "https://gall.dcinside.com/mini/board/lists?id=yukiyogo"]:
-              try:
-                  t = C.dc_fetch(u)
-                  h = re.search(r"<title>(.*?)</title>", t, re.S); print("\nDC", u, "title", h.group(1).strip() if h else None, len(t))
-                  rows = C.dc_rows(t) if "m.dcinside" in u else []
-                  print("  rows(dc_rows, comic_new6 기준)", len(rows))
-                  links = re.findall(r'href="(https?://(?:m|gall)\.dcinside\.com/[^"]*yukiyogo[^"]*)"[^>]*>(.*?)</a>', t, re.S)
-                  print("  yukiyogo 링크", len(links))
-                  for hh, x in links[:25]: print("   ", html.unescape(hh)[:80], "|", re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()[:70])
-                  nxt = re.findall(r'href="([^"]*page=\d+[^"]*)"', t)[:5]; print("  page links", [html.unescape(x)[-40:] for x in nxt])
-              except Exception as e:
-                  print("DC ERR", u, e)
+          clean = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
+          t = C.dc_fetch("https://m.dcinside.com/mini/yukiyogo/95")
+          h = re.search(r'"headline":"([^"]*)"', t); print("95 제목", h.group(1) if h else None, "len", len(t), "dc_series", t.find('class="dc_series"'))
+          i = t.find('class="thum-txtin"'); body = t[i:t.find("gall-detail-lst", i)] if i >= 0 else t
+          links = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)
+          print("본문 링크", len(links))
+          for hh, x in links: print("   ", html.unescape(hh)[:85], "|", clean(x)[:70])
+          print("본문 텍스트", clean(body)[:3000])
+          print("robots mini", [l for l in C.dc_fetch("https://m.dcinside.com/robots.txt").splitlines() if "mini" in l.lower() or "board" in l.lower()][:10])
+          allrows = []
+          for pg in range(1, 30):
+              u = f"https://m.dcinside.com/mini/yukiyogo?page={pg}"
+              tt = C.dc_fetch(u); time.sleep(0.7)
+              rows = []
+              for li in tt.split('<div class="gall-detail-lnktb">')[1:]:
+                  li = li[:6000]
+                  m = re.search(r"/mini/yukiyogo/(\d+)", li); j = li.find('<span class="subjectin"')
+                  if not m or j < 0: continue
+                  nick = re.search(r'<li class="list-nick">(.*?)<', li, re.S); d = re.search(r"<li>(\d\d\.\d\d(?:\.\d\d)?|\d\d:\d\d)</li>", li)
+                  rows.append((int(m.group(1)), C.span_text(li, j), clean(nick.group(1)) if nick else "", d.group(1) if d else ""))
+              if not rows or (allrows and rows[0][0] == allrows[-1][0]): break
+              allrows += rows
+          print("전체 글", len(allrows))
+          for r in allrows: print("   ", r)
           PY
