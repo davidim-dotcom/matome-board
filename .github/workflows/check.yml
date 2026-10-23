@@ -22,3 +22,27 @@ jobs:
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
         run: python collector.py --check
+      - name: 닌슬 링크 점검 (임시)
+        if: always()
+        run: |
+          python - <<'PY'
+          import re, sys, html, urllib.error
+          sys.path.insert(0, ".")
+          import collector as C
+          clean = lambda x: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", x))).strip()
+          for u in ["https://m.dcinside.com/mini/yukiyogo/323", "https://m.dcinside.com/mini/yukiyogo/321", "https://m.dcinside.com/mini/yukiyogo/364", "https://m.dcinside.com/mini/yukiyogo/6",
+                    "https://m.dcinside.com/mini/yukiyogo/80", "https://m.dcinside.com/board/comic_new2/7152768", "https://m.dcinside.com/board/comic_new3/13201690", "https://m.dcinside.com/board/comic_new4/1773757", "https://m.dcinside.com/mini/yukiyogo/999999"]:
+              try:
+                  t = C.dc_fetch(u)
+              except urllib.error.HTTPError as e:
+                  print("\n##", u, "HTTP", e.code); continue
+              except Exception as e:
+                  print("\n##", u, "ERR", e); continue
+              h = re.search(r'"headline":"([^"]*)"', t); title = re.search(r"<title>(.*?)</title>", t, re.S)
+              i = t.find('class="thum-txtin"'); j = t.find('class="gall-detail-lst', i); body = t[i:j] if i >= 0 else ""
+              imgs = body.count("viewimage.php")
+              links = [(html.unescape(a), clean(x)[:50]) for a, x in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>', body, re.S)]
+              print("\n##", u, "len", len(t), "headline", h.group(1)[:50] if h else None, "| title", clean(title.group(1))[:60] if title else None, "| body", len(body), "imgs", imgs)
+              for a, x in links[:12]: print("    ", a[:100], "|", x)
+              if not h: print("   본문 앞:", clean(t[:3000])[:400])
+          PY
