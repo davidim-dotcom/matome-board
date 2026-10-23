@@ -1,5 +1,47 @@
 [
  {
+  "title": "『銀河特急 ミルキー☆サブウェイ』×いらすとやコラボグッズ登場！ チハルやマキナたちの名シーンが独特のイラストに。アクスタや前髪クリップなどが発売",
+  "category": "collab",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202610/91919",
+  "summary": "",
+  "addedAt": "2026-10-23T21:05:08.747218+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/91919/ogp_hOjy.jpg?x=1280",
+  "title_ko": "『은하 특급 밀키☆서브웨이』×이라스토야 콜라보 상품 등장! 치할과 마키나들의 이름 장면이 독특한 일러스트에. 악스타와 앞머리 클립 등이 발매",
+  "summary_ko": ""
+ },
+ {
+  "title": "VTuber音楽イベント「ASTERISK」が6年ぶり復活　電脳少女シロらがサンリオのVR空間でライブ",
+  "category": "live",
+  "source": "KAI-YOU",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "2026-12-12T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://kai-you.net/article/96932",
+  "summary": "VTuber事務所・.LIVE（どっとライブ）などを運営するアップランドが、音楽ライブイベント「＊ASTERISK in Virtual Sanrio Puroland」を12月12日（土）に開催する。2020年に開催された「＊ASTERISK」が、6年ぶりに復活。今回はソーシャ",
+  "image": "https://img.kai-you.net/storage/2026/10/6a23cae2-433f-48ba-82c4-0193fa215910/main/ASTERISK-cast.webp",
+  "addedAt": "2026-10-23T21:05:08.747218+09:00",
+  "scanned": true,
+  "title_ko": "VTuber 음악 이벤트 「ASTERISK」가 6년 만에 부활",
+  "summary_ko": "VTuber 사무소·.LIVE(어느 라이브)등을 운영하는 업랜드가, 음악 라이브 이벤트 「*ASTERISK in Virtual Sanrio Puroland」를 12월 12일(토)에 개최한다. 2020년에 개최된 「*ASTERISK」가 6년 만에 부활. 이번에는 소샤"
+ },
+ {
   "title": "スターレイル開拓ゲーム in 横浜 10月31日よりコラボ開催!",
   "category": "collab",
   "source": "コラボカフェ",
@@ -13184,53 +13226,5 @@
   "scanned": true,
   "title_ko": "Critical Role과 홀로 라이브 프로덕션에 의한, TRPG 「Daggerheart」플레이 기획 「Shattered Legends」가 스타트",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표이사 사장：타니고 모토아키)는, 미디어 제작회사, Critical Role와의 첫 콜라보레이션 기획 「Shattered Legends(셔터드 레전드)」를 실시하는 것을 알려 드리겠습니다. Cr […]"
- },
- {
-  "title": "博衣こより 1stライブ＠東京ガーデンシアター 情報解禁！",
-  "category": "live",
-  "source": "ホロライブ公式",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "2026-12-02T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "https://l-tike.com/st1/hakuikoyori1222",
-  "url": "https://hololivepro.com/news/20261011-01-310/",
-  "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、弊社が運営する女性VTuberグループ「ホロライブ」所属の「博衣こより」のソロライブ Hakui Koyori 1st Live “Dream Spark”が2026年12月2 […]",
-  "addedAt": "2026-10-18T15:27:39.777960+09:00",
-  "image": "https://hololivepro.com/wp-content/themes/hololive_production/images/rnew/ogp_rnew.jpg",
-  "scanned": true,
-  "ticketUrls": [
-   "https://l-tike.com/st1/hakuikoyori1222",
-   "https://hololive-production.zaiko.io/ja/item/385382"
-  ],
-  "title_ko": "하카이 코요 1st 라이브 @ 도쿄 가든 극장 정보 해금!",
-  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 폐사가 운영하는 여성 VTuber 그룹 「홀로 라이브」 소속의 「하쿠이 코요리」의 솔로 라이브 Hakui Koyori 1st Live “Dream Spark”가 2026년 12월 2 […]"
- },
- {
-  "title": "株式会社 Aimingとカバー株式会社の協業タイトル『ホロライブ麻雀 -ホロじゃん-』タイトル発表＆事前登録受付開始！",
-  "category": "live",
-  "source": "ホロライブ公式",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "url": "https://hololivepro.com/news/20261009-01-309/",
-  "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭、以下「カバー」）は、株式会社 Aiming（本社：東京都渋谷区、代表取締役社長：椎葉 忠志、以下「Aiming」）と協業タイトルとして、2026年配信予定の新作ゲーム『ホロライブ麻 […]",
-  "addedAt": "2026-10-18T15:27:39.777960+09:00",
-  "image": "https://hololivepro.com/wp-content/themes/hololive_production/images/rnew/ogp_rnew.jpg",
-  "scanned": true,
-  "title_ko": "주식회사 Aiming과 커버 주식회사의 협업 타이틀 「홀로 라이브 마작 -호로쨩-」타이틀 발표＆사전 등록 접수 개시!",
-  "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키, 이하 「커버」)는, 주식회사 Aiming(본사: 도쿄도 시부야구, 대표 이사 사장: 시바 다다시, 이하 「Aiming」)과 협업 타이틀로서, 2026년 전달 예정의 신작 게임 「홀로 라이브 마 […]"
  }
 ]
