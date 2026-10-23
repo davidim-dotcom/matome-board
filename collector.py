@@ -1227,7 +1227,7 @@ def order_eps(canon, eps):
 
 # ── 색인 글형 작품(닌자 슬레이어): 운영자가 정리해 둔 '코믹스 정리' 글을 부(◆…◆)·권(제N권)·에피소드(「…」)·회차(#n 링크)로 읽는다 ──
 IDX_LINK_RE = re.compile(r"(?:m\.dcinside\.com/(mini|board)/(\w+)/(\d+)|gall\.dcinside\.com/(mini/)?board/view/?\?id=(\w+)(?:&amp;|&)no=(\d+))")
-IDX_SKIP_RE = re.compile(r"미번역|원본|미식질|노번역|영문|질문|어디서|언제|없냐|있냐|어째서|\?|브금|재업|화질|식질|개인용|곰익스")  # 번역이 아닌 글·재업·잡담 제목
+IDX_SKIP_RE = re.compile(r"미번역|원본|미식질|노번역|영문|질문|어디서|언제|없냐|있냐|어째서|\?|브금|재업|화질|식질|개인용|곰익스|번역본|망가|로스트|삭제|복구|썰|폭발|링크가|시급|추천")  # 번역이 아닌 글·재업·잡담 제목
 
 
 def dc_link(href):
@@ -1271,13 +1271,19 @@ def parse_index(url, part="", depth=1):
                 continue
             out.append({"part": part, "vol": vol, "arc": arc, "label": lab, "u": u, "g": link[0] if link else "", "no": link[1] if link else 0})
         else:
-            for mm in re.finditer(r"◆([^◆]+)◆|제\s*(\d+)\s*권|「\s*([^」]+?)\s*」", clean(text)):
+            x = clean(text)
+            hit = False
+            for mm in re.finditer(r"◆([^◆]+)◆|제\s*(\d+)\s*권|「\s*([^」]+?)\s*」", x):
+                hit = True
                 if mm.group(1):
                     part, vol, arc = mm.group(1).strip(), "", ""
                 elif mm.group(2):
                     vol = mm.group(2)
                 else:
                     arc = mm.group(3).strip()
+            rest = re.sub(r"[／/,，]|KILLs\s*\w+|완결|※.*", " ", x).strip()
+            if not hit and 2 <= len(rest) <= 20:  # 「」 없이 적힌 이름(예고편, 단행본 권말 부록 모음 …)도 에피소드로 본다
+                arc = rest
     return out
 
 
@@ -1314,7 +1320,10 @@ def build_index_series(f, s, scanned):
             print(f"연재 만화: {f['title']} 정리 글 {u} 실패 ({e})", file=sys.stderr)
     if not eps:
         return None
-    have = {(e["part"], arc_key(e["arc"]), e["label"]): e for e in eps}
+    nums = lambda lab: set(re.findall(r"\d+", lab))
+    have = {}
+    for e in eps:
+        have.setdefault((e["part"], arc_key(e["arc"])), set()).update(nums(e["label"]))
     known = {arc_key(e["arc"]): e["arc"] for e in eps if e["arc"]}
     arc_parts = {}
     for e in eps:
@@ -1345,19 +1354,20 @@ def build_index_series(f, s, scanned):
                 part = next((p for p in parts if "킬즈" in p and "킬러즈" not in p), part)
             if "[킬러즈]" in row["title"]:
                 part = next((p for p in parts if "킬러즈" in p), part)
-            if any((p, arc_key(name), label) in have for p in (parts or {part})):
+            if not nums(label) or any(nums(label) <= have.get((p, arc_key(name)), set()) for p in (parts or {part})):
                 continue  # 색인에 이미 있는 회차의 재업·중복
             if not part:
                 part = "색인에 아직 없는 번역"
             e = {"part": part, "vol": "", "arc": name, "label": label, "u": dc_post_url(g, row["no"], mini), "g": g, "no": row["no"], "title": row["title"]}
-            have[(part, arc_key(name), label)] = e
+            have.setdefault((part, arc_key(name)), set()).update(nums(label))
             extra.append(e)
-    # 색인에 없는 회차는 같은 에피소드의 마지막 회차 뒤에 끼우고, 에피소드 자체가 새로우면 맨 뒤 부에 둔다
+    # 색인에 없는 회차는 같은 에피소드의 마지막 회차 뒤에(권도 이어받아) 끼우고, 에피소드 자체가 새로우면 맨 뒤 부에 둔다
     for e in extra:
         at = max((i + 1 for i, x in enumerate(eps) if x["part"] == e["part"] and arc_key(x["arc"]) == arc_key(e["arc"])), default=None)
         if at is None:
             eps.append(e)
         else:
+            e["vol"] = eps[at - 1]["vol"]
             eps.insert(at, e)
     parts = []
     for e in eps:
