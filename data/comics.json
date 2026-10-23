@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-23T21:59:01.648741+09:00",
+ "updated": "2026-10-24T00:32:57.031388+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1135,7 +1135,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc2c34551298ab700259adba7c183eed7b70ca140d8be239e3dbf5bd6928fef95308540f47bb22850157349afcef311d16f04c7f5fb",
-   "seenTo": 6782494,
+   "seenTo": 6784571,
    "coverNo": "comic_new6/6775786",
    "updatedAt": "2026-10-23T10:13"
   },
@@ -1314,7 +1314,7 @@
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6782494,
+   "seenTo": 6784571,
    "coverNo": "comic_new6/6778319",
    "updatedAt": "2026-10-23T14:48"
   },
@@ -2352,90 +2352,6 @@
      "g": "comic_new3",
      "title": "시즈 투 더 슬리핑 뷰티 #6",
      "u": "https://m.dcinside.com/board/comic_new3/10623446"
-    },
-    {
-     "no": 11525841,
-     "g": "comic_new3",
-     "title": "시즈 투 더 슬리핑 뷰티 #7",
-     "u": "https://m.dcinside.com/board/comic_new3/11525841"
-    },
-    {
-     "no": 11555683,
-     "g": "comic_new3",
-     "title": "시즈 투 더 슬리핑 뷰티 #8",
-     "u": "https://m.dcinside.com/board/comic_new3/11555683"
-    },
-    {
-     "no": 12120799,
-     "g": "comic_new3",
-     "title": "시즈 투 더 슬리핑 뷰티 #9",
-     "u": "https://m.dcinside.com/board/comic_new3/12120799"
-    },
-    {
-     "no": 12654313,
-     "g": "comic_new3",
-     "title": "시즈 투 더 슬리핑 뷰티 #10",
-     "u": "https://m.dcinside.com/board/comic_new3/12654313"
-    },
-    {
-     "no": 13201690,
-     "g": "comic_new3",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #2",
-     "u": "https://m.dcinside.com/board/comic_new3/13201690"
-    },
-    {
-     "no": 13748765,
-     "g": "comic_new3",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #3",
-     "u": "https://m.dcinside.com/board/comic_new3/13748765"
-    },
-    {
-     "no": 14276965,
-     "g": "comic_new3",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #4",
-     "u": "https://m.dcinside.com/board/comic_new3/14276965"
-    },
-    {
-     "no": 14817888,
-     "g": "comic_new3",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #5",
-     "u": "https://m.dcinside.com/board/comic_new3/14817888"
-    },
-    {
-     "no": 243311,
-     "g": "comic_new4",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #6",
-     "u": "https://m.dcinside.com/board/comic_new4/243311"
-    },
-    {
-     "no": 730877,
-     "g": "comic_new4",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #7",
-     "u": "https://m.dcinside.com/board/comic_new4/730877"
-    },
-    {
-     "no": 1260706,
-     "g": "comic_new4",
-     "title": "더 맨 후 컴즈 투 슬램 더 레지그네이션 #8",
-     "u": "https://m.dcinside.com/board/comic_new4/1260706"
-    },
-    {
-     "no": 1773757,
-     "g": "comic_new4",
-     "title": "섀도 콘 #1",
-     "u": "https://m.dcinside.com/board/comic_new4/1773757"
-    },
-    {
-     "no": 2838002,
-     "g": "comic_new4",
-     "title": "섀도 콘 #2",
-     "u": "https://m.dcinside.com/board/comic_new4/2838002"
-    },
-    {
-     "no": 3332889,
-     "g": "comic_new4",
-     "title": "섀도 콘 #3",
-     "u": "https://m.dcinside.com/board/comic_new4/3332889"
     },
     {
      "no": 297,
@@ -4239,13 +4155,15 @@
          "label": "#7",
          "u": "https://m.dcinside.com/board/comic_new3/11525841",
          "g": "comic_new3",
-         "no": 11525841
+         "no": 11525841,
+         "dead": true
         },
         {
          "label": "#8",
          "u": "https://m.dcinside.com/board/comic_new3/11555683",
          "g": "comic_new3",
-         "no": 11555683
+         "no": 11555683,
+         "dead": true
         }
        ]
       },
@@ -4257,13 +4175,15 @@
          "label": "#9",
          "u": "https://m.dcinside.com/board/comic_new3/12120799",
          "g": "comic_new3",
-         "no": 12120799
+         "no": 12120799,
+         "dead": true
         },
         {
          "label": "#10",
          "u": "https://m.dcinside.com/board/comic_new3/12654313",
          "g": "comic_new3",
-         "no": 12654313
+         "no": 12654313,
+         "dead": true
         }
        ]
       },
@@ -4275,43 +4195,50 @@
          "label": "#2",
          "u": "https://m.dcinside.com/board/comic_new3/13201690",
          "g": "comic_new3",
-         "no": 13201690
+         "no": 13201690,
+         "dead": true
         },
         {
          "label": "#3",
          "u": "https://m.dcinside.com/board/comic_new3/13748765",
          "g": "comic_new3",
-         "no": 13748765
+         "no": 13748765,
+         "dead": true
         },
         {
          "label": "#4",
          "u": "https://m.dcinside.com/board/comic_new3/14276965",
          "g": "comic_new3",
-         "no": 14276965
+         "no": 14276965,
+         "dead": true
         },
         {
          "label": "#5",
          "u": "https://m.dcinside.com/board/comic_new3/14817888",
          "g": "comic_new3",
-         "no": 14817888
+         "no": 14817888,
+         "dead": true
         },
         {
          "label": "#6",
          "u": "https://m.dcinside.com/board/comic_new4/243311",
          "g": "comic_new4",
-         "no": 243311
+         "no": 243311,
+         "dead": true
         },
         {
          "label": "#7",
          "u": "https://m.dcinside.com/board/comic_new4/730877",
          "g": "comic_new4",
-         "no": 730877
+         "no": 730877,
+         "dead": true
         },
         {
          "label": "#8",
          "u": "https://m.dcinside.com/board/comic_new4/1260706",
          "g": "comic_new4",
-         "no": 1260706
+         "no": 1260706,
+         "dead": true
         }
        ]
       },
@@ -4323,19 +4250,22 @@
          "label": "#1",
          "u": "https://m.dcinside.com/board/comic_new4/1773757",
          "g": "comic_new4",
-         "no": 1773757
+         "no": 1773757,
+         "dead": true
         },
         {
          "label": "#2",
          "u": "https://m.dcinside.com/board/comic_new4/2838002",
          "g": "comic_new4",
-         "no": 2838002
+         "no": 2838002,
+         "dead": true
         },
         {
          "label": "#3",
          "u": "https://m.dcinside.com/board/comic_new4/3332889",
          "g": "comic_new4",
-         "no": 3332889
+         "no": 3332889,
+         "dead": true
         },
         {
          "label": "#4",
@@ -5023,7 +4953,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-10-23T22:01",
+   "updatedAt": "2026-10-24T00:34",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -5975,87 +5905,87 @@
     },
     "https://m.dcinside.com/board/comic_new3/11525841": {
      "u": "https://m.dcinside.com/board/comic_new3/11525841",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/11555683": {
      "u": "https://m.dcinside.com/board/comic_new3/11555683",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/12120799": {
      "u": "https://m.dcinside.com/board/comic_new3/12120799",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/12654313": {
      "u": "https://m.dcinside.com/board/comic_new3/12654313",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/13201690": {
      "u": "https://m.dcinside.com/board/comic_new3/13201690",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/13748765": {
      "u": "https://m.dcinside.com/board/comic_new3/13748765",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/14276965": {
      "u": "https://m.dcinside.com/board/comic_new3/14276965",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new3/14817888": {
      "u": "https://m.dcinside.com/board/comic_new3/14817888",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/243311": {
      "u": "https://m.dcinside.com/board/comic_new4/243311",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/730877": {
      "u": "https://m.dcinside.com/board/comic_new4/730877",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/1260706": {
      "u": "https://m.dcinside.com/board/comic_new4/1260706",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/1773757": {
      "u": "https://m.dcinside.com/board/comic_new4/1773757",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/2838002": {
      "u": "https://m.dcinside.com/board/comic_new4/2838002",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/board/comic_new4/3332889": {
      "u": "https://m.dcinside.com/board/comic_new4/3332889",
-     "ok": true,
-     "n": 1,
-     "t": "2026-10-23"
+     "ok": false,
+     "n": 2,
+     "t": "2026-10-24"
     },
     "https://m.dcinside.com/mini/yukiyogo/297": {
      "u": "https://m.dcinside.com/board/comic_new4/3820320",
