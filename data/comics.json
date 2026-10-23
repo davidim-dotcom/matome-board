@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-23T06:29:04.720538+09:00",
+ "updated": "2026-10-23T12:32:07.272279+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1126,13 +1126,18 @@
      "no": 6708224,
      "title": "번역) 호리데이 야스미 트위터 모음 239",
      "date": "2026-10-18T13:57"
+    },
+    {
+     "no": 6775786,
+     "title": "번역) 호리데이 야스미 트위터 모음 240",
+     "date": "2026-10-23T10:13"
     }
    ],
    "rec": 251,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67ec9c345dc773247ea36bb99a5983511e6ac485f028011f4ecd23ed0cc6e6b9eeb2ad04180dfd01a1378db036731c9bd0e27047275fe",
-   "seenTo": 6772460,
-   "coverNo": "comic_new6/6708224",
-   "updatedAt": "2026-10-18T13:57"
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc2c34551298ab700259adba7c183eed7b70ca140d8be239e3dbf5bd6928fef95308540f47bb22850157349afcef311d16f04c7f5fb",
+   "seenTo": 6776767,
+   "coverNo": "comic_new6/6775786",
+   "updatedAt": "2026-10-23T10:13"
   },
   {
    "id": "나니와금융도|",
@@ -1292,16 +1297,21 @@
      "no": 6768803,
      "title": "번역) 나니와 금융도 38~39화",
      "date": "2026-10-22T19:53"
+    },
+    {
+     "no": 6776826,
+     "title": "번역) 나니와 금융도 40화",
+     "date": "2026-10-23T12:15"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc3c345a065cd87e499bfc5cda20431d58682ccdb0744051c03d4878f67d7582a62d31aef370a46",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc2c34551298ab700259adba7c189e0d7b303a0a3b6434b23518c6235b79c2d398da099dc217ac8",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6772460,
-   "coverNo": "comic_new6/6768803",
-   "updatedAt": "2026-10-22T19:53"
+   "seenTo": 6776767,
+   "coverNo": "comic_new6/6776826",
+   "updatedAt": "2026-10-23T12:15"
   }
  ],
  "scanned": [
@@ -1369,7 +1379,8 @@
   6751713,
   6753199,
   6765385,
-  6768803
+  6768803,
+  6775786
  ],
  "bad": [
   "comic_new6/6742384"
