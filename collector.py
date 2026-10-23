@@ -120,6 +120,8 @@ TICKET_DOMAINS = ["eplus.jp", "l-tike.com", "pia.jp", "ticket.rakuten.co.jp", "l
 CAT_RULES = [
     ("doujin", r"同人誌即売会|同人イベント|オンリーイベント|オンリー即売会|プチオンリー|WEBオンリー|コミックマーケット|コミケ|COMITIA|コミティア|COMIC CITY|コミックシティ|即売会"),
     ("official", r"ジャンプフェスタ|AnimeJapan|東京ゲームショウ|ワンダーフェスティバル|コミコン|ニコニコ超会議|超会議|ファンフェスタ|ファン感謝祭|公式イベント"),
+    # 제목이 스토어·팝업숍이면 'ライブ'가 들어 있어도(ラブライブ, ホロライブ, 学園祭ライブVer. ストア …) 공연이 아니라 팝업으로 본다. \A…[^\n]* 는 제목 줄만 본다
+    ("popup", r"\A[^\n]*(?:ストア|ショップ|SHOP|STORE|POP ?UP|ポップアップ)"),
     ("live", r"ライブ|LIVE|Live|公演|コンサート|ツアー|フェス"),
     ("exhibit", r"原画展|複製原画|展覧会|展示会|EXHIBITION|Exhibition|EXPO|美術館|展(?=[\s　」』〜～]|$| in)"),
     ("popup", r"ポップアップ|ポップストア|POP ?UP|期間限定ショップ|オンリーショップ|ストア in"),
@@ -599,6 +601,8 @@ def main():
     for it in new + old:
         if it.get("geo") and not geo_ok(it["geo"], it.get("venue", "")):  # 예전에 저장된 都庁 대체 좌표 정리
             it["geo"] = []
+        if it.get("category") == "live" and re.search(CAT_RULES[2][1], it.get("title", "")):  # 예전에 공연으로 잘못 분류된 스토어 소식
+            it["category"] = classify(it["title"] + "\n" + it.get("summary", ""), "other")
         if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))):
             continue
         end = item_end(it)
