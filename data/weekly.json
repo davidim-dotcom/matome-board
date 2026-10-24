@@ -1,143 +1,207 @@
 {
-  "week": "2026-10-26",
-  "range": "10/26(일) ~ 11/1(일)",
-  "title": "이번 주 요약 · 10월 마지막 주",
-  "updated": "2026-10-24",
-  "intro": "보드에 가장 많이 오른 작품(유행 순위) 중심으로 이번 주와 바로 다음 주에 걸리는 소식 7개를 골랐어요. 설명은 보드의 기사 본문이 아니라 따로 검색한 공식 발표·언론 기사를 바탕으로 정리했고, 아래 '출처'에 그 글을 달아 두었습니다.",
-  "picks": [
+ "week": "2026-10-26",
+ "range": "10/26(일) ~ 11/1(일)",
+ "title": "이번 주 요약 · 10월 마지막 주",
+ "updated": "2026-10-24",
+ "picks": [
+  {
+   "title": "ANA 「ちいかわジェット」 운항 시작, 콜라보 굿즈·응원상영까지",
+   "works": [
+    "ちいかわ"
+   ],
+   "category": "collab",
+   "tag": "유행 1위",
+   "when": "운항 10/19~ (종료 미정) · 굿즈 1탄 10/23~ · 응원상영 3회 10/30",
+   "where": "ANA 국내선 · 극장 · 오사카(파크스토어 11/24)",
+   "desc": "ANA가 10월 19일부터 ちいかわ 특별 도장기(보잉 767-300, JA609A)를 국내선 정기편에 투입했어요. 첫 편은 하네다 08:15발 나가사키행 NH661로 만석 출발. 특정 노선에 고정하지 않고 전국 주요 노선을 돌며, 10/25 겨울 다이어부터는 하코다테·요나고·구마모토·이시가키 등 19개 노선으로 넓어집니다(어느 편에 뜨는지는 당일까지 확정되지 않음). 기내에서는 헤드레스트 커버와 한정 종이컵을 줍니다. 「ちいかわと旅にでよう!」 캠페인 1탄은 10/19~12/31 참가 등록. 같은 주에 제복 차림의 ちいかわ들을 그린 콜라보 굿즈 1탄이 10/23 선행 판매에 들어가 구매 개수 제한 기간이 연장됐고, 영화 ちいかわ의 응원상영 3회(10/30), 전국 첫 「ちいかわパークストア」 오사카 오픈(11/24)도 잡혀 있어요.",
+   "links": [
     {
-      "title": "ANA 「ちいかわジェット」 운항 시작, 콜라보 굿즈·응원상영까지",
-      "works": ["ちいかわ"],
-      "category": "collab",
-      "tag": "유행 1위",
-      "when": "운항 10/19~ (종료 미정) · 굿즈 1탄 10/23~ · 응원상영 3회 10/30",
-      "where": "ANA 국내선 · 극장 · 오사카(파크스토어 11/24)",
-      "desc": "ANA가 10월 19일부터 ちいかわ 특별 도장기(보잉 767-300, JA609A)를 국내선 정기편에 투입했어요. 첫 편은 하네다 08:15발 나가사키행 NH661로 만석 출발. 특정 노선에 고정하지 않고 전국 주요 노선을 돌며, 10/25 겨울 다이어부터는 하코다테·요나고·구마모토·이시가키 등 19개 노선으로 넓어집니다(어느 편에 뜨는지는 당일까지 확정되지 않음). 기내에서는 헤드레스트 커버와 한정 종이컵을 줍니다. 「ちいかわと旅にでよう!」 캠페인 1탄은 10/19~12/31 참가 등록. 같은 주에 제복 차림의 ちいかわ들을 그린 콜라보 굿즈 1탄이 10/23 선행 판매에 들어가 구매 개수 제한 기간이 연장됐고, 영화 ちいかわ의 응원상영 3회(10/30), 전국 첫 「ちいかわパークストア」 오사카 오픈(11/24)도 잡혀 있어요.",
-      "links": [
-        {"label": "트래블 Watch: ちいかわジェット 첫 편 보고", "url": "https://travel.watch.impress.co.jp/docs/news/2145898.html"},
-        {"label": "Real Sound: 기내 한정 디자인 컵 제공", "url": "https://realsound.jp/tech/2026/10/post-2557484.html"},
-        {"label": "Aviation Wire: 겨울 다이어 투입 노선", "url": "https://www.aviationwire.jp/?p=352655"}
-      ],
-      "items": [
-        "https://kai-you.net/article/96869",
-        "https://anime.eiga.com/news/127674/",
-        "https://collabo-cafe.com/events/collabo/chiikawa-movie-event-cheer-screening-vol3-2026/",
-        "https://collabo-cafe.com/events/collabo/chiikawa-park-store-lucua-south-osaka-2026/"
-      ]
+     "label": "트래블 Watch: ちいかわジェット 첫 편 보고",
+     "url": "https://travel.watch.impress.co.jp/docs/news/2145898.html"
     },
     {
-      "title": "『ゴジラ-0.0』 11/3 공개를 앞둔 콜라보 러시",
-      "works": ["ゴジラ-0.0"],
-      "category": "collab",
-      "tag": "유행 5위",
-      "when": "영화 11/3(화·공휴일) 공개 · しゃぶ葉 10/22~ · クラッパーズダイナー 10/23~ · ぴよりん·ゴジラ・フェス·筑波 전시 11/3~",
-      "where": "전국 · 이케부쿠로 · 나고야 · 이바라키",
-      "desc": "山崎貴 감독이 각본·VFX까지 맡은 『ゴジラ-1.0』의 후속작. 神木隆之介·浜辺美波가 이어서 출연하고 長澤まさみ가 천재 기상예보관으로 합류했어요. 무대는 전작 2년 뒤인 1949년 전후 복흥기의 일본이고, 예고편 마지막에는 뉴욕 자유의 여신상 앞까지 상륙한 고지라가 나옵니다. 일본 영화로는 처음 'Filmed For IMAX'로 제작. 공개일 11월 3일은 1954년 초대 『ゴジラ』가 공개된 날이며 북미는 11/6. 공개 전후로 しゃぶ葉(등지느러미가 냄비에서 헤엄치는 코스), 이케부쿠로 クラッパーズダイナー, ハードロックカフェ(새까만 번즈), 나고야 ぴよりん, 筑波海軍航空隊記念館 콜라보전, ゴジラ・フェス의 『ゴジバト』 생방송, 브랜드 ha|za|ma의 킹기도라 모티브 콜라보가 줄줄이 이어집니다.",
-      "links": [
-        {"label": "VG+: 공개일 11/3 확정과 북미 동시기 공개", "url": "https://virtualgorillaplus.com/?p=47811"},
-        {"label": "Real Sound: 神木·浜辺 속편 출연, 뉴욕 상륙 첫 영상", "url": "https://realsound.jp/movie/2026/04/post-2367701.html"},
-        {"label": "秋田魁: 長澤まさみ 기상예보관 역으로 출연", "url": "https://www.sakigake.jp/news/article/20260908OR0224/"}
-      ],
-      "items": [
-        "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-syabuyo-2026/",
-        "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-cafe-clappers-diner-ikebukuro-2026/",
-        "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-piyorin-2026/",
-        "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-collabo-exhibition-tsukuba-kashima-2026/",
-        "https://dengekionline.com/article/202610/91928",
-        "https://kai-you.net/article/96891"
-      ]
+     "label": "Real Sound: 기내 한정 디자인 컵 제공",
+     "url": "https://realsound.jp/tech/2026/10/post-2557484.html"
     },
     {
-      "title": "古舘春一 ハイキュー!!展 挑戦者たち, 10/30 롯폰기 개막",
-      "works": ["ハイキュー!!"],
-      "category": "exhibit",
-      "tag": "유행 4위",
-      "when": "2026/10/30 ~ 2027/1/11 (오사카 2027/4/24 ~ 6/20)",
-      "where": "森アーツセンターギャラリー (六本木ヒルズ 52층)",
-      "desc": "원작자 古舘春一의 대규모 원화전이 롯폰기 힐즈 모리 아트 센터 갤러리에서 10월 30일 문을 열어요. 전 일정 입장 시간 지정제이고 추첨·선착 등 판매 구분이 나뉘어 있으며, 회차에 따라 굿즈 세트가 붙은 표와 없는 표가 다르니 살 때 구분을 확인하세요. 리세일 사이트에는 점프 정기구독 선행으로 당선된 표도 나와 있습니다. 전시 구성 자체는 아직 공식에서 자세히 풀지 않았고, 새로 그린 키 비주얼 2탄과 작가 코멘트가 공개된 상태. 도쿄 다음은 2027년 봄 오사카 순회. 연말 ジャンプフェスタ2027(12/19~) 스테이지도 있으니 점프 팬은 같이 체크.",
-      "links": [
-        {"label": "livedoor 뉴스(女子旅プレス): 회장·회기·키 비주얼", "url": "https://news.livedoor.com/article/detail/31825129/"},
-        {"label": "원화전.info 도쿄 회장 안내", "url": "https://gengaten.info/2026/10/11276/"}
-      ],
-      "items": [
-        "https://gengaten.info/2026/10/11276/",
-        "https://gengaten.info/2027/04/11326/",
-        "https://collabo-cafe.com/events/collabo/jump-festa-2027-super-stage-cast/"
-      ]
-    },
-    {
-      "title": "hololive RECORDS MUSIC STAGE 2027, 마린 불참·와타메 대체 출연",
-      "works": ["ホロライブ"],
-      "category": "live",
-      "tag": "유행 3위",
-      "when": "2027/1/9(토) · 1/10(일) · 博衣こより 1st 라이브 12/22",
-      "where": "Kアリーナ横浜 (요코하마역 동쪽 출구 도보 약 9분)",
-      "desc": "hololive RECORDS가 처음 여는 리얼 라이브. 셀렉션 앨범 「hololive RECORDS HISTORY COLLECTION」(7/16 예약 시작)에 선행 추첨 시리얼이 붙은 연동 공연이에요. 출연은 DAY1 AZKi·さくらみこ·ハコス・ベールズ·ReGLOSS, DAY2 白上フブキ·宝鐘マリン·こぼ・かなえる·FLOW GLOW였는데, 10/19에 宝鐘マリン이 성대결절 치료를 위해 DAY2 출연을 접고 角巻わため가 대신 서기로 발표됐습니다(본인은 손글씨 편지로 '다음 무대에서 만날 수 있게 만전을 기하겠다'고). 같은 주 홀로라이브는 博衣こより 1st 라이브(東京ガーデンシアター 12/22) 정보 해금, FLOW GLOW × マリオンクレープ(11/4~) 등 소식이 많았어요.",
-      "links": [
-        {"label": "KAI-YOU: 요코하마 2DAYS 라이브 출연진 발표", "url": "https://kai-you.net/article/95992"},
-        {"label": "PR TIMES: 셀렉션 앨범과 선행 추첨 시리얼", "url": "https://prtimes.jp/main/html/rd/p/000001251.000030268.html"},
-        {"label": "4Gamers(중국어): 마린 DAY2 불참·와타메 대체", "url": "https://www.4gamers.com.tw/news/detail/82728/houshou-marine-withdraws-hololive-records-music-stage-2027"}
-      ],
-      "items": [
-        "https://panora.tokyo/archives/160581",
-        "https://hololivepro.com/news/20261011-01-310/",
-        "https://collabo-cafe.com/events/collabo/hololive-flow-glow-shop-tieup-marion-crepes-2026/"
-      ]
-    },
-    {
-      "title": "ヘタリア 20周年原画展 WorldFesta, 도쿄는 10/28까지",
-      "works": ["ヘタリア"],
-      "category": "exhibit",
-      "tag": "마감 임박",
-      "when": "도쿄 ~10/28(수) · 오사카 11/7 ~ 11/23 · 描き下ろしストア 10/31~ · WS 카페 11/13~",
-      "where": "池袋 サンシャインシティ 展示ホールA → なんばパークスミュージアム",
-      "desc": "ヘタリア 20주년을 기념하는 원화전. 도쿄 회장은 이케부쿠로 선샤인시티 전시홀A(東池袋역 도보 3분)로 10:00~19:00, 마지막 날은 17:00까지이고 입장 마감은 폐장 30분 전. 전 일정 일시 지정제로 전매권 2,300円, 패스포트 케이스 세트 4,300円. 전시는 日丸屋秀和의 육필 연필화와 컬러 일러스트, 등신대 이탈리아 입상, 포토스팟 구성이에요. 도쿄가 끝나면 11/7부터 오사카 난바파크스 뮤지엄으로 옮기고, 그 사이 10/31부터 描き下ろしストア(도쿄·오사카), 11/13부터 ヘタリアWS 카페(이케부쿠로·오사카)가 이어집니다.",
-      "links": [
-        {"label": "PR TIMES: 도쿄 회장·시간·티켓 안내", "url": "https://prtimes.jp/main/html/rd/p/000008676.000016756.html"},
-        {"label": "アニメ!アニメ!(릴리스): 전시 구성", "url": "https://animeanime.jp/release/prtimes/20260724/301374.html"}
-      ],
-      "items": [
-        "https://gengaten.info/2026/10/11336/",
-        "https://gengaten.info/2026/11/11338/",
-        "https://collabo-cafe.com/events/collabo/hetalia-ws-autumn-parade-popup-tokyo-osaka-2026/",
-        "https://collabo-cafe.com/events/collabo/hetalia-cafe-mixx-garden-pastel-pop-parfait-2026/"
-      ]
-    },
-    {
-      "title": "薬屋のひとりごと × スイーツパラダイス 3탄, 10/30부터 7개 점포",
-      "works": ["薬屋のひとりごと"],
-      "category": "collab",
-      "tag": "유행 2위",
-      "when": "10/30 ~ 11/23 (점포별로 다름) · 타이베이 POP UP 11/5~",
-      "where": "SoLaDo原宿 · 天王寺ミオ · 名古屋パルコ · 丸井大宮 · 仙台パルコ · 横浜ビブレ · 福岡パルコ",
-      "desc": "스이파라의 薬屋 콜라보 카페 3탄이 10월 30일부터 전국 7개 점포에서 열려요. 좌석 예약은 스이츠파라다이스 앱으로만 받고 당일 예약은 안 됩니다. 점포마다 기간이 조금씩 다르니 공식 콜라보 페이지에서 가려는 점포를 확인하세요. 메뉴는 10/23에 해금됐고(보드 소식 참고), 노벨티·굿즈는 순차 공개. 같은 주에 猫猫·壬氏 새 그림 굿즈를 모은 POP UP SHOP이 타이베이에 11/5 오픈, 롯폰기 「東京シティビュー」 콜라보는 종료 임박, 이바라키현 콜라보 메뉴 2탄과 ワークマン의 980円대 T셔츠 소식도 있었어요.",
-      "links": [
-        {"label": "스이츠파라다이스 공식: 薬屋 콜라보 3탄", "url": "https://www.sweets-paradise.jp/collaboration/kusuriyanohitorigoto3"},
-        {"label": "電撃オンライン: 콜라보 카페 개최 안내", "url": "https://dengekionline.com/article/202607/80325"}
-      ],
-      "items": [
-        "https://collabo-cafe.com/events/collabo/kusuriya-anime-cafe-sweets-paradise-2026-add-info/",
-        "https://animeanime.jp/article/2026/10/23/104117.html",
-        "https://animeanime.jp/article/2026/10/23/104106.html"
-      ]
-    },
-    {
-      "title": "『ウマ娘』 첫 월드투어 LA 공연, 미국 비자 미취득으로 취소",
-      "works": ["ウマ娘"],
-      "category": "live",
-      "tag": "이번 주 화제",
-      "when": "현지 10/22·23 예정이던 공연 → 10/20 14시 취소 발표 · プリコネR 콜라보 10/31",
-      "where": "로스앤젤레스",
-      "desc": "Cygames는 10월 20일, 현지 시간 22·23일로 잡혀 있던 로스앤젤레스 공연을 취소했어요. 이유는 공연에 필요한 미국 비자를 받지 못한 것. 반년 이상 전부터 현지 변호사·프로모터와 준비했지만 승인이 내려오지 않아 19일에 '아직 승인 전'을 알리고 20일 14시까지 최종 판단을 미뤘다가 결국 중지했습니다. 현지 관람권·배신권·JTB 투어·라이브 뷰잉은 환불 예정이고, 21일 안내에서는 현지 참가 예정자의 숙박·교통비를 돌려주고 취소 수수료도 부담한다는 방침이 나왔어요. 다만 항공권·호텔을 스스로 예약한 팬에 대한 대응은 '검토 중'에 머물러 보상을 요구하는 목소리가 이어지고 있습니다. 비자 절차가 어느 단계에서 멈췄는지는 공표되지 않았어요.",
-      "links": [
-        {"label": "GameBusiness.jp: 비자 미취득으로 해외 라이브 중지", "url": "https://www.gamebusiness.jp/article/2026/10/21/28400.html"},
-        {"label": "電ファミニコゲーマー: 20일 14시 최종 판단 발표", "url": "https://news.denfaminicogamer.jp/news/261020y"}
-      ],
-      "items": [
-        "https://kai-you.net/article/96887",
-        "https://dengekionline.com/article/202610/91491",
-        "https://dengekionline.com/article/202610/91309"
-      ]
+     "label": "Aviation Wire: 겨울 다이어 투입 노선",
+     "url": "https://www.aviationwire.jp/?p=352655"
     }
-  ]
+   ],
+   "items": [
+    "https://kai-you.net/article/96869",
+    "https://anime.eiga.com/news/127674/",
+    "https://collabo-cafe.com/events/collabo/chiikawa-movie-event-cheer-screening-vol3-2026/",
+    "https://collabo-cafe.com/events/collabo/chiikawa-park-store-lucua-south-osaka-2026/"
+   ]
+  },
+  {
+   "title": "『ゴジラ-0.0』 11/3 공개를 앞둔 콜라보 러시",
+   "works": [
+    "ゴジラ-0.0"
+   ],
+   "category": "collab",
+   "tag": "유행 5위",
+   "when": "영화 11/3(화·공휴일) 공개 · しゃぶ葉 10/22~ · クラッパーズダイナー 10/23~ · ぴよりん·ゴジラ・フェス·筑波 전시 11/3~",
+   "where": "전국 · 이케부쿠로 · 나고야 · 이바라키",
+   "desc": "山崎貴 감독이 각본·VFX까지 맡은 『ゴジラ-1.0』의 후속작. 神木隆之介·浜辺美波가 이어서 출연하고 長澤まさみ가 천재 기상예보관으로 합류했어요. 무대는 전작 2년 뒤인 1949년 전후 복흥기의 일본이고, 예고편 마지막에는 뉴욕 자유의 여신상 앞까지 상륙한 고지라가 나옵니다. 일본 영화로는 처음 'Filmed For IMAX'로 제작. 공개일 11월 3일은 1954년 초대 『ゴジラ』가 공개된 날이며 북미는 11/6. 공개 전후로 しゃぶ葉(등지느러미가 냄비에서 헤엄치는 코스), 이케부쿠로 クラッパーズダイナー, ハードロックカフェ(새까만 번즈), 나고야 ぴよりん, 筑波海軍航空隊記念館 콜라보전, ゴジラ・フェス의 『ゴジバト』 생방송, 브랜드 ha|za|ma의 킹기도라 모티브 콜라보가 줄줄이 이어집니다.",
+   "links": [
+    {
+     "label": "VG+: 공개일 11/3 확정과 북미 동시기 공개",
+     "url": "https://virtualgorillaplus.com/?p=47811"
+    },
+    {
+     "label": "Real Sound: 神木·浜辺 속편 출연, 뉴욕 상륙 첫 영상",
+     "url": "https://realsound.jp/movie/2026/04/post-2367701.html"
+    },
+    {
+     "label": "秋田魁: 長澤まさみ 기상예보관 역으로 출연",
+     "url": "https://www.sakigake.jp/news/article/20260908OR0224/"
+    }
+   ],
+   "items": [
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-syabuyo-2026/",
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-cafe-clappers-diner-ikebukuro-2026/",
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-piyorin-2026/",
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-collabo-exhibition-tsukuba-kashima-2026/",
+    "https://dengekionline.com/article/202610/91928",
+    "https://kai-you.net/article/96891"
+   ]
+  },
+  {
+   "title": "古舘春一 ハイキュー!!展 挑戦者たち, 10/30 롯폰기 개막",
+   "works": [
+    "ハイキュー!!"
+   ],
+   "category": "exhibit",
+   "tag": "유행 4위",
+   "when": "2026/10/30 ~ 2027/1/11 (오사카 2027/4/24 ~ 6/20)",
+   "where": "森アーツセンターギャラリー (六本木ヒルズ 52층)",
+   "desc": "원작자 古舘春一의 대규모 원화전이 롯폰기 힐즈 모리 아트 센터 갤러리에서 10월 30일 문을 열어요. 전 일정 입장 시간 지정제이고 추첨·선착 등 판매 구분이 나뉘어 있으며, 회차에 따라 굿즈 세트가 붙은 표와 없는 표가 다르니 살 때 구분을 확인하세요. 리세일 사이트에는 점프 정기구독 선행으로 당선된 표도 나와 있습니다. 전시 구성 자체는 아직 공식에서 자세히 풀지 않았고, 새로 그린 키 비주얼 2탄과 작가 코멘트가 공개된 상태. 도쿄 다음은 2027년 봄 오사카 순회. 연말 ジャンプフェスタ2027(12/19~) 스테이지도 있으니 점프 팬은 같이 체크.",
+   "links": [
+    {
+     "label": "livedoor 뉴스(女子旅プレス): 회장·회기·키 비주얼",
+     "url": "https://news.livedoor.com/article/detail/31825129/"
+    },
+    {
+     "label": "원화전.info 도쿄 회장 안내",
+     "url": "https://gengaten.info/2026/10/11276/"
+    }
+   ],
+   "items": [
+    "https://gengaten.info/2026/10/11276/",
+    "https://gengaten.info/2027/04/11326/",
+    "https://collabo-cafe.com/events/collabo/jump-festa-2027-super-stage-cast/"
+   ]
+  },
+  {
+   "title": "hololive RECORDS MUSIC STAGE 2027, 마린 불참·와타메 대체 출연",
+   "works": [
+    "ホロライブ"
+   ],
+   "category": "live",
+   "tag": "유행 3위",
+   "when": "2027/1/9(토) · 1/10(일) · 博衣こより 1st 라이브 12/22",
+   "where": "Kアリーナ横浜 (요코하마역 동쪽 출구 도보 약 9분)",
+   "desc": "hololive RECORDS가 처음 여는 리얼 라이브. 셀렉션 앨범 「hololive RECORDS HISTORY COLLECTION」(7/16 예약 시작)에 선행 추첨 시리얼이 붙은 연동 공연이에요. 출연은 DAY1 AZKi·さくらみこ·ハコス・ベールズ·ReGLOSS, DAY2 白上フブキ·宝鐘マリン·こぼ・かなえる·FLOW GLOW였는데, 10/19에 宝鐘マリン이 성대결절 치료를 위해 DAY2 출연을 접고 角巻わため가 대신 서기로 발표됐습니다(본인은 손글씨 편지로 '다음 무대에서 만날 수 있게 만전을 기하겠다'고). 같은 주 홀로라이브는 博衣こより 1st 라이브(東京ガーデンシアター 12/22) 정보 해금, FLOW GLOW × マリオンクレープ(11/4~) 등 소식이 많았어요.",
+   "links": [
+    {
+     "label": "KAI-YOU: 요코하마 2DAYS 라이브 출연진 발표",
+     "url": "https://kai-you.net/article/95992"
+    },
+    {
+     "label": "PR TIMES: 셀렉션 앨범과 선행 추첨 시리얼",
+     "url": "https://prtimes.jp/main/html/rd/p/000001251.000030268.html"
+    },
+    {
+     "label": "4Gamers(중국어): 마린 DAY2 불참·와타메 대체",
+     "url": "https://www.4gamers.com.tw/news/detail/82728/houshou-marine-withdraws-hololive-records-music-stage-2027"
+    }
+   ],
+   "items": [
+    "https://panora.tokyo/archives/160581",
+    "https://hololivepro.com/news/20261011-01-310/",
+    "https://collabo-cafe.com/events/collabo/hololive-flow-glow-shop-tieup-marion-crepes-2026/"
+   ]
+  },
+  {
+   "title": "ヘタリア 20周年原画展 WorldFesta, 도쿄는 10/28까지",
+   "works": [
+    "ヘタリア"
+   ],
+   "category": "exhibit",
+   "tag": "마감 임박",
+   "when": "도쿄 ~10/28(수) · 오사카 11/7 ~ 11/23 · 描き下ろしストア 10/31~ · WS 카페 11/13~",
+   "where": "池袋 サンシャインシティ 展示ホールA → なんばパークスミュージアム",
+   "desc": "ヘタリア 20주년을 기념하는 원화전. 도쿄 회장은 이케부쿠로 선샤인시티 전시홀A(東池袋역 도보 3분)로 10:00~19:00, 마지막 날은 17:00까지이고 입장 마감은 폐장 30분 전. 전 일정 일시 지정제로 전매권 2,300円, 패스포트 케이스 세트 4,300円. 전시는 日丸屋秀和의 육필 연필화와 컬러 일러스트, 등신대 이탈리아 입상, 포토스팟 구성이에요. 도쿄가 끝나면 11/7부터 오사카 난바파크스 뮤지엄으로 옮기고, 그 사이 10/31부터 描き下ろしストア(도쿄·오사카), 11/13부터 ヘタリアWS 카페(이케부쿠로·오사카)가 이어집니다.",
+   "links": [
+    {
+     "label": "PR TIMES: 도쿄 회장·시간·티켓 안내",
+     "url": "https://prtimes.jp/main/html/rd/p/000008676.000016756.html"
+    },
+    {
+     "label": "アニメ!アニメ!(릴리스): 전시 구성",
+     "url": "https://animeanime.jp/release/prtimes/20260724/301374.html"
+    }
+   ],
+   "items": [
+    "https://gengaten.info/2026/10/11336/",
+    "https://gengaten.info/2026/11/11338/",
+    "https://collabo-cafe.com/events/collabo/hetalia-ws-autumn-parade-popup-tokyo-osaka-2026/",
+    "https://collabo-cafe.com/events/collabo/hetalia-cafe-mixx-garden-pastel-pop-parfait-2026/"
+   ]
+  },
+  {
+   "title": "薬屋のひとりごと × スイーツパラダイス 3탄, 10/30부터 7개 점포",
+   "works": [
+    "薬屋のひとりごと"
+   ],
+   "category": "collab",
+   "tag": "유행 2위",
+   "when": "10/30 ~ 11/23 (점포별로 다름) · 타이베이 POP UP 11/5~",
+   "where": "SoLaDo原宿 · 天王寺ミオ · 名古屋パルコ · 丸井大宮 · 仙台パルコ · 横浜ビブレ · 福岡パルコ",
+   "desc": "스이파라의 薬屋 콜라보 카페 3탄이 10월 30일부터 전국 7개 점포에서 열려요. 좌석 예약은 스이츠파라다이스 앱으로만 받고 당일 예약은 안 됩니다. 점포마다 기간이 조금씩 다르니 공식 콜라보 페이지에서 가려는 점포를 확인하세요. 메뉴는 10/23에 해금됐고(보드 소식 참고), 노벨티·굿즈는 순차 공개. 같은 주에 猫猫·壬氏 새 그림 굿즈를 모은 POP UP SHOP이 타이베이에 11/5 오픈, 롯폰기 「東京シティビュー」 콜라보는 종료 임박, 이바라키현 콜라보 메뉴 2탄과 ワークマン의 980円대 T셔츠 소식도 있었어요.",
+   "links": [
+    {
+     "label": "스이츠파라다이스 공식: 薬屋 콜라보 3탄",
+     "url": "https://www.sweets-paradise.jp/collaboration/kusuriyanohitorigoto3"
+    },
+    {
+     "label": "電撃オンライン: 콜라보 카페 개최 안내",
+     "url": "https://dengekionline.com/article/202607/80325"
+    }
+   ],
+   "items": [
+    "https://collabo-cafe.com/events/collabo/kusuriya-anime-cafe-sweets-paradise-2026-add-info/",
+    "https://animeanime.jp/article/2026/10/23/104117.html",
+    "https://animeanime.jp/article/2026/10/23/104106.html"
+   ]
+  },
+  {
+   "title": "『ウマ娘』 첫 월드투어 LA 공연, 미국 비자 미취득으로 취소",
+   "works": [
+    "ウマ娘"
+   ],
+   "category": "live",
+   "tag": "이번 주 화제",
+   "when": "현지 10/22·23 예정이던 공연 → 10/20 14시 취소 발표 · プリコネR 콜라보 10/31",
+   "where": "로스앤젤레스",
+   "desc": "Cygames는 10월 20일, 현지 시간 22·23일로 잡혀 있던 로스앤젤레스 공연을 취소했어요. 이유는 공연에 필요한 미국 비자를 받지 못한 것. 반년 이상 전부터 현지 변호사·프로모터와 준비했지만 승인이 내려오지 않아 19일에 '아직 승인 전'을 알리고 20일 14시까지 최종 판단을 미뤘다가 결국 중지했습니다. 현지 관람권·배신권·JTB 투어·라이브 뷰잉은 환불 예정이고, 21일 안내에서는 현지 참가 예정자의 숙박·교통비를 돌려주고 취소 수수료도 부담한다는 방침이 나왔어요. 다만 항공권·호텔을 스스로 예약한 팬에 대한 대응은 '검토 중'에 머물러 보상을 요구하는 목소리가 이어지고 있습니다. 비자 절차가 어느 단계에서 멈췄는지는 공표되지 않았어요.",
+   "links": [
+    {
+     "label": "GameBusiness.jp: 비자 미취득으로 해외 라이브 중지",
+     "url": "https://www.gamebusiness.jp/article/2026/10/21/28400.html"
+    },
+    {
+     "label": "電ファミニコゲーマー: 20일 14시 최종 판단 발표",
+     "url": "https://news.denfaminicogamer.jp/news/261020y"
+    }
+   ],
+   "items": [
+    "https://kai-you.net/article/96887",
+    "https://dengekionline.com/article/202610/91491",
+    "https://dengekionline.com/article/202610/91309"
+   ]
+  }
+ ]
 }
