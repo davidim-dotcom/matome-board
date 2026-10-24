@@ -60,7 +60,6 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .wk-head{margin:12px 0 4px}
 .wk-kicker{font-family:"Black Han Sans","Noto Sans JP",sans-serif;font-size:22px;line-height:1.2;margin:0}
 .wk-range{color:var(--muted);font-size:13px;margin:2px 0 8px}
-.wk-intro{margin:0 0 4px;font-size:14px;color:var(--muted);line-height:1.6}
 .wk-list{list-style:none;margin:0;padding:0}
 .wk{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
 .wk-no{font-family:"Black Han Sans",sans-serif;font-size:28px;line-height:1;color:var(--pink);text-align:center;padding-top:4px}
@@ -758,7 +757,7 @@ function normWeekly(raw){
     category:CATS[p.category]?p.category:"other", tag:str(p.tag,20), when:str(p.when,200), where:str(p.where,160),
     desc:str(p.desc,1500), links:(Array.isArray(p.links)?p.links:[]).slice(0,6).map(l=>({label:str(l&&l.label,80),url:safeUrl(l&&l.url||"")})).filter(l=>l.url),
     items:(Array.isArray(p.items)?p.items:[]).slice(0,8).map(u=>safeUrl(u)).filter(Boolean)})).filter(p=>p.title&&p.desc);
-  return picks.length?{title:str(raw.title,80),range:str(raw.range,60),updated:str(raw.updated,16),intro:str(raw.intro,800),picks}:null;
+  return picks.length?{title:str(raw.title,80),range:str(raw.range,60),updated:str(raw.updated,16),picks}:null;
 }
 async function loadWeekly(){
   if(weeklyTried) return; weeklyTried=true;
@@ -786,9 +785,8 @@ function renderWeekly(){
       ${rel?`<ul class="wk-items">${rel}</ul>`:""}
       ${src?`<div class="wk-src">출처 · ${src}</div>`:""}
     </div></li>`}).join("");
-  el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}${weekly.intro?`<p class="wk-intro">${esc(weekly.intro)}</p>`:""}</div>
-    <ol class="wk-list">${li}</ol>
-    <p class="note" style="margin-top:14px">설명은 보드 밖의 공식 발표·기사를 따로 찾아 사람이 정리한 글이라 틀릴 수 있어요. 날짜·장소는 꼭 각 출처에서 다시 확인하세요. 소식 제목을 누르면 피드의 그 카드로 이동합니다.</p>`;
+  el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}</div>
+    <ol class="wk-list">${li}</ol>`;
 }
 async function loadBbs(){
   const el=$("#bbsList");

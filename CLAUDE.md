@@ -15,7 +15,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/manual.json` | 직접 추가하는 소식 배열. 자동 수집보다 먼저 읽혀 같은 id면 우선. | 사람 |
 | `data/blocklist.json` | `{"urls":[], "titles":[], "ids":[]}`. 수집기와 페이지 양쪽에서 제외. `titles`는 소문자 부분일치. `comic_images`(선택)는 만갤 낚시 그림의 dHash 16진수 16자리 목록. | 사람 |
 | `data/comics_follow.json` | 만갤 탭에 모을 연재작 `{follow:[{title, author?, posts:[디시 글 주소]}]}`. `title`은 디시 글 제목에서 말머리·회차를 뗀 이름과 같아야 새 화를 알아본다. **색인 글형**은 `{title, index:[정리 글 주소], gallery, mini, aliases:{줄임말:에피소드 이름}, raw_nicks:[원본만 올리는 닉 앞부분]}`(닌자 슬레이어). | 사람 |
-| `data/weekly.json` | 주간 요약 탭의 글 `{week, range, title, updated, intro, picks:[{title, works, category, tag, when, where, desc, links:[{label,url}], items:[보드 소식 url]}]}`. 유행 순위(`meta.trends`) 상위 작품의 소식을 골라 **보드 밖에서 검색한** 배경 설명을 붙인다. 매주 덮어쓴다. 운영자가 요청하면 Claude 세션이 쓴다. | 사람 |
+| `data/weekly.json` | 주간 요약 탭의 글 `{week, range, title, updated, picks:[{title, works, category, tag, when, where, desc, links:[{label,url}], items:[보드 소식 url]}]}`. 유행 순위(`meta.trends`) 상위 작품의 소식을 골라 **보드 밖에서 검색한** 배경 설명을 붙인다. 매주 덮어쓴다. 운영자가 요청하면 Claude 세션이 쓴다. | 사람 |
 | `data/comics.json` | 연재 만화 색인 `{v, updated, gallery, series:[{id,name,title,author,episodes:[{no,g?,title,date?,u?}],rec,cover,coverNo,updatedAt,seenTo?}], scanned:[글번호], bad:["갤러리/글번호"]}`. 색인 글형 작품은 `kind:"index"`와 목차 `parts:[{name, arcs:[{name, vol, eps:[{label,u,g,no}]}]}]`가 더 있고 `episodes`는 그 목차를 편 순서(`u`=글 주소, 디시 밖 링크면 `g`/`no` 없음). 지정 작품만 들어간다. `g`는 `gallery`와 다른 갤러리(옛 `comic_new3`·`comic_new4`)에 있는 화에만 붙는다. `bad`는 낚시글로 판정해 다시 넣지 않는 글. `name`·`title`은 지정한 제목. | 봇만 |
 | `data/anime.json` | 이번 시즌 방영 목록. 요일·시각 등은 사람이 고치고, `--anime`가 Annict 정보를 덧붙인다. | 사람 + 봇 |
 | `data/items.json` | 수집된 소식(최대 `KEEP`=600건). | 봇만 |
