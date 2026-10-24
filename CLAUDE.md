@@ -15,6 +15,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/manual.json` | 직접 추가하는 소식 배열. 자동 수집보다 먼저 읽혀 같은 id면 우선. | 사람 |
 | `data/blocklist.json` | `{"urls":[], "titles":[], "ids":[]}`. 수집기와 페이지 양쪽에서 제외. `titles`는 소문자 부분일치. `comic_images`(선택)는 만갤 낚시 그림의 dHash 16진수 16자리 목록. | 사람 |
 | `data/comics_follow.json` | 만갤 탭에 모을 연재작 `{follow:[{title, author?, posts:[디시 글 주소]}]}`. `title`은 디시 글 제목에서 말머리·회차를 뗀 이름과 같아야 새 화를 알아본다. **색인 글형**은 `{title, index:[정리 글 주소], gallery, mini, aliases:{줄임말:에피소드 이름}, raw_nicks:[원본만 올리는 닉 앞부분]}`(닌자 슬레이어). | 사람 |
+| `data/weekly.json` | 주간 요약 탭의 글 `{week, range, title, updated, intro, picks:[{title, works, category, tag, when, where, desc, links:[{label,url}], items:[보드 소식 url]}]}`. 유행 순위(`meta.trends`) 상위 작품의 소식을 골라 **보드 밖에서 검색한** 배경 설명을 붙인다. 매주 덮어쓴다. 운영자가 요청하면 Claude 세션이 쓴다. | 사람 |
 | `data/comics.json` | 연재 만화 색인 `{v, updated, gallery, series:[{id,name,title,author,episodes:[{no,g?,title,date?,u?}],rec,cover,coverNo,updatedAt,seenTo?}], scanned:[글번호], bad:["갤러리/글번호"]}`. 색인 글형 작품은 `kind:"index"`와 목차 `parts:[{name, arcs:[{name, vol, eps:[{label,u,g,no}]}]}]`가 더 있고 `episodes`는 그 목차를 편 순서(`u`=글 주소, 디시 밖 링크면 `g`/`no` 없음). 지정 작품만 들어간다. `g`는 `gallery`와 다른 갤러리(옛 `comic_new3`·`comic_new4`)에 있는 화에만 붙는다. `bad`는 낚시글로 판정해 다시 넣지 않는 글. `name`·`title`은 지정한 제목. | 봇만 |
 | `data/anime.json` | 이번 시즌 방영 목록. 요일·시각 등은 사람이 고치고, `--anime`가 Annict 정보를 덧붙인다. | 사람 + 봇 |
 | `data/items.json` | 수집된 소식(최대 `KEEP`=600건). | 봇만 |
@@ -99,13 +100,14 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 페이지 (`index.html`)
 
-- 로드 순서: localStorage 복원 → 렌더 → `data/` 6개 파일 병렬 fetch(10분 단위 캐시 버스터, `cache:"no-store"`) → 다시 렌더.
+- 로드 순서: localStorage 복원 → 렌더 → `data/` 6개 파일 병렬 fetch(만갤·주간 요약은 탭을 열 때)(10분 단위 캐시 버스터, `cache:"no-store"`) → 다시 렌더.
 - `normalize()`가 모든 입력 필드를 화이트리스트·길이 제한·`safeUrl()`로 걸러 들어온다. 새 필드를 쓰려면 여기 반드시 추가.
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록뿐이며 localStorage 키 `matome-public-v1`에 `{S:{watching:[]}}`로 저장된다(예전 구조의 `S.watching`만 읽어 호환). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
 - 표시 언어: 맨 위 `原文 / 한국어` 전환(`lang`, localStorage `matome-lang2`, **기본 원문**. 2026-10에 기계 번역이 어색해 기본을 한국어→원문으로 바꾸면서 저장 키를 바꿔 예전 선택을 버렸다). `tx(it,"title")`/`tx(it,"summary")`가 번역이 있으면 `*_ko`, 없으면 원문을 돌려준다. 카드 제목·요약과 상단 띠 제목에만 적용하고 장소·작품명·방영 목록은 원문 그대로.
 - 만갤 탭(연재 만화, `section#comics`): 탭을 처음 열 때 `data/comics.json`을 불러온다(`loadComics`). 작품 카드에 이어 보기 · 1화부터 · 최신화 · 회차 목록(펼침). 색인 글형(`parts`)은 회차 목록 대신 **목차**(`.eps.toc`: 부 제목 → 권·에피소드 이름·회차 알약, 디시 밖 링크는 회색 점선)를 펼치고, 읽은 화 기억은 글 번호 대신 주소(`u`)로 한다. 모든 링크는 원문 `m.dcinside.com/board/{g 또는 gallery}/{no}`(새 탭)이고, 누르면 그 화를 localStorage `matome-comics-read`(작품 id → 글 번호)에 기억해 다음 화로 "이어 보기"와 "새 화" 배지를 띄운다. 검색(작품·작성자)과 정렬(최근 갱신·추천 많은). 작성자가 비어 있으면 카드에 표시하지 않는다. 표지는 og:image 주소를 `referrerpolicy=no-referrer`로 시도하고 실패하면 색 타일.
-- 탭: 피드 · 캘린더 · 방영중 · 만갤(연재 만화) · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
+- 주간 요약 탭(`section#weekly`, 캘린더 옆): 처음 열 때 `data/weekly.json`을 `loadWeekly`가 읽고 `normWeekly`로 걸러(`picks` 12개, `desc` 1500자, `links` 6개, `items` 8개) `renderWeekly`가 번호 매긴 목록(`.wk`: 분류 알약·`tag` 배지·작품명 → 제목 → 언제/어디서 → 설명 → 보드의 관련 소식 → 출처)으로 그린다. `items`의 url이 `items` Map에 있고 끝나지 않았으면 `data-wkgoto`로 피드 카드로 이동(필터 초기화 후 `.row.flash`), 끝난 소식은 원문 새 탭. 글은 사람이 쓰고 봇은 건드리지 않는다. 요청이 오면: `meta.trends` 상위 작품의 소식을 `items.json`에서 고르고, 설명은 **그 기사 본문이 아니라 WebSearch로 찾은 공식 발표·기사**로 쓰며 그 글을 `links`에 단다.
+- 탭: 피드 · 캘린더 · 주간 요약 · 방영중 · 만갤(연재 만화) · 사이트 개요. 분류별 탭(행사·콜라보·만화)은 피드의 분류 칩과 겹쳐서 없앴다.
 - 사이트 개요: 안내문 + 익명 게시판(게시 후 수정·삭제 불가). 게시판 백엔드는 Google 스프레드시트에 붙인 Apps Script 웹 앱(`bbs/Code.gs`: GET `?limit=` → `{posts}`, POST JSON `{name,text}` → 행 추가)이고 `index.html` 위쪽 `BBS.api`에 웹 앱 URL을 적는다(비어 있으면 '준비 중'). POST는 Content-Type 없이 보내 preflight를 피한다. 설정 절차는 README의 "게시판 설정". 글은 500자, 같은 브라우저 30초에 1건, 최신 200건 표시. 외부 스크립트 없이 fetch 만 쓴다.
 - 캘린더(`renderCalendar`, section id는 예전 그대로 `sched`): 월 격자(일요일 시작, JST 날짜 문자열 `YYYY-MM-DD`로만 계산). 칸에는 그날 `eventDate`로 시작하는 소식의 분류색 점(최대 3개 + `+N`), `ticketOpen`/`deadline`이 있는 날은 호박색 테두리 점, 오른쪽 위 숫자는 진행 중인 기간 소식 수(시작일 < 날 ≤ `endDate`). 날을 누르면 아래에 시작·개최 / 예매·마감 / 진행 중 목록, 안 고르면 이달 시작 목록. 지난 날짜 칸(`.past`)과 끝난 행사 카드(`.row.over`, 제목 뒤 "· 종료")는 흐리게. 상태는 `calYM`, `calDay`.
 - 장소: `venue`가 있으면 카드에 장소 줄을 두고 누르면 구글 지도 검색(`gmapUrl`: `https://www.google.com/maps/search/?api=1&query=장소 주소`, 장소가 없으면 좌표)을 새 탭으로 연다. `某所`는 링크 없이 글자만.

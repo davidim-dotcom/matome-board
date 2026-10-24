@@ -56,6 +56,26 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 4px;letter-spacing:-.5px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 .hotbadge{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px}
+/* 주간 요약(data/weekly.json, 사람이 쓰는 글): 번호 매긴 소식 몇 개 + 보드 밖에서 찾은 배경 설명 */
+.wk-head{margin:12px 0 4px}
+.wk-kicker{font-family:"Black Han Sans","Noto Sans JP",sans-serif;font-size:22px;line-height:1.2;margin:0}
+.wk-range{color:var(--muted);font-size:13px;margin:2px 0 8px}
+.wk-intro{margin:0 0 4px;font-size:14px;color:var(--muted);line-height:1.6}
+.wk-list{list-style:none;margin:0;padding:0}
+.wk{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.wk-no{font-family:"Black Han Sans",sans-serif;font-size:28px;line-height:1;color:var(--pink);text-align:center;padding-top:4px}
+.wk .wk-work{font-weight:700;color:var(--ink)}
+.wk-title{font-size:17px;font-weight:700;margin:4px 0 6px;line-height:1.35}
+.wk-facts{font-size:13px;color:var(--muted);display:grid;gap:2px;margin-bottom:8px}
+.wk-facts b{color:var(--ink);font-weight:500;margin-right:6px}
+.wk-desc{margin:0 0 10px;font-size:14.5px;line-height:1.7}
+.wk-items{margin:0 0 6px;padding:0;list-style:none;display:grid;gap:3px;font-size:13px}
+.wk-items a{color:var(--cyan);text-decoration:none}
+.wk-items a:hover{text-decoration:underline}
+.wk-items .d{color:var(--muted);margin-right:6px;white-space:nowrap}
+.wk-src{font-size:12px;color:var(--muted);line-height:1.6}
+.wk-src a{color:inherit;text-decoration:underline dotted}
+@media (max-width:520px){.wk{grid-template-columns:30px 1fr;gap:10px}.wk-no{font-size:22px}}
 /* 연재 만화 */
 .cm-bar{display:flex;gap:8px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
 .cm-bar input{flex:1;min-width:160px}
@@ -282,6 +302,7 @@ textarea{min-height:110px;resize:vertical}
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="feed" aria-selected="true">피드<span class="cnt" id="cFeed"></span></button>
     <button role="tab" data-tab="sched" aria-selected="false">캘린더</button>
+    <button role="tab" data-tab="weekly" aria-selected="false">주간 요약</button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
@@ -289,6 +310,7 @@ textarea{min-height:110px;resize:vertical}
 
   <section id="feed"></section>
   <section id="sched" hidden></section>
+  <section id="weekly" hidden></section>
   <section id="anime" hidden></section>
   <section id="comics" hidden></section>
   <section id="about" hidden>
@@ -726,6 +748,48 @@ function renderComics(){
 
 /* ---------- 게시판 (익명, 게시 후 수정 불가) ---------- */
 const bbsReady=()=>/^https:\/\/script\.google\.com\/macros\//.test(BBS.api);
+/* ---------- 주간 요약 (data/weekly.json) ---------- */
+let weekly=null, weeklyTried=false;
+function normWeekly(raw){
+  if(!raw||typeof raw!=="object") return null;
+  const str=(v,n)=>String(v??"").slice(0,n);
+  const picks=(Array.isArray(raw.picks)?raw.picks:[]).slice(0,12).map(p=>({
+    title:str(p.title,160), works:(Array.isArray(p.works)?p.works:[]).slice(0,5).map(w=>str(w,40)).filter(Boolean),
+    category:CATS[p.category]?p.category:"other", tag:str(p.tag,20), when:str(p.when,200), where:str(p.where,160),
+    desc:str(p.desc,1500), links:(Array.isArray(p.links)?p.links:[]).slice(0,6).map(l=>({label:str(l&&l.label,80),url:safeUrl(l&&l.url||"")})).filter(l=>l.url),
+    items:(Array.isArray(p.items)?p.items:[]).slice(0,8).map(u=>safeUrl(u)).filter(Boolean)})).filter(p=>p.title&&p.desc);
+  return picks.length?{title:str(raw.title,80),range:str(raw.range,60),updated:str(raw.updated,16),intro:str(raw.intro,800),picks}:null;
+}
+async function loadWeekly(){
+  if(weeklyTried) return; weeklyTried=true;
+  weekly=normWeekly(await getJSON("data/weekly.json",null));
+  renderWeekly();
+}
+function renderWeekly(){
+  const el=$("#weekly"); if(!el) return;
+  if(!weeklyTried){el.innerHTML=`<div class="empty">불러오는 중…</div>`;return}
+  if(!weekly){el.innerHTML=`<div class="empty">이번 주 요약이 아직 없어요.</div>`;return}
+  const byUrl=new Map([...items.values()].map(it=>[it.url,it]));
+  const dshort=v=>{const d=parseDate(v);return d?jst(d,{month:"numeric",day:"numeric"}):""};
+  const li=weekly.picks.map((p,i)=>{
+    const rel=p.items.map(u=>{const it=byUrl.get(u);
+      // 피드에 아직 보이는 소식은 그 카드로 이동, 끝난 소식은 원문을 새 탭으로
+      if(it&&notOver({it})) return `<li><a href="#" data-wkgoto="${esc(it.id)}" title="피드에서 보기"><span class="d">${esc(dshort(it.eventDate)||"날짜 미정")}</span>${esc(tx(it,"title"))}</a></li>`;
+      if(it) return `<li><a href="${esc(it.url)}" target="_blank" rel="noopener"><span class="d">${esc(dshort(it.eventDate)||"지난 소식")}</span>${esc(tx(it,"title"))}</a></li>`;
+      return `<li><a href="${esc(u)}" target="_blank" rel="noopener"><span class="d">원문</span>${esc(u.replace(/^https?:\/\//,"").slice(0,70))}</a></li>`}).join("");
+    const src=p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||l.url.replace(/^https?:\/\//,""))}</a>`).join(" · ");
+    return `<li class="wk"><div class="wk-no">${i+1}</div><div>
+      <div class="meta"><span class="cat cat-${p.category}">${CATS[p.category]}</span>${p.tag?`<span class="hotbadge">${esc(p.tag)}</span>`:""}${p.works.map(w=>`<span class="wk-work">${esc(w)}</span>`).join("")}</div>
+      <h3 class="wk-title">${esc(p.title)}</h3>
+      <div class="wk-facts">${p.when?`<span><b>언제</b>${esc(p.when)}</span>`:""}${p.where?`<span><b>어디서</b>${esc(p.where)}</span>`:""}</div>
+      <p class="wk-desc">${esc(p.desc)}</p>
+      ${rel?`<ul class="wk-items">${rel}</ul>`:""}
+      ${src?`<div class="wk-src">출처 · ${src}</div>`:""}
+    </div></li>`}).join("");
+  el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}${weekly.intro?`<p class="wk-intro">${esc(weekly.intro)}</p>`:""}</div>
+    <ol class="wk-list">${li}</ol>
+    <p class="note" style="margin-top:14px">설명은 보드 밖의 공식 발표·기사를 따로 찾아 사람이 정리한 글이라 틀릴 수 있어요. 날짜·장소는 꼭 각 출처에서 다시 확인하세요. 소식 제목을 누르면 피드의 그 카드로 이동합니다.</p>`;
+}
 async function loadBbs(){
   const el=$("#bbsList");
   if(!bbsReady()){el.innerHTML=`<div class="empty">게시판은 준비 중이에요.</div>`;return}
@@ -785,7 +849,7 @@ document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
     const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
-    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();return}
+    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();return}
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
@@ -794,6 +858,10 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-akiba]")){akibaOpen=!akibaOpen;render();return}
   const pin=e.target.closest("[data-pin]"); if(pin){mapSel=mapSel===pin.dataset.pin?null:pin.dataset.pin;
     document.querySelectorAll(".tmap .pin").forEach(p=>p.classList.toggle("sel",p.dataset.pin===mapSel));$("#mapinfo").innerHTML=mapInfo();return}
+  const wg=e.target.closest("[data-wkgoto]"); if(wg){e.preventDefault();filterCat=null;filterVt="all";render();
+    document.querySelector('nav.tabs [data-tab="feed"]').dispatchEvent(new MouseEvent("click",{bubbles:true}));
+    const row=document.querySelector(`#feed article.row[data-id="${CSS.escape(wg.dataset.wkgoto)}"]`);
+    if(row){row.scrollIntoView({block:"center"});row.classList.remove("flash");void row.offsetWidth;row.classList.add("flash")}return}
   const go=e.target.closest("[data-goto]"); if(go){const row=document.querySelector(`#feed article.row[data-id="${CSS.escape(go.dataset.goto)}"]`);
     if(row){row.scrollIntoView({block:"center"});row.classList.remove("flash");void row.offsetWidth;row.classList.add("flash")}return}
   const cn=e.target.closest("[data-calnav]"); if(cn){const k=cn.dataset.calnav;
