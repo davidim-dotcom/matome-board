@@ -944,6 +944,30 @@ initStore();
 .dm-stages button[aria-pressed="true"] span{color:#c9cdf0}
 .dm-stages button .star{color:#ffd166}
 .dm-help{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.6}
+/* 스코어 보드: 게시판과 같은 Apps Script 웹 앱(bbs/Code.gs 의 scores 시트). 게임이 끝나면 이름을 적어 등록 */
+.dm-board{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:10px 10px 6px;background:var(--surface)}
+.dm-board .hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px}
+.dm-board .hd .lab{font-size:12px;color:var(--muted);margin:0}
+.dm-board .hd button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:2px 4px;cursor:pointer}
+.dm-sub{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px;margin:0 0 8px;border-radius:10px;background:color-mix(in srgb,#ff5c9a 12%,transparent);border:1px solid color-mix(in srgb,#ff5c9a 45%,transparent)}
+.dm-sub[hidden]{display:none}
+.dm-sub .me{flex:1 1 100%;font-size:12px;color:var(--ink)}
+.dm-sub .me b{font-variant-numeric:tabular-nums;font-size:14px}
+.dm-sub input{flex:1;min-width:0;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+.dm-sub button{flex:none;padding:8px 14px;border-radius:9px;border:1px solid #ff5c9a;background:#ff5c9a;color:#fff;font:inherit;font-weight:700;touch-action:manipulation}
+.dm-sub button:disabled{opacity:.5}
+.dm-rank{list-style:none;margin:0;padding:0;max-height:330px;overflow-y:auto}
+.dm-rank li{display:grid;grid-template-columns:26px 1fr auto auto;align-items:center;gap:8px;padding:6px 2px;border-top:1px solid var(--line);font-size:13px}
+.dm-rank li:first-child{border-top:0}
+.dm-rank .no{text-align:center;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.dm-rank .top1 .no{color:#ffb800}.dm-rank .top2 .no{color:#9aa4b8}.dm-rank .top3 .no{color:#c9814a}
+.dm-rank .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.dm-rank .nm small{font-weight:400;color:var(--muted);font-size:11px;margin-left:6px}
+.dm-rank .st{font-size:11px;color:var(--muted)}
+.dm-rank .st.all{color:#ffb800;font-weight:700}
+.dm-rank b{font-variant-numeric:tabular-nums}
+.dm-rank .mine{background:color-mix(in srgb,#ff5c9a 10%,transparent)}
+.dm-rank .nil{display:block;text-align:center;color:var(--muted);font-size:12px;padding:14px 0}
 </style>
 <script>
 (function(){
@@ -955,6 +979,9 @@ sec.innerHTML=`<div class="panel" style="padding:12px">
 <div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas></div>
 <div class="dm-ctl"><button id="dmSlow" aria-pressed="false">低速 (SHIFT)</button><button class="bomb" id="dmBomb">結界 (X)</button><button id="dmSound" aria-pressed="true">♪ BGM</button></div>
 <div class="dm-stages"><p class="lab">STAGE SELECT · 누르면 그 스테이지부터 시작 (★ 클리어)</p><div class="row5" id="dmStages"></div></div>
+<div class="dm-board"><div class="hd"><p class="lab">SCORE BOARD · 모두의 기록 TOP 30</p><button type="button" id="dmRankRe">↻ 새로고침</button></div>
+<form class="dm-sub" id="dmSub" hidden><span class="me" id="dmSubMe"></span><input id="dmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="dmSubBtn">기록 등록</button></form>
+<ol class="dm-rank" id="dmRank"></ol></div>
 <p class="dm-help">화면을 드래그하면 자기(自機)가 따라오고 공격은 자동. 피탄 판정은 가운데 작은 점(저속 모드에서 더 작아짐) 하나뿐이니 탄 사이를 스치며 <b>그레이즈</b>를 쌓으세요. 적이 떨어뜨리는 <b>金貨</b>(점수) · <b>緑ジェム</b>(파워) · <b>紫ジェム</b>(結界 +1) · <b>ハート</b>(残機 +1)를 모으고, 보스의 必殺技를 피탄·結界 없이 깨면 <b>ノーダメ 보너스</b>. 주황 <b>エネルギー地雷</b>는 가까이 가거나 시간이 지나면 터지니 멀리서 피하고, 보스 위에 비치는 패턴 그림은 다음 공격의 예고.<br>PC: 방향키 이동 · SHIFT 저속 · X 結界 · R 재시작</p></div>`;
 const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=480;cx.imageSmoothingEnabled=false;
 const $=id=>document.getElementById(id);
@@ -1027,7 +1054,7 @@ function pt(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]
 wrap.addEventListener('pointerdown',e=>{wrap.setPointerCapture(e.pointerId);const p=pt(e);drag={px:p.x,py:p.y,ox:G.player.x,oy:G.player.y};if(G.state!=='play')start();});
 wrap.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);const k=G.player.slow?.5:1;G.player.x=Math.max(8,Math.min(W-8,drag.ox+(p.x-drag.px)*1.15*k));G.player.y=Math.max(8,Math.min(H-8,drag.oy+(p.y-drag.py)*1.15*k));});
 wrap.addEventListener('pointerup',()=>drag=null);wrap.addEventListener('pointercancel',()=>drag=null);
-document.addEventListener('keydown',e=>{if(sec.hidden)return;keys[e.key]=true;if(e.key==='Shift'){G.player.slow=true;$('dmSlow').setAttribute('aria-pressed','true')}if(e.key==='x'||e.key==='X')bomb();if(e.key==='r'||e.key==='R'){reset();start()}if(e.key==='z'||e.key==='Z'||e.key===' '){if(G.state!=='play')start()}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});
+document.addEventListener('keydown',e=>{if(sec.hidden||/^(INPUT|TEXTAREA)$/.test(e.target&&e.target.tagName))return;keys[e.key]=true;if(e.key==='Shift'){G.player.slow=true;$('dmSlow').setAttribute('aria-pressed','true')}if(e.key==='x'||e.key==='X')bomb();if(e.key==='r'||e.key==='R'){reset();start()}if(e.key==='z'||e.key==='Z'||e.key===' '){if(G.state!=='play')start()}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});
 document.addEventListener('keyup',e=>{keys[e.key]=false;if(e.key==='Shift'){G.player.slow=false;$('dmSlow').setAttribute('aria-pressed','false')}});
 $('dmSlow').addEventListener('click',()=>{G.player.slow=!G.player.slow;$('dmSlow').setAttribute('aria-pressed',String(G.player.slow))});
 $('dmBomb').addEventListener('click',()=>{if(G.state!=='play')start();else bomb()});
@@ -1203,7 +1230,7 @@ function spawnBoss(){G.boss={x:W/2,y:-70,ty:110,hp:0,max:0,phase:-1,t:0,r:34,nam
 const PHASES=[{spell:0,hp:320,time:35},{spell:1,hp:450,time:45},{spell:0,hp:320,time:35},{spell:2,hp:540,time:50},{spell:3,hp:650,time:60}]; // spell: 0=통상, n=ST().spells[n-1]
 function nextPhase(){const b=G.boss;b.phase++;if(b.phase>=PHASES.length){G.eb=[];G.beams=[];G.chain={x:b.x,y:b.y,n:16};G.score+=50000;saveHi();beep(880,.3,'square');setTimeout(()=>beep(1320,.5,'square'),200);
     if(!cleared.includes(G.stage)){cleared.push(G.stage);try{localStorage.setItem('dm-cleared',JSON.stringify(cleared))}catch(e){}renderStages()}
-    if(G.stage>=STAGES.length-1){G.state='allclear';say('ALL CLEAR',999);bgm('title')}else{G.state='clear';G.clearT=300;bgmStop();say('STAGE '+(G.stage+1)+' CLEAR  ─  SCORE +50000',999)}return}
+    if(G.stage>=STAGES.length-1){G.state='allclear';say('ALL CLEAR',999);bgm('title');runEnd(true)}else{G.state='clear';G.clearT=300;bgmStop();say('STAGE '+(G.stage+1)+' CLEAR  ─  SCORE +50000',999)}return}
   const p=PHASES[b.phase];b.hp=b.max=Math.round(p.hp*(1+G.stage*.3));b.t=0;G.spell=p.spell?ST().spells[p.spell-1]:null;G.spellTimer=p.time*60;G.spellClean=true;G.eb=[];
   if(G.spell&&ST().spellArt)tele(ST().spellArt[p.spell-1],70,.62,true);
   if(G.spell){say(G.spell,150);beep(440,.15,'triangle');setTimeout(()=>beep(660,.2,'triangle'),120)}}
@@ -1299,7 +1326,7 @@ function update(){
 }
 function nextStage(){G.stage++;bgm(bgmStage());Object.assign(G,{state:'play',boss:null,en:[],eb:[],pb:[],drops:[],beams:[],fences:[],chain:null,wave:0,waveT:90,spell:null,spellClean:true});G.player.inv=90;say('STAGE '+(G.stage+1)+'  ─  '+ST().name,150);beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}
 function hit(){const p=G.player;G.lives--;G.spellClean=false;G.shake=20;boom(p.x,p.y,'#ff5fb0');G.fx.push({x:p.x,y:p.y,life:18,max:18,spr:'hit',sc:1.1,rot:0});sfx('hit');G.eb=G.eb.filter(b=>bdist(b,p)>90);G.power=Math.max(1,G.power-1);
-  if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦は画面タップ',999);saveHi();bgmStop();return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
+  if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦は画面タップ',999);saveHi();bgmStop();runEnd(false);return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
 function boom(x,y,col,big){for(let i=0;i<16;i++){const a=rnd(0,TAU),s=rnd(1,4);G.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(14,30),col,s:rnd(2,4)})}G.fx.push({x,y,life:big?26:16,max:big?26:16,spr:big?'boom2':'boom1',sc:big?1.6:.9,rot:rnd(0,TAU)})}
 function saveHi(){try{localStorage.setItem('dm-hi',String(hi))}catch(e){}}
 // ---------- draw ----------
@@ -1368,14 +1395,46 @@ function draw(){
   if(G.msgT>0&&G.state==='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
   if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
     cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText((skin==='holo'?'HOLO SKIN  ─  '+HOLO_NAME[mem]:'MAID BUSTER LILLY')+'  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
-  if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,120);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText('再挑戦は画面タップ / Z',W/2,H/2+34)}
-  if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
+  if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,132);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText('再挑戦は画面タップ / Z',W/2,H/2+34);if(RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+56)}}
+  if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,fin?206:190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
     [['SCORE',G.score.toLocaleString()],['GRAZE',String(G.graze)],['必殺 ノーダメ撃破',G.capture+' / '+(fin?STAGES.length*3:(G.stage+1)*3)],['ITEMS',String(G.items)]].forEach(([k,v],i)=>{cx.textAlign='left';cx.fillText(k,46,H/2-22+i*20);cx.textAlign='right';cx.fillText(v,W-46,H/2-22+i*20)});
-    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STG[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86)}
+    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STG[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86);if(fin&&RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+106)}}
   cx.restore();
   $('dmScore').textContent=G.score.toLocaleString();$('dmGraze').textContent=G.graze;$('dmLives').textContent=Math.max(0,G.lives);$('dmBombs').textContent=G.bombs;$('dmHi').textContent=hi.toLocaleString();
 }
-let last=0,wasHidden=false;function loop(ts){requestAnimationFrame(loop);if(sec.hidden){wasHidden=true;return}if(wasHidden){wasHidden=false;if(BGM.timer&&AC)BGM.next=AC.currentTime+.05}if(ts-last<15)return;last=ts;update();draw()}
+// ---------- 스코어 보드: 게시판 웹 앱(BBS.api)의 ?scores=1 / POST {type:'score'}. 탭을 처음 열 때 불러온다 ----------
+const RK={tried:false,ready:false,run:null,sent:false,mine:null};
+const rkApi=()=>typeof BBS==='object'&&/^https:\/\/script\.google\.com\/macros\//.test(BBS.api)?BBS.api:'';
+function rkNil(t){$('dmRank').innerHTML='<li class="nil">'+t+'</li>'}
+async function loadRank(){RK.tried=true;const api=rkApi();if(!api){rkNil('스코어 보드는 준비 중이에요.');return}
+  if(!$('dmRank').childElementCount)rkNil('불러오는 중…');
+  try{const r=await fetch(api+'?scores=1&limit=30&v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();
+    if(!Array.isArray(j.scores)){rkNil('스코어 보드는 준비 중이에요.');return} // 웹 앱이 아직 예전 버전(게시판만)
+    RK.ready=true;
+    const L=j.scores.slice(0,30).map(v=>({name:String(v.name||'').slice(0,12),score:Math.max(0,Math.floor(+v.score||0)),stage:Math.max(1,Math.min(5,Math.floor(+v.stage||1))),skin:String(v.skin||'').slice(0,12),clear:v.clear===true})).filter(v=>v.name&&v.score);
+    $('dmRank').innerHTML=L.length?L.map((v,i)=>{const me=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;
+      return `<li class="${i<3?'top'+(i+1):''}${me?' mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(v.name)}${v.skin?`<small>${esc(v.skin)}</small>`:''}</span><span class="st${v.clear?' all':''}">${v.clear?'ALL CLEAR':'STAGE '+v.stage}</span><b>${v.score.toLocaleString()}</b></li>`}).join('')
+      :'<li class="nil">아직 기록이 없어요. 첫 기록을 남겨 보세요.</li>';
+  }catch(e){rkNil('기록을 불러오지 못했어요. ↻ 로 다시 시도해 주세요.')}}
+// 게임이 끝나면(게임 오버·올 클리어) 이번 기록을 등록 칸에 올린다. 등록 전에 새 판을 해도 다음 판이 끝날 때까지 남는다
+function runEnd(clear){if(G.score<=0||!RK.ready)return;RK.run={score:G.score,stage:G.stage+1,clear,skin:skin==='holo'?HOLO_NAME[mem]:'릴리'};RK.sent=false;
+  $('dmSubMe').innerHTML=`이번 기록 <b>${RK.run.score.toLocaleString()}</b> · ${clear?'ALL CLEAR':'STAGE '+RK.run.stage} · ${esc(RK.run.skin)}`;
+  const n=$('dmName');if(!n.value){try{n.value=localStorage.getItem('dm-name')||''}catch(e){}}$('dmSubBtn').disabled=false;$('dmSub').hidden=false}
+$('dmSub').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run,api=rkApi();if(!run||RK.sent||!api)return;
+  const name=$('dmName').value.replace(/\s+/g,' ').trim().slice(0,12);if(!name){toast('이름을 적어 주세요');$('dmName').focus();return}
+  let lastSent=0;try{lastSent=+localStorage.getItem('dm-sent')||0}catch(err){}
+  if(Date.now()-lastSent<30000){toast('조금 뒤에 다시 등록해 주세요');return}
+  const body=JSON.stringify({type:'score',name,score:run.score,stage:run.stage,skin:run.skin,clear:run.clear});
+  $('dmSubBtn').disabled=true;
+  try{let ok=false; // 게시판과 같이 Content-Type 없이(text/plain) 보내 사전 요청을 피한다
+    try{const r=await fetch(api,{method:'POST',body});ok=r.ok&&(await r.json()).ok===true}
+    catch(err){await fetch(api,{method:'POST',body,mode:'no-cors'});ok=true}
+    if(!ok)throw 0;
+    RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('dm-sent',String(Date.now()))}catch(err){}
+    $('dmSub').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200);
+  }catch(err){$('dmSubBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
+$('dmRankRe').addEventListener('click',loadRank);
+let last=0,wasHidden=false;function loop(ts){requestAnimationFrame(loop);if(sec.hidden){wasHidden=true;return}if(!RK.tried)loadRank();if(wasHidden){wasHidden=false;if(BGM.timer&&AC)BGM.next=AC.currentTime+.05}if(ts-last<15)return;last=ts;update();draw()}
 requestAnimationFrame(loop);
 })();
 </script>
