@@ -850,19 +850,18 @@ function onAction(e){
   function talkData(){
     const out=[],now=Date.now(),live=[...items.values()].filter(it=>notOver({it}));
     if(live.length) out.push(`지금 소식 ${live.length}개 모아놨어롱`);
-    if(trends.length){const k=trends[Math.floor(Math.random()*Math.min(5,trends.length))];out.push(`요즘 「${cut(k,10)}」 얘기가 많아롱`)}
-    const dl=upcomingDeadlines();if(dl.length){const {it,d,label}=dl[0],n=Math.ceil((d-now)/DAY);out.push(`${n<=0?"오늘":"D-"+n} ${label}! 「${cut(tx(it,"title"),11)}」`)}
+    if(trends.length){const k=trends[Math.floor(Math.random()*Math.min(5,trends.length))];if(k.length<=8)out.push(`요즘 「${k}」 얘기가 많아롱`)}
     const week=live.filter(it=>{const d=parseDate(it.eventDate);return d&&d>now&&d-now<7*DAY});
     const lv=week.filter(it=>it.category==="live").length;if(lv)out.push(`이번 주 공연이 ${lv}개 있어롱`);
-    const cb=week.filter(it=>it.category==="collab"||it.category==="popup");if(cb.length){const it=cb[Math.floor(Math.random()*cb.length)];out.push(`곧 열려롱: 「${cut(tx(it,"title"),12)}」`)}
-    const ak=live.filter(it=>AKIBA_RE.test([it.venue,it.title,it.summary].join(" "))).length;if(ak)out.push(`아키바 소식 ${ak}개! 지도 아래에 있어롱`);
+    const cb=week.filter(it=>it.category==="collab"||it.category==="popup").length;if(cb)out.push(`이번 주 콜라보·팝업 ${cb}개야롱`)
+    const ak=live.filter(it=>AKIBA_RE.test([it.venue,it.title,it.summary].join(" "))).length;if(ak)out.push(`아키바 소식 ${ak}개 있어롱`);
     const vt=live.filter(isVtuber).length;if(vt)out.push(`버튜버 소식은 ${vt}개야롱`);
     if(season&&season.list.length){const wd=new Date(now+9*3600e3).getUTCDay(),today=season.list.filter(a=>a.d===wd&&a.tm);
-      if(today.length){const a=today[Math.floor(Math.random()*today.length)];out.push(`오늘 ${a.tm} 「${cut(a.t,10)}」 방송이롱`)}
-      out.push(`이번 시즌 애니 ${season.list.length}편 정리해 뒀어롱`)}
-    if(weekly&&weekly.picks&&weekly.picks.length){const p=weekly.picks[Math.floor(Math.random()*weekly.picks.length)];out.push(`주간 요약 봤어롱? 「${cut(p.title,11)}」`)}
+      if(today.length)out.push(`오늘 방송 ${today.length}편이롱`)
+      out.push(`이번 시즌 애니 ${season.list.length}편이롱`)}
+    if(weekly&&weekly.picks&&weekly.picks.length)out.push("주간 요약 봤어롱?")
     try{const hi=Number(localStorage.getItem("dm-hi")||0);if(hi>0)out.push(`弾幕 최고 기록 ${hi.toLocaleString()}점이롱`)}catch{}
-    return out;
+    return out.filter(t=>t.length<=18);
   }
   let hide=false, last="", t=0; try{hide=localStorage.getItem("matome-mochi")==="off"}catch{}
   const sync=()=>{box.hidden=hide;back.hidden=!hide};
