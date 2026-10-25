@@ -13,6 +13,9 @@
 // 편집기에서 setup 함수를 한 번 실행하면 권한 승인과 함께 실행 로그에 쓰는 스프레드시트 주소가 찍힌다.
 // 웹 앱 주소를 브라우저로 열었을 때 {"error":"…"} 가 나오면 그 내용이 실패 원인이다.
 const SHEET_ID = '';
+// 예전 게시판 웹 앱(2026-10 처음 배포한 스프레드시트). 지금 시트의 posts 가 비어 있으면 처음 한 번 여기서 글(최신 500건)과
+// 스코어 보드 기록(TOP 50)을 가져와 채운다(migrate_). 같은 스프레드시트를 그대로 쓰는 경우엔 글이 이미 있어 건너뛴다.
+const OLD_API = 'https://script.google.com/macros/s/AKfycbzsQ78kMCaXtkS5lIWpCC_dCnI3mn0GDLmqmUmQ7OYh7cW4kG-FYW1UsoTEASmgkVdt/exec';
 
 const SHEET = 'posts';
 const MAX_TEXT = 500, MAX_NAME = 20, PAGE = 200;
@@ -33,6 +36,7 @@ function book_() {
 function setup() {
   const ss = book_();
   sheet_(); scoreSheet_();
+  migrate_(true);
   Logger.log('스프레드시트: ' + ss.getUrl());
 }
 
@@ -52,6 +56,7 @@ function doPost(e) { return safe_(() => post_(e)); }
 function safe_(f) { try { return f(); } catch (err) { return out_({ ok: false, error: String(err && err.message || err) }); } }
 
 function get_(e) {
+  migrate_(false);
   const p = (e && e.parameter) || {};
   if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP)) });
   const sh = sheet_();
@@ -106,5 +111,48 @@ function addScore_(d) {
 
 // = + - @ 로 시작하는 글자는 시트가 수식으로 읽으므로 ' 를 붙여 글자로 둔다(읽을 때는 ' 없이 나온다)
 function noFormula_(v) { return /^[=+\-@]/.test(v) ? "'" + v : v; }
+// 예전 웹 앱의 글·기록을 한 번만 옮긴다. 지금 시트에 이미 있는 글과 겹치는 것(같은 분·이름·내용)은 빼고 합쳐 시각 순으로 다시 쓴다.
+// 끝나면 스크립트 속성 MIGRATED=1, 실패하면 1시간 뒤 다시 시도(MIGRATE_TRY).
+function migrate_(force) {
+  const props = PropertiesService.getScriptProperties();
+  if (!OLD_API || props.getProperty('MIGRATED')) return;
+  if (!force && Date.now() - Number(props.getProperty('MIGRATE_TRY') || 0) < 3600e3) return;
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) return;
+  try {
+    if (props.getProperty('MIGRATED')) return;
+    props.setProperty('MIGRATE_TRY', String(Date.now()));
+    const get = q => { const r = UrlFetchApp.fetch(OLD_API + q, { muteHttpExceptions: true, followRedirects: true });
+      if (r.getResponseCode() !== 200) throw new Error('예전 웹 앱 응답 ' + r.getResponseCode()); return JSON.parse(r.getContentText()); };
+    const when = at => { const d = new Date(String(at || '').replace(' ', 'T') + ':00+09:00'); return isNaN(d) ? new Date() : d; };
+    const posts = (get('?limit=500').posts || [])
+      .map(p => [when(p.at), String(p.name || '익명').slice(0, MAX_NAME), String(p.text || '').slice(0, MAX_TEXT)]).filter(r => r[2]);
+    const np = merge_(sheet_(), 3, posts, r => fmt_(r[0]) + '|' + r[1] + '|' + r[2]);
+    let scores = [];
+    try { scores = get('?scores=1&limit=50').scores || []; } catch (err) {} // 예전 웹 앱에 스코어 보드가 없으면 건너뜀
+    const rows = (Array.isArray(scores) ? scores : []).map(v => [when(String(v.at || '').slice(0, 10) + ' 00:00'), String(v.name || '').slice(0, SCORE_NAME),
+      Math.floor(Number(v.score)) || 0, Math.max(1, Math.min(5, Number(v.stage) || 1)), String(v.skin || '').slice(0, 12), v.clear === true])
+      .filter(r => r[1] && r[2] > 0 && r[2] <= SCORE_MAX);
+    const ns = merge_(scoreSheet_(), 6, rows, r => r[1] + '|' + r[2] + '|' + r[3]);
+    props.setProperty('MIGRATED', '1');
+    Logger.log('예전 게시판에서 글 ' + np + '건, 기록 ' + ns + '건을 옮겼습니다.');
+  } catch (err) {
+    Logger.log('옮기기 실패: ' + err); // 다음 시도까지 게시판은 평소처럼 동작
+  } finally { lock.releaseLock(); }
+}
+// 시트의 기존 행과 새 행을 key 로 겹침을 빼고 합쳐 첫 칸(시각) 순으로 다시 쓴다. 더한 행 수를 돌려준다.
+function merge_(sh, cols, add, key) {
+  const last = sh.getLastRow();
+  const cur = last > 1 ? sh.getRange(2, 1, last - 1, cols).getValues() : [];
+  const seen = {};
+  cur.forEach(r => { seen[key(r)] = 1; });
+  const fresh = add.filter(r => { const k = key(r); if (seen[k]) return false; seen[k] = 1; return true; });
+  if (!fresh.length) return 0;
+  const all = cur.concat(fresh).sort((a, b) => new Date(a[0]) - new Date(b[0]))
+    .map(r => r.map(v => typeof v === 'string' ? noFormula_(v) : v)); // 다시 쓸 때 = 로 시작하는 글이 수식이 되지 않게
+  sh.getRange(2, 1, all.length, cols).setValues(all);
+  return fresh.length;
+}
+
 function fmt_(d) { return Utilities.formatDate(new Date(d), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm'); }
 function out_(obj) { return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON); }
