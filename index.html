@@ -284,7 +284,7 @@ textarea{min-height:110px;resize:vertical}
 .mochi .hop{width:100%;height:100%;transform-origin:50% 100%}
 .mochi img.dance{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 92%;animation:mochi-dance 1.1s ease-in-out infinite;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))}
 .mochi.spin .hop{animation:mochi-spin .8s cubic-bezier(.3,1.4,.5,1)}
-.mochi .bubble{position:absolute;right:45%;bottom:100%;margin-bottom:-6px;white-space:nowrap;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px 12px 2px 12px;padding:4px 10px;font-size:13px;font-weight:700;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none}
+.mochi .bubble{position:absolute;right:45%;bottom:100%;margin-bottom:-6px;width:max-content;max-width:min(220px,70vw);white-space:normal;word-break:keep-all;line-height:1.35;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px 12px 2px 12px;padding:4px 10px;font-size:13px;font-weight:700;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none}
 .mochi.talk .bubble{opacity:1;transform:none}
 .mochi .bye{position:absolute;top:0;right:-2px;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:12px;line-height:18px;padding:0;text-align:center;cursor:pointer;opacity:0;transition:opacity .2s}
 .mochi:hover .bye,.mochi:focus-within .bye{opacity:1}
@@ -843,12 +843,33 @@ function onAction(e){
 }
 /* ---------- 마스코트 ---------- */
 (function(){
-  const box=$("#mochi"), say=$("#mochiSay"), back=$("#mochiBack"), LINES=["도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?"];
-  let hide=false, i=0, t=0; try{hide=localStorage.getItem("matome-mochi")==="off"}catch{}
+  const box=$("#mochi"), say=$("#mochiSay"), back=$("#mochiBack");
+  // 고정 대사 + 누를 때마다 보드 데이터로 만드는 대사(talkData). 짧게, 말끝은 "~롱"
+  const LINES=["도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?","원문 링크도 꼭 확인해롱","하루 네 번 새 소식이 와롱","캘린더에서 날짜를 눌러 봐롱","지도 열면 도쿄 행사가 보여롱","원문/한국어 바꿀 수 있어롱","만갤 이어 보기 해 봤어롱?","弾幕 탭에서 릴리랑 놀자롱","익명 게시판에 한마디 남겨롱","쓰다듬어 줘서 고마워롱","졸려롱… zzz"];
+  const cut=(t,n=13)=>{t=String(t||"").replace(/[「」『』]/g,"").replace(/\s+/g," ").trim();return t.length>n?t.slice(0,n)+"…":t};
+  function talkData(){
+    const out=[],now=Date.now(),live=[...items.values()].filter(it=>notOver({it}));
+    if(live.length) out.push(`지금 소식 ${live.length}개 모아놨어롱`);
+    if(trends.length){const k=trends[Math.floor(Math.random()*Math.min(5,trends.length))];out.push(`요즘 「${cut(k,10)}」 얘기가 많아롱`)}
+    const dl=upcomingDeadlines();if(dl.length){const {it,d,label}=dl[0],n=Math.ceil((d-now)/DAY);out.push(`${n<=0?"오늘":"D-"+n} ${label}! 「${cut(tx(it,"title"),11)}」`)}
+    const week=live.filter(it=>{const d=parseDate(it.eventDate);return d&&d>now&&d-now<7*DAY});
+    const lv=week.filter(it=>it.category==="live").length;if(lv)out.push(`이번 주 공연이 ${lv}개 있어롱`);
+    const cb=week.filter(it=>it.category==="collab"||it.category==="popup");if(cb.length){const it=cb[Math.floor(Math.random()*cb.length)];out.push(`곧 열려롱: 「${cut(tx(it,"title"),12)}」`)}
+    const ak=live.filter(it=>AKIBA_RE.test([it.venue,it.title,it.summary].join(" "))).length;if(ak)out.push(`아키바 소식 ${ak}개! 지도 아래에 있어롱`);
+    const vt=live.filter(isVtuber).length;if(vt)out.push(`버튜버 소식은 ${vt}개야롱`);
+    if(season&&season.list.length){const wd=new Date(now+9*3600e3).getUTCDay(),today=season.list.filter(a=>a.d===wd&&a.tm);
+      if(today.length){const a=today[Math.floor(Math.random()*today.length)];out.push(`오늘 ${a.tm} 「${cut(a.t,10)}」 방송이롱`)}
+      out.push(`이번 시즌 애니 ${season.list.length}편 정리해 뒀어롱`)}
+    if(weekly&&weekly.picks&&weekly.picks.length){const p=weekly.picks[Math.floor(Math.random()*weekly.picks.length)];out.push(`주간 요약 봤어롱? 「${cut(p.title,11)}」`)}
+    try{const hi=Number(localStorage.getItem("dm-hi")||0);if(hi>0)out.push(`弾幕 최고 기록 ${hi.toLocaleString()}점이롱`)}catch{}
+    return out;
+  }
+  let hide=false, last="", t=0; try{hide=localStorage.getItem("matome-mochi")==="off"}catch{}
   const sync=()=>{box.hidden=hide;back.hidden=!hide};
   sync();
-  $("#mochiBody").onclick=()=>{box.classList.remove("spin");void box.offsetWidth;box.classList.add("spin","talk");say.textContent=LINES[i++%LINES.length];
-    clearTimeout(t);t=setTimeout(()=>box.classList.remove("talk","spin"),1800)};
+  function pick(){const data=talkData(),pool=data.length&&Math.random()<.65?data:LINES;let s,k=0;do{s=pool[Math.floor(Math.random()*pool.length)]}while(s===last&&pool.length>1&&++k<6);return last=s}
+  $("#mochiBody").onclick=()=>{box.classList.remove("spin");void box.offsetWidth;box.classList.add("spin","talk");say.textContent=pick();
+    clearTimeout(t);t=setTimeout(()=>box.classList.remove("talk","spin"),2600)};
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
 })();
