@@ -222,52 +222,93 @@ def draw_bell():
     return p.done(colors=32, outline='#1d3a6b')
 
 # ---------------- 배경: 妖精の森 180×240 (세로로 이어 붙는 타일, 게임에서 2배) ----------------
-def draw_bg(seed=7):
-    random.seed(seed); W, H = 180, 240; p = Painter(W, H, ss=2)
-    p.rect((0, 0, W, H), c1='#0b2a2e', c2='#07141f', kind='lin', p1=(0, 0), p2=(0, H))
+def draw_bg(seed=11):
+    random.seed(seed); W, H = 180, 240; p = Painter(W, H, ss=3); TAU = math.tau
     wrap = lambda fn, y: [fn(y), fn(y - H), fn(y + H)]
-    # 먼 나무 줄기
-    for _ in range(9):
-        x = random.uniform(0, W); w = random.uniform(5, 11); y = random.uniform(0, H)
-        wrap(lambda yy: p.poly([(x - w / 2, yy - 140), (x + w / 2, yy - 140), (x + w / 2 + 2, yy + 140), (x - w / 2 - 2, yy + 140)], c1='#14343a', c2='#0a1f24', kind='lin', p1=(x - w, 0), p2=(x + w, 0)), y)
-    # 먼 잎 덩어리(푸른 톤), 그 위에 중간 잎(조금 밝게)
-    for _ in range(140):
-        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(10, 26)
-        c = random.choice(['#1d5c4a', '#226b50', '#17493f', '#2a7d58'])
-        wrap(lambda yy: p.ellipse((x - r, yy - r * .7, x + r, yy + r * .7), c1=c, c2='#0b2a2e', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r * 1.1, 0), alpha=215), y)
-    for _ in range(60):
-        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(5, 12)
-        c = random.choice(['#2f8a5a', '#3a9c62', '#2a7d58'])
-        wrap(lambda yy: p.ellipse((x - r, yy - r * .6, x + r, yy + r * .6), c1=c, c2='#14433a', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r, 0), alpha=200), y)
-    # 안개 띠
-    for _ in range(3):
-        y = random.uniform(0, H); wrap(lambda yy: p.rect((0, yy - 14, W, yy + 14), c1='#9fe3c0', alpha=16), y)
-    # 빛줄기
+    def soft(draw_fn, blur):  # 흐린 층(빛줄기·안개)
+        g = Image.new('RGBA', p.im.size, (0, 0, 0, 0)); d = ImageDraw.Draw(g); draw_fn(d); p.im.alpha_composite(g.filter(ImageFilter.GaussianBlur(p.s(blur))))
+    def canopy(x, y, r, dark, light, n=14, squash=.75):  # 잎 뭉치: 작은 잎을 겹쳐 위쪽이 밝게
+        leaves = sorted([(random.uniform(0, TAU), random.uniform(0, r * .85), random.uniform(r * .22, r * .42)) for _ in range(n)], key=lambda t: -math.sin(t[0]))
+        for a, d, lr in leaves:
+            lx, dy = x + math.cos(a) * d, math.sin(a) * d * squash
+            wrap(lambda yy, lx=lx, dy=dy, lr=lr: p.ellipse((lx - lr, yy + dy - lr * .8, lx + lr, yy + dy + lr * .8), c1=light, c2=dark, kind='rad', p1=(lx - lr * .45, yy + dy - lr * .55), p2=(lr * 1.35, 0)), y)
+    def trunk(x, w, top, bot, c1, c2, bark=True):
+        wrap(lambda yy: p.poly([(x - w / 2, yy - top), (x + w / 2, yy - top), (x + w / 2 + w * .18, yy + bot), (x - w / 2 - w * .18, yy + bot)], c1=c1, c2=c2, kind='lin', p1=(x - w / 2, 0), p2=(x + w / 2 + w * .2, 0)), 0)
+        if bark:
+            for _ in range(int(H / 9)):
+                yy0 = random.uniform(0, H); wrap(lambda yy: p.line([(x - w / 2 + random.uniform(0, w * .25), yy), (x + w / 2 - random.uniform(0, w * .25), yy + random.uniform(-5, 5))], '#120a05', .7, 110), yy0)
+    # 1) 깊이 그라데이션
+    p.rect((0, 0, W, H), c1='#0d3a40', c2='#071a22', kind='lin', p1=(0, 0), p2=(0, H))
+    # 2) 먼 숲: 안개 낀 청록 실루엣(대비 낮게)
+    for _ in range(14):
+        x = random.uniform(0, W); trunk(x, random.uniform(4, 9), 150, 150, '#1c5a5c', '#12404a', bark=False)
+    for _ in range(40):
+        canopy(random.uniform(0, W), random.uniform(0, H), random.uniform(14, 24), '#114248', '#1f6a62', n=10)
+    soft(lambda d: [d.rectangle([0, 0, p.im.size[0], p.im.size[1]], fill=(120, 190, 180, 40))], 1)
+    # 3) 빛줄기
     for _ in range(4):
-        x = random.uniform(10, W - 10)
-        wrap(lambda yy: p.poly([(x - 6, yy - 160), (x + 6, yy - 160), (x + 30, yy + 160), (x + 2, yy + 160)], c1='#9fe3c0', c2='#9fe3c0', alpha=22), random.uniform(0, H))
-    # 가까운 나무 줄기(굵고 갈색)
-    for x in (random.uniform(0, 30), random.uniform(W - 30, W)):
-        w = random.uniform(14, 22)
-        wrap(lambda yy: p.poly([(x - w / 2, yy - 150), (x + w / 2, yy - 150), (x + w / 2 + 3, yy + 150), (x - w / 2 - 3, yy + 150)], c1='#4a3320', c2='#1c110a', kind='lin', p1=(x - w / 2, 0), p2=(x + w / 2, 0)), 0)
-        for k in range(14):
-            yy = random.uniform(0, H); wrap(lambda y2: p.line([(x - w / 2 + random.uniform(0, 3), y2), (x + w / 2 - random.uniform(0, 3), y2 + random.uniform(-6, 6))], '#120a05', .8, 120), yy)
-    # 가까운 잎(밝은 초록, 가장자리에)
-    for _ in range(70):
-        side = random.random() < .5; x = random.uniform(0, 45) if side else random.uniform(W - 45, W); y = random.uniform(0, H); r = random.uniform(6, 16)
-        c = random.choice(['#2f8a4f', '#3fa35a', '#5ac46b', '#2a7a46'])
-        wrap(lambda yy: p.ellipse((x - r, yy - r * .6, x + r, yy + r * .6), c1=c, c2='#0f3a24', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r, 0), alpha=235), y)
-    # 버섯·꽃 몇 개
-    for _ in range(10):
-        x = random.choice([random.uniform(8, 40), random.uniform(W - 40, W - 8)]); y = random.uniform(0, H); r = random.uniform(2.5, 4.5)
-        def shroom(yy, x=x, r=r):
-            p.rect((x - r * .4, yy, x + r * .4, yy + r * 1.3), c1='#f1e3c8'); p.ellipse((x - r, yy - r * .9, x + r, yy + r * .4), c1='#ff5c5c', c2='#9e1f36', kind='rad', p1=(x - r * .3, yy - r * .5), p2=(r * 1.2, 0))
-            p.ellipse((x - r * .5, yy - r * .6, x - r * .1, yy - r * .25), c1='#fff6f0')
-        wrap(shroom, y)
+        x = random.uniform(20, W - 20); y0 = random.uniform(0, H)
+        wrap(lambda yy, x=x: soft(lambda d: d.polygon([(p.s(x - 5), p.s(yy - 170)), (p.s(x + 7), p.s(yy - 170)), (p.s(x + 34), p.s(yy + 170)), (p.s(x + 6), p.s(yy + 170))], fill=(200, 255, 210, 34)), 2.5), y0)
+    # 4) 중간 나무: 갈색 줄기 + 가지 + 잎 뭉치
+    mids = [random.uniform(6, 60), random.uniform(120, 174), random.uniform(60, 120)]
+    for x in mids:
+        w = random.uniform(9, 14); trunk(x, w, 150, 150, '#5a3d24', '#20120a')
+        for _ in range(5):
+            y = random.uniform(0, H); dx = random.choice([-1, 1]) * random.uniform(14, 30)
+            wrap(lambda yy, x=x, dx=dx: p.line([(x, yy), (x + dx, yy - abs(dx) * .5)], '#2b1a0e', 1.6), y)
+            canopy(x + dx, y - abs(dx) * .5, random.uniform(11, 17), '#17503a', '#3f9a5a', n=12)
     for _ in range(26):
-        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(.8, 1.6); c = random.choice(['#ffd6f5', '#fff6a0', '#bfe3ff', '#ffffff'])
-        wrap(lambda yy: p.ellipse((x - r, yy - r, x + r, yy + r), c1=c, alpha=220), y)
-    return p.done(colors=48, outline=None, pixel_alpha=False)
+        canopy(random.uniform(0, W), random.uniform(0, H), random.uniform(12, 20), '#164a36', '#3a8f55', n=12)
+    # 5) 가운데 개울(세로로 주기 함수라 타일이 이어진다) + 돌 + 연잎
+    cxs = lambda t: 90 + 20 * math.sin(TAU * t / H) + 9 * math.sin(TAU * 2 * t / H + 1.3)
+    ts = list(range(-H, 2 * H + 1, 3)); left = [(cxs(t) - 16 - 3 * math.sin(TAU * 3 * t / H), t) for t in ts]; right = [(cxs(t) + 16 + 3 * math.cos(TAU * 3 * t / H), t) for t in ts]
+    p.poly(left + right[::-1], c1='#1f5c58', c2='#123a3c', kind='lin', p1=(60, 0), p2=(120, 0))  # 둑(이끼)
+    left2 = [(x + 4, t) for x, t in left]; right2 = [(x - 4, t) for x, t in right]
+    p.poly(left2 + right2[::-1], c1='#1f5f8a')
+    left3 = [(x + 9, t) for x, t in left]; right3 = [(x - 9, t) for x, t in right]
+    p.poly(left3 + right3[::-1], c1='#4fb6c9', alpha=170)
+    left4 = [(x + 13, t) for x, t in left]; right4 = [(x - 13, t) for x, t in right]
+    p.poly(left4 + right4[::-1], c1='#8fe3ea', alpha=110)
+    for t in range(-H, 2 * H, 5):
+        x = cxs(t) + random.uniform(-11, 11); p.line([(x, t), (x + random.uniform(2, 7), t + random.uniform(.5, 2))], '#f0ffff', .6, random.randint(120, 220))
+    for _ in range(22):
+        t = random.uniform(0, H); side = random.choice([-1, 1]); x = cxs(t) + side * random.uniform(13, 19); r = random.uniform(2, 4.5)
+        wrap(lambda yy, x=x, r=r: p.ellipse((x - r, yy - r * .7, x + r, yy + r * .7), c1='#9aa7b0', c2='#3b4650', kind='rad', p1=(x - r * .4, yy - r * .5), p2=(r * 1.3, 0)), t)
+    for _ in range(9):
+        t = random.uniform(0, H); x = cxs(t) + random.uniform(-9, 9); r = random.uniform(2.5, 4)
+        wrap(lambda yy, x=x, r=r: [p.ellipse((x - r, yy - r * .6, x + r, yy + r * .6), c1='#7fd36b', c2='#2a7a3a', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r * 1.2, 0)), p.poly([(x, yy), (x + r, yy - r * .6), (x + r, yy - r * .1)], c1='#2a6b96', alpha=200)], t)
+    # 6) 가까운 층(양쪽 가장자리): 큰 잎 뭉치, 양치식물, 버섯, 꽃
+    for _ in range(18):
+        side = random.random() < .5; x = random.uniform(-6, 40) if side else random.uniform(W - 40, W + 6)
+        canopy(x, random.uniform(0, H), random.uniform(16, 26), '#0f3b26', '#4fb86a', n=16)
+    for _ in range(14):
+        side = random.random() < .5; x = random.uniform(2, 34) if side else random.uniform(W - 34, W - 2); y = random.uniform(0, H)
+        ang = random.uniform(-.9, .9) + (0 if side else math.pi); L = random.uniform(16, 26)
+        def fern(yy, x=x, ang=ang, L=L):
+            pts = []
+            for i in range(7):
+                t = i / 6; px, py = x + math.cos(ang) * L * t, yy - math.sin(ang) * L * t - L * .3 * t; wv = (1 - t) * 4 + .5
+                pts.append((px + math.sin(ang) * wv, py + math.cos(ang) * wv))
+            for i in range(6, -1, -1):
+                t = i / 6; px, py = x + math.cos(ang) * L * t, yy - math.sin(ang) * L * t - L * .3 * t; wv = (1 - t) * 4 + .5
+                pts.append((px - math.sin(ang) * wv, py - math.cos(ang) * wv))
+            p.poly(pts, c1='#6fd27a', c2='#1d5a30', kind='lin', p1=(x, yy), p2=(x + math.cos(ang) * L, yy - math.sin(ang) * L))
+            p.line([(x, yy), (x + math.cos(ang) * L, yy - math.sin(ang) * L - L * .3)], '#2a7a3a', .6, 170)
+        wrap(fern, y)
+    for _ in range(9):
+        x = random.choice([random.uniform(8, 42), random.uniform(W - 42, W - 8)]); y = random.uniform(0, H); r = random.uniform(2.5, 5)
+        def shroom(yy, x=x, r=r):
+            p.rect((x - r * .4, yy, x + r * .4, yy + r * 1.4), c1='#f4e6cc', c2='#b89a78', kind='lin', p1=(x - r * .4, 0), p2=(x + r * .4, 0))
+            p.ellipse((x - r, yy - r * .9, x + r, yy + r * .4), c1='#ff6b6b', c2='#8e1a2e', kind='rad', p1=(x - r * .35, yy - r * .6), p2=(r * 1.25, 0))
+            for dx, dy, rr in ((-.5, -.5, .22), (.3, -.7, .18), (.1, -.1, .15)): p.ellipse((x + dx * r - rr * r, yy + dy * r - rr * r, x + dx * r + rr * r, yy + dy * r + rr * r), c1='#fff6f0')
+        wrap(shroom, y)
+    for _ in range(40):
+        x = random.choice([random.uniform(0, 48), random.uniform(W - 48, W)]); y = random.uniform(0, H); r = random.uniform(1, 2); c = random.choice(['#ffd6f5', '#fff6a0', '#ffffff', '#ffb3c7'])
+        wrap(lambda yy, x=x, r=r, c=c: [p.ellipse((x - r, yy - r, x + r, yy + r), c1=c, alpha=235), p.ellipse((x - r * .35, yy - r * .35, x + r * .35, yy + r * .35), c1='#ffd166', alpha=230)], y)
+    # 7) 안개 띠·주변 어둡게
+    for _ in range(3):
+        y = random.uniform(0, H); wrap(lambda yy: soft(lambda d: d.rectangle([0, p.s(yy - 10), p.im.size[0], p.s(yy + 10)], fill=(160, 230, 200, 26)), 3), y)
+    return p.done(colors=64, outline=None, pixel_alpha=False)
 
 ASSETS = {'player': draw_player, 'mush': draw_mush, 'wisp': draw_wisp, 'chest': draw_chest, 'boss': draw_boss,
           'berry': draw_berry, 'coin': draw_coin, 'bell': draw_bell, 'bg': draw_bg}
