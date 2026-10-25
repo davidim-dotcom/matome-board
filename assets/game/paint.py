@@ -506,22 +506,47 @@ def draw_bg3(seed=31):
         y = random.uniform(0, H); wrap(lambda yy: soft(lambda d: d.rectangle([0, p.s(yy - 12), p.im.size[0], p.s(yy + 12)], fill=(200, 180, 255, 24)), 3), y)
     return p.done(colors=64, outline=None, pixel_alpha=False)
 
-ASSETS = {'player': draw_player, 'mush': draw_mush, 'wisp': draw_wisp, 'chest': draw_chest, 'boss': draw_boss, 'bg': draw_bg,
-          'drone': draw_drone, 'holo': draw_holo, 'vending': draw_vending, 'boss2': draw_boss2, 'bg2': draw_bg2,
-          'foxfire': draw_foxfire, 'shiki': draw_shiki, 'komainu': draw_komainu, 'boss3': draw_boss3, 'bg3': draw_bg3,
-          'berry': draw_berry, 'coin': draw_coin, 'bell': draw_bell}
+# ---------------- 배경: 우주 180×240 세로 타일 3종 (별·성운·행성·파편). 캐릭터는 운영자 시트에서 잘라 쓰므로 생성기는 배경만 만든다 ----------------
+def draw_space(seed, base, nebula, accent, planet=True):
+    random.seed(seed); W, H = 180, 240; p = Painter(W, H, ss=3); TAU = math.tau
+    wrap = lambda fn, y: [fn(y), fn(y - H), fn(y + H)]
+    def soft(draw_fn, blur):
+        g = Image.new('RGBA', p.im.size, (0, 0, 0, 0)); d = ImageDraw.Draw(g); draw_fn(d); p.im.alpha_composite(g.filter(ImageFilter.GaussianBlur(p.s(blur))))
+    p.rect((0, 0, W, H), c1=base[0], c2=base[1], kind='lin', p1=(0, 0), p2=(0, H))
+    for _ in range(14):  # 성운
+        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(25, 60); c = hexrgb(random.choice(nebula))
+        wrap(lambda yy, x=x, r=r, c=c: soft(lambda d: d.ellipse([p.s(x - r), p.s(yy - r * .6), p.s(x + r), p.s(yy + r * .6)], fill=c + (38,)), 6), y)
+    for _ in range(260):  # 별
+        x, y = random.uniform(0, W), random.uniform(0, H); r = random.choice([.5, .5, .6, .8, 1, 1.3]); c = random.choice(['#ffffff', '#ffffff', '#cfe6ff', '#ffe9c4', accent])
+        wrap(lambda yy, x=x, r=r, c=c: p.ellipse((x - r, yy - r, x + r, yy + r), c1=c, alpha=random.randint(120, 255)), y)
+    for _ in range(6):  # 큰 별 십자 반짝임
+        x, y = random.uniform(0, W), random.uniform(0, H)
+        wrap(lambda yy, x=x: [p.line([(x - 3, yy), (x + 3, yy)], '#ffffff', .5, 200), p.line([(x, yy - 3), (x, yy + 3)], '#ffffff', .5, 200), p.glow((x, yy), 2.5, accent, 120, .8)], y)
+    if planet:
+        x, y, r = random.uniform(30, W - 30), random.uniform(0, H), random.uniform(16, 26)
+        def pl(yy):
+            p.glow((x, yy), r * 1.25, accent, 70, 2)
+            p.ellipse((x - r, yy - r, x + r, yy + r), c1=nebula[0], c2='#06070f', kind='rad', p1=(x - r * .45, yy - r * .45), p2=(r * 1.5, 0))
+            for k in range(4): p.line([(x - r * .9, yy - r * .4 + k * r * .3), (x + r * .9, yy - r * .3 + k * r * .3)], accent, .6, 60)
+            p.fill(lambda d, v: d.ellipse([p.s(x - r * 1.5), p.s(yy - r * .35), p.s(x + r * 1.5), p.s(yy + r * .35)], outline=v, width=max(1, round(p.s(1.1)))), c1=accent, alpha=150)
+        wrap(pl, y)
+    for _ in range(22):  # 파편·소행성
+        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(1, 3)
+        wrap(lambda yy, x=x, r=r: p.ellipse((x - r, yy - r * .8, x + r, yy + r * .8), c1='#6b6f85', c2='#262a3a', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r * 1.3, 0)), y)
+    return p.done(colors=64, outline=None, pixel_alpha=False)
+
+def draw_space1(): return draw_space(41, ('#0a0f2e', '#05061a'), ['#3a2a7a', '#1d4a7a', '#4a1d6b'], '#7df9ff')
+def draw_space2(): return draw_space(42, ('#061225', '#02060f'), ['#123c6b', '#0f5a7a', '#2a2a8a'], '#5ad1ff', planet=False)
+def draw_space3(): return draw_space(43, ('#1a0a1a', '#06030c'), ['#7a1d3a', '#5a1a5a', '#8a3a1a'], '#ff6a3a')
+
+ASSETS = {'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3}
 
 def main():
     ims = {n: f() for n, f in ASSETS.items()}
     if len(sys.argv) > 1:
-        scale = 4; gap = 12; chars = {k: v for k, v in ims.items() if not k.startswith('bg')}; bgs = [ims[k] for k in ('bg', 'bg2', 'bg3')]
-        W = sum(i.width * scale + gap for i in chars.values()); H = max(i.height for i in chars.values()) * scale
-        bw = sum(b.width * 2 + gap for b in bgs); bh = max(b.height * 2 for b in bgs)
-        sheet = Image.new('RGBA', (max(W, bw), H + bh + 20), (18, 20, 40, 255)); x = 0
-        for i in chars.values():
-            sheet.alpha_composite(i.resize((i.width * scale, i.height * scale), Image.NEAREST), (x, H - i.height * scale)); x += i.width * scale + gap
-        x = 0
-        for b in bgs: sheet.alpha_composite(b.resize((b.width * 2, b.height * 2), Image.NEAREST), (x, H + 20)); x += b.width * 2 + gap
+        bgs = list(ims.values()); gap = 12
+        sheet = Image.new('RGBA', (sum(b.width * 2 + gap for b in bgs), max(b.height * 2 for b in bgs)), (18, 20, 40, 255)); x = 0
+        for b in bgs: sheet.alpha_composite(b.resize((b.width * 2, b.height * 2), Image.NEAREST), (x, 0)); x += b.width * 2 + gap
         sheet.save(sys.argv[1]); print('preview', sys.argv[1]); return
     for n, i in ims.items(): i.save(os.path.join(HERE, n + '.png'), optimize=True); print(n, i.size)
 
