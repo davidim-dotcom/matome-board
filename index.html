@@ -923,6 +923,17 @@ initStore();
 .dm-ctl button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
 .dm-ctl button.bomb{background:#4a1d4d;color:#ffd6f5;border-color:#a04aa6}
 /* 스테이지 선택: 게임 아래 5칸. 누르면 그 스테이지부터, 클리어한 스테이지는 ★ */
+.dm-skin{margin:0 0 10px}
+.dm-skin .lab{font-size:12px;color:var(--muted);margin:0 0 6px}
+.dm-skin .sk{display:flex;gap:6px}
+.dm-skin .sk button{flex:1;padding:8px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;touch-action:manipulation}
+.dm-skin .sk button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
+.dm-skin .mem{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:8px;padding-bottom:2px}
+.dm-skin .mem::-webkit-scrollbar{display:none}
+.dm-skin .mem button{flex:none;width:56px;padding:4px 2px 3px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;touch-action:manipulation}
+.dm-skin .mem button img{display:block;height:30px;margin:0 auto;image-rendering:pixelated}
+.dm-skin .mem button span{display:block;font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm-skin .mem button[aria-pressed="true"]{border-color:#ff5c9a;box-shadow:0 0 0 1px #ff5c9a inset}
 .dm-stages{margin-top:10px}
 .dm-stages .lab{font-size:12px;color:var(--muted);margin:0 0 6px}
 .dm-stages .row5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
@@ -939,6 +950,7 @@ initStore();
 'use strict';
 const sec=document.getElementById('game');if(!sec)return;
 sec.innerHTML=`<div class="panel" style="padding:12px">
+<div class="dm-skin"><p class="lab">SKIN · 스킨 선택</p><div class="sk" id="dmSkin"><button type="button" data-skin="base">기본 · 릴리</button><button type="button" data-skin="holo">ホロ</button></div><div class="mem" id="dmMem" hidden></div></div>
 <div class="dm-hud"><span>SCORE <b id="dmScore">0</b></span><span>GRAZE <b id="dmGraze">0</b></span><span>残機 <b id="dmLives">5</b> · 結界 <b id="dmBombs">2</b></span><span>HI <b id="dmHi">0</b></span></div>
 <div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas></div>
 <div class="dm-ctl"><button id="dmSlow" aria-pressed="false">低速 (SHIFT)</button><button class="bomb" id="dmBomb">結界 (X)</button><button id="dmSound" aria-pressed="true">♪ BGM</button></div>
@@ -948,10 +960,23 @@ const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=48
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
 // ---------- sprites (assets/game/*.png, 픽셀 아트. 못 읽으면 도형으로 대신 그림) ----------
-const IMG={};for(const n of ['ufo_o','turret','xwing','fort','fort2','fortcore','fa_spoke','fa_orbs','fa_cres','fa_fan','eye','ushp','bg4','bg5','player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
-function spr(n,x,y,sc,a,rot){const i=IMG[n];if(!i||!i.naturalWidth)return false;const w=i.naturalWidth*sc,h=i.naturalHeight*sc;cx.save();if(a!=null)cx.globalAlpha=a;if(rot){cx.translate(x,y);cx.rotate(rot);cx.drawImage(i,-w/2,-h/2,w,h)}else cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),w,h);cx.restore();return true}
+const IMG={};for(const n of ['hc_sora_0','hc_sora_1','hc_sora_2','hc_sora_m','hc_suisei_0','hc_suisei_1','hc_suisei_2','hc_suisei_m','hc_pekora_0','hc_pekora_1','hc_pekora_2','hc_pekora_m','hc_aqua_0','hc_aqua_1','hc_aqua_2','hc_aqua_m','hc_marine_0','hc_marine_1','hc_marine_2','hc_marine_m','hc_fubuki_0','hc_fubuki_1','hc_fubuki_2','hc_fubuki_m','hc_subaru_0','hc_subaru_1','hc_subaru_2','hc_subaru_m','hc_korone_0','hc_korone_1','hc_korone_2','hc_korone_m','hc_okayu_0','hc_okayu_1','hc_okayu_2','hc_okayu_m','hc_miko_0','hc_miko_1','hc_miko_2','hc_miko_m','hc_calli_0','hc_calli_1','hc_calli_2','hc_calli_m','hc_mumei_0','hc_mumei_1','hc_mumei_2','hc_mumei_m','hc_ollie_0','hc_ollie_1','hc_ollie_2','hc_ollie_m','hc_fauna_0','hc_fauna_1','hc_fauna_2','hc_fauna_m','hm_slime_b','hm_wisp','hm_chest','hm_drone','hm_slime_g','hm_golem','hm_skel','hm_devil','hm_crystal','hm_flame','hm_bflame','hm_skull','hm_rdevil','hm_knight','hb_ship','hb_mkitsune','hb_mreaper','hb_dragon','hb_fox','hb_reaper','hx_purple','hx_green','hx_orange','hx_blue','hx_clock','hx_red','hx_foot','ufo_o','turret','xwing','fort','fort2','fortcore','fa_spoke','fa_orbs','fa_cres','fa_fan','eye','ushp','bg4','bg5','player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
+function sprFit(n,x,y,box,a){const i=IMG[SKMAP[n]||n];if(!i||!i.naturalWidth)return false;return spr(n,x,y,box/Math.max(i.naturalWidth,i.naturalHeight),a)}
+function spr(n,x,y,sc,a,rot){const i=IMG[SKMAP[n]||n];if(!i||!i.naturalWidth)return false;const w=i.naturalWidth*sc,h=i.naturalHeight*sc;cx.save();if(a!=null)cx.globalAlpha=a;if(rot){cx.translate(x,y);cx.rotate(rot);cx.drawImage(i,-w/2,-h/2,w,h)}else cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),w,h);cx.restore();return true}
 let hi=0;try{hi=Number(localStorage.getItem('dm-hi')||0)}catch(e){}
 $('dmHi').textContent=hi.toLocaleString();
+// ---------- 스킨: base(릴리·시트 1/2) / holo(홀로 멤버·시트 3/4). SKMAP 은 그림 이름 바꿔치기, HOLO_STAGES 는 스테이지 표 덮어쓰기 ----------
+const HOLO_MEM=["sora", "suisei", "pekora", "aqua", "marine", "fubuki", "subaru", "korone", "okayu", "miko", "calli", "mumei", "ollie", "fauna"],HOLO_NAME={"sora": "ときのそら", "suisei": "星街すいせい", "pekora": "兎田ぺこら", "aqua": "湊あくあ", "marine": "宝鐘マリン", "fubuki": "白上フブキ", "subaru": "大空スバル", "korone": "戌神ころね", "okayu": "猫又おかゆ", "miko": "さくらみこ", "calli": "森カリオペ", "mumei": "七詩ムメイ", "ollie": "クレイジー・オリー", "fauna": "セレス・ファウナ"};
+const HOLO_STAGES=[
+  {name:'スライム平原',a:'hm_slime_b',b:'hm_wisp',mid:'hm_chest',midName:'ミミック宝箱',ms:1,boss:'hb_ship',bossName:'幽霊船「キャプテン・ゴースト」',spells:['必殺「ゴースト・キャノン」','必殺「幽霊の大渦」','必殺「海賊王の呪い -Last Word-」'],bs:1,face:'hb_ship',forms:null,fsc:null,rival:false,aura:false,spellArt:['hx_green','hx_blue','hx_purple']},
+  {name:'機械の森',a:'hm_drone',b:'hm_slime_g',mid:'hm_golem',midName:'ストーンゴーレム',ms:1,boss:'hb_mkitsune',bossName:'機械九尾「メカ・コン」',spells:['必殺「狐火メカニクス」','必殺「九尾ミサイル」','必殺「メカ・コン・オーバードライブ」'],bs:1,face:'hb_mkitsune',forms:null,fsc:null,rival:false,aura:false,spellArt:['hx_orange','hx_red','hx_purple']},
+  {name:'骸骨城',a:'hm_skel',b:'hm_devil',mid:'hm_crystal',midName:'クリスタルゴーレム',midHp:1.4,ms:1,boss:'hb_mreaper',bossName:'機甲死神「ハーヴェスト」',spells:['必殺「ハーヴェスト・サイズ」','必殺「骸骨の行進」','必殺「収穫の時 -Last Word-」'],bs:1,face:'hb_mreaper',forms:null,fsc:null,rival:false,aura:false,spellArt:['hx_purple','hx_red','hx_blue']},
+  {name:'時計塔',a:'hm_flame',b:'hm_bflame',mid:'hb_fox',midName:'白狐「九尾」',ms:1,boss:'hb_dragon',bossName:'時計竜「クロノス」',spells:['必殺「時の歯車」','必殺「クロノ・ブレス」','必殺「時間停止 -Last Word-」'],bs:1,face:'hb_dragon',forms:null,fsc:null,rival:false,aura:false,spellArt:['hx_clock','hx_blue','hx_orange']},
+  {name:'冥界',a:'hm_skull',b:'hm_rdevil',mid:'hm_knight',midName:'冥界の騎士',ms:1,boss:'hb_reaper',bossName:'冥界の死神',spells:['必殺「冥府の鎌」','必殺「魂の葬列」','必殺「冥界の門 -Last Word-」'],bs:1,face:'hb_reaper',forms:null,fsc:null,rival:false,aura:true,spellArt:['hx_red','hx_purple','hx_clock']},
+];
+let skin='base',mem='suisei',SKMAP={};try{const v=JSON.parse(localStorage.getItem('dm-skin')||'{}');if(v.skin==='holo')skin='holo';if(HOLO_MEM.includes(v.mem))mem=v.mem}catch(e){}
+function applySkin(){SKMAP=skin==='holo'?{player:`hc_${mem}_0`,player_l:`hc_${mem}_1`,player_r:`hc_${mem}_2`,skill_b:`hc_${mem}_1`,cat:`hc_${mem}_m`,magic:'hx_foot',face_lilly2:`hc_${mem}_0`}:{};
+  STG=STAGES.map((st,i)=>skin==='holo'?Object.assign({},st,HOLO_STAGES[i]):st);try{localStorage.setItem('dm-skin',JSON.stringify({skin,mem}))}catch(e){}}
 let snd=true,selStage=0,cleared=[];try{cleared=JSON.parse(localStorage.getItem('dm-cleared')||'[]')||[]}catch(e){}
 // ---------- audio ----------
 let AC=null;function ac(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}
@@ -984,13 +1009,18 @@ const STAGES=[
 ];
 // 탄 그림: 구슬·불꽃·미사일·링·바늘·초승달은 시트 그림(속도 방향으로 회전), laser 만 선분으로 그림
 const BSPR={orb:['b_orb',.9,false],flame:['b_flame',.8,true],missile:['b_missile',.7,true],ring:['b_ring',.45,false],needle:['b_needle',.4,true],cres:['b_cres',.9,true]};
-const G={};const ST=()=>STAGES[G.stage];
-function renderStages(){const el=$('dmStages');if(!el)return;el.innerHTML=STAGES.map((st,i)=>`<button type="button" data-st="${i}" aria-pressed="${i===selStage}" title="${st.name}"><b>ST${i+1}${cleared.includes(i)?' <i class="star">★</i>':''}</b><span>${st.name}</span></button>`).join('')}
+let STG=null;const G={};const ST=()=>STG[G.stage];applySkin();
+function renderSkin(){document.querySelectorAll('#dmSkin [data-skin]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skin===skin)));const m=$('dmMem');m.hidden=skin!=='holo';
+  if(skin==='holo'&&!m.childElementCount)m.innerHTML=HOLO_MEM.map(k=>`<button type="button" data-mem="${k}" title="${HOLO_NAME[k]}"><img src="assets/game/hc_${k}_f.png" alt="" loading="lazy"><span>${HOLO_NAME[k]}</span></button>`).join('');
+  m.querySelectorAll('[data-mem]').forEach(b=>b.setAttribute('aria-pressed',String(skin==='holo'&&b.dataset.mem===mem)))}
+$('dmSkin').addEventListener('click',e=>{const b=e.target.closest('[data-skin]');if(!b)return;skin=b.dataset.skin;applySkin();renderSkin();renderStages();reset()});
+$('dmMem').addEventListener('click',e=>{const b=e.target.closest('[data-mem]');if(!b)return;mem=b.dataset.mem;applySkin();renderSkin()});
+function renderStages(){const el=$('dmStages');if(!el)return;el.innerHTML=STG.map((st,i)=>`<button type="button" data-st="${i}" aria-pressed="${i===selStage}" title="${st.name}"><b>ST${i+1}${cleared.includes(i)?' <i class="star">★</i>':''}</b><span>${st.name}</span></button>`).join('')}
 $('dmStages').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;selStage=Number(b.dataset.st);renderStages();reset();start()});
 function reset(){
   Object.assign(G,{t:0,score:0,graze:0,lives:5,bombs:2,power:1,items:0,state:'title',player:{x:W/2,y:H-70,inv:0,slow:false,tilt:0},pb:[],eb:[],en:[],drops:[],fx:[],boss:null,spellTimer:0,spell:null,spellClean:true,capture:0,bombT:0,shake:0,msg:'',msgT:0,wave:0,waveT:60,flash:0,stage:0,clearT:0,beams:[],cut:0,bombAnim:0,chain:null,tele:null});
 }
-reset();renderStages();
+reset();renderStages();renderSkin();
 // ---------- input ----------
 const keys={};let drag=null;const wrap=$('dmWrap');
 function pt(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*W/r.width,y:(t.clientY-r.top)*H/r.height}}
@@ -1194,16 +1224,16 @@ function draw(){
   if(G.state==='play'||G.state==='clear'){for(let i=0;i<Math.max(0,G.lives);i++)spr('heart',14+i*17,H-14,.62);for(let i=0;i<G.bombs;i++)spr('gem_p',W-14-i*14,H-15,1)}
   // 보스 등장 컷인: 릴리 vs 보스 초상
   if(G.cut>0&&G.boss){const t=G.cut>120?(150-G.cut)/30:G.cut<30?G.cut/30:1,st=ST();cx.save();cx.globalAlpha=t;cx.fillStyle='rgba(10,5,30,.7)';cx.fillRect(0,H*.2,W,70);
-    spr('face_lilly2',40+(1-t)*-40,H*.2+35,2.2);spr(st.face||'face_b1',W-50+(1-t)*40,H*.2+35,st.face==='face_pilot'?.85:1.1);
+    sprFit('face_lilly2',40+(1-t)*-40,H*.2+35,60);sprFit(st.face||'face_b1',W-50+(1-t)*40,H*.2+35,64);
     cx.fillStyle='#ffd6f5';cx.font='bold 16px serif';cx.textAlign='center';cx.fillText('VS',W/2,H*.2+30);cx.fillStyle='#fff';cx.font='bold 11px monospace';cx.fillText(st.bossName,W/2,H*.2+52);cx.restore()}
   // overlay text
   if(G.msgT>0&&G.state==='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
   if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
-    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText('MAID BUSTER LILLY  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
+    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText((skin==='holo'?'HOLO SKIN  ─  '+HOLO_NAME[mem]:'MAID BUSTER LILLY')+'  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
   if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,120);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText('再挑戦は画面タップ / Z',W/2,H/2+34)}
   if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
     [['SCORE',G.score.toLocaleString()],['GRAZE',String(G.graze)],['必殺 ノーダメ撃破',G.capture+' / '+(fin?STAGES.length*3:(G.stage+1)*3)],['ITEMS',String(G.items)]].forEach(([k,v],i)=>{cx.textAlign='left';cx.fillText(k,46,H/2-22+i*20);cx.textAlign='right';cx.fillText(v,W-46,H/2-22+i*20)});
-    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STAGES[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86)}
+    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STG[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86)}
   cx.restore();
   $('dmScore').textContent=G.score.toLocaleString();$('dmGraze').textContent=G.graze;$('dmLives').textContent=Math.max(0,G.lives);$('dmBombs').textContent=G.bombs;$('dmHi').textContent=hi.toLocaleString();
 }
