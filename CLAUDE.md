@@ -25,7 +25,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/.feedcache.json` | `site` 타입 소스의 RSS 자동 탐색 결과 캐시(사이트 URL → 피드 URL). 소스 RSS 주소가 바뀌면 해당 항목을 지워야 다시 찾는다. | 봇만 |
 | `assets/mascot.png` | 오른쪽 아래 마스코트(도로롱) 그림. 운영자 제공, 투명 PNG. | 사람 |
 | `assets/game/player.png` | 弾幕 자기이자 **사이트 대표 캐릭터 메이드 버스터 릴리**. 제목 옆 `.brand .lilly`(54px, pixelated, CSS 둥실거림)에도 쓴다. 바꾸려면 `extract.py`의 `PICKS['player']`를 바꾸거나 같은 크기 PNG로 교체. | 사람 |
-| `assets/og.png`, `assets/icon-512.png`, `assets/apple-touch-icon.png` | 링크 공유 미리보기 이미지(1200×630)와 파비콘·홈 화면 아이콘. `index.html` head의 og/twitter 메타와 `<link rel=icon>`이 가리킨다. 사이트 글꼴(Black Han Sans, IBM Plex Sans KR)로 Chromium에서 렌더한 PNG이며 원본 HTML은 저장소에 없다. 바꾸려면 같은 크기로 교체. | 사람 |
+| `assets/og.png`, `assets/icon-512.png`, `assets/apple-touch-icon.png` | 링크 공유 미리보기 이미지(1200×630)와 파비콘·홈 화면 아이콘. `index.html` head의 og/twitter 메타와 `<link rel=icon>`이 가리킨다. 사이트 글꼴(Black Han Sans, IBM Plex Sans KR)로 Chromium에서 렌더한 PNG이며 원본 HTML은 저장소에 없다. 2026-10에 og는 제목 오른쪽 빈자리에 릴리(`assets/game/player.png` 3배)를 합성했고, 아이콘은 사이트 다크 배경 둥근 사각형 + 분홍 테두리 위 릴리(512는 10배, 180은 3배)로 Pillow로 새로 만들었다(스크립트 미보존, 같은 방식으로 다시 그리면 됨). 바꾸려면 같은 크기로 교체. | 사람 |
 | `CHANGELOG.md` | 릴리즈별 변경 기록. 태그(`v1.0.0` …)와 함께 갱신한다. | 사람 |
 | `games/holo2048.html` | HoloStar 2048 탭의 독립 페이지(운영자 제작). iframe 으로만 쓰며 보드 코드와 섞지 않는다. 바꾸려면 파일을 통째로 교체. | 사람 |
 | `bbs/Code.gs` | 게시판 백엔드(Apps Script). 저장소에서는 실행되지 않고, 운영자가 스프레드시트에 붙여 넣어 배포하는 원본. | 사람 |
