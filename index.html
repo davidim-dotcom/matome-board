@@ -1035,67 +1035,112 @@ $('dmSound').addEventListener('click',()=>{snd=!snd;$('dmSound').setAttribute('a
 // ---------- BGM: 16비트풍 칩튠 시퀀서(스퀘어 리드 2성 + 트라이앵글 베이스 + 노이즈 드럼 + 딜레이). 16분음표 단위로 미리 스케줄 ----------
 // 곡은 [음(MIDI), 길이(16분음표 수)] 목록. 0 은 쉼표. 스테이지마다 조를 2씩 올리고 템포를 조금 높인다
 const BGM={cur:null,pos:0,next:0,timer:null,bus:null,delay:null};
-const SONGS={ // 스테이지 s1~s5, 보스 b1~b5, 타이틀. duty 는 펄스 폭(.125/.25/.5 = 패미컴 음색), tr 은 전체 옮김
-  s1:{bpm:150,duty:.25,chords:[[45,0],[41,1],[48,1],[43,1],[45,0],[41,1],[43,1],[40,1]],
+// ---------- BGM: 곡마다 장르가 다른 8비트 시퀀서 ----------
+// 곡 = { bpm, meter(한 마디 칸 수: 16=16분음표, 12=셋잇단 8분), swing(0~.33, 짝 없는 16분을 뒤로), tr(옮김), fx:{dt,fb,wet}(에코),
+//   chords:[[베이스 루트 MIDI, 장조?]], mel:[[MIDI|0, 칸 수]],
+//   lead:{duty, gain, vib(비브라토 깊이), harm(병행 화음 반음), oct2(옥타브 겹침 반음), slide(포르타멘토 초), tri(삼각파)},
+//   arp:{duty, gain, rate(칸), pat:[단조 기준 반음], oct}, pad:{gain}(삼각파 화음 지속),
+//   bass:{pat:'칸별 r R o O m b .', type:'tri'|'pulse', duty, gain, len(칸)}, kit:'rock'|'electro'|'metal'|'soft'|'orch'|'epic',
+//   dr:{k,s,h,o,t,c: 칸별 문자열(문자 = 친다, '.' = 쉼)} }
+const SONGS={
+  // 스테이지 1 ミニオン襲来: 경쾌한 팝 록
+  s1:{bpm:150,meter:16,kit:'rock',fx:{dt:.2,fb:.2,wet:.25},chords:[[45,0],[41,1],[48,1],[43,1],[45,0],[41,1],[43,1],[40,1]],
+    lead:{duty:.25,gain:.2,vib:.006,oct2:-12},bass:{pat:'r.R.r.R.r.R.o.R.',type:'tri',gain:.5,len:1.7},
+    dr:{k:'k.......k.k.....',s:'....s.......s...',h:'h.h.h.h.h.h.h.h.'},
     mel:[[76,2],[81,2],[84,2],[83,2],[81,2],[79,2],[76,4], [77,2],[81,2],[84,4],[81,2],[77,2],[79,4], [76,2],[79,2],[84,2],[86,2],[88,4],[86,2],[84,2], [83,2],[79,2],[74,2],[79,2],[83,4],[81,2],[79,2],
-         [81,2],[84,2],[88,4],[86,2],[84,2],[83,4], [81,2],[77,2],[81,2],[84,2],[86,4],[84,2],[81,2], [83,2],[86,2],[91,4],[90,2],[86,2],[83,4], [80,2],[83,2],[88,4],[86,2],[83,2],[80,2],[76,2]],
-    drums:'k.h.s.h.k.h.s.h.',bass:'rRrorRrr'},
-  s2:{bpm:156,duty:.125,chords:[[40,0],[36,1],[38,1],[35,1],[40,0],[36,1],[38,1],[35,1]],
-    mel:[[76,2],[79,2],[83,4],[81,2],[79,2],[78,2],[76,2], [72,2],[76,2],[79,4],[78,2],[76,2],[74,4], [74,2],[78,2],[81,4],[79,2],[78,2],[76,2],[74,2], [75,4],[78,4],[83,6],[0,2],
-         [83,2],[83,2],[88,4],[86,2],[83,2],[81,2],[79,2], [79,2],[84,2],[88,4],[86,2],[84,2],[83,4], [81,2],[86,2],[90,4],[88,2],[86,2],[84,2],[83,2], [87,4],[86,4],[83,8]],
-    drums:'k.h.s.hkk.h.s.h.',bass:'rRoRrRoR'},
-  s3:{bpm:144,duty:.5,chords:[[38,0],[46,1],[43,0],[45,1]],
-    mel:[[74,3],[77,1],[81,4],[79,2],[77,2],[76,4], [74,3],[77,1],[82,4],[81,2],[79,2],[77,4], [79,3],[82,1],[86,4],[84,2],[82,2],[81,4], [81,2],[76,2],[73,4],[76,2],[79,2],[81,4]],
-    drums:'k..hs..hk.k.s..h',bass:'r.Rrr.Ro'},
-  s4:{bpm:160,duty:.25,chords:[[43,1],[38,1],[40,0],[36,1],[45,0],[38,1],[43,1],[43,1]],
-    mel:[[79,2],[83,2],[86,4],[83,2],[86,2],[91,4], [90,2],[86,2],[81,4],[83,2],[86,2],[90,4], [88,2],[83,2],[79,4],[83,2],[88,2],[91,4], [88,4],[84,4],[86,4],[88,4],
-         [84,2],[88,2],[93,4],[91,2],[88,2],[84,4], [86,2],[90,2],[93,4],[90,2],[86,2],[81,4], [83,2],[86,2],[91,4],[90,2],[88,2],[86,2],[83,2], [79,8],[0,4],[74,2],[78,2]],
-    drums:'k.h.s.h.k.hks.h.',bass:'rRrRrRoR',tr:-12},
-  s5:{bpm:168,duty:.125,chords:[[36,0],[44,1],[46,1],[43,1]],
-    mel:[[72,1],[72,1],[75,2],[79,2],[84,2],[82,2],[79,2],[75,4], [80,2],[84,2],[87,4],[84,2],[80,2],[79,4], [82,2],[86,2],[89,4],[87,2],[86,2],[84,2],[82,2], [83,2],[79,2],[74,2],[79,2],[83,4],[86,4]],
-    drums:'k.hhs.hhk.hks.hh',bass:'rrRrrrRr'},
-  b1:{bpm:172,duty:.25,chords:[[38,0],[46,1],[43,0],[45,1]],
-    mel:[[74,1],[74,1],[77,2],[81,2],[86,2],[84,2],[81,2],[77,4], [82,2],[86,2],[89,4],[86,2],[82,2],[81,4], [79,2],[82,2],[86,2],[91,2],[89,2],[86,2],[82,4], [85,2],[88,2],[81,2],[88,2],[85,2],[81,2],[76,4]],
-    drums:'k.hhs.h.k.k.s.hh',bass:'rrRrrrRo'},
-  b2:{bpm:180,duty:.125,chords:[[42,0],[38,1],[40,1],[37,1]],
-    mel:[[78,1],[78,1],[81,2],[85,2],[90,2],[88,2],[85,2],[81,4], [86,2],[85,2],[81,2],[78,2],[74,4],[78,4], [80,2],[83,2],[88,4],[86,2],[83,2],[80,4], [85,2],[89,2],[92,4],[89,2],[85,2],[80,4]],
-    drums:'k.s.k.s.k.s.kks.',bass:'rRrRrRrR',tr:-12},
-  b3:{bpm:160,duty:.5,chords:[[34,0],[42,1],[39,0],[41,1]],
-    mel:[[70,4],[73,2],[77,2],[76,4],[73,4], [78,4],[77,2],[73,2],[70,8], [75,2],[78,2],[82,4],[80,2],[78,2],[77,4], [77,2],[81,2],[84,4],[81,2],[77,2],[76,4]],
-    drums:'k...s.h.k.k.s.h.',bass:'r.r.R.ro'},
-  b4:{bpm:170,duty:.25,chords:[[40,1],[45,1],[47,1],[40,1]],
-    mel:[[76,2],[80,2],[83,2],[88,4],[83,2],[80,4], [81,2],[85,2],[88,4],[85,2],[88,2],[93,4], [83,2],[87,2],[90,4],[87,2],[83,2],[78,4], [88,4],[87,2],[85,2],[83,4],[80,4]],
-    drums:'k.s.k.s.k.sks.s.',bass:'rRoRrRoR',tr:-12},
-  b5:{bpm:184,duty:.125,chords:[[36,0],[41,0],[44,1],[43,1],[36,0],[41,0],[44,1],[43,1]],
+         [81,2],[84,2],[88,4],[86,2],[84,2],[83,4], [81,2],[77,2],[81,2],[84,2],[86,4],[84,2],[81,2], [83,2],[86,2],[91,4],[90,2],[86,2],[83,4], [80,2],[83,2],[88,4],[86,2],[83,2],[80,2],[76,2]]},
+  // 스테이지 2 蒼の艦隊: 트랜스(4박 킥·오프비트 베이스·16분 아르페지오·긴 리드·패드)
+  s2:{bpm:138,meter:16,kit:'electro',fx:{dt:.33,fb:.4,wet:.45},chords:[[40,0],[36,1],[43,1],[38,1],[40,0],[36,1],[43,1],[38,1]],
+    lead:{duty:.5,gain:.16,vib:.012},arp:{duty:.125,gain:.07,rate:1,pat:[0,7,12,15,19,15,12,7],oct:24},pad:{gain:.05},
+    bass:{pat:'..R...R...R...R.',type:'pulse',duty:.25,gain:.22,len:1.6},
+    dr:{k:'k...k...k...k...',s:'....s.......s...',o:'..o...o...o...o.',h:'.h.h.h.h.h.h.h.h'},
+    mel:[[79,6],[78,2],[76,8], [76,6],[79,2],[84,8], [83,6],[81,2],[79,8], [78,8],[74,8], [79,6],[81,2],[83,8], [84,6],[83,2],[81,8], [79,4],[83,4],[86,8], [86,6],[85,2],[78,8]]},
+  // 스테이지 3 オーバーロード再臨: 어두운 앰비언트·잠입(느린 템포, 긴 에코, 드론 베이스, 셰이커)
+  s3:{bpm:96,meter:16,kit:'soft',fx:{dt:.47,fb:.55,wet:.6},chords:[[38,0],[43,0],[38,0],[45,1]],
+    lead:{tri:true,gain:.3,vib:.02},pad:{gain:.06},bass:{pat:'r...............',type:'tri',gain:.45,len:15},
+    dr:{k:'k.......k.......',s:'....s.......s..s',h:'..h...h...h...h.'},
+    mel:[[0,4],[74,4],[77,4],[76,4], [74,8],[0,4],[70,4], [69,4],[72,4],[74,2],[72,2],[69,4], [73,12],[0,4]]},
+  // 스테이지 4 要塞宙域: 영웅 행진(셋잇단 리듬, 4도 병행 화음, 팀파니·스네어 롤)
+  s4:{bpm:112,meter:12,kit:'orch',tr:-12,fx:{dt:.18,fb:.2,wet:.2},chords:[[43,1],[36,1],[38,1],[43,1],[40,0],[36,1],[38,1],[43,1]],
+    lead:{duty:.25,gain:.18,harm:-5,vib:.005},bass:{pat:'r..o..r..o..',type:'tri',gain:.5,len:2.5},
+    dr:{k:'k.....k.....',s:'s..s.ss..s..',c:'c...........'},
+    mel:[[79,3],[79,2],[79,1],[83,3],[86,3], [84,6],[83,3],[81,3], [81,3],[81,2],[83,1],[86,3],[90,3], [91,9],[0,3],
+         [88,3],[86,2],[84,1],[83,3],[79,3], [76,3],[79,3],[84,6], [83,3],[84,2],[86,1],[88,3],[90,3], [91,6],[86,3],[83,3]]},
+  // 스테이지 5 最終決戦: 드럼앤베이스(브레이크비트·빠른 펄스 베이스·12.5% 스탭)
+  s5:{bpm:172,meter:16,kit:'electro',fx:{dt:.17,fb:.25,wet:.25},chords:[[36,0],[44,1],[39,1],[46,1]],
+    lead:{duty:.125,gain:.17},bass:{pat:'r.r.rr.r..R.r.rr',type:'pulse',duty:.5,gain:.2,len:.9},
+    dr:{k:'k.........k.....',s:'....s..s.s..s..s',h:'.hhh.hhh.hhh.hhh'},
+    mel:[[84,1],[0,1],[84,1],[0,1],[82,2],[79,2],[0,2],[75,2],[77,2],[79,2], [80,2],[0,2],[80,2],[79,2],[75,4],[72,4], [79,1],[0,1],[79,1],[0,1],[82,2],[84,2],[0,2],[87,2],[86,2],[84,2], [82,4],[86,4],[89,4],[86,4]]},
+  // 보스 1 メイドボット: 하드 록(파워 코드 5도 화음, 16분 팜뮤트 베이스, 더블 킥)
+  b1:{bpm:168,meter:16,kit:'rock',fx:{dt:.12,fb:.15,wet:.15},chords:[[38,0],[46,1],[48,1],[45,1]],
+    lead:{duty:.5,gain:.15,harm:7,oct2:-12},bass:{pat:'rrrrrrrrrrrrrrrr',type:'pulse',duty:.25,gain:.18,len:.5},
+    dr:{k:'k.kk..k.k.kk..k.',s:'....s.......s...',h:'h.h.h.h.h.h.h.h.'},
+    mel:[[74,2],[74,1],[77,1],[74,2],[79,2],[74,1],[80,1],[79,2],[77,2],[74,2], [70,2],[70,1],[74,1],[77,4],[75,2],[74,2],[70,4], [72,2],[72,1],[76,1],[79,4],[77,2],[76,2],[72,4], [73,2],[76,2],[79,2],[81,2],[82,2],[81,2],[79,2],[76,2]]},
+  // 보스 2 ライバル: 펑크 셔플(스윙, 슬랩 베이스, 미끄러지는 리드)
+  b2:{bpm:132,meter:16,swing:.3,kit:'rock',fx:{dt:.22,fb:.2,wet:.2},chords:[[42,0],[47,1],[40,1],[45,1]],
+    lead:{duty:.25,gain:.2,slide:.05,vib:.008},bass:{pat:'r..R.r.Rr..R.ro.',type:'tri',gain:.55,len:1},
+    dr:{k:'k..k..k...k..k..',s:'....s.......s..s',h:'h.hh.hh.h.hh.hh.'},
+    mel:[[78,2],[81,1],[83,1],[85,2],[83,2],[81,1],[78,3],[0,4], [83,2],[85,1],[87,1],[90,2],[87,2],[85,2],[83,2],[80,4], [80,2],[83,1],[85,1],[88,2],[85,2],[83,1],[80,3],[0,4], [81,2],[85,2],[88,2],[90,4],[88,2],[85,4]]},
+  // 보스 3 オーバーロード Mk.II: 고딕 오르간(6/8 셋잇단, 오르간 겹음, 하프시코드 아르페지오, 드론)
+  b3:{bpm:92,meter:12,kit:'orch',fx:{dt:.4,fb:.45,wet:.5},chords:[[34,0],[42,1],[39,0],[41,1],[34,0],[42,1],[39,0],[41,1]],
+    lead:{duty:.5,gain:.13,harm:7,oct2:-12},arp:{duty:.125,gain:.06,rate:1,pat:[0,3,7,12,7,3],oct:24},pad:{gain:.05},
+    bass:{pat:'r...........',type:'tri',gain:.45,len:11.5},dr:{k:'k...........',t:'..........tt'},
+    mel:[[70,6],[73,3],[77,3], [78,9],[77,3], [75,6],[78,3],[82,3], [81,12], [82,6],[81,3],[78,3], [78,6],[77,3],[73,3], [75,3],[73,3],[70,3],[75,3], [77,12]]},
+  // 보스 4 要塞艦: 메카 인더스트리얼(금속 타악, 빠른 12.5% 아르페지오, 16분 오스티나토)
+  b4:{bpm:150,meter:16,kit:'metal',fx:{dt:.1,fb:.3,wet:.2},chords:[[40,0],[40,0],[36,1],[38,1]],
+    lead:{duty:.125,gain:.15},arp:{duty:.125,gain:.06,rate:1,pat:[0,12,7,12,3,12,7,12],oct:24},
+    bass:{pat:'r.rRr.rRr.rRr.oR',type:'pulse',duty:.5,gain:.18,len:.8},
+    dr:{k:'k...k..kk...k...',s:'....s.......s.s.',h:'hhhhhhhhhhhhhhhh'},
+    mel:[[76,4],[0,2],[76,2],[79,4],[78,4], [76,2],[74,2],[71,4],[0,4],[71,2],[74,2], [72,4],[76,4],[79,4],[84,4], [83,4],[81,4],[78,4],[74,4]]},
+  // 보스 5 マザー・オーバーロード: 최종 결전 오케스트라 칩(합창 패드, 빠른 아르페지오, 질주 드럼, 팀파니)
+  b5:{bpm:186,meter:16,kit:'epic',fx:{dt:.16,fb:.25,wet:.25},chords:[[36,0],[41,0],[44,1],[43,1],[36,0],[41,0],[44,1],[43,1]],
+    lead:{duty:.25,gain:.17,oct2:-12,vib:.006},arp:{duty:.125,gain:.05,rate:1,pat:[0,3,7,12,15,12,7,3],oct:24},pad:{gain:.06},
+    bass:{pat:'r.r.R.r.r.r.R.ro',type:'tri',gain:.55,len:1.5},
+    dr:{k:'k.k.k.k.k.k.k.k.',s:'....s.......s.s.',h:'h.h.h.h.h.h.h.h.',t:'..............tt'},
     mel:[[72,1],[72,1],[75,2],[79,2],[84,2],[82,2],[79,2],[75,4], [77,2],[80,2],[84,4],[82,2],[80,2],[77,4], [75,2],[79,2],[80,4],[79,2],[75,2],[72,4], [74,2],[77,2],[79,4],[83,4],[86,4],
-         [84,4],[82,2],[79,2],[75,4],[72,4], [77,2],[75,2],[72,2],[68,2],[65,4],[68,4], [68,2],[72,2],[75,4],[80,4],[79,4], [79,2],[74,2],[71,2],[67,2],[62,8]],
-    drums:'k.hhs.hhk.hhs.kk',bass:'rRrRrRrR'},
-  title:{bpm:104,duty:.5,chords:[[45,0],[41,1],[48,1],[43,1]],
-    mel:[[0,8],[76,4],[81,4], [84,8],[81,4],[79,4], [76,8],[79,4],[84,4], [83,12],[0,4]],
-    drums:'................',bass:'arpeggio'},
+         [84,4],[82,2],[79,2],[75,4],[72,4], [77,2],[75,2],[72,2],[68,2],[65,4],[68,4], [68,2],[72,2],[75,4],[80,4],[79,4], [79,2],[74,2],[71,2],[67,2],[62,8]]},
+  // 타이틀·엔딩: 잔잔한 아르페지오
+  title:{bpm:104,meter:16,kit:'soft',fx:{dt:.38,fb:.4,wet:.45},chords:[[45,0],[41,1],[48,1],[43,1]],
+    lead:{duty:.5,gain:.18,vib:.01},arp:{duty:.25,gain:.08,rate:2,pat:[0,7,12,15,19,15,12,7],oct:12},bass:{pat:'r...............',type:'tri',gain:.4,len:14},dr:{},
+    mel:[[0,8],[76,4],[81,4], [84,8],[81,4],[79,4], [76,8],[79,4],[84,4], [83,12],[0,4]]},
 };
 const bgmStage=()=>'s'+(G.stage+1),bgmBoss=()=>'b'+(G.stage+1);
 function midi(n){return 440*Math.pow(2,(n-69)/12)}
 function bgmBus(){const c=ac();if(BGM.bus)return BGM.bus;const g=c.createGain();g.gain.value=.085;const comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=6;g.connect(comp);comp.connect(c.destination);
-  const d=c.createDelay(.5);d.delayTime.value=.19;const fb=c.createGain();fb.gain.value=.22;const wet=c.createGain();wet.gain.value=.35;d.connect(fb);fb.connect(d);d.connect(wet);wet.connect(g);BGM.delay=d;BGM.bus=g;return g}
-function noiseBuf(){const c=ac();if(BGM.nb)return BGM.nb;const b=c.createBuffer(1,c.sampleRate*.3,c.sampleRate),o=b.getChannelData(0);for(let i=0;i<o.length;i++)o[i]=Math.random()*2-1;return BGM.nb=b}
+  const d=c.createDelay(1);d.delayTime.value=.19;const fb=c.createGain();fb.gain.value=.22;const wet=c.createGain();wet.gain.value=.35;d.connect(fb);fb.connect(d);d.connect(wet);wet.connect(g);BGM.delay=d;BGM.fb=fb;BGM.wet=wet;BGM.bus=g;return g}
+function noiseBuf(){const c=ac();if(BGM.nb)return BGM.nb;const b=c.createBuffer(1,c.sampleRate*.6,c.sampleRate),o=b.getChannelData(0);for(let i=0;i<o.length;i++)o[i]=Math.random()*2-1;return BGM.nb=b}
 const PW={};function pulse(duty){const c=ac();if(duty>=.5||!c.createPeriodicWave)return null;if(PW[duty])return PW[duty];const N=32,re=new Float32Array(N),im=new Float32Array(N);for(let k=1;k<N;k++){re[k]=Math.sin(2*Math.PI*k*duty)/(Math.PI*k)*2;im[k]=(1-Math.cos(2*Math.PI*k*duty))/(Math.PI*k)*2}return PW[duty]=c.createPeriodicWave(re,im)}
-function vLead(n,t,d,oct,g0,echo){const c=ac(),o=c.createOscillator(),v=c.createGain();const pw=pulse((SONGS[BGM.cur]||{}).duty||.5);if(pw)o.setPeriodicWave(pw);else o.type='square';o.frequency.setValueAtTime(midi(n+oct),t);o.frequency.setValueAtTime(midi(n+oct)*1.004,t+.06);o.frequency.setValueAtTime(midi(n+oct),t+.12);
-  v.gain.setValueAtTime(0,t);v.gain.linearRampToValueAtTime(g0,t+.006);v.gain.setValueAtTime(g0,t+d*.55);v.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(v);v.connect(BGM.bus);if(echo)v.connect(BGM.delay);o.start(t);o.stop(t+d+.02)}
-function vBass(n,t,d){const c=ac(),o=c.createOscillator(),v=c.createGain();o.type='triangle';o.frequency.setValueAtTime(midi(n),t);v.gain.setValueAtTime(.5,t);v.gain.exponentialRampToValueAtTime(.001,t+d*.95);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+d)}
-function vKick(t){const c=ac(),o=c.createOscillator(),v=c.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(42,t+.11);v.gain.setValueAtTime(.9,t);v.gain.exponentialRampToValueAtTime(.001,t+.16);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+.17)}
-function vNoise(t,d,f,g,q){const c=ac(),s=c.createBufferSource();s.buffer=noiseBuf();const bp=c.createBiquadFilter();bp.type=q?'bandpass':'highpass';bp.frequency.value=f;const v=c.createGain();v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(bp);bp.connect(v);v.connect(BGM.bus);s.start(t);s.stop(t+d)}
+function osc8(c,duty,tri){const o=c.createOscillator();if(tri)o.type='triangle';else{const pw=pulse(duty||.5);if(pw)o.setPeriodicWave(pw);else o.type='square'}return o}
+// 음 하나: 펄스/삼각파 + 비브라토 + 포르타멘토. dest 로 이어 붙이고 echo 면 에코에도
+function tone(n,t,d,o){const c=ac(),os=osc8(c,o.duty,o.tri),v=c.createGain(),f=midi(n);
+  if(o.slide&&BGM.lastF){os.frequency.setValueAtTime(BGM.lastF,t);os.frequency.exponentialRampToValueAtTime(f,t+o.slide)}else os.frequency.setValueAtTime(f,t);
+  if(o.vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=5.6;lg.gain.setValueAtTime(0,t);lg.gain.linearRampToValueAtTime(f*o.vib,t+Math.min(.25,d*.6));l.connect(lg);lg.connect(os.frequency);l.start(t);l.stop(t+d+.05)}
+  const a=o.att||.006,rel=o.rel||.55;v.gain.setValueAtTime(0,t);v.gain.linearRampToValueAtTime(o.g,t+a);v.gain.setValueAtTime(o.g,t+Math.max(a,d*rel));v.gain.exponentialRampToValueAtTime(.0005,t+d);
+  os.connect(v);v.connect(BGM.bus);if(o.echo)v.connect(BGM.delay);os.start(t);os.stop(t+d+.05)}
+function nz8(t,d,f,g,type,f2){const c=ac(),s=c.createBufferSource();s.buffer=noiseBuf();const bp=c.createBiquadFilter();bp.type=type||'highpass';bp.frequency.setValueAtTime(f,t);if(f2)bp.frequency.exponentialRampToValueAtTime(f2,t+d);const v=c.createGain();v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(bp);bp.connect(v);v.connect(BGM.bus);s.start(t);s.stop(t+d)}
+function boomK(t,f0,f1,d,g){const c=ac(),o=c.createOscillator(),v=c.createGain();o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+d*.7);v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+d+.02)}
+// 드럼 킷: 같은 문자라도 킷마다 소리가 다르다
+const KITS={
+  rock:{k:t=>boomK(t,160,45,.16,.9),s:t=>{nz8(t,.14,1800,.5,'bandpass');boomK(t,220,160,.06,.25)},h:t=>nz8(t,.04,7000,.17),o:t=>nz8(t,.18,6500,.15),t:t=>boomK(t,140,90,.2,.6),c:t=>nz8(t,.8,4000,.2)},
+  electro:{k:t=>boomK(t,120,38,.32,1),s:t=>{for(const dt of[0,.012,.024])nz8(t+dt,.09,1200,.35,'bandpass')},h:t=>nz8(t,.025,9500,.12),o:t=>nz8(t,.16,8000,.14),t:t=>boomK(t,200,60,.15,.5),c:t=>nz8(t,.9,5000,.18)},
+  metal:{k:t=>boomK(t,180,50,.12,1),s:t=>{nz8(t,.1,2500,.45,'bandpass');tone(76,t,.07,{duty:.125,g:.08})},h:t=>{tone(98,t,.025,{duty:.125,g:.025});nz8(t,.02,10000,.06)},o:t=>tone(91,t,.12,{duty:.125,g:.04}),t:t=>nz8(t,.3,600,.4,'lowpass',150),c:t=>nz8(t,.6,3000,.25,'bandpass',800)},
+  soft:{k:t=>boomK(t,95,50,.18,.55),s:t=>nz8(t,.025,3200,.25,'bandpass'),h:t=>nz8(t,.05,6000,.06,'bandpass'),o:t=>nz8(t,.12,6000,.06),t:t=>boomK(t,120,80,.2,.35),c:t=>nz8(t,1.2,3000,.08)},
+  orch:{k:t=>boomK(t,75,58,.55,.85),s:t=>nz8(t,.07,2200,.3,'bandpass'),h:t=>nz8(t,.03,8000,.08),o:t=>nz8(t,.2,6000,.1),t:t=>boomK(t,90,70,.35,.7),c:t=>nz8(t,1.4,3500,.22,'bandpass',1200)},
+  epic:{k:t=>boomK(t,150,42,.18,.9),s:t=>{nz8(t,.15,1700,.5,'bandpass');boomK(t,200,150,.07,.25)},h:t=>nz8(t,.035,7500,.15),o:t=>nz8(t,.2,6500,.15),t:t=>boomK(t,85,65,.4,.8),c:t=>nz8(t,1.2,4000,.22)},
+};
 function expand(song){const steps=[];for(const [n,l] of song.mel){steps.push({n,l});for(let i=1;i<l;i++)steps.push(null)}return steps}
-function bgm(name){if(!snd||!window.AudioContext&&!window.webkitAudioContext)return;try{bgmBus();const song=SONGS[name];if(!song)return;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.steps=expand(song);BGM.pos=0;BGM.next=ac().currentTime+.08;
-  BGM.timer=setInterval(bgmTick,40)}catch(e){}}
+function bgm(name){if(!snd||!window.AudioContext&&!window.webkitAudioContext)return;try{bgmBus();const song=SONGS[name];if(!song)return;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.steps=expand(song);BGM.pos=0;BGM.lastF=0;
+  const c=ac(),fx=song.fx||{dt:.19,fb:.22,wet:.35},t=c.currentTime;BGM.delay.delayTime.setValueAtTime(fx.dt,t);BGM.fb.gain.setValueAtTime(fx.fb,t);BGM.wet.gain.setValueAtTime(fx.wet,t);
+  BGM.next=t+.08;BGM.timer=setInterval(bgmTick,40)}catch(e){}}
 function bgmStop(){if(BGM.timer)clearInterval(BGM.timer);BGM.timer=null;BGM.cur=null}
-function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=song.tr||0,step=60/song.bpm/4;
-  while(BGM.next<c.currentTime+.18){const i=BGM.pos,t=BGM.next,bar=Math.floor(i/16)%song.chords.length,[root,maj]=song.chords[bar],s16=i%16,ev=BGM.steps[i%BGM.steps.length];
-    if(ev&&ev.n){vLead(ev.n+tr,t,step*ev.l*.95,0,.22,true);if(BGM.cur!=='title')vLead(ev.n+tr,t,step*ev.l*.9,-12,.07,false)}
-    if(song.bass==='arpeggio'){const arp=[0,7,12,maj?16:15,19,maj?16:15,12,7];if(s16%2===0)vLead(root+tr+12+arp[(s16/2)|0],t,step*1.8,0,.1,true);if(s16===0)vBass(root+tr,t,step*14)}
-    else{const ch=song.bass[(s16/2)|0];if(s16%2===0&&ch!=='.')vBass(root+tr+(ch==='R'?12:ch==='o'?7:0),t,step*1.9);if(BGM.cur[0]==='b'&&s16%2===1)vBass(root+tr,t,step*.8)}
-    const dr=song.drums[s16];if(dr==='k')vKick(t);else if(dr==='s')vNoise(t,.14,1800,.5,true);else if(dr==='h')vNoise(t,.04,7000,.18,false);
-    if(song.drums!=='................'&&s16%2===1)vNoise(t,.025,9000,.07,false);
+function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur];if(!song)return;const M=song.meter||16,tr=song.tr||0,step=60/song.bpm/(M/4),kit=KITS[song.kit]||KITS.rock,L=song.lead||{},dr=song.dr||{};
+  while(BGM.next<c.currentTime+.18){const i=BGM.pos,s=i%M,bar=Math.floor(i/M)%song.chords.length,[root,maj]=song.chords[bar],t=BGM.next+(song.swing&&s%2===1?song.swing*step:0),ev=BGM.steps[i%BGM.steps.length];
+    if(ev&&ev.n){const n=ev.n+tr,d=step*ev.l*.95,o={duty:L.duty,tri:L.tri,g:L.gain||.2,vib:L.vib,slide:L.slide,echo:true};tone(n,t,d,o);BGM.lastF=midi(n);
+      if(L.harm)tone(n+L.harm,t,d,{duty:L.duty,tri:L.tri,g:(L.gain||.2)*.55,vib:L.vib});if(L.oct2)tone(n+L.oct2,t,d*.9,{duty:L.duty,tri:L.tri,g:(L.gain||.2)*.35})}
+    const A=song.arp;if(A&&s%(A.rate||1)===0){let iv=A.pat[(s/(A.rate||1))%A.pat.length];if(maj&&iv%12===3)iv+=1;tone(root+tr+(A.oct||24)+iv,t,step*(A.rate||1)*.9,{duty:A.duty,g:A.gain,echo:true,rel:.2})}
+    if(song.pad&&s===0){const bl=step*M;for(const iv of[0,maj?4:3,7])for(const dt of[-.08,.08])tone(root+tr+24+iv+dt,t,bl*.98,{tri:true,g:song.pad.gain,att:.25,rel:.8})}
+    const B=song.bass;if(B){const ch=B.pat[s];if(ch&&ch!=='.'){const iv={r:0,R:12,o:7,O:19,m:maj?4:3,b:10}[ch]||0;tone(root+tr+iv,t,step*(B.len||1.8),{duty:B.duty,tri:B.type!=='pulse',g:B.gain||.4,rel:.7})}}
+    for(const lane of['k','s','h','o','t','c']){const str=dr[lane];if(str&&str[s]&&str[s]!=='.'&&kit[lane])kit[lane](t)}
     BGM.pos++;BGM.next+=step}}
 function start(){if(G.state==='title'||G.state==='over'||G.state==='allclear'){if(G.state!=='title')reset();G.stage=selStage;G.power=Math.min(4,1+selStage);G.state='play';say('STAGE '+(G.stage+1)+'  ─  '+ST().name+'  ─  お掃除開始！',120);bgm(bgmStage());beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
 function say(m,t){G.msg=m;G.msgT=t}
