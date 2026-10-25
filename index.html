@@ -805,7 +805,8 @@ async function loadBbs(){
   el.innerHTML=`<div class="empty">불러오는 중…</div>`;
   try{
     const r=await fetch(BBS.api+"?limit=200&v="+Date.now(),{cache:"no-store"}); if(!r.ok)throw 0;
-    const posts=((await r.json()).posts||[]).map(p=>({at:String(p.at||""),name:String(p.name||"익명").slice(0,20),text:String(p.text||"").slice(0,500)})).filter(p=>p.text);
+    const j=await r.json(); if(j.error){el.innerHTML=`<div class="empty">게시판 서버 오류: ${esc(String(j.error).slice(0,200))}</div>`;return}
+    const posts=(j.posts||[]).map(p=>({at:String(p.at||""),name:String(p.name||"익명").slice(0,20),text:String(p.text||"").slice(0,500)})).filter(p=>p.text);
     el.innerHTML=posts.length?posts.map(p=>`<article class="post"><div class="meta"><b>${esc(p.name||"익명")}</b><span>${esc(p.at)}</span></div><p>${esc(p.text)}</p></article>`).join("")
       :`<div class="empty">아직 글이 없어요. 첫 글을 남겨 보세요.</div>`;
   }catch{el.innerHTML=`<div class="empty">글을 불러오지 못했어요. 잠시 뒤 다시 열어 보세요.</div>`}
@@ -1409,6 +1410,7 @@ function rkNil(t){$('dmRank').innerHTML='<li class="nil">'+t+'</li>'}
 async function loadRank(){RK.tried=true;const api=rkApi();if(!api){rkNil('스코어 보드는 준비 중이에요.');return}
   if(!$('dmRank').childElementCount)rkNil('불러오는 중…');
   try{const r=await fetch(api+'?scores=1&limit=30&v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();
+    if(j.error){rkNil('스코어 보드 서버 오류: '+esc(String(j.error).slice(0,200)));return}
     if(!Array.isArray(j.scores)){rkNil('스코어 보드는 준비 중이에요.');return} // 웹 앱이 아직 예전 버전(게시판만)
     RK.ready=true;
     const L=j.scores.slice(0,30).map(v=>({name:String(v.name||'').slice(0,12),score:Math.max(0,Math.floor(+v.score||0)),stage:Math.max(1,Math.min(5,Math.floor(+v.stage||1))),skin:String(v.skin||'').slice(0,12),clear:v.clear===true})).filter(v=>v.name&&v.score);

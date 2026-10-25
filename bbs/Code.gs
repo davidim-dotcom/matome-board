@@ -5,13 +5,38 @@
 // 글은 'posts' 시트에 [시각, 이름, 내용] 으로 쌓이고, 지우려면 그 행을 지우면 된다.
 // 弾幕 스코어 보드도 같은 웹 앱을 쓴다: 'scores' 시트에 [시각, 이름, 점수, 스테이지, 스킨, 클리어] 로 쌓인다.
 // 이 파일을 고친 뒤에는 배포 → 배포 관리 → 수정(연필) → 버전 "새 버전" → 배포 로 다시 배포해야 반영된다(주소는 그대로).
+//
+// 어느 스프레드시트에 쓰나: ① 아래 SHEET_ID 에 적은 시트(주소 /d/ 와 /edit 사이의 긴 글자)
+//   ② 비어 있으면 이 스크립트가 붙은 스프레드시트(확장 프로그램 → Apps Script 로 만든 경우)
+//   ③ 그것도 없으면(script.google.com 에서 따로 만든 프로젝트) 처음 실행할 때 '마토메 보드 게시판' 스프레드시트를 새로 만들어 쓴다.
+// 편집기에서 setup 함수를 한 번 실행하면 권한 승인과 함께 실행 로그에 쓰는 스프레드시트 주소가 찍힌다.
+// 웹 앱 주소를 브라우저로 열었을 때 {"error":"…"} 가 나오면 그 내용이 실패 원인이다.
+const SHEET_ID = '';
 
 const SHEET = 'posts';
 const MAX_TEXT = 500, MAX_NAME = 20, PAGE = 200;
 const SCORES = 'scores', SCORE_NAME = 12, SCORE_MAX = 99999999, SCORE_TOP = 50, SCORE_SCAN = 3000;
 
+function book_() {
+  if (SHEET_ID) return SpreadsheetApp.openById(SHEET_ID);
+  const own = SpreadsheetApp.getActiveSpreadsheet();
+  if (own) return own;
+  const props = PropertiesService.getScriptProperties();
+  const id = props.getProperty('SHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  const ss = SpreadsheetApp.create('마토메 보드 게시판');
+  props.setProperty('SHEET_ID', ss.getId());
+  return ss;
+}
+
+function setup() {
+  const ss = book_();
+  sheet_(); scoreSheet_();
+  Logger.log('스프레드시트: ' + ss.getUrl());
+}
+
 function sheet_(name, head) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = book_();
   let sh = ss.getSheetByName(name || SHEET);
   if (!sh) { sh = ss.insertSheet(name || SHEET); sh.appendRow(head || ['시각', '이름', '내용']); }
   return sh;
@@ -20,7 +45,12 @@ function scoreSheet_() { return sheet_(SCORES, ['시각', '이름', '점수', '�
 
 // GET ?limit=200 → {posts:[{at,name,text}]} 최신 글부터
 // GET ?scores=1&limit=30 → {scores:[{at,name,score,stage,skin,clear}]} 점수 높은 순(같은 점수는 먼저 올린 기록이 위)
-function doGet(e) {
+function doGet(e) { return safe_(() => get_(e)); }
+function doPost(e) { return safe_(() => post_(e)); }
+// 실패하면 구글의 HTML 오류 화면 대신 {"error":"…"} JSON 을 돌려줘 페이지와 브라우저에서 원인이 보이게 한다
+function safe_(f) { try { return f(); } catch (err) { return out_({ ok: false, error: String(err && err.message || err) }); } }
+
+function get_(e) {
   const p = (e && e.parameter) || {};
   if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP)) });
   const sh = sheet_();
@@ -32,7 +62,7 @@ function doGet(e) {
 }
 
 // POST 본문 {"name":"…","text":"…"} → 한 행 추가. 수정·삭제 API 는 없다(게시 후 변경 불가).
-function doPost(e) {
+function post_(e) {
   let d = {};
   try { d = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (err) {}
   if (d.type === 'score') return addScore_(d);
