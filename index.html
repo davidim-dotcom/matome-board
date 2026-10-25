@@ -82,6 +82,10 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 @media (max-width:520px){.wk{grid-template-columns:30px 1fr;gap:10px}.wk-no{font-size:22px}}
 /* Holo Mobile(스이카 & 2048): 운영자가 만든 독립 페이지(games/holo2048.html)를 탭 안 iframe 으로. 탭을 처음 열 때 src 를 넣는다 */
 .gameframe{display:block;width:100%;height:calc(100vh - 150px);min-height:640px;border:1px solid var(--line);border-radius:12px;background:#090d1e}
+/* Holo Mobile 스코어 보드: 모양은 弾幕 스코어 보드(.dm-board·.dm-sub·.dm-rank)를 그대로 쓰고 게임 고르기 칸만 더한다 */
+.hm-tabs{display:flex;gap:6px;margin:0 0 8px}
+.hm-tabs button{flex:1;padding:7px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:13px;touch-action:manipulation}
+.hm-tabs button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
 /* 연재 만화 */
 .cm-bar{display:flex;gap:8px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
 .cm-bar input{flex:1;min-width:160px}
@@ -340,7 +344,11 @@ textarea{min-height:110px;resize:vertical}
     </div>
   </section>
   <section id="game" hidden></section>
-  <section id="g2048" hidden><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe></section>
+  <section id="g2048" hidden><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe>
+    <div class="dm-board"><div class="hd"><p class="lab">SCORE BOARD · 모두의 기록 TOP 30</p><button type="button" id="hmRankRe">↻ 새로고침</button></div>
+      <div class="hm-tabs" id="hmTabs"><button type="button" data-hm="suika" aria-pressed="true">수박 게임</button><button type="button" data-hm="2048" aria-pressed="false">2048 퍼즐</button></div>
+      <form class="dm-sub" id="hmSub" hidden><span class="me" id="hmSubMe"></span><input id="hmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="hmSubBtn">기록 등록</button></form>
+      <ol class="dm-rank" id="hmRank"></ol></div></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
@@ -799,6 +807,69 @@ function renderWeekly(){
   el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}</div>
     <ol class="wk-list">${li}</ol>`;
 }
+/* ---------- Holo Mobile 스코어 보드 ----------
+   games/holo2048.html 은 운영자 파일이라 고치지 않는다. 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
+   열리는 것을 MutationObserver 로 지켜보고 부제 글("최종 점수: 1,234점 (최고 타일: 512)")에서 점수를 읽는다.
+   기록은 게시판 웹 앱의 game=suika·2048 시트(bbs/Code.gs). */
+const HM={game:"suika",tried:false,ready:false,run:null,sent:false,mine:null};
+const HM_NAME={suika:"수박 게임","2048":"2048 퍼즐"};
+function hmNil(t){$("#hmRank").innerHTML=`<li class="nil">${t}</li>`}
+async function loadHmRank(){
+  HM.tried=true; if(!bbsReady()){hmNil("스코어 보드는 준비 중이에요.");return}
+  const g=HM.game; hmNil("불러오는 중…");
+  try{
+    const r=await fetch(BBS.api+"?scores=1&limit=30&game="+g+"&v="+Date.now(),{cache:"no-store"}); if(!r.ok)throw 0;
+    const j=await r.json(); if(g!==HM.game)return;
+    if(j.error){hmNil("스코어 보드 서버 오류: "+esc(String(j.error).slice(0,200)));return}
+    if(!Array.isArray(j.scores)){hmNil("스코어 보드는 준비 중이에요.");return}
+    HM.ready=true;
+    const L=j.scores.slice(0,30).map(v=>({name:String(v.name||"").slice(0,12),score:Math.max(0,Math.floor(+v.score||0)),max:Math.max(0,Math.floor(+v.stage||0)),clear:v.clear===true})).filter(v=>v.name&&v.score);
+    $("#hmRank").innerHTML=L.length?L.map((v,i)=>{const me=HM.mine&&HM.mine.game===g&&HM.mine.name===v.name&&HM.mine.score===v.score;
+      return `<li class="${i<3?"top"+(i+1):""}${me?" mine":""}"><span class="no">${i+1}</span><span class="nm">${esc(v.name)}</span><span class="st${v.clear?" all":""}">${v.max>2?"MAX "+v.max:""}</span><b>${v.score.toLocaleString()}</b></li>`}).join("")
+      :`<li class="nil">아직 ${HM_NAME[g]} 기록이 없어요. 첫 기록을 남겨 보세요.</li>`;
+  }catch{hmNil("기록을 불러오지 못했어요. ↻ 로 다시 시도해 주세요.")}
+}
+function hmPick(g){HM.game=g;document.querySelectorAll("#hmTabs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.hm===g)));loadHmRank()}
+// 결과 창이 열렸을 때: 이기면 "점수 1,234점으로 … 완성", 지면 "최종 점수: 1,234점 (최고 구슬: 512)"
+function hmResult(g,text){
+  const m=text.match(/점수[:\s]*([\d,]+)/); const score=m?parseInt(m[1].replace(/,/g,""),10):0;
+  if(!(score>0))return;
+  const win=!/최종 점수/.test(text), mx=text.match(/최고 (?:구슬|타일)[:\s]*(\d+)/);
+  HM.run={game:g,score,max:mx?+mx[1]:(win?2048:0),clear:win}; HM.sent=false;
+  $("#hmSubMe").innerHTML=`이번 ${HM_NAME[g]} 기록 <b>${score.toLocaleString()}</b>${HM.run.max?` · MAX ${HM.run.max}`:""}${win?" · 2048 달성":""}`;
+  const n=$("#hmName"); if(!n.value){try{n.value=localStorage.getItem("dm-name")||""}catch{}}
+  $("#hmSubBtn").disabled=false; $("#hmSub").hidden=!HM.ready;
+  if(HM.game!==g)hmPick(g);
+}
+function hookHolo(){
+  const f=$("#holo2048"); if(!f)return;
+  f.addEventListener("load",()=>{try{
+    const d=f.contentDocument; if(!d)return;
+    [["suikaOverlay","suikaOverlaySubtitle","suika"],["puzzleOverlay","puzzleOverlaySubtitle","2048"]].forEach(([id,sub,g])=>{
+      const el=d.getElementById(id); if(!el)return; let open=!el.classList.contains("hidden");
+      new MutationObserver(()=>{const now=!el.classList.contains("hidden");if(now&&!open)hmResult(g,(d.getElementById(sub)||{}).textContent||"");open=now})
+        .observe(el,{attributes:true,attributeFilter:["class"]});
+    });
+  }catch{}});
+  $("#hmTabs").addEventListener("click",e=>{const b=e.target.closest("button[data-hm]");if(b&&b.dataset.hm!==HM.game)hmPick(b.dataset.hm)});
+  $("#hmRankRe").addEventListener("click",loadHmRank);
+  $("#hmSub").addEventListener("submit",async e=>{
+    e.preventDefault(); const run=HM.run; if(!run||HM.sent||!bbsReady())return;
+    const name=$("#hmName").value.replace(/\s+/g," ").trim().slice(0,12); if(!name){toast("이름을 적어 주세요");$("#hmName").focus();return}
+    let last=0;try{last=+localStorage.getItem("hm-sent")||0}catch{}
+    if(Date.now()-last<30000){toast("조금 뒤에 다시 등록해 주세요");return}
+    const body=JSON.stringify({type:"score",game:run.game,name,score:run.score,stage:run.max||1,skin:"",clear:run.clear});
+    $("#hmSubBtn").disabled=true;
+    try{let ok=false;
+      try{const r=await fetch(BBS.api,{method:"POST",body});ok=r.ok&&(await r.json()).ok===true}
+      catch{await fetch(BBS.api,{method:"POST",body,mode:"no-cors"});ok=true}
+      if(!ok)throw 0;
+      HM.sent=true;HM.mine={game:run.game,name,score:run.score};try{localStorage.setItem("dm-name",name);localStorage.setItem("hm-sent",String(Date.now()))}catch{}
+      $("#hmSub").hidden=true;toast("기록을 등록했어요");if(HM.game!==run.game)HM.game=run.game;setTimeout(()=>hmPick(run.game),1200);
+    }catch{$("#hmSubBtn").disabled=false;toast("등록하지 못했어요. 잠시 뒤 다시 시도해 주세요")}
+  });
+}
+hookHolo();
 async function loadBbs(){
   const el=$("#bbsList");
   if(!bbsReady()){el.innerHTML=`<div class="empty">게시판은 준비 중이에요.</div>`;return}
@@ -879,7 +950,7 @@ document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
     const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
-    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src}return}
+    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}return}
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
