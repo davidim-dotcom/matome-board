@@ -902,6 +902,16 @@ initStore();
 .dm-ctl button{flex:1;padding:12px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;touch-action:manipulation}
 .dm-ctl button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
 .dm-ctl button.bomb{background:#4a1d4d;color:#ffd6f5;border-color:#a04aa6}
+/* 스테이지 선택: 게임 아래 5칸. 누르면 그 스테이지부터, 클리어한 스테이지는 ★ */
+.dm-stages{margin-top:10px}
+.dm-stages .lab{font-size:12px;color:var(--muted);margin:0 0 6px}
+.dm-stages .row5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.dm-stages button{padding:8px 2px 7px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;line-height:1.2;touch-action:manipulation;min-width:0}
+.dm-stages button b{display:block;font-size:13px;font-variant-numeric:tabular-nums}
+.dm-stages button span{display:block;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm-stages button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
+.dm-stages button[aria-pressed="true"] span{color:#c9cdf0}
+.dm-stages button .star{color:#ffd166}
 .dm-help{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.6}
 </style>
 <script>
@@ -912,6 +922,7 @@ sec.innerHTML=`<div class="panel" style="padding:12px">
 <div class="dm-hud"><span>SCORE <b id="dmScore">0</b></span><span>GRAZE <b id="dmGraze">0</b></span><span>残機 <b id="dmLives">5</b> · 結界 <b id="dmBombs">2</b></span><span>HI <b id="dmHi">0</b></span></div>
 <div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas></div>
 <div class="dm-ctl"><button id="dmSlow" aria-pressed="false">低速 (SHIFT)</button><button class="bomb" id="dmBomb">結界 (X)</button><button id="dmSound" aria-pressed="true">♪ BGM</button></div>
+<div class="dm-stages"><p class="lab">STAGE SELECT · 누르면 그 스테이지부터 시작 (★ 클리어)</p><div class="row5" id="dmStages"></div></div>
 <p class="dm-help">화면을 드래그하면 자기(自機)가 따라오고 공격은 자동. 피탄 판정은 가운데 작은 점(저속 모드에서 더 작아짐) 하나뿐이니 탄 사이를 스치며 <b>그레이즈</b>를 쌓으세요. 적이 떨어뜨리는 <b>金貨</b>(점수) · <b>緑ジェム</b>(파워) · <b>紫ジェム</b>(結界 +1) · <b>ハート</b>(残機 +1)를 모으고, 보스의 必殺技를 피탄·結界 없이 깨면 <b>ノーダメ 보너스</b>. 주황 <b>エネルギー地雷</b>는 가까이 가거나 시간이 지나면 터지니 멀리서 피하고, 보스 위에 비치는 패턴 그림은 다음 공격의 예고.<br>PC: 방향키 이동 · SHIFT 저속 · X 結界 · R 재시작</p></div>`;
 const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=480;cx.imageSmoothingEnabled=false;
 const $=id=>document.getElementById(id);
@@ -921,7 +932,7 @@ const IMG={};for(const n of ['ufo_o','turret','xwing','fort','fort2','fortcore',
 function spr(n,x,y,sc,a,rot){const i=IMG[n];if(!i||!i.naturalWidth)return false;const w=i.naturalWidth*sc,h=i.naturalHeight*sc;cx.save();if(a!=null)cx.globalAlpha=a;if(rot){cx.translate(x,y);cx.rotate(rot);cx.drawImage(i,-w/2,-h/2,w,h)}else cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),w,h);cx.restore();return true}
 let hi=0;try{hi=Number(localStorage.getItem('dm-hi')||0)}catch(e){}
 $('dmHi').textContent=hi.toLocaleString();
-let snd=true;
+let snd=true,selStage=0,cleared=[];try{cleared=JSON.parse(localStorage.getItem('dm-cleared')||'[]')||[]}catch(e){}
 // ---------- audio ----------
 let AC=null;function ac(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}
 // ---------- 효과음: 자기 탄·피격·結界·보스 공격(링 휘익, 조준 지직, 빔 충전·발사)·지뢰 ----------
@@ -954,10 +965,12 @@ const STAGES=[
 // 탄 그림: 구슬·불꽃·미사일·링·바늘·초승달은 시트 그림(속도 방향으로 회전), laser 만 선분으로 그림
 const BSPR={orb:['b_orb',.9,false],flame:['b_flame',.8,true],missile:['b_missile',.7,true],ring:['b_ring',.45,false],needle:['b_needle',.4,true],cres:['b_cres',.9,true]};
 const G={};const ST=()=>STAGES[G.stage];
+function renderStages(){const el=$('dmStages');if(!el)return;el.innerHTML=STAGES.map((st,i)=>`<button type="button" data-st="${i}" aria-pressed="${i===selStage}" title="${st.name}"><b>ST${i+1}${cleared.includes(i)?' <i class="star">★</i>':''}</b><span>${st.name}</span></button>`).join('')}
+$('dmStages').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;selStage=Number(b.dataset.st);renderStages();reset();start()});
 function reset(){
   Object.assign(G,{t:0,score:0,graze:0,lives:5,bombs:2,power:1,items:0,state:'title',player:{x:W/2,y:H-70,inv:0,slow:false,tilt:0},pb:[],eb:[],en:[],drops:[],fx:[],boss:null,spellTimer:0,spell:null,spellClean:true,capture:0,bombT:0,shake:0,msg:'',msgT:0,wave:0,waveT:60,flash:0,stage:0,clearT:0,beams:[],cut:0,bombAnim:0,chain:null,tele:null});
 }
-reset();
+reset();renderStages();
 // ---------- input ----------
 const keys={};let drag=null;const wrap=$('dmWrap');
 function pt(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*W/r.width,y:(t.clientY-r.top)*H/r.height}}
@@ -1005,7 +1018,7 @@ function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=[0,2
     const dr=song.drums[s16];if(dr==='k')vKick(t);else if(dr==='s')vNoise(t,.14,1800,.5,true);else if(dr==='h')vNoise(t,.04,7000,.18,false);
     if(song.drums!=='................'&&s16%2===1)vNoise(t,.025,9000,.07,false);
     BGM.pos++;BGM.next+=step}}
-function start(){if(G.state==='title'||G.state==='over'||G.state==='allclear'){if(G.state!=='title')reset();G.state='play';say('STAGE 1  ─  '+ST().name+'  ─  お掃除開始！',120);bgm('stage');beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
+function start(){if(G.state==='title'||G.state==='over'||G.state==='allclear'){if(G.state!=='title')reset();G.stage=selStage;G.power=Math.min(4,1+selStage);G.state='play';say('STAGE '+(G.stage+1)+'  ─  '+ST().name+'  ─  お掃除開始！',120);bgm('stage');beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
 function say(m,t){G.msg=m;G.msgT=t}
 // ---------- bullets: heart(ハート弾) star(星弾) note(音符弾) bit(グリッチ弾) laser(レーザー片) ring(リング弾) ----------
 function eb(x,y,vx,vy,kind,col,r){G.eb.push({x,y,vx,vy,kind:kind||'bit',col:col||'#ff5fb0',r:r||4,age:0,grazed:false,spin:rnd(0,TAU)})}
@@ -1037,6 +1050,7 @@ function dropFrom(e){const n=e.role==='mid'?12:e.role==='b'?2:1;for(let i=0;i<n;
 function spawnBoss(){G.boss={x:W/2,y:-70,ty:110,hp:0,max:0,phase:-1,t:0,r:34,name:ST().bossName};G.cut=150;nextPhase();say('WARNING  ─  BOSS 接近',110);bgm('boss');beep(220,.3,'sawtooth',.06)}
 const PHASES=[{spell:0,hp:320,time:35},{spell:1,hp:450,time:45},{spell:0,hp:320,time:35},{spell:2,hp:540,time:50},{spell:3,hp:650,time:60}]; // spell: 0=통상, n=ST().spells[n-1]
 function nextPhase(){const b=G.boss;b.phase++;if(b.phase>=PHASES.length){G.eb=[];G.beams=[];G.chain={x:b.x,y:b.y,n:16};G.score+=50000;saveHi();beep(880,.3,'square');setTimeout(()=>beep(1320,.5,'square'),200);
+    if(!cleared.includes(G.stage)){cleared.push(G.stage);try{localStorage.setItem('dm-cleared',JSON.stringify(cleared))}catch(e){}renderStages()}
     if(G.stage>=STAGES.length-1){G.state='allclear';say('ALL CLEAR',999);bgm('title')}else{G.state='clear';G.clearT=300;bgmStop();say('STAGE '+(G.stage+1)+' CLEAR  ─  SCORE +50000',999)}return}
   const p=PHASES[b.phase];b.hp=b.max=Math.round(p.hp*(1+G.stage*.3));b.t=0;G.spell=p.spell?ST().spells[p.spell-1]:null;G.spellTimer=p.time*60;G.spellClean=true;G.eb=[];
   if(G.spell&&ST().spellArt)tele(ST().spellArt[p.spell-1],70,.62,true);
