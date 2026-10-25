@@ -29,6 +29,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `CHANGELOG.md` | 릴리즈별 변경 기록. 태그(`v1.0.0` …)와 함께 갱신한다. | 사람 |
 | `assets/game/src/sheet3.jpg`, `sheet4.jpg` | 弾幕 홀로 스킨용 운영자 스프라이트 시트(2752×1536). `extract.py holo`가 `hc_*`·`hm_*`·`hb_*`·`hx_*` PNG를 만든다. | 사람 |
 | `games/holo2048.html` | Holo Mobile 탭(홀로라이브 스이카 & 2048)의 독립 페이지(운영자 제작). 파일 이름은 예전 그대로. iframe 으로만 쓰며 보드 코드와 섞지 않는다. 바꾸려면 파일을 통째로 교체. | 사람 |
+| `bbs/Loader.gs` | 운영자가 Apps Script 에 붙여 넣는 20줄 로더. 요청마다 `raw.githubusercontent.com/…/main/bbs/Code.gs`를 `UrlFetchApp`으로 읽어(CacheService 10분) `new Function(code+'return {doGet,doPost,setup}')`로 실행한다. 그래서 `Code.gs`를 고쳐 main에 머지하면 다시 붙여 넣기·재배포 없이 반영된다. `Code.gs`가 새 Apps Script 서비스를 쓰면 권한 탐지용 `scopes_()`에 이름을 더해야 하고, 그때만 운영자가 로더를 다시 붙여 넣고 재배포해야 한다. `Code.gs`는 `doGet`·`doPost`·`setup`을 최상위 함수로 유지할 것. | 사람 |
 | `bbs/Code.gs` | 게시판·弾幕 스코어 보드 백엔드(Apps Script). 저장소에서는 실행되지 않고, 운영자가 스프레드시트에 붙여 넣어 배포하는 원본. | 사람 |
 | `.nojekyll` | GitHub Pages가 Jekyll로 처리하지 않게 함(`.feedcache.json` 같은 점 파일 유지). | — |
 
