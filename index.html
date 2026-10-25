@@ -80,7 +80,7 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .wk-src{font-size:12px;color:var(--muted);line-height:1.6}
 .wk-src a{color:inherit;text-decoration:underline dotted}
 @media (max-width:520px){.wk{grid-template-columns:30px 1fr;gap:10px}.wk-no{font-size:22px}}
-/* HoloStar 2048: 운영자가 만든 독립 페이지(games/holo2048.html)를 탭 안 iframe 으로. 탭을 처음 열 때 src 를 넣는다 */
+/* Holo Mobile(스이카 & 2048): 운영자가 만든 독립 페이지(games/holo2048.html)를 탭 안 iframe 으로. 탭을 처음 열 때 src 를 넣는다 */
 .gameframe{display:block;width:100%;height:calc(100vh - 150px);min-height:640px;border:1px solid var(--line);border-radius:12px;background:#090d1e}
 /* 연재 만화 */
 .cm-bar{display:flex;gap:8px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
@@ -313,7 +313,7 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
     <button role="tab" data-tab="game" aria-selected="false">弾幕</button>
-    <button role="tab" data-tab="g2048" aria-selected="false">HoloStar 2048</button>
+    <button role="tab" data-tab="g2048" aria-selected="false">Holo Mobile</button>
   </nav>
 
   <section id="feed"></section>
@@ -340,7 +340,7 @@ textarea{min-height:110px;resize:vertical}
     </div>
   </section>
   <section id="game" hidden></section>
-  <section id="g2048" hidden><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="HoloStar 2048" loading="lazy" allow="autoplay"></iframe></section>
+  <section id="g2048" hidden><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
