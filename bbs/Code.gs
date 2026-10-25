@@ -46,9 +46,10 @@ function sheet_(name, head) {
   if (!sh) { sh = ss.insertSheet(name || SHEET); sh.appendRow(head || ['시각', '이름', '내용']); }
   return sh;
 }
-// 게임별 기록 시트. dm=弾幕(stage 1~5), suika·2048=Holo Mobile(stage 칸에 최고 구슬·최고 타일 값 2~, clear=2048 달성)
+// 게임별 기록 시트. dm=弾幕 NORMAL·dm_l=弾幕 LUNATIC(stage 1~5), suika·2048=Holo Mobile(stage 칸에 최고 구슬·최고 타일 값 2~, clear=2048 달성)
 const GAMES = {
   dm: { sheet: SCORES, stage: 5, head: ['시각', '이름', '점수', '스테이지', '스킨', '클리어'] },
+  dm_l: { sheet: 'scores_lunatic', stage: 5, head: ['시각', '이름', '점수', '스테이지', '스킨', '클리어'] }, // 弾幕 LUNATIC
   suika: { sheet: 'scores_suika', stage: 131072, head: ['시각', '이름', '점수', '최고 구슬', '', '2048 달성'] },
   '2048': { sheet: 'scores_2048', stage: 131072, head: ['시각', '이름', '점수', '최고 타일', '', '2048 달성'] },
 };
