@@ -127,11 +127,25 @@ PICKS = {
     # 추가 활용: 거대 빔(보스 레이저, 왼쪽 드론 부분은 잘라냄)·빗자루 휘두르기(結界 연출)·화면 정리 폭발·피탄 폭발
     'beam': ('p1_boss', 38, (.27, 0, 1, 1)), 'broom1': ('p1_player', 36), 'broom2': ('p1_player', 37), 'clear': ('p1_fx', 52), 'hit': ('p2_all', 102),
     # 라이벌 파일럿(ST2 보스)·그녀의 분홍 기체·컷인 초상(보스1 미니 메이드, 파일럿, 릴리 표정)
+    # 에너지 지뢰·릴리 스킬 프레임(저속 모드 연출: 마법진·얼음 결정)
+    'mine': ('p1_fx', 7), 'mine2': ('p1_fx', 6), 'skill_a': ('p1_player', 52), 'skill_b': ('p1_player', 58), 'skill_c': ('p1_player', 59), 'ice1': ('p1_player', 60), 'ice2': ('p1_player', 61), 'magic': ('p1_player', 56, (0, .52, 1, 1)), 'skill_d': ('p1_player', 69),
     'pilot': ('p2_all', 77), 'pship': ('p2_all', 124), 'face_b1': ('p1_boss', 1), 'face_pilot': ('p2_all', 3, (.04, .04, .96, .9)), 'face_lilly': ('p1_player', 73), 'face_lilly2': ('p1_player', 77),
 }
 
+# 탄막 패턴 타일(sheet1 오른쪽 위 4×3 격자). 보스가 큰 패턴을 쏘기 전 예고로 비친다. 이름 → (행, 열)
+TILES = {'tile_ring': (0, 0), 'tile_burst': (0, 2), 'tile_spokes': (1, 1), 'tile_spiral': (2, 3), 'tile_fan': (1, 3), 'tile_cross': (0, 3)}
+TILE_BOX = (1034, 30, 1406, 300)
+def cut_tile(r, c, thr=70):
+    x0, y0, x1, y1 = TILE_BOX; tw, th = (x1 - x0) / 4, (y1 - y0) / 3
+    im = Image.open(os.path.join(SRC, 'sheet1.jpg')).convert('RGB').crop((int(x0 + c * tw + 4), int(y0 + r * th + 4), int(x0 + (c + 1) * tw - 4), int(y0 + (r + 1) * th - 4)))
+    arr = np.asarray(im).astype(int); lum = arr.max(2)
+    a = np.clip((lum - 60) * 4, 0, 255).astype(np.uint8)   # 어두운 바탕은 투명, 밝은 점은 불투명
+    return Image.fromarray(np.dstack([arr.astype(np.uint8), a]), 'RGBA')
+
 def main():
     if len(sys.argv) > 2 and sys.argv[1] == 'scan': scan(sys.argv[2]); return
+    for name, (r, c) in TILES.items():
+        t = cut_tile(r, c); t.save(os.path.join(HERE, name + '.png'), optimize=True); print(name, t.size)
     cache = {}
     for name, pick in PICKS.items():
         region, idx = pick[0], pick[1]
