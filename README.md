@@ -94,7 +94,7 @@ GitHub 웹에서 파일을 열고 연필 아이콘으로 고친 뒤 *Commit chan
 
 ## 弾幕 탭 (미니 게임)
 
-「まとめ結界 / MAID BUSTER LILLY」는 탭 하나짜리 세로 탄막 게임입니다. 화면을 드래그해 움직이고(PC는 방향키), 공격은 자동, 피탄 판정은 가운데 점 하나. 5스테이지(ミニオン襲来 → 蒼の艦隊 → オーバーロード再臨 → 要塞宙域 → 最終決戦)로 잡몹 → 중보스 → 보스(必殺技 3개) 순이고, 必殺技를 피탄·結界 없이 깨면 보너스. 그림은 운영자가 만든 스프라이트 시트(`assets/game/src/`)에서 `python3 assets/game/extract.py`로 잘라낸 `assets/game/*.png`이고, 우주 배경만 `python3 assets/game/paint.py`가 그립니다(둘 다 Pillow·numpy). 다른 조각을 쓰고 싶으면 `extract.py scan 폴더`로 번호 시트를 뽑아 `PICKS`의 번호를 바꾸면 됩니다. BGM(16비트풍, 스테이지·보스·타이틀 3곡)은 브라우저가 소리를 내므로 ♪ BGM 버튼으로 끌 수 있습니다. 최고 점수는 각자 브라우저에만 남습니다.
+「まとめ結界 / MAID BUSTER LILLY」는 탭 하나짜리 세로 탄막 게임입니다. 화면을 드래그해 움직이고(PC는 방향키), 공격은 자동, 피탄 판정은 가운데 점 하나. 5스테이지(ミニオン襲来 → 蒼の艦隊 → オーバーロード再臨 → 要塞宙域 → 最終決戦)로 잡몹 → 중보스 → 보스(必殺技 3개) 순이고, 必殺技를 피탄·結界 없이 깨면 보너스. 그림은 운영자가 만든 스프라이트 시트(`assets/game/src/`)에서 `python3 assets/game/extract.py`로 잘라낸 `assets/game/*.png`이고, 우주 배경만 `python3 assets/game/paint.py`가 그립니다(둘 다 Pillow·numpy). 다른 조각을 쓰고 싶으면 `extract.py scan 폴더`로 번호 시트를 뽑아 `PICKS`의 번호를 바꾸면 됩니다. 게임 위 스킨 선택에서 「ホロ」를 고르면 홀로라이브 멤버 14명 중 하나로 플레이하고, 적·보스도 홀로 시트(`assets/game/src/sheet3.jpg`·`sheet4.jpg`)의 몬스터·보스로 바뀝니다(`python3 assets/game/extract.py holo`로 다시 자를 수 있음). BGM(16비트풍, 스테이지·보스·타이틀 3곡)은 브라우저가 소리를 내므로 ♪ BGM 버튼으로 끌 수 있습니다. 최고 점수는 각자 브라우저에만 남습니다.
 
 ## Holo Mobile 탭
 

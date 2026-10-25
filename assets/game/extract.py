@@ -2,6 +2,7 @@
 """운영자가 만든 스프라이트 시트(assets/game/src/sheet1.jpg, sheet2.jpg)에서 조각을 잘라낸다.
    python3 assets/game/extract.py scan OUTDIR     → 영역별로 조각을 번호 매겨 contact sheet(PNG)로 뽑아 고르기용
    python3 assets/game/extract.py                 → PICKS 에 적은 조각을 assets/game/*.png 로 저장
+   python3 assets/game/extract.py holo            → 홀로 스킨(HOLO_CHARS·HOLO) 조각을 assets/game/hc_*·hm_*·hb_*·hx_*.png 로 저장
 배경(어두운 패널 / 체커보드)을 색으로 걸러내고, 바깥에서 이어진 배경만 지운 뒤(안쪽 어두운 선은 유지)
 5×5 이웃으로 이어진 덩어리를 한 조각으로 본다. JPEG 라서 가장자리가 조금 번지므로 알파를 이진화한다."""
 import sys, os, json
@@ -22,6 +23,17 @@ REGIONS = {
     'p1_patterns':('sheet1.jpg', (1034, 30, 1406, 300), 'dark'),
     'p1_lives':   ('sheet1.jpg', (1034, 600, 1406, 766), 'dark'),
     'p2_all':     ('sheet2.jpg', (0, 0, 1408, 768), 'checker'),
+    # 홀로 스킨 시트(2752×1536): sheet3 은 sheet1 과 같은 배치(홀로 멤버·해적 문어·여우·사신 보스), sheet4 는 격자 칸(멤버·몬스터·보스·마법진)
+    'h3_player':  ('sheet3.jpg', (16, 48, 905, 935), 'dark'),
+    'h3_minions': ('sheet3.jpg', (922, 48, 2002, 495), 'dark'),
+    'h3_boss':    ('sheet3.jpg', (922, 557, 2002, 1520), 'dark'),
+    'h3_fx':      ('sheet3.jpg', (2018, 612, 2738, 1183), 'dark'),
+    'h4_chars':   ('sheet4.jpg', (20, 58, 1355, 1117), 'grid'),
+    'h4_mons':    ('sheet4.jpg', (20, 1186, 1355, 1520), 'grid'),
+    'h4_dragon':  ('sheet4.jpg', (1376, 58, 2201, 589), 'grid'),
+    'h4_ship':    ('sheet4.jpg', (1376, 649, 2201, 1084), 'grid'),
+    'h4_bosses':  ('sheet4.jpg', (1376, 1098, 2738, 1520), 'grid'),
+    'h4_fx':      ('sheet4.jpg', (2215, 58, 2731, 1080), 'grid'),
 }
 
 def bg_colors(arr, kind):
@@ -58,6 +70,9 @@ def foreground(arr, kind, thr):
         bg = (mx - mn <= 30) & (mx >= 78) & (mx <= 170) & (arr[..., 2] >= arr[..., 0])
     else:
         for c in bg_colors(arr, kind): bg |= (np.abs(arr - np.array(c)).sum(2) < thr)
+        if kind == 'grid':  # 칸 사이 격자선(푸른 회색)도 배경
+            r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]
+            bg |= (np.abs(r - 58) < 22) & (np.abs(g - 67) < 22) & (np.abs(b - 100) < 24)
     if kind == 'checker':
         # 체커보드 패널(큰 덩어리)을 찾아 패널 안에서만 배경을 지운다(패널 밖 우주 배경은 통째로 지움)
         panel = np.zeros_like(bg); lab, boxes = components(bg, reach=3, min_px=1500)
@@ -148,11 +163,52 @@ def cut_tile(r, c, thr=70):
     a = np.clip((lum - 60) * 4, 0, 255).astype(np.uint8)   # 어두운 바탕은 투명, 밝은 점은 불투명
     return Image.fromarray(np.dstack([arr.astype(np.uint8), a]), 'RGBA')
 
+# 홀로 스킨: 이름 → (영역, 조각 번호, 자르기 또는 None, 최대 변 길이). 게임 크기에 맞게 미리 줄인다(LANCZOS 후 알파 이진화)
+HOLO_CHARS = {  # 멤버 키 → (포즈 3장 조각 번호, 오프션 조각 번호 또는 None = 자기 미니)
+    'sora': ((0, 1, 2), 6), 'suisei': ((3, 4, 5), 11), 'pekora': ((24, 25, 26), 33), 'aqua': ((27, 28, 29), None),
+    'marine': ((44, 45, 44), None), 'fubuki': ((47, 49, 50), 53), 'subaru': ((60, 61, 62), 68), 'korone': ((63, 64, 65), None),
+    'okayu': ((73, 74, 73), None), 'miko': ((75, 76, 75), None), 'calli': ((77, 78, 77), None), 'mumei': ((100, 101, 100), None),
+    'ollie': ((102, 103, 104), None), 'fauna': ((106, 107, 106), None)}
+HOLO = {
+    # 몬스터(잡몹 32px, 중보스 72~90px)
+    'hm_slime_b': ('h4_mons', 5, None, 32), 'hm_wisp': ('h4_mons', 3, None, 34), 'hm_chest': ('h4_mons', 26, None, 64),
+    'hm_drone': ('h4_mons', 0, None, 34), 'hm_slime_g': ('h4_mons', 6, None, 32), 'hm_golem': ('h4_mons', 17, None, 80),
+    'hm_skel': ('h4_mons', 33, None, 32), 'hm_devil': ('h4_mons', 8, None, 34), 'hm_crystal': ('h4_mons', 18, None, 70),
+    'hm_flame': ('h4_mons', 27, None, 30), 'hm_bflame': ('h4_mons', 29, None, 30), 'hm_skull': ('h4_ship', 19, None, 32),
+    'hm_rdevil': ('h4_mons', 9, None, 34), 'hm_knight': ('h4_mons', 23, None, 72),
+    # 보스(긴 변 150~170px)
+    'hb_ship': ('h4_ship', 0, None, 160), 'hb_mkitsune': ('h3_boss', 7, None, 150), 'hb_mreaper': ('h3_boss', 6, None, 150),
+    'hb_dragon': ('h4_dragon', 0, None, 175), 'hb_fox': ('h4_bosses', 0, None, 92), 'hb_reaper': ('h4_bosses', 2, None, 160),
+    # 마법진(必殺 예고·저속 모드 발밑)
+    'hx_purple': ('h4_fx', 29, None, 96), 'hx_green': ('h4_fx', 30, None, 96), 'hx_orange': ('h4_fx', 32, None, 96),
+    'hx_blue': ('h4_fx', 37, None, 96), 'hx_clock': ('h4_fx', 38, None, 96), 'hx_red': ('h4_fx', 39, None, 96), 'hx_foot': ('h4_fx', 29, None, 40),
+}
+def fit(p, maxdim):
+    sc = maxdim / max(p.width, p.height)
+    if sc >= 1: return p
+    q = p.resize((max(1, round(p.width * sc)), max(1, round(p.height * sc))), Image.LANCZOS)
+    a = np.asarray(q).copy(); a[..., 3] = np.where(a[..., 3] >= 110, 255, 0); return Image.fromarray(a, 'RGBA')
+
+def holo(cache):
+    def piece(region, idx):
+        if region not in cache: cache[region] = cut(region)
+        return cache[region][idx]
+    out = {}
+    for key, (poses, pet) in HOLO_CHARS.items():
+        for k, idx in enumerate(poses): out[f'hc_{key}_{k}'] = fit(piece('h4_chars', idx), 44)
+        out[f'hc_{key}_m'] = fit(piece('h4_chars', pet if pet is not None else poses[0]), 24)
+        out[f'hc_{key}_f'] = fit(piece('h4_chars', poses[0]), 30)   # 스킨 선택 칩 얼굴
+    for name, (region, idx, crop, mx) in HOLO.items(): out[name] = fit(piece(region, idx), mx)
+    return out
+
 def main():
     if len(sys.argv) > 2 and sys.argv[1] == 'scan': scan(sys.argv[2]); return
     for name, (r, c) in TILES.items():
         t = cut_tile(r, c); t.save(os.path.join(HERE, name + '.png'), optimize=True); print(name, t.size)
     cache = {}
+    if len(sys.argv) > 1 and sys.argv[1] == 'holo':
+        for n, im in holo(cache).items(): im.save(os.path.join(HERE, n + '.png'), optimize=True)
+        print('holo', len(HOLO_CHARS), 'members'); return
     for name, pick in PICKS.items():
         region, idx = pick[0], pick[1]
         if region not in cache: cache[region] = cut(region)
