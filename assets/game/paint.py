@@ -506,38 +506,56 @@ def draw_bg3(seed=31):
         y = random.uniform(0, H); wrap(lambda yy: soft(lambda d: d.rectangle([0, p.s(yy - 12), p.im.size[0], p.s(yy + 12)], fill=(200, 180, 255, 24)), 3), y)
     return p.done(colors=64, outline=None, pixel_alpha=False)
 
-# ---------------- 배경: 우주 180×240 세로 타일 3종 (별·성운·행성·파편). 캐릭터는 운영자 시트에서 잘라 쓰므로 생성기는 배경만 만든다 ----------------
-def draw_space(seed, base, nebula, accent, planet=True):
+# ---------------- 배경: 우주 180×240 세로 타일 3종. 성운·별·행성·소행성대 + 시트에서 잘라낸 조각의 실루엣(멀리 있는 적·함대·잔해) ----------------
+def silhouette(name, tint, alpha, scale):
+    """잘라낸 조각(assets/game/*.png)을 어둡게 물들인 실루엣으로 만든다(배경 원근용)."""
+    path = os.path.join(HERE, name + '.png')
+    if not os.path.exists(path): return None
+    im = Image.open(path).convert('RGBA'); im = im.resize((max(1, int(im.width * scale)), max(1, int(im.height * scale))), Image.LANCZOS)
+    a = im.getchannel('A').point(lambda v: int(v * alpha / 255)); t = Image.new('RGBA', im.size, hexrgb(tint) + (255,)); t.putalpha(a); return t
+
+def draw_space(seed, base, nebula, accent, planet=True, belt=False, sils=(), sil_tint='#0b0d22', sil_alpha=150):
     random.seed(seed); W, H = 180, 240; p = Painter(W, H, ss=3); TAU = math.tau
     wrap = lambda fn, y: [fn(y), fn(y - H), fn(y + H)]
     def soft(draw_fn, blur):
         g = Image.new('RGBA', p.im.size, (0, 0, 0, 0)); d = ImageDraw.Draw(g); draw_fn(d); p.im.alpha_composite(g.filter(ImageFilter.GaussianBlur(p.s(blur))))
     p.rect((0, 0, W, H), c1=base[0], c2=base[1], kind='lin', p1=(0, 0), p2=(0, H))
-    for _ in range(14):  # 성운
-        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(25, 60); c = hexrgb(random.choice(nebula))
-        wrap(lambda yy, x=x, r=r, c=c: soft(lambda d: d.ellipse([p.s(x - r), p.s(yy - r * .6), p.s(x + r), p.s(yy + r * .6)], fill=c + (38,)), 6), y)
-    for _ in range(260):  # 별
+    for _ in range(16):  # 성운(두 겹: 넓고 흐리게 + 좁고 진하게)
+        x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(28, 64); c = hexrgb(random.choice(nebula))
+        wrap(lambda yy, x=x, r=r, c=c: soft(lambda d: d.ellipse([p.s(x - r), p.s(yy - r * .6), p.s(x + r), p.s(yy + r * .6)], fill=c + (70,)), 7), y)
+        wrap(lambda yy, x=x, r=r, c=c: soft(lambda d: d.ellipse([p.s(x - r * .5), p.s(yy - r * .3), p.s(x + r * .5), p.s(yy + r * .3)], fill=c + (60,)), 3), y)
+    for _ in range(280):  # 별
         x, y = random.uniform(0, W), random.uniform(0, H); r = random.choice([.5, .5, .6, .8, 1, 1.3]); c = random.choice(['#ffffff', '#ffffff', '#cfe6ff', '#ffe9c4', accent])
         wrap(lambda yy, x=x, r=r, c=c: p.ellipse((x - r, yy - r, x + r, yy + r), c1=c, alpha=random.randint(120, 255)), y)
-    for _ in range(6):  # 큰 별 십자 반짝임
+    for _ in range(7):  # 큰 별 십자 반짝임
         x, y = random.uniform(0, W), random.uniform(0, H)
         wrap(lambda yy, x=x: [p.line([(x - 3, yy), (x + 3, yy)], '#ffffff', .5, 200), p.line([(x, yy - 3), (x, yy + 3)], '#ffffff', .5, 200), p.glow((x, yy), 2.5, accent, 120, .8)], y)
+    for name, sc, n in sils:  # 멀리 떠 있는 실루엣(시트 조각)
+        sil = silhouette(name, sil_tint, sil_alpha, sc)
+        if sil is None: continue
+        for _ in range(n):
+            x, y = random.uniform(-10, W - sil.width + 10), random.uniform(0, H)
+            for yy in (y, y - H, y + H): p.im.alpha_composite(sil.resize((sil.width * p.ss, sil.height * p.ss), Image.NEAREST), (int(p.s(x)), int(p.s(yy))))
     if planet:
-        x, y, r = random.uniform(30, W - 30), random.uniform(0, H), random.uniform(16, 26)
+        x, y, r = random.uniform(30, W - 30), random.uniform(0, H), random.uniform(18, 28)
         def pl(yy):
-            p.glow((x, yy), r * 1.25, accent, 70, 2)
+            p.glow((x, yy), r * 1.3, accent, 90, 2)
             p.ellipse((x - r, yy - r, x + r, yy + r), c1=nebula[0], c2='#06070f', kind='rad', p1=(x - r * .45, yy - r * .45), p2=(r * 1.5, 0))
-            for k in range(4): p.line([(x - r * .9, yy - r * .4 + k * r * .3), (x + r * .9, yy - r * .3 + k * r * .3)], accent, .6, 60)
-            p.fill(lambda d, v: d.ellipse([p.s(x - r * 1.5), p.s(yy - r * .35), p.s(x + r * 1.5), p.s(yy + r * .35)], outline=v, width=max(1, round(p.s(1.1)))), c1=accent, alpha=150)
+            for k in range(5): p.line([(x - r * .92, yy - r * .5 + k * r * .25), (x + r * .92, yy - r * .4 + k * r * .25)], accent, .7, 70)
+            p.fill(lambda d, v: d.ellipse([p.s(x - r * 1.55), p.s(yy - r * .36), p.s(x + r * 1.55), p.s(yy + r * .36)], outline=v, width=max(1, round(p.s(1.2)))), c1=accent, alpha=170)
         wrap(pl, y)
-    for _ in range(22):  # 파편·소행성
+    if belt:  # 소행성대(비스듬한 띠)
+        for _ in range(90):
+            t = random.uniform(-H, 2 * H); x = (t * .45 + random.gauss(0, 14)) % (W + 40) - 20; r = random.uniform(1.2, 5)
+            p.ellipse((x - r, t - r * .8, x + r, t + r * .8), c1='#8a8fa8', c2='#1d2030', kind='rad', p1=(x - r * .35, t - r * .35), p2=(r * 1.3, 0))
+    for _ in range(26):  # 파편
         x, y = random.uniform(0, W), random.uniform(0, H); r = random.uniform(1, 3)
         wrap(lambda yy, x=x, r=r: p.ellipse((x - r, yy - r * .8, x + r, yy + r * .8), c1='#6b6f85', c2='#262a3a', kind='rad', p1=(x - r * .3, yy - r * .3), p2=(r * 1.3, 0)), y)
     return p.done(colors=64, outline=None, pixel_alpha=False)
 
-def draw_space1(): return draw_space(41, ('#0a0f2e', '#05061a'), ['#3a2a7a', '#1d4a7a', '#4a1d6b'], '#7df9ff')
-def draw_space2(): return draw_space(42, ('#061225', '#02060f'), ['#123c6b', '#0f5a7a', '#2a2a8a'], '#5ad1ff', planet=False)
-def draw_space3(): return draw_space(43, ('#1a0a1a', '#06030c'), ['#7a1d3a', '#5a1a5a', '#8a3a1a'], '#ff6a3a')
+def draw_space1(): return draw_space(41, ('#0a1036', '#05061a'), ['#4a2a9a', '#1d5a9a', '#6a1d8b'], '#7df9ff', sils=(('wasp', .5, 6), ('beetle', .5, 5), ('pod', .5, 2)), sil_tint='#0d1030', sil_alpha=170)
+def draw_space2(): return draw_space(42, ('#071a35', '#02060f'), ['#164a8a', '#0f6a8a', '#2a2a9a'], '#5ad1ff', planet=False, belt=True, sils=(('ufo', .5, 6), ('spider', .5, 5), ('escort', .35, 3), ('boss2', .25, 1)), sil_tint='#071428', sil_alpha=190)
+def draw_space3(): return draw_space(43, ('#260a1e', '#08030c'), ['#9a1d3a', '#6a1a6a', '#b04a1a'], '#ff6a3a', sils=(('boss3b', .5, 3), ('core', .6, 2), ('tristar', .6, 4)), sil_tint='#2a0a12', sil_alpha=170)
 
 ASSETS = {'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3}
 

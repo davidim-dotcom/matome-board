@@ -124,6 +124,10 @@ PICKS = {
     # 아이템·효과
     'coin': ('p1_fx', 60), 'gem_g': ('p1_fx', 61), 'gem_p': ('p1_fx', 62), 'heart': ('p1_lives', 1, (.14, .14, .86, .86)),
     'boom1': ('p1_fx', 35), 'boom2': ('p1_fx', 36), 'boom3': ('p1_fx', 34), 'spark': ('p1_shots', 77),
+    # 추가 활용: 거대 빔(보스 레이저, 왼쪽 드론 부분은 잘라냄)·빗자루 휘두르기(結界 연출)·화면 정리 폭발·피탄 폭발
+    'beam': ('p1_boss', 38, (.27, 0, 1, 1)), 'broom1': ('p1_player', 36), 'broom2': ('p1_player', 37), 'clear': ('p1_fx', 52), 'hit': ('p2_all', 102),
+    # 라이벌 파일럿(ST2 보스)·그녀의 분홍 기체·컷인 초상(보스1 미니 메이드, 파일럿, 릴리 표정)
+    'pilot': ('p2_all', 77), 'pship': ('p2_all', 124), 'face_b1': ('p1_boss', 1), 'face_pilot': ('p2_all', 3, (.04, .04, .96, .9)), 'face_lilly': ('p1_player', 73), 'face_lilly2': ('p1_player', 77),
 }
 
 def main():
