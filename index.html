@@ -305,6 +305,7 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
+    <button role="tab" data-tab="game" aria-selected="false">弾幕</button>
   </nav>
 
   <section id="feed"></section>
@@ -330,6 +331,7 @@ textarea{min-height:110px;resize:vertical}
       <div id="bbsList"></div>
     </div>
   </section>
+  <section id="game" hidden></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
@@ -880,5 +882,174 @@ function syncLang(){document.querySelectorAll(".langsw [data-lang]").forEach(b=>
 syncLang();
 initStore();
 </script>
+<!-- ===== 弾幕 mini game: まとめ結界 ===== -->
+<style>
+#game{max-width:420px;margin:0 auto}
+.dm-wrap{position:relative;width:100%;aspect-ratio:3/4;background:#05060f;border-radius:12px;overflow:hidden;border:1px solid var(--line);touch-action:none;user-select:none;-webkit-user-select:none}
+.dm-wrap canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.dm-hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0 4px;font-size:13px;color:var(--muted)}
+.dm-hud b{color:var(--ink);font-variant-numeric:tabular-nums}
+.dm-ctl{display:flex;gap:8px;margin-top:8px}
+.dm-ctl button{flex:1;padding:12px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;touch-action:manipulation}
+.dm-ctl button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
+.dm-ctl button.bomb{background:#4a1d4d;color:#ffd6f5;border-color:#a04aa6}
+.dm-help{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.6}
+</style>
+<script>
+(function(){
+'use strict';
+const sec=document.getElementById('game');if(!sec)return;
+sec.innerHTML=`<div class="panel" style="padding:12px">
+<div class="dm-hud"><span>SCORE <b id="dmScore">0</b></span><span>GRAZE <b id="dmGraze">0</b></span><span>残機 <b id="dmLives">3</b> · 霊撃 <b id="dmBombs">2</b></span><span>HI <b id="dmHi">0</b></span></div>
+<div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas></div>
+<div class="dm-ctl"><button id="dmSlow" aria-pressed="false">低速 (SHIFT)</button><button class="bomb" id="dmBomb">霊撃 (X)</button><button id="dmSound" aria-pressed="true">♪</button></div>
+<p class="dm-help">화면을 드래그하면 자기(自機)가 따라옵니다. 공격은 자동. 피탄 판정은 가운데 작은 점 하나뿐이니 탄 사이를 스치듯 지나가며 <b>그레이즈</b>를 쌓으세요. 보스의 스펠카드를 피탄·霊撃 없이 깨면 <b>스펠카드 보너스</b>.<br>PC: 방향키 이동 · SHIFT 저속 · X 霊撃 · R 재시작</p></div>`;
+const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=480;
+const $=id=>document.getElementById(id);
+const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
+let hi=0;try{hi=Number(localStorage.getItem('dm-hi')||0)}catch(e){}
+$('dmHi').textContent=hi.toLocaleString();
+let snd=true;
+// ---------- audio ----------
+let AC=null;function beep(f,d,type,g){if(!snd)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),v=AC.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,AC.currentTime);v.gain.setValueAtTime(g||.05,AC.currentTime);v.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(v);v.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+// ---------- state ----------
+const G={};
+function reset(){
+  Object.assign(G,{t:0,score:0,graze:0,lives:3,bombs:2,power:1,state:'title',player:{x:W/2,y:H-70,inv:0,slow:false},pb:[],eb:[],en:[],items:[],fx:[],boss:null,stage:0,spellTimer:0,spell:null,spellClean:true,capture:0,bombT:0,shake:0,msg:'',msgT:0,wave:0,waveT:0,cleared:false});
+}
+reset();
+// ---------- input ----------
+const keys={};let drag=null;const wrap=$('dmWrap');
+function pt(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*W/r.width,y:(t.clientY-r.top)*H/r.height}}
+wrap.addEventListener('pointerdown',e=>{wrap.setPointerCapture(e.pointerId);const p=pt(e);drag={px:p.x,py:p.y,ox:G.player.x,oy:G.player.y};if(G.state!=='play')start();});
+wrap.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);const k=G.player.slow?.5:1;G.player.x=Math.max(8,Math.min(W-8,drag.ox+(p.x-drag.px)*1.15*k));G.player.y=Math.max(8,Math.min(H-8,drag.oy+(p.y-drag.py)*1.15*k));});
+wrap.addEventListener('pointerup',()=>drag=null);wrap.addEventListener('pointercancel',()=>drag=null);
+document.addEventListener('keydown',e=>{if(sec.hidden)return;keys[e.key]=true;if(e.key==='Shift'){G.player.slow=true;$('dmSlow').setAttribute('aria-pressed','true')}if(e.key==='x'||e.key==='X')bomb();if(e.key==='r'||e.key==='R'){reset();start()}if(e.key==='z'||e.key==='Z'||e.key===' '){if(G.state!=='play')start()}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});
+document.addEventListener('keyup',e=>{keys[e.key]=false;if(e.key==='Shift'){G.player.slow=false;$('dmSlow').setAttribute('aria-pressed','false')}});
+$('dmSlow').addEventListener('click',()=>{G.player.slow=!G.player.slow;$('dmSlow').setAttribute('aria-pressed',String(G.player.slow))});
+$('dmBomb').addEventListener('click',()=>{if(G.state!=='play')start();else bomb()});
+$('dmSound').addEventListener('click',()=>{snd=!snd;$('dmSound').setAttribute('aria-pressed',String(snd))});
+function start(){if(G.state==='title'||G.state==='over'||G.state==='clear'){if(G.state!=='title')reset();G.state='play';say('STAGE 1  ─  電脳の巫女、出陣',120);beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
+function say(m,t){G.msg=m;G.msgT=t}
+// ---------- bullets ----------
+function eb(x,y,vx,vy,kind,col,r){G.eb.push({x,y,vx,vy,kind:kind||'dot',col:col||'#ff5fb0',r:r||4,age:0,grazed:false})}
+function ring(x,y,n,spd,off,kind,col,r){for(let i=0;i<n;i++){const a=off+i*TAU/n;eb(x,y,Math.cos(a)*spd,Math.sin(a)*spd,kind,col,r)}}
+function aimed(x,y,spd,spread,n,kind,col){const b=Math.atan2(G.player.y-y,G.player.x-x);for(let i=0;i<n;i++){const a=b+(i-(n-1)/2)*spread;eb(x,y,Math.cos(a)*spd,Math.sin(a)*spd,kind,col)}}
+function pbShot(){const p=G.player,n=G.power>=3?3:G.power>=2?2:1;for(let i=0;i<n;i++){const dx=(i-(n-1)/2)*8;G.pb.push({x:p.x+dx,y:p.y-10,vy:-9})}if(G.power>=4){G.pb.push({x:p.x-16,y:p.y,vy:-8,vx:-.6});G.pb.push({x:p.x+16,y:p.y,vy:-8,vx:.6})}}
+function bomb(){if(G.bombs<=0||G.bombT>0)return;G.bombs--;G.bombT=70;G.spellClean=false;G.player.inv=Math.max(G.player.inv,110);G.eb.forEach(b=>G.score+=10);G.eb=[];G.en.forEach(e=>{e.hp-=40});if(G.boss)G.boss.hp-=60;G.shake=14;say('霊撃「結界展開」',60);beep(120,.5,'sawtooth',.08)}
+// ---------- enemies ----------
+function fairy(x,y,kind){G.en.push({x,y,kind,hp:kind==='big'?60:14,t:0,r:kind==='big'?14:9})}
+function spawnWave(){
+  const w=G.wave;
+  if(w<4){for(let i=0;i<5;i++)fairy(40+i*70,-20-i*18,'s')}
+  else if(w<7){fairy(rnd(40,W-40),-20,'big');fairy(rnd(40,W-40),-50,'s');fairy(rnd(40,W-40),-80,'s')}
+  else if(w===7){spawnBoss()}
+}
+function spawnBoss(){G.boss={x:W/2,y:-40,ty:90,hp:0,max:0,phase:-1,t:0,r:20,name:'電子の魔女「ノイズ」'};nextPhase();say('WARNING  ─  BOSS 接近',110);beep(220,.3,'sawtooth',.06)}
+const PHASES=[
+  {spell:null,hp:220,time:30},
+  {spell:'雨符「スクロール・レイン」',hp:320,time:40},
+  {spell:null,hp:220,time:30},
+  {spell:'星符「ステラ・スパイラル」',hp:380,time:45},
+  {spell:'結符「まとめ結界 -Last Word-」',hp:460,time:55},
+];
+function nextPhase(){const b=G.boss;b.phase++;if(b.phase>=PHASES.length){G.state='clear';G.score+=50000;say('ALL CLEAR  ─  SCORE +50000',999);saveHi();beep(880,.3,'square');setTimeout(()=>beep(1320,.5,'square'),200);return}
+  const p=PHASES[b.phase];b.hp=b.max=p.hp;b.t=0;G.spell=p.spell;G.spellTimer=p.time*60;G.spellClean=true;G.eb=[];
+  if(p.spell){say(p.spell,150);beep(440,.15,'triangle');setTimeout(()=>beep(660,.2,'triangle'),120)}}
+function bossPattern(b){const t=b.t,ph=b.phase;
+  if(ph===0){if(t%40===0)ring(b.x,b.y,14,2.2,t*.1,'dot','#ff5fb0');if(t%25===0)aimed(b.x,b.y,3.2,.25,3,'rice','#7df9ff')}
+  else if(ph===1){if(t%6===0){const x=rnd(10,W-10);eb(x,-5,rnd(-.3,.3),rnd(2,3.4),'rice','#7df9ff',3)}if(t%70===0)aimed(b.x,b.y,2.6,.18,5,'dot','#ffd166')}
+  else if(ph===2){if(t%30===0){ring(b.x,b.y,10,2,t*.15,'kunai','#ffd166');}if(t%45===0)aimed(b.x,b.y,3.6,.1,2,'rice','#ff5fb0')}
+  else if(ph===3){if(t%4===0){const a=t*.17;eb(b.x,b.y,Math.cos(a)*2.4,Math.sin(a)*2.4,'dot','#c77dff');eb(b.x,b.y,Math.cos(a+Math.PI)*2.4,Math.sin(a+Math.PI)*2.4,'dot','#7df9ff')}if(t%90===0)ring(b.x,b.y,24,1.5,0,'rice','#ff5fb0',3)}
+  else if(ph===4){if(t%50===0){ring(b.x,b.y,20,1.8,t*.05,'kunai','#ffd166')}if(t%8===0){const x=rnd(10,W-10);eb(x,-5,0,rnd(1.4,2.6),'dot','#c77dff',3)}if(t%120===60)aimed(b.x,b.y,4,.12,7,'rice','#ff5fb0');
+    if(t%200===100){for(let i=0;i<12;i++){const a=i*TAU/12;eb(b.x,b.y,Math.cos(a)*.8,Math.sin(a)*.8,'dot','#7df9ff',6)}}}
+  b.x=W/2+Math.sin(t*.013)*(ph===4?120:80);b.y=b.ty+Math.sin(t*.021)*14;
+}
+// ---------- update ----------
+function update(){
+  G.t++;const p=G.player;
+  if(G.state!=='play'){return}
+  const sp=p.slow?2.1:4.2;if(keys.ArrowLeft)p.x-=sp;if(keys.ArrowRight)p.x+=sp;if(keys.ArrowUp)p.y-=sp;if(keys.ArrowDown)p.y+=sp;p.x=Math.max(8,Math.min(W-8,p.x));p.y=Math.max(8,Math.min(H-8,p.y));
+  if(G.t%5===0)pbShot();
+  if(p.inv>0)p.inv--;if(G.bombT>0)G.bombT--;if(G.shake>0)G.shake--;if(G.msgT>0)G.msgT--;
+  // waves
+  if(!G.boss){G.waveT--;if(G.waveT<=0&&G.en.length<3){spawnWave();G.wave++;G.waveT=150}}
+  // player bullets
+  G.pb=G.pb.filter(b=>{b.y+=b.vy;b.x+=b.vx||0;if(b.y<-10)return false;
+    for(const e of G.en){if(Math.abs(e.x-b.x)<e.r+3&&Math.abs(e.y-b.y)<e.r+3){e.hp-=4;G.score+=10;return false}}
+    if(G.boss&&G.boss.y>0&&Math.hypot(G.boss.x-b.x,G.boss.y-b.y)<G.boss.r+4){G.boss.hp-=3;G.score+=10;return false}return true});
+  // enemies
+  G.en=G.en.filter(e=>{e.t++;if(e.kind==='s'){e.y+=1.6;e.x+=Math.sin(e.t*.06)*1.2;if(e.t%50===20)aimed(e.x,e.y,2.6,0,1,'dot','#ff5fb0')}else{e.y+=e.y<80?1.2:0;if(e.t%30===0)ring(e.x,e.y,8,2,e.t*.1,'rice','#7df9ff');if(e.t%80===40)aimed(e.x,e.y,3,.2,3,'dot','#ffd166')}
+    if(e.hp<=0){G.score+=e.kind==='big'?800:150;boom(e.x,e.y,e.kind==='big'?'#7df9ff':'#ff5fb0');for(let i=0;i<(e.kind==='big'?4:1);i++)G.items.push({x:e.x+rnd(-10,10),y:e.y,vy:-2,k:Math.random()<.3?'P':'点'});beep(200,.08,'square',.03);return false}return e.y<H+20});
+  // boss
+  if(G.boss){const b=G.boss;if(b.y<b.ty){b.y+=1.5}else{b.t++;bossPattern(b);if(G.spell||true){G.spellTimer--}
+    if(b.hp<=0||G.spellTimer<=0){if(b.hp<=0&&G.spell){if(G.spellClean){G.score+=20000+G.spellTimer*5;G.capture++;say('Spell Card Bonus!  +'+(20000+G.spellTimer*5).toLocaleString(),120);beep(1046,.25,'square')}else{say('撃破  ─  ボーナスなし',80)}}
+      else if(G.spellTimer<=0&&G.spell){say('時間切れ  ─  スペル失敗',80)}
+      boom(b.x,b.y,'#ffd166');for(let i=0;i<10;i++)G.items.push({x:b.x+rnd(-30,30),y:b.y+rnd(-10,10),vy:-2.5,k:Math.random()<.2?'P':'点'});nextPhase()}}}
+  // enemy bullets
+  const hb=p.slow?2.2:2.6,gz=15;
+  G.eb=G.eb.filter(b=>{b.x+=b.vx;b.y+=b.vy;b.age++;if(b.kind==='dot'&&b.r>=6){b.vy+=.02}
+    const d=Math.hypot(b.x-p.x,b.y-p.y);
+    if(d<b.r+hb&&p.inv<=0){hit();return false}
+    if(!b.grazed&&d<b.r+gz){b.grazed=true;G.graze++;G.score+=50+Math.floor(G.graze/10)*5;G.fx.push({x:p.x+rnd(-6,6),y:p.y+rnd(-6,6),vy:-1,life:14,col:'#fff',s:2});if(G.graze%5===0)beep(1500+G.graze%7*80,.03,'sine',.02)}
+    return b.x>-20&&b.x<W+20&&b.y>-30&&b.y<H+20});
+  // items
+  G.items=G.items.filter(it=>{it.vy=Math.min(2.4,it.vy+.08);it.y+=it.vy;const d=Math.hypot(it.x-p.x,it.y-p.y);if(d<(p.y<120?400:26)){it.x+=(p.x-it.x)*.25;it.y+=(p.y-it.y)*.25}
+    if(d<12){if(it.k==='P'){G.power=Math.min(4,G.power+1);G.score+=100}else G.score+=300+G.graze*2;beep(900,.04,'sine',.03);return false}return it.y<H+10});
+  G.fx=G.fx.filter(f=>{f.x+=f.vx||0;f.y+=f.vy||0;f.life--;return f.life>0});
+  if(G.score>hi){hi=G.score}
+}
+function hit(){const p=G.player;G.lives--;G.spellClean=false;G.shake=20;boom(p.x,p.y,'#ff5fb0');beep(90,.4,'sawtooth',.08);G.eb=G.eb.filter(b=>Math.hypot(b.x-p.x,b.y-p.y)>90);G.power=Math.max(1,G.power-1);
+  if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦は画面タップ',999);saveHi();return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
+function boom(x,y,col){for(let i=0;i<16;i++){const a=rnd(0,TAU),s=rnd(1,4);G.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(14,30),col,s:rnd(2,4)})}}
+function saveHi(){try{localStorage.setItem('dm-hi',String(hi))}catch(e){}}
+// ---------- draw ----------
+const stars=Array.from({length:70},()=>({x:rnd(0,W),y:rnd(0,H),s:rnd(.4,1.6),v:rnd(.3,1.2)}));
+function draw(){
+  cx.save();if(G.shake>0)cx.translate(rnd(-G.shake/3,G.shake/3),rnd(-G.shake/3,G.shake/3));
+  const grd=cx.createLinearGradient(0,0,0,H);grd.addColorStop(0,'#070a1f');grd.addColorStop(1,'#13052a');cx.fillStyle=grd;cx.fillRect(-10,-10,W+20,H+20);
+  cx.strokeStyle='rgba(120,90,255,.12)';cx.lineWidth=1;for(let y=(G.t*1.5)%40-40;y<H;y+=40){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke()}for(let x=0;x<W;x+=40){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke()}
+  for(const s of stars){s.y+=s.v;if(s.y>H)s.y=0;cx.fillStyle=`rgba(255,255,255,${.3+s.s*.3})`;cx.fillRect(s.x,s.y,s.s,s.s*2)}
+  // boss
+  if(G.boss){const b=G.boss;cx.save();cx.translate(b.x,b.y);cx.strokeStyle='rgba(199,125,255,.35)';cx.lineWidth=2;cx.beginPath();cx.arc(0,0,b.r+8+Math.sin(G.t*.1)*3,0,TAU);cx.stroke();
+    cx.fillStyle='#2a1050';cx.beginPath();cx.moveTo(0,-26);cx.lineTo(18,10);cx.lineTo(-18,10);cx.closePath();cx.fill();
+    cx.fillStyle='#ffe4f3';cx.beginPath();cx.arc(0,-6,9,0,TAU);cx.fill();cx.fillStyle='#c77dff';cx.fillRect(-12,-16,24,6);cx.fillStyle='#ff5fb0';cx.fillRect(-2,-22,4,8);
+    cx.fillStyle='#4a1d4d';cx.fillRect(-10,4,20,12);cx.restore();
+    cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(10,8,W-20,6);cx.fillStyle=G.spell?'#ff5fb0':'#7df9ff';cx.fillRect(10,8,(W-20)*Math.max(0,b.hp/b.max),6);
+    cx.fillStyle='#fff';cx.font='bold 11px monospace';cx.textAlign='left';cx.fillText(b.name,10,26);cx.textAlign='right';cx.fillText(Math.ceil(G.spellTimer/60),W-10,26);
+    if(G.spell){cx.textAlign='right';cx.font='bold 12px serif';cx.fillStyle='#ffd6f5';cx.fillText(G.spell,W-10,42)}
+    // remaining phases
+    for(let i=0;i<PHASES.length-b.phase-1;i++){cx.fillStyle='#ffd166';cx.beginPath();cx.arc(16+i*12,36,3,0,TAU);cx.fill()}}
+  // enemies
+  for(const e of G.en){cx.save();cx.translate(e.x,e.y);cx.fillStyle=e.kind==='big'?'#7df9ff':'#ff9ad5';cx.beginPath();cx.moveTo(0,-e.r);cx.lineTo(e.r,0);cx.lineTo(0,e.r);cx.lineTo(-e.r,0);cx.closePath();cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,e.r*.35,0,TAU);cx.fill();cx.restore()}
+  // items
+  cx.font='bold 10px monospace';cx.textAlign='center';for(const it of G.items){cx.fillStyle=it.k==='P'?'#ff5fb0':'#7df9ff';cx.fillRect(it.x-5,it.y-5,10,10);cx.fillStyle='#000';cx.fillText(it.k,it.x,it.y+4)}
+  // player bullets
+  cx.fillStyle='rgba(255,255,255,.85)';for(const b of G.pb){cx.fillRect(b.x-1.5,b.y-8,3,12)}
+  // enemy bullets
+  for(const b of G.eb){cx.save();cx.translate(b.x,b.y);
+    if(b.kind==='rice'){cx.rotate(Math.atan2(b.vy,b.vx)+Math.PI/2);cx.fillStyle=b.col;cx.beginPath();cx.ellipse(0,0,b.r*.7,b.r*1.8,0,0,TAU);cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.ellipse(0,0,b.r*.3,b.r*1.1,0,0,TAU);cx.fill()}
+    else if(b.kind==='kunai'){cx.rotate(Math.atan2(b.vy,b.vx)+Math.PI/2);cx.fillStyle=b.col;cx.beginPath();cx.moveTo(0,-9);cx.lineTo(4,4);cx.lineTo(0,7);cx.lineTo(-4,4);cx.closePath();cx.fill()}
+    else{cx.fillStyle=b.col;cx.beginPath();cx.arc(0,0,b.r+1,0,TAU);cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,b.r*.55,0,TAU);cx.fill()}
+    cx.restore()}
+  // player
+  const p=G.player;if(G.state==='play'||G.state==='clear'){cx.save();cx.translate(p.x,p.y);if(p.inv>0&&Math.floor(G.t/4)%2)cx.globalAlpha=.4;
+    cx.fillStyle='#e8f0ff';cx.beginPath();cx.moveTo(0,-14);cx.lineTo(10,10);cx.lineTo(-10,10);cx.closePath();cx.fill();cx.fillStyle='#ff5fb0';cx.fillRect(-8,6,16,5);cx.fillStyle='#2a2f6b';cx.beginPath();cx.arc(0,-6,4,0,TAU);cx.fill();
+    cx.fillStyle='rgba(125,249,255,.5)';cx.beginPath();cx.arc(-18,2,3,0,TAU);cx.arc(18,2,3,0,TAU);cx.fill();
+    if(p.slow){cx.strokeStyle='rgba(255,255,255,.5)';cx.beginPath();cx.arc(0,0,17,0,TAU);cx.stroke();cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,2.6,0,TAU);cx.fill();cx.fillStyle='#ff2d7a';cx.beginPath();cx.arc(0,0,1.4,0,TAU);cx.fill()}
+    cx.restore();if(G.bombT>0){cx.strokeStyle=`rgba(255,214,245,${G.bombT/70})`;cx.lineWidth=6;cx.beginPath();cx.arc(p.x,p.y,(70-G.bombT)*6,0,TAU);cx.stroke()}}
+  for(const f of G.fx){cx.fillStyle=f.col;cx.globalAlpha=Math.min(1,f.life/10);cx.fillRect(f.x,f.y,f.s,f.s);cx.globalAlpha=1}
+  // overlay text
+  if(G.msgT>0||G.state!=='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
+  if(G.state==='title'){cx.textAlign='center';cx.fillStyle='#ffd6f5';cx.font='bold 26px serif';cx.fillText('まとめ結界',W/2,H*.36);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText('～ Matome Barrier ～',W/2,H*.36+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.62);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('弾幕は火力。グレイズは美学。',W/2,H*.7)}
+  if(G.state==='clear'){cx.textAlign='center';cx.fillStyle='#ffd166';cx.font='bold 13px monospace';cx.fillText('Spell Card Capture  '+G.capture+' / 3',W/2,H/2+40)}
+  cx.restore();
+  $('dmScore').textContent=G.score.toLocaleString();$('dmGraze').textContent=G.graze;$('dmLives').textContent=Math.max(0,G.lives);$('dmBombs').textContent=G.bombs;$('dmHi').textContent=hi.toLocaleString();
+}
+let last=0;function loop(ts){requestAnimationFrame(loop);if(sec.hidden)return;if(ts-last<15)return;last=ts;update();draw()}
+requestAnimationFrame(loop);
+})();
+</script>
+<!-- ===== end 弾幕 ===== -->
 </body>
 </html>
