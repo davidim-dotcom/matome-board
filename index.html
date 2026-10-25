@@ -1063,7 +1063,7 @@ sec.innerHTML=`<div class="panel" style="padding:12px">
 <div class="hm-tabs" id="dmRankTabs"><button type="button" data-rk="dm">NORMAL</button><button type="button" data-rk="dm_l">LUNATIC</button></div>
 <form class="dm-sub" id="dmSub" hidden><span class="me" id="dmSubMe"></span><input id="dmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="dmSubBtn">기록 등록</button></form>
 <ol class="dm-rank" id="dmRank"></ol></div>
-<p class="dm-help">화면을 드래그하면 자기(自機)가 따라오고 공격은 자동. 피탄 판정은 가운데 작은 점(저속 모드에서 더 작아짐) 하나뿐이니 탄 사이를 스치며 <b>그레이즈</b>를 쌓으세요. 적이 떨어뜨리는 <b>金貨</b>(점수) · <b>緑ジェム</b>(파워) · <b>紫ジェム</b>(結界 +1) · <b>ハート</b>(残機 +1)를 모으고, 보스의 必殺技를 피탄·結界 없이 깨면 <b>ノーダメ 보너스</b>. 주황 <b>エネルギー地雷</b>는 가까이 가거나 시간이 지나면 터지니 멀리서 피하고, 보스 위에 비치는 패턴 그림은 다음 공격의 예고.<br>PC: 방향키 이동 · SHIFT 저속 · X 結界 · R 재시작</p></div>`;
+<p class="dm-help">시작·재도전은 화면을 <b>두 번 탭</b>(PC는 더블 클릭이나 Z). 화면을 드래그하면 자기(自機)가 따라오고 공격은 자동. 피탄 판정은 가운데 작은 점(저속 모드에서 더 작아짐) 하나뿐이니 탄 사이를 스치며 <b>그레이즈</b>를 쌓으세요. 적이 떨어뜨리는 <b>金貨</b>(점수) · <b>緑ジェム</b>(파워) · <b>紫ジェム</b>(結界 +1) · <b>ハート</b>(残機 +1)를 모으고, 보스의 必殺技를 피탄·結界 없이 깨면 <b>ノーダメ 보너스</b>. 주황 <b>エネルギー地雷</b>는 가까이 가거나 시간이 지나면 터지니 멀리서 피하고, 보스 위에 비치는 패턴 그림은 다음 공격의 예고.<br>PC: 방향키 이동 · SHIFT 저속 · X 結界 · R 재시작</p></div>`;
 const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=480;cx.imageSmoothingEnabled=false;
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
@@ -1137,9 +1137,14 @@ reset();renderStages();renderSkin();
 // ---------- input ----------
 const keys={};let drag=null;const wrap=$('dmWrap');
 function pt(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*W/r.width,y:(t.clientY-r.top)*H/r.height}}
-wrap.addEventListener('pointerdown',e=>{wrap.setPointerCapture(e.pointerId);const p=pt(e);drag={px:p.x,py:p.y,ox:G.player.x,oy:G.player.y};if(G.state!=='play')start();});
+// 타이틀·게임 오버·올 클리어에서는 짧은 탭(10px 안, 0.4초 안)을 0.5초 안에 두 번 해야 시작한다. 스크롤하다 손가락이 닿아 바로 시작되지 않게.
+// 이때는 화면을 세로로 밀면 페이지가 스크롤된다(touch-action: pan-y, 스크롤이 시작되면 pointercancel 이라 탭으로 세지 않음)
+const idle=()=>G.state==='title'||G.state==='over'||G.state==='allclear';let tap0=null,armAt=0;
+wrap.addEventListener('pointerdown',e=>{const p=pt(e);if(idle()){tap0={x:p.x,y:p.y,t:performance.now()};return}wrap.setPointerCapture(e.pointerId);drag={px:p.x,py:p.y,ox:G.player.x,oy:G.player.y}});
 wrap.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e);const k=G.player.slow?.5:1;G.player.x=Math.max(8,Math.min(W-8,drag.ox+(p.x-drag.px)*1.15*k));G.player.y=Math.max(8,Math.min(H-8,drag.oy+(p.y-drag.py)*1.15*k));});
-wrap.addEventListener('pointerup',()=>drag=null);wrap.addEventListener('pointercancel',()=>drag=null);
+wrap.addEventListener('pointerup',e=>{drag=null;if(!tap0||!idle()){tap0=null;return}const p=pt(e),now=performance.now(),ok=Math.hypot(p.x-tap0.x,p.y-tap0.y)<10&&now-tap0.t<400;tap0=null;if(!ok)return;
+  if(now-armAt<500){armAt=0;start()}else{armAt=now;beep(990,.03,'square',.02)}});
+wrap.addEventListener('pointercancel',()=>{drag=null;tap0=null});
 document.addEventListener('keydown',e=>{if(sec.hidden||/^(INPUT|TEXTAREA)$/.test(e.target&&e.target.tagName))return;keys[e.key]=true;if(e.key==='Shift'){G.player.slow=true;$('dmSlow').setAttribute('aria-pressed','true')}if(e.key==='x'||e.key==='X')bomb();if(e.key==='r'||e.key==='R'){reset();start()}if(e.key==='z'||e.key==='Z'||e.key===' '){if(G.state!=='play')start()}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});
 document.addEventListener('keyup',e=>{keys[e.key]=false;if(e.key==='Shift'){G.player.slow=false;$('dmSlow').setAttribute('aria-pressed','false')}});
 $('dmSlow').addEventListener('click',()=>{G.player.slow=!G.player.slow;$('dmSlow').setAttribute('aria-pressed',String(G.player.slow))});
@@ -1424,7 +1429,7 @@ function graze(b,close){G.combo++;G.comboT=90;const m=1+Math.min(G.combo,40)*.02
   if(q){q.v+=pts;q.close=q.close||close;q.m=m;q.life=60;q.x+=(p.x+24-q.x)*.3}else G.pops.push({acc:true,v:pts,close,m,x:p.x+24,y:p.y-22,life:60});
   if(close)G.pops.push({txt:'CLOSE!',x:b.x,y:b.y,life:30,col:'#ffd166'})}
 function hit(){const p=G.player;G.lives--;G.combo=0;G.comboT=0;G.spellClean=false;G.shake=20;boom(p.x,p.y,'#ff5fb0');G.fx.push({x:p.x,y:p.y,life:18,max:18,spr:'hit',sc:1.1,rot:0});sfx('hit');G.eb=G.eb.filter(b=>bdist(b,p)>90);G.power=Math.max(1,G.power-1);
-  if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦は画面タップ',999);saveHi();bgmStop();runEnd(false);return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
+  if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦はダブルタップ',999);saveHi();bgmStop();runEnd(false);return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
 function boom(x,y,col,big){for(let i=0;i<16;i++){const a=rnd(0,TAU),s=rnd(1,4);G.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(14,30),col,s:rnd(2,4)})}G.fx.push({x,y,life:big?26:16,max:big?26:16,spr:big?'boom2':'boom1',sc:big?1.6:.9,rot:rnd(0,TAU)})}
 function saveHi(){try{localStorage.setItem('dm-hi',String(hi))}catch(e){}}
 // ---------- draw ----------
@@ -1503,11 +1508,11 @@ function draw(){
   // overlay text
   if(G.msgT>0&&G.state==='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
   if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
-    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText((skin==='holo'?'HOLO SKIN  ─  '+HOLO_NAME[mem]:'MAID BUSTER LILLY')+'  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);if(diff==='lunatic'){cx.fillStyle='#ff4d6d';cx.font='bold 13px monospace';cx.fillText('─ LUNATIC ─',W/2,H*.3+42)}cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
-  if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,132);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText('再挑戦は画面タップ / Z',W/2,H/2+34);if(RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+56)}}
+    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText((skin==='holo'?'HOLO SKIN  ─  '+HOLO_NAME[mem]:'MAID BUSTER LILLY')+'  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(performance.now()-armAt<500?'もう一度タップ！':Math.floor(G.t/30)%2?'DOUBLE TAP TO START':'',W/2,H*.72);if(diff==='lunatic'){cx.fillStyle='#ff4d6d';cx.font='bold 13px monospace';cx.fillText('─ LUNATIC ─',W/2,H*.3+42)}cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
+  if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,132);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText(performance.now()-armAt<500?'もう一度タップ！':'再挑戦はダブルタップ / Z',W/2,H/2+34);if(RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+56)}}
   if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,fin?206:190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
     [['SCORE',G.score.toLocaleString()],['GRAZE',String(G.graze)],['必殺 ノーダメ撃破',G.capture+' / '+(fin?STAGES.length*3:(G.stage+1)*3)],['ITEMS',String(G.items)]].forEach(([k,v],i)=>{cx.textAlign='left';cx.fillText(k,46,H/2-22+i*20);cx.textAlign='right';cx.fillText(v,W-46,H/2-22+i*20)});
-    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STG[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86);if(fin&&RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+106)}}
+    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STG[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?(performance.now()-armAt<500?'もう一度タップ！':'もう一度: ダブルタップ / Z'):'',W/2,H/2+86);if(fin&&RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+106)}}
   cx.restore();
   $('dmScore').textContent=G.score.toLocaleString();$('dmGraze').textContent=G.graze;$('dmLives').textContent=Math.max(0,G.lives);$('dmBombs').textContent=G.bombs;$('dmHi').textContent=hi.toLocaleString();
 }
@@ -1548,7 +1553,7 @@ $('dmRankRe').addEventListener('click',loadRank);
 function rkPick(bd){RK.board=bd;document.querySelectorAll('#dmRankTabs [data-rk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.rk===bd)));if(RK.tried)loadRank()}
 document.querySelectorAll('#dmRankTabs [data-rk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.rk===RK.board)));
 $('dmRankTabs').addEventListener('click',e=>{const b=e.target.closest('[data-rk]');if(b)rkPick(b.dataset.rk)});
-let last=0,wasHidden=false;function loop(ts){requestAnimationFrame(loop);if(sec.hidden){wasHidden=true;return}if(!RK.tried)loadRank();if(wasHidden){wasHidden=false;if(BGM.timer&&AC)BGM.next=AC.currentTime+.05}if(ts-last<15)return;last=ts;update();draw()}
+let last=0,wasHidden=false;function loop(ts){requestAnimationFrame(loop);if(sec.hidden){wasHidden=true;return}if(!RK.tried)loadRank();if(wasHidden){wasHidden=false;if(BGM.timer&&AC)BGM.next=AC.currentTime+.05}if(ts-last<15)return;last=ts;const ta=idle()?'pan-y':'none';if(wrap.style.touchAction!==ta)wrap.style.touchAction=ta;update();draw()}
 requestAnimationFrame(loop);
 })();
 </script>
