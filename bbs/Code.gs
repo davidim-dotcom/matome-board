@@ -46,10 +46,17 @@ function sheet_(name, head) {
   if (!sh) { sh = ss.insertSheet(name || SHEET); sh.appendRow(head || ['시각', '이름', '내용']); }
   return sh;
 }
-function scoreSheet_() { return sheet_(SCORES, ['시각', '이름', '점수', '스테이지', '스킨', '클리어']); }
+// 게임별 기록 시트. dm=弾幕(stage 1~5), suika·2048=Holo Mobile(stage 칸에 최고 구슬·최고 타일 값 2~, clear=2048 달성)
+const GAMES = {
+  dm: { sheet: SCORES, stage: 5, head: ['시각', '이름', '점수', '스테이지', '스킨', '클리어'] },
+  suika: { sheet: 'scores_suika', stage: 131072, head: ['시각', '이름', '점수', '최고 구슬', '', '2048 달성'] },
+  '2048': { sheet: 'scores_2048', stage: 131072, head: ['시각', '이름', '점수', '최고 타일', '', '2048 달성'] },
+};
+const game_ = g => GAMES[g] ? g : 'dm';
+function scoreSheet_(g) { const G = GAMES[game_(g)]; return sheet_(G.sheet, G.head); }
 
 // GET ?limit=200 → {posts:[{at,name,text}]} 최신 글부터
-// GET ?scores=1&limit=30 → {scores:[{at,name,score,stage,skin,clear}]} 점수 높은 순(같은 점수는 먼저 올린 기록이 위)
+// GET ?scores=1&limit=30[&game=suika|2048] → {scores:[{at,name,score,stage,skin,clear}]} 점수 높은 순(같은 점수는 먼저 올린 기록이 위)
 function doGet(e) { return safe_(() => get_(e)); }
 function doPost(e) { return safe_(() => post_(e)); }
 // 실패하면 구글의 HTML 오류 화면 대신 {"error":"…"} JSON 을 돌려줘 페이지와 브라우저에서 원인이 보이게 한다
@@ -58,7 +65,7 @@ function safe_(f) { try { return f(); } catch (err) { return out_({ ok: false, e
 function get_(e) {
   migrate_(false);
   const p = (e && e.parameter) || {};
-  if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP)) });
+  if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP), p.game) });
   const sh = sheet_();
   const n = Math.min(Number((e && e.parameter && e.parameter.limit) || PAGE), 500);
   const last = sh.getLastRow();
@@ -82,8 +89,8 @@ function post_(e) {
 }
 
 // 최근 SCORE_SCAN 행만 읽어 정렬한다(시트가 아주 커져도 느려지지 않게). 지우려면 그 행을 지우면 된다.
-function topScores_(n) {
-  const sh = scoreSheet_();
+function topScores_(n, g) {
+  const sh = scoreSheet_(g);
   const last = sh.getLastRow();
   if (last < 2) return [];
   const k = Math.min(SCORE_SCAN, last - 1);
@@ -95,17 +102,18 @@ function topScores_(n) {
     .map(r => ({ at: fmt_(r.at).slice(0, 10), name: r.name, score: r.score, stage: r.stage, skin: r.skin, clear: r.clear }));
 }
 
-// POST {"type":"score","name":"…","score":123,"stage":3,"skin":"릴리","clear":false}
+// POST {"type":"score","game":"dm|suika|2048","name":"…","score":123,"stage":3,"skin":"릴리","clear":false}
 function addScore_(d) {
+  const g = game_(d.game);
   const name = String(d.name || '').replace(/\s+/g, ' ').trim().slice(0, SCORE_NAME);
   const score = Math.floor(Number(d.score));
-  const stage = Math.max(1, Math.min(5, Math.floor(Number(d.stage)) || 1));
+  const stage = Math.max(1, Math.min(GAMES[g].stage, Math.floor(Number(d.stage)) || 1));
   const skin = String(d.skin || '').trim().slice(0, 12);
   if (!name) return out_({ ok: false, error: 'name' });
   if (!(score > 0 && score <= SCORE_MAX)) return out_({ ok: false, error: 'score' });
   const lock = LockService.getScriptLock();
   lock.waitLock(5000);
-  try { scoreSheet_().appendRow([new Date(), noFormula_(name), score, stage, noFormula_(skin), d.clear === true]); } finally { lock.releaseLock(); }
+  try { scoreSheet_(g).appendRow([new Date(), noFormula_(name), score, stage, noFormula_(skin), d.clear === true]); } finally { lock.releaseLock(); }
   return out_({ ok: true });
 }
 
