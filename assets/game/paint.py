@@ -557,7 +557,10 @@ def draw_space1(): return draw_space(41, ('#0a1036', '#05061a'), ['#4a2a9a', '#1
 def draw_space2(): return draw_space(42, ('#071a35', '#02060f'), ['#164a8a', '#0f6a8a', '#2a2a9a'], '#5ad1ff', planet=False, belt=True, sils=(('ufo', .5, 6), ('spider', .5, 5), ('escort', .35, 3), ('boss2', .25, 1)), sil_tint='#071428', sil_alpha=190)
 def draw_space3(): return draw_space(43, ('#260a1e', '#08030c'), ['#9a1d3a', '#6a1a6a', '#b04a1a'], '#ff6a3a', sils=(('boss3b', .5, 3), ('core', .6, 2), ('tristar', .6, 4)), sil_tint='#2a0a12', sil_alpha=170)
 
-ASSETS = {'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3}
+def draw_space4(): return draw_space(44, ('#1f1405', '#070402'), ['#8a5a14', '#6b3a0a', '#3a2a6b'], '#ffd166', belt=True, sils=(('turret', .45, 5), ('ufo_o', .45, 5), ('fort', .25, 1)), sil_tint='#1c1206', sil_alpha=190)
+def draw_space5(): return draw_space(45, ('#200308', '#050104'), ['#a0102a', '#5a0a3a', '#ff4a2a'], '#ff5c7a', sils=(('boss1', .22, 1), ('eye', .6, 4), ('ushp', .45, 3), ('boss3b', .4, 2)), sil_tint='#2a050c', sil_alpha=180)
+
+ASSETS = {'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3, 'bg4': draw_space4, 'bg5': draw_space5}
 
 def main():
     ims = {n: f() for n, f in ASSETS.items()}

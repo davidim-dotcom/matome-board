@@ -127,6 +127,12 @@ PICKS = {
     # 추가 활용: 거대 빔(보스 레이저, 왼쪽 드론 부분은 잘라냄)·빗자루 휘두르기(結界 연출)·화면 정리 폭발·피탄 폭발
     'beam': ('p1_boss', 38, (.27, 0, 1, 1)), 'broom1': ('p1_player', 36), 'broom2': ('p1_player', 37), 'clear': ('p1_fx', 52), 'hit': ('p2_all', 102),
     # 라이벌 파일럿(ST2 보스)·그녀의 분홍 기체·컷인 초상(보스1 미니 메이드, 파일럿, 릴리 표정)
+    # 4스테이지 要塞宙域: 주황 UFO·포탑, 중보스 X형 전투기, 보스 요새함(형태 3단계) + 必殺 시작 때 비치는 공격 포즈 그림 4장
+    'ufo_o': ('p2_all', 171), 'turret': ('p2_all', 164), 'xwing': ('p1_boss', 3),
+    'fort': ('p2_all', 115, (.03, 0, 1, 1)), 'fort2': ('p2_all', 131), 'fortcore': ('p2_all', 36),
+    'fa_spoke': ('p2_all', 24), 'fa_orbs': ('p2_all', 67), 'fa_cres': ('p2_all', 69, (.03, 0, 1, 1)), 'fa_fan': ('p2_all', 75),
+    # 5스테이지 最終決戦: 눈알 포드·U자 함선 (중보스는 라이벌 재전, 보스는 메이드봇 真)
+    'eye': ('p1_boss', 14), 'ushp': ('p1_boss', 12),
     # 에너지 지뢰·릴리 스킬 프레임(저속 모드 연출: 마법진·얼음 결정)
     'mine': ('p1_fx', 7), 'mine2': ('p1_fx', 6), 'skill_a': ('p1_player', 52), 'skill_b': ('p1_player', 58), 'skill_c': ('p1_player', 59), 'ice1': ('p1_player', 60), 'ice2': ('p1_player', 61), 'magic': ('p1_player', 56, (0, .52, 1, 1)), 'skill_d': ('p1_player', 69),
     'pilot': ('p2_all', 77), 'pship': ('p2_all', 124), 'face_b1': ('p1_boss', 1), 'face_pilot': ('p2_all', 3, (.04, .04, .96, .9)), 'face_lilly': ('p1_player', 73), 'face_lilly2': ('p1_player', 77),

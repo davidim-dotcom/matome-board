@@ -917,7 +917,7 @@ const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=48
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
 // ---------- sprites (assets/game/*.png, 픽셀 아트. 못 읽으면 도형으로 대신 그림) ----------
-const IMG={};for(const n of ['player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
+const IMG={};for(const n of ['ufo_o','turret','xwing','fort','fort2','fortcore','fa_spoke','fa_orbs','fa_cres','fa_fan','eye','ushp','bg4','bg5','player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
 function spr(n,x,y,sc,a,rot){const i=IMG[n];if(!i||!i.naturalWidth)return false;const w=i.naturalWidth*sc,h=i.naturalHeight*sc;cx.save();if(a!=null)cx.globalAlpha=a;if(rot){cx.translate(x,y);cx.rotate(rot);cx.drawImage(i,-w/2,-h/2,w,h)}else cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),w,h);cx.restore();return true}
 let hi=0;try{hi=Number(localStorage.getItem('dm-hi')||0)}catch(e){}
 $('dmHi').textContent=hi.toLocaleString();
@@ -948,6 +948,8 @@ const STAGES=[
   {name:'ミニオン襲来',bg:'bg',a:'wasp',b:'beetle',mid:'pod',midName:'ミニオン母体',boss:'boss1',bossName:'メイドボット・オーバーロード',face:'face_b1',bs:.5,ms:1.4,spells:['必殺「メイドレーザー」','必殺「掃射モップ」','必殺「オーバーロード・フィナーレ」'],k:['orb','laser','flame','orb','cres','ring'],d:1},
   {name:'蒼の艦隊',bg:'bg2',a:'ufo',b:'spider',mid:'escort',midName:'護衛機',boss:'pship',bossName:'ライバル「スミレ」',face:'face_pilot',rival:true,bs:.95,ms:.55,spells:['必殺「リングバースト」','必殺「クロスレーザー」','必殺「ピンク・スパイラル」'],k:['ring','laser','needle','missile','orb','ring'],d:1.25},
   {name:'オーバーロード再臨',bg:'bg3',a:'jelly',b:'tristar',mid:'boss2',midName:'旗艦「アズール」',midHp:2.2,ms:.32,face:'face_b1',boss:'boss3a',forms:['boss3a','boss3b','boss3b','boss3c','boss3d'],bossName:'オーバーロード Mk.II',bs:.9,spells:['必殺「残骸の嵐」','必殺「コア暴走」','必殺「再臨 -Last Word-」'],k:['flame','laser','cres','orb','missile','ring'],d:1.5},
+  {name:'要塞宙域',bg:'bg4',a:'ufo_o',b:'turret',mid:'xwing',midName:'迎撃機「クロス」',ms:.9,face:'face_pilot',boss:'fort',forms:['fort','fort','fort2','fort2','fortcore'],fsc:[.5,.5,.62,.62,.85],spellArt:['fa_orbs','fa_cres','fa_fan'],bossName:'要塞艦「ネイビー・フォート」',bs:.5,spells:['必殺「オービット・ケージ」','必殺「クレセント・スイープ」','必殺「ピンク・テンペスト」'],k:['missile','laser','ring','orb','needle','flame'],d:1.6},
+  {name:'最終決戦',bg:'bg5',a:'eye',b:'ushp',mid:'pship',midName:'ライバル「スミレ」再戦',midHp:1.8,ms:.7,face:'face_b1',boss:'boss1',forms:['boss1','boss1','boss1','boss1','boss3b'],fsc:[.55,.55,.55,.55,1],aura:true,bossName:'マザー・オーバーロード',bs:.55,spells:['必殺「ご奉仕ジャッジメント」','必殺「メイド・アポカリプス」','必殺「真・オーバーロード -Last Word-」'],k:['cres','laser','flame','ring','orb','needle'],d:1.75},
 ];
 // 탄 그림: 구슬·불꽃·미사일·링·바늘·초승달은 시트 그림(속도 방향으로 회전), laser 만 선분으로 그림
 const BSPR={orb:['b_orb',.9,false],flame:['b_flame',.8,true],missile:['b_missile',.7,true],ring:['b_ring',.45,false],needle:['b_needle',.4,true],cres:['b_cres',.9,true]};
@@ -995,7 +997,7 @@ function expand(song){const steps=[];for(const [n,l] of song.mel){steps.push({n,
 function bgm(name){if(!snd||!window.AudioContext&&!window.webkitAudioContext)return;try{bgmBus();const song=SONGS[name];if(!song)return;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.steps=expand(song);BGM.pos=0;BGM.next=ac().currentTime+.08;
   BGM.timer=setInterval(bgmTick,40)}catch(e){}}
 function bgmStop(){if(BGM.timer)clearInterval(BGM.timer);BGM.timer=null;BGM.cur=null}
-function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=G.stage*2,step=60/(song.bpm+G.stage*6)/4;
+function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=[0,2,4,-3,-1][G.stage]||0,step=60/(song.bpm+G.stage*5)/4;
   while(BGM.next<c.currentTime+.18){const i=BGM.pos,t=BGM.next,bar=Math.floor(i/16)%song.chords.length,[root,maj]=song.chords[bar],s16=i%16,ev=BGM.steps[i%BGM.steps.length];
     if(ev&&ev.n){vLead(ev.n+tr,t,step*ev.l*.95,0,.22,true);if(BGM.cur!=='title')vLead(ev.n+tr,t,step*ev.l*.9,-12,.07,false)}
     if(song.bass==='arpeggio'){const arp=[0,7,12,maj?16:15,19,maj?16:15,12,7];if(s16%2===0)vLead(root+tr+12+arp[(s16/2)|0],t,step*1.8,0,.1,true);if(s16===0)vBass(root+tr,t,step*14)}
@@ -1037,13 +1039,14 @@ const PHASES=[{spell:0,hp:320,time:35},{spell:1,hp:450,time:45},{spell:0,hp:320,
 function nextPhase(){const b=G.boss;b.phase++;if(b.phase>=PHASES.length){G.eb=[];G.beams=[];G.chain={x:b.x,y:b.y,n:16};G.score+=50000;saveHi();beep(880,.3,'square');setTimeout(()=>beep(1320,.5,'square'),200);
     if(G.stage>=STAGES.length-1){G.state='allclear';say('ALL CLEAR',999);bgm('title')}else{G.state='clear';G.clearT=300;bgmStop();say('STAGE '+(G.stage+1)+' CLEAR  ─  SCORE +50000',999)}return}
   const p=PHASES[b.phase];b.hp=b.max=Math.round(p.hp*(1+G.stage*.3));b.t=0;G.spell=p.spell?ST().spells[p.spell-1]:null;G.spellTimer=p.time*60;G.spellClean=true;G.eb=[];
+  if(G.spell&&ST().spellArt)tele(ST().spellArt[p.spell-1],70,.62,true);
   if(G.spell){say(G.spell,150);beep(440,.15,'triangle');setTimeout(()=>beep(660,.2,'triangle'),120)}}
 function bossPattern(b){const t=b.t,ph=b.phase,k=ST().k,d=ST().d,sp=1+(d-1)*.4,iv=n=>Math.round(n/d);const pre=(n,m,name)=>{if(t%n===(n-18+m)%n)tele(name,18)};
   if(ph===0){pre(iv(60),0,'tile_ring');if(t%iv(60)===0){sfx('ring');ring(b.x,b.y,10,2.1*sp,t*.1,k[0],'#ff5fb0',5)}if(t%iv(50)===20)sfx('zap');if(t%iv(50)===20)aimed(b.x,b.y,3.2*sp,.22,3,k[1],'#7df9ff',3)}
   else if(ph===1){if(t%iv(9)===0){const x=rnd(10,W-10);eb(x,-5,rnd(-.3,.3),rnd(1.8,3.2)*sp,k[2],'#c77dff',4)}if(t%iv(80)===0){sfx('zap');aimed(b.x,b.y,2.6*sp,.18,4,k[3],'#ffd166',4)}if(t%110===55){const a=Math.atan2(G.player.y-b.y,G.player.x-b.x)+rnd(-.5,.5);mine(b.x,b.y,Math.cos(a)*1.6,Math.sin(a)*1.6)}}
   else if(ph===2){if(t===4)tele('tile_spiral',30);if(G.stage!==1&&t%180===90)beam(b,Math.atan2(G.player.y-b.y,G.player.x-b.x));if(t%iv(5)===0){if(t%iv(20)===0)sfx('spiral');const a=t*.16;eb(b.x,b.y,Math.cos(a)*2.1*sp,Math.sin(a)*2.1*sp,k[4],'#ffd166',5)}if(t%iv(60)===25)sfx('zap');if(t%iv(60)===25)aimed(b.x,b.y,3.4*sp,.1,2,k[1],'#ff5fb0',3)}
   else if(ph===3){if(t%iv(7)===0){const a=t*.17;eb(b.x,b.y,Math.cos(a)*2.3*sp,Math.sin(a)*2.3*sp,k[4],'#c77dff',5);eb(b.x,b.y,Math.cos(a+Math.PI)*2.3*sp,Math.sin(a+Math.PI)*2.3*sp,k[5],'#7df9ff',5)}pre(iv(120),0,'tile_burst');if(t%iv(120)===0)sfx('ring');if(t%iv(120)===0)ring(b.x,b.y,14,1.5*sp,0,k[0],'#ff5fb0',4)}
-  else if(ph===4){if(t%200===40)beam(b,Math.atan2(G.player.y-b.y,G.player.x-b.x));pre(iv(70),0,'tile_spokes');if(t%iv(70)===0)sfx('ring');if(t%iv(70)===0)ring(b.x,b.y,12,1.8*sp,t*.05,k[1],'#ffd166',3);if(t%90===30){for(let i=-1;i<=1;i++)mine(b.x+i*30,b.y+10,i*.5,1.2)}if(t%iv(11)===0){const x=rnd(10,W-10);eb(x,-5,0,rnd(1.4,2.4)*sp,k[3],'#c77dff',4)}if(t%120===60){sfx('zap');aimed(b.x,b.y,3.8*sp,.14,5,k[2],'#ff5fb0',4)}
+  else if(ph===4){if(t%200===40)beam(b,Math.atan2(G.player.y-b.y,G.player.x-b.x));if(G.stage===4&&t%200===140){beam(b,Math.PI/2-.5);beam(b,Math.PI/2+.5)}pre(iv(70),0,'tile_spokes');if(t%iv(70)===0)sfx('ring');if(t%iv(70)===0)ring(b.x,b.y,12,1.8*sp,t*.05,k[1],'#ffd166',3);if(t%90===30){for(let i=-1;i<=1;i++)mine(b.x+i*30,b.y+10,i*.5,1.2)}if(t%iv(11)===0){const x=rnd(10,W-10);eb(x,-5,0,rnd(1.4,2.4)*sp,k[3],'#c77dff',4)}if(t%120===60){sfx('zap');aimed(b.x,b.y,3.8*sp,.14,5,k[2],'#ff5fb0',4)}
     if(t%200===100){for(let i=0;i<8;i++){const a=i*TAU/8;eb(b.x,b.y,Math.cos(a)*.8,Math.sin(a)*.8,k[5],'#7df9ff',9)}}}
   b.mt=(b.mt||0)+1;const tx=W/2+Math.sin(b.mt*.013)*(ph===4?120:80),ty=b.ty+Math.sin(b.mt*.021)*14;b.x+=(tx-b.x)*.05;b.y+=(ty-b.y)*.05; // 목표로 미끄러지듯(순간이동 없음)
 }
@@ -1051,7 +1054,7 @@ function bossPattern(b){const t=b.t,ph=b.phase,k=ST().k,d=ST().d,sp=1+(d-1)*.4,i
 function mine(x,y,vx,vy){sfx('mine');G.eb.push({x,y,vx,vy,kind:'mine',col:'#ff9a3c',r:9,age:0,grazed:false,spin:rnd(0,TAU),fuse:Math.round(rnd(150,200))})}
 function mineBurst(b){ring(b.x,b.y,6,2*(1+(ST().d-1)*.4),b.spin,'orb','#ff9a3c',5);G.fx.push({x:b.x,y:b.y,life:16,max:16,spr:'boom3',sc:.8,rot:rnd(0,TAU)});beep(140,.12,'sawtooth',.04)}
 // 패턴 예고: 시트의 탄막 패턴 타일을 보스 위에 잠깐 비춘다(그 뒤 그 모양의 패턴이 나간다)
-function tele(name,t){G.tele={name,t,max:t,x:G.boss?G.boss.x:W/2,y:G.boss?G.boss.y:100}}
+function tele(name,t,sc,still){G.tele={name,t,max:t,sc:sc||1.5,still:!!still,x:G.boss?G.boss.x:W/2,y:G.boss?G.boss.y:100}}
 // 거대 빔(시트의 레이저 그림): 예고선 45프레임 뒤 70프레임 동안 보스에서 뻗으며 조금 쓸어 간다. 판정은 선분
 function beam(b,ang){G.beams.push({ang,t:0,warn:45,life:70,w:12,sweep:rnd(-.35,.35)});sfx('charge')}
 function beamSeg(bm){const b=G.boss;if(!b)return null;const a=bm.ang+(bm.t>bm.warn?(bm.t-bm.warn)/bm.life*bm.sweep:0);return{ax:b.x,ay:b.y,bx:b.x+Math.cos(a)*700,by:b.y+Math.sin(a)*700,a}}
@@ -1127,7 +1130,7 @@ function draw(){
     if(e.role==='mid'){cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(e.x-26,e.y-40,52,4);cx.fillStyle='#ffd166';cx.fillRect(e.x-26,e.y-40,52*Math.max(0,e.hp/(180*(ST().midHp||1)*(1+G.stage*.3))),4)}}
   // boss
   if(G.boss){const b=G.boss;cx.save();cx.strokeStyle='rgba(199,125,255,.35)';cx.lineWidth=2;cx.beginPath();cx.arc(b.x,b.y,b.r+40+Math.sin(G.t*.1)*3,0,TAU);cx.stroke();cx.restore();
-    const bn=ST().forms?ST().forms[Math.max(0,Math.min(ST().forms.length-1,b.phase))]:ST().boss;if(ST().rival)spr('pilot',b.x+Math.sin(b.t*.04)*46,b.y-18+Math.cos(b.t*.06)*6,.75);if(!spr(bn,b.x,b.y+Math.sin(b.t*.05)*3,ST().bs)){cx.fillStyle='#c77dff';cx.beginPath();cx.arc(b.x,b.y,b.r,0,TAU);cx.fill()}
+    const fi=Math.max(0,Math.min((ST().forms||[1]).length-1,b.phase)),bn=ST().forms?ST().forms[fi]:ST().boss,bsc=ST().fsc?ST().fsc[fi]:ST().bs;if(ST().aura){const pr=.5+.5*Math.sin(G.t*.08),gr=cx.createRadialGradient(b.x,b.y,8,b.x,b.y,90);gr.addColorStop(0,`rgba(255,60,90,${.35+.2*pr})`);gr.addColorStop(1,'rgba(255,60,90,0)');cx.fillStyle=gr;cx.beginPath();cx.arc(b.x,b.y,90,0,TAU);cx.fill()}if(ST().rival)spr('pilot',b.x+Math.sin(b.t*.04)*46,b.y-18+Math.cos(b.t*.06)*6,.75);if(!spr(bn,b.x,b.y+Math.sin(b.t*.05)*3,bsc)){cx.fillStyle='#c77dff';cx.beginPath();cx.arc(b.x,b.y,b.r,0,TAU);cx.fill()}
     cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(10,8,W-20,6);cx.fillStyle=G.spell?'#ff5fb0':'#7df9ff';cx.fillRect(10,8,(W-20)*Math.max(0,b.hp/b.max),6);
     cx.fillStyle='#fff';cx.font='bold 11px monospace';cx.textAlign='left';cx.fillText('ST'+(G.stage+1)+'  '+b.name,10,26);cx.textAlign='right';cx.fillText(Math.ceil(G.spellTimer/60),W-10,26);
     if(G.spell){cx.textAlign='right';cx.font='bold 12px serif';cx.fillStyle='#ffd6f5';cx.fillText(G.spell,W-10,42)}
@@ -1135,7 +1138,7 @@ function draw(){
   // player bullets
   for(const b of G.pb){if(!spr(b.s,b.x,b.y,b.s==='p_shot'?.55:.4,null,b.s==='p_shot'?-Math.PI/2:0)){cx.fillStyle='#ff9ad5';cx.beginPath();cx.ellipse(b.x,b.y,2,7,0,0,TAU);cx.fill()}}
   // 패턴 예고 타일
-  if(G.tele){const t=G.tele.t/G.tele.max,a=Math.sin(t*Math.PI)*.75;spr(G.tele.name,G.tele.x,G.tele.y,1.5+(1-t)*.4,a,(1-t)*.6)}
+  if(G.tele){const t=G.tele.t/G.tele.max,a=Math.sin(t*Math.PI)*(G.tele.still?.95:.75);spr(G.tele.name,G.tele.x,G.tele.y,G.tele.sc+(1-t)*(G.tele.still?.08:.4),a,G.tele.still?0:(1-t)*.6)}
   // beams
   for(const bm of G.beams){const sg=beamSeg(bm);if(!sg)continue;cx.save();cx.translate(sg.ax,sg.ay);cx.rotate(sg.a);
     if(bm.t<=bm.warn){cx.strokeStyle=`rgba(255,80,80,${.25+.5*Math.sin(bm.t*.5)**2})`;cx.lineWidth=1.5;cx.setLineDash([6,6]);cx.beginPath();cx.moveTo(0,0);cx.lineTo(700,0);cx.stroke()}
@@ -1162,10 +1165,10 @@ function draw(){
   // overlay text
   if(G.msgT>0&&G.state==='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
   if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
-    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText('MAID BUSTER LILLY  ─  3 STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
+    cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText('MAID BUSTER LILLY  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(Math.floor(G.t/30)%2?'TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
   if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,120);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText('再挑戦は画面タップ / Z',W/2,H/2+34)}
   if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
-    [['SCORE',G.score.toLocaleString()],['GRAZE',String(G.graze)],['必殺 ノーダメ撃破',G.capture+' / '+(fin?9:(G.stage+1)*3)],['ITEMS',String(G.items)]].forEach(([k,v],i)=>{cx.textAlign='left';cx.fillText(k,46,H/2-22+i*20);cx.textAlign='right';cx.fillText(v,W-46,H/2-22+i*20)});
+    [['SCORE',G.score.toLocaleString()],['GRAZE',String(G.graze)],['必殺 ノーダメ撃破',G.capture+' / '+(fin?STAGES.length*3:(G.stage+1)*3)],['ITEMS',String(G.items)]].forEach(([k,v],i)=>{cx.textAlign='left';cx.fillText(k,46,H/2-22+i*20);cx.textAlign='right';cx.fillText(v,W-46,H/2-22+i*20)});
     cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(fin?'お掃除完了！ ありがとうございました、ご主人様。':'NEXT  ─  '+STAGES[G.stage+1].name+'  ('+Math.ceil(G.clearT/60)+')',W/2,H/2+66);cx.fillStyle='#9a9ebb';cx.fillText(fin?'もう一度: 画面タップ / Z':'',W/2,H/2+86)}
   cx.restore();
   $('dmScore').textContent=G.score.toLocaleString();$('dmGraze').textContent=G.graze;$('dmLives').textContent=Math.max(0,G.lives);$('dmBombs').textContent=G.bombs;$('dmHi').textContent=hi.toLocaleString();
