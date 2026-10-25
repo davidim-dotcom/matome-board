@@ -150,6 +150,9 @@ PICKS = {
     'eye': ('p1_boss', 14), 'ushp': ('p1_boss', 12),
     # 에너지 지뢰·릴리 스킬 프레임(저속 모드 연출: 마법진·얼음 결정)
     'mine': ('p1_fx', 7), 'mine2': ('p1_fx', 6), 'skill_a': ('p1_player', 52), 'skill_b': ('p1_player', 58), 'skill_c': ('p1_player', 59), 'ice1': ('p1_player', 60), 'ice2': ('p1_player', 61), 'magic': ('p1_player', 56, (0, .52, 1, 1)), 'skill_d': ('p1_player', 69),
+    # 보스 고유 공격 탄(대형 화염탄·혜성탄·보라 초승달·보라/푸른 별탄·분홍 파동)과 스테이지 오브젝트(보급 포드·폭발 탱크·소형 편대기)
+    'b_fire': ('p1_shots', 72), 'b_comet': ('p1_shots', 66), 'b_pcres': ('p1_shots', 73), 'b_pstar': ('p1_shots', 80), 'b_cstar': ('p1_shots', 81), 'b_wave': ('p2_all', 49),
+    'crate': ('p1_boss', 15), 'tank': ('p1_boss', 5), 'fighter': ('p1_boss', 7),
     'pilot': ('p2_all', 77), 'pship': ('p2_all', 124), 'face_b1': ('p1_boss', 1), 'face_pilot': ('p2_all', 3, (.04, .04, .96, .9)), 'face_lilly': ('p1_player', 73), 'face_lilly2': ('p1_player', 77),
 }
 
@@ -179,6 +182,9 @@ HOLO = {
     # 보스(긴 변 150~170px)
     'hb_ship': ('h4_ship', 0, None, 160), 'hb_mkitsune': ('h3_boss', 7, None, 150), 'hb_mreaper': ('h3_boss', 6, None, 150),
     'hb_dragon': ('h4_dragon', 0, None, 175), 'hb_fox': ('h4_bosses', 0, None, 92), 'hb_reaper': ('h4_bosses', 2, None, 160),
+    # 오브젝트의 홀로 판(얼음 결정=운석, 녹색 UFO=보급, 박쥐 마물=편대기, 빨강 슬라임=폭발, 회오리=레이저 울타리 발사기)
+    'ho_ice': ('h4_ship', 27, None, 30), 'ho_ufo': ('h4_ship', 10, None, 40), 'ho_bat': ('h4_mons', 13, None, 34),
+    'ho_slime': ('h4_mons', 7, None, 34), 'ho_tornado': ('h4_mons', 31, None, 40),
     # 마법진(必殺 예고·저속 모드 발밑)
     'hx_purple': ('h4_fx', 29, None, 96), 'hx_green': ('h4_fx', 30, None, 96), 'hx_orange': ('h4_fx', 32, None, 96),
     'hx_blue': ('h4_fx', 37, None, 96), 'hx_clock': ('h4_fx', 38, None, 96), 'hx_red': ('h4_fx', 39, None, 96), 'hx_foot': ('h4_fx', 29, None, 40),

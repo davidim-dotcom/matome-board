@@ -960,7 +960,7 @@ const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=48
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
 // ---------- sprites (assets/game/*.png, 픽셀 아트. 못 읽으면 도형으로 대신 그림) ----------
-const IMG={};for(const n of ['hc_sora_0','hc_sora_1','hc_sora_2','hc_sora_m','hc_suisei_0','hc_suisei_1','hc_suisei_2','hc_suisei_m','hc_pekora_0','hc_pekora_1','hc_pekora_2','hc_pekora_m','hc_aqua_0','hc_aqua_1','hc_aqua_2','hc_aqua_m','hc_marine_0','hc_marine_1','hc_marine_2','hc_marine_m','hc_fubuki_0','hc_fubuki_1','hc_fubuki_2','hc_fubuki_m','hc_subaru_0','hc_subaru_1','hc_subaru_2','hc_subaru_m','hc_korone_0','hc_korone_1','hc_korone_2','hc_korone_m','hc_okayu_0','hc_okayu_1','hc_okayu_2','hc_okayu_m','hc_miko_0','hc_miko_1','hc_miko_2','hc_miko_m','hc_calli_0','hc_calli_1','hc_calli_2','hc_calli_m','hc_mumei_0','hc_mumei_1','hc_mumei_2','hc_mumei_m','hc_ollie_0','hc_ollie_1','hc_ollie_2','hc_ollie_m','hc_fauna_0','hc_fauna_1','hc_fauna_2','hc_fauna_m','hm_slime_b','hm_wisp','hm_chest','hm_drone','hm_slime_g','hm_golem','hm_skel','hm_devil','hm_crystal','hm_flame','hm_bflame','hm_skull','hm_rdevil','hm_knight','hb_ship','hb_mkitsune','hb_mreaper','hb_dragon','hb_fox','hb_reaper','hx_purple','hx_green','hx_orange','hx_blue','hx_clock','hx_red','hx_foot','ufo_o','turret','xwing','fort','fort2','fortcore','fa_spoke','fa_orbs','fa_cres','fa_fan','eye','ushp','bg4','bg5','player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
+const IMG={};for(const n of ['rock','crate','tank','fighter','b_fire','b_comet','b_pcres','b_pstar','b_cstar','b_wave','ho_ice','ho_ufo','ho_bat','ho_slime','ho_tornado','hc_sora_0','hc_sora_1','hc_sora_2','hc_sora_m','hc_suisei_0','hc_suisei_1','hc_suisei_2','hc_suisei_m','hc_pekora_0','hc_pekora_1','hc_pekora_2','hc_pekora_m','hc_aqua_0','hc_aqua_1','hc_aqua_2','hc_aqua_m','hc_marine_0','hc_marine_1','hc_marine_2','hc_marine_m','hc_fubuki_0','hc_fubuki_1','hc_fubuki_2','hc_fubuki_m','hc_subaru_0','hc_subaru_1','hc_subaru_2','hc_subaru_m','hc_korone_0','hc_korone_1','hc_korone_2','hc_korone_m','hc_okayu_0','hc_okayu_1','hc_okayu_2','hc_okayu_m','hc_miko_0','hc_miko_1','hc_miko_2','hc_miko_m','hc_calli_0','hc_calli_1','hc_calli_2','hc_calli_m','hc_mumei_0','hc_mumei_1','hc_mumei_2','hc_mumei_m','hc_ollie_0','hc_ollie_1','hc_ollie_2','hc_ollie_m','hc_fauna_0','hc_fauna_1','hc_fauna_2','hc_fauna_m','hm_slime_b','hm_wisp','hm_chest','hm_drone','hm_slime_g','hm_golem','hm_skel','hm_devil','hm_crystal','hm_flame','hm_bflame','hm_skull','hm_rdevil','hm_knight','hb_ship','hb_mkitsune','hb_mreaper','hb_dragon','hb_fox','hb_reaper','hx_purple','hx_green','hx_orange','hx_blue','hx_clock','hx_red','hx_foot','ufo_o','turret','xwing','fort','fort2','fortcore','fa_spoke','fa_orbs','fa_cres','fa_fan','eye','ushp','bg4','bg5','player','player_l','player_r','cat','wasp','beetle','pod','boss1','ufo','spider','escort','boss2','jelly','tristar','core','boss3a','boss3b','boss3c','boss3d','b_orb','b_flame','b_missile','b_ring','b_needle','b_cres','p_shot','p_arrow','coin','gem_g','gem_p','heart','boom1','boom2','boom3','spark','beam','broom1','broom2','clear','hit','pilot','pship','face_b1','face_pilot','face_lilly','face_lilly2','mine','skill_b','ice1','magic','tile_ring','tile_burst','tile_spokes','tile_spiral','tile_fan','tile_cross','bg','bg2','bg3']){const i=new Image();i.src='assets/game/'+n+'.png';IMG[n]=i}
 function sprFit(n,x,y,box,a){const i=IMG[SKMAP[n]||n];if(!i||!i.naturalWidth)return false;return spr(n,x,y,box/Math.max(i.naturalWidth,i.naturalHeight),a)}
 function spr(n,x,y,sc,a,rot){const i=IMG[SKMAP[n]||n];if(!i||!i.naturalWidth)return false;const w=i.naturalWidth*sc,h=i.naturalHeight*sc;cx.save();if(a!=null)cx.globalAlpha=a;if(rot){cx.translate(x,y);cx.rotate(rot);cx.drawImage(i,-w/2,-h/2,w,h)}else cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),w,h);cx.restore();return true}
 let hi=0;try{hi=Number(localStorage.getItem('dm-hi')||0)}catch(e){}
@@ -975,7 +975,7 @@ const HOLO_STAGES=[
   {name:'冥界',a:'hm_skull',b:'hm_rdevil',mid:'hm_knight',midName:'冥界の騎士',ms:1,boss:'hb_reaper',bossName:'冥界の死神',spells:['必殺「冥府の鎌」','必殺「魂の葬列」','必殺「冥界の門 -Last Word-」'],bs:1,face:'hb_reaper',forms:null,fsc:null,rival:false,aura:true,spellArt:['hx_red','hx_purple','hx_clock']},
 ];
 let skin='base',mem='suisei',SKMAP={};try{const v=JSON.parse(localStorage.getItem('dm-skin')||'{}');if(v.skin==='holo')skin='holo';if(HOLO_MEM.includes(v.mem))mem=v.mem}catch(e){}
-function applySkin(){SKMAP=skin==='holo'?{player:`hc_${mem}_0`,player_l:`hc_${mem}_1`,player_r:`hc_${mem}_2`,skill_b:`hc_${mem}_1`,cat:`hc_${mem}_m`,magic:'hx_foot',face_lilly2:`hc_${mem}_0`}:{};
+function applySkin(){SKMAP=skin==='holo'?{player:`hc_${mem}_0`,player_l:`hc_${mem}_1`,player_r:`hc_${mem}_2`,skill_b:`hc_${mem}_1`,cat:`hc_${mem}_m`,magic:'hx_foot',face_lilly2:`hc_${mem}_0`,rock:'ho_ice',crate:'ho_ufo',fighter:'ho_bat',tank:'ho_slime',turret:'ho_tornado'}:{};
   STG=STAGES.map((st,i)=>skin==='holo'?Object.assign({},st,HOLO_STAGES[i]):st);try{localStorage.setItem('dm-skin',JSON.stringify({skin,mem}))}catch(e){}}
 let snd=true,selStage=0,cleared=[];try{cleared=JSON.parse(localStorage.getItem('dm-cleared')||'[]')||[]}catch(e){}
 // ---------- audio ----------
@@ -1008,7 +1008,7 @@ const STAGES=[
   {name:'最終決戦',bg:'bg5',a:'eye',b:'ushp',mid:'pship',midName:'ライバル「スミレ」再戦',midHp:1.8,ms:.7,face:'face_b1',boss:'boss1',forms:['boss1','boss1','boss1','boss1','boss3b'],fsc:[.55,.55,.55,.55,1],aura:true,bossName:'マザー・オーバーロード',bs:.55,spells:['必殺「ご奉仕ジャッジメント」','必殺「メイド・アポカリプス」','必殺「真・オーバーロード -Last Word-」'],k:['cres','laser','flame','ring','orb','needle'],d:1.75},
 ];
 // 탄 그림: 구슬·불꽃·미사일·링·바늘·초승달은 시트 그림(속도 방향으로 회전), laser 만 선분으로 그림
-const BSPR={orb:['b_orb',.9,false],flame:['b_flame',.8,true],missile:['b_missile',.7,true],ring:['b_ring',.45,false],needle:['b_needle',.4,true],cres:['b_cres',.9,true]};
+const BSPR={orb:['b_orb',.9,false],flame:['b_flame',.8,true],missile:['b_missile',.7,true],ring:['b_ring',.45,false],needle:['b_needle',.4,true],cres:['b_cres',.9,true],fire:['b_fire',.7,true],comet:['b_comet',.85,true],pcres:['b_pcres',.85,true],pstar:['b_pstar',.5,'spin'],cstar:['b_cstar',.5,'spin'],wave:['b_wave',.3,true]};
 let STG=null;const G={};const ST=()=>STG[G.stage];applySkin();
 function renderSkin(){document.querySelectorAll('#dmSkin [data-skin]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.skin===skin)));const m=$('dmMem');m.hidden=skin!=='holo';
   if(skin==='holo'&&!m.childElementCount)m.innerHTML=HOLO_MEM.map(k=>`<button type="button" data-mem="${k}" title="${HOLO_NAME[k]}"><img src="assets/game/hc_${k}_f.png" alt="" loading="lazy"><span>${HOLO_NAME[k]}</span></button>`).join('');
@@ -1018,7 +1018,7 @@ $('dmMem').addEventListener('click',e=>{const b=e.target.closest('[data-mem]');i
 function renderStages(){const el=$('dmStages');if(!el)return;el.innerHTML=STG.map((st,i)=>`<button type="button" data-st="${i}" aria-pressed="${i===selStage}" title="${st.name}"><b>ST${i+1}${cleared.includes(i)?' <i class="star">★</i>':''}</b><span>${st.name}</span></button>`).join('')}
 $('dmStages').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;selStage=Number(b.dataset.st);renderStages();reset();start()});
 function reset(){
-  Object.assign(G,{t:0,score:0,graze:0,lives:5,bombs:2,power:1,items:0,state:'title',player:{x:W/2,y:H-70,inv:0,slow:false,tilt:0},pb:[],eb:[],en:[],drops:[],fx:[],boss:null,spellTimer:0,spell:null,spellClean:true,capture:0,bombT:0,shake:0,msg:'',msgT:0,wave:0,waveT:60,flash:0,stage:0,clearT:0,beams:[],cut:0,bombAnim:0,chain:null,tele:null});
+  Object.assign(G,{t:0,score:0,graze:0,lives:5,bombs:2,power:1,items:0,state:'title',player:{x:W/2,y:H-70,inv:0,slow:false,tilt:0},pb:[],eb:[],en:[],drops:[],fx:[],boss:null,spellTimer:0,spell:null,spellClean:true,capture:0,bombT:0,shake:0,msg:'',msgT:0,wave:0,waveT:60,flash:0,stage:0,clearT:0,fences:[],beams:[],cut:0,bombAnim:0,chain:null,tele:null});
 }
 reset();renderStages();renderSkin();
 // ---------- input ----------
@@ -1031,27 +1031,56 @@ document.addEventListener('keydown',e=>{if(sec.hidden)return;keys[e.key]=true;if
 document.addEventListener('keyup',e=>{keys[e.key]=false;if(e.key==='Shift'){G.player.slow=false;$('dmSlow').setAttribute('aria-pressed','false')}});
 $('dmSlow').addEventListener('click',()=>{G.player.slow=!G.player.slow;$('dmSlow').setAttribute('aria-pressed',String(G.player.slow))});
 $('dmBomb').addEventListener('click',()=>{if(G.state!=='play')start();else bomb()});
-$('dmSound').addEventListener('click',()=>{snd=!snd;$('dmSound').setAttribute('aria-pressed',String(snd));if(!snd)bgmStop();else if(G.state==='play')bgm(G.boss?'boss':'stage');else bgm('title')});
+$('dmSound').addEventListener('click',()=>{snd=!snd;$('dmSound').setAttribute('aria-pressed',String(snd));if(!snd)bgmStop();else if(G.state==='play')bgm(G.boss?bgmBoss():bgmStage());else bgm('title')});
 // ---------- BGM: 16비트풍 칩튠 시퀀서(스퀘어 리드 2성 + 트라이앵글 베이스 + 노이즈 드럼 + 딜레이). 16분음표 단위로 미리 스케줄 ----------
 // 곡은 [음(MIDI), 길이(16분음표 수)] 목록. 0 은 쉼표. 스테이지마다 조를 2씩 올리고 템포를 조금 높인다
 const BGM={cur:null,pos:0,next:0,timer:null,bus:null,delay:null};
-const SONGS={
-  stage:{bpm:150,chords:[[45,0],[41,1],[48,1],[43,1],[45,0],[41,1],[43,1],[40,1]], // [베이스 루트, 장조?]
+const SONGS={ // 스테이지 s1~s5, 보스 b1~b5, 타이틀. duty 는 펄스 폭(.125/.25/.5 = 패미컴 음색), tr 은 전체 옮김
+  s1:{bpm:150,duty:.25,chords:[[45,0],[41,1],[48,1],[43,1],[45,0],[41,1],[43,1],[40,1]],
     mel:[[76,2],[81,2],[84,2],[83,2],[81,2],[79,2],[76,4], [77,2],[81,2],[84,4],[81,2],[77,2],[79,4], [76,2],[79,2],[84,2],[86,2],[88,4],[86,2],[84,2], [83,2],[79,2],[74,2],[79,2],[83,4],[81,2],[79,2],
          [81,2],[84,2],[88,4],[86,2],[84,2],[83,4], [81,2],[77,2],[81,2],[84,2],[86,4],[84,2],[81,2], [83,2],[86,2],[91,4],[90,2],[86,2],[83,4], [80,2],[83,2],[88,4],[86,2],[83,2],[80,2],[76,2]],
     drums:'k.h.s.h.k.h.s.h.',bass:'rRrorRrr'},
-  boss:{bpm:172,chords:[[38,0],[46,1],[43,0],[45,1]],
+  s2:{bpm:156,duty:.125,chords:[[40,0],[36,1],[38,1],[35,1],[40,0],[36,1],[38,1],[35,1]],
+    mel:[[76,2],[79,2],[83,4],[81,2],[79,2],[78,2],[76,2], [72,2],[76,2],[79,4],[78,2],[76,2],[74,4], [74,2],[78,2],[81,4],[79,2],[78,2],[76,2],[74,2], [75,4],[78,4],[83,6],[0,2],
+         [83,2],[83,2],[88,4],[86,2],[83,2],[81,2],[79,2], [79,2],[84,2],[88,4],[86,2],[84,2],[83,4], [81,2],[86,2],[90,4],[88,2],[86,2],[84,2],[83,2], [87,4],[86,4],[83,8]],
+    drums:'k.h.s.hkk.h.s.h.',bass:'rRoRrRoR'},
+  s3:{bpm:144,duty:.5,chords:[[38,0],[46,1],[43,0],[45,1]],
+    mel:[[74,3],[77,1],[81,4],[79,2],[77,2],[76,4], [74,3],[77,1],[82,4],[81,2],[79,2],[77,4], [79,3],[82,1],[86,4],[84,2],[82,2],[81,4], [81,2],[76,2],[73,4],[76,2],[79,2],[81,4]],
+    drums:'k..hs..hk.k.s..h',bass:'r.Rrr.Ro'},
+  s4:{bpm:160,duty:.25,chords:[[43,1],[38,1],[40,0],[36,1],[45,0],[38,1],[43,1],[43,1]],
+    mel:[[79,2],[83,2],[86,4],[83,2],[86,2],[91,4], [90,2],[86,2],[81,4],[83,2],[86,2],[90,4], [88,2],[83,2],[79,4],[83,2],[88,2],[91,4], [88,4],[84,4],[86,4],[88,4],
+         [84,2],[88,2],[93,4],[91,2],[88,2],[84,4], [86,2],[90,2],[93,4],[90,2],[86,2],[81,4], [83,2],[86,2],[91,4],[90,2],[88,2],[86,2],[83,2], [79,8],[0,4],[74,2],[78,2]],
+    drums:'k.h.s.h.k.hks.h.',bass:'rRrRrRoR',tr:-12},
+  s5:{bpm:168,duty:.125,chords:[[36,0],[44,1],[46,1],[43,1]],
+    mel:[[72,1],[72,1],[75,2],[79,2],[84,2],[82,2],[79,2],[75,4], [80,2],[84,2],[87,4],[84,2],[80,2],[79,4], [82,2],[86,2],[89,4],[87,2],[86,2],[84,2],[82,2], [83,2],[79,2],[74,2],[79,2],[83,4],[86,4]],
+    drums:'k.hhs.hhk.hks.hh',bass:'rrRrrrRr'},
+  b1:{bpm:172,duty:.25,chords:[[38,0],[46,1],[43,0],[45,1]],
     mel:[[74,1],[74,1],[77,2],[81,2],[86,2],[84,2],[81,2],[77,4], [82,2],[86,2],[89,4],[86,2],[82,2],[81,4], [79,2],[82,2],[86,2],[91,2],[89,2],[86,2],[82,4], [85,2],[88,2],[81,2],[88,2],[85,2],[81,2],[76,4]],
     drums:'k.hhs.h.k.k.s.hh',bass:'rrRrrrRo'},
-  title:{bpm:104,chords:[[45,0],[41,1],[48,1],[43,1]],
+  b2:{bpm:180,duty:.125,chords:[[42,0],[38,1],[40,1],[37,1]],
+    mel:[[78,1],[78,1],[81,2],[85,2],[90,2],[88,2],[85,2],[81,4], [86,2],[85,2],[81,2],[78,2],[74,4],[78,4], [80,2],[83,2],[88,4],[86,2],[83,2],[80,4], [85,2],[89,2],[92,4],[89,2],[85,2],[80,4]],
+    drums:'k.s.k.s.k.s.kks.',bass:'rRrRrRrR',tr:-12},
+  b3:{bpm:160,duty:.5,chords:[[34,0],[42,1],[39,0],[41,1]],
+    mel:[[70,4],[73,2],[77,2],[76,4],[73,4], [78,4],[77,2],[73,2],[70,8], [75,2],[78,2],[82,4],[80,2],[78,2],[77,4], [77,2],[81,2],[84,4],[81,2],[77,2],[76,4]],
+    drums:'k...s.h.k.k.s.h.',bass:'r.r.R.ro'},
+  b4:{bpm:170,duty:.25,chords:[[40,1],[45,1],[47,1],[40,1]],
+    mel:[[76,2],[80,2],[83,2],[88,4],[83,2],[80,4], [81,2],[85,2],[88,4],[85,2],[88,2],[93,4], [83,2],[87,2],[90,4],[87,2],[83,2],[78,4], [88,4],[87,2],[85,2],[83,4],[80,4]],
+    drums:'k.s.k.s.k.sks.s.',bass:'rRoRrRoR',tr:-12},
+  b5:{bpm:184,duty:.125,chords:[[36,0],[41,0],[44,1],[43,1],[36,0],[41,0],[44,1],[43,1]],
+    mel:[[72,1],[72,1],[75,2],[79,2],[84,2],[82,2],[79,2],[75,4], [77,2],[80,2],[84,4],[82,2],[80,2],[77,4], [75,2],[79,2],[80,4],[79,2],[75,2],[72,4], [74,2],[77,2],[79,4],[83,4],[86,4],
+         [84,4],[82,2],[79,2],[75,4],[72,4], [77,2],[75,2],[72,2],[68,2],[65,4],[68,4], [68,2],[72,2],[75,4],[80,4],[79,4], [79,2],[74,2],[71,2],[67,2],[62,8]],
+    drums:'k.hhs.hhk.hhs.kk',bass:'rRrRrRrR'},
+  title:{bpm:104,duty:.5,chords:[[45,0],[41,1],[48,1],[43,1]],
     mel:[[0,8],[76,4],[81,4], [84,8],[81,4],[79,4], [76,8],[79,4],[84,4], [83,12],[0,4]],
     drums:'................',bass:'arpeggio'},
 };
+const bgmStage=()=>'s'+(G.stage+1),bgmBoss=()=>'b'+(G.stage+1);
 function midi(n){return 440*Math.pow(2,(n-69)/12)}
 function bgmBus(){const c=ac();if(BGM.bus)return BGM.bus;const g=c.createGain();g.gain.value=.085;const comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=6;g.connect(comp);comp.connect(c.destination);
   const d=c.createDelay(.5);d.delayTime.value=.19;const fb=c.createGain();fb.gain.value=.22;const wet=c.createGain();wet.gain.value=.35;d.connect(fb);fb.connect(d);d.connect(wet);wet.connect(g);BGM.delay=d;BGM.bus=g;return g}
 function noiseBuf(){const c=ac();if(BGM.nb)return BGM.nb;const b=c.createBuffer(1,c.sampleRate*.3,c.sampleRate),o=b.getChannelData(0);for(let i=0;i<o.length;i++)o[i]=Math.random()*2-1;return BGM.nb=b}
-function vLead(n,t,d,oct,g0,echo){const c=ac(),o=c.createOscillator(),v=c.createGain();o.type='square';o.frequency.setValueAtTime(midi(n+oct),t);o.frequency.setValueAtTime(midi(n+oct)*1.004,t+.06);o.frequency.setValueAtTime(midi(n+oct),t+.12);
+const PW={};function pulse(duty){const c=ac();if(duty>=.5||!c.createPeriodicWave)return null;if(PW[duty])return PW[duty];const N=32,re=new Float32Array(N),im=new Float32Array(N);for(let k=1;k<N;k++){re[k]=Math.sin(2*Math.PI*k*duty)/(Math.PI*k)*2;im[k]=(1-Math.cos(2*Math.PI*k*duty))/(Math.PI*k)*2}return PW[duty]=c.createPeriodicWave(re,im)}
+function vLead(n,t,d,oct,g0,echo){const c=ac(),o=c.createOscillator(),v=c.createGain();const pw=pulse((SONGS[BGM.cur]||{}).duty||.5);if(pw)o.setPeriodicWave(pw);else o.type='square';o.frequency.setValueAtTime(midi(n+oct),t);o.frequency.setValueAtTime(midi(n+oct)*1.004,t+.06);o.frequency.setValueAtTime(midi(n+oct),t+.12);
   v.gain.setValueAtTime(0,t);v.gain.linearRampToValueAtTime(g0,t+.006);v.gain.setValueAtTime(g0,t+d*.55);v.gain.exponentialRampToValueAtTime(.0005,t+d);o.connect(v);v.connect(BGM.bus);if(echo)v.connect(BGM.delay);o.start(t);o.stop(t+d+.02)}
 function vBass(n,t,d){const c=ac(),o=c.createOscillator(),v=c.createGain();o.type='triangle';o.frequency.setValueAtTime(midi(n),t);v.gain.setValueAtTime(.5,t);v.gain.exponentialRampToValueAtTime(.001,t+d*.95);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+d)}
 function vKick(t){const c=ac(),o=c.createOscillator(),v=c.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(42,t+.11);v.gain.setValueAtTime(.9,t);v.gain.exponentialRampToValueAtTime(.001,t+.16);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+.17)}
@@ -1060,15 +1089,15 @@ function expand(song){const steps=[];for(const [n,l] of song.mel){steps.push({n,
 function bgm(name){if(!snd||!window.AudioContext&&!window.webkitAudioContext)return;try{bgmBus();const song=SONGS[name];if(!song)return;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.steps=expand(song);BGM.pos=0;BGM.next=ac().currentTime+.08;
   BGM.timer=setInterval(bgmTick,40)}catch(e){}}
 function bgmStop(){if(BGM.timer)clearInterval(BGM.timer);BGM.timer=null;BGM.cur=null}
-function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=[0,2,4,-3,-1][G.stage]||0,step=60/(song.bpm+G.stage*5)/4;
+function bgmTick(){if(sec.hidden)return;const c=ac(),song=SONGS[BGM.cur],tr=song.tr||0,step=60/song.bpm/4;
   while(BGM.next<c.currentTime+.18){const i=BGM.pos,t=BGM.next,bar=Math.floor(i/16)%song.chords.length,[root,maj]=song.chords[bar],s16=i%16,ev=BGM.steps[i%BGM.steps.length];
     if(ev&&ev.n){vLead(ev.n+tr,t,step*ev.l*.95,0,.22,true);if(BGM.cur!=='title')vLead(ev.n+tr,t,step*ev.l*.9,-12,.07,false)}
     if(song.bass==='arpeggio'){const arp=[0,7,12,maj?16:15,19,maj?16:15,12,7];if(s16%2===0)vLead(root+tr+12+arp[(s16/2)|0],t,step*1.8,0,.1,true);if(s16===0)vBass(root+tr,t,step*14)}
-    else{const ch=song.bass[(s16/2)|0];if(s16%2===0&&ch!=='.')vBass(root+tr+(ch==='R'?12:ch==='o'?7:0),t,step*1.9);if(BGM.cur==='boss'&&s16%2===1)vBass(root+tr,t,step*.8)}
+    else{const ch=song.bass[(s16/2)|0];if(s16%2===0&&ch!=='.')vBass(root+tr+(ch==='R'?12:ch==='o'?7:0),t,step*1.9);if(BGM.cur[0]==='b'&&s16%2===1)vBass(root+tr,t,step*.8)}
     const dr=song.drums[s16];if(dr==='k')vKick(t);else if(dr==='s')vNoise(t,.14,1800,.5,true);else if(dr==='h')vNoise(t,.04,7000,.18,false);
     if(song.drums!=='................'&&s16%2===1)vNoise(t,.025,9000,.07,false);
     BGM.pos++;BGM.next+=step}}
-function start(){if(G.state==='title'||G.state==='over'||G.state==='allclear'){if(G.state!=='title')reset();G.stage=selStage;G.power=Math.min(4,1+selStage);G.state='play';say('STAGE '+(G.stage+1)+'  ─  '+ST().name+'  ─  お掃除開始！',120);bgm('stage');beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
+function start(){if(G.state==='title'||G.state==='over'||G.state==='allclear'){if(G.state!=='title')reset();G.stage=selStage;G.power=Math.min(4,1+selStage);G.state='play';say('STAGE '+(G.stage+1)+'  ─  '+ST().name+'  ─  お掃除開始！',120);bgm(bgmStage());beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}}
 function say(m,t){G.msg=m;G.msgT=t}
 // ---------- bullets: heart(ハート弾) star(星弾) note(音符弾) bit(グリッチ弾) laser(レーザー片) ring(リング弾) ----------
 function eb(x,y,vx,vy,kind,col,r){G.eb.push({x,y,vx,vy,kind:kind||'bit',col:col||'#ff5fb0',r:r||4,age:0,grazed:false,spin:rnd(0,TAU)})}
@@ -1077,27 +1106,55 @@ function aimed(x,y,spd,spread,n,kind,col,r){const b=Math.atan2(G.player.y-y,G.pl
 function pbShot(){sfx('shot');const p=G.player,n=G.power>=3?3:G.power>=2?2:1;for(let i=0;i<n;i++){const dx=(i-(n-1)/2)*9;G.pb.push({x:p.x+dx,y:p.y-14,vy:-9,s:'p_shot'})}
   if(G.power>=2){for(const o of options()){G.pb.push({x:o.x,y:o.y-8,vy:-8,vx:G.power>=4?(o.x<p.x?-.5:.5):0,s:'p_arrow'})}}}
 function options(){const p=G.player,s=p.slow?16:24,w=Math.sin(G.t*.12)*3;return[{x:p.x-s,y:p.y+6+w},{x:p.x+s,y:p.y+6-w}]}
-function bomb(){if(G.bombs<=0||G.bombT>0)return;G.bombs--;G.bombT=70;G.spellClean=false;G.player.inv=Math.max(G.player.inv,110);G.score+=G.eb.length*10;G.eb=[];G.en.forEach(e=>{e.hp-=40});if(G.boss)G.boss.hp-=60;G.shake=14;G.flash=12;G.bombAnim=44;G.beams=[];say('結界展開「まとめ結界」',60);sfx('bomb')}
+function bomb(){if(G.bombs<=0||G.bombT>0)return;G.bombs--;G.bombT=70;G.spellClean=false;G.player.inv=Math.max(G.player.inv,110);G.score+=G.eb.length*10;G.eb=[];G.en.forEach(e=>{e.hp-=40});if(G.boss)G.boss.hp-=60;G.shake=14;G.flash=12;G.bombAnim=44;G.beams=[];G.fences=[];say('結界展開「まとめ結界」',60);sfx('bomb')}
 // ---------- enemies: 역할 a(휩쓸기·돌진) b(떠다니며 링) mid(중보스). 그림은 스테이지 표의 kind ----------
 function spawn(role,x,y,o){const st=ST(),kind=role==='a'?st.a:role==='b'?st.b:st.mid;G.en.push(Object.assign({x,y,kind,role,t:0,hp:(role==='mid'?180*(st.midHp||1):role==='b'?26:14)*(1+G.stage*.3),r:role==='mid'?(st.midHp?40:30):15,sc:role==='mid'?st.ms:1,dir:1,ty:90},o||{}))}
-function spawnWave(){const w=G.wave;
-  if(w===0||w===1){const d=w===0?1:-1;for(let i=0;i<5;i++)spawn('a',d>0?-20-i*34:W+20+i*34,30+i*22,{dir:d,path:'sweep'})}
-  else if(w===2){for(let i=0;i<3;i++)spawn('b',70+i*110,-30-i*40)}
-  else if(w===3){for(let i=0;i<7;i++)spawn('a',W/2+(i-3)*42,-20-Math.abs(i-3)*26,{path:'dive'})}
-  else if(w===4){for(let i=0;i<4;i++)spawn('b',50+i*86,-30-(i%2)*50);for(let i=0;i<3;i++)spawn('a',-20-i*40,80,{dir:1,path:'sweep'})}
-  else if(w===5){spawn('mid',W/2,-40);say('中ボス  ─  '+ST().midName,90);beep(300,.2,'triangle')}
-  else if(w===6){for(let i=0;i<6;i++)spawn('a',W+20+i*30,40+i*18,{dir:-1,path:'sweep'});for(let i=0;i<2;i++)spawn('b',90+i*180,-60)}
-  else if(w===7){for(let i=0;i<5;i++)spawn('b',40+i*70,-30-i*30)}
-  else if(w===8){spawnBoss()}
-}
+// 스테이지 오브젝트(role 'o'): rock 운석(부딪히면 피탄, 큰 운석은 둘로 쪼개짐) · crate 보급 포드(쏘지 않고 아이템을 많이 떨굼) · tank 폭발 탱크(부수면 주변 탄을 지우고 적에게 피해) · fighter 편대기(V·선회 경로)
+function obj(ot,x,y,o){const st=1+G.stage*.3,base={rock:[10,12],crate:[34,16],tank:[16,14],fighter:[9,13]}[ot];G.en.push(Object.assign({x,y,kind:ot,role:'o',ot,t:0,hp:base[0]*st,r:base[1],sc:ot==='fighter'?.42:ot==='tank'?.55:ot==='crate'?.85:1,vx:0,vy:1.4,rot:0,dir:1},o||{}))}
+function rocks(n){for(let i=0;i<n;i++){const big=Math.random()<.35;obj('rock',rnd(20,W-20),-20-i*rnd(18,34),{vx:rnd(-.5,.5),vy:rnd(1.1,2),sc:big?1.45:rnd(.8,1.05),r:big?17:12,hp:(big?24:10)*(1+G.stage*.3),big,spin:rnd(-.06,.06)})}}
+function vForm(cx,n){for(let i=0;i<n;i++){const k=i-(n-1)/2;obj('fighter',cx+k*30,-20-Math.abs(k)*24,{path:'v'})}}
+function swirl(side){for(let i=0;i<6;i++)obj('fighter',side>0?-20-i*26:W+20+i*26,70,{path:'swirl',dir:side,t:-i*8})}
+// 레이저 울타리: 양옆 발사기 사이에 가로 레이저. 60프레임 예고 뒤 70프레임, 70px 틈으로 빠져나간다
+function fence(y,gap){G.fences.push({y,gx:gap==null?rnd(60,W-60):gap,t:0,warn:60,life:70});sfx('charge')}
+const WAVES=[
+  ()=>{for(let i=0;i<5;i++)spawn('a',-20-i*34,30+i*22,{dir:1,path:'sweep'})},
+  ()=>{rocks(6)},
+  ()=>{for(let i=0;i<3;i++)spawn('b',70+i*110,-30-i*40);obj('crate',W/2,-30,{vy:.6})},
+  ()=>{vForm(W/2,5)},
+  ()=>{for(let i=0;i<5;i++)spawn('a',W+20+i*34,30+i*22,{dir:-1,path:'sweep'});obj('tank',rnd(60,W-60),-40,{vy:.7})},
+  ()=>{fence(250);for(let i=0;i<5;i++)spawn('a',W/2+(i-2)*46,-20-Math.abs(i-2)*26,{path:'dive'})},
+  ()=>{swirl(1);rocks(3)},
+  ()=>{for(let i=0;i<2;i++)obj('tank',90+i*180,-40-i*30,{vy:.7});for(let i=0;i<3;i++)spawn('b',60+i*120,-60)},
+  ()=>{spawn('mid',W/2,-40);say('中ボス  ─  '+ST().midName,90);beep(300,.2,'triangle')},
+  ()=>{rocks(5);vForm(W*.3,3);vForm(W*.7,3)},
+  ()=>{obj('crate',W/2,-30,{vy:.6});for(let i=0;i<4;i++){spawn('a',-20-i*34,50+i*18,{dir:1,path:'sweep'});spawn('a',W+20+i*34,50+i*18,{dir:-1,path:'sweep'})}},
+  ()=>{fence(200);fence(320);for(let i=0;i<3;i++)spawn('b',70+i*110,-30)},
+  ()=>{swirl(-1);obj('tank',W/2,-40,{vy:.8})},
+  ()=>{rocks(7);for(let i=0;i<5;i++)spawn('a',W/2+(i-2)*46,-30-Math.abs(i-2)*26,{path:'dive'})},
+  ()=>{for(let i=0;i<5;i++)spawn('b',40+i*70,-30-i*30);obj('crate',rnd(80,W-80),-30,{vy:.6})},
+  ()=>{vForm(W*.25,4);vForm(W*.75,4);fence(280)},
+  ()=>{spawnBoss()},
+];
+function spawnWave(){const f=WAVES[G.wave];if(f)f()}
 function enemyAI(e){e.t++;const k=ST().k,d=ST().d,sp=1+(d-1)*.4,on=e.x>12&&e.x<W-12&&e.y>12&&e.y<H-70; // 화면 안(아래 자기 영역 제외)에서만 쏜다
+  if(e.role==='o'){const p=G.player;
+    if(e.ot==='rock'){e.x+=e.vx;e.y+=e.vy;e.rot+=e.spin;if(p.inv<=0&&Math.hypot(p.x-e.x,p.y-e.y)<e.r*.6+2){hit();e.hp=0}return e.y<H+30&&e.x>-30&&e.x<W+30}
+    if(e.ot==='crate'||e.ot==='tank'){e.y+=e.vy;e.x+=Math.sin(e.t*.02)*.4;return e.y<H+40}
+    if(e.ot==='fighter'){if(e.t<0)return true;if(e.path==='v'){e.y+=e.t<70?2:3.2;e.x+=e.t>70?Math.sign(e.x-W/2)*1.2:0}else{const a=e.t*.035;if(e.t<40)e.x+=3*e.dir;else if(e.t<220){e.x+=Math.cos(a)*2.6*e.dir;e.y+=Math.sin(a)*2}else{e.y-=2.6}}
+      if(on&&e.t%Math.round(70/d)===30)aimed(e.x,e.y,2.7*sp,0,1,k[3],'#ff9a3c',4);return e.y<H+30&&e.y>-60&&e.x>-60&&e.x<W+60}
+    return true}
   if(e.role==='a'){if(e.path==='sweep'){e.x+=2.2*e.dir;e.y+=Math.sin(e.t*.08)*1.4;if(on&&e.t%Math.round(85/d)===25)aimed(e.x,e.y,2.8*sp,0,1,k[3],'#7df9ff',4)}
     else{e.y+=e.t<60?2.2:.6;e.x+=Math.sin(e.t*.05)*.8;if(on&&e.t%Math.round(75/d)===30)aimed(e.x,e.y,2.6*sp,.3,2,k[3],'#ffd166',4)}
     return e.x>-40&&e.x<W+40&&e.y<H+20}
   if(e.role==='b'){e.y+=e.y<110?1.4:.35;e.x+=Math.sin(e.t*.03)*1.1;if(on&&e.t%Math.round(105/d)===40)ring(e.x,e.y,5,1.5*sp,e.t*.1,k[0],'#ff5fb0',5);return e.y<H+20}
   e.y+=e.y<e.ty?1.6:0;if(e.y>=e.ty){e.x=W/2+Math.sin(e.t*.02)*110;if(e.t%Math.round(6/d)===0){const a=e.t*.21;eb(e.x,e.y,Math.cos(a)*2.2*sp,Math.sin(a)*2.2*sp,k[4],'#ffd166',5)}if(e.t%150===32){G.tele={name:'tile_cross',t:18,max:18,x:e.x,y:e.y,fixed:true}}if(e.t%150===50){sfx('ring');ring(e.x,e.y,8,1.9*sp,e.t*.07,k[5],'#7df9ff',6)}if(e.t%130===100)mine(e.x,e.y,rnd(-1,1),1.4);if(e.t%120===80)aimed(e.x,e.y,3*sp,.22,3,k[0],'#ff5fb0',5)}return true}
+function objDeath(e){const big=e.ot==='crate'||e.ot==='tank';boom(e.x,e.y,e.ot==='tank'?'#ff9a3c':'#c9cdd8',big);beep(big?140:220,big?.25:.06,'square',.04);
+  if(e.ot==='rock'){G.score+=e.big?200:80;if(e.big){for(const s of[-1,1])obj('rock',e.x+s*8,e.y,{vx:s*rnd(.7,1.2),vy:e.vy*.9,sc:.8,r:11,hp:8*(1+G.stage*.3),spin:rnd(-.08,.08)})}else if(Math.random()<.25)G.drops.push({x:e.x,y:e.y,vy:-1.5,k:'coin',t:0})}
+  else if(e.ot==='crate'){G.score+=800;for(let i=0;i<8;i++){const kk=i===0&&Math.random()<.5?'gem_p':i<3?'gem_g':'coin';G.drops.push({x:e.x+rnd(-18,18),y:e.y+rnd(-8,8),vy:rnd(-3,-1),k:kk,t:rnd(0,TAU)})}say('補給ポッド！',40)}
+  else if(e.ot==='tank'){G.score+=500;G.shake=Math.max(G.shake,10);G.chain={x:e.x,y:e.y,n:5};const R=90;G.eb=G.eb.filter(b=>{if(Math.hypot(b.x-e.x,b.y-e.y)<R){G.score+=10;return false}return true});for(const o of G.en)if(o!==e&&Math.hypot(o.x-e.x,o.y-e.y)<R)o.hp-=40;if(G.boss&&Math.hypot(G.boss.x-e.x,G.boss.y-e.y)<R)G.boss.hp-=30;G.fx.push({x:e.x,y:e.y,life:22,max:22,spr:'clear',sc:1.2,rot:0})}
+  else{G.score+=120;if(Math.random()<.3)G.drops.push({x:e.x,y:e.y,vy:-1.5,k:Math.random()<.3?'gem_g':'coin',t:0})}}
 function dropFrom(e){const n=e.role==='mid'?12:e.role==='b'?2:1;for(let i=0;i<n;i++){const kk=e.role==='mid'&&i===0?'gem_p':e.role==='mid'&&i===1&&Math.random()<.5?'heart':Math.random()<.3?'gem_g':'coin';G.drops.push({x:e.x+rnd(-16,16),y:e.y+rnd(-6,6),vy:rnd(-3,-1),k:kk,t:rnd(0,TAU)})}}
-function spawnBoss(){G.boss={x:W/2,y:-70,ty:110,hp:0,max:0,phase:-1,t:0,r:34,name:ST().bossName};G.cut=150;nextPhase();say('WARNING  ─  BOSS 接近',110);bgm('boss');beep(220,.3,'sawtooth',.06)}
+function spawnBoss(){G.boss={x:W/2,y:-70,ty:110,hp:0,max:0,phase:-1,t:0,r:34,name:ST().bossName};G.cut=150;nextPhase();say('WARNING  ─  BOSS 接近',110);bgm(bgmBoss());beep(220,.3,'sawtooth',.06)}
 const PHASES=[{spell:0,hp:320,time:35},{spell:1,hp:450,time:45},{spell:0,hp:320,time:35},{spell:2,hp:540,time:50},{spell:3,hp:650,time:60}]; // spell: 0=통상, n=ST().spells[n-1]
 function nextPhase(){const b=G.boss;b.phase++;if(b.phase>=PHASES.length){G.eb=[];G.beams=[];G.chain={x:b.x,y:b.y,n:16};G.score+=50000;saveHi();beep(880,.3,'square');setTimeout(()=>beep(1320,.5,'square'),200);
     if(!cleared.includes(G.stage)){cleared.push(G.stage);try{localStorage.setItem('dm-cleared',JSON.stringify(cleared))}catch(e){}renderStages()}
@@ -1112,8 +1169,32 @@ function bossPattern(b){const t=b.t,ph=b.phase,k=ST().k,d=ST().d,sp=1+(d-1)*.4,i
   else if(ph===3){if(t%iv(7)===0){const a=t*.17;eb(b.x,b.y,Math.cos(a)*2.3*sp,Math.sin(a)*2.3*sp,k[4],'#c77dff',5);eb(b.x,b.y,Math.cos(a+Math.PI)*2.3*sp,Math.sin(a+Math.PI)*2.3*sp,k[5],'#7df9ff',5)}pre(iv(120),0,'tile_burst');if(t%iv(120)===0)sfx('ring');if(t%iv(120)===0)ring(b.x,b.y,14,1.5*sp,0,k[0],'#ff5fb0',4)}
   else if(ph===4){if(t%200===40)beam(b,Math.atan2(G.player.y-b.y,G.player.x-b.x));if(G.stage===4&&t%200===140){beam(b,Math.PI/2-.5);beam(b,Math.PI/2+.5)}pre(iv(70),0,'tile_spokes');if(t%iv(70)===0)sfx('ring');if(t%iv(70)===0)ring(b.x,b.y,12,1.8*sp,t*.05,k[1],'#ffd166',3);if(t%90===30){for(let i=-1;i<=1;i++)mine(b.x+i*30,b.y+10,i*.5,1.2)}if(t%iv(11)===0){const x=rnd(10,W-10);eb(x,-5,0,rnd(1.4,2.4)*sp,k[3],'#c77dff',4)}if(t%120===60){sfx('zap');aimed(b.x,b.y,3.8*sp,.14,5,k[2],'#ff5fb0',4)}
     if(t%200===100){for(let i=0;i<8;i++){const a=i*TAU/8;eb(b.x,b.y,Math.cos(a)*.8,Math.sin(a)*.8,k[5],'#7df9ff',9)}}}
+  sig(b,t,ph,d,sp,iv);
   b.mt=(b.mt||0)+1;const tx=W/2+Math.sin(b.mt*.013)*(ph===4?120:80),ty=b.ty+Math.sin(b.mt*.021)*14;b.x+=(tx-b.x)*.05;b.y+=(ty-b.y)*.05; // 목표로 미끄러지듯(순간이동 없음)
 }
+// 보스 고유 공격(스테이지별, 必殺 페이즈일수록 늘어남). 시트의 새 탄(fire·comet·pcres·pstar·cstar·wave)과 유도 미사일·분열탄
+function flashAt(x,y,s){G.fx.push({x,y,life:12,max:12,spr:'spark',sc:s||.9,rot:rnd(0,TAU)})}
+function homing(b,n,spd){for(let i=0;i<n;i++){const a=Math.PI/2+(i-(n-1)/2)*.7;G.eb.push({x:b.x+(i-(n-1)/2)*18,y:b.y+10,vx:Math.cos(a)*(spd||2.2),vy:Math.sin(a)*(spd||2.2),kind:'missile',col:'#fff',r:4,age:0,grazed:false,spin:0,hom:70})}sfx('zap')}
+function fireball(x,y,a,spd,n,k){G.eb.push({x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,kind:'fire',col:'#ff9a3c',r:8,age:0,grazed:false,spin:0,split:55,splitN:n||8,splitK:k||'orb'});flashAt(x,y,1)}
+function sig(b,t,ph,d,sp,iv){const P=G.player,aim=Math.atan2(P.y-b.y,P.x-b.x);
+  switch(G.stage){
+    case 0: // 메이드봇: 모프 쓸기(보라 초승달 부채) + 유도 미사일
+      if(ph>=1&&t%iv(100)===50){flashAt(b.x,b.y+20);sfx('ring');for(let i=-3;i<=3;i++){const a=Math.PI/2+i*.17+Math.sin(t*.03)*.5;eb(b.x,b.y+20,Math.cos(a)*2.3*sp,Math.sin(a)*2.3*sp,'pcres','#c77dff',5)}}
+      if(ph>=3&&t%iv(160)===80)homing(b,2);break;
+    case 1: // 라이벌: 분홍 파동(흔들리며 조준) + 보라 별 폭발
+      if(ph>=1&&t%iv(80)===40){flashAt(b.x,b.y);for(const o of[-.35,0,.35])G.eb.push({x:b.x,y:b.y,vx:Math.cos(aim+o)*2.6*sp,vy:Math.sin(aim+o)*2.6*sp,kind:'wave',col:'#ff79c6',r:6,age:0,grazed:false,spin:0,wob:1.4});sfx('zap')}
+      if(ph>=3&&t%iv(130)===65){flashAt(b.x,b.y,1.2);sfx('ring');ring(b.x,b.y,12,1.6*sp,t*.1,'pstar','#c77dff',5)}break;
+    case 2: // 오버로드 Mk.II: 분열 화염탄 + 혜성 비
+      if(ph>=1&&t%iv(120)===60){fireball(b.x,b.y+15,aim,2.1,10,'orb')}
+      if(ph>=3&&t%iv(16)===0){const x=rnd(0,W);eb(x,-10,.9,2.6*sp,'comet','#ff9a3c',4)}break;
+    case 3: // 요새함: 유도 미사일 일제 사격 + 푸른 별 링
+      if(ph>=1&&t%iv(130)===65){flashAt(b.x,b.y+20,1.1);homing(b,ph>=3?5:3,2)}
+      if(ph>=2&&t%iv(110)===20){sfx('ring');ring(b.x,b.y,14,1.7*sp,t*.07,'cstar','#7df9ff',5)}break;
+    case 4: // 마더 오버로드: 전부 섞어서
+      if(ph>=1&&t%iv(140)===70)fireball(b.x,b.y+15,aim,2.2,12,'pstar');
+      if(ph>=1&&t%iv(90)===20){for(const o of[-.4,0,.4])G.eb.push({x:b.x,y:b.y,vx:Math.cos(aim+o)*2.7*sp,vy:Math.sin(aim+o)*2.7*sp,kind:'wave',col:'#ff79c6',r:6,age:0,grazed:false,spin:0,wob:1.6});sfx('zap')}
+      if(ph>=3&&t%iv(170)===100)homing(b,4,2.3);
+      if(ph>=4&&t%iv(20)===0){const x=rnd(0,W);eb(x,-10,-.8,2.4*sp,'comet','#ff9a3c',4)}break;}}
 // 에너지 지뢰: 느리게 떠다니다 시간이 지나거나 자기가 가까이 오면 터져 구슬 6발을 뿌린다(시트의 mine 그림)
 function mine(x,y,vx,vy){sfx('mine');G.eb.push({x,y,vx,vy,kind:'mine',col:'#ff9a3c',r:9,age:0,grazed:false,spin:rnd(0,TAU),fuse:Math.round(rnd(150,200))})}
 function mineBurst(b){ring(b.x,b.y,6,2*(1+(ST().d-1)*.4),b.spin,'orb','#ff9a3c',5);G.fx.push({x:b.x,y:b.y,life:16,max:16,spr:'boom3',sc:.8,rot:rnd(0,TAU)});beep(140,.12,'sawtooth',.04)}
@@ -1135,14 +1216,16 @@ function update(){
   if(p.inv>0)p.inv--;if(G.bombT>0)G.bombT--;if(G.shake>0)G.shake--;if(G.msgT>0)G.msgT--;if(G.flash>0)G.flash--;if(G.cut>0)G.cut--;if(G.bombAnim>0)G.bombAnim--;if(G.tele){G.tele.t--;if(G.boss&&!G.tele.fixed){G.tele.x=G.boss.x;G.tele.y=G.boss.y}if(G.tele.t<=0)G.tele=null}
   if(G.chain&&G.chain.n>0&&G.t%4===0){G.chain.n--;G.fx.push({x:G.chain.x+rnd(-50,50),y:G.chain.y+rnd(-35,35),life:22,max:22,spr:Math.random()<.5?'boom1':'boom3',sc:rnd(.8,1.5),rot:rnd(0,TAU)});beep(rnd(90,160),.12,'sawtooth',.03);G.shake=Math.max(G.shake,6)}
   G.beams=G.beams.filter(bm=>{bm.t++;if(bm.t===bm.warn+1)sfx('beam');if(!G.boss)return false;const sg=beamSeg(bm);if(bm.t>bm.warn&&p.inv<=0&&segDist(p.x,p.y,sg.ax,sg.ay,sg.bx,sg.by)<bm.w+2.4)hit();return bm.t<bm.warn+bm.life});
+  G.fences=G.fences.filter(f=>{f.t++;if(f.t===f.warn+1)sfx('beam');if(f.t>f.warn&&p.inv<=0&&Math.abs(p.y-f.y)<5&&Math.abs(p.x-f.gx)>35)hit();return f.t<f.warn+f.life});
   // waves (중보스가 살아 있으면 다음 웨이브를 기다린다)
-  if(!G.boss){G.waveT--;const mid=G.en.some(e=>e.role==='mid');if(G.waveT<=0&&G.en.length<3&&!mid){spawnWave();G.wave++;G.waveT=G.wave===6?90:150}}
+  if(!G.boss){G.waveT--;const mid=G.en.some(e=>e.role==='mid');if(G.waveT<=0&&G.en.filter(e=>e.ot!=='rock').length<3&&!mid){spawnWave();G.wave++;G.waveT=G.wave===9?90:G.wave===WAVES.length-1?150:120}}
   // player bullets
   G.pb=G.pb.filter(b=>{b.y+=b.vy;b.x+=b.vx||0;if(b.y<-10)return false;
     for(const e of G.en){if(Math.abs(e.x-b.x)<e.r+4&&Math.abs(e.y-b.y)<e.r+6){e.hp-=4;G.score+=10;return false}}
     if(G.boss&&G.boss.y>0&&Math.hypot(G.boss.x-b.x,G.boss.y-b.y)<G.boss.r+8){G.boss.hp-=3;G.score+=10;return false}return true});
   // enemies
   G.en=G.en.filter(e=>{const alive=enemyAI(e);
+    if(e.hp<=0&&e.role==='o'){objDeath(e);return false}
     if(e.hp<=0){G.score+=e.role==='mid'?3000:e.role==='b'?300:150;boom(e.x,e.y,e.role==='mid'?'#ffd166':e.role==='b'?'#7df9ff':'#ff9a9a',e.role==='mid');dropFrom(e);beep(e.role==='mid'?160:200,e.role==='mid'?.3:.08,'square',.04);if(e.role==='mid'){say(ST().midName+' 撃破！',70);G.waveT=40;G.chain={x:e.x,y:e.y,n:6}}return false}return alive});
   // boss
   if(G.boss){const b=G.boss;if(b.y<b.ty){b.y+=1.5}else{b.t++;bossPattern(b);G.spellTimer--;
@@ -1151,7 +1234,10 @@ function update(){
       boom(b.x,b.y,'#ffd166',true);for(let i=0;i<8;i++)G.drops.push({x:b.x+rnd(-30,30),y:b.y+rnd(-10,10),vy:-2.5,k:Math.random()<.25?'gem_g':'coin',t:rnd(0,TAU)});nextPhase()}}}
   // enemy bullets
   const hb=p.slow?1.4:1.8,gz=15; // 피격 판정은 가운데 점 하나(저속 1.4px, 보통 1.8px)
-  G.eb=G.eb.filter(b=>{b.x+=b.vx;b.y+=b.vy;b.age++;b.spin+=b.kind==='mine'?.05:.12;if(b.kind==='ring'&&b.r>=8){b.vy+=.02}
+  G.eb=G.eb.filter(b=>{if(b.hom>0){b.hom--;const sp=Math.hypot(b.vx,b.vy),a=Math.atan2(b.vy,b.vx),ta=Math.atan2(p.y-b.y,p.x-b.x);let da=ta-a;da=Math.atan2(Math.sin(da),Math.cos(da));const na=a+Math.max(-.045,Math.min(.045,da));b.vx=Math.cos(na)*sp;b.vy=Math.sin(na)*sp}
+    if(b.split&&b.age===b.split){ring(b.x,b.y,b.splitN||8,1.8,rnd(0,TAU),b.splitK||'orb','#ff9a3c',5);G.fx.push({x:b.x,y:b.y,life:12,max:12,spr:'spark',sc:.7,rot:0});sfx('mine');return false}
+    if(b.wob){const n=Math.hypot(b.vx,b.vy)||1,w=Math.cos(b.age*.16)*b.wob;b.x+=-b.vy/n*w;b.y+=b.vx/n*w}
+    b.x+=b.vx;b.y+=b.vy;b.age++;b.spin+=b.kind==='mine'?.05:.12;if(b.kind==='ring'&&b.r>=8){b.vy+=.02}
     const d=bdist(b,p);
     if(b.kind==='mine'){b.vx*=.985;b.vy*=.985;if(b.age>b.fuse||d<40){mineBurst(b);return false}}
     if(d<b.r+hb&&p.inv<=0){hit();return false}
@@ -1163,7 +1249,7 @@ function update(){
   G.fx=G.fx.filter(f=>{f.x+=f.vx||0;f.y+=f.vy||0;f.life--;return f.life>0});
   if(G.score>hi){hi=G.score}
 }
-function nextStage(){G.stage++;bgm('stage');Object.assign(G,{state:'play',boss:null,en:[],eb:[],pb:[],drops:[],beams:[],chain:null,wave:0,waveT:90,spell:null,spellClean:true});G.player.inv=90;say('STAGE '+(G.stage+1)+'  ─  '+ST().name,150);beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}
+function nextStage(){G.stage++;bgm(bgmStage());Object.assign(G,{state:'play',boss:null,en:[],eb:[],pb:[],drops:[],beams:[],fences:[],chain:null,wave:0,waveT:90,spell:null,spellClean:true});G.player.inv=90;say('STAGE '+(G.stage+1)+'  ─  '+ST().name,150);beep(660,.08,'square');setTimeout(()=>beep(880,.12,'square'),90)}
 function hit(){const p=G.player;G.lives--;G.spellClean=false;G.shake=20;boom(p.x,p.y,'#ff5fb0');G.fx.push({x:p.x,y:p.y,life:18,max:18,spr:'hit',sc:1.1,rot:0});sfx('hit');G.eb=G.eb.filter(b=>bdist(b,p)>90);G.power=Math.max(1,G.power-1);
   if(G.lives<0){G.state='over';say('GAME OVER  ─  再挑戦は画面タップ',999);saveHi();bgmStop();return}p.inv=150;p.x=W/2;p.y=H-70;G.bombs=Math.max(G.bombs,2);say('被弾！  残機 '+G.lives,60)}
 function boom(x,y,col,big){for(let i=0;i<16;i++){const a=rnd(0,TAU),s=rnd(1,4);G.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(14,30),col,s:rnd(2,4)})}G.fx.push({x,y,life:big?26:16,max:big?26:16,spr:big?'boom2':'boom1',sc:big?1.6:.9,rot:rnd(0,TAU)})}
@@ -1171,7 +1257,7 @@ function saveHi(){try{localStorage.setItem('dm-hi',String(hi))}catch(e){}}
 // ---------- draw ----------
 const flies=Array.from({length:22},()=>({x:rnd(0,W),y:rnd(0,H),r:rnd(.8,1.8),v:rnd(.15,.5),ph:rnd(0,TAU),dx:rnd(-.3,.3)}));
 function drawBullet(b){if(b.kind==='mine'){const k=1+.12*Math.sin(b.age*.25),w=b.age>b.fuse-40&&Math.floor(b.age/4)%2;spr('mine',b.x,b.y,.95*k,w?1:.85,b.spin);if(w){cx.fillStyle='rgba(255,120,60,.25)';cx.beginPath();cx.arc(b.x,b.y,40,0,TAU);cx.fill()}return}
-  const bs=BSPR[b.kind];if(bs&&IMG[bs[0]]&&IMG[bs[0]].naturalWidth){spr(bs[0],b.x,b.y,bs[1],null,bs[2]?Math.atan2(b.vy,b.vx):(b.kind==='ring'?b.spin:0));return}
+  const bs=BSPR[b.kind];if(bs&&IMG[bs[0]]&&IMG[bs[0]].naturalWidth){spr(bs[0],b.x,b.y,bs[1],null,bs[2]==='spin'?b.spin:bs[2]?Math.atan2(b.vy,b.vx):(b.kind==='ring'?b.spin:0));return}
   cx.save();cx.translate(b.x,b.y);const r=b.r;
   if(b.kind==='heart'){cx.rotate(Math.atan2(b.vy,b.vx)-Math.PI/2);cx.fillStyle=b.col;cx.beginPath();cx.moveTo(0,r*1.1);cx.bezierCurveTo(r*1.6,r*.1,r*1.1,-r*1.1,0,-r*.3);cx.bezierCurveTo(-r*1.1,-r*1.1,-r*1.6,r*.1,0,r*1.1);cx.fill();cx.fillStyle='rgba(255,255,255,.7)';cx.beginPath();cx.arc(-r*.45,-r*.45,r*.25,0,TAU);cx.fill()}
   else if(b.kind==='star'){cx.rotate(b.spin);cx.fillStyle=b.col;cx.beginPath();for(let i=0;i<10;i++){const a=i*Math.PI/5,rr=i%2?r*.5:r*1.3;cx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}cx.closePath();cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.arc(0,0,r*.3,0,TAU);cx.fill()}
@@ -1190,7 +1276,7 @@ function draw(){
   // drops
   for(const it of G.drops){const yy=it.y+Math.sin(it.t*2)*1.5;if(!spr(it.k,it.x,yy,it.k==='heart'?.8:1.3)){cx.fillStyle=it.k==='gem_g'?'#5ad15a':it.k==='gem_p'?'#c77dff':it.k==='heart'?'#ff5c5c':'#ffd166';cx.fillRect(it.x-6,yy-6,12,12)}}
   // enemies
-  for(const e of G.en){const sc=e.sc;if(!spr(e.kind,e.x,e.y+(e.role==='b'?Math.sin(e.t*.1)*2:0),sc)){cx.fillStyle=e.role==='mid'?'#9a6433':e.role==='b'?'#7df9ff':'#e63950';cx.beginPath();cx.arc(e.x,e.y,e.r,0,TAU);cx.fill()}
+  for(const e of G.en){const sc=e.sc;if(e.t<0)continue;if(!spr(e.kind,e.x,e.y+(e.role==='b'?Math.sin(e.t*.1)*2:0),sc,null,e.ot==='rock'?e.rot:0)){cx.fillStyle=e.role==='mid'?'#9a6433':e.role==='b'?'#7df9ff':'#e63950';cx.beginPath();cx.arc(e.x,e.y,e.r,0,TAU);cx.fill()}
     if(e.role==='mid'){cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(e.x-26,e.y-40,52,4);cx.fillStyle='#ffd166';cx.fillRect(e.x-26,e.y-40,52*Math.max(0,e.hp/(180*(ST().midHp||1)*(1+G.stage*.3))),4)}}
   // boss
   if(G.boss){const b=G.boss;cx.save();cx.strokeStyle='rgba(199,125,255,.35)';cx.lineWidth=2;cx.beginPath();cx.arc(b.x,b.y,b.r+40+Math.sin(G.t*.1)*3,0,TAU);cx.stroke();cx.restore();
@@ -1203,6 +1289,10 @@ function draw(){
   for(const b of G.pb){if(!spr(b.s,b.x,b.y,b.s==='p_shot'?.55:.4,null,b.s==='p_shot'?-Math.PI/2:0)){cx.fillStyle='#ff9ad5';cx.beginPath();cx.ellipse(b.x,b.y,2,7,0,0,TAU);cx.fill()}}
   // 패턴 예고 타일
   if(G.tele){const t=G.tele.t/G.tele.max,a=Math.sin(t*Math.PI)*(G.tele.still?.95:.75);spr(G.tele.name,G.tele.x,G.tele.y,G.tele.sc+(1-t)*(G.tele.still?.08:.4),a,G.tele.still?0:(1-t)*.6)}
+  // laser fences: 양옆 발사기 + 가로 레이저(틈 70px)
+  for(const f of G.fences){spr('turret',10,f.y,.55,null,0);spr('turret',W-10,f.y,.55,null,Math.PI);
+    if(f.t<=f.warn){cx.strokeStyle=`rgba(255,80,80,${.3+.5*Math.sin(f.t*.5)**2})`;cx.lineWidth=1.5;cx.setLineDash([5,5]);cx.beginPath();cx.moveTo(22,f.y);cx.lineTo(f.gx-35,f.y);cx.moveTo(f.gx+35,f.y);cx.lineTo(W-22,f.y);cx.stroke();cx.setLineDash([])}
+    else{const a=Math.min(1,(f.warn+f.life-f.t)/10);cx.globalAlpha=a;for(const [x0,x1] of [[22,f.gx-35],[f.gx+35,W-22]]){const g=cx.createLinearGradient(0,f.y-6,0,f.y+6);g.addColorStop(0,'rgba(255,60,90,0)');g.addColorStop(.5,'#fff');g.addColorStop(1,'rgba(255,60,90,0)');cx.fillStyle=g;cx.fillRect(x0,f.y-6,x1-x0,12);cx.fillStyle='#ff4d6d';cx.fillRect(x0,f.y-1.5,x1-x0,3)}cx.globalAlpha=1}}
   // beams
   for(const bm of G.beams){const sg=beamSeg(bm);if(!sg)continue;cx.save();cx.translate(sg.ax,sg.ay);cx.rotate(sg.a);
     if(bm.t<=bm.warn){cx.strokeStyle=`rgba(255,80,80,${.25+.5*Math.sin(bm.t*.5)**2})`;cx.lineWidth=1.5;cx.setLineDash([6,6]);cx.beginPath();cx.moveTo(0,0);cx.lineTo(700,0);cx.stroke()}

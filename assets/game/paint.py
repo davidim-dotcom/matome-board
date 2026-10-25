@@ -560,7 +560,17 @@ def draw_space3(): return draw_space(43, ('#260a1e', '#08030c'), ['#9a1d3a', '#6
 def draw_space4(): return draw_space(44, ('#1f1405', '#070402'), ['#8a5a14', '#6b3a0a', '#3a2a6b'], '#ffd166', belt=True, sils=(('turret', .45, 5), ('ufo_o', .45, 5), ('fort', .25, 1)), sil_tint='#1c1206', sil_alpha=190)
 def draw_space5(): return draw_space(45, ('#200308', '#050104'), ['#a0102a', '#5a0a3a', '#ff4a2a'], '#ff5c7a', sils=(('boss1', .22, 1), ('eye', .6, 4), ('ushp', .45, 3), ('boss3b', .4, 2)), sil_tint='#2a050c', sil_alpha=180)
 
-ASSETS = {'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3, 'bg4': draw_space4, 'bg5': draw_space5}
+# 운석(스테이지 오브젝트) 28×28: 울퉁불퉁한 다각형 + 크레이터
+def draw_rock(seed=5):
+    random.seed(seed); p = Painter(28, 28)
+    pts = [(14 + math.cos(a) * r, 14 + math.sin(a) * r) for a, r in [(i * math.tau / 11, random.uniform(10, 13)) for i in range(11)]]
+    p.poly(pts, c1='#a89a8c', c2='#3a3028', kind='rad', p1=(10, 9), p2=(17, 0))
+    for cx, cy, r in ((9, 11, 2.6), (17, 9, 1.8), (16, 18, 3), (9, 18, 1.5)):
+        p.ellipse((cx - r, cy - r, cx + r, cy + r), c1='#4a3e34', c2='#7a6a5c', kind='lin', p1=(0, cy - r), p2=(0, cy + r))
+    p.ellipse((7, 6, 11, 9), c1='#e0d4c4', alpha=150)
+    return p.done(colors=32, outline='#1b1230')
+
+ASSETS = {'rock': draw_rock, 'bg': draw_space1, 'bg2': draw_space2, 'bg3': draw_space3, 'bg4': draw_space4, 'bg5': draw_space5}
 
 def main():
     ims = {n: f() for n, f in ASSETS.items()}
