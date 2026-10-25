@@ -1081,12 +1081,12 @@ const SONGS={
     lead:{duty:.25,gain:.2,slide:.05,vib:.008},bass:{pat:'r..R.r.Rr..R.ro.',type:'tri',gain:.55,len:1},
     dr:{k:'k..k..k...k..k..',s:'....s.......s..s',h:'h.hh.hh.h.hh.hh.'},
     mel:[[78,2],[81,1],[83,1],[85,2],[83,2],[81,1],[78,3],[0,4], [83,2],[85,1],[87,1],[90,2],[87,2],[85,2],[83,2],[80,4], [80,2],[83,1],[85,1],[88,2],[85,2],[83,1],[80,3],[0,4], [81,2],[85,2],[88,2],[90,4],[88,2],[85,4]]},
-  // 보스 3 オーバーロード Mk.II: 고딕 오르간(6/8 셋잇단, 오르간 겹음, 하프시코드 아르페지오, 드론)
-  b3:{bpm:92,meter:12,kit:'orch',fx:{dt:.4,fb:.45,wet:.5},chords:[[34,0],[42,1],[39,0],[41,1],[34,0],[42,1],[39,0],[41,1]],
-    lead:{duty:.5,gain:.13,harm:7,oct2:-12},arp:{duty:.125,gain:.06,rate:1,pat:[0,3,7,12,7,3],oct:24},pad:{gain:.05},
-    bass:{pat:'r...........',type:'tri',gain:.45,len:11.5},dr:{k:'k...........',t:'..........tt'},
-    mel:[[70,6],[73,3],[77,3], [78,9],[77,3], [75,6],[78,3],[82,3], [81,12], [82,6],[81,3],[78,3], [78,6],[77,3],[73,3], [75,3],[73,3],[70,3],[75,3], [77,12]]},
-  // 보스 4 要塞艦: 메카 인더스트리얼(금속 타악, 빠른 12.5% 아르페지오, 16분 오스티나토)
+  // 보스 3 オーバーロード Mk.II: 빠르고 경쾌한 질주곡(176 BPM, 아르페지오, 통통 튀는 베이스)
+  b3:{bpm:176,meter:16,kit:'epic',tr:-12,fx:{dt:.15,fb:.2,wet:.2},chords:[[47,0],[43,1],[38,1],[45,1],[47,0],[43,1],[38,1],[45,1]],
+    lead:{duty:.25,gain:.18,oct2:-12,vib:.005},arp:{duty:.125,gain:.05,rate:1,pat:[0,7,12,15,12,7,3,7],oct:24},
+    bass:{pat:'r.R.r.R.o.R.r.R.',type:'tri',gain:.55,len:1.6},dr:{k:'k...k.k.k...k.k.',s:'....s.......s...',h:'h.h.h.h.h.h.h.h.'},
+    mel:[[83,2],[86,2],[90,2],[88,2],[86,2],[85,2],[83,4], [83,2],[86,2],[91,4],[90,2],[88,2],[86,4], [86,2],[90,2],[93,4],[91,2],[90,2],[88,2],[86,2], [85,2],[88,2],[93,2],[92,2],[90,4],[88,4],
+         [90,1],[90,1],[90,2],[88,2],[86,2],[83,2],[86,2],[90,4], [91,2],[90,2],[88,2],[86,2],[83,4],[86,4], [86,2],[88,2],[90,4],[93,4],[90,4], [88,2],[85,2],[81,2],[85,2],[88,8]]},
   b4:{bpm:150,meter:16,kit:'metal',fx:{dt:.1,fb:.3,wet:.2},chords:[[40,0],[40,0],[36,1],[38,1]],
     lead:{duty:.125,gain:.15},arp:{duty:.125,gain:.06,rate:1,pat:[0,12,7,12,3,12,7,12],oct:24},
     bass:{pat:'r.rRr.rRr.rRr.oR',type:'pulse',duty:.5,gain:.18,len:.8},
@@ -1217,6 +1217,8 @@ function bossPattern(b){const t=b.t,ph=b.phase,k=ST().k,d=ST().d,sp=1+(d-1)*.4,i
   sig(b,t,ph,d,sp,iv);
   b.mt=(b.mt||0)+1;const tx=W/2+Math.sin(b.mt*.013)*(ph===4?120:80),ty=b.ty+Math.sin(b.mt*.021)*14;b.x+=(tx-b.x)*.05;b.y+=(ty-b.y)*.05; // 목표로 미끄러지듯(순간이동 없음)
 }
+// 탄속 조절: 必殺 페이즈의 탄은 70% 속도, 터치 기기(폰)는 보스전 탄을 10% 더 느리게
+const SPELL_SLOW=.7,TOUCH=!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
 // 보스 고유 공격(스테이지별, 必殺 페이즈일수록 늘어남). 시트의 새 탄(fire·comet·pcres·pstar·cstar·wave)과 유도 미사일·분열탄
 function flashAt(x,y,s){G.fx.push({x,y,life:12,max:12,spr:'spark',sc:s||.9,rot:rnd(0,TAU)})}
 function homing(b,n,spd){for(let i=0;i<n;i++){const a=Math.PI/2+(i-(n-1)/2)*.7;G.eb.push({x:b.x+(i-(n-1)/2)*18,y:b.y+10,vx:Math.cos(a)*(spd||2.2),vy:Math.sin(a)*(spd||2.2),kind:'missile',col:'#fff',r:4,age:0,grazed:false,spin:0,hom:70})}sfx('zap')}
@@ -1279,7 +1281,8 @@ function update(){
       boom(b.x,b.y,'#ffd166',true);for(let i=0;i<8;i++)G.drops.push({x:b.x+rnd(-30,30),y:b.y+rnd(-10,10),vy:-2.5,k:Math.random()<.25?'gem_g':'coin',t:rnd(0,TAU)});nextPhase()}}}
   // enemy bullets
   const hb=p.slow?1.4:1.8,gz=15; // 피격 판정은 가운데 점 하나(저속 1.4px, 보통 1.8px)
-  G.eb=G.eb.filter(b=>{if(b.hom>0){b.hom--;const sp=Math.hypot(b.vx,b.vy),a=Math.atan2(b.vy,b.vx),ta=Math.atan2(p.y-b.y,p.x-b.x);let da=ta-a;da=Math.atan2(Math.sin(da),Math.cos(da));const na=a+Math.max(-.045,Math.min(.045,da));b.vx=Math.cos(na)*sp;b.vy=Math.sin(na)*sp}
+  G.eb=G.eb.filter(b=>{if(!b.sl){b.sl=1;if(G.boss){const k=(G.spell?SPELL_SLOW:1)*(TOUCH?.9:1);b.vx*=k;b.vy*=k}}
+    if(b.hom>0){b.hom--;const sp=Math.hypot(b.vx,b.vy),a=Math.atan2(b.vy,b.vx),ta=Math.atan2(p.y-b.y,p.x-b.x);let da=ta-a;da=Math.atan2(Math.sin(da),Math.cos(da));const na=a+Math.max(-.045,Math.min(.045,da));b.vx=Math.cos(na)*sp;b.vy=Math.sin(na)*sp}
     if(b.split&&b.age===b.split){ring(b.x,b.y,b.splitN||8,1.8,rnd(0,TAU),b.splitK||'orb','#ff9a3c',5);G.fx.push({x:b.x,y:b.y,life:12,max:12,spr:'spark',sc:.7,rot:0});sfx('mine');return false}
     if(b.wob){const n=Math.hypot(b.vx,b.vy)||1,w=Math.cos(b.age*.16)*b.wob;b.x+=-b.vy/n*w;b.y+=b.vx/n*w}
     b.x+=b.vx;b.y+=b.vy;b.age++;b.spin+=b.kind==='mine'?.05:.12;if(b.kind==='ring'&&b.r>=8){b.vy+=.02}
