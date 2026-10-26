@@ -827,7 +827,7 @@ function renderWeekly(){
     <ol class="wk-list">${li}</ol>`;
 }
 /* ---------- Holo Mobile 스코어 보드 ----------
-   스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(2026-10부터 운영자 허락으로 합체 보이스 등은 그 파일에 직접 넣는다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
+   스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(합체 보이스는 games/holo-voice.js 가 그 파일 끝에서 로드된다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
    열리는 것을 MutationObserver 로 지켜보고 부제 글("최종 점수: 1,234점 (최고 타일: 512)")에서 점수를 읽는다.
    기록은 게시판 웹 앱의 game=suika·2048 시트(bbs/Code.gs). */
 const HM={game:"suika",tried:false,ready:false,run:null,sent:false,mine:null};
