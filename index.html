@@ -2183,7 +2183,7 @@ const CHUNKS=[ // dx·len·발판 폭·구덩이 폭은 기본 속도(4.3) 기�
   {len:360,min:0,e:[{o:'cones',dx:170},...arc(80,8,30,70)]},
   {len:380,min:0,e:[{o:'hedge',dx:180},...arc(90,8,30,80)]},
   {len:400,min:0,e:[{pit:[150,80]},...arc(110,7,30,72)]},
-  {len:360,min:0,e:[{i:'gem',dx:90,y:40},{i:'gem',dx:130,y:60},{i:'gem',dx:170,y:40},{i:'heart',dx:260,y:30}]},
+  {len:360,min:0,e:[{i:'gem',dx:90,y:40},{i:'gem',dx:130,y:60},{i:'gem',dx:170,y:40},{i:'gem',dx:260,y:30}]},
   {len:440,min:0,e:[{p:[90,190,80]},...line(100,7,110),{o:'mine',dx:150},{o:'mine',dx:210}]},
   {len:440,min:1,e:[{o:'drone',dx:200},...line(110,8,12)]},
   {len:420,min:1,e:[{o:'pool',dx:190},...arc(100,8,30,82),{i:'gem',dx:190,y:112}]},
@@ -2192,7 +2192,7 @@ const CHUNKS=[ // dx·len·발판 폭·구덩이 폭은 기본 속도(4.3) 기�
   {len:460,min:1,e:[{o:'tape',dx:130},{o:'drone',dx:290},...line(80,12,12)]},
   {len:600,min:1,e:[{p:[80,130,80]},{p:[240,130,150]},{p:[400,130,80]},...line(90,5,110),...line(250,5,180),...line(410,5,110),{o:'hedge',dx:320}]},
   {len:520,min:1,e:[{p:[90,170,80]},{pit:[110,120]},...line(100,7,110),{o:'cones',dx:400},...arc(370,6,30,70)]},
-  {len:460,min:2,e:[{o:'mine',dx:110},{o:'mine',dx:165},...arc(60,9,30,85),{i:'potion',dx:360,y:30}]},
+  {len:460,min:2,e:[{o:'mine',dx:110},{o:'mine',dx:165},...arc(60,9,30,85)]},
   {len:420,min:2,e:[{o:'tornado',dx:200},...arc(80,10,30,110)]},
   {len:420,min:2,e:[{o:'hedge2',dx:200},...arc(90,9,40,110)]},
   {len:680,min:2,e:[{o:'hurdle',dx:70},{o:'tape',dx:340},{o:'tire',dx:560},...line(250,4,12),...arc(470,6,30,70)]},
@@ -2201,6 +2201,12 @@ const CHUNKS=[ // dx·len·발판 폭·구덩이 폭은 기본 속도(4.3) 기�
   {len:680,min:3,e:[{o:'tape',dx:110},{o:'hurdle',dx:330},{o:'drone',dx:580},...line(40,6,12),...line(520,5,12)]},
   {len:680,min:3,e:[{o:'tornado',dx:140},{o:'tape',dx:420},{o:'mine',dx:600},...arc(60,8,30,110),...line(330,4,12)]},
   {len:640,min:3,e:[{o:'hedge2',dx:120},{pit:[360,110]},{p:[330,170,80]},...line(340,6,110),...arc(80,6,40,110)]},
+  // 스테이지 4~: 점프·슬라이드가 번갈아 빠르게 나오는 구간, 발판으로만 건널 수 있는 넓은 구덩이
+  {len:640,min:3,e:[{o:'hedge2',dx:80},{o:'drone',dx:330},{o:'cones',dx:560},...arc(40,7,40,110),...line(290,4,12)]},
+  {len:620,min:4,e:[{pit:[80,100]},{o:'tape',dx:380},{o:'hurdle',dx:570},...arc(60,6,30,90),...line(340,4,12)]},
+  {len:700,min:4,e:[{pit:[90,300]},{p:[150,110,80]},{p:[300,110,150]},...line(160,4,110),...line(310,4,180),{o:'mine',dx:520},{o:'mine',dx:575}]},
+  {len:640,min:5,e:[{o:'tape',dx:90},{o:'drone',dx:230},{o:'hedge',dx:470},{o:'tape',dx:620},...line(60,8,12),...arc(420,5,30,80)]},
+  {len:620,min:5,e:[{o:'tornado',dx:100},{pit:[330,110]},{o:'drone',dx:600},...arc(50,6,30,110),...arc(310,6,30,90)]},
 ];
 // 보물(가챠): r=등급 1~5, e=효과(장착 3개까지, 겹치면 더함. 레벨마다 ×1.25)
 const TREAS=[
@@ -2234,7 +2240,7 @@ let E=eff();
 function newGame(){E=eff();const th=themeOf(0);
   Object.assign(G,{t:0,state:'play',stage:0,theme:th,dist:0,score:0,jelly:0,coins:0,cam:0,obs:[],items:[],plats:[],pits:[],scen:[],fx:[],pops:[],warn:[],fw:[],boss:null,bossT:0,msg:'',msgT:0,shake:0,flash:0,cut:0,cutT:0,nextX:420,nextSign:200,revived:false,hits:0,skillN:0,stageX:STAGE_M*PX,hitFrame:0});
   G.p={x:0,y:GY,vy:0,on:true,plat:null,jumps:0,slide:false,hp:100+E.hp,maxHp:100+E.hp,gauge:0,shield:E.shield,inv:0,stum:0,boost:0,mag:0,crown:0,golden:0,jmul:1,jmulT:0,jump3:0,nodrain:0,slow:0,anim:0,sqT:0,recT:0,buf:0,coy:0};
-  G.scen.push({k:'gate',x:-10});
+  G.scen.push({k:'gate',x:-10});G.scen.push({k:'goal',x:STAGE_M*PX,n:1});
   for(let i=0;i<3;i++)spawnChunk();
   renderHud();bgmFor()}
 const idle=()=>G.state==='title'||G.state==='over';
@@ -2248,12 +2254,23 @@ function obsSpan(k,x){const D=OBS[k];return{s:x-D.w/2,e:x+D.w/2,how:D.how}}
 function deficit(P,N){const sp=jumpSpan(),v=jumpV(),gap=N.s-P.e;
   if(P.how==='s'&&N.how==='s')return 0;
   if(P.how==='j'&&N.how==='j'&&gap<=60&&N.e-(P.cs??P.s)<=.55*sp)return 0; // 점프 한 번에 넘는 묶음
-  const req=P.how==='j'?.62*sp+14*v+20:14*v+40;return Math.max(0,req-gap)}
+  const rf=reactF();const req=P.how==='j'?.62*sp+rf*v+20:rf*v+40;return Math.max(0,req-gap)}
+const reactF=()=>Math.max(9,14-G.stage*.8); // 착지 뒤 다음 동작까지 남기는 프레임(스테이지가 오를수록 빠듯하게)
 function spans(){const L=[];for(const o of G.obs){if(o.hit&&o.life==null)continue;const S=obsSpan(o.k,o.x);S.cs=o.cs;L.push(S)}for(const q of G.pits)L.push({s:q.x,e:q.x+q.w,how:'j'});for(const w of G.warn)L.push(obsSpan('bolt',w.x));return L}
 function lastSpan(){let L=null;for(const S of spans())if(!L||S.e>L.e)L=S;return L}
 function fits(N){for(const S of spans()){if(S.e<=N.s){if(deficit(S,N)>0)return false}else if(S.s>=N.e){if(deficit(N,S)>0)return false}else return false}
   return !G.plats.some(pl=>N.e>pl.x-40&&N.s<pl.x+pl.w+40)}
-function spawnChunk(){const pool=CHUNKS.filter(c=>c.min<=G.stage);const c=pickOne(pool),k=Math.max(1,speedOf(G.stage)/4.3);
+// 구간 고르기: 스테이지가 오를수록 장애물이 많은 구간이 잘 나온다
+const nObs=c=>c.e.filter(e=>e.o||e.pit).length;
+function pickChunk(){const pool=CHUNKS.filter(c=>c.min<=G.stage),w=pool.map(c=>1+nObs(c)*G.stage*.3);let r=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){r-=w[i];if(r<=0)return pool[i]}return pool[pool.length-1]}
+// 회복 아이템은 조작을 잘해야 먹는 자리에만 둔다: 장애물 위 높이(정확한 점프·2단 점프) · 점프 장애물 바로 뒤 바닥(급강하) · 슬라이드 장애물 아래(슬라이드)
+function placeHeal(placed){if(!placed.length||Math.random()>Math.min(.6,.3+G.stage*.04))return;const O=pickOne(placed),sp=jumpSpan();let x,h;
+  const clear=(x,r)=>!G.obs.some(o=>Math.abs(o.x-x)<r)&&!G.pits.some(q=>x>q.x-r&&x<q.x+q.w+r)&&!G.plats.some(pl=>x>pl.x-20&&x<pl.x+pl.w+20);
+  if(O.how==='s'){x=(O.s+O.e)/2;h=10}
+  else{const dive=O.e+.3*sp;if(Math.random()<.5&&clear(dive,40)){x=dive;h=14}else{x=(O.s+O.e)/2;h=O.pit?160:170}}
+  if(G.plats.some(pl=>x>pl.x-30&&x<pl.x+pl.w+30))return;
+  G.items.push({k:h>100&&Math.random()<.3?'heart':'potion',x,y:GY-h,t:0,hard:true})}
+function spawnChunk(){const c=pickChunk(),k=Math.max(1,speedOf(G.stage)/4.3),placed=[];
   const els=c.e.map(e=>({e,dx:e.p?e.p[0]:e.pit?e.pit[0]:e.dx})).sort((a,b)=>a.dx-b.dx);
   const spanOf=(e,x)=>e.pit?{s:x,e:x+e.pit[1]*k,how:'j'}:obsSpan(e.o,x);
   // 앞 구간과 붙는 곳이 모자라면 구간 전체를, 구간 안에서 모자라면 그 뒤를 민다
@@ -2261,11 +2278,15 @@ function spawnChunk(){const pool=CHUNKS.filter(c=>c.min<=G.stage);const c=pickOn
   const sh0=sh,x0=G.nextX+sh0;
   for(const {e,dx} of els){const x=x0+dx*k+(sh-sh0);
     if(e.o||e.pit){const N=spanOf(e,x),P=lastSpan();if(P&&P.e<=N.s+1){const d=deficit(P,N);if(d>0){sh+=d;N.s+=d;N.e+=d}else if(P.how==='j'&&N.how==='j'&&N.s-P.e<=60)N.cs=P.cs??P.s}
-      if(e.pit)G.pits.push({x:N.s,w:N.e-N.s});else G.obs.push({k:e.o,x:(N.s+N.e)/2,cs:N.cs})}
+      if(e.pit)G.pits.push({x:N.s,w:N.e-N.s});else G.obs.push({k:e.o,x:(N.s+N.e)/2,cs:N.cs});placed.push({...N,pit:!!e.pit})}
     else if(e.p)G.plats.push({x,w:e.p[1]*k,y:GY-e.p[2]});
     else if(e.i)G.items.push({k:e.i,x,y:GY-e.y,t:rnd(0,TAU)})}
-  const gap=rnd(90,160)*k,end=x0+c.len*k+(sh-sh0),r=Math.random();
-  if(r<.12)G.items.push({k:pickOne(['drink','shoe','spark','crown','potion','potion']),x:end+gap*.5,y:GY-30,t:0});
+  placeHeal(placed);
+  const st=G.stage,gap=rnd(Math.max(30,90-st*12),Math.max(70,160-st*15))*k,end=x0+c.len*k+(sh-sh0),r=Math.random();
+  // 스테이지 3부터 구간 사이 빈틈에도 장애물 하나(배치 검사를 통과할 때만)
+  if(st>=2&&Math.random()<Math.min(.65,.15+st*.08)){const kk=pickOne(['hurdle','cones','mine','hedge','tape','drone',...(st>=3?['hedge2','pool']:[])]),N=obsSpan(kk,end+gap*.5),P=lastSpan();
+    if(!P||deficit(P,N)===0){G.obs.push({k:kk,x:end+gap*.5});placeHeal([N])}}
+  else if(r<.12)G.items.push({k:pickOne(['drink','shoe','spark','crown']),x:end+gap*.5,y:GY-30,t:0});
   if(Math.random()<.3)G.scen.push({k:Math.random()<.5?'camera':'flag',x:x0+rnd(40,c.len*k-40)}); // 울타리 뒤 카메라맨·깃발
   G.nextX=end+gap;
   while(G.nextSign*PX<G.nextX){G.scen.push({k:G.nextSign%1000===0?'sign400':'sign200',x:G.nextSign*PX,m:G.nextSign});G.nextSign+=200}}
@@ -2333,10 +2354,10 @@ function update(){
   let v=speedOf(G.stage);if(p.boost>0)v*=1.75;if(p.stum>0)v*=.45;if(p.slow>0)v*=.7;if(G.theme.weather==='snow')v*=.97;
   p.x+=v;G.dist=p.x/PX;G.score+=v/PX*(1+E.dist)*(p.crown>0?2:1);
   // ---- 스테이지 전환(아치 통과)
-  if(p.x>=G.stageX){G.stage++;G.theme=themeOf(G.stage);G.stageX+=STAGE_M*PX;G.scen.push({k:'arch',x:p.x+W});say('STAGE '+(G.stage+1)+'  ─  '+G.theme.name,100);G.score+=500;pop('STAGE BONUS +500');beep(880,.15,'square',.04);setTimeout(()=>beep(1320,.2,'square',.04),140);
+  if(p.x>=G.stageX){G.stage++;G.theme=themeOf(G.stage);G.stageX+=STAGE_M*PX;G.scen.push({k:'goal',x:G.stageX,n:G.stage+1});for(let i=0;i<24;i++)G.fx.push({x:PXP+rnd(-20,60),y:GY-rnd(60,140),vx:rnd(-2,1),vy:rnd(-3,0),g:.12,life:40,k:'sq',c:pickOne(['#ff5c9a','#ffd166','#7df9ff','#7ddc7f','#c77dff','#fff'])});say('STAGE '+(G.stage+1)+'  ─  '+G.theme.name,100);G.score+=500;pop('STAGE BONUS +500');beep(880,.15,'square',.04);setTimeout(()=>beep(1320,.2,'square',.04),140);
     if(G.theme.boss){G.boss={k:G.stage%6===2?'boss_clock':'boss_board',t:0,name:G.stage%6===2?'時計の魔法陣':'スコアボード装置'};say('BOSS  ─  '+G.boss.name,100)}bgmFor()}
   // ---- HP(시간 감소)
-  if(p.nodrain>0)p.nodrain--;else p.hp-=.035*(1-E.drain)*(1+G.stage*.04);
+  if(p.nodrain>0)p.nodrain--;else p.hp-=.04*(1-E.drain)*(1+G.stage*.15); // 1스테이지 초당 2.4, 6스테이지 4.2
   if(p.inv>0)p.inv--;if(p.stum>0)p.stum--;if(p.boost>0){p.boost--;if(p.boost===0)say('ブースト終了',40)}if(p.mag>0)p.mag--;if(p.crown>0)p.crown--;if(p.golden>0)p.golden--;if(p.jump3>0)p.jump3--;if(p.slow>0)p.slow--;if(p.jmulT>0){p.jmulT--;if(!p.jmulT)p.jmul=1}
   // ---- 점프·중력·발판
   const overPit=x=>G.pits.some(q=>x>q.x+6&&x<q.x+q.w-6);if(p.buf>0)p.buf--;if(p.coy>0)p.coy--;
@@ -2366,7 +2387,7 @@ function update(){
   if(G.boss)bossTick(p);
   G.warn=G.warn.filter(w=>{if(--w.t===0){G.obs.push({k:'bolt',x:w.x,life:14});beep(2200,.15,'square',.05,300);G.flash=6}return w.t>0});
   G.obs=G.obs.filter(o=>{if(o.life!=null){o.life--;return o.life>0}return o.x>p.x-260});
-  G.plats=G.plats.filter(pl=>pl.x+pl.w>p.x-260);G.pits=G.pits.filter(q=>q.x+q.w>p.x-260);G.scen=G.scen.filter(s=>s.x>p.x-300);
+  G.plats=G.plats.filter(pl=>pl.x+pl.w>p.x-260);G.pits=G.pits.filter(q=>q.x+q.w>p.x-260);G.scen=G.scen.filter(s=>s.k==='goal'?s.x>p.x-400:s.x>p.x-300);
   while(G.nextX<p.x+W+200)spawnChunk();
   // ---- 스킬 게이지
   if(p.gauge>=100)skill();
@@ -2443,11 +2464,12 @@ function draw(){
   {const BC=['#ff5c9a','#ffd166','#7df9ff','#7ddc7f','#c77dff'],o=cam*.6,i0=Math.floor(o/44)-1;for(let i=i0;i<i0+W/44+3;i++){const x=i*44-o;cx.strokeStyle='rgba(255,255,255,.35)';cx.lineWidth=1;cx.beginPath();cx.moveTo(x+1,GY-34);cx.quadraticCurveTo(x+23,GY-27,x+45,GY-34);cx.stroke();
     for(let j=0;j<4;j++){const tx=x+6+j*10,ty=GY-33+Math.sin((j+.5)/4*Math.PI)*5,fl=Math.sin(G.t*.15+i+j)*1.5;cx.fillStyle=BC[(((i+j)%5)+5)%5];cx.beginPath();cx.moveTo(tx,ty);cx.lineTo(tx+7,ty);cx.lineTo(tx+3.5+fl,ty+7);cx.fill()}}}
   // 풍경(표지판·아치·게이트)
-  for(const s of G.scen||[]){const x=s.x-cam;if(x<-120||x>W+120)continue;if(s.k==='arch')sprB('arch',x,GY+2,1.3,1);else if(s.k==='gate')sprB('gate',x,GY+2,1.1);else sprB(s.k,x,GY-6,1.1)}
+  for(const s of G.scen||[]){const x=s.x-cam;if(x<-120||x>W+120)continue;if(s.k==='goal')drawGoal(x,s.n,th);else if(s.k==='gate')sprB('gate',x,GY+2,1.1);else sprB(s.k,x,GY-6,1.1)}
   // 땅 타일
   const tile=th.surf,tw=ok(tile)?IMG[tile].naturalWidth:92;
   for(let x=-((cam)%tw)-tw;x<W+tw;x+=tw){if(ok(tile))cx.drawImage(IMG[tile],Math.round(x),GY-4,tw+1,IMG[tile].naturalHeight)}
   cx.fillStyle='rgba(255,255,255,.35)';cx.fillRect(0,GY-4,W,2);
+  for(const s of G.scen||[]){if(s.k!=='goal')continue;const x=Math.round(s.x-cam);if(x<-20||x>W+20)continue;for(let i=0;i<8;i++)for(let j=0;j<2;j++){cx.fillStyle=(i+j)%2?'#fff':'#1a1426';cx.fillRect(x-6+j*6,GY-4+i*4,6,4)}} // 결승 게이트의 땅 체커선
   for(const q of G.pits||[]){const x=Math.round(q.x-cam);if(x+q.w<-10||x>W+10)continue;const w=Math.round(q.w);
     cx.fillStyle='#0b0816';cx.fillRect(x,GY-4,w,H-56-GY+4);cx.fillStyle='#3a2616';cx.fillRect(x,GY-4,4,H);cx.fillRect(x+w-4,GY-4,4,H);
     cx.fillStyle='#5a3a1e';cx.fillRect(x,GY-4,w,3);cx.fillStyle='rgba(255,255,255,.25)';for(let i=6;i<w-6;i+=10)cx.fillRect(x+i,GY+6+((i*7)%9),2,2)}
@@ -2472,7 +2494,7 @@ function draw(){
     else if(o.k==='tornado')sprB('tornado',x,GY+2,D.sc,.9,1+.05*Math.sin(G.t*.3));
     else sprB(D.spr,x,GY+2,D.sc)}
   // 아이템
-  for(const it of G.items||[]){const x=it.x-cam;if(x<-30||x>W+30)continue;const gold=p&&p.golden>0&&it.k==='carrot';spr(gold?'gcarrot':it.k,x,it.y+Math.sin(G.t*.12+it.t)*2,gold?.9:(it.k==='carrot'?.85:1))}
+  for(const it of G.items||[]){const x=it.x-cam;if(x<-30||x>W+30)continue;if(it.hard){const a=.35+.25*Math.sin(G.t*.2);cx.strokeStyle=`rgba(125,221,127,${a})`;cx.lineWidth=2;cx.beginPath();cx.arc(Math.round(x),Math.round(it.y),13+Math.sin(G.t*.2)*2,0,TAU);cx.stroke()}const gold=p&&p.golden>0&&it.k==='carrot';spr(gold?'gcarrot':it.k,x,it.y+Math.sin(G.t*.12+it.t)*2,gold?.9:(it.k==='carrot'?.85:1))}
   // 자기
   if(p)drawPlayer(p);
   drawFore(th,cam);
@@ -2534,6 +2556,20 @@ function drawFore(th,cam){const o=cam*1.25,i0=Math.floor(o/26)-1,y=H-58;
     else{cx.fillStyle=th.surf==='dirt'?'#5a4a2a':'#2f6b27';cx.fillRect(x,y-6-Math.round(r*4),2,6+Math.round(r*4));cx.fillRect(x+3,y-4,2,4);cx.fillRect(x-3,y-3,2,3);
       if(th.sky==='day'&&r>.7){cx.fillStyle=r>.85?'#ff9ad5':'#fff3b0';cx.fillRect(x-1,y-11,4,3);cx.fillStyle='#ffd166';cx.fillRect(x,y-10,2,1)}}}
   if(th.weather==='rain'){cx.fillStyle='rgba(220,235,255,.7)';for(let i=0;i<6;i++){const x=((i*71+G.t*13)%W),k=(G.t+i*7)%10;cx.fillRect(x-k/2,GY-2-k/3,2+k,1)}}}
+// 결승 게이트(옆보기, 코드로 그린 도트): 흰·빨강 줄무늬 기둥 둘, 위에 체커 테두리 현수막 'STAGE n', 땅에 체커 결승선, 기둥 꼭대기 램프·깃발
+function drawGoal(x,n,th){x=Math.round(x);const L=x-46,R2=x+40,top=GY-128,night=th&&th.sky==='night',O='#1a1426';
+  // 기둥
+  for(const px of [L,R2]){cx.fillStyle=O;cx.fillRect(px-1,top-1,10,GY-top+1);cx.fillStyle='#f4f6ff';cx.fillRect(px,top,8,GY-top);cx.fillStyle='#ff5c9a';for(let y=top+6;y<GY-4;y+=16)cx.fillRect(px,y,8,6);cx.fillStyle='rgba(0,0,0,.18)';cx.fillRect(px+6,top,2,GY-top);
+    cx.fillStyle=O;cx.fillRect(px-3,GY-6,14,6);cx.fillStyle='#9aa4b8';cx.fillRect(px-2,GY-5,12,4);
+    // 램프와 깃발
+    cx.fillStyle=O;cx.fillRect(px-1,top-9,10,8);cx.fillStyle=(G.t>>3)%2?'#ffd166':'#ff9a3c';cx.fillRect(px,top-8,8,6);
+    if(night){cx.save();cx.globalCompositeOperation='lighter';cx.fillStyle='rgba(255,220,140,.18)';cx.beginPath();cx.arc(px+4,top-5,14,0,TAU);cx.fill();cx.restore()}
+    const fl=Math.round(Math.sin(G.t*.2+px)*2);cx.fillStyle='#e8ecf5';cx.fillRect(px+3,top-24,2,15);cx.fillStyle=px===L?'#7df9ff':'#ffd166';cx.beginPath();cx.moveTo(px+5,top-24);cx.lineTo(px+17+fl,top-20);cx.lineTo(px+5,top-15);cx.fill()}
+  // 현수막
+  const bx=L-4,bw=R2+12-bx,by=top+4,bh=26;cx.fillStyle=O;cx.fillRect(bx-1,by-1,bw+2,bh+2);
+  for(let i=0;i<bw;i+=5){cx.fillStyle=(i/5)%2?'#fff':'#1a1426';cx.fillRect(bx+i,by,Math.min(5,bw-i),4);cx.fillStyle=(i/5)%2?'#1a1426':'#fff';cx.fillRect(bx+i,by+bh-4,Math.min(5,bw-i),4)}
+  cx.fillStyle='#ff5c9a';cx.fillRect(bx,by+4,bw,bh-8);cx.fillStyle='rgba(255,255,255,.25)';cx.fillRect(bx,by+4,bw,2);
+  const tx='STAGE '+n+' CLEAR';cx.font='bold 10px monospace';cx.textAlign='center';cx.fillStyle=O;cx.fillText(tx,x,by+17);cx.fillStyle='#fff';cx.fillText(tx,x-1,by+16)}
 function drawHedge(x,w,h){x=Math.round(x);const x0=x-w/2,y0=GY-h;
   cx.fillStyle='#1a1426';cx.fillRect(x0-1,y0-1,w+2,h+1);cx.fillStyle='#5a3a1e';cx.fillRect(x0-2,GY-8,w+4,8);
   cx.fillStyle='#1f4d1c';cx.fillRect(x0,y0+4,w,h-12);cx.fillRect(x0+3,y0,w-6,6);
