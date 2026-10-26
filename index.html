@@ -863,6 +863,10 @@ function hookHolo(){
   const f=$("#holo2048"); if(!f)return;
   f.addEventListener("load",()=>{try{
     const d=f.contentDocument; if(!d)return;
+    // 폰에서는 iframe 이 좁아(스크롤 띠 몫) 아래 조작 막대의 안내 글이 두 줄로 꺾여 버튼과 겹친다. 운영자 파일은 그대로 두고 여기서 짧게 바꾼다
+    const st=d.createElement("style");st.textContent="#thumbTouchTrack{min-width:0}#thumbTouchTrack>span,#puzzleThumbBar>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:100%;letter-spacing:-.2px}";d.head.appendChild(st);
+    const ht=d.querySelector("#thumbTouchTrack>span>span");if(ht)ht.textContent="👆 끌고 놓으면 드롭";
+    const hp=d.querySelector("#puzzleThumbBar>div:first-child");if(hp&&!hp.querySelector("button"))hp.textContent="👆 스와이프로 이동";
     [["suikaOverlay","suikaOverlaySubtitle","suika"],["puzzleOverlay","puzzleOverlaySubtitle","2048"]].forEach(([id,sub,g])=>{
       const el=d.getElementById(id); if(!el)return; let open=!el.classList.contains("hidden");
       new MutationObserver(()=>{const now=!el.classList.contains("hidden");if(now&&!open)hmResult(g,(d.getElementById(sub)||{}).textContent||"");open=now})
