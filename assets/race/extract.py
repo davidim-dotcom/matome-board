@@ -153,22 +153,16 @@ def scan(outdir):
 # 이름 → ('g', 격자, 칸 번호, 최대 변 길이) 또는 ('r', 구역, 조각 번호, 최대 변 길이)[, 자르기 비율 (x0,y0,x1,y1)]
 PICKS = {
     # ---- 선수(측면 달리기 프레임 _0.., 정면 대기 _i, 스프린트 틸트 _s, 라스트 스퍼트 _d, 승리 _w). 없는 포즈는 게임이 달리기 프레임으로 대신한다
-    'spe_0': ('g', 'b_run', 0, 52, (.3, .13, 1, 1)), 'spe_1': ('g', 'b_run', 1, 52), 'spe_2': ('g', 'b_run', 2, 52), 'spe_3': ('g', 'b_run', 6, 52), 'spe_4': ('g', 'b_run', 7, 52), 'spe_5': ('g', 'b_run', 8, 52),
-    'spe_i': ('g', 'b_idle', 0, 60), 'spe_s': ('g', 'a_sprint', 0, 52), 'spe_d': ('g', 'a_dash', 0, 72), 'spe_w': ('g', 'a_win', 0, 60),
-    'suzu_0': ('g', 'b_run', 3, 52), 'suzu_1': ('g', 'b_run', 4, 52), 'suzu_2': ('g', 'b_run', 5, 52), 'suzu_3': ('g', 'b_run', 9, 52), 'suzu_4': ('g', 'b_run', 10, 52), 'suzu_5': ('g', 'b_run', 11, 52),
-    'suzu_i': ('g', 'b_idle', 4, 60), 'suzu_s': ('g', 'a_sprint', 1, 52), 'suzu_d': ('g', 'a_dash', 1, 72), 'suzu_w': ('g', 'a_win', 1, 60),
-    'teio_0': ('g', 'b_run', 15, 56), 'teio_1': ('g', 'b_run', 16, 56), 'teio_2': ('g', 'b_run', 17, 56),
-    'teio_i': ('g', 'b_idle', 10, 60), 'teio_s': ('g', 'a_sprint', 3, 52), 'teio_d': ('g', 'a_dash', 3, 72), 'teio_w': ('g', 'a_win', 2, 60),
-    'gold_0': ('g', 'b_run', 12, 56), 'gold_1': ('g', 'b_run', 13, 56), 'gold_2': ('g', 'b_run', 14, 56),
-    'gold_i': ('g', 'b_idle', 13, 60), 'gold_s': ('g', 'a_sprint', 4, 52), 'gold_d': ('g', 'a_dash', 4, 72), 'gold_w': ('g', 'a_win', 3, 60),
-    'rudo_0': ('g', 'f_run', 0, 52), 'rudo_1': ('g', 'f_run', 1, 52), 'rudo_2': ('g', 'f_run', 2, 52), 'rudo_3': ('g', 'f_run', 3, 52), 'rudo_4': ('g', 'f_run', 4, 52), 'rudo_5': ('g', 'f_run', 5, 52),
-    'rudo_i': ('g', 'f_idle', 0, 60), 'rudo_w': ('g', 'f_idle', 4, 60),
-    'hime_0': ('g', 'f_run', 6, 52), 'hime_1': ('g', 'f_run', 7, 52), 'hime_2': ('g', 'f_run', 8, 52), 'hime_3': ('g', 'f_run', 9, 52), 'hime_4': ('g', 'f_run', 10, 52), 'hime_5': ('g', 'f_run', 11, 52),
-    'hime_i': ('g', 'f_idle', 18, 60), 'hime_w': ('g', 'f_idle', 19, 60),
+    'spe_i': ('g', 'b_idle', 0, 60),
+    'suzu_i': ('g', 'b_idle', 4, 60),
+    'teio_i': ('g', 'b_idle', 10, 60),
+    'gold_i': ('g', 'b_idle', 13, 60),
+    'rudo_i': ('g', 'f_idle', 0, 60),
+    'hime_i': ('g', 'f_idle', 18, 60),
     # 라이벌 전용(프레임이 적음)
-    'blon_0': ('g', 'f_run', 12, 56), 'blon_1': ('g', 'f_run', 13, 56), 'blon_2': ('g', 'f_run', 14, 56), 'blon_i': ('g', 'f_idle', 27, 60),
-    'dark_0': ('g', 'f_run', 15, 56), 'dark_1': ('g', 'f_run', 16, 56), 'dark_2': ('g', 'f_run', 17, 56), 'dark_i': ('g', 'f_idle', 9, 60),
-    'rice_0': ('g', 'a_jog', 5, 48), 'rice_1': ('g', 'a_jog', 11, 48), 'rice_2': ('g', 'a_sprint', 5, 52), 'rice_i': ('g', 'b_idle', 28, 60),
+    'blon_i': ('g', 'f_idle', 27, 60),
+    'dark_i': ('g', 'f_idle', 9, 60),
+    'rice_i': ('g', 'b_idle', 28, 60),
     # ---- 아이템
     'carrot': ('g', 'a_items', 0, 22), 'gcarrot': ('g', 'a_items', 2, 24), 'drink': ('g', 'a_items', 3, 22), 'shoe': ('g', 'a_items', 10, 22), 'potion': ('g', 'a_items', 11, 22),
     'gem': ('r', 'b_fx', 16, 20), 'heart': ('r', 'b_fx', 13, 20),

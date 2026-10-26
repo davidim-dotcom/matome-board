@@ -827,7 +827,7 @@ function renderWeekly(){
     <ol class="wk-list">${li}</ol>`;
 }
 /* ---------- Holo Mobile 스코어 보드 ----------
-   스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(2026-10부터 운영자 허락으로 합체 보이스 등은 그 파일에 직접 넣는다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
+   스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(합체 보이스는 games/holo-voice.js 가 그 파일 끝에서 로드된다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
    열리는 것을 MutationObserver 로 지켜보고 부제 글("최종 점수: 1,234점 (최고 타일: 512)")에서 점수를 읽는다.
    기록은 게시판 웹 앱의 game=suika·2048 시트(bbs/Code.gs). */
 const HM={game:"suika",tried:false,ready:false,run:null,sent:false,mine:null};
@@ -2084,16 +2084,17 @@ const cv=document.getElementById('dbCv'),cx=cv.getContext('2d');const W=360,H=48
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),pickOne=a=>a[Math.floor(Math.random()*a.length)];
 // ---------- 그림 ----------
+// 선수 6명. 그림은 assets/race/extract_anim.py 가 애니메이션 시트에서 잘라낸 {키}_0..n-1(달리기) · _sl0.._sl3(슬라이드) · _d(스프린트) · _i(대기)
 const CHARS={
-  spe:{name:'スペ',frames:6,cut:'cut_blue',aura:'aura_blue',col:'#c77dff',sk:'根性',skd:'HP +35 · 6초 동안 HP가 줄지 않음'},
-  suzu:{name:'スズカ',frames:6,cut:'cut_sakura',aura:'aura_gold',col:'#7ddc7f',sk:'大逃げ',skd:'4초 ブースト(무적 질주)'},
-  teio:{name:'テイオー',frames:3,cut:'cut_blue',aura:'aura_blue',col:'#7df9ff',sk:'跳躍',skd:'8초 3단 점프 + ニンジン ×2'},
-  gold:{name:'ゴルシ',frames:3,cut:'cut_rocket',aura:'aura_red',col:'#ff7b7b',sk:'黄金化',skd:'8초 동안 모든 ニンジン이 황금(×5)'},
-  rudo:{name:'ルドルフ',frames:6,cut:'cut_rocket',aura:'aura_gold',col:'#ffd166',sk:'皇帝',skd:'방어막 2 + 6초 자석'},
-  hime:{name:'ヒメ',frames:6,cut:'cut_idol',aura:'aura_gold',col:'#ff9ad5',sk:'アイドル',skd:'10초 자석 + ニンジン ×2'},
+  spe:{name:'スペ',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#c77dff',sk:'根性',skd:'HP +35 · 6초 동안 HP가 줄지 않음'},
+  suzu:{name:'スズカ',frames:5,cut:'cut_sakura',aura:'aura_gold',col:'#7ddc7f',sk:'大逃げ',skd:'4초 ブースト(무적 질주)'},
+  teio:{name:'テイオー',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#7df9ff',sk:'跳躍',skd:'8초 3단 점프 + ニンジン ×2'},
+  gold:{name:'ゴルシ',frames:5,cut:'cut_rocket',aura:'aura_red',col:'#ff7b7b',sk:'黄金化',skd:'8초 동안 모든 ニンジン이 황금(×5)'},
+  rice:{name:'ライス',frames:4,cut:'cut_idol',aura:'aura_blue',col:'#8a7cff',sk:'黒い衝撃',skd:'방어막 2 + 6초 자석'},
+  oguri:{name:'オグリ',frames:4,cut:'cut_rocket',aura:'aura_gold',col:'#cfd6e6',sk:'大食い',skd:'10초 자석 + ニンジン ×2'},
 };
 const IMG={};
-const NAMES=[];for(const k in CHARS){for(let i=0;i<CHARS[k].frames;i++)NAMES.push(k+'_'+i);NAMES.push(k+'_i',k+'_w');if(k!=='rudo'&&k!=='hime')NAMES.push(k+'_s',k+'_d')}
+const NAMES=[];for(const k in CHARS){for(let i=0;i<CHARS[k].frames;i++)NAMES.push(k+'_'+i);NAMES.push(k+'_i',k+'_d',k+'_sl0',k+'_sl1',k+'_sl2',k+'_sl3')}
 NAMES.push('carrot','gcarrot','drink','shoe','potion','gem','heart','grass','dirt','snow','crowd','arch','sign200','sign400','signgoal','gate','hurdle','mine','boom','dust','dust2','streak','trophy','ura','tape','camera','flag','boss_clock','boss_board','cut_blue','cut_sakura','cut_idol','cut_rocket','aura_blue','aura_red','aura_gold','tornado','bolt','feather','crown','shoe_fx','spark','burst','tire','podium','pool');
 for(const n of NAMES){const i=new Image();i.src='assets/race/'+n+'.png';IMG[n]=i}
 const ok=n=>IMG[n]&&IMG[n].complete&&IMG[n].naturalWidth>0;
@@ -2232,7 +2233,7 @@ const G={state:'title',t:0,stage:0,pops:[],fx:[],obs:[],items:[],plats:[],pits:[
 let E=eff();
 function newGame(){E=eff();const th=themeOf(0);
   Object.assign(G,{t:0,state:'play',stage:0,theme:th,dist:0,score:0,jelly:0,coins:0,cam:0,obs:[],items:[],plats:[],pits:[],scen:[],fx:[],pops:[],warn:[],fw:[],boss:null,bossT:0,msg:'',msgT:0,shake:0,flash:0,cut:0,cutT:0,nextX:420,nextSign:200,revived:false,hits:0,skillN:0,stageX:STAGE_M*PX,hitFrame:0});
-  G.p={x:0,y:GY,vy:0,on:true,plat:null,jumps:0,slide:false,hp:100+E.hp,maxHp:100+E.hp,gauge:0,shield:E.shield,inv:0,stum:0,boost:0,mag:0,crown:0,golden:0,jmul:1,jmulT:0,jump3:0,nodrain:0,slow:0,anim:0,sqT:0,buf:0,coy:0};
+  G.p={x:0,y:GY,vy:0,on:true,plat:null,jumps:0,slide:false,hp:100+E.hp,maxHp:100+E.hp,gauge:0,shield:E.shield,inv:0,stum:0,boost:0,mag:0,crown:0,golden:0,jmul:1,jmulT:0,jump3:0,nodrain:0,slow:0,anim:0,sqT:0,recT:0,buf:0,coy:0};
   G.scen.push({k:'gate',x:-10});
   for(let i=0;i<3;i++)spawnChunk();
   renderHud();bgmFor()}
@@ -2287,7 +2288,7 @@ function toSlide(id,r,y){r.act='slide';r.ey=y;held.add('p'+id);slideOn(true)}
 ['pointerup','pointercancel'].forEach(ev=>wrap.addEventListener(ev,e=>{const r=ptrs.get(e.pointerId);ptrs.delete(e.pointerId);held.delete('p'+e.pointerId);if(!held.size)slideOn(false);
   if(r&&!r.act&&ev==='pointerup')jump()}));
 function holdCheck(){const now=performance.now();for(const r of ptrs.values()){if(!r.act&&now-r.t>=TAP_MS){r.act='jump';jump()}}}
-function slideOn(v){if(G.state!=='play')return;const p=G.p;if(p.slide===v)return;p.slide=v;$('dbSlide').setAttribute('aria-pressed',String(v));if(v){p.sqT=0;if(G.t%2===0)beep(300,.05,'triangle',.02,150)}}
+function slideOn(v){if(G.state!=='play')return;const p=G.p;if(p.slide===v)return;p.slide=v;$('dbSlide').setAttribute('aria-pressed',String(v));if(v){p.sqT=0;if(G.t%2===0)beep(300,.05,'triangle',.02,150)}else if(p.on&&p.sqT>=6)p.recT=7} // 풀면 일어나는 그림 7프레임
 // 점프: 땅(또는 발판에서 떨어진 지 6프레임 안 = coyote)이면 1단, 공중이면 2단(3단). 다 썼으면 8프레임 동안 기억했다가 착지하자마자 뛴다(buf)
 function jump(){if(G.state!=='play')return;const p=G.p;const max=1+(E.jump3||p.jump3>0?2:1);
   if(p.on||p.coy>0){p.on=false;p.plat=null;p.coy=0;p.buf=0;p.vy=JUMP_V;p.jumps=1;p.slide=false;$('dbSlide').setAttribute('aria-pressed','false');beep(560,.08,'square',.03,900)}
@@ -2346,7 +2347,7 @@ function update(){
     if(!p.on&&p.y>=GY&&prevY<=GY+2&&!overPit(p.x)){p.y=GY;p.on=true;p.vy=0;p.jumps=0;land()}
     if(!p.on&&p.y>GY+60)pitFall()}
   if(p.slide&&!p.on){p.vy=Math.max(p.vy,6)} // 공중 슬라이드 = 급강하
-  p.anim+=v*.05;if(p.slide)p.sqT++;
+  p.anim+=v*.05;if(p.slide)p.sqT++;if(p.recT>0)p.recT--;
   if(G.t%5===0&&(p.boost>0||p.on&&v>5))G.fx.push({x:PXP-14,y:p.y-4,vx:-1.2,vy:-.1,life:16,k:'dust',sc:rnd(.25,.4)});
   // ---- 판정 상자(자기)
   const bw=p.slide?28:20,bh=p.slide?22:48,bx0=p.x-bw/2,by0=p.y-bh;
@@ -2400,8 +2401,8 @@ function skill(){const p=G.p,c=CHARS[me];p.gauge=0;G.skillN++;G.cut=60;G.cutName
   else if(me==='suzu'){p.boost=Math.max(p.boost,240);p.inv=Math.max(p.inv,240)}
   else if(me==='teio'){p.jump3=480;p.jmul=2;p.jmulT=480}
   else if(me==='gold'){p.golden=480}
-  else if(me==='rudo'){p.shield=Math.min(3,p.shield+2);p.mag=Math.max(p.mag,360)}
-  else if(me==='hime'){p.mag=Math.max(p.mag,600);p.jmul=2;p.jmulT=600}}
+  else if(me==='rice'){p.shield=Math.min(3,p.shield+2);p.mag=Math.max(p.mag,360)}
+  else if(me==='oguri'){p.mag=Math.max(p.mag,600);p.jmul=2;p.jmulT=600}}
 // 보스: 화면 위에 떠서 낙뢰(슬라이드)·게이트 바(슬라이드)·지뢰(점프)를 떨어뜨린다. 스테이지가 끝나면 물러난다
 function bossTick(p){const b=G.boss;b.t++;const iv=Math.max(70,120-G.stage*4);
   // 떨어뜨리기 전에 fits 로 앞뒤 장애물·발판과의 거리를 본다(피할 수 없는 자리면 이번엔 쉰다)
@@ -2544,21 +2545,23 @@ function drawDrone(x,y){x=Math.round(x);y=Math.round(y);const f=G.t%4<2;
   cx.fillStyle='#1a1426';cx.fillRect(x-15,y-4,30,10);cx.fillStyle='#2a2f4a';cx.fillRect(x-14,y-3,28,8);cx.fillStyle='#4a5070';cx.fillRect(x-10,y-6,20,4);
   cx.fillStyle=G.t%30<15?'#ff5c9a':'#7a2a4a';cx.fillRect(x-2,y-2,4,3);cx.fillStyle='#1a1426';cx.fillRect(x-4,y+5,8,4);cx.fillStyle='#7df9ff';cx.fillRect(x-2,y+6,4,2);
   cx.fillStyle='#9aa4b8';cx.fillRect(x-17,y-8,3,6);cx.fillRect(x+14,y-8,3,6);cx.fillStyle='rgba(220,230,255,.85)';cx.fillRect(x-23+(f?0:4),y-9,13-(f?0:8),2);cx.fillRect(x+10+(f?0:4),y-9,13-(f?0:8),2)}
-function drawPlayer(p){const key=me,n=CHARS[key].frames,x=PXP,y=p.y;let name,sy=1;
-  if(p.stum>0)name=key+'_s',ok(name)||(name=key+'_'+(Math.floor(p.anim)%n));
-  else if(p.slide&&p.on){name=key+'_'+(Math.floor(p.anim)%n)} // 슬라이드 = 달리는 그림을 작게(아래)
-  else if(!p.on)name=(p.vy<0&&ok(key+'_d'))?key+'_d':key+'_'+(p.vy<0?1:3)%n;
+function drawPlayer(p){const key=me,n=CHARS[key].frames,x=PXP,y=p.y;let name;
+  const fly=key+'_'+(n-1); // 마지막 달리기 프레임 = 공중(flight)
+  if(p.stum>0)name=key+'_sl3';                                                   // 맞아 비틀거림 = 일어나는 포즈
+  else if(p.slide&&p.on)name=key+(p.sqT<4?'_sl0':p.sqT<10?'_sl1':'_sl2');        // 슬라이드: 들어감 → 무릎 → 완전히 눕기
+  else if(p.recT>0&&p.on)name=key+'_sl3';                                        // 슬라이드에서 일어남
+  else if(!p.on)name=p.vy<0?key+'_d':fly;                                        // 점프: 오를 땐 스프린트, 내릴 땐 공중 그림
+  else if(p.boost>0&&G.t%8<4)name=key+'_d';                                      // ブースト: 스프린트 그림을 섞어 더 빨라 보이게
   else name=key+'_'+(Math.floor(p.anim)%n);
   if(!ok(name))name=key+'_0';
   const sc=1.1;cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(x,(p.plat?p.plat.y:GY)+2,16,4,0,0,TAU);cx.fill();
   if(p.boost>0)spr(CHARS[me].aura,x-2,y-24,1.1,.7);
   if(p.mag>0){cx.strokeStyle='rgba(125,249,255,.35)';cx.lineWidth=1;cx.beginPath();cx.arc(x,y-24,110+E.mag,0,TAU);cx.stroke()}
   if(p.inv>0&&p.boost<=0&&G.t%4<2)cx.globalAlpha=.5;
-  const tilt=p.stum>0?.4:p.slide&&p.on?.0:0;if(p.slide&&p.on){ // 슬라이드: 캐릭터를 3프레임 만에 절반 크기로 확 줄여(비율 유지) 발밑 먼지 구름과 함께 미끄러진다
-    const k=Math.min(1,p.sqT/3);spr('dust2',x-16,y-7,.6,.8+.2*Math.sin(G.t*.6));
-    cx.save();cx.translate(x,y);cx.rotate(-.12*k);sprB(name,0,0,sc*(1-.5*k),1,1);cx.restore();
+  if(p.slide&&p.on){ // 슬라이드: 발밑 먼지 구름과 먼지 입자(그림 자체가 낮게 그려져 있어 줄이지 않는다)
+    const k=Math.min(1,p.sqT/3);spr('dust2',x-18,y-7,.6,.5+.3*k+.2*Math.sin(G.t*.6));
     if(G.t%3===0)G.fx.push({x:x-20,y:y-2,vx:-1.8,vy:-.8,g:.04,life:14,k:'dust',sc:rnd(.25,.4)})}
-  else{cx.save();cx.translate(x,y);cx.rotate(tilt);sprB(name,0,0,sc,1,sy);cx.restore()}cx.globalAlpha=1;
+  const tilt=p.stum>0?.35:0;cx.save();cx.translate(x,y);cx.rotate(tilt);sprB(name,0,0,sc,1,1);cx.restore();cx.globalAlpha=1;
   if(p.boost>0&&ok('streak'))spr('streak',x-36,y-20,.6,.7);
   if(p.golden>0)spr('crown',x,y-62+Math.sin(G.t*.2)*2,.7)}
 function drawGacha(){const g=G.gacha,t=g.t,tr=g.list[g.i],col=RCOL[tr.r];cx.fillStyle='rgba(5,3,20,.88)';cx.fillRect(0,0,W,H);

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Holo 2048 합체 보이스 병합기</title>
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 16px; box-sizing: border-box; }
+    .box { background: #1e293b; padding: 28px; border-radius: 20px; text-align: center; max-width: 440px; box-shadow: 0 20px 50px rgba(0,0,0,.5); border: 1px solid #334155; }
+    h2 { margin-top: 0; color: #38bdf8; font-size: 20px; }
+    p { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+    label { display: inline-block; margin-top: 12px; padding: 14px 24px; background: #0284c7; color: #fff; font-weight: bold; border-radius: 12px; cursor: pointer; }
+    label:hover { background: #0369a1; }
+    input { display: none; }
+    #status { margin-top: 16px; font-size: 13px; color: #4ade80; font-weight: bold; line-height: 1.6; }
+    #status.warn { color: #fbbf24; }
+    small { display: block; margin-top: 14px; font-size: 11px; color: #64748b; line-height: 1.6; }
+    code { color: #a5f3fc; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🎵 Holo 2048 합체 보이스 병합기</h2>
+    <p>새로 만든 <b>holo2048.html</b> 을 고르면, 합체 보이스(<code>holo-voice.js</code>: 16인 대사·징글·말풍선)를 붙인 파일을 바로 내려받습니다.<br>내려받은 파일을 <code>games/holo2048.html</code> 로 넣으면 끝.</p>
+    <label>📂 holo2048.html 파일 선택하기<input type="file" id="fileInput" accept=".html,.htm"></label>
+    <div id="status"></div>
+    <small>보이스 코드는 파일 안에 그대로 넣습니다(한 파일로 어디서든 동작). 이 페이지를 사이트에서 열었을 때만 그렇고, 내 컴퓨터에서 바로 열었으면 <code>&lt;script src="holo-voice.js"&gt;</code> 한 줄만 넣으니 holo-voice.js 와 같은 폴더에 두세요.<br>이미 보이스가 든 파일은 다시 붙이지 않습니다.</small>
+  </div>
+
+  <script>
+    // 주의: 이 스크립트 안에 스크립트 닫는 태그 글자를 그대로 적으면 브라우저가 거기서 스크립트를 끊는다(주석도 마찬가지). 그래서 태그는 문자열을 이어 붙여 만든다.
+    const TAG_OPEN = '<' + 'script', TAG_CLOSE = '</' + 'script>';
+    async function voiceSnippet() {
+      try {
+        if (location.protocol !== 'file:') {
+          const r = await fetch('holo-voice.js', { cache: 'no-store' });
+          if (r.ok) {
+            const js = await r.text();
+            if (js.includes('HoloVoice') && !js.includes(TAG_CLOSE)) return { how: '코드를 파일 안에 넣음', text: TAG_OPEN + '>\n' + js + '\n' + TAG_CLOSE };
+          }
+        }
+      } catch (e) {}
+      return { how: 'holo-voice.js 를 읽는 한 줄을 넣음(같은 폴더에 두세요)', text: TAG_OPEN + ' src="holo-voice.js">' + TAG_CLOSE };
+    }
+
+    document.getElementById('fileInput').addEventListener('change', async (e) => {
+      const st = document.getElementById('status');
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      st.className = ''; st.textContent = '읽는 중…';
+      const text = await file.text();
+      if (!/<\/body>/i.test(text) || !/playPopMergeSound/.test(text)) {
+        st.className = 'warn'; st.textContent = '⚠️ holo2048.html 이 아닌 것 같아요(playPopMergeSound 가 없거나 </body> 가 없음).'; return;
+      }
+      if (/holo-voice\.js|window\.HoloVoice\b|const HoloMergeAudio\b/.test(text)) {
+        st.className = 'warn'; st.textContent = '⚠️ 이 파일에는 이미 합체 보이스가 들어 있어요. 그대로 쓰면 됩니다.'; return;
+      }
+      const snip = await voiceSnippet();
+      const merged = text.replace(/<\/body>/i, '<!-- holo-voice: 합체 보이스 (games/merge.html 로 붙임) -->\n' + snip.text + '\n</body>');
+      const blob = new Blob([merged], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'holo2048.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+      st.textContent = '✅ holo2048.html 을 내려받았어요 (' + snip.how + '). games/holo2048.html 로 넣으세요.';
+    });
+  </script>
+</body>
+</html>
