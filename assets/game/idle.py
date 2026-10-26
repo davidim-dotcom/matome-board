@@ -87,6 +87,57 @@ def icon(i):
     return im
 
 
+RANK_NAMES = ['신입 서클', '섬 서클', '생일석', '셔터 앞', '벽 서클', '대형 서클', '기업 부스']
+
+
+def rank_badge(k):
+    """서클 랭크 배지 16×16: 종이 팻말 → 섬(책상) → 케이크(생일석) → 셔터 → 벽돌 벽 → 왕관 → 기업 부스 빌딩"""
+    im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    if k == 0:
+        box(d, 3, 2, 12, 10, PAPER); d.line([7, 10, 7, 14], fill=WOOD, width=2)
+        d.line([5, 5, 10, 5], fill=GRAY); d.line([5, 7, 9, 7], fill=GRAY)
+    elif k == 1:
+        d.ellipse([0, 9, 15, 15], fill=(60, 170, 120), outline=OL)
+        box(d, 3, 5, 12, 10, PINK); d.rectangle([5, 3, 10, 5], fill=PAPER)
+    elif k == 2:
+        box(d, 2, 7, 13, 14, PINK); d.rectangle([3, 8, 12, 9], fill=WHITE)
+        for x in (5, 8, 11):
+            d.line([x, 3, x, 6], fill=CYAN); d.point((x, 2), fill=YEL)
+    elif k == 3:
+        box(d, 1, 2, 14, 14, GRAY)
+        for y in range(4, 14, 2):
+            d.line([2, y, 13, y], fill=(110, 118, 140))
+        d.rectangle([6, 12, 9, 13], fill=OL)
+    elif k == 4:
+        d.rectangle([0, 1, 15, 14], fill=OL)
+        for r, y in enumerate(range(2, 14, 3)):
+            for x in range(-3 if r % 2 else 0, 16, 6):
+                d.rectangle([x + 1, y, x + 4, y + 1], fill=(200, 80, 70))
+        box(d, 4, 4, 11, 10, PINK)
+    elif k == 5:
+        d.polygon([(1, 12), (1, 4), (5, 8), (8, 2), (11, 8), (14, 4), (14, 12)], fill=YEL, outline=OL)
+        d.rectangle([1, 12, 14, 14], fill=YEL, outline=OL)
+        d.point((8, 9), fill=PINK); d.point((4, 11), fill=CYAN); d.point((11, 11), fill=CYAN)
+    else:
+        box(d, 3, 1, 12, 15, PURP)
+        for y in range(3, 14, 3):
+            d.rectangle([5, y, 6, y + 1], fill=CYAN); d.rectangle([9, y, 10, y + 1], fill=CYAN)
+        d.polygon([(8, 0), (9, 2), (11, 2), (9, 3), (10, 5), (8, 4), (6, 5), (7, 3), (5, 2), (7, 2)], fill=YEL)
+    return im
+
+
+def catalog_icon():
+    """환생(코미케 참가) 버튼 아이콘 24×24: 두꺼운 카탈로그 책 + 별"""
+    im = Image.new('RGBA', (24, 24), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    box(d, 3, 2, 20, 21, (176, 48, 107)); d.rectangle([4, 3, 6, 20], fill=(120, 30, 80))
+    d.rectangle([19, 4, 21, 22], fill=PAPER); d.line([19, 22, 21, 22], fill=OL)
+    d.polygon([(13, 6), (14, 9), (17, 9), (15, 11), (16, 14), (13, 12), (10, 14), (11, 11), (9, 9), (12, 9)], fill=YEL, outline=OL)
+    d.rectangle([8, 16, 17, 17], fill=WHITE)
+    return im
+
+
 def uri(im):
     b = io.BytesIO(); im.save(b, 'PNG', optimize=True)
     return 'data:image/png;base64,' + base64.b64encode(b.getvalue()).decode()
@@ -108,7 +159,13 @@ if __name__ == '__main__':
     sheet = Image.new('RGBA', (7 * 36, 36), (30, 30, 40, 255))
     for i in range(7):
         sheet.alpha_composite(Image.open(os.path.join(OUT, f'gen{i}.png')), (i * 36 + 2, 2))
-    sheet.resize((sheet.width * 3, sheet.height * 3), Image.NEAREST).save(os.path.join(OUT, '_preview.png'))
+    ranks = Image.new('RGBA', (7 * 20 + 28, 20), (30, 30, 40, 255))
+    for k in range(7):
+        ranks.alpha_composite(rank_badge(k), (k * 20 + 2, 2))
+    ranks.alpha_composite(catalog_icon().resize((16, 16), Image.NEAREST), (7 * 20 + 4, 2))
+    pv = Image.new('RGBA', (max(sheet.width, ranks.width), sheet.height + ranks.height), (30, 30, 40, 255))
+    pv.alpha_composite(sheet, (0, 0)); pv.alpha_composite(ranks, (0, sheet.height))
+    pv.resize((pv.width * 3, pv.height * 3), Image.NEAREST).save(os.path.join(OUT, '_preview.png'))
     bg = G('bg3').quantize(64).convert('RGBA')
     A = {
         'pixel': True,
@@ -121,6 +178,8 @@ if __name__ == '__main__':
         'astMini': [furi(f'hc_{m}_f') for m in AST],  # 장면 속 어시스턴트(작은 도트)
         'work': [furi(n) for n in WORK],
         'fx': {k: furi(k) for k in ('heart', 'coin', 'spark', 'gem_p')},
+        'rank': [uri(rank_badge(k)) for k in range(7)],  # 서클 랭크 배지(직접 그린 도트)
+        'prestige': uri(catalog_icon()),
     }
     js = 'window.IDLE_ASSETS=' + json.dumps(A, separators=(',', ':')) + ';'
     open(os.path.join(OUT, 'assets.js'), 'w').write(js)
