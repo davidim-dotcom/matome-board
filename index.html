@@ -82,6 +82,19 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 @media (max-width:520px){.wk{grid-template-columns:30px 1fr;gap:10px}.wk-no{font-size:22px}}
 /* Holo Mobile(스이카 & 2048): 운영자가 만든 독립 페이지(games/holo2048.html)를 탭 안 iframe 으로. 탭을 처음 열 때 src 를 넣는다 */
 .gameframe{display:block;width:100%;height:calc(100vh - 150px);min-height:640px;border:1px solid var(--line);border-radius:12px;background:#090d1e}
+/* 폰에서는 게임(iframe)이 터치를 다 가져가 페이지가 안 내려가므로: 화면 높이에 맞추고, 오른쪽에 스크롤용 띠(.gamegrip)를 두고,
+   위에 '스코어 보드로' 버튼, 결과가 나오면 화면 아래 '기록 등록' 버튼(#hmFab)을 띄운다 */
+.gamewrap{position:relative}
+.gamegrip{display:none}
+.hm-jump{display:flex;justify-content:flex-end;margin:0 0 6px}
+.hm-jump button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:2px 4px;cursor:pointer}
+.hm-fab{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;padding:10px 18px;border-radius:999px;border:0;background:#ff5c9a;color:#fff;font:inherit;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.hm-fab[hidden]{display:none}
+@media (pointer:coarse){
+  .gamewrap{display:grid;grid-template-columns:1fr 26px;gap:4px}
+  .gameframe{height:calc(100vh - 170px);height:calc(100svh - 170px);min-height:480px}
+  .gamegrip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:10px;background:repeating-linear-gradient(180deg,var(--line) 0 2px,transparent 2px 8px);color:var(--muted);font-size:11px;writing-mode:vertical-rl;letter-spacing:2px}
+}
 /* Holo Mobile 스코어 보드: 모양은 弾幕 스코어 보드(.dm-board·.dm-sub·.dm-rank)를 그대로 쓰고 게임 고르기 칸만 더한다 */
 .hm-tabs{display:flex;gap:6px;margin:0 0 8px}
 .hm-tabs button{flex:1;padding:7px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:13px;touch-action:manipulation}
@@ -345,7 +358,9 @@ textarea{min-height:110px;resize:vertical}
     </div>
   </section>
   <section id="game" hidden></section>
-  <section id="g2048" hidden><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe>
+  <section id="g2048" hidden><div class="hm-jump"><button type="button" id="hmJump">▼ 스코어 보드로</button></div>
+    <div class="gamewrap"><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe><div class="gamegrip" aria-hidden="true">여기를 밀어 스크롤</div></div>
+    <button type="button" class="hm-fab" id="hmFab" hidden>▼ 기록 등록하러 가기</button>
     <div class="dm-board"><div class="hd"><p class="lab">SCORE BOARD · 모두의 기록 TOP 30</p><button type="button" id="hmRankRe">↻ 새로고침</button></div>
       <div class="hm-tabs" id="hmTabs"><button type="button" data-hm="suika" aria-pressed="true">수박 게임</button><button type="button" data-hm="2048" aria-pressed="false">2048 퍼즐</button></div>
       <form class="dm-sub" id="hmSub" hidden><span class="me" id="hmSubMe"></span><input id="hmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="hmSubBtn">기록 등록</button></form>
@@ -842,6 +857,7 @@ function hmResult(g,text){
   const n=$("#hmName"); if(!n.value){try{n.value=localStorage.getItem("dm-name")||""}catch{}}
   $("#hmSubBtn").disabled=false; $("#hmSub").hidden=!HM.ready;
   if(HM.game!==g)hmPick(g);
+  if(HM.ready)$("#hmFab").hidden=false; // 결과 창이 떠도 등록 칸은 게임 아래라, 화면 아래에 바로 가는 버튼
 }
 function hookHolo(){
   const f=$("#holo2048"); if(!f)return;
@@ -855,6 +871,11 @@ function hookHolo(){
   }catch{}});
   $("#hmTabs").addEventListener("click",e=>{const b=e.target.closest("button[data-hm]");if(b&&b.dataset.hm!==HM.game)hmPick(b.dataset.hm)});
   $("#hmRankRe").addEventListener("click",loadHmRank);
+  const board=$("#g2048 .dm-board"),toBoard=()=>{$("#hmFab").hidden=true;board.scrollIntoView({behavior:"smooth",block:"start"})};
+  $("#hmJump").addEventListener("click",toBoard);$("#hmFab").addEventListener("click",toBoard);
+  // 보드가 화면에 보이거나 다른 탭으로 가면 버튼을 숨긴다
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting))$("#hmFab").hidden=true}).observe(board);
+  new MutationObserver(()=>{if($("#g2048").hidden)$("#hmFab").hidden=true}).observe($("#g2048"),{attributes:true,attributeFilter:["hidden"]});
   $("#hmSub").addEventListener("submit",async e=>{
     e.preventDefault(); const run=HM.run; if(!run||HM.sent||!bbsReady())return;
     const name=$("#hmName").value.replace(/\s+/g," ").trim().slice(0,12); if(!name){toast("이름을 적어 주세요");$("#hmName").focus();return}
