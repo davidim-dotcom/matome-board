@@ -8,7 +8,7 @@ import sys, os
 import numpy as np
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'game'))
-from extract import foreground, components, flood_bg, fit  # noqa: E402
+from extract import foreground, components, flood_bg  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'src')
@@ -71,24 +71,62 @@ def cells(grid):
             out.append(((cx0 + x0, cy0 + y0, cx1 + x0, cy1 + y0), piece(arr[cy0:cy1, cx0:cx1])))
     return out
 
-def piece(arr):
-    """칸 안의 그림: 바탕(어두운 남색 2색 + 격자선)을 바깥에서 이어진 만큼만 지우고 내용 상자로 자른다"""
+BG = ((30, 36, 60), (12, 12, 36), (24, 30, 54))
+def keyed(arr, thr=26):
+    """바탕(어두운 남색 2색 + 격자선)을 바깥에서 이어진 만큼만 지운 전경 마스크. 문턱을 낮게(26) 잡아 검은 윤곽선은 남긴다.
+    JPEG 라 그림 가장자리에 바탕색이 번진 1px 테두리(bg 에 가까운 색이면서 투명 칸에 닿은 픽셀)는 한 번 더 지운다"""
     bg = np.zeros(arr.shape[:2], bool)
-    for c in ((30, 36, 60), (12, 12, 36), (24, 30, 54)): bg |= (np.abs(arr - np.array(c)).sum(2) < 60)
+    for c in BG: bg |= (np.abs(arr - np.array(c)).sum(2) < thr)
     bg |= line_mask(arr)
     fg = ~flood_bg(bg)
+    near = np.zeros_like(bg)
+    for c in BG: near |= (np.abs(arr - np.array(c)).sum(2) < 90)
+    pad = np.pad(fg, 1, constant_values=False)
+    touch = ~(pad[:-2, 1:-1] & pad[2:, 1:-1] & pad[1:-1, :-2] & pad[1:-1, 2:])
+    return fg & ~(near & touch)
+
+def piece(arr):
+    """칸 안의 그림을 내용 상자로 자른 RGBA(원본 해상도)"""
+    fg = keyed(arr)
     ys, xs = np.nonzero(fg)
     if len(ys) == 0: return None
     y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
     rgba = np.dstack([arr[y0:y1, x0:x1].astype(np.uint8), (fg[y0:y1, x0:x1] * 255).astype(np.uint8)])
     return Image.fromarray(rgba, 'RGBA')
 
+def fit(p, maxdim, outline=True, colors=40):
+    """게임 크기로 줄인다. 시트는 부드럽게 번진 '가짜 도트'라 BOX(면적 평균)로 줄이고 알파를 이진화한 뒤,
+    색을 40색으로 묶어 도트 그림답게 평평하게 하고, 바탕(잔디)과 구분되게 1px 어두운 윤곽선을 두른다"""
+    sc = maxdim / max(p.width, p.height)
+    if sc < 1:
+        a = np.asarray(p).astype(float); al = a[..., 3:4] / 255
+        pm = Image.fromarray(np.dstack([(a[..., :3] * al).astype(np.uint8), a[..., 3].astype(np.uint8)]), 'RGBA')
+        w, h = max(1, round(p.width * sc)), max(1, round(p.height * sc))
+        q = np.asarray(pm.resize((w, h), Image.BOX)).astype(float)
+        al = q[..., 3:4] / 255; rgb = np.where(al > 0, q[..., :3] / np.maximum(al, 1e-6), 0)
+        a = np.dstack([np.clip(rgb, 0, 255).astype(np.uint8), np.where(q[..., 3] >= 115, 255, 0).astype(np.uint8)])
+    else:
+        a = np.asarray(p).copy(); a[..., 3] = np.where(a[..., 3] >= 128, 255, 0)
+    if colors:
+        rgb = Image.fromarray(a[..., :3], 'RGB').quantize(colors, method=Image.MEDIANCUT, dither=Image.NONE).convert('RGB')
+        a[..., :3] = np.asarray(rgb)
+    if outline:
+        m = a[..., 3] > 0; pad = np.pad(m, 1, constant_values=False)
+        ring = (pad[:-2, 1:-1] | pad[2:, 1:-1] | pad[1:-1, :-2] | pad[1:-1, 2:]) & ~m
+        a[ring] = (26, 20, 38, 255)
+    return Image.fromarray(a, 'RGBA')
+
 def region_pieces(region, thr=70):
     sh, (x0, y0, x1, y1) = REGIONS[region]; arr = sheet(sh)[y0:y1, x0:x1]
+    # 덩어리 나누기는 느슨한 문턱(70)으로(번호가 안정되게), 각 조각의 알파는 그 덩어리 근처(3px 팽창)에서 빡빡한 키잉(keyed)으로
     fg = foreground(arr, 'grid', thr); lab, boxes = components(fg, reach=3, min_px=40)
+    tight = keyed(arr)
     out = []
     for (bx1, by1, bx2, by2, n) in boxes:
-        m = (lab[by1:by2, bx1:bx2] == n)
+        m = (lab[by1:by2, bx1:bx2] == n); d = m.copy()
+        for _ in range(3):
+            pd = np.pad(d, 1, constant_values=False); d = d | pd[:-2, 1:-1] | pd[2:, 1:-1] | pd[1:-1, :-2] | pd[1:-1, 2:]
+        m = d & tight[by1:by2, bx1:bx2]
         out.append(Image.fromarray(np.dstack([arr[by1:by2, bx1:bx2].astype(np.uint8), (m * 255).astype(np.uint8)]), 'RGBA'))
     return out
 
@@ -136,7 +174,7 @@ PICKS = {
     'gem': ('r', 'b_fx', 16, 20), 'heart': ('r', 'b_fx', 13, 20),
     # ---- 코스·소품
     'grass': ('g', 'a_track', 0, 96, (.04, .04, .96, .96)), 'dirt': ('g', 'c_track', 2, 96, (.04, .04, .96, .96)), 'snow': ('g', 'c_track', 3, 96, (.04, .04, .96, .96)),
-    'crowd': ('r', 'e_props', 21, 220), 'arch': ('r', 'e_bottom', 0, 150),
+    'crowd': ('r', 'e_props', 21, 220), 'arch': ('r', 'e_bottom', 4, 150),
     'sign200': ('r', 'e_props', 7, 48), 'sign400': ('r', 'e_props', 9, 48), 'signgoal': ('r', 'e_props', 10, 48), 'gate': ('r', 'e_props', 3, 120),
     'hurdle': ('r', 'd_props', 1, 40), 'mine': ('r', 'b_row4', 9, 24), 'boom': ('r', 'b_row4', 18, 64),
     'dust': ('r', 'b_fx', 25, 48), 'dust2': ('r', 'b_fx', 28, 56), 'wind': ('g', 'a_track', 3, 120, (.5, 0, 1, 1)), 'streak': ('g', 'a_track', 4, 110, (0, 0, .5, 1)),
@@ -148,11 +186,15 @@ PICKS = {
     # ---- 필살 컷인·오라·스킬 FX·파티클
     'cut_blue': ('r', 'a_cutin', 0, 200), 'cut_sakura': ('r', 'a_cutin', 4, 200), 'cut_idol': ('r', 'c_cutin', 0, 200), 'cut_rocket': ('r', 'c_cutin', 2, 200),
     'aura_blue': ('g', 'e_aura', 9, 64), 'aura_red': ('g', 'e_aura', 10, 64), 'aura_gold': ('g', 'e_aura', 11, 64), 'tornado': ('g', 'e_aura', 0, 48),
-    'bolt': ('g', 'd_fx', 0, 48), 'feather': ('r', 'f_fx', 30, 40), 'crown': ('r', 'f_fx', 0, 36), 'shoe_fx': ('r', 'f_fx', 32, 48),
+    'bolt': ('g', 'd_fx', 1, 48), 'feather': ('r', 'f_fx', 30, 40), 'crown': ('r', 'f_fx', 0, 36), 'shoe_fx': ('r', 'f_fx', 32, 48),
     'spark': ('g', 'a_part', 0, 32), 'burst': ('g', 'a_part', 7, 48), 'drops': ('g', 'a_part', 2, 24),
     # ---- 훈련 카드 그림
     'tire': ('r', 'd_props', 0, 64), 'pool': ('r', 'd_props', 7, 90), 'uphill': ('r', 'd_props', 6, 90), 'downhill': ('r', 'd_props', 16, 90),
 }
+
+# 윤곽선을 두르지 않는 것(타일·효과·컷인·관중)과 색을 묶지 않는 것(컷인·보스·큰 소품)
+NO_OUTLINE = ('grass', 'dirt', 'snow', 'crowd', 'dust', 'wind', 'streak', 'aura', 'tornado', 'bolt', 'spark', 'burst', 'drops', 'cut_', 'spot', 'eye', 'vortex', 'boom', 'shoe_fx', 'feather', 'tape', 'arch', 'crown')
+NO_QUANT = ('cut_', 'boss_', 'crowd', 'arch', 'podium', 'trophy', 'ura', 'gate', 'grass', 'dirt', 'snow')
 
 def main():
     if len(sys.argv) > 2 and sys.argv[1] == 'scan': scan(sys.argv[2]); return
@@ -164,7 +206,8 @@ def main():
         p = got[key][idx]
         if len(spec) > 4:
             fx0, fy0, fx1, fy1 = spec[4]; p = p.crop((int(p.width * fx0), int(p.height * fy0), int(p.width * fx1), int(p.height * fy1)))
-        fit(p, maxdim).save(os.path.join(HERE, name + '.png')); print(name, fit(p, maxdim).size)
+        out = fit(p, maxdim, outline=not name.startswith(NO_OUTLINE), colors=0 if name.startswith(NO_QUANT) else 40)
+        out.save(os.path.join(HERE, name + '.png')); print(name, out.size)
 
 if __name__ == '__main__':
     main()

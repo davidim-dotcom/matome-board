@@ -2093,7 +2093,7 @@ function beep(f,d,type,g,f2){if(!snd)return;try{const c=ac();if(!c)return;const 
 // ---------- 상수 ----------
 const PX=5;                        // 1m = 5px
 const LANES=4,LANE_Y=[150,205,260,315],LANE_SC=[.9,.95,1,1.05],PX_PLAYER=118;
-const BASE_V=2.1;                  // 기본 속도(px/프레임) = 25m/s. 1200m 약 48초
+const BASE_V=3.15;                 // 기본 속도(px/프레임) = 38m/s. 1200m 약 32초(2026-10 속도감 1.5배)
 // 7경주: 거리·노면·날씨·보스
 const RACES=[
   {name:'メイクデビュー',dist:1200,surf:'grass',sky:'day'},
@@ -2107,7 +2107,7 @@ const RACES=[
 const BOSS={gate:{spr:'boss_gate',name:'スタートゲート装置',sc:.8},clock:{spr:'boss_clock',name:'時計の魔法陣',sc:.9},board:{spr:'boss_board',name:'スコアボード装置',sc:.75}};
 // 경주 사이 카드(훈련 = 능력치, 스킬 = 특성). 한 판에 같은 스킬은 한 번
 const CARDS=[
-  {id:'tire',img:'tire',t:'タイヤ引き',d:'パワー +1 · 레인 변경이 빨라지고 막혀도 덜 느려짐',f:s=>s.pow++},
+  {id:'tire',img:'dust',t:'タイヤ引き',d:'パワー +1 · 레인 변경이 빨라지고 막혀도 덜 느려짐',f:s=>s.pow++},
   {id:'hill',img:'uphill',t:'坂路調教',d:'スピード +1 · 기본 속도 +4%',f:s=>s.spd++},
   {id:'pool',img:'pool',t:'プール',d:'スタミナ +25',f:s=>s.sta+=25},
   {id:'down',img:'downhill',t:'下り坂',d:'スパート 속도 +12%',f:s=>s.spurt+=.12},
@@ -2138,7 +2138,7 @@ function setupRace(){
   G.riv=pool.map((k,i)=>({x:rnd(60,240),lane:i%LANES,ly:i%LANES,v:0,base:BASE_V*rnd(.97,1.05)*(1+R.race*.015),key:k,name:(CHARS[k]||{}).name||{blon:'ブロンド',dark:'クロ',rice:'ライス'}[k],frames:(CHARS[k]||{}).frames||RF[k],frame:0,anim:0,ai:true,jump:0,jt:0,stum:0,spurt:false,laneT:rnd(60,200),rank:1,boost:0,blocked:0}));
   // 장애물·아이템·풍경을 거리별로 배치
   const L=G.len,dens=1+R.race*.18;
-  for(let x=600;x<L-300;x+=rnd(260,420)/dens){const r=Math.random(),lane=Math.floor(rnd(0,LANES));
+  for(let x=700;x<L-300;x+=rnd(320,500)/dens){const r=Math.random(),lane=Math.floor(rnd(0,LANES));
     if(r<.42)G.obs.push({k:'hurdle',x,lane});else if(r<.62)G.obs.push({k:'mine',x,lane});else if(rc.weather==='rain'&&r<.8)G.obs.push({k:'puddle',x,lane});else if(R.race>=3&&r<.8)G.obs.push({k:'eye',x,lane});else if(R.race>=3&&r<.9)G.obs.push({k:'vortex',x,lane});}
   for(let x=400;x<L-200;x+=rnd(220,380)){const r=Math.random(),lane=Math.floor(rnd(0,LANES));
     G.items.push({k:r<.45?'carrot':r<.6?'drink':r<.72?'shoe':r<.86?'gem':r<.94?'potion':'gcarrot',x,lane,t:rnd(0,TAU)})}
@@ -2160,7 +2160,7 @@ wrap.addEventListener('pointerup',e=>{if(!tap0)return;const p=pt(e),now=performa
   if(!moved&&quick)jump()});
 wrap.addEventListener('pointercancel',()=>tap0=null);
 function laneMove(d){if(G.state!=='play')return;const p=G.p;if(p.rev>0)d=-d;if(G.boss&&G.boss.stop>0){pop('止まっている！','#7df9ff');return}p.lane=clamp(p.lane+d,0,LANES-1)}
-function jump(){if(G.state!=='play')return;const p=G.p;if(p.jump>0&&!(R.st.jump&&p.jt<6))return;if(p.stum>0)return;p.jump=28+R.st.jump*8;p.jt=0;beep(600,.08,'square',.03,900)}
+function jump(){if(G.state!=='play')return;const p=G.p;if(p.jump>0&&!(R.st.jump&&p.jt<6))return;if(p.stum>0)return;p.jump=24+R.st.jump*8;p.jt=0;beep(600,.08,'square',.03,900)}
 function useSkill(){if(G.state!=='play')return;const p=G.p;if(p.gauge<100||p.skill>0)return;p.gauge=0;G.cut=70;G.cutName=CHARS[me].skill;p.skill=200;p.stum=0;p.slow=0;p.rev=0;beep(440,.15,'triangle',.05);setTimeout(()=>beep(660,.2,'triangle',.05),120);setTimeout(()=>beep(880,.3,'square',.05),240);say(CHARS[me].name+'の必殺！',90)}
 $('dbJump').addEventListener('click',jump);$('dbSkill').addEventListener('click',useSkill);
 const sp=$('dbSpurt');const spOn=v=>{holdSpurt=v;sp.setAttribute('aria-pressed',String(v))};
@@ -2209,8 +2209,8 @@ function update(){
   p.v=v;p.x+=v;
   if(p.jump>0){p.jump--;p.jt++}if(p.stum>0)p.stum-=R.st.feather?2:1;if(p.exh>0)p.exh--;if(p.boost>0)p.boost--;if(p.skill>0)p.skill--;if(p.slow>0)p.slow--;if(p.rev>0)p.rev--;
   // 레인은 목표로 미끄러진다(파워·바람)
-  const lk=R.st.wind?.5:.12+S.pow*.03;p.ly+=(p.lane-p.ly)*lk;
-  p.anim+=v*(p.spurt?.09:.065);
+  const lk=R.st.wind?.5:.16+S.pow*.03;p.ly+=(p.lane-p.ly)*lk;
+  p.anim+=v*(p.spurt?.07:.05);
   if(G.t%4===0&&(p.spurt||p.skill>0))G.fx.push({x:PX_PLAYER-18,y:LANE_Y[Math.round(p.ly)]-6,vx:-1.5,vy:-.2,life:18,k:'dust',sc:rnd(.3,.5)});
   // ---- 장애물·아이템(자기)
   const onLane=o=>Math.abs(o.lane-p.ly)<.5;
@@ -2226,9 +2226,9 @@ function update(){
     let rv=r.base;if(r.stum>0)rv*=.4;const rl=r.x>G.len-400*PX;if(rl||r.boost>0)rv*=1.15;
     // 자기 바로 앞에서는 조금 처져서(고무줄) 추월 기회를 준다
     const lead=r.x-p.x;if(lead>300)rv*=.92;if(lead<-420)rv*=1.08;
-    r.v=rv;r.x+=rv;r.anim+=rv*.07;if(r.jump>0){r.jump--}if(r.stum>0)r.stum--;if(r.boost>0)r.boost--;
+    r.v=rv;r.x+=rv;r.anim+=rv*.055;if(r.jump>0){r.jump--}if(r.stum>0)r.stum--;if(r.boost>0)r.boost--;
     // 앞 장애물 처리: 허들·지뢰는 뛰어넘고(가끔 실패), 디버프는 레인을 바꿔 피함
-    for(const o of G.obs){const d=o.x-r.x;if(d>0&&d<60&&Math.abs(o.lane-r.ly)<.5){if(o.k==='hurdle'||o.k==='mine'){if(d<30&&r.jump<=0){if(Math.random()<.9)r.jump=26;else if(d<14&&r.stum<=0){r.stum=50;if(o.k==='mine'){o.hit=true;G.fx.push({x:PX_PLAYER+(r.x-p.x),y:LANE_Y[r.lane]-10,life:20,k:'boom',sc:.8})}}}}else if(r.laneT>20){r.lane=clamp(r.lane+(Math.random()<.5?-1:1),0,LANES-1);r.laneT=20}}}
+    for(const o of G.obs){const d=o.x-r.x;if(d>0&&d<60&&Math.abs(o.lane-r.ly)<.5){if(o.k==='hurdle'||o.k==='mine'){if(d<40&&r.jump<=0){if(Math.random()<.9)r.jump=22;else if(d<14&&r.stum<=0){r.stum=50;if(o.k==='mine'){o.hit=true;G.fx.push({x:PX_PLAYER+(r.x-p.x),y:LANE_Y[r.lane]-10,life:20,k:'boom',sc:.8})}}}}else if(r.laneT>20){r.lane=clamp(r.lane+(Math.random()<.5?-1:1),0,LANES-1);r.laneT=20}}}
     if(--r.laneT<=0){r.laneT=rnd(90,260);if(Math.random()<.5)r.lane=clamp(r.lane+(Math.random()<.5?-1:1),0,LANES-1)}
     r.ly+=(r.lane-r.ly)*.1;
     // 추월 판정(스쳐 지나가면 NEAR PASS)
@@ -2264,10 +2264,10 @@ function bossTick(p){const b=G.boss,prog=p.x/G.len;b.t++;
   if(b.gap<=0){b.gap=150;R.lives--;renderHud();G.shake=22;G.flash=30;say('捕まった！ 残機 -1',90);beep(80,.6,'sawtooth',.08);p.stum=0;p.skill=120;G.gapHit++;if(R.lives<=0){G.done=true;finish(true);return}}
   const iv=b.ph?150:210;
   if(b.k==='gate'||b.k==='board'){ // 게이트 바: 세 레인을 막고 하나만 연다(예고 50프레임)
-    if(b.t%iv===0){const open=Math.floor(rnd(0,LANES));b.warn.push({x:p.x+360,lanes:[0,1,2,3].filter(l=>l!==open),t:50,k:'bar'});beep(500,.1,'square',.04)}
+    if(b.t%iv===0){const open=Math.floor(rnd(0,LANES));b.warn.push({x:p.x+420,lanes:[0,1,2,3].filter(l=>l!==open),t:50,k:'bar'});beep(500,.1,'square',.04)}
     if(b.k==='gate'&&b.ph&&b.t%iv===75){G.obs.push({k:'mine',x:p.x+300,lane:Math.floor(rnd(0,LANES))})}}
   if(b.k==='clock'||b.k==='board'){ // 번개: 레인 하나 예고 뒤 낙뢰 / 시간 정지: 레인 변경 불가
-    if(b.t%(iv-30)===40){b.warn.push({x:p.x+260,lanes:[Math.floor(rnd(0,LANES))],t:45,k:'bolt'});beep(1500,.08,'square',.03)}
+    if(b.t%(iv-30)===40){b.warn.push({x:p.x+320,lanes:[Math.floor(rnd(0,LANES))],t:45,k:'bolt'});beep(1500,.08,'square',.03)}
     if(b.k==='clock'&&b.t%(b.ph?240:330)===200){b.stop=70;say('時間停止！',50);beep(700,.4,'sine',.05,350)}}
   if(b.k==='board'&&b.ph&&b.t%200===100){b.warn.push({x:p.x+300,lanes:[0,1,2,3].filter(()=>Math.random()<.5),t:45,k:'spot'})}
   if(b.stop>0)b.stop--;
@@ -2277,7 +2277,7 @@ function finish(lost){const p=G.p;G.state='result';holdSpurt=false;spOn(false);
   const pos=lost?6:p.rank,t=G.timeF/60;let s=0,lines=[];
   if(lost){lines.push(['捕まった…','']);}
   else{const posB=[0,5000,3000,2000,1000,500,0][pos];s+=posB;lines.push([pos+'着',`+${posB.toLocaleString()}`]);
-    const tb=Math.max(0,Math.round((G.race.dist/14-t)*60));s+=tb;lines.push(['タイム '+t.toFixed(2)+'s',`+${tb.toLocaleString()}`]);
+    const tb=Math.max(0,Math.round((G.race.dist/21-t)*60));s+=tb;lines.push(['タイム '+t.toFixed(2)+'s',`+${tb.toLocaleString()}`]);
     if(G.boss){const gb=Math.round(G.boss.gap*20)+(G.gapHit?0:3000);s+=gb;lines.push(['ボス振り切り',`+${gb.toLocaleString()}`])}
     if(!G.stumbles){s+=2000;lines.push(['ノースタンブル','+2,000'])}}
   lines.push(['追い抜き '+G.passes+' (NEAR '+G.near+')','']);
@@ -2366,7 +2366,7 @@ function drawRunner(r,x,y,sc){const key=r.key,n=r.frames||CHARS[key].frames;let 
   else if(r===G.p&&(r.spurt||r.skill>0)&&ok(key+'_d')&&G.t%6<3)name=key+'_d';
   else name=key+'_'+(Math.floor(r.anim)%n);
   if(!ok(name))name=key+'_0';
-  const jy=r.jump>0?-Math.sin(r.jt/(28+(r===G.p?R.st.jump*8:0))*Math.PI)*34:0;
+  const jy=r.jump>0?-Math.sin(r.jt/(24+(r===G.p?R.st.jump*8:0))*Math.PI)*34:0;
   cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(x,y+2,16*sc,4,0,0,TAU);cx.fill();
   if(r===G.p&&r.skill>0)spr(CHARS[me].aura,x-2,y-22+jy,1.1,.75);
   if(r.stum>0&&G.t%4<2)cx.globalAlpha=.6;
