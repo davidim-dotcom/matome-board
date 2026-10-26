@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-27T01:04:30.847795+09:00",
+ "updated": "2026-10-27T06:32:11.961550+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1135,7 +1135,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc2c34551298ab700259adba7c183eed7b70ca140d8be239e3dbf5bd6928fef95308540f47bb22850157349afcef311d16f04c7f5fb",
-   "seenTo": 6823863,
+   "seenTo": 6827362,
    "coverNo": "comic_new6/6775786",
    "updatedAt": "2026-10-23T10:13"
   },
@@ -1352,16 +1352,26 @@
      "no": 6823071,
      "title": "번역) 나니와 금융도 50화",
      "date": "2026-10-26T20:39"
+    },
+    {
+     "no": 6826270,
+     "title": "번역) 나니와 금융도 50화 (욕조에 잠기는 하이바라의 눈물!!)",
+     "date": "2026-10-27T00:47"
+    },
+    {
+     "no": 6827999,
+     "title": "번역) 나니와 금융도 51화 (인쇄소 부활)",
+     "date": "2026-10-27T05:02"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc7c345b3cd45687bea766c6f2cfd68aeb13c8e44382e91c0fff7b86f9d26bd5589f58e5fa69806",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc6c3450e6a5d4b3638df4afceb48b3f5d9b08735ca8d1aa1a22a10c5523b2a0dcef197f3a35085c4be021e3f5a3a7c958e741241fb6f1f1b3db37ef54158ffd8b7f98153d54d0d8991ec9b152807a5f6e782a45c9aed541fca88807b05e664",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6823863,
-   "coverNo": "comic_new6/6823071",
-   "updatedAt": "2026-10-26T20:39"
+   "seenTo": 6827362,
+   "coverNo": "comic_new6/6827999",
+   "updatedAt": "2026-10-27T05:02"
   },
   {
    "id": "닌자슬레이어|",
@@ -4998,7 +5008,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-10-27T01:05",
+   "updatedAt": "2026-10-27T06:33",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6614,7 +6624,8 @@
   6809340,
   6810656,
   6818120,
-  6818821
+  6818821,
+  6827362
  ],
  "bad": [
   "comic_new6/6742384"
