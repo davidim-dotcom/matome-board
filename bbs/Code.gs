@@ -52,6 +52,7 @@ const GAMES = {
   dm_l: { sheet: 'scores_lunatic', stage: 5, head: ['시각', '이름', '점수', '스테이지', '스킨', '클리어'] }, // 弾幕 LUNATIC
   suika: { sheet: 'scores_suika', stage: 131072, head: ['시각', '이름', '점수', '최고 구슬', '', '2048 달성'] },
   '2048': { sheet: 'scores_2048', stage: 131072, head: ['시각', '이름', '점수', '최고 타일', '', '2048 달성'] },
+  derby: { sheet: 'scores_derby', stage: 7, head: ['시각', '이름', '점수', '레이스', '선수', 'URA 제패'] }, // まとめダービー
 };
 const game_ = g => GAMES[g] ? g : 'dm';
 function scoreSheet_(g) { const G = GAMES[game_(g)]; return sheet_(G.sheet, G.head); }

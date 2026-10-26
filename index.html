@@ -331,7 +331,8 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
     <button role="tab" data-tab="game" aria-selected="false">弾幕</button>
     <button role="tab" data-tab="g2048" aria-selected="false">Holo Mobile</button>
-    <button role="tab" data-tab="idle" aria-selected="false">放置 (Test)</button>
+    <button role="tab" data-tab="derby" aria-selected="false">ダービー (Test)</button>
+    <button role="tab" data-tab="idle" aria-selected="false" hidden>放置 (Test)</button>
   </nav>
 
   <section id="feed"></section>
@@ -365,6 +366,7 @@ textarea{min-height:110px;resize:vertical}
       <div class="hm-tabs" id="hmTabs"><button type="button" data-hm="suika" aria-pressed="true">수박 게임</button><button type="button" data-hm="2048" aria-pressed="false">2048 퍼즐</button></div>
       <form class="dm-sub" id="hmSub" hidden><span class="me" id="hmSubMe"></span><input id="hmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="hmSubBtn">기록 등록</button></form>
       <ol class="dm-rank" id="hmRank"></ol></div></section>
+  <section id="derby" hidden></section>
   <section id="idle" hidden></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
@@ -2025,6 +2027,389 @@ boot();
 })();
 </script>
 <!-- ===== end 放置ゲーム ===== -->
+<!-- ===== ダービー (Test): 「まとめダービー」 옆에서 보는 4레인 경주 로그라이트. 그림은 assets/race/*.png(운영자 컨셉 시트에서 extract.py 가 잘라냄) ===== -->
+<style>
+/* 탄막 탭의 .dm-wrap·.dm-ctl·.dm-board 모양을 그대로 쓴다 */
+.db-sel{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 8px;padding-bottom:2px}
+.db-sel::-webkit-scrollbar{display:none}
+.db-sel button{flex:none;width:64px;padding:4px 2px 3px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;touch-action:manipulation}
+.db-sel button img{display:block;height:40px;margin:0 auto;image-rendering:pixelated}
+.db-sel button span{display:block;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.db-sel button[aria-pressed="true"]{border-color:#ff5c9a;box-shadow:0 0 0 1px #ff5c9a inset}
+.db-ctl button.jump{background:#1d3a4a;color:#bff7ff;border-color:#4aa6c8}
+.db-ctl button.skill{background:#4a1d4d;color:#ffd6f5;border-color:#a04aa6}
+.db-ctl button.spurt{background:#4a2a1d;color:#ffd9b8;border-color:#c87a4a}
+.db-ctl button:disabled{opacity:.45}
+.db-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.db-cards[hidden]{display:none}
+.db-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px 6px 8px;text-align:center;color:var(--ink);font:inherit;touch-action:manipulation;cursor:pointer}
+.db-card img{display:block;height:36px;margin:0 auto 6px;image-rendering:pixelated;object-fit:contain}
+.db-card b{display:block;font-size:13px}
+.db-card span{display:block;font-size:11px;color:var(--muted);line-height:1.4;margin-top:3px}
+.db-card.sk{border-color:#a04aa6}
+.db-cards .lab{grid-column:1/-1;font-size:12px;color:var(--muted);margin:0}
+.db-help{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.6}
+</style>
+<script>
+(function(){
+'use strict';
+const sec=document.getElementById('derby');if(!sec)return;
+sec.innerHTML=`<div class="panel" style="padding:12px">
+<span class="id-test">TEST</span><p class="id-note">「まとめダービー」 테스트판. 옆에서 보는 4레인 경주 — 7경주 한 판(보스 3). 밸런스·그림은 바뀔 수 있어요.</p>
+<div class="dm-skin"><p class="lab">RUNNER · 선수 선택</p><div class="db-sel" id="dbSel"></div></div>
+<div class="dm-hud"><span>SCORE <b id="dbScore">0</b></span><span>RACE <b id="dbRace">-</b></span><span>残機 <b id="dbLives">3</b></span><span>HI <b id="dbHi">0</b></span></div>
+<div class="dm-wrap" id="dbWrap"><canvas id="dbCv" width="360" height="480"></canvas></div>
+<div class="dm-ctl db-ctl"><button class="jump" id="dbJump">ジャンプ (Z)</button><button class="skill" id="dbSkill">スキル (X)</button><button class="spurt" id="dbSpurt">スパート (SHIFT 長押し)</button></div>
+<div class="db-cards" id="dbCards" hidden></div>
+<p class="db-help">위아래로 스와이프해 레인을 바꾸고, 탭(또는 ジャンプ)으로 허들·지뢰를 뛰어넘어요. <b>スパート</b>를 누르고 있으면 스태미나를 태워 가속(마지막 400m는 반값). 라이벌을 바로 옆 레인에서 스치듯 추월하면 <b>NEAR PASS</b> 보너스와 스킬 게이지. 게이지가 차면 <b>スキル</b>로 필살기. 보스 경주는 뒤에서 쫓아오는 장치에 잡히지 않고 골인하면 승리(잡히면 残機 -1). 경주 사이에 카드 한 장을 골라 강해져요. 시작은 화면 더블 탭.</p>
+<div class="dm-board"><div class="hd"><p class="lab">SCORE BOARD · 모두의 기록 TOP 30</p><button type="button" id="dbRankRe">↻ 새로고침</button></div>
+<form class="dm-sub" id="dbSub" hidden><span class="me" id="dbSubMe"></span><input id="dbName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="dbSubBtn">기록 등록</button></form>
+<ol class="dm-rank" id="dbRank"></ol></div>
+</div>`;
+const cv=document.getElementById('dbCv'),cx=cv.getContext('2d');const W=360,H=480;cx.imageSmoothingEnabled=false;
+const $=id=>document.getElementById(id);
+const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+// ---------- 그림 ----------
+const CHARS={
+  spe:{name:'スペ',frames:6,skill:'cut_blue',aura:'aura_blue',col:'#c77dff',st:{spd:0,sta:1,pow:0}},
+  suzu:{name:'スズカ',frames:6,skill:'cut_sakura',aura:'aura_gold',col:'#7ddc7f',st:{spd:1,sta:0,pow:0}},
+  teio:{name:'テイオー',frames:3,skill:'cut_blue',aura:'aura_blue',col:'#7df9ff',st:{spd:1,sta:-1,pow:1}},
+  gold:{name:'ゴルシ',frames:3,skill:'cut_rocket',aura:'aura_red',col:'#ff7b7b',st:{spd:0,sta:0,pow:1}},
+  rudo:{name:'ルドルフ',frames:6,skill:'cut_rocket',aura:'aura_gold',col:'#ffd166',st:{spd:0,sta:1,pow:1}},
+  hime:{name:'ヒメ',frames:6,skill:'cut_idol',aura:'aura_gold',col:'#ff9ad5',st:{spd:1,sta:1,pow:-1}},
+};
+const RIVALS=['blon','dark','rice'];const RF={blon:3,dark:3,rice:3};
+const IMG={};
+const NAMES=[];for(const k in CHARS){for(let i=0;i<CHARS[k].frames;i++)NAMES.push(k+'_'+i);NAMES.push(k+'_i',k+'_w');if(k!=='rudo'&&k!=='hime')NAMES.push(k+'_s',k+'_d')}
+for(const k of RIVALS){for(let i=0;i<RF[k];i++)NAMES.push(k+'_'+i);NAMES.push(k+'_i')}
+NAMES.push('carrot','gcarrot','drink','shoe','potion','gem','heart','grass','dirt','snow','crowd','arch','sign200','sign400','signgoal','gate','hurdle','mine','boom','dust','dust2','wind','streak','podium','trophy','ura','tape','camera','flag','boss_gate','boss_board','boss_clock','eye','vortex','spot','cut_blue','cut_sakura','cut_idol','cut_rocket','aura_blue','aura_red','aura_gold','tornado','bolt','feather','crown','shoe_fx','spark','burst','drops','tire','pool','uphill','downhill');
+for(const n of NAMES){const i=new Image();i.src='assets/race/'+n+'.png';IMG[n]=i}
+const ok=n=>IMG[n]&&IMG[n].complete&&IMG[n].naturalWidth>0;
+function spr(n,x,y,sc,a,flip){const i=IMG[n];if(!ok(n))return false;const w=i.naturalWidth*(sc||1),h=i.naturalHeight*(sc||1);cx.save();if(a!=null)cx.globalAlpha=a;cx.translate(Math.round(x),Math.round(y));if(flip)cx.scale(-1,1);cx.drawImage(i,Math.round(-w/2),Math.round(-h/2),Math.round(w),Math.round(h));cx.restore();return true}
+function sprB(n,x,y,sc,a){const i=IMG[n];if(!ok(n))return false;const w=i.naturalWidth*(sc||1),h=i.naturalHeight*(sc||1);cx.save();if(a!=null)cx.globalAlpha=a;cx.drawImage(i,Math.round(x-w/2),Math.round(y-h),Math.round(w),Math.round(h));cx.restore();return true} // 발 기준
+// ---------- 소리(간단한 비프) ----------
+let AC=null,snd=true;const ac=()=>{if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC};
+function beep(f,d,type,g,f2){if(!snd)return;try{const c=ac();if(!c)return;const o=c.createOscillator(),v=c.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,c.currentTime);if(f2)o.frequency.exponentialRampToValueAtTime(f2,c.currentTime+d);v.gain.setValueAtTime(g||.04,c.currentTime);v.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.connect(v);v.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
+// ---------- 상수 ----------
+const PX=5;                        // 1m = 5px
+const LANES=4,LANE_Y=[150,205,260,315],LANE_SC=[.9,.95,1,1.05],PX_PLAYER=118;
+const BASE_V=2.1;                  // 기본 속도(px/프레임) = 25m/s. 1200m 약 48초
+// 7경주: 거리·노면·날씨·보스
+const RACES=[
+  {name:'メイクデビュー',dist:1200,surf:'grass',sky:'day'},
+  {name:'ダート特別',dist:1400,surf:'dirt',sky:'dusk'},
+  {name:'BOSS: スタートゲート装置',dist:1200,surf:'grass',sky:'night',boss:'gate'},
+  {name:'雨の重賞',dist:1600,surf:'dirt',sky:'rain',weather:'rain'},
+  {name:'BOSS: 時計の魔法陣',dist:1400,surf:'grass',sky:'night',boss:'clock'},
+  {name:'雪のG1',dist:2000,surf:'snow',sky:'snow',weather:'snow'},
+  {name:'FINAL: スコアボード装置',dist:1800,surf:'grass',sky:'night',boss:'board'},
+];
+const BOSS={gate:{spr:'boss_gate',name:'スタートゲート装置',sc:.8},clock:{spr:'boss_clock',name:'時計の魔法陣',sc:.9},board:{spr:'boss_board',name:'スコアボード装置',sc:.75}};
+// 경주 사이 카드(훈련 = 능력치, 스킬 = 특성). 한 판에 같은 스킬은 한 번
+const CARDS=[
+  {id:'tire',img:'tire',t:'タイヤ引き',d:'パワー +1 · 레인 변경이 빨라지고 막혀도 덜 느려짐',f:s=>s.pow++},
+  {id:'hill',img:'uphill',t:'坂路調教',d:'スピード +1 · 기본 속도 +4%',f:s=>s.spd++},
+  {id:'pool',img:'pool',t:'プール',d:'スタミナ +25',f:s=>s.sta+=25},
+  {id:'down',img:'downhill',t:'下り坂',d:'スパート 속도 +12%',f:s=>s.spurt+=.12},
+  {id:'hurdle',img:'hurdle',t:'ハードル練習',d:'점프가 길어지고 착지 후 바로 다시 점프',f:s=>s.jump++},
+  {id:'carrot',img:'gcarrot',t:'黄金ニンジン',d:'다음 경주 스태미나 가득 + 스킬 게이지 50%',f:s=>{s.gold=true}},
+  {id:'wind',img:'tornado',t:'風の加護',d:'레인 변경이 순간이동처럼',sk:true,f:s=>s.wind=true},
+  {id:'bolt',img:'bolt',t:'雷の加護',d:'지뢰·소용돌이를 무시',sk:true,f:s=>s.bolt=true},
+  {id:'sakura',img:'spark',t:'桜のオーラ',d:'스킬 게이지 충전 +50%',sk:true,f:s=>s.gauge=1.5},
+  {id:'shoe',img:'shoe_fx',t:'幸運の蹄鉄',d:'경주마다 방어막 1개로 시작',sk:true,f:s=>s.shoe=true},
+  {id:'feather',img:'feather',t:'羽根',d:'스텀블 회복이 두 배 빠름',sk:true,f:s=>s.feather=true},
+  {id:'crown',img:'crown',t:'王冠',d:'경주 점수 ×1.2',sk:true,f:s=>s.crown=true},
+];
+// ---------- 상태 ----------
+let hi=0;try{hi=Number(localStorage.getItem('db-hi')||0)}catch(e){}
+let me='spe';try{if(CHARS[localStorage.getItem('db-char')])me=localStorage.getItem('db-char')}catch(e){}
+const G={state:'title',t:0,pops:[],fx:[],obs:[],items:[],scen:[],riv:[],msgT:0,shake:0,flash:0};
+function freshRun(){return{score:0,lives:3,race:0,st:{spd:0,sta:0,pow:0,spurt:0,jump:0,gold:false,wind:false,bolt:false,gauge:1,shoe:false,feather:false,crown:false},used:[],log:[]}}
+let R=freshRun();
+function statOf(){const c=CHARS[me].st;return{spd:R.st.spd+c.spd,sta:R.st.sta+c.sta*15,pow:R.st.pow+c.pow}}
+// ---------- 경주 준비 ----------
+function setupRace(){
+  const rc=RACES[R.race],S=statOf();
+  Object.assign(G,{t:0,state:'count',count:150,race:rc,len:rc.dist*PX,cam:0,obs:[],items:[],scen:[],fx:[],pops:[],texts:[],done:false,res:null,msg:'',msgT:0,shake:0,flash:0,cut:0,cutName:'',lastSpurt:false,weatherT:0,boss:null,passes:0,near:0,picked:0,stumbles:0,timeF:0,gapHit:0});
+  G.p={x:0,lane:1,ly:1,v:0,sta:100+S.sta,maxSta:100+S.sta,gauge:R.st.gold?50:0,jump:0,jt:0,stum:0,shield:R.st.shoe?1:0,boost:0,skill:0,slow:0,rev:0,exh:0,frame:0,anim:0,spurt:false,blocked:0,ai:false,key:me,name:CHARS[me].name,rank:1};
+  if(R.st.gold){G.p.sta=G.p.maxSta;R.st.gold=false}
+  // 라이벌 5명: 내 캐릭터를 뺀 선수 + 라이벌 전용
+  const pool=[...Object.keys(CHARS).filter(k=>k!==me),...RIVALS].sort(()=>Math.random()-.5).slice(0,5);
+  G.riv=pool.map((k,i)=>({x:rnd(60,240),lane:i%LANES,ly:i%LANES,v:0,base:BASE_V*rnd(.97,1.05)*(1+R.race*.015),key:k,name:(CHARS[k]||{}).name||{blon:'ブロンド',dark:'クロ',rice:'ライス'}[k],frames:(CHARS[k]||{}).frames||RF[k],frame:0,anim:0,ai:true,jump:0,jt:0,stum:0,spurt:false,laneT:rnd(60,200),rank:1,boost:0,blocked:0}));
+  // 장애물·아이템·풍경을 거리별로 배치
+  const L=G.len,dens=1+R.race*.18;
+  for(let x=600;x<L-300;x+=rnd(260,420)/dens){const r=Math.random(),lane=Math.floor(rnd(0,LANES));
+    if(r<.42)G.obs.push({k:'hurdle',x,lane});else if(r<.62)G.obs.push({k:'mine',x,lane});else if(rc.weather==='rain'&&r<.8)G.obs.push({k:'puddle',x,lane});else if(R.race>=3&&r<.8)G.obs.push({k:'eye',x,lane});else if(R.race>=3&&r<.9)G.obs.push({k:'vortex',x,lane});}
+  for(let x=400;x<L-200;x+=rnd(220,380)){const r=Math.random(),lane=Math.floor(rnd(0,LANES));
+    G.items.push({k:r<.45?'carrot':r<.6?'drink':r<.72?'shoe':r<.86?'gem':r<.94?'potion':'gcarrot',x,lane,t:rnd(0,TAU)})}
+  for(let m=200;m<rc.dist;m+=200)G.scen.push({k:m%400===0?'sign400':'sign200',x:m*PX,m});
+  G.scen.push({k:'signgoal',x:L-60});G.scen.push({k:'arch',x:L});G.scen.push({k:'gate',x:-20});
+  for(let x=900;x<L;x+=rnd(700,1400))G.scen.push({k:Math.random()<.5?'camera':'flag',x});
+  if(rc.boss){const b=BOSS[rc.boss];G.boss={k:rc.boss,gap:170,ph:0,t:0,atk:[],warn:[],stop:0,name:b.name}}
+  renderHud();
+}
+// ---------- 입력 ----------
+const wrap=$('dbWrap');let tap0=null,armAt=0,holdSpurt=false;
+const idle=()=>G.state==='title'||G.state==='over'||G.state==='clear'||G.state==='allclear';
+function pt(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
+wrap.addEventListener('pointerdown',e=>{const p=pt(e);tap0={x:p.x,y:p.y,t:performance.now(),moved:false};if(!idle())wrap.setPointerCapture(e.pointerId)});
+wrap.addEventListener('pointermove',e=>{if(!tap0||tap0.moved||idle())return;const p=pt(e);const dy=p.y-tap0.y;if(Math.abs(dy)>22){tap0.moved=true;laneMove(dy<0?-1:1)}});
+wrap.addEventListener('pointerup',e=>{if(!tap0)return;const p=pt(e),now=performance.now(),quick=Math.hypot(p.x-tap0.x,p.y-tap0.y)<12&&now-tap0.t<400;const moved=tap0.moved;tap0=null;
+  if(idle()){if(!quick)return;if(now-armAt<500){armAt=0;startRun()}else{armAt=now;beep(990,.03,'square',.02)}return}
+  if(G.state==='result'){if(quick)nextStep();return}
+  if(!moved&&quick)jump()});
+wrap.addEventListener('pointercancel',()=>tap0=null);
+function laneMove(d){if(G.state!=='play')return;const p=G.p;if(p.rev>0)d=-d;if(G.boss&&G.boss.stop>0){pop('止まっている！','#7df9ff');return}p.lane=clamp(p.lane+d,0,LANES-1)}
+function jump(){if(G.state!=='play')return;const p=G.p;if(p.jump>0&&!(R.st.jump&&p.jt<6))return;if(p.stum>0)return;p.jump=28+R.st.jump*8;p.jt=0;beep(600,.08,'square',.03,900)}
+function useSkill(){if(G.state!=='play')return;const p=G.p;if(p.gauge<100||p.skill>0)return;p.gauge=0;G.cut=70;G.cutName=CHARS[me].skill;p.skill=200;p.stum=0;p.slow=0;p.rev=0;beep(440,.15,'triangle',.05);setTimeout(()=>beep(660,.2,'triangle',.05),120);setTimeout(()=>beep(880,.3,'square',.05),240);say(CHARS[me].name+'の必殺！',90)}
+$('dbJump').addEventListener('click',jump);$('dbSkill').addEventListener('click',useSkill);
+const sp=$('dbSpurt');const spOn=v=>{holdSpurt=v;sp.setAttribute('aria-pressed',String(v))};
+sp.addEventListener('pointerdown',e=>{e.preventDefault();spOn(true)});['pointerup','pointercancel','pointerleave'].forEach(ev=>sp.addEventListener(ev,()=>spOn(false)));
+document.addEventListener('keydown',e=>{if(sec.hidden||/^(INPUT|TEXTAREA)$/.test(e.target&&e.target.tagName))return;
+  if(e.key==='ArrowUp'){laneMove(-1);e.preventDefault()}if(e.key==='ArrowDown'){laneMove(1);e.preventDefault()}
+  if(e.key==='z'||e.key==='Z'||e.key===' '){if(idle())startRun();else if(G.state==='result')nextStep();else jump();e.preventDefault()}
+  if(e.key==='x'||e.key==='X')useSkill();if(e.key==='Shift')spOn(true)});
+document.addEventListener('keyup',e=>{if(e.key==='Shift')spOn(false)});
+// ---------- 선수 선택·HUD ----------
+function renderSel(){$('dbSel').innerHTML=Object.keys(CHARS).map(k=>`<button type="button" data-ch="${k}" aria-pressed="${k===me}"><img src="assets/race/${k}_i.png" alt=""><span>${CHARS[k].name}</span></button>`).join('')}
+$('dbSel').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b||!idle())return;me=b.dataset.ch;try{localStorage.setItem('db-char',me)}catch(err){}renderSel()});
+renderSel();
+function renderHud(){$('dbScore').textContent=R.score.toLocaleString();$('dbRace').textContent=G.race?`${R.race+1}/${RACES.length}`:'-';$('dbLives').textContent=R.lives;$('dbHi').textContent=hi.toLocaleString();$('dbSkill').disabled=!(G.state==='play'&&G.p&&G.p.gauge>=100&&G.p.skill<=0)}
+function startRun(){if(!idle())return;R=freshRun();G.state='pre';setupRace();hideCards();ac()}
+function say(m,t){G.msg=m;G.msgT=t||90}
+function pop(s,col,x,y){G.pops.push({s,col:col||'#ffd166',x:x==null?PX_PLAYER:x,y:y==null?LANE_Y[G.p.lane]-62:y,life:50,max:50})}
+// ---------- 경주 사이 카드 ----------
+function showCards(){const el=$('dbCards');const pool=CARDS.filter(c=>!(c.sk&&R.used.includes(c.id)));const pick=pool.sort(()=>Math.random()-.5).slice(0,3);
+  el.innerHTML=`<p class="lab">次のレースへ · 카드 한 장을 고르세요 (${R.race+1}/${RACES.length} 완료)</p>`+pick.map(c=>`<button type="button" class="db-card${c.sk?' sk':''}" data-card="${c.id}"><img src="assets/race/${c.img}.png" alt=""><b>${c.t}</b><span>${c.d}</span></button>`).join('');el.hidden=false;
+  el.onclick=e=>{const b=e.target.closest('[data-card]');if(!b)return;const c=CARDS.find(x=>x.id===b.dataset.card);c.f(R.st);if(c.sk)R.used.push(c.id);R.log.push(c.t);hideCards();beep(880,.1,'triangle',.04);R.race++;setupRace()}}
+function hideCards(){$('dbCards').hidden=true;$('dbCards').innerHTML=''}
+function nextStep(){if(G.state!=='result')return;const res=G.res;
+  if(res.lost){if(R.lives<=0){endRun(false);return}R.race++;if(R.race>=RACES.length){endRun(true);return}G.state='pick';showCards();return}
+  if(R.race>=RACES.length-1){endRun(true);return}G.state='pick';showCards()}
+function endRun(clear){G.state=clear?'allclear':'over';if(R.score>hi){hi=R.score;try{localStorage.setItem('db-hi',String(hi))}catch(e){}}renderHud();runEnd(clear);if(clear){beep(880,.3,'square',.05);setTimeout(()=>beep(1320,.5,'square',.05),200)}}
+// ---------- 갱신 ----------
+function update(){
+  G.t++;if(G.msgT>0)G.msgT--;if(G.shake>0)G.shake--;if(G.flash>0)G.flash--;
+  G.pops=G.pops.filter(o=>{o.y-=.5;return--o.life>0});
+  G.fx=G.fx.filter(f=>{f.x+=f.vx||0;f.y+=f.vy||0;f.vy=(f.vy||0)+(f.g||0);return--f.life>0});
+  if(G.state==='pre'){G.state='count';return}
+  if(G.state==='count'){G.count--;if(G.count===149)say(G.race.name+'  '+G.race.dist+'m',140);if(G.count%50===0&&G.count>0)beep(660,.1,'square',.04);if(G.count<=0){G.state='play';beep(1320,.25,'square',.05);say('GO!',40);G.timeF=0}return}
+  if(G.state!=='play')return;
+  if(G.cut>0){G.cut--;return} // 컷인 동안 멈춤
+  G.timeF++;const p=G.p,S=statOf(),rc=G.race;
+  // ---- 자기
+  const spurting=holdSpurt&&p.sta>0&&p.stum<=0&&p.exh<=0;p.spurt=spurting;
+  const last=p.x>G.len-400*PX;G.lastSpurt=last;
+  if(spurting){p.sta-=(last?.12:.26);if(p.sta<=0){p.sta=0;p.exh=150;say('スタミナ切れ！',60);beep(200,.3,'sawtooth',.04)}}
+  let v=BASE_V*(1+S.spd*.04);
+  if(spurting)v*=1.55+R.st.spurt;if(p.skill>0)v*=1.8;if(p.boost>0)v*=1.3;if(p.exh>0)v*=.7;if(p.slow>0)v*=.75;if(p.stum>0)v*=.35;
+  if(rc.weather==='snow')v*=.96;
+  // 같은 레인 바로 앞 라이벌에게 막힘(파워가 높으면 덜)
+  p.blocked=0;for(const r of G.riv){if(Math.abs(r.ly-p.ly)<.5&&r.x>p.x&&r.x-p.x<26&&p.skill<=0){p.blocked=1;v=Math.min(v,r.v*(1-.12+S.pow*.03))}}
+  p.v=v;p.x+=v;
+  if(p.jump>0){p.jump--;p.jt++}if(p.stum>0)p.stum-=R.st.feather?2:1;if(p.exh>0)p.exh--;if(p.boost>0)p.boost--;if(p.skill>0)p.skill--;if(p.slow>0)p.slow--;if(p.rev>0)p.rev--;
+  // 레인은 목표로 미끄러진다(파워·바람)
+  const lk=R.st.wind?.5:.12+S.pow*.03;p.ly+=(p.lane-p.ly)*lk;
+  p.anim+=v*(p.spurt?.09:.065);
+  if(G.t%4===0&&(p.spurt||p.skill>0))G.fx.push({x:PX_PLAYER-18,y:LANE_Y[Math.round(p.ly)]-6,vx:-1.5,vy:-.2,life:18,k:'dust',sc:rnd(.3,.5)});
+  // ---- 장애물·아이템(자기)
+  const onLane=o=>Math.abs(o.lane-p.ly)<.5;
+  for(const o of G.obs){if(o.hit)continue;const d=o.x-p.x;if(d<14&&d>-14&&onLane(o)){
+    if(o.k==='hurdle'){if(p.jump>0||p.skill>0){if(!o.pass){o.pass=true;addScore(100);pop('JUMP +100','#bff7ff')}}else stumble(o,'ハードルに激突！')}
+    else if(o.k==='mine'){if(p.jump>0||p.skill>0||R.st.bolt){if(!o.pass){o.pass=true;addScore(150);pop('+150','#bff7ff')}}else{o.hit=true;G.fx.push({x:PX_PLAYER,y:LANE_Y[p.lane]-10,life:20,k:'boom',sc:.9});G.shake=14;beep(90,.35,'sawtooth',.06);stumble(o,'地雷！')}}
+    else if(o.k==='puddle'){if(p.jump<=0&&p.skill<=0&&!o.pass){o.pass=true;p.slow=60;pop('水たまり…','#7df9ff')}}
+    else if(o.k==='eye'){if(p.skill<=0&&!o.pass){o.pass=true;p.slow=110;pop('視線が重い…','#ff5c9a');beep(160,.3,'sine',.04)}}
+    else if(o.k==='vortex'){if(p.skill<=0&&!R.st.bolt&&!o.pass){o.pass=true;p.rev=120;pop('操作反転！','#c77dff');beep(300,.4,'triangle',.04,120)}}}}
+  G.items=G.items.filter(it=>{const d=it.x-p.x;if(d<16&&d>-16&&onLane(it)){pick(it);return false}return it.x>p.x-400});
+  // ---- 라이벌
+  for(const r of G.riv){
+    let rv=r.base;if(r.stum>0)rv*=.4;const rl=r.x>G.len-400*PX;if(rl||r.boost>0)rv*=1.15;
+    // 자기 바로 앞에서는 조금 처져서(고무줄) 추월 기회를 준다
+    const lead=r.x-p.x;if(lead>300)rv*=.92;if(lead<-420)rv*=1.08;
+    r.v=rv;r.x+=rv;r.anim+=rv*.07;if(r.jump>0){r.jump--}if(r.stum>0)r.stum--;if(r.boost>0)r.boost--;
+    // 앞 장애물 처리: 허들·지뢰는 뛰어넘고(가끔 실패), 디버프는 레인을 바꿔 피함
+    for(const o of G.obs){const d=o.x-r.x;if(d>0&&d<60&&Math.abs(o.lane-r.ly)<.5){if(o.k==='hurdle'||o.k==='mine'){if(d<30&&r.jump<=0){if(Math.random()<.9)r.jump=26;else if(d<14&&r.stum<=0){r.stum=50;if(o.k==='mine'){o.hit=true;G.fx.push({x:PX_PLAYER+(r.x-p.x),y:LANE_Y[r.lane]-10,life:20,k:'boom',sc:.8})}}}}else if(r.laneT>20){r.lane=clamp(r.lane+(Math.random()<.5?-1:1),0,LANES-1);r.laneT=20}}}
+    if(--r.laneT<=0){r.laneT=rnd(90,260);if(Math.random()<.5)r.lane=clamp(r.lane+(Math.random()<.5?-1:1),0,LANES-1)}
+    r.ly+=(r.lane-r.ly)*.1;
+    // 추월 판정(스쳐 지나가면 NEAR PASS)
+    if(r.ahead==null)r.ahead=r.x>p.x;const ahead=r.x>p.x;
+    if(r.ahead&&!ahead){r.ahead=false;const nearL=Math.abs(r.ly-p.ly)<1.5&&Math.abs(r.ly-p.ly)>.5;G.passes++;p.gauge=Math.min(100,p.gauge+(nearL?30:15)*R.st.gauge);addScore(nearL?600:300);pop(nearL?'NEAR PASS! +600':'PASS +300',nearL?'#ffd166':'#fff');if(nearL){G.near++;G.fx.push({x:PX_PLAYER+10,y:LANE_Y[p.lane]-30,life:14,k:'spark',sc:.9});beep(1400,.08,'square',.03,2000)}else beep(900,.06,'square',.025)}
+    else if(!r.ahead&&ahead){r.ahead=true}
+    if(r.x>=G.len&&!r.fin){r.fin=G.timeF}}
+  // ---- 보스(추격)
+  if(G.boss)bossTick(p);
+  // ---- 순위
+  const all=[p,...G.riv].sort((a,b)=>b.x-a.x);all.forEach((r,i)=>r.rank=i+1);
+  // ---- 골인
+  if(p.x>=G.len&&!G.done){G.done=true;finish()}
+  G.cam=p.x-PX_PLAYER;
+}
+function stumble(o,m){const p=G.p;if(p.skill>0||p.stum>0)return;if(p.shield>0){p.shield--;o.pass=true;pop('蹄鉄が守った！','#ffd166');G.fx.push({x:PX_PLAYER,y:LANE_Y[p.lane]-24,life:18,k:'shoe_fx',sc:.8});beep(1200,.15,'triangle',.04);return}
+  o.pass=true;p.stum=55;G.stumbles++;G.shake=Math.max(G.shake,8);say(m,50);beep(240,.25,'sawtooth',.05,80);if(G.boss)G.boss.gap-=40;
+  for(let i=0;i<6;i++)G.fx.push({x:PX_PLAYER+rnd(-10,10),y:LANE_Y[p.lane]-10,vx:rnd(-1.5,1.5),vy:rnd(-2,-.5),g:.12,life:25,k:'sq',c:'#c9a27a'})}
+function pick(it){const p=G.p;let s=0;
+  if(it.k==='carrot'){p.sta=Math.min(p.maxSta,p.sta+30);s=100;pop('ニンジン +30','#ff9a3c')}
+  else if(it.k==='gcarrot'){p.sta=p.maxSta;p.gauge=Math.min(100,p.gauge+40*R.st.gauge);s=500;pop('黄金ニンジン！','#ffd166')}
+  else if(it.k==='drink'){p.boost=120;s=150;pop('加速！','#7df9ff')}
+  else if(it.k==='shoe'){p.shield=Math.min(2,p.shield+1);s=200;pop('蹄鉄 +1','#ffd166')}
+  else if(it.k==='gem'){s=800;pop('+800','#7df9ff')}
+  else if(it.k==='potion'){p.gauge=Math.min(100,p.gauge+35*R.st.gauge);s=150;pop('スキル +35%','#c77dff')}
+  G.picked++;addScore(s);beep(1000,.06,'sine',.03,1500);G.fx.push({x:PX_PLAYER+8,y:LANE_Y[p.lane]-30,life:12,k:'spark',sc:.6})}
+function addScore(n){if(R.st.crown)n=Math.round(n*1.2);R.score+=n;renderHud()}
+// 보스: 뒤에서 쫓아온다. gap 은 자기와의 거리(px). 공격은 레인 예고 뒤 발동. 잡히면 残機 -1 하고 거리를 되돌린다
+function bossTick(p){const b=G.boss,prog=p.x/G.len;b.t++;
+  if(prog>.5&&b.ph===0){b.ph=1;say(b.name+'  ─  本気モード！',80);G.flash=20;beep(120,.5,'sawtooth',.06)}
+  // 거리: 보스는 자기 기본 속도보다 조금 빠르게 다가오고, 스퍼트·스킬 중엔 벌어진다
+  const closing=(p.spurt?-.22:p.skill>0?-.8:.09)+(b.ph?.04:0)+(p.stum>0?.7:0)+(p.slow>0?.25:0);b.gap=Math.min(230,b.gap-closing);
+  if(b.gap<=0){b.gap=150;R.lives--;renderHud();G.shake=22;G.flash=30;say('捕まった！ 残機 -1',90);beep(80,.6,'sawtooth',.08);p.stum=0;p.skill=120;G.gapHit++;if(R.lives<=0){G.done=true;finish(true);return}}
+  const iv=b.ph?150:210;
+  if(b.k==='gate'||b.k==='board'){ // 게이트 바: 세 레인을 막고 하나만 연다(예고 50프레임)
+    if(b.t%iv===0){const open=Math.floor(rnd(0,LANES));b.warn.push({x:p.x+360,lanes:[0,1,2,3].filter(l=>l!==open),t:50,k:'bar'});beep(500,.1,'square',.04)}
+    if(b.k==='gate'&&b.ph&&b.t%iv===75){G.obs.push({k:'mine',x:p.x+300,lane:Math.floor(rnd(0,LANES))})}}
+  if(b.k==='clock'||b.k==='board'){ // 번개: 레인 하나 예고 뒤 낙뢰 / 시간 정지: 레인 변경 불가
+    if(b.t%(iv-30)===40){b.warn.push({x:p.x+260,lanes:[Math.floor(rnd(0,LANES))],t:45,k:'bolt'});beep(1500,.08,'square',.03)}
+    if(b.k==='clock'&&b.t%(b.ph?240:330)===200){b.stop=70;say('時間停止！',50);beep(700,.4,'sine',.05,350)}}
+  if(b.k==='board'&&b.ph&&b.t%200===100){b.warn.push({x:p.x+300,lanes:[0,1,2,3].filter(()=>Math.random()<.5),t:45,k:'spot'})}
+  if(b.stop>0)b.stop--;
+  b.warn=b.warn.filter(w=>{w.t--;if(w.t===0){for(const l of w.lanes)b.atk.push({k:w.k,x:w.x,lane:l,life:w.k==='bolt'?12:90});if(w.k==='bolt')beep(2200,.15,'square',.05,300)}return w.t>0});
+  b.atk=b.atk.filter(a=>{a.life--;const d=a.x-p.x;if(Math.abs(a.lane-p.ly)<.5&&d<14&&d>-14&&!a.hit){a.hit=true;if(a.k==='spot'){if(p.skill<=0){p.slow=70;pop('スポットライト…','#ffd166')}}else stumble(a,a.k==='bolt'?'落雷！':'ゲートに激突！')}return a.life>0&&a.x>p.x-300})}
+function finish(lost){const p=G.p;G.state='result';holdSpurt=false;spOn(false);
+  const pos=lost?6:p.rank,t=G.timeF/60;let s=0,lines=[];
+  if(lost){lines.push(['捕まった…','']);}
+  else{const posB=[0,5000,3000,2000,1000,500,0][pos];s+=posB;lines.push([pos+'着',`+${posB.toLocaleString()}`]);
+    const tb=Math.max(0,Math.round((G.race.dist/14-t)*60));s+=tb;lines.push(['タイム '+t.toFixed(2)+'s',`+${tb.toLocaleString()}`]);
+    if(G.boss){const gb=Math.round(G.boss.gap*20)+(G.gapHit?0:3000);s+=gb;lines.push(['ボス振り切り',`+${gb.toLocaleString()}`])}
+    if(!G.stumbles){s+=2000;lines.push(['ノースタンブル','+2,000'])}}
+  lines.push(['追い抜き '+G.passes+' (NEAR '+G.near+')','']);
+  addScore(s);
+  const lostRace=lost||(!G.boss&&pos>=6);
+  if(lostRace&&!lost){R.lives--;renderHud();lines.push(['最下位… 残機 -1',''])}
+  G.res={pos,lines,lost:lostRace,t};
+  if(!lost)beep(pos===1?1320:880,.3,'square',.05);
+}
+// ---------- 그리기 ----------
+const SKY={day:['#7fc8ff','#dff4ff'],dusk:['#ff9a5c','#ffd9a8'],night:['#141a3a','#2a2f6b'],rain:['#5a6a8a','#9aa8c0'],snow:['#aebcd6','#e8eef8']};
+function draw(){
+  cx.fillStyle='#14182e';cx.fillRect(0,0,W,H); // 매 프레임 전체를 지운다(트랙 아래 띠에 이전 화면이 남지 않게)
+  cx.save();if(G.shake)cx.translate(Math.round(rnd(-3,3)),Math.round(rnd(-2,2)));
+  const rc=G.race||RACES[0],sky=SKY[rc.sky]||SKY.day,cam=G.cam||0;
+  const g=cx.createLinearGradient(0,0,0,100);g.addColorStop(0,sky[0]);g.addColorStop(1,sky[1]);cx.fillStyle=g;cx.fillRect(0,0,W,100);
+  // 관중석(패럴랙스 .3, 마지막 400m 는 흔들림) · 난간(.7) · 레인(1)
+  cx.fillStyle=rc.sky==='night'?'#1a1f44':'#3a4a6a';cx.fillRect(0,96,W,26);
+  const cw=ok('crowd')?IMG.crowd.naturalWidth*.5:110,cj=G.lastSpurt?Math.sin(G.t*.5)*2:0;cx.globalAlpha=.9;for(let x=-((cam*.3)%cw)-cw;x<W+cw;x+=cw)sprB('crowd',x+cw/2,122+cj,.5);cx.globalAlpha=1;
+  cx.fillStyle='#e8ecf5';cx.fillRect(0,116,W,3);cx.fillRect(0,121,W,2);cx.fillStyle='#9aa4b8';for(let x=-((cam*.7)%60)-60;x<W+60;x+=60)cx.fillRect(Math.round(x),116,3,8);
+  const tile=rc.surf,tw=ok(tile)?IMG[tile].naturalWidth:92;
+  for(let l=0;l<LANES;l++){const y0=LANE_Y[l]-28,y1=LANE_Y[l]+25;cx.save();cx.beginPath();cx.rect(0,y0,W,y1-y0);cx.clip();
+    for(let x=-((cam)%tw)-tw;x<W+tw;x+=tw){const i=IMG[tile];if(ok(tile))cx.drawImage(i,Math.round(x),y0-8,tw+1,i.naturalHeight)}cx.restore();
+    cx.fillStyle='rgba(255,255,255,.35)';cx.fillRect(0,y1,W,2)}
+  cx.fillStyle='#1a1426';cx.fillRect(0,LANE_Y[3]+27,W,4);
+  // 풍경(울타리 선 위)
+  for(const s of G.scen||[]){const x=s.x-cam;if(x<-120||x>W+120)continue;if(s.k==='arch')sprB('arch',x,LANE_Y[3]+28,1.1,.95);else if(s.k==='gate')sprB('gate',x,LANE_Y[3]+28,1);else sprB(s.k,x,124,1)}
+  // 날씨
+  if(rc.weather==='rain'){cx.strokeStyle='rgba(200,220,255,.45)';cx.lineWidth=1;for(let i=0;i<40;i++){const x=((i*97+G.t*6)%W),y=((i*53+G.t*9)%360);cx.beginPath();cx.moveTo(x,y);cx.lineTo(x-3,y+10);cx.stroke()}}
+  if(rc.weather==='snow'){cx.fillStyle='rgba(255,255,255,.8)';for(let i=0;i<30;i++){const x=((i*83+G.t*1.2+Math.sin((G.t+i*10)*.05)*8)%W),y=((i*47+G.t*1.5)%360);cx.fillRect(x,y,2,2)}}
+  // 레인 위 오브젝트(깊이 순으로: 위 레인 먼저)
+  const ents=[];
+  for(const o of G.obs||[]){const x=o.x-cam;if(x>-40&&x<W+40&&!o.hit)ents.push({y:LANE_Y[o.lane],d:()=>{const yy=LANE_Y[o.lane];if(o.k==='puddle'){cx.fillStyle='rgba(120,170,255,.5)';cx.beginPath();cx.ellipse(x,yy-2,22,6,0,0,TAU);cx.fill()}else if(o.k==='eye')spr('eye',x,yy-16,1,.8+.2*Math.sin(G.t*.2));else if(o.k==='vortex')spr('vortex',x,yy-16,1,.9,false);else sprB(o.k,x,yy+2,o.k==='hurdle'?1:1)}})}
+  for(const it of G.items||[]){const x=it.x-cam;if(x>-30&&x<W+30)ents.push({y:LANE_Y[it.lane]-1,d:()=>spr(it.k,x,LANE_Y[it.lane]-18+Math.sin(G.t*.1+it.t)*3,1)})}
+  if(G.boss){const b=G.boss;for(const w of b.warn){const x=w.x-cam;for(const l of w.lanes){cx.fillStyle=w.k==='bolt'?`rgba(255,240,120,${.25+.2*Math.sin(G.t*.5)})`:w.k==='spot'?'rgba(255,255,200,.2)':`rgba(255,80,120,${.2+.2*Math.sin(G.t*.5)})`;cx.fillRect(x-14,LANE_Y[l]-30,28,56)}}
+    for(const a of b.atk){const x=a.x-cam;ents.push({y:LANE_Y[a.lane]+1,d:()=>{if(a.k==='bolt')spr('bolt',x,LANE_Y[a.lane]-20,1,a.life/12);else if(a.k==='spot')spr('spot',x,LANE_Y[a.lane]-40,1,.8);else{cx.fillStyle='#8a92a8';cx.fillRect(x-3,LANE_Y[a.lane]-46,6,52);cx.fillStyle='#ff5c9a';cx.fillRect(x-10,LANE_Y[a.lane]-46,20,6)}}})}}
+  // 선수
+  const runners=[G.p,...(G.riv||[])].filter(r=>r);
+  for(const r of runners){const x=r===G.p?PX_PLAYER:r.x-cam;if(x<-60||x>W+60)continue;const ly=r.ly,yy=LANE_Y[0]+(LANE_Y[1]-LANE_Y[0])*ly,sc=LANE_SC[Math.round(clamp(ly,0,3))]*.95;
+    ents.push({y:yy,d:()=>drawRunner(r,x,yy,sc)})}
+  ents.sort((a,b)=>a.y-b.y).forEach(e=>e.d());
+  // 보스(왼쪽 뒤)
+  if(G.boss&&G.state!=='count'){const b=G.boss,B=BOSS[b.k],bw=ok(B.spr)?IMG[B.spr].naturalWidth*B.sc:160,bx=PX_PLAYER-30-b.gap-bw/2+Math.sin(G.t*.1)*3;sprB(B.spr,bx,LANE_Y[3]+30,B.sc*(b.ph?1.05:1),1);
+    if(bx+bw/2<0){cx.font='bold 11px monospace';cx.textAlign='left';cx.fillStyle=G.t%20<10?'#ff5c9a':'#fff';cx.fillText('◀ '+b.name+'  '+Math.round(b.gap/PX)+'m',6,LANE_Y[3]+20)}
+    if(b.ph&&G.t%8<4){cx.fillStyle='rgba(255,60,80,.18)';cx.fillRect(0,130,W,220)}
+    if(b.stop>0){cx.fillStyle='rgba(120,200,255,.18)';cx.fillRect(0,130,W,220);spr('boss_clock',W/2,240,.5,.3)}}
+  // 효과
+  for(const f of G.fx||[]){cx.globalAlpha=Math.min(1,f.life/8);if(f.k==='sq'){cx.fillStyle=f.c;cx.fillRect(f.x,f.y,3,3)}else spr(f.k,f.x,f.y,f.sc||1);cx.globalAlpha=1}
+  // HUD(위): 경주 이름·거리 막대·순위 · (아래) 스태미나·스킬
+  cx.fillStyle='rgba(10,8,30,.75)';cx.fillRect(0,0,W,34);cx.fillRect(0,H-90,W,90);
+  if(G.race){const p=G.p,prog=clamp(p.x/G.len,0,1);cx.font='bold 10px monospace';cx.textAlign='left';cx.fillStyle='#fff';cx.fillText(G.race.name,8,13);
+    cx.fillStyle='#3a3f6b';cx.fillRect(8,22,W-16,6);cx.fillStyle='#ffd166';cx.fillRect(8,22,(W-16)*prog,6);
+    for(let m=200;m<G.race.dist;m+=200){const x=8+(W-16)*m/G.race.dist;cx.fillStyle=m%400?'#9a9ebb':'#fff';cx.fillRect(x,21,1,8)}
+    for(const r of G.riv){const x=8+(W-16)*clamp(r.x/G.len,0,1);cx.fillStyle='#7df9ff';cx.fillRect(x-1,19,3,3)}
+    cx.fillStyle='#ff5c9a';cx.fillRect(8+(W-16)*prog-2,18,4,4);
+    const rk=p.rank,RK=['','1st','2nd','3rd','4th','5th','6th'],RC=['','#ffd166','#c9cdf0','#d59a5a','#fff','#fff','#ff5c9a'];cx.textAlign='right';cx.font='bold 16px monospace';cx.fillStyle=RC[rk];cx.fillText(rk===6?'LAST':RK[rk],W-8,15);
+    cx.font='10px monospace';cx.fillStyle='#9a9ebb';cx.fillText(Math.max(0,Math.round((G.len-p.x)/PX))+'m',W-50,15);
+    // 아래: 스태미나·스킬 게이지·상태
+    cx.textAlign='left';cx.font='bold 10px monospace';cx.fillStyle='#fff';cx.fillText('STAMINA',10,H-72);cx.fillStyle='#3a3f6b';cx.fillRect(70,H-80,W-80,9);cx.fillStyle=p.exh>0?'#ff5c9a':G.lastSpurt?'#ffd166':'#7ddc7f';cx.fillRect(70,H-80,(W-80)*p.sta/p.maxSta,9);
+    cx.fillStyle='#fff';cx.fillText('SKILL',10,H-54);cx.fillStyle='#3a3f6b';cx.fillRect(70,H-62,W-80,9);cx.fillStyle=p.gauge>=100?(G.t%10<5?'#fff':'#c77dff'):'#c77dff';cx.fillRect(70,H-62,(W-80)*p.gauge/100,9);
+    if(G.boss){cx.fillText('BOSS',10,H-36);cx.fillStyle='#3a3f6b';cx.fillRect(70,H-44,W-80,9);cx.fillStyle='#ff5c9a';cx.fillRect(70,H-44,(W-80)*clamp(G.boss.gap/230,0,1),9)}
+    else{cx.fillStyle='#9a9ebb';cx.fillText((p.shield?'蹄鉄 ×'+p.shield+'  ':'')+(p.spurt?'SPURT!  ':'')+(p.blocked?'BLOCKED  ':'')+(p.rev>0?'REVERSE  ':'')+(p.slow>0?'SLOW':''),10,H-36)}
+    for(let i=0;i<R.lives;i++)spr('heart',W-14-i*16,H-16,.8);
+    cx.fillStyle='#ffd166';cx.font='bold 12px monospace';cx.fillText('SCORE '+R.score.toLocaleString(),10,H-14);
+    if(G.lastSpurt&&G.state==='play'&&G.t%40<28){cx.textAlign='center';cx.font='bold 22px serif';cx.fillStyle='#ff9a3c';cx.strokeStyle='#1a1426';cx.lineWidth=3;cx.strokeText('LAST SPURT!',W/2,60);cx.fillText('LAST SPURT!',W/2,60)}}
+  // 떠오르는 글자
+  cx.textAlign='center';cx.lineWidth=3;cx.strokeStyle='rgba(10,5,30,.85)';for(const o of G.pops||[]){cx.globalAlpha=Math.min(1,o.life/12);cx.font='bold 12px monospace';cx.strokeText(o.s,o.x,o.y);cx.fillStyle=o.col;cx.fillText(o.s,o.x,o.y)}cx.globalAlpha=1;
+  if(G.msgT>0&&(G.state==='play'||G.state==='count')){cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-50,W,40);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2-25)}
+  if(G.state==='count'){cx.font='bold 48px monospace';cx.fillStyle='#ffd166';cx.strokeStyle='#1a1426';cx.lineWidth=4;const n=Math.ceil(G.count/50);cx.strokeText(String(n),W/2,H/2+40);cx.fillText(String(n),W/2,H/2+40)}
+  if(G.cut>0){const t=G.cut/70;cx.fillStyle=`rgba(10,5,30,${.7*Math.min(1,t*3)})`;cx.fillRect(0,0,W,H);spr(G.cutName,W/2+(1-t)*-20,H/2-20,1.1,Math.min(1,t*3));cx.font='bold 18px serif';cx.fillStyle='#ffd166';cx.strokeText(CHARS[me].name+'  必殺！',W/2,H/2+120);cx.fillText(CHARS[me].name+'  必殺！',W/2,H/2+120)}
+  if(G.flash>0){cx.globalAlpha=G.flash/30*.5;cx.fillStyle='#fff';cx.fillRect(0,0,W,H);cx.globalAlpha=1}
+  if(G.state==='title'){cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,0,W,H);sprB(me+'_i',W/2,H*.5+40,2);
+    cx.fillStyle='#ffd6f5';cx.font='bold 30px serif';cx.fillText('まとめダービー',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText(CHARS[me].name+'  ─  '+RACES.length+' RACES',W/2,H*.3+22);
+    cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(performance.now()-armAt<500?'もう一度タップ！':Math.floor(G.t/30)%2?'DOUBLE TAP TO START':'',W/2,H*.72);cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('スワイプで車線、タップでジャンプ。',W/2,H*.8)}
+  if(G.state==='result'&&G.res){const r=G.res;cx.fillStyle='rgba(0,0,0,.62)';cx.fillRect(20,70,W-40,300);cx.font='bold 24px serif';cx.fillStyle=r.lost?'#ff5c9a':r.pos===1?'#ffd166':'#fff';cx.fillText(r.lost?'捕まった…':r.pos===1?'1着！':r.pos+'着',W/2,110);
+    if(!r.lost&&r.pos<=3)spr('podium',W/2,170,.8);if(!r.lost&&r.pos===1)spr('trophy',W/2,150,.5);
+    cx.font='12px monospace';r.lines.forEach(([k,v],i)=>{cx.textAlign='left';cx.fillStyle='#fff';cx.fillText(k,44,220+i*20);cx.textAlign='right';cx.fillStyle='#ffd166';cx.fillText(v,W-44,220+i*20)});
+    cx.textAlign='center';cx.fillStyle='#c77dff';cx.fillText(R.race>=RACES.length-1&&!r.lost?'タップで結果へ':'タップで次へ(カードを選ぶ)',W/2,350)}
+  if(G.state==='over'||G.state==='allclear'){const fin=G.state==='allclear';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-100,W-40,210);cx.font='bold 24px serif';cx.fillStyle=fin?'#ffd166':'#ff5fb0';cx.fillText(fin?'URA FINALE 制覇！':'GAME OVER',W/2,H/2-60);
+    if(fin)spr('ura',W/2,H/2-5,.6);cx.font='12px monospace';cx.fillStyle='#fff';cx.fillText('SCORE '+R.score.toLocaleString()+'   RACE '+Math.min(RACES.length,R.race+1)+'/'+RACES.length,W/2,H/2+50);cx.fillStyle='#9a9ebb';cx.fillText('もう一度: ダブルタップ / Z',W/2,H/2+74);if(RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+96)}}
+  if(G.state==='pick'){cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(0,H/2-30,W,60);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText('▼ 아래에서 카드를 고르세요',W/2,H/2+5)}
+  cx.restore();
+}
+function drawRunner(r,x,y,sc){const key=r.key,n=r.frames||CHARS[key].frames;let name;
+  if(r.stum>0)name=key+'_s',ok(name)||(name=key+'_'+(Math.floor(r.anim)%n));
+  else if(r===G.p&&(r.spurt||r.skill>0)&&ok(key+'_d')&&G.t%6<3)name=key+'_d';
+  else name=key+'_'+(Math.floor(r.anim)%n);
+  if(!ok(name))name=key+'_0';
+  const jy=r.jump>0?-Math.sin(r.jt/(28+(r===G.p?R.st.jump*8:0))*Math.PI)*34:0;
+  cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(x,y+2,16*sc,4,0,0,TAU);cx.fill();
+  if(r===G.p&&r.skill>0)spr(CHARS[me].aura,x-2,y-22+jy,1.1,.75);
+  if(r.stum>0&&G.t%4<2)cx.globalAlpha=.6;
+  const tilt=r.stum>0?.5:0;cx.save();cx.translate(x,y+jy);cx.rotate(tilt);sprB(name,0,0,sc,1);cx.restore();cx.globalAlpha=1;
+  if((r.spurt||r.skill>0||r.boost>0)&&ok('streak'))spr('streak',x-36,y-18+jy,.6,.7);
+  if(r.rev>0)spr('vortex',x,y-50+jy,.5,.8);if(r.slow>0&&r.rev<=0)spr('eye',x,y-50+jy,.6,.8);
+  if(r!==G.p){cx.font='9px monospace';cx.textAlign='center';cx.fillStyle='rgba(255,255,255,.75)';cx.fillText(r.name,x,y-48+jy)}
+}
+// ---------- 스코어 보드(弾幕와 같은 방식, game=derby) ----------
+const RK={tried:false,ready:false,run:null,sent:false,mine:null};
+const rkApi=()=>typeof BBS==='object'&&/^https:\/\/script\.google\.com\/macros\//.test(BBS.api)?BBS.api:'';
+function rkNil(t){$('dbRank').innerHTML='<li class="nil">'+t+'</li>'}
+async function loadRank(){RK.tried=true;const api=rkApi();if(!api){rkNil('스코어 보드는 준비 중이에요.');return}
+  if(!$('dbRank').childElementCount)rkNil('불러오는 중…');
+  try{const r=await fetch(api+'?scores=1&limit=30&game=derby&v='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();
+    if(j.error){rkNil('스코어 보드 서버 오류: '+esc(String(j.error).slice(0,200)));return}
+    if(!Array.isArray(j.scores)){rkNil('스코어 보드는 준비 중이에요.');return}RK.ready=true;
+    const L=j.scores.slice(0,30).map(v=>({name:String(v.name||'').slice(0,12),score:Math.max(0,Math.floor(+v.score||0)),stage:Math.max(1,Math.min(7,Math.floor(+v.stage||1))),skin:String(v.skin||'').slice(0,12),clear:v.clear===true})).filter(v=>v.name&&v.score);
+    $('dbRank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;
+      return `<li class="${i<3?'top'+(i+1):''}${mine?' mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(v.name)}${v.skin?`<small>${esc(v.skin)}</small>`:''}</span><span class="st${v.clear?' all':''}">${v.clear?'URA 制覇':'RACE '+v.stage}</span><b>${v.score.toLocaleString()}</b></li>`}).join('')
+      :'<li class="nil">아직 기록이 없어요. 첫 기록을 남겨 보세요.</li>'}catch(e){rkNil('기록을 불러오지 못했어요. ↻ 로 다시 시도해 주세요.')}}
+function runEnd(clear){if(R.score<=0||!RK.ready)return;RK.run={score:R.score,stage:Math.min(RACES.length,R.race+1),clear,skin:CHARS[me].name};RK.sent=false;
+  $('dbSubMe').innerHTML=`이번 기록 <b>${RK.run.score.toLocaleString()}</b> · ${clear?'URA 制覇':'RACE '+RK.run.stage} · ${esc(RK.run.skin)}`;
+  const n=$('dbName');if(!n.value){try{n.value=localStorage.getItem('dm-name')||''}catch(e){}}$('dbSubBtn').disabled=false;$('dbSub').hidden=false}
+$('dbSub').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run,api=rkApi();if(!run||RK.sent||!api)return;
+  const name=$('dbName').value.replace(/\s+/g,' ').trim().slice(0,12);if(!name){toast('이름을 적어 주세요');$('dbName').focus();return}
+  let lastSent=0;try{lastSent=+localStorage.getItem('db-sent')||0}catch(err){}if(Date.now()-lastSent<30000){toast('조금 뒤에 다시 등록해 주세요');return}
+  const body=JSON.stringify({type:'score',game:'derby',name,score:run.score,stage:run.stage,skin:run.skin,clear:run.clear});$('dbSubBtn').disabled=true;
+  try{let ok=false;try{const r=await fetch(api,{method:'POST',body});ok=r.ok&&(await r.json()).ok===true}catch(err){await fetch(api,{method:'POST',body,mode:'no-cors'});ok=true}if(!ok)throw 0;
+    RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('db-sent',String(Date.now()))}catch(err){}
+    $('dbSub').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200)}catch(err){$('dbSubBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
+$('dbRankRe').addEventListener('click',loadRank);
+// ---------- 루프 ----------
+renderHud();
+let last=0;function loop(ts){requestAnimationFrame(loop);if(sec.hidden)return;if(!RK.tried)loadRank();if(ts-last<15)return;last=ts;
+  const ta=idle()||G.state==='result'||G.state==='pick'?'pan-y':'none';if(wrap.style.touchAction!==ta)wrap.style.touchAction=ta;
+  update();draw();if(G.state==='play')renderHud()}
+requestAnimationFrame(loop);
+})();
+</script>
+<script>if(location.hash==="#idle"){const b=document.querySelector('[data-tab="idle"]');if(b)b.hidden=false}</script>
+<!-- ===== end ダービー ===== -->
+
 
 </body>
 </html>
