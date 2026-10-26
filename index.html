@@ -2143,7 +2143,7 @@ function bgmFor(){if(!snd)return;if(G.state==='play')bgm(G.boss?'boss':'run',1+M
 // ---------- 상수 ----------
 const PX=5;                          // 1m = 5px
 const GY=392,PXP=72;                 // 땅(발) y · 자기 x
-const GRAV=.46,JUMP_V=-9.4,JUMP_V2=-8.2;
+const GRAV=.46,JUMP_V=-10.4,JUMP_V2=-9;      // 점프 최고점 약 117px(발판 80 위로 여유), 2단은 +88
 const STAGE_M=1200;                  // 스테이지 길이(m)
 const THEMES=[
   {name:'芝 · 朝',surf:'grass',sky:'day'},
@@ -2174,17 +2174,17 @@ const CHUNKS=[
   {len:340,min:0,e:[{o:'hurdle',dx:150},...arc(60,8,30,72)]},
   {len:400,min:0,e:[{o:'tape',dx:190},...line(100,8,12)]},
   {len:420,min:1,e:[{o:'hurdle',dx:120},{o:'hurdle',dx:170},...arc(40,10,30,90)]},
-  {len:440,min:0,e:[{p:[90,190,92]},...line(100,7,122),{o:'mine',dx:150},{o:'mine',dx:210}]},
-  {len:520,min:1,e:[{p:[80,160,92]},{p:[280,160,162]},...line(90,6,122),...line(290,6,192),{i:'gcarrot',dx:430,y:200},{o:'tire',dx:200}]},
+  {len:440,min:0,e:[{p:[90,190,80]},...line(100,7,110),{o:'mine',dx:150},{o:'mine',dx:210}]},
+  {len:520,min:1,e:[{p:[80,160,80]},{p:[280,160,150]},...line(90,6,110),...line(290,6,180),{i:'gcarrot',dx:430,y:190},{o:'tire',dx:200}]},
   {len:460,min:1,e:[{o:'tape',dx:130},{o:'tape',dx:290},...line(80,12,12)]},
   {len:460,min:2,e:[{o:'mine',dx:90},{o:'mine',dx:160},{o:'mine',dx:230},...arc(50,10,30,80),{i:'potion',dx:330,y:30}]},
   {len:420,min:2,e:[{o:'tornado',dx:200},...arc(80,10,30,110)]},
   {len:640,min:2,e:[{o:'hurdle',dx:70},{o:'tape',dx:330},{o:'tire',dx:500},...line(240,4,12),...arc(420,6,30,70)]},
   {len:360,min:0,e:[{i:'gem',dx:90,y:40},{i:'gem',dx:130,y:60},{i:'gem',dx:170,y:40},{i:'heart',dx:260,y:30}]},
-  {len:600,min:1,e:[{p:[80,130,92]},{p:[240,130,162]},{p:[400,130,92]},...line(90,5,122),...line(250,5,192),...line(410,5,122),{o:'hurdle',dx:300}]},
+  {len:600,min:1,e:[{p:[80,130,80]},{p:[240,130,150]},{p:[400,130,80]},...line(90,5,110),...line(250,5,180),...line(410,5,110),{o:'hurdle',dx:300}]},
   {len:660,min:3,e:[{o:'tape',dx:110},{o:'hurdle',dx:300},{o:'tape',dx:540},...line(40,6,12),...line(420,6,12)]},
   {len:660,min:3,e:[{o:'tornado',dx:140},{o:'tape',dx:430},{o:'mine',dx:560},...arc(60,8,30,110),...line(340,4,12)]},
-  {len:460,min:2,e:[{p:[60,320,92]},...line(70,12,122),{o:'tape',dx:140},{o:'tire',dx:280},{i:'drink',dx:420,y:30}]},
+  {len:460,min:2,e:[{p:[60,320,80]},...line(70,12,110),{o:'tape',dx:140},{o:'tire',dx:280},{i:'drink',dx:420,y:30}]},
 ];
 // 보물(가챠): r=등급 1~5, e=효과(장착 3개까지, 겹치면 더함. 레벨마다 ×1.25)
 const TREAS=[
@@ -2294,7 +2294,7 @@ function update(){
   if(p.inv>0)p.inv--;if(p.stum>0)p.stum--;if(p.boost>0){p.boost--;if(p.boost===0)say('ブースト終了',40)}if(p.mag>0)p.mag--;if(p.crown>0)p.crown--;if(p.golden>0)p.golden--;if(p.jump3>0)p.jump3--;if(p.slow>0)p.slow--;if(p.jmulT>0){p.jmulT--;if(!p.jmulT)p.jmul=1}
   // ---- 점프·중력·발판
   const prevY=p.y;if(!p.on){p.vy+=GRAV;p.y+=p.vy;if(p.y>=GY){p.y=GY;p.on=true;p.vy=0;p.jumps=0;land()}
-    else if(p.vy>0){for(const pl of G.plats){const px=p.x;if(px>pl.x-6&&px<pl.x+pl.w+6&&prevY<=pl.y&&p.y>=pl.y){p.y=pl.y;p.on=true;p.plat=pl;p.vy=0;p.jumps=0;land();break}}}}
+    else if(p.vy>0){for(const pl of G.plats){const px=p.x;if(px>pl.x-8&&px<pl.x+pl.w+8&&prevY<=pl.y+10&&p.y>=pl.y){p.y=pl.y;p.on=true;p.plat=pl;p.vy=0;p.jumps=0;land();break}}}}
   else if(p.plat){const pl=p.plat;if(p.x<pl.x-6||p.x>pl.x+pl.w+6){p.on=false;p.plat=null;p.vy=0;p.jumps=1}}
   if(p.slide&&!p.on){p.vy=Math.max(p.vy,6)} // 공중 슬라이드 = 급강하
   p.anim+=v*.05;if(p.slide)p.sqT++;
@@ -2437,7 +2437,7 @@ function draw(){
 }
 function drawPlayer(p){const key=me,n=CHARS[key].frames,x=PXP,y=p.y;let name,sy=1;
   if(p.stum>0)name=key+'_s',ok(name)||(name=key+'_'+(Math.floor(p.anim)%n));
-  else if(p.slide&&p.on){name=ok(key+'_d')?key+'_d':key+'_1'} // 슬라이드 = 앞으로 숙인 그림을 눕힌다(아래)
+  else if(p.slide&&p.on){name=key+'_'+(Math.floor(p.anim)%n)} // 슬라이드 = 달리는 그림을 작게(아래)
   else if(!p.on)name=(p.vy<0&&ok(key+'_d'))?key+'_d':key+'_'+(p.vy<0?1:3)%n;
   else name=key+'_'+(Math.floor(p.anim)%n);
   if(!ok(name))name=key+'_0';
@@ -2445,9 +2445,9 @@ function drawPlayer(p){const key=me,n=CHARS[key].frames,x=PXP,y=p.y;let name,sy=
   if(p.boost>0)spr(CHARS[me].aura,x-2,y-24,1.1,.7);
   if(p.mag>0){cx.strokeStyle='rgba(125,249,255,.35)';cx.lineWidth=1;cx.beginPath();cx.arc(x,y-24,110+E.mag,0,TAU);cx.stroke()}
   if(p.inv>0&&p.boost<=0&&G.t%4<2)cx.globalAlpha=.5;
-  const tilt=p.stum>0?.4:p.slide&&p.on?.0:0;if(p.slide&&p.on){ // 슬라이드: 앞으로 뻗은 그림을 60%로 낮추고 뒤로 젖혀(-0.3rad) 발밑 먼지 구름과 함께 미끄러진다. 4프레임에 걸쳐 들어간다
-    const k=Math.min(1,p.sqT/4);spr('dust2',x-18,y-8,.7,.8+.2*Math.sin(G.t*.6));
-    cx.save();cx.translate(x+4*k,y);cx.rotate(-.3*k);cx.scale(1+.1*k,1-.4*k);sprB(name,0,0,sc,1,1);cx.restore();
+  const tilt=p.stum>0?.4:p.slide&&p.on?.0:0;if(p.slide&&p.on){ // 슬라이드: 캐릭터를 3프레임 만에 절반 크기로 확 줄여(비율 유지) 발밑 먼지 구름과 함께 미끄러진다
+    const k=Math.min(1,p.sqT/3);spr('dust2',x-16,y-7,.6,.8+.2*Math.sin(G.t*.6));
+    cx.save();cx.translate(x,y);cx.rotate(-.12*k);sprB(name,0,0,sc*(1-.5*k),1,1);cx.restore();
     if(G.t%3===0)G.fx.push({x:x-20,y:y-2,vx:-1.8,vy:-.8,g:.04,life:14,k:'dust',sc:rnd(.25,.4)})}
   else{cx.save();cx.translate(x,y);cx.rotate(tilt);sprB(name,0,0,sc,1,sy);cx.restore()}cx.globalAlpha=1;
   if(p.boost>0&&ok('streak'))spr('streak',x-36,y-20,.6,.7);
