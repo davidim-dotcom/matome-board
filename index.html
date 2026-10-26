@@ -1273,7 +1273,9 @@ function pbShot(){sfx('shot');const p=G.player,n=G.power>=3?3:G.power>=2?2:1;for
 function options(){const p=G.player,s=p.slow?16:24,w=Math.sin(G.t*.12)*3;return[{x:p.x-s,y:p.y+6+w},{x:p.x+s,y:p.y+6-w}]}
 function bomb(){if(G.bombs<=0||G.bombT>0)return;G.bombs--;G.bombT=70;G.spellClean=false;G.player.inv=Math.max(G.player.inv,110);G.score+=G.eb.length*10;G.eb=[];G.en.forEach(e=>{e.hp-=40});if(G.boss)G.boss.hp-=60;G.shake=14;G.flash=12;G.bombAnim=44;G.beams=[];G.fences=[];say('結界展開「まとめ結界」',60);sfx('bomb')}
 // ---------- enemies: 역할 a(휩쓸기·돌진) b(떠다니며 링) mid(중보스). 그림은 스테이지 표의 kind ----------
-function spawn(role,x,y,o){const st=ST(),kind=role==='a'?st.a:role==='b'?st.b:st.mid;const e={x,y,kind,role,t:0,hp:(role==='mid'?360*(st.midHp||1):role==='b'?26:14)*(1+G.stage*.3),r:role==='mid'?(st.midHp?40:30):15,sc:role==='mid'?st.ms:1,dir:1,ty:90};e.max=e.hp;G.en.push(Object.assign(e,o||{}))}
+// 중보스 체력은 스테이지별 표(2026-10): 파워 2~3 기준 초당 약 200 피해로 7~14초. 예전 식(360×midHp×(1+스테이지×.3))은 1·2스테이지가 360·468로 2초 만에 죽었다
+const MID_HP=[1500,1800,2200,2500,2800];
+function spawn(role,x,y,o){const st=ST(),kind=role==='a'?st.a:role==='b'?st.b:st.mid;const e={x,y,kind,role,t:0,hp:role==='mid'?MID_HP[G.stage]||2800:(role==='b'?26:14)*(1+G.stage*.3),r:role==='mid'?(st.midHp?40:30):15,sc:role==='mid'?st.ms:1,dir:1,ty:90};e.max=e.hp;G.en.push(Object.assign(e,o||{}))}
 // 스테이지 오브젝트(role 'o'): rock 운석(부딪히면 피탄, 큰 운석은 둘로 쪼개짐) · crate 보급 포드(쏘지 않고 아이템을 많이 떨굼) · tank 폭발 탱크(부수면 주변 탄을 지우고 적에게 피해) · fighter 편대기(V·선회 경로)
 function obj(ot,x,y,o){const st=1+G.stage*.3,base={rock:[10,12],crate:[34,16],tank:[16,14],fighter:[9,13]}[ot];G.en.push(Object.assign({x,y,kind:ot,role:'o',ot,t:0,hp:base[0]*st,r:base[1],sc:ot==='fighter'?.42:ot==='tank'?.55:ot==='crate'?.85:1,vx:0,vy:1.4,rot:0,dir:1},o||{}))}
 function rocks(n){for(let i=0;i<n;i++){const big=Math.random()<.35;obj('rock',rnd(20,W-20),-20-i*rnd(18,34),{vx:rnd(-.5,.5),vy:rnd(1.1,2),sc:big?1.45:rnd(.8,1.05),r:big?17:12,hp:(big?24:10)*(1+G.stage*.3),big,spin:rnd(-.06,.06)})}}
