@@ -2051,6 +2051,8 @@ boot();
 .db-sel button span{display:block;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .db-sel button small{display:block;font-size:9px;color:#c77dff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .db-sel button[aria-pressed="true"]{border-color:#ff5c9a;box-shadow:0 0 0 1px #ff5c9a inset}
+.db-trait{margin:-2px 0 8px;font-size:12px;line-height:1.5;color:var(--muted)}
+.db-trait b{color:var(--ink)}.db-trait .ty{display:inline-block;margin:0 4px;padding:0 6px;border-radius:8px;background:color-mix(in srgb,#c77dff 18%,transparent);color:#c77dff;font-size:10.5px;font-weight:700}.db-trait .ja{margin-left:3px;font-size:10.5px;opacity:.75}
 .db-ctl button{padding:16px 6px;font-size:15px}
 .db-ctl button.slide{background:#1d3a4a;color:#bff7ff;border-color:#4aa6c8}
 .db-ctl button.jump{background:#4a2a1d;color:#ffd9b8;border-color:#c87a4a}
@@ -2081,14 +2083,14 @@ boot();
 const sec=document.getElementById('derby');if(!sec)return;
 sec.innerHTML=`<div class="panel" style="padding:12px">
 <span class="id-test">TEST</span><p class="id-note">「まとめラン」 테스트판. 쿠키런식 달리기 — 탭 또는 위로 밀기 = 점프(공중에서 한 번 더), 아래로 밀기 = 슬라이드. HP가 다 닳으면 끝. 밸런스·그림은 바뀔 수 있어요.</p>
-<div class="dm-skin"><p class="lab">RUNNER · 선수 선택 <small id="dbSkillD"></small></p><div class="db-sel" id="dbSel"></div></div>
+<div class="dm-skin"><p class="lab">RUNNER · 선수 선택 <small id="dbSkillD"></small></p><div class="db-sel" id="dbSel"></div><p class="db-trait" id="dbTrait"></p></div>
 <div class="dm-hud"><span>SCORE <b id="dbScore">0</b></span><span>DIST <b id="dbDist">0</b>m</span><span>STAGE <b id="dbStage">-</b></span><span>HI <b id="dbHi">0</b></span></div>
 <div class="dm-wrap" id="dbWrap"><canvas id="dbCv" width="360" height="480"></canvas></div>
 <div class="dm-ctl db-ctl"><button class="slide" id="dbSlide" aria-pressed="false">◀ スライド (長押し / ↓ X)</button><button class="jump" id="dbJump">ジャンプ (Z / ↑) ▶</button><button id="dbSound" aria-pressed="true" style="flex:0 0 64px">♪</button></div>
 <div class="db-gacha"><div class="hd"><p class="lab">TREASURE GACHA · 보물 뽑기</p><span class="coin"><img src="assets/race/gem.png" alt="">코인 <span id="dbCoin">0</span></span></div>
 <div class="btns"><button type="button" id="dbG1">ガチャ 1回 <small>· 100</small></button><button type="button" id="dbG10">10連 <small>· 900 · ★3 이상 1개 확정</small></button></div>
 <p class="db-eq" id="dbEq"></p><div class="db-inv" id="dbInv"></div></div>
-<p class="db-help">달리면서 <b>ニンジン</b>을 모으고 장애물을 피하세요. 허들·생울타리·콘·지뢰·타이어·회오리·물웅덩이·구덩이는 <b>점프</b>(공중에서 한 번 더), 골 테이프·중계 드론·낙뢰는 <b>슬라이드</b>(화면을 아래로 밀기). 슬라이드하던 손가락을 위로 밀면 바로 점프, 착지 직전에 누른 점프도 받아 줘요. 발판 위로 올라가면 보너스가 많아요. HP는 시간이 갈수록 줄고 부딪히면 확 줄어요(ポーション·ハート로 회복). 스킬 게이지가 차면 선수별 스킬이 저절로 발동. 코인(파란 보석)으로 보물을 뽑아 3개까지 장착. 시작은 화면 더블 탭.</p>
+<p class="db-help">달리면서 <b>ニンジン</b>을 모으고 장애물을 피하세요. 허들·생울타리·콘·지뢰·타이어·회오리·물웅덩이·구덩이는 <b>점프</b>(공중에서 한 번 더), 골 테이프·중계 드론·낙뢰는 <b>슬라이드</b>(화면을 아래로 밀기). 슬라이드하던 손가락을 위로 밀면 바로 점프, 착지 직전에 누른 점프도 받아 줘요. 발판 위로 올라가면 보너스가 많아요. HP는 시간이 갈수록 줄고 부딪히면 확 줄어요(ポーション·ハート로 회복). 스킬 게이지가 차면 선수별 스킬이 저절로 발동(스킬이 걸려 있는 동안엔 게이지 막대가 남은 시간을 보여 주고 게이지는 차지 않아요). 코인(파란 보석)으로 보물을 뽑아 3개까지 장착. 시작은 화면 더블 탭.</p>
 <div class="dm-board"><div class="hd"><p class="lab">SCORE BOARD · 모두의 기록 TOP 30</p><button type="button" id="dbRankRe">↻ 새로고침</button></div>
 <form class="dm-sub" id="dbSub" hidden><span class="me" id="dbSubMe"></span><input id="dbName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="dbSubBtn">기록 등록</button></form>
 <ol class="dm-rank" id="dbRank"></ol></div>
@@ -2098,13 +2100,15 @@ const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),pickOne=a=>a[Math.floor(Math.random()*a.length)];
 // ---------- 그림 ----------
 // 선수 6명. 그림은 assets/race/extract_anim.py 가 애니메이션 시트에서 잘라낸 {키}_0..n-1(달리기) · _sl0.._sl3(슬라이드) · _d(스프린트) · _i(대기)
+// ko·ty·tr = 선택 칸 아래의 한국어 설명, sk = 스킬 이름(컷인에 그대로 나오는 일본어), skk = 그 한국어, sec = 스킬이 걸려 있는 프레임(그동안 게이지가 안 참),
+// gr = 게이지가 차는 배율(자석 스킬은 당근을 더 끌어와 게이지가 다시 빨리 차므로 낮춤)
 const CHARS={
-  spe:{name:'スペ',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#c77dff',sk:'根性',skd:'HP +35 · 6초 동안 HP가 줄지 않음'},
-  suzu:{name:'スズカ',frames:5,cut:'cut_sakura',aura:'aura_gold',col:'#7ddc7f',sk:'大逃げ',skd:'4초 ブースト(무적 질주)'},
-  teio:{name:'テイオー',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#7df9ff',sk:'跳躍',skd:'8초 3단 점프 + ニンジン ×2'},
-  gold:{name:'ゴルシ',frames:5,cut:'cut_rocket',aura:'aura_red',col:'#ff7b7b',sk:'黄金化',skd:'8초 동안 모든 ニンジン이 황금(×5)'},
-  rice:{name:'ライス',frames:4,cut:'cut_idol',aura:'aura_blue',col:'#8a7cff',sk:'黒い衝撃',skd:'방어막 2 + 6초 자석'},
-  oguri:{name:'オグリ',frames:4,cut:'cut_rocket',aura:'aura_gold',col:'#cfd6e6',sk:'大食い',skd:'10초 자석 + ニンジン ×2'},
+  spe:{name:'スペ',ko:'스페셜 위크',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#c77dff',sk:'根性',skk:'근성',sec:360,gr:1,ty:'버티기형',tr:'HP +35 회복, 6초 동안 HP가 줄지 않아요. 실수해도 오래 버티는 처음 하는 사람용.'},
+  suzu:{name:'スズカ',ko:'사일런스 스즈카',frames:5,cut:'cut_sakura',aura:'aura_gold',col:'#7ddc7f',sk:'大逃げ',skk:'대도주',sec:240,gr:1,ty:'질주형',tr:'4초 동안 부스트(1.75배 속도·무적). 앞의 장애물은 부수고 +50점. 어려운 구간을 통째로 건너뛰어요.'},
+  teio:{name:'テイオー',ko:'토카이 테이오',frames:5,cut:'cut_blue',aura:'aura_blue',col:'#7df9ff',sk:'跳躍',skk:'도약',sec:480,gr:1,ty:'점프형',tr:'8초 동안 3단 점프 + 당근 점수 ×2. 높은 발판의 보너스·위쪽 회복 아이템을 노리기 좋아요.'},
+  gold:{name:'ゴルシ',ko:'골드 쉽',frames:5,cut:'cut_rocket',aura:'aura_red',col:'#ff7b7b',sk:'黄金化',skk:'황금화',sec:480,gr:1,ty:'점수형',tr:'8초 동안 모든 당근이 황금(점수 ×5). 생존 도움은 없지만 최고 점수를 노리는 선수.'},
+  rice:{name:'ライス',ko:'라이스 샤워',frames:4,cut:'cut_idol',aura:'aura_blue',col:'#8a7cff',sk:'黒い衝撃',skk:'검은 충격',sec:360,gr:.7,ty:'방어형',tr:'편자 방어막 +2(최대 3, 한 번씩 피해를 막음) + 6초 자석. 대신 게이지가 다른 선수보다 천천히 차요.'},
+  oguri:{name:'オグリ',ko:'오구리 캡',frames:4,cut:'cut_rocket',aura:'aura_gold',col:'#cfd6e6',sk:'大食い',skk:'대식가',sec:600,gr:.9,ty:'수집형',tr:'10초 자석 + 당근 점수 ×2. 멀리 있는 당근까지 끌어와요. 게이지는 조금 천천히 차요.'},
 };
 const IMG={};
 const NAMES=[];for(const k in CHARS){for(let i=0;i<CHARS[k].frames;i++)NAMES.push(k+'_'+i);NAMES.push(k+'_i',k+'_d',k+'_sl0',k+'_sl1',k+'_sl2',k+'_sl3')}
@@ -2117,13 +2121,12 @@ function sprB(n,x,y,sc,a,sy){const i=IMG[n];if(!ok(n))return false;const w=i.nat
 let AC=null,snd=true;try{snd=localStorage.getItem('db-snd')!=='off'}catch(e){}
 const ac=()=>{if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC};
 function beep(f,d,type,g,f2){if(!snd)return;try{const c=ac();if(!c)return;const o=c.createOscillator(),v=c.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,c.currentTime);if(f2)o.frequency.exponentialRampToValueAtTime(f2,c.currentTime+d);v.gain.setValueAtTime(g||.04,c.currentTime);v.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.connect(v);v.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
-const BGM={cur:null,timer:null,pos:0,next:0,bus:null,rate:1};
+const BGM={cur:null,timer:null,pos:0,next:0,bus:null,rate:1,fresh:false};
 const midi=n=>440*Math.pow(2,(n-69)/12);
+const RUN_MIDI={"tempo":[[0,115.0],[48,104.0],[56,92.0],[64,170.0]],"loop":64,"len":416,"pb":33,"tr":{"m":"ACgCClCCpCGsGCpCClCCqCCqCCqCCpCCnCCpCElECgCClCCpCEuECsCCqCCpCDnDDpDCqCEsFDtDCrCBrBBtBCuCCyCCwCCuCCtCCrCCpCBpBBrBCtCCwCCuCCtCEqECrCBrBBtBCuCCyCCzCCyCCwCCuCCtCCuCCwCCyCCyCCyCEyECrCCvCCyCCvCC0CCyCEvECwCCvCCtCCrCCoCCrCEtECrCCvCCyCCvCC0CC2CEyECwCCyCC0CCyCCvCCtCErEByBByBCvCByBByBCvCB0BB0BCwCCyCCvCCwCCwCCvCCrCCtCCvCEyEEvECtCCrCEtEEqECrCCtCCvCCwCEvEEtEEuECtCCrCCpCCrCEuECwCCwCCyCCzCE1ICpCCuCCwCEyECwCEuECrCCuCCrCCuCCwCCyCCwCCuCCyCC1CCyCEwECuCErECrCCtCCuCCwCCyCCzCEwECpCCuCCwCEyEC1CEyECzCCyCCwCCuCCwCCyCEuECrCCuCCwCCuCCtCCwCCyCCwCCyCC1CCuECyCC1CE6","h":"ACdCCgCClCGpGClCCgCCiCCiCCiCCgCCeCCgCEdECdCCgCClCEqECpCCnCClCDkDDlDCnCEkFDmLCmCCrCCmCCrKCkCCpCEmMCrCCuCCrCCuCCqCCrCCtCCvCCtCCtCEtQCrCCrOCoCCqOCvCCvOCrCCrCCrECrECwECvCCrCCtCCtCCrCCoCCqCCrCEtEErECqCCoCEqEEmECoCCqCCrCCtCErEEqEErECpCCnCCmCCnCErECtCCtCCuCCwCEtEEpECmCCpCCtCEuECtCEpMCtCCuCCtCCpCCuCCyCCuCEtECrCEnECnCCpCCrCCtCCuCCwCEtECmCCpCCtCEuECyCEuECwCCuCCtCCrCCtCCuCErECnCCrCCnCCrCCpCCtCCpCCtCCuCCyCCpECuCCyCEy","a":"ABZBBdBBgBBZBBdBBgBBZBBdBBgBBZBBdBBgBBZBBdBBgBBZBBeBBiBBlBBeBBiBBlBBeBBiBBZBBdBBgBBZBBdBBgBBZBBdBBZBBdBBgBBZBBdBBgBBZBBdBBeBBiBBlBBeBBiBBlBBeBBiBBgBBkBBnBBgBBkBBnBBgBBkBBnBBgBBkBBnBBaBBeBBhBBaBBfBBiBBmBBfBBiBBmBBfBBiBBmBBfBBiBBmBBfBBiBBmBBfBBdBBhBBkBBdBBhBBkBBdBBhBBaBBeBBhBBaBBeBBhBBaBBeBBbBBfBBiBBbBBfBBiBBbBBfBBiBBbBBfBBiBBbBBfBBiBBbBBaBBeBBhBBaBBeBBhBBaBBeBBhBBaBBeBBhBBaBBeBBhBBaBBfBBjBBmBBfBBjBBmBBfBBjBBjBBnBBqBBjBBnBBqBBjBBnBBkBBoBBrBBkBBoBBrBBkBBoBBcBBfBBjBBcBBfBBjBBcBBfBBfBBjBBmBBfBBjBBmBBfBBjBBjBBnBBqBBjBBnBBqBBjBBnBBkBBoBBrBBkBBoBBrBBkBBoBBcBBfBBjBBcBBfBBjBBcBBfBBfBBjBBmBBfBBjBBmBBfBBjBBjBBnBBqBBjBBnBBqBBjBBnBBkBBoBBrBBkBBoBBrBBkBBoBBcBBfBBjBBcBBfBBjBBcBBfBBYBBcBBfBBYBBcBBfBBYBBcBBaBBeBBhBBaBBeBBhBBaBBeBBcBBfBBjBBcBBfBBjBBcBBfBBaBBeBBhBBaBBeBBhBBaBBeBBbBBfBBiBBbBBfBBiBBbBBfBBaBBdBBiBBaBBdBBiBBaBBdBBYBBbBBfBBYBBbBBfBBYBBbBBdBBhBBkBBdBBhBBkBBdBBhBBbBBfBBiBBbBBfBBiBBbBBfBBdBBhBBkBBdBBhBBkBBdBBhBBaBBdBBhBBaBBdBBhBBaBBdBBfBBiBBmBBfBBiBBmBBfBBiBBbBBfBBiBBbBBfBBiBBbBBfBBdBBhBBkBBdBBhBBkBBdBBhBBWBBaBBdBBWBBaBBdBBWBBaBBaBBdBBiBBaBBdBBiBBaBBdBBbBBfBBiBBbBBfBBiBBbBBfBBdBBhBBkBBdBBhBBkBBdBBhBBaBBdBBhBBaBBdBBhBBaBBdBBfBBiBBmBBfBBiBBmBBfBBiBBbBBfBBiBBbBBfBBiBBbBBfBBdBBhBBkBBdBBhBBkBBdBBhBBWBBaBBdBBWBBaBBdBBWBBaBBWBBaBBdBBWBBaBBdBBWBBa","b":"AONQHGIHNIHNIHGILIMEOECHCCTCCHCCTCCHCCTCCHCCTCCFCCRCCFCCRCCCCCOCCCCCOCCDCCPCCDCCPCCDCCPCCDCCPCCCCCOCCCCCOCCCCCOCCCCCOCCHCCTCCHCCTCCLCCXCCLCCXCCMCCYCCMCCYCCECCQCCECCQCCHCCTCCHCCTCCLCCXCCLCCXCCMCCYCCMCCYCCECCQCCECCQCCHCCTCCHCCTCCLCCXCCLCCXCCMCCYCCMCCYCCECCQCCECCQCCMCCYCCMCCYCCLCCXCCLCCXCCJCCVCCJCCVCCCCCOCCCCCOCCDCCPCCDCCPCCCCCOCCCCCOCCACCMCCACCMCCFCCRCCFCCRCCDCCPCCDCCPCCFCCRCCFCCRCCCCCOCCCCCOCCHCCTCCHCCTCCDCCPCCDCCPCCFCCRCCFCCRCCKCCWCCKCCWCCKCCWCCKCCWCCDCCPCCDCCPCCFCCRCCFCCRCCCCCOCCCCCOCCHCCTCCHCCTCCDCCPCCDCCPCCFCCRCCFCCRCCKCCWCCKCCWCCKCCWCCKCCW","d":"ABFACDAEQBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFACDAEQBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFACDAEQBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFACDAEQBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBFBBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFBBFBBFABJBBFABQBBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFBBFBBFABJBBFABQBBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFBBFBBFABJBBFABQBBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFBBFBBFABJBBFABQBBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFCBJCBDBBJBBJCBDABFBBFBBFABJBBFABQ"}}; // assets/race/midi2bgm.py 가 src/bgm_run.mid 에서 만든 줄(손으로 고치지 말 것)
 const SONGS={
-  // 달리기: 밝은 팝(스테이지가 오를수록 bpm 이 조금씩 빨라진다)
-  run:{bpm:152,chords:[[45,0],[41,1],[48,1],[43,1],[45,0],[41,1],[43,1],[40,1]],duty:.25,lg:.2,bass:'r.R.r.R.r.R.o.R.',dr:{k:'k.......k.k.....',s:'....s.......s...',h:'h.h.h.h.h.h.h.h.'},
-    mel:[[76,2],[81,2],[84,2],[83,2],[81,2],[79,2],[76,4],[77,2],[81,2],[84,4],[81,2],[77,2],[79,4],[76,2],[79,2],[84,2],[86,2],[88,4],[86,2],[84,2],[83,2],[79,2],[74,2],[79,2],[83,4],[81,2],[79,2],
-         [81,2],[84,2],[88,4],[86,2],[84,2],[83,4],[81,2],[77,2],[81,2],[84,2],[86,4],[84,2],[81,2],[83,2],[86,2],[91,4],[90,2],[86,2],[83,4],[80,2],[83,2],[88,4],[86,2],[83,2],[80,2],[76,2]]},
+  // 달리기: 운영자가 준 8비트 MIDI(우마뾰이 전설 편곡, assets/race/src/bgm_run.mid → midi2bgm.py → RUN_MIDI). 인트로 팡파레는 판 시작 때 한 번, 그 뒤는 스타트 리프부터 되풀이
+  run:{midi:RUN_MIDI},
   // 보스: 단조 질주
   boss:{bpm:168,chords:[[40,0],[40,0],[46,0],[47,0],[40,0],[40,0],[43,0],[47,0]],duty:.125,lg:.22,bass:'rrr.rrr.rrr.rbr.',dr:{k:'k..k..k.k..k..k.',s:'....s.......s.s.',h:'hhhhhhhhhhhhhhhh'},
     mel:[[76,1],[0,1],[76,1],[79,1],[76,2],[74,2],[72,2],[74,2],[76,4],[0,0],[79,1],[0,1],[79,1],[81,1],[79,2],[76,2],[74,2],[72,2],[71,4],[0,0],[76,1],[0,1],[76,1],[79,1],[76,2],[81,2],[79,2],[76,2],[74,4],[0,0],[72,2],[74,2],[76,2],[79,2],[83,4],[81,2],[79,2],[0,0]]},
@@ -2131,7 +2134,10 @@ const SONGS={
   title:{bpm:104,chords:[[45,0],[41,1],[48,1],[43,1]],duty:.5,lg:.16,arp:[0,7,12,15,19,15,12,7],bass:'r...............',dr:{},
     mel:[[0,8],[76,4],[81,4],[84,8],[81,4],[79,4],[76,8],[79,4],[84,4],[83,12],[0,4]]},
 };
-for(const k in SONGS){const s=SONGS[k];s.steps=[];for(const [n,l] of s.mel){if(l<=0)continue;s.steps.push(n);for(let i=1;i<l;i++)s.steps.push(null)}}
+// MIDI 곡 풀기: 칸(16분음표) 번호 → [[레인 m·h·a·b·d, 음, 길이(칸)]]. 3글자 = 칸 차이·길이·음-pb, 길이 0은 쉼 토큰
+function unMidi(M){const A='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',ev=[];for(const k in M.tr){const s=M.tr[k];let at=0;for(let i=0;i+2<s.length;i+=3){at+=A.indexOf(s[i]);const l=A.indexOf(s[i+1]);if(!l)continue;(ev[at]=ev[at]||[]).push([k,A.indexOf(s[i+2])+M.pb,l])}}return ev}
+const bpmAt=(M,i)=>{let b=M.tempo[0][1];for(const [st,bp] of M.tempo)if(i>=st)b=bp;return b};
+for(const k in SONGS){const s=SONGS[k];if(s.midi){s.ev=unMidi(s.midi);continue}s.steps=[];for(const [n,l] of s.mel){if(l<=0)continue;s.steps.push(n);for(let i=1;i<l;i++)s.steps.push(null)}}
 const PW={};function pulse(c,duty){if(duty>=.5)return null;if(PW[duty])return PW[duty];const N=32,re=new Float32Array(N),im=new Float32Array(N);for(let k=1;k<N;k++){re[k]=Math.sin(2*Math.PI*k*duty)/(Math.PI*k)*2;im[k]=(1-Math.cos(2*Math.PI*k*duty))/(Math.PI*k)*2}return PW[duty]=c.createPeriodicWave(re,im)}
 function bgmBus(){const c=ac();if(!c)return null;if(BGM.bus)return BGM.bus;const g=c.createGain();g.gain.value=.08;const comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=6;g.connect(comp);comp.connect(c.destination);
   const d=c.createDelay(1);d.delayTime.value=.19;const fb=c.createGain();fb.gain.value=.22;const wet=c.createGain();wet.gain.value=.3;d.connect(fb);fb.connect(d);d.connect(wet);wet.connect(g);BGM.delay=d;BGM.bus=g;
@@ -2141,10 +2147,18 @@ function tone(n,t,d,o){const c=ac(),os=c.createOscillator(),v=c.createGain();if(
 function nz(t,d,f,g,type){const c=ac(),s=c.createBufferSource();s.buffer=BGM.nb;const bp=c.createBiquadFilter();bp.type=type||'highpass';bp.frequency.value=f;const v=c.createGain();v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(bp);bp.connect(v);v.connect(BGM.bus);s.start(t);s.stop(t+d)}
 function kick(t,f0,f1,d,g){const c=ac(),o=c.createOscillator(),v=c.createGain();o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+d*.7);v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(BGM.bus);o.start(t);o.stop(t+d+.02)}
 const KIT={k:t=>kick(t,160,45,.16,.9),s:t=>{nz(t,.14,1800,.5,'bandpass');kick(t,220,160,.06,.25)},h:t=>nz(t,.04,7000,.15)};
-function bgm(name,rate){if(!snd)return;try{if(!bgmBus())return;const song=SONGS[name];if(!song)return;if(rate)BGM.rate=rate;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.pos=0;BGM.next=ac().currentTime+.08;BGM.timer=setInterval(bgmTick,40)}catch(e){}}
+function bgm(name,rate){if(!snd)return;try{if(!bgmBus())return;const song=SONGS[name];if(!song)return;if(rate)BGM.rate=rate;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;BGM.pos=song.midi&&!BGM.fresh?song.midi.loop:0;if(song.midi)BGM.fresh=false;BGM.next=ac().currentTime+.08;BGM.timer=setInterval(bgmTick,40)}catch(e){}}
 function bgmStop(){if(BGM.timer)clearInterval(BGM.timer);BGM.timer=null;BGM.cur=null}
 function bgmTick(){if(sec.hidden||document.hidden)return;const c=ac(),song=SONGS[BGM.cur];if(!song)return;const step=60/(song.bpm*BGM.rate)/4;
   if(BGM.next<c.currentTime-.1)BGM.next=c.currentTime+.05;
+  if(song.ev){const M=song.midi;while(BGM.next<c.currentTime+.18){if(BGM.pos>=M.len)BGM.pos=M.loop;const i=BGM.pos,st=60/(bpmAt(M,i)*BGM.rate)/4,t=BGM.next,ev=song.ev[i];
+    if(ev)for(const [k,n,l] of ev){const d=st*l;
+      if(k==='m')tone(n,t,d*.92,{duty:.25,g:.17,echo:true});                 // CH1 리드
+      else if(k==='h')tone(n,t,d*.9,{duty:.125,g:.075});                     // CH2 추임새·화음
+      else if(k==='a')tone(n,t,d*.9,{duty:.25,g:.04,rel:.2});                // CH3 아르페지오
+      else if(k==='b')tone(n,t,d*.92,{tri:true,g:.42,rel:.7});               // CH4 삼각파 베이스
+      else if(n===36)KIT.k(t);else if(n===38)KIT.s(t);else if(n===49)nz(t,.45,4000,.2);else KIT.h(t)} // CH10: 킥·스네어·하이햇·크래시
+    BGM.pos++;BGM.next+=st}return}
   while(BGM.next<c.currentTime+.18){const i=BGM.pos,s=i%16,[root,maj]=song.chords[Math.floor(i/16)%song.chords.length],t=BGM.next,n=song.steps[i%song.steps.length];
     if(n){tone(n,t,step*1.9,{duty:song.duty,g:song.lg,echo:true});if(song.duty<.5)tone(n-12,t,step*1.7,{duty:song.duty,g:song.lg*.3})}
     if(song.arp&&s%2===0){let iv=song.arp[(s/2)%song.arp.length];if(maj&&iv%12===3)iv+=1;tone(root+24+iv,t,step*1.8,{duty:.25,g:.07,echo:true,rel:.2})}
@@ -2153,7 +2167,7 @@ function bgmTick(){if(sec.hidden||document.hidden)return;const c=ac(),song=SONGS
     BGM.pos++;BGM.next+=step}}
 function setSnd(v){snd=v;$('dbSound').setAttribute('aria-pressed',String(v));try{localStorage.setItem('db-snd',v?'on':'off')}catch(e){}if(!v)bgmStop();else bgmFor()}
 $('dbSound').addEventListener('click',()=>setSnd(!snd));$('dbSound').setAttribute('aria-pressed',String(snd));
-function bgmFor(){if(!snd)return;if(G.state==='play')bgm(G.boss?'boss':'run',1+Math.min(8,G.stage)*.03);else bgm('title',1)}
+function bgmFor(){if(!snd)return;if(G.state==='play')bgm(G.boss?'boss':'run',1+Math.min(8,G.stage)*.02);else bgm('title',1)}
 // ---------- 상수 ----------
 const PX=5;                          // 1m = 5px
 const GY=392,PXP=72;                 // 땅(발) y · 자기 x
@@ -2252,10 +2266,10 @@ const G={state:'title',t:0,stage:0,pops:[],fx:[],obs:[],items:[],plats:[],pits:[
 let E=eff();
 function newGame(){E=eff();const th=themeOf(0);
   Object.assign(G,{t:0,state:'play',stage:0,theme:th,dist:0,score:0,jelly:0,coins:0,cam:0,obs:[],items:[],plats:[],pits:[],scen:[],fx:[],pops:[],warn:[],fw:[],boss:null,bossT:0,msg:'',msgT:0,shake:0,flash:0,cut:0,cutT:0,nextX:420,nextSign:200,revived:false,hits:0,skillN:0,stageX:STAGE_M*PX,hitFrame:0});
-  G.p={x:0,y:GY,vy:0,on:true,plat:null,jumps:0,slide:false,hp:100+E.hp,maxHp:100+E.hp,gauge:0,shield:E.shield,inv:0,stum:0,boost:0,mag:0,crown:0,golden:0,jmul:1,jmulT:0,jump3:0,nodrain:0,slow:0,anim:0,sqT:0,recT:0,buf:0,coy:0};
+  G.p={x:0,y:GY,vy:0,on:true,plat:null,jumps:0,slide:false,hp:100+E.hp,maxHp:100+E.hp,gauge:0,shield:E.shield,inv:0,stum:0,boost:0,mag:0,crown:0,golden:0,jmul:1,jmulT:0,jump3:0,nodrain:0,slow:0,anim:0,sqT:0,recT:0,buf:0,coy:0,skT:0};
   G.scen.push({k:'gate',x:-10});G.scen.push({k:'goal',x:STAGE_M*PX,n:1});
   for(let i=0;i<3;i++)spawnChunk();
-  renderHud();bgmFor()}
+  renderHud();BGM.fresh=true;bgmFor()}
 const idle=()=>G.state==='title'||G.state==='over';
 function say(m,t){G.msg=m;G.msgT=t||90}
 function pop(s,col,x,y){G.pops.push({s,col:col||'#ffd166',x:x==null?PXP+10:x,y:y==null?G.p.y-70:y,life:50})}
@@ -2336,7 +2350,8 @@ document.addEventListener('keydown',e=>{if(sec.hidden||/^(INPUT|TEXTAREA)$/.test
   if(e.key==='ArrowDown'||e.key==='x'||e.key==='X'){held.add('k');slideOn(true);e.preventDefault()}});
 document.addEventListener('keyup',e=>{if(e.key==='ArrowDown'||e.key==='x'||e.key==='X'){held.delete('k');if(!held.size)slideOn(false)}});
 // ---------- 선수 선택·HUD ----------
-function renderSel(){$('dbSel').innerHTML=Object.keys(CHARS).map(k=>`<button type="button" data-ch="${k}" aria-pressed="${k===me}"><img src="assets/race/${k}_i.png" alt=""><span>${CHARS[k].name}</span><small>${CHARS[k].sk}</small></button>`).join('');$('dbSkillD').textContent='· '+CHARS[me].sk+': '+CHARS[me].skd}
+function renderSel(){$('dbSel').innerHTML=Object.keys(CHARS).map(k=>`<button type="button" data-ch="${k}" aria-pressed="${k===me}"><img src="assets/race/${k}_i.png" alt=""><span>${CHARS[k].name}</span><small>${CHARS[k].skk}</small></button>`).join('');const c=CHARS[me];$('dbSkillD').textContent='';
+  $('dbTrait').innerHTML=`<b>${c.ko}</b> <span class="ty">${c.ty}</span> 스킬 「${c.skk}」<span class="ja">${c.sk}</span> — ${c.tr}`}
 $('dbSel').addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(!b||!idle())return;me=b.dataset.ch;try{localStorage.setItem('db-char',me)}catch(err){}renderSel()});
 renderSel();
 function renderHud(){$('dbScore').textContent=Math.floor(G.score||0).toLocaleString();$('dbDist').textContent=Math.floor(G.dist||0);$('dbStage').textContent=G.state==='play'?G.stage+1:'-';$('dbHi').textContent=SV.hi.toLocaleString();$('dbCoin').textContent=SV.coins.toLocaleString()}
@@ -2371,7 +2386,7 @@ function update(){
     if(G.theme.boss){G.boss={k:G.stage%6===2?'boss_clock':'boss_board',t:0,name:G.stage%6===2?'時計の魔法陣':'スコアボード装置'};say('BOSS  ─  '+G.boss.name,100)}bgmFor()}
   // ---- HP(시간 감소)
   if(p.nodrain>0)p.nodrain--;else p.hp-=.03*(1-E.drain)*(1+G.stage*.12); // 1스테이지 초당 1.8, 6스테이지 2.9 (2026-10 '너무 빨리 닳는다'로 낮춤)
-  if(p.inv>0)p.inv--;if(p.stum>0)p.stum--;if(p.boost>0){p.boost--;if(p.boost===0)say('ブースト終了',40)}if(p.mag>0)p.mag--;if(p.crown>0)p.crown--;if(p.golden>0)p.golden--;if(p.jump3>0)p.jump3--;if(p.slow>0)p.slow--;if(p.jmulT>0){p.jmulT--;if(!p.jmulT)p.jmul=1}
+  if(p.skT>0)p.skT--;if(p.inv>0)p.inv--;if(p.stum>0)p.stum--;if(p.boost>0){p.boost--;if(p.boost===0)say('ブースト終了',40)}if(p.mag>0)p.mag--;if(p.crown>0)p.crown--;if(p.golden>0)p.golden--;if(p.jump3>0)p.jump3--;if(p.slow>0)p.slow--;if(p.jmulT>0){p.jmulT--;if(!p.jmulT)p.jmul=1}
   // ---- 점프·중력·발판
   const overPit=x=>G.pits.some(q=>x>q.x+6&&x<q.x+q.w-6);if(p.buf>0)p.buf--;if(p.coy>0)p.coy--;
   if(p.on&&p.plat){const pl=p.plat;if(p.x<pl.x-6||p.x>pl.x+pl.w+6){p.on=false;p.plat=null;p.vy=0;p.jumps=1;p.coy=6}}
@@ -2420,7 +2435,7 @@ function hurt(o,D){const p=G.p;if(p.inv>0)return;o.hit=true;if(D.boom){boomAt(o.
   p.hp-=D.dmg;p.stum=28;p.inv=70;G.hits++;G.shake=Math.max(G.shake,8);pop('-'+D.dmg,'#ff5c9a');beep(240,.25,'sawtooth',.05,80);
   for(let i=0;i<6;i++)G.fx.push({x:PXP+rnd(-10,10),y:p.y-10,vx:rnd(-1.5,1.5),vy:rnd(-2,-.5),g:.12,life:25,k:'sq',c:'#ff9ad5'})}
 function pick(it){const p=G.p,I=ITEMS[it.k];let s=0;
-  if(I.pt!=null){let n=I.pt+(it.k==='carrot'?E.jelly:0);if(p.golden>0&&it.k==='carrot')n*=5;n*=p.jmul;if(p.crown>0)n*=2;s=Math.round(n*(1+G.stage*.1));G.jelly++;p.gauge=Math.min(100,p.gauge+I.g*(1+E.gauge));
+  if(I.pt!=null){let n=I.pt+(it.k==='carrot'?E.jelly:0);if(p.golden>0&&it.k==='carrot')n*=5;n*=p.jmul;if(p.crown>0)n*=2;s=Math.round(n*(1+G.stage*.1));G.jelly++;if(p.skT<=0)p.gauge=Math.min(100,p.gauge+I.g*(1+E.gauge)*CHARS[me].gr);
     if(I.coin){G.coins+=I.coin;pop('COIN','#7df9ff')}else if(it.k==='gcarrot'||p.golden>0)pop('+'+s,'#ffd166');
     beep(it.k==='gem'?1500:1000+Math.min(600,G.jelly%8*60),.05,'sine',.025,1600)}
   if(I.heal){p.hp=Math.min(p.maxHp,p.hp+I.heal*(1+E.heal));pop('HP +'+Math.round(I.heal*(1+E.heal)),'#7ddc7f');beep(900,.12,'triangle',.04,1300)}
@@ -2430,7 +2445,7 @@ function pick(it){const p=G.p,I=ITEMS[it.k];let s=0;
   if(I.crown){p.crown=Math.max(p.crown,I.crown);pop('スコア ×2！','#ffd166')}
   G.score+=s*(1+E.score);
   G.fx.push({x:PXP+8,y:p.y-30,life:10,k:'spark',sc:.5})}
-function skill(){const p=G.p,c=CHARS[me];p.gauge=0;G.skillN++;G.cut=60;G.cutName=c.cut;say(c.name+'  '+c.sk+'！',70);beep(440,.15,'triangle',.05);setTimeout(()=>beep(660,.2,'triangle',.05),120);setTimeout(()=>beep(880,.3,'square',.05),240);
+function skill(){const p=G.p,c=CHARS[me];p.gauge=0;p.skT=c.sec;G.skillN++;G.cut=60;G.cutName=c.cut;say(c.name+'  '+c.sk+'！',70);beep(440,.15,'triangle',.05);setTimeout(()=>beep(660,.2,'triangle',.05),120);setTimeout(()=>beep(880,.3,'square',.05),240);
   if(me==='spe'){p.hp=Math.min(p.maxHp,p.hp+35);p.nodrain=360}
   else if(me==='suzu'){p.boost=Math.max(p.boost,240);p.inv=Math.max(p.inv,240)}
   else if(me==='teio'){p.jump3=480;p.jmul=2;p.jmulT=480}
@@ -2520,7 +2535,7 @@ function draw(){
   if(p){cx.font='bold 10px monospace';cx.textAlign='left';cx.fillStyle='#fff';cx.fillText('HP',8,13);cx.fillStyle='#3a3f6b';cx.fillRect(26,5,150,10);const hp=clamp(p.hp/p.maxHp,0,1);cx.fillStyle=hp<.25?(G.t%10<5?'#ff5c9a':'#ff9ad5'):hp<.5?'#ffd166':'#7ddc7f';cx.fillRect(26,5,150*hp,10);if(p.nodrain>0){cx.fillStyle='#fff';cx.fillRect(26,5,150*hp,2)}
     cx.fillStyle='#9a9ebb';cx.fillText('STAGE '+(G.stage+1)+'  '+(G.theme.name),8,28);
     cx.textAlign='right';cx.font='bold 14px monospace';cx.fillStyle='#ffd166';cx.fillText(Math.floor(G.score).toLocaleString(),W-8,14);cx.font='10px monospace';cx.fillStyle='#7df9ff';cx.fillText(Math.floor(G.dist)+'m   ◆'+(G.coins),W-8,28);
-    cx.textAlign='left';cx.font='bold 10px monospace';cx.fillStyle='#fff';cx.fillText('SKILL',10,H-40);cx.fillStyle='#3a3f6b';cx.fillRect(50,H-48,W-130,9);cx.fillStyle=p.gauge>=100?'#fff':'#c77dff';cx.fillRect(50,H-48,(W-130)*p.gauge/100,9);
+    cx.textAlign='left';cx.font='bold 10px monospace';cx.fillStyle='#fff';cx.fillText('SKILL',10,H-40);cx.fillStyle='#3a3f6b';cx.fillRect(50,H-48,W-130,9);cx.fillStyle=p.skT>0?CHARS[me].col:p.gauge>=100?'#fff':'#c77dff';cx.fillRect(50,H-48,(W-130)*(p.skT>0?p.skT/CHARS[me].sec:p.gauge/100),9);
     cx.fillStyle='#9a9ebb';cx.fillText([p.shield?'蹄鉄×'+p.shield:'',p.boost>0?'BOOST':'',p.mag>0?'MAGNET':'',p.crown>0?'×2':'',p.golden>0?'GOLDEN':'',p.jump3>0?'3JUMP':''].filter(Boolean).join('  '),10,H-18);
     cx.textAlign='right';cx.fillStyle='#fff';cx.fillText(CHARS[me].name+' · '+CHARS[me].sk,W-8,H-18);
     for(let i=0;i<p.shield;i++)spr('shoe',W-16-i*14,H-44,.6)}
