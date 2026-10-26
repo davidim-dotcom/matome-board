@@ -448,6 +448,16 @@
             </div>
           </div>
 
+          <!-- Merge Voice (HoloMergeAudio) -->
+          <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-2.5">
+            <div class="text-[11px] font-bold text-cyan-300 mb-1.5">🔊 합체 보이스 · 징글</div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <button id="mergeVoiceBtn" type="button" class="py-1.5 px-2 rounded-xl text-[11px] font-black transition border bg-cyan-500/25 text-cyan-200 border-cyan-400/60">🗣️ 합체 대사 ON</button>
+              <button id="mergeWavBtn" type="button" class="py-1.5 px-2 rounded-xl text-[11px] font-black transition bg-slate-800 text-slate-300 border border-slate-700">⬇️ 효과음 WAV 11개</button>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-1.5 leading-snug">합체하면 멤버별 레트로 징글과 기기의 일본어 음성으로 대사가 나와요(🔊 를 끄면 함께 꺼져요).</p>
+          </div>
+
           <!-- Selected Character Spotlight -->
           <div class="bg-gradient-to-r from-slate-950 via-indigo-950/70 to-slate-950 border border-indigo-500/35 rounded-2xl p-2.5 flex items-center gap-3">
             <div class="w-13 h-13 w-12 h-12 rounded-full overflow-hidden border-2 border-cyan-400 shrink-0">
@@ -703,6 +713,165 @@
         osc2.stop(now + 0.15);
       } catch (e) {}
     }
+
+    // --- 합체 보이스 HoloMergeAudio (2026-10 운영자 제공 코드를 이 게임에 맞춤) ---
+    // playMerge(값, 교체멤버?) : games/voices/{값}_{id}.mp3 가 있으면 그 파일, 없으면 멤버별 레트로 징글(Web Audio) + 일본어 대사(Web Speech).
+    // 게임의 AudioContext·소리 끄기(🔊)를 그대로 따른다. downloadAllWav() 는 11단계 징글을 .wav 로 내려받는다(도감 시트 버튼).
+    const HoloMergeAudio = (() => {
+      const initCtx = () => ensureAudio();
+
+      // 타일 숫자별 멤버 데이터 (대사, 음성 피치/속도, 시그니처 멜로디 주파수, 실제 MP3 파일 경로)
+      const ROSTER = {
+        2:    { id: 'sora',    name: 'Tokino Sora',       line: 'ぬんぬん！',       pitch: 1.4,  rate: 1.15, notes: [523.25, 659.25],          wave: 'sine',     file: 'voices/2_sora.mp3' },
+        4:    { id: 'suisei',  name: 'Hoshimachi Suisei', line: 'すいちゃんはー！', pitch: 1.25, rate: 1.2,  notes: [587.33, 880.00, 1174.66], wave: 'triangle', file: 'voices/4_suisei.mp3' },
+        8:    { id: 'pekora',  name: 'Usada Pekora',      line: 'ぺこっ！',         pitch: 1.5,  rate: 1.3,  notes: [659.25, 659.25, 783.99],  wave: 'square',   file: 'voices/8_pekora.mp3' },
+        16:   { id: 'aqua',    name: 'Minato Aqua',       line: 'ねぇー！',         pitch: 1.6,  rate: 1.2,  notes: [493.88, 739.99, 987.77],  wave: 'sine',     file: 'voices/16_aqua.mp3' },
+        32:   { id: 'marine',  name: 'Houshou Marine',    line: 'アホーイ！',       pitch: 1.15, rate: 1.1,  notes: [440.00, 554.37, 659.25],  wave: 'sawtooth', file: 'voices/32_marine.mp3' },
+        64:   { id: 'fubuki',  name: 'Shirakami Fubuki',  line: 'こんこん！',       pitch: 1.45, rate: 1.25, notes: [783.99, 987.77, 1174.66], wave: 'triangle', file: 'voices/64_fubuki.mp3' },
+        128:  { id: 'subaru',  name: 'Oozora Subaru',     line: 'シュバッ！',       pitch: 1.3,  rate: 1.35, notes: [587.33, 783.99, 587.33],  wave: 'square',   file: 'voices/128_subaru.mp3' },
+        256:  { id: 'korone',  name: 'Inugami Korone',    line: 'ゆびゆび！',       pitch: 1.55, rate: 1.25, notes: [659.25, 880.00, 1046.50], wave: 'square',   file: 'voices/256_korone.mp3' },
+        512:  { id: 'okayu',   name: 'Nekomata Okayu',    line: 'もぐもぐ〜',       pitch: 0.95, rate: 1.0,  notes: [392.00, 493.88, 587.33],  wave: 'sine',     file: 'voices/512_okayu.mp3' },
+        1024: { id: 'miko',    name: 'Sakura Miko',       line: 'にゃっはろー！',   pitch: 1.5,  rate: 1.15, notes: [523.25, 659.25, 783.99, 1046.50], wave: 'triangle', file: 'voices/1024_miko.mp3' },
+        2048: { id: 'calli',   name: 'Mori Calliope',     line: 'Guh!',             pitch: 0.85, rate: 1.1,  notes: [261.63, 392.00, 523.25, 783.99, 1046.50], wave: 'sawtooth', file: 'voices/2048_calli.mp3' }
+      };
+
+      // EN/ID 교체 멤버 대사(도감에서 교체했거나 EN·ID 믹스·랜덤으로 나온 경우)
+      const ALT_ROSTER = {
+        2:  { id: 'mumei',  line: 'Ohai!',        pitch: 1.4, rate: 1.2 },
+        4:  { id: 'irys',   line: 'HiRyS!',       pitch: 1.3, rate: 1.15 },
+        8:  { id: 'ollie',  line: 'Zombanwa!',    pitch: 1.5, rate: 1.35 },
+        16: { id: 'fauna',  line: 'Uuuu~',        pitch: 1.2, rate: 1.0 },
+        32: { id: 'kronii', line: 'Kroniichiwa!', pitch: 0.9, rate: 1.05 }
+      };
+
+      let voiceOn = true;
+      try { voiceOn = localStorage.getItem('holoMergeVoice') !== 'off'; } catch (e) {}
+      // MP3 는 처음 한 번 HEAD 로 있는지만 보고 기억한다(없는 파일을 합칠 때마다 요청하지 않게). 확인하는 동안은 징글+대사로 바로 낸다
+      const fileOK = {};
+      function probe(v, f) {
+        fileOK[v] = 'probe';
+        fetch(f, { method: 'HEAD', cache: 'no-store' })
+          .then(r => { fileOK[v] = r.ok && !/text\/html/.test(r.headers.get('content-type') || ''); })
+          .catch(() => { fileOK[v] = false; });
+      }
+      let lastSpeak = 0, lastVal = 0;
+
+      // 1) 합체 시 호출할 메인 함수: HoloMergeAudio.playMerge(2, false)
+      function playMerge(tileValue, useAlt = false) {
+        if (!soundEnabled) return;
+        const member = ROSTER[tileValue] || ROSTER[2];
+        const alt = useAlt && ALT_ROSTER[tileValue] ? ALT_ROSTER[tileValue] : null;
+        const f = alt ? null : member.file; // 교체 멤버용 MP3 는 따로 없다
+        if (f && fileOK[tileValue] === true) {
+          const audio = new Audio(f);
+          audio.volume = 0.85;
+          audio.play().catch(() => { fileOK[tileValue] = false; synth(member, alt, tileValue); });
+          return;
+        }
+        if (f && fileOK[tileValue] === undefined) probe(tileValue, f);
+        synth(member, alt, tileValue);
+      }
+      function synth(member, alt, v) {
+        playSynthJingle(member);
+        if (!voiceOn) return;
+        // 낮은 값이 연달아 합쳐질 때 대사가 서로 끊기며 시끄럽지 않게: 0.35초 안의 같거나 낮은 값은 징글만
+        const now = performance.now();
+        if (now - lastSpeak < 350 && v <= lastVal) return;
+        lastSpeak = now; lastVal = v;
+        speakVoiceLine(alt ? alt.line : member.line, alt ? alt.pitch : member.pitch, alt ? alt.rate : member.rate);
+      }
+
+      // 2) Web Audio API 기반 멤버별 시그니처 팝 징글
+      function playSynthJingle(member) {
+        const audioCtx = initCtx();
+        if (!audioCtx) return;
+        try {
+          const now = audioCtx.currentTime;
+          member.notes.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const t = now + idx * 0.065;
+            osc.type = member.wave;
+            osc.frequency.setValueAtTime(freq, t);
+            osc.frequency.exponentialRampToValueAtTime(freq * 1.08, t + 0.06);
+            gain.gain.setValueAtTime(0.18, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(t);
+            osc.stop(t + 0.15);
+          });
+        } catch (e) {}
+      }
+
+      // 3) Web Speech API 기반 짧은 캐릭터 음성 출력(기기에 있는 일본어·영어 목소리를 고른다)
+      let voices = [];
+      const loadVoices = () => { try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {} };
+      if ('speechSynthesis' in window) { loadVoices(); try { window.speechSynthesis.addEventListener('voiceschanged', loadVoices); } catch (e) {} }
+      function speakVoiceLine(text, pitch = 1.3, rate = 1.2) {
+        if (!('speechSynthesis' in window)) return;
+        try {
+          window.speechSynthesis.cancel(); // 연속 합체 시 딜레이 방지
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = /[a-zA-Z]/.test(text) ? 'en-US' : 'ja-JP';
+          const v = voices.find(x => (x.lang || '').replace('_', '-').toLowerCase().startsWith(utter.lang.slice(0, 2).toLowerCase()));
+          if (v) utter.voice = v;
+          utter.pitch = Math.min(2, pitch);
+          utter.rate = rate;
+          utter.volume = 0.9;
+          window.speechSynthesis.speak(utter);
+        } catch (e) {}
+      }
+
+      // 4) 각 단계별 효과음을 실제 .wav 파일로 생성해 다운로드하는 함수
+      function downloadAllWav() {
+        Object.entries(ROSTER).forEach(([val, member], i) => {
+          setTimeout(() => {
+            const sampleRate = 44100;
+            const duration = 0.35;
+            const numSamples = Math.floor(sampleRate * duration);
+            const buffer = new ArrayBuffer(44 + numSamples * 2);
+            const view = new DataView(buffer);
+            const writeStr = (offset, str) => { for (let j = 0; j < str.length; j++) view.setUint8(offset + j, str.charCodeAt(j)); };
+            writeStr(0, 'RIFF');
+            view.setUint32(4, 36 + numSamples * 2, true);
+            writeStr(8, 'WAVEfmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeStr(36, 'data');
+            view.setUint32(40, numSamples * 2, true);
+            for (let s = 0; s < numSamples; s++) {
+              const t = s / sampleRate;
+              const noteIdx = Math.min(member.notes.length - 1, Math.floor((t / duration) * member.notes.length));
+              const freq = member.notes[noteIdx];
+              const env = Math.exp(-6 * (t % (duration / member.notes.length)));
+              const sample = Math.sin(2 * Math.PI * freq * t) * env * 0.5;
+              view.setInt16(44 + s * 2, Math.max(-1, Math.min(1, sample)) * 32767, true);
+            }
+            const blob = new Blob([buffer], { type: 'audio/wav' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${val}_${member.id}_merge.wav`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+          }, i * 250);
+        });
+      }
+
+      // 지금 그 숫자에 나온 멤버가 EN/ID 교체 멤버인가(대사 고르기)
+      const isAlt = (val, charId) => !!(ALT_ROSTER[val] && ALT_ROSTER[val].id === charId);
+      function setVoice(on) { voiceOn = !!on; try { localStorage.setItem('holoMergeVoice', voiceOn ? 'on' : 'off'); } catch (e) {} if (!voiceOn) stop(); }
+      function stop() { try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) {} }
+
+      return { playMerge, downloadAllWav, ROSTER, isAlt, setVoice, stop, get voiceOn() { return voiceOn; } };
+    })();
 
     function playVictoryFanfare() {
       const ctx = ensureAudio();
@@ -1022,6 +1191,7 @@
                   showScorePop(4096);
                   spawnMergeEffects(midX, midY, '#fde047', 115);
                   playVictoryFanfare();
+                  HoloMergeAudio.playMerge(2048);
                   saveProgress();
                   renderHeaderStats();
                 } else {
@@ -1065,6 +1235,7 @@
                   } else {
                     playPopMergeSound(newValue);
                   }
+                  HoloMergeAudio.playMerge(newValue, HoloMergeAudio.isAlt(newValue, newCharKey));
 
                   saveProgress();
                   renderHeaderStats();
@@ -1512,6 +1683,7 @@
       } else {
         playDropSound();
       }
+      if (highestMerged > 0) HoloMergeAudio.playMerge(highestMerged, HoloMergeAudio.isAlt(highestMerged, activeRoster[highestMerged]));
 
       if (scoreDelta > 0) showScorePop(scoreDelta);
 
@@ -1969,7 +2141,23 @@
         soundEnabled = !soundEnabled;
         document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
         if (soundEnabled) playDropSound();
+        else HoloMergeAudio.stop();
       });
+
+      // 합체 보이스: 대사 켜기/끄기(켜면 소라 대사로 미리 듣기) · 효과음 WAV 받기
+      const mergeVoiceBtn = document.getElementById('mergeVoiceBtn');
+      const paintVoiceBtn = () => {
+        const on = HoloMergeAudio.voiceOn;
+        mergeVoiceBtn.textContent = on ? '🗣️ 합체 대사 ON' : '🔇 합체 대사 OFF';
+        mergeVoiceBtn.className = 'py-1.5 px-2 rounded-xl text-[11px] font-black transition border ' + (on ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400/60' : 'bg-slate-800 text-slate-300 border-slate-700');
+      };
+      paintVoiceBtn();
+      mergeVoiceBtn.addEventListener('click', () => {
+        HoloMergeAudio.setVoice(!HoloMergeAudio.voiceOn);
+        paintVoiceBtn();
+        if (HoloMergeAudio.voiceOn) HoloMergeAudio.playMerge(2, HoloMergeAudio.isAlt(2, activeRoster[2]));
+      });
+      document.getElementById('mergeWavBtn').addEventListener('click', () => HoloMergeAudio.downloadAllWav());
 
       // 7. Bottom Sheet Dex & Character Swapping
       const dexModal = document.getElementById('dexSheetModal');
