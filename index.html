@@ -869,6 +869,19 @@ function hookHolo(){
     const st=d.createElement("style");st.textContent="#thumbTouchTrack{min-width:0}#thumbTouchTrack>span,#puzzleThumbBar>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;max-width:100%;letter-spacing:-.2px}";d.head.appendChild(st);
     const ht=d.querySelector("#thumbTouchTrack>span>span");if(ht)ht.textContent="👆 끌고 놓으면 드롭";
     const hp=d.querySelector("#puzzleThumbBar>div:first-child");if(hp&&!hp.querySelector("button"))hp.textContent="👆 스와이프로 이동";
+    // 위 막대(모드 전환·SCORE/BEST·📖🔊🔄)는 약 420px 가 있어야 다 들어가는데, 폰에서는 iframe 이 296~348px 이라 🔊🔄 가 오른쪽 밖으로 잘렸다.
+    // 좁을 때만 간격·여백을 줄이고 점수 칸이 줄어들 수 있게 하며, 380px 아래에서는 모드 버튼을 이모지만 남긴다(글자는 .hm-lbl 로 감싸 CSS 가 숨김)
+    const top=d.querySelector("header>div:first-child");
+    if(top){const sc=top.children[1];if(sc)sc.classList.add("hm-scores");
+      [["modeSuikaBtn","🍉","스이카"],["mode2048Btn","🧩","2048"]].forEach(([id,em,lb])=>{const b=d.getElementById(id);if(b&&!b.querySelector(".hm-lbl")){b.innerHTML=em+'<span class="hm-lbl"> '+lb+'</span>';b.title=lb;b.setAttribute("aria-label",lb)}});
+      const st2=d.createElement("style");st2.textContent=
+        "@media (max-width:420px){header>div:first-child{gap:4px!important;padding-left:6px!important;padding-right:6px!important}"+
+        "#modeSuikaBtn,#mode2048Btn{padding:4px 8px!important}"+
+        ".hm-scores{gap:4px!important;min-width:0;flex:1 1 auto;justify-content:center}.hm-scores>div{min-width:0!important;flex:1 1 0;max-width:72px;padding:1px 4px!important}"+
+        "#openDexSheetBtn,#soundToggleBtn,#newGameBtn{width:30px!important;height:30px!important}}"+
+        "@media (max-width:380px){.hm-lbl{display:none}#modeSuikaBtn,#mode2048Btn{padding:4px 7px!important;font-size:14px!important}"+
+        "#openDexSheetBtn,#soundToggleBtn,#newGameBtn{width:28px!important;height:28px!important}}";
+      d.head.appendChild(st2)}
     [["suikaOverlay","suikaOverlaySubtitle","suika"],["puzzleOverlay","puzzleOverlaySubtitle","2048"]].forEach(([id,sub,g])=>{
       const el=d.getElementById(id); if(!el)return; let open=!el.classList.contains("hidden");
       new MutationObserver(()=>{const now=!el.classList.contains("hidden");if(now&&!open)hmResult(g,(d.getElementById(sub)||{}).textContent||"");open=now})
