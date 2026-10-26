@@ -2149,16 +2149,18 @@ const KIT={k:t=>kick(t,160,45,.16,.9),s:t=>{nz(t,.14,1800,.5,'bandpass');kick(t,
 function bgm(name,rate){if(!snd)return;try{if(!bgmBus())return;const song=SONGS[name];if(!song)return;if(rate)BGM.rate=rate;if(BGM.cur===name&&BGM.timer)return;bgmStop();BGM.cur=name;if(song.call)callLoad();BGM.pos=!song.midi?0:song.from!=null?song.from:BGM.fresh?0:song.midi.loop;if(song.midi&&song.from==null)BGM.fresh=false;BGM.next=ac().currentTime+.08;BGM.timer=setInterval(bgmTick,40)}catch(e){}}
 function bgmStop(){if(BGM.timer)clearInterval(BGM.timer);BGM.timer=null;BGM.cur=null;callStop()}
 // 'うまぴょい うまぴょい' 콜: 곡의 call 칸이 예약될 때 운영자가 준 원곡에서 목소리만 뽑은 녹음(assets/race/umapyoi.mp3, 1.4초)을 BGM 과 같은 AudioContext 로 튼다.
-// 첫 소리(LEAD 초)가 그 칸의 박에 오게 앞당기고, 원곡 템포(BPM)와 지금 BGM 템포의 비로 playbackRate 를 맞춰 두 번째 외침도 2박 뒤에 떨어지게 한다. 그동안 BGM 버스를 DUCK 배로 낮춘다.
+// 첫 소리(LEAD 초)가 그 칸의 박에 오게 앞당기고, 원곡 템포(BPM)와 지금 BGM 템포의 비로 playbackRate 를 맞춰 두 번째 외침도 2박 뒤에 떨어지게 한다.
+// 위에 따로 얹으면 튀어서(2026-10 '소리가 크다') BGM 버스로 보내 같은 압축·에코를 거치게 하고, 아주 낮은·높은 대역을 깎아 칩튠 사이에 앉힌다.
 // 파일을 아직 못 읽었거나 못 읽으면 기기 음성(Web Speech)으로 대신 외친다. 📢 버튼(db-call)으로 따로 끈다
-const CALL={on:true,v:null,n:0,buf:null,ld:0,src:null,LEAD:.04,BPM:169.5,GAIN:.7,DUCK:.5};try{CALL.on=localStorage.getItem('db-call')!=='off'}catch(e){} // LEAD = 파일 첫 소리까지의 여백
+const CALL={on:true,v:null,n:0,buf:null,ld:0,src:null,LEAD:.04,BPM:169.5,GAIN:1.6,ECHO:.35};try{CALL.on=localStorage.getItem('db-call')!=='off'}catch(e){} // LEAD = 파일 첫 소리까지의 여백
 function callLoad(){if(CALL.ld)return;CALL.ld=1;try{const c=ac();if(!c)return;fetch('assets/race/umapyoi.mp3').then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((res,rej)=>c.decodeAudioData(b,res,rej))).then(b=>{CALL.buf=b}).catch(()=>{})}catch(e){}}
-function duck(t,d){const g=BGM.bus&&BGM.bus.gain;if(!g)return;g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.linearRampToValueAtTime(.08*CALL.DUCK,t+.04);g.setValueAtTime(.08*CALL.DUCK,t+d-.08);g.linearRampToValueAtTime(.08,t+d+.12)}
-function callStop(){try{if(CALL.src)CALL.src.stop()}catch(e){}CALL.src=null;try{const g=BGM.bus&&BGM.bus.gain,c=AC;if(g&&c){g.cancelScheduledValues(c.currentTime);g.setValueAtTime(.08,c.currentTime)}}catch(e){}try{if(CALL.n)speechSynthesis.cancel()}catch(e){}}
+function callStop(){try{if(CALL.src)CALL.src.stop()}catch(e){}CALL.src=null;try{if(CALL.n)speechSynthesis.cancel()}catch(e){}}
 function callVoice(){try{CALL.v=speechSynthesis.getVoices().find(v=>/^ja/i.test(v.lang))||null}catch(e){}}
 if(window.speechSynthesis){callVoice();try{speechSynthesis.addEventListener('voiceschanged',callVoice)}catch(e){}}
 function shout(at,tr){if(!snd||!CALL.on)return;const c=ac();if(!c)return;const pr=clamp(tr||1,.9,1.2);
-  if(CALL.buf){try{const s=c.createBufferSource(),g=c.createGain();s.buffer=CALL.buf;s.playbackRate.value=pr;g.gain.value=CALL.GAIN;s.connect(g);g.connect(c.destination);const t0=Math.max(c.currentTime,at-CALL.LEAD/pr);s.start(t0);duck(t0,CALL.buf.duration/pr);CALL.src=s}catch(e){}return}
+  if(CALL.buf&&bgmBus()){try{const s=c.createBufferSource(),hp=c.createBiquadFilter(),lp=c.createBiquadFilter(),g=c.createGain(),fx=c.createGain();s.buffer=CALL.buf;s.playbackRate.value=pr;
+    hp.type='highpass';hp.frequency.value=220;lp.type='lowpass';lp.frequency.value=5200;g.gain.value=CALL.GAIN;fx.gain.value=CALL.ECHO;
+    s.connect(hp);hp.connect(lp);lp.connect(g);g.connect(BGM.bus);g.connect(fx);fx.connect(BGM.delay);s.start(Math.max(c.currentTime,at-CALL.LEAD/pr));CALL.src=s}catch(e){}return}
   if(!window.speechSynthesis||!window.SpeechSynthesisUtterance)return;const ms=Math.max(0,(at-c.currentTime)*1000-90); // 음성 출력이 조금 늦어 90ms 먼저
   setTimeout(()=>{if(!snd||!CALL.on||sec.hidden||document.hidden||!BGM.timer)return;try{if(!CALL.v)callVoice();const u=new SpeechSynthesisUtterance(CALL.v?'うまぴょい、うまぴょい！':'Uma pyoi, uma pyoi!');if(CALL.v){u.voice=CALL.v;u.lang=CALL.v.lang}else u.lang='en-US';u.pitch=1.8;u.rate=1.45;u.volume=1;speechSynthesis.cancel();speechSynthesis.speak(u);CALL.n++}catch(e){}},ms)}
 function bgmTick(){if(sec.hidden||document.hidden)return;const c=ac(),song=SONGS[BGM.cur];if(!song)return;const step=60/(song.bpm*BGM.rate)/4;
