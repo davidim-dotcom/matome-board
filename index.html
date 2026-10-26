@@ -1020,7 +1020,8 @@ initStore();
 .dm-hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0 4px;font-size:13px;color:var(--muted)}
 .dm-hud b{color:var(--ink);font-variant-numeric:tabular-nums}
 .dm-ctl{display:flex;gap:8px;margin-top:8px}
-.dm-ctl button{flex:1;padding:12px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;touch-action:manipulation}
+.dm-ctl button{flex:1;padding:12px 6px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:700;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.dm-ctl,.db-sel,#dmStages,#dmMem,.dm-hud{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .dm-ctl button[aria-pressed="true"]{background:#2a2f6b;color:#fff;border-color:#5a63c8}
 .dm-ctl button.bomb{background:#4a1d4d;color:#ffd6f5;border-color:#a04aa6}
 /* 스테이지 선택: 게임 아래 5칸. 누르면 그 스테이지부터, 클리어한 스테이지는 ★ */
@@ -2164,7 +2165,8 @@ function jump(){if(G.state!=='play')return;const p=G.p;if(p.jump>0&&!(R.st.jump&
 function useSkill(){if(G.state!=='play')return;const p=G.p;if(p.gauge<100||p.skill>0)return;p.gauge=0;G.cut=70;G.cutName=CHARS[me].skill;p.skill=200;p.stum=0;p.slow=0;p.rev=0;beep(440,.15,'triangle',.05);setTimeout(()=>beep(660,.2,'triangle',.05),120);setTimeout(()=>beep(880,.3,'square',.05),240);say(CHARS[me].name+'の必殺！',90)}
 $('dbJump').addEventListener('click',jump);$('dbSkill').addEventListener('click',useSkill);
 const sp=$('dbSpurt');const spOn=v=>{holdSpurt=v;sp.setAttribute('aria-pressed',String(v))};
-sp.addEventListener('pointerdown',e=>{e.preventDefault();spOn(true)});['pointerup','pointercancel','pointerleave'].forEach(ev=>sp.addEventListener(ev,()=>spOn(false)));
+sp.addEventListener('pointerdown',e=>{e.preventDefault();spOn(true)});
+sec.querySelectorAll('.dm-ctl,.db-sel,.dm-wrap').forEach(el=>el.addEventListener('contextmenu',e=>e.preventDefault())); // 길게 눌러도 글자 선택·복사 메뉴가 뜨지 않게['pointerup','pointercancel','pointerleave'].forEach(ev=>sp.addEventListener(ev,()=>spOn(false)));
 document.addEventListener('keydown',e=>{if(sec.hidden||/^(INPUT|TEXTAREA)$/.test(e.target&&e.target.tagName))return;
   if(e.key==='ArrowUp'){laneMove(-1);e.preventDefault()}if(e.key==='ArrowDown'){laneMove(1);e.preventDefault()}
   if(e.key==='z'||e.key==='Z'||e.key===' '){if(idle())startRun();else if(G.state==='result')nextStep();else jump();e.preventDefault()}
