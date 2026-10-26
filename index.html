@@ -2277,7 +2277,7 @@ function fits(N){for(const S of spans()){if(S.e<=N.s){if(deficit(S,N)>0)return f
 const nObs=c=>c.e.filter(e=>e.o||e.pit).length;
 function pickChunk(){const pool=CHUNKS.filter(c=>c.min<=G.stage),w=pool.map(c=>1+nObs(c)*G.stage*.3);let r=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){r-=w[i];if(r<=0)return pool[i]}return pool[pool.length-1]}
 // 회복 아이템은 조작을 잘해야 먹는 자리에만 둔다: 장애물 위 높이(정확한 점프·2단 점프) · 점프 장애물 바로 뒤 바닥(급강하) · 슬라이드 장애물 아래(슬라이드)
-function placeHeal(placed){if(!placed.length||Math.random()>Math.min(.6,.3+G.stage*.04))return;const O=pickOne(placed),sp=jumpSpan();let x,h;
+function placeHeal(placed){if(!placed.length||Math.random()>Math.min(.75,.45+G.stage*.04))return;const O=pickOne(placed),sp=jumpSpan();let x,h;
   const clear=(x,r)=>!G.obs.some(o=>Math.abs(o.x-x)<r)&&!G.pits.some(q=>x>q.x-r&&x<q.x+q.w+r)&&!G.plats.some(pl=>x>pl.x-20&&x<pl.x+pl.w+20);
   if(O.how==='s'){x=(O.s+O.e)/2;h=10}
   else{const dive=O.e+.3*sp;if(Math.random()<.5&&clear(dive,40)){x=dive;h=14}else{x=(O.s+O.e)/2;h=O.pit?160:170}}
@@ -2370,7 +2370,7 @@ function update(){
   if(p.x>=G.stageX){G.stage++;G.theme=themeOf(G.stage);G.stageX+=STAGE_M*PX;G.scen.push({k:'goal',x:G.stageX,n:G.stage+1});for(let i=0;i<24;i++)G.fx.push({x:PXP+rnd(-20,60),y:GY-rnd(60,140),vx:rnd(-2,1),vy:rnd(-3,0),g:.12,life:40,k:'sq',c:pickOne(['#ff5c9a','#ffd166','#7df9ff','#7ddc7f','#c77dff','#fff'])});say('STAGE '+(G.stage+1)+'  ─  '+G.theme.name,100);G.score+=500;pop('STAGE BONUS +500');beep(880,.15,'square',.04);setTimeout(()=>beep(1320,.2,'square',.04),140);
     if(G.theme.boss){G.boss={k:G.stage%6===2?'boss_clock':'boss_board',t:0,name:G.stage%6===2?'時計の魔法陣':'スコアボード装置'};say('BOSS  ─  '+G.boss.name,100)}bgmFor()}
   // ---- HP(시간 감소)
-  if(p.nodrain>0)p.nodrain--;else p.hp-=.04*(1-E.drain)*(1+G.stage*.15); // 1스테이지 초당 2.4, 6스테이지 4.2
+  if(p.nodrain>0)p.nodrain--;else p.hp-=.03*(1-E.drain)*(1+G.stage*.12); // 1스테이지 초당 1.8, 6스테이지 2.9 (2026-10 '너무 빨리 닳는다'로 낮춤)
   if(p.inv>0)p.inv--;if(p.stum>0)p.stum--;if(p.boost>0){p.boost--;if(p.boost===0)say('ブースト終了',40)}if(p.mag>0)p.mag--;if(p.crown>0)p.crown--;if(p.golden>0)p.golden--;if(p.jump3>0)p.jump3--;if(p.slow>0)p.slow--;if(p.jmulT>0){p.jmulT--;if(!p.jmulT)p.jmul=1}
   // ---- 점프·중력·발판
   const overPit=x=>G.pits.some(q=>x>q.x+6&&x<q.x+q.w-6);if(p.buf>0)p.buf--;if(p.coy>0)p.coy--;

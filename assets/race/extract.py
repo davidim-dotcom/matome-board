@@ -162,7 +162,6 @@ PICKS = {
     # 라이벌 전용(프레임이 적음)
     'blon_i': ('g', 'f_idle', 27, 60),
     'dark_i': ('g', 'f_idle', 9, 60),
-    'rice_i': ('g', 'b_idle', 28, 60),
     # ---- 아이템
     'carrot': ('g', 'a_items', 0, 22), 'gcarrot': ('g', 'a_items', 2, 24), 'drink': ('g', 'a_items', 3, 22), 'shoe': ('g', 'a_items', 10, 22), 'potion': ('g', 'a_items', 11, 22),
     'gem': ('r', 'b_fx', 16, 20), 'heart': ('r', 'b_fx', 13, 20),

@@ -92,7 +92,7 @@ MASK = {
     ('rice', '_3'): [(0, .78, .3, 1), (.4, .76, 1, 1)], ('oguri', '_2'): [(0, .92, .45, 1)],
     ('teio', '_sl1'): [(0, .78, .3, 1), (0, .9, .55, 1)], ('teio', '_sl2'): [(0, .4, .28, 1)], ('teio', '_sl3'): [(0, .3, .33, .52)], ('teio', '_d'): [(0, .75, .35, 1)],
     ('gold', '_sl0'): [(0, .85, .3, 1)], ('gold', '_sl2'): [(0, .4, .3, 1)], ('gold', '_sl3'): [(0, .85, .3, 1)],
-    ('rice', '_sl0'): [(0, .75, .35, 1), (.62, .82, 1, 1)], ('rice', '_sl1+_sl2'): [(0, .3, .4, 1)], ('oguri', '_sl0'): [(0, .75, .4, 1)], ('oguri', '_sl1+_sl2'): [(0, .62, .35, 1)], ('oguri', '_d'): [(0, .72, .78, 1)],
+    ('rice', '_sl0'): [(0, .75, .35, 1), (.62, .82, 1, 1)], ('rice', '_sl1+_sl2'): [(0, .76, .44, 1)], ('oguri', '_sl0'): [(0, .75, .4, 1)], ('oguri', '_sl1+_sl2'): [(0, .62, .35, 1)], ('oguri', '_d'): [(0, .72, .78, 1)],
 }
 SKY = {('rice', '_sl0'), ('rice', '_sl1+_sl2'), ('oguri', '_sl0'), ('oguri', '_sl1+_sl2'), ('rice', '_d'), ('oguri', '_d')}  # 오라·물보라(밝은 하늘색) 지우기
 
@@ -130,11 +130,45 @@ def strip_tape(arr, fg):
                 if not fg[y, x]: fg[y, x] = True; arr[y, x] = src
     return fg, arr
 
+def clean_dark(arr, fg):
+    """남색 시트 정리(2026-10, 라이스가 '깨져' 보이던 문제): ① 다리·팔 사이에 갇힌 바탕(바깥 flood 가 못 닿아 남던 어두운 네모)을 지운다 —
+    바탕색에 아주 가까운 픽셀 덩어리가 25px 이상이면 바탕. 머리카락은 바탕과 거리 25 이상이라 남는다 ② 발밑 어두운 풀(초록 기운의 어두운 색, 아래 20%)을 지운다"""
+    base = np.median(arr.reshape(-1, 3), axis=0)
+    near = (np.abs(arr - base).sum(2) < 18)
+    for c in BG['dark']: near |= (np.abs(arr - np.array(c)).sum(2) < 16)
+    lab, boxes = components(near & fg, reach=1, min_px=25)
+    for (_, _, _, _, n) in boxes: fg = fg & ~(lab == n)
+    r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]; h = fg.shape[0]; yy = np.mgrid[0:h, 0:fg.shape[1]][0]
+    fg = fg & ~((g > r + 6) & (g >= b - 12) & (yy > h * .8))
+    return fg
+
+# 스즈카: 운영자 애니메이션 시트는 머리·귀·꼬리를 초록으로 그렸지만 원래 그림(suzu_i, 컨셉 시트)은 주황 머리 + 초록 재킷이다.
+# 초록(색상 120~190°)을 주황(16°)으로 바꾸되, 재킷 앞소매·몸통 쪽 상자(조각 상자 비율)는 초록으로 둔다
+SUZU_KEEP = {'_0': (.5, .47, 1, .72), '_1': (.5, .44, 1, .66), '_2': (.5, .47, 1, .7), '_3': (.5, .45, 1, .7), '_4': (.5, .46, 1, .7),
+             '_sl0': (.5, .47, 1, .72), '_sl1': (.5, .5, 1, .78), '_sl2': (.62, .66, 1, 1), '_sl3': (.48, .48, 1, .74), '_d': (.5, .47, 1, .72)}
+def recolor_suzu(p, fr):
+    a = np.asarray(p).astype(float); rgb = a[..., :3] / 255; mx = rgb.max(2); mn = rgb.min(2); d = mx - mn + 1e-9
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    hue = np.where(mx == g, 60 * ((b - r) / d) + 120, np.where(mx == r, (60 * ((g - b) / d)) % 360, 60 * ((r - g) / d) + 240))
+    sat = d / np.maximum(mx, 1e-9)
+    m = (hue >= 120) & (hue <= 190) & (sat > .25) & (a[..., 3] > 0)
+    h, w = m.shape; kx0, ky0, kx1, ky1 = SUZU_KEEP.get(fr, (1, 1, 1, 1))
+    keep = np.zeros_like(m); keep[int(h * ky0):int(h * ky1), int(w * kx0):int(w * kx1)] = True
+    m &= ~keep
+    # 주황(원래 그림의 머리 팔레트 (233,122,79)~(138,66,62))으로: 밝기는 살리고 색상·채도만 바꾼다
+    v = np.clip(mx * 1.12 + .03, 0, 1); s2 = np.clip(sat * .85 + .12, 0, 1); hh = np.where(v < .35, 8, 16) / 360
+    import colorsys
+    out = a.copy(); ys, xs = np.nonzero(m)
+    for y, x in zip(ys, xs):
+        rr, gg, bb = colorsys.hsv_to_rgb(hh[y, x], s2[y, x], v[y, x]); out[y, x, :3] = (rr * 255, gg * 255, bb * 255)
+    return Image.fromarray(out.astype(np.uint8), 'RGBA')
+
 def piece(arr, kind, ck, fr):
     """셀에서 가장 큰 덩어리(선수)만 RGBA 로"""
     fg = keyed_any(arr, kind)
     fg = strip_fx(arr, fg, kind, ck, fr)
     if fr == '_d' and ck in ('rice', 'oguri'): fg, arr = strip_tape(arr, fg)
+    if kind == 'dark': fg = clean_dark(arr, fg)
     lab, boxes = components(fg, reach=2, min_px=40)
     if not boxes: return None
     counts = {n: int((lab == n).sum()) for (_, _, _, _, n) in boxes}
@@ -167,6 +201,25 @@ def scan(outdir):
         d.text((x + 4, y + 4), f'{i} {ck}{fr or "-"} {p.size if p else None}', fill=(255, 230, 120))
     img.save(os.path.join(outdir, 'anim_scan.png')); print('wrote', os.path.join(outdir, 'anim_scan.png'))
 
+RICE_IDLE = ('uma2.jpg', (171, 838, 315, 1119))  # extract.py 의 b_idle 28번 칸(원본 좌표)
+def rice_idle():
+    """라이스 정면 대기 그림. extract.py 의 keyed()(문턱 26)로는 어두운 머리카락·모자가 바탕으로 지워져 조각났다 → 칸의 바탕색 하나에 문턱 14"""
+    arr = sheet(RICE_IDLE[0]); x0, y0, x1, y1 = RICE_IDLE[1]
+    return piece(arr[y0:y1, x0:x1], 'dark', 'rice', '_i')
+
+def brighten(p, gamma=.85):
+    """라이스처럼 옷·머리가 다 어두운 선수는 54px 로 줄이면 뭉개진다 → 감마로 조금 밝혀 무늬가 보이게"""
+    a = np.asarray(p).astype(float); a[..., :3] = 255 * ((a[..., :3] / 255) ** gamma)
+    return Image.fromarray(a.astype(np.uint8), 'RGBA')
+
+def drop_specks(img, min_px=8):
+    """줄인 뒤 몸에서 떨어진 작은 점(머리카락 끝·JPEG 찌꺼기) 지우기"""
+    a = np.asarray(img).copy(); m = a[..., 3] > 0
+    lab, boxes = components(m, reach=1, min_px=1)
+    for (_, _, _, _, n) in boxes:
+        if (lab == n).sum() < min_px: a[lab == n] = 0
+    return Image.fromarray(a, 'RGBA')
+
 def main():
     if len(sys.argv) > 2 and sys.argv[1] == 'scan': scan(sys.argv[2]); return
     items = cells()
@@ -177,9 +230,13 @@ def main():
     n = 0
     for ck, fr, p, _ in items:
         if not fr or p is None: continue
+        if ck == 'suzu': p = recolor_suzu(p, fr)
+        if ck == 'rice': p = brighten(p)
         for name in fr.split('+'):
-            q = fit(p, scale[ck])
+            q = drop_specks(fit(p, scale[ck], colors=64 if ck == 'rice' else 40))
             q.save(os.path.join(HERE, f'{ck}{name}.png')); n += 1
+    ri = rice_idle()
+    if ri is not None: drop_specks(fit(brighten(ri), 60 / ri.height, colors=64)).save(os.path.join(HERE, 'rice_i.png')); n += 1
     print('saved', n, 'frames; scale', {k: round(v, 3) for k, v in scale.items()})
 
 if __name__ == '__main__': main()
