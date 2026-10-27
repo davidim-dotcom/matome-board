@@ -9,7 +9,7 @@
 프레임 이름: _0.._4 달리기(contact·down·passing·push-off·flight. 라이스·오구리는 _0.._3 네 장), _sl0.._sl3 슬라이드(들어감·완전·완전·일어남), _d 스프린트(ブースト·점프), 오구리 _i 대기."""
 import sys, os
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'game'))
 from extract import components, flood_bg  # noqa: E402
 from extract_race_fit import fit  # noqa: E402
@@ -69,6 +69,54 @@ def keyed_any(arr, kind):
     pad = np.pad(fg, 1, constant_values=False)
     touch = ~(pad[:-2, 1:-1] & pad[2:, 1:-1] & pad[1:-1, :-2] & pad[1:-1, 2:])
     return fg & ~(near & touch)
+
+# ---- 라이스 전용(2026-10 '여전히 많이 깨진다') ----
+# 라이스는 머리·모자·옷이 다 남색 바탕과 몇 단계 차이라 색 문턱(keyed_any 14)으로는 모자 안쪽이 바탕으로 먹히고 바탕 찌꺼기가 남았다.
+# 대신 시트의 선수 윤곽선(11,10,26 처럼 바탕 29,33,58 보다 확실히 어두움)을 벽으로 두고, 바깥에서 이어진 바탕만 넓은 문턱(48)으로 지운다.
+# 줄일 때는 BOX 평균 대신 블록 중앙값(경계가 뭉개지지 않음) + 40색 + 감마 .8·채도 1.2.
+LINE_DARK = [(56, 65, 100), (36, 40, 64), (36, 40, 68), (43, 46, 81), (61, 64, 97)]
+def dilate(m, r=1):
+    o = m.copy()
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1): o |= np.roll(np.roll(m, dy, 0), dx, 1)
+    return o
+
+def keyed_outline(arr, pole=False):
+    """어두운 윤곽선(합 62 미만)을 넘지 못하게 하고 바탕 후보(바탕색에서 48 이내·격자선 색)를 가장자리에서 flood.
+    pole: 골 기둥(흰 칸 + 바탕색 칸)이 있는 칸 — 흰 칸이 세로로 깔린 열 띠 안의 흰색도 바탕 후보(앞에 있는 선수 그림은 윤곽선 안이라 남는다)"""
+    base = np.median(arr.reshape(-1, 3), axis=0)
+    outline = arr.sum(2) < 62
+    cand = np.abs(arr - base).sum(2) < 48
+    for c in LINE_DARK: cand |= np.abs(arr - np.array(c)).sum(2) < 40
+    if pole:
+        xs = np.nonzero((arr.min(2) > 200).mean(0) > .25)[0]
+        if len(xs):
+            band = np.zeros(arr.shape[1], bool); band[max(0, xs.min() - 4):xs.max() + 5] = True
+            cand |= (arr.min(2) > 185) & band[None, :]
+    cand &= ~dilate(outline, 1)
+    bg = flood_bg(cand)
+    bg |= dilate(bg, 1) & ~outline & (np.abs(arr - base).sum(2) < 60)  # 윤곽선 바로 바깥의 JPEG 번짐 1px
+    return ~bg
+
+def shrink_median(p, sc, colors=40, gamma=.8, sat=1.2):
+    """블록 중앙값으로 줄이기: 출력 한 칸 = 원본 블록 안 선수 픽셀의 채널별 중앙값(덮인 비율 .45 이상인 칸만). 그 뒤 밝기·채도·양자화·1px 윤곽"""
+    a = np.asarray(p); m = a[..., 3] > 0
+    rgb = np.asarray(Image.fromarray(a[..., :3]).filter(ImageFilter.MedianFilter(3))).astype(float)
+    H, W = m.shape; h, w = max(1, round(H * sc)), max(1, round(W * sc))
+    out = np.zeros((h, w, 4), np.uint8)
+    ye = np.linspace(0, H, h + 1).round().astype(int); xe = np.linspace(0, W, w + 1).round().astype(int)
+    for j in range(h):
+        for i in range(w):
+            mm = m[ye[j]:ye[j + 1], xe[i]:xe[i + 1]]
+            if mm.size == 0 or mm.mean() < .45: continue
+            out[j, i, :3] = np.median(rgb[ye[j]:ye[j + 1], xe[i]:xe[i + 1]][mm], 0); out[j, i, 3] = 255
+    on = out[..., 3] > 0
+    c = 255 * ((out[..., :3] / 255) ** gamma); g = c.mean(2, keepdims=True); c = np.clip(g + (c - g) * sat, 0, 255)
+    out[..., :3] = np.asarray(Image.fromarray(c.astype(np.uint8), 'RGB').quantize(colors, method=Image.MEDIANCUT, dither=Image.NONE).convert('RGB'))
+    out[~on] = 0
+    pad = np.pad(on, 1, constant_values=False)
+    out[(pad[:-2, 1:-1] | pad[2:, 1:-1] | pad[1:-1, :-2] | pad[1:-1, 2:]) & ~on] = (26, 20, 38, 255)
+    return drop_specks(Image.fromarray(out, 'RGBA'))
 
 def run_len(mask, axis):
     """각 픽셀이 속한 연속 구간의 길이(axis=1 가로, 0 세로)"""
@@ -165,11 +213,18 @@ def recolor_suzu(p, fr):
 
 def piece(arr, kind, ck, fr):
     """셀에서 가장 큰 덩어리(선수)만 RGBA 로"""
-    fg = keyed_any(arr, kind)
-    fg = strip_fx(arr, fg, kind, ck, fr)
-    if fr == '_d' and ck in ('rice', 'oguri'): fg, arr = strip_tape(arr, fg)
-    if kind == 'dark': fg = clean_dark(arr, fg)
-    lab, boxes = components(fg, reach=2, min_px=40)
+    if ck == 'rice':  # 윤곽선을 벽으로 둔 바탕 지우기(위 keyed_outline). 골 기둥은 채워 넣지 않고 흰 칸만 바탕으로
+        fg = strip_fx(arr, keyed_outline(arr, pole=(fr == '_d')), kind, ck, fr)
+        r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]; yy = np.mgrid[0:fg.shape[0], 0:fg.shape[1]][0]
+        fg = fg & ~((g > r + 6) & (g >= b - 12) & (yy > fg.shape[0] * .8))   # 발밑 어두운 풀
+        reach = 1
+    else:
+        fg = keyed_any(arr, kind)
+        fg = strip_fx(arr, fg, kind, ck, fr)
+        if fr == '_d' and ck == 'oguri': fg, arr = strip_tape(arr, fg)
+        if kind == 'dark': fg = clean_dark(arr, fg)
+        reach = 2
+    lab, boxes = components(fg, reach=reach, min_px=40)
     if not boxes: return None
     counts = {n: int((lab == n).sum()) for (_, _, _, _, n) in boxes}
     n = max(counts, key=counts.get)
@@ -203,14 +258,9 @@ def scan(outdir):
 
 RICE_IDLE = ('uma2.jpg', (171, 838, 315, 1119))  # extract.py 의 b_idle 28번 칸(원본 좌표)
 def rice_idle():
-    """라이스 정면 대기 그림. extract.py 의 keyed()(문턱 26)로는 어두운 머리카락·모자가 바탕으로 지워져 조각났다 → 칸의 바탕색 하나에 문턱 14"""
+    """라이스 정면 대기 그림(옛 컨셉 시트 uma2 의 b_idle 칸). 달리기 프레임과 같은 keyed_outline·shrink_median 으로"""
     arr = sheet(RICE_IDLE[0]); x0, y0, x1, y1 = RICE_IDLE[1]
     return piece(arr[y0:y1, x0:x1], 'dark', 'rice', '_i')
-
-def brighten(p, gamma=.85):
-    """라이스처럼 옷·머리가 다 어두운 선수는 54px 로 줄이면 뭉개진다 → 감마로 조금 밝혀 무늬가 보이게"""
-    a = np.asarray(p).astype(float); a[..., :3] = 255 * ((a[..., :3] / 255) ** gamma)
-    return Image.fromarray(a.astype(np.uint8), 'RGBA')
 
 def drop_specks(img, min_px=8):
     """줄인 뒤 몸에서 떨어진 작은 점(머리카락 끝·JPEG 찌꺼기) 지우기"""
@@ -231,12 +281,11 @@ def main():
     for ck, fr, p, _ in items:
         if not fr or p is None: continue
         if ck == 'suzu': p = recolor_suzu(p, fr)
-        if ck == 'rice': p = brighten(p)
         for name in fr.split('+'):
-            q = drop_specks(fit(p, scale[ck], colors=64 if ck == 'rice' else 40))
+            q = shrink_median(p, scale[ck]) if ck == 'rice' else drop_specks(fit(p, scale[ck]))
             q.save(os.path.join(HERE, f'{ck}{name}.png')); n += 1
     ri = rice_idle()
-    if ri is not None: drop_specks(fit(brighten(ri), 60 / ri.height, colors=64)).save(os.path.join(HERE, 'rice_i.png')); n += 1
+    if ri is not None: shrink_median(ri, 60 / ri.height).save(os.path.join(HERE, 'rice_i.png')); n += 1
     print('saved', n, 'frames; scale', {k: round(v, 3) for k, v in scale.items()})
 
 if __name__ == '__main__': main()
