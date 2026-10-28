@@ -1,71 +1,122 @@
 {
- "week": "2026-10-26",
- "range": "10/26(일) ~ 11/1(일)",
- "title": "이번 주 요약 · 10월 마지막 주",
- "updated": "2026-10-24",
+ "week": "2026-10-28",
+ "range": "10/28(수) ~ 11/3(화·祝)",
+ "title": "이번 주 요약 · 10월 말 ~ 문화의 날",
+ "updated": "2026-10-28",
  "picks": [
   {
-   "title": "ANA 「ちいかわジェット」 운항 시작, 콜라보 굿즈·응원상영까지",
+   "title": "映画ちいかわ 응원상영 3회 10/30, 11/6엔 펜라이트 연출 회차도",
    "works": [
     "ちいかわ"
    ],
-   "category": "collab",
+   "category": "event",
    "tag": "유행 1위",
-   "when": "운항 10/19~ (종료 미정) · 굿즈 1탄 10/23~ · 응원상영 3회 10/30",
-   "where": "ANA 국내선 · 극장 · 오사카(파크스토어 11/24)",
-   "desc": "ANA가 10월 19일부터 ちいかわ 특별 도장기(보잉 767-300, JA609A)를 국내선 정기편에 투입했어요. 첫 편은 하네다 08:15발 나가사키행 NH661로 만석 출발. 특정 노선에 고정하지 않고 전국 주요 노선을 돌며, 10/25 겨울 다이어부터는 하코다테·요나고·구마모토·이시가키 등 19개 노선으로 넓어집니다(어느 편에 뜨는지는 당일까지 확정되지 않음). 기내에서는 헤드레스트 커버와 한정 종이컵을 줍니다. 「ちいかわと旅にでよう!」 캠페인 1탄은 10/19~12/31 참가 등록. 같은 주에 제복 차림의 ちいかわ들을 그린 콜라보 굿즈 1탄이 10/23 선행 판매에 들어가 구매 개수 제한 기간이 연장됐고, 영화 ちいかわ의 응원상영 3회(10/30), 전국 첫 「ちいかわパークストア」 오사카 오픈(11/24)도 잡혀 있어요.",
+   "when": "10/30(금) 19:00 전국 동시 · 11/6(금) 펜라이트 연출 회 · しまむら 룸슈즈 11/3",
+   "where": "8개 도도부현 12개 극장(도쿄는 TOHOシネマズ日比谷 등) · 오사카 LUCUA SOUTH",
+   "desc": "『映画ちいかわ 人魚の島のひみつ』의 「なんとかなれーッ!」 발성 가능 응원상영 일반판 3회가 10월 30일(금) 19시, 8개 도도부현 12개 극장에서 일제히 열려요. 티켓은 10/23 0시부터 각 극장 사이트에서 판매 중이고 회원 선행은 없습니다. 소리 내기와 응원 굿즈 반입은 되지만 극장 안 촬영(휴대폰 포함)·녹화·녹음은 금지. 11월 6일(금)에는 자동 제어 펜라이트 연출이 붙은 응원상영이 5개 도도부현 7개 극장에서 이어집니다. 보드에는 문화의 날(11/3) しまむら 발매 「ふわふわルームシューズ」와, ルクア大阪 새 관 LUCUA SOUTH 11층에 들어서는 전국 첫 「ちいかわパークストア」 소식도 있어요(LUCUA SOUTH 2기는 11~12월에 순차 개업).",
    "links": [
     {
-     "label": "트래블 Watch: ちいかわジェット 첫 편 보고",
-     "url": "https://travel.watch.impress.co.jp/docs/news/2145898.html"
+     "label": "ゲームぴあ(gamepedia): 응원상영 3회 극장·규칙",
+     "url": "https://premium.gamepedia.jp/hobby/?p=281575"
     },
     {
-     "label": "Real Sound: 기내 한정 디자인 컵 제공",
-     "url": "https://realsound.jp/tech/2026/10/post-2557484.html"
+     "label": "KAI-YOU: 4DX·응원상영 발표",
+     "url": "https://kai-you.net/article/96335"
     },
     {
-     "label": "Aviation Wire: 겨울 다이어 투입 노선",
-     "url": "https://www.aviationwire.jp/?p=352655"
+     "label": "모델프레스: LUCUA SOUTH 2기 개업",
+     "url": "https://mdpr.jp/other/4824882"
     }
    ],
    "items": [
-    "https://kai-you.net/article/96869",
-    "https://anime.eiga.com/news/127674/",
     "https://collabo-cafe.com/events/collabo/chiikawa-movie-event-cheer-screening-vol3-2026/",
-    "https://collabo-cafe.com/events/collabo/chiikawa-park-store-lucua-south-osaka-2026/"
+    "https://collabo-cafe.com/events/collabo/chiikawa-goods-shimamura-room-shoes-2026/",
+    "https://collabo-cafe.com/events/collabo/chiikawa-park-store-lucua-south-osaka-2026/",
+    "https://animeanime.jp/article/2026/10/27/104243.html"
    ]
   },
   {
-   "title": "『ゴジラ-0.0』 11/3 공개를 앞둔 콜라보 러시",
+   "title": "薬屋のひとりごと × スイーツパラダイス 3탄, 10/30부터 7개 점포 순차",
    "works": [
-    "ゴジラ-0.0"
+    "薬屋のひとりごと"
    ],
    "category": "collab",
-   "tag": "유행 5위",
-   "when": "영화 11/3(화·공휴일) 공개 · しゃぶ葉 10/22~ · クラッパーズダイナー 10/23~ · ぴよりん·ゴジラ・フェス·筑波 전시 11/3~",
-   "where": "전국 · 이케부쿠로 · 나고야 · 이바라키",
-   "desc": "山崎貴 감독이 각본·VFX까지 맡은 『ゴジラ-1.0』의 후속작. 神木隆之介·浜辺美波가 이어서 출연하고 長澤まさみ가 천재 기상예보관으로 합류했어요. 무대는 전작 2년 뒤인 1949년 전후 복흥기의 일본이고, 예고편 마지막에는 뉴욕 자유의 여신상 앞까지 상륙한 고지라가 나옵니다. 일본 영화로는 처음 'Filmed For IMAX'로 제작. 공개일 11월 3일은 1954년 초대 『ゴジラ』가 공개된 날이며 북미는 11/6. 공개 전후로 しゃぶ葉(등지느러미가 냄비에서 헤엄치는 코스), 이케부쿠로 クラッパーズダイナー, ハードロックカフェ(새까만 번즈), 나고야 ぴよりん, 筑波海軍航空隊記念館 콜라보전, ゴジラ・フェス의 『ゴジバト』 생방송, 브랜드 ha|za|ma의 킹기도라 모티브 콜라보가 줄줄이 이어집니다.",
+   "tag": "유행 2위",
+   "when": "10/30 ~ 11/23 (점포별 · 大宮·仙台·横浜·福岡는 11/2~)",
+   "where": "SoLaDo原宿·天王寺ミオ·名古屋パルコ·丸井大宮·仙台パルコ·横浜ビブレ·福岡パルコ",
+   "desc": "스이파라 콜라보 카페 3탄이 도쿄·오사카·아이치·사이타마·미야기·가나가와·후쿠오카 7개 점포에서 순차로 열려요. 기간은 점포마다 달라서 SoLaDo原宿·天王寺ミオ는 10/30~11/23, 名古屋パルコ는 10/30~11/19, 丸井大宮·仙台パルコ는 11/2~11/15, 横浜ビブレ·福岡パルコ는 11/2~11/23. 이번 비주얼은 가을 옷차림의 猫猫·壬氏를 새로 그린 것이고, 좌석 예약은 스이파라 앱으로만 받아요. 같은 주에 『パズドラ』 첫 콜라보(猫猫·壬氏 등이 나오는 갓페스)와 ツムラ 和漢のど飴 콜라보(11/2~ 추첨 굿즈)도 시작해 2위를 지키고 있어요.",
    "links": [
     {
-     "label": "VG+: 공개일 11/3 확정과 북미 동시기 공개",
-     "url": "https://virtualgorillaplus.com/?p=47811"
-    },
-    {
-     "label": "Real Sound: 神木·浜辺 속편 출연, 뉴욕 상륙 첫 영상",
-     "url": "https://realsound.jp/movie/2026/04/post-2367701.html"
-    },
-    {
-     "label": "秋田魁: 長澤まさみ 기상예보관 역으로 출연",
-     "url": "https://www.sakigake.jp/news/article/20260908OR0224/"
+     "label": "스이파라 공식: 콜라보 카페 3탄",
+     "url": "https://www.sweets-paradise.jp/collaboration/kusuriyanohitorigoto3"
     }
    ],
    "items": [
-    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-syabuyo-2026/",
-    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-cafe-clappers-diner-ikebukuro-2026/",
-    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-piyorin-2026/",
-    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-collabo-exhibition-tsukuba-kashima-2026/",
-    "https://dengekionline.com/article/202610/91928",
-    "https://kai-you.net/article/96891"
+    "https://collabo-cafe.com/events/collabo/kusuriya-anime-cafe-sweets-paradise-2026-add-info/",
+    "https://animeanime.jp/article/2026/10/26/104228.html",
+    "https://dengekionline.com/article/202610/92077",
+    "https://animeanime.jp/article/2026/10/26/104226.html"
+   ]
+  },
+  {
+   "title": "「超かぐや姫！」×東京ドームシティ MEMORIAL WONDER LAND 발표, 전매 시작",
+   "works": [
+    "超かぐや姫！"
+   ],
+   "category": "collab",
+   "tag": "유행 3위",
+   "when": "2026/11/27 ~ 2027/1/3 (전반 ~12/15 · 후반 12/16~) · 전매 10/26 13:00 ~ 11/26",
+   "where": "東京ドームシティ アトラクションズ (도쿄 분쿄구)",
+   "desc": "넷플릭스 애니 영화 『超かぐや姫！』가 도쿄돔시티 전체를 꾸미는 38일짜리 콜라보를 엽니다. 놀이기구 6종 모두에 작중 곡·오리지널 보이스·영상이 붙고, 실내 롤러코스터 「バックダーン」은 특별 영상 연출. 콜라보 티켓의 QR을 스마트폰으로 읽으면 작중 가상공간 「ツクヨミ」를 AR로 체험할 수 있고, 밤에는 일루미네이션과도 연동돼요. 새로 그린 일러스트 한정 노벨티가 붙은 콜라보 티켓은 10/26 13시부터 11/26까지 할인 전매, 11/27부터 일반 판매. 12/16부터 후반으로 넘어가며 노벨티와 장식 일부가 바뀝니다. 보드에는 같은 주에 나온 JRA 콜라보(경마장 등장·마권 모양 굿즈) 소식도 있어요.",
+   "links": [
+    {
+     "label": "電ファミニコゲーマー: 개최 발표",
+     "url": "https://news.denfaminicogamer.jp/news/261026v"
+    },
+    {
+     "label": "PASH! PLUS: 놀이기구·노벨티 티켓",
+     "url": "https://www.pashplus.jp/event/500383/"
+    },
+    {
+     "label": "東京ドームシティ 티켓 페이지",
+     "url": "https://eticket.tokyo-dome.co.jp/collections/cho-kaguyahime"
+    }
+   ],
+   "items": [
+    "https://panora.tokyo/archives/161186",
+    "https://kai-you.net/article/96956",
+    "https://dengekionline.com/article/202610/91963",
+    "https://kai-you.net/article/96939"
+   ]
+  },
+  {
+   "title": "博衣こより 1st 라이브 「Dream Spark」, 2차 선행 10/30 21시부터",
+   "works": [
+    "ホロライブ"
+   ],
+   "category": "live",
+   "tag": "유행 4위",
+   "when": "공연 12/22(화) 18:30 · 2차 선행 10/30 21:00 ~ 11/9 · 일반 11/22 12:00",
+   "where": "東京ガーデンシアター (도쿄 有明) · SPWN·ZAIKO 배신",
+   "desc": "ホロライブ 6기생 博衣こより의 첫 솔로 라이브가 12월 22일(화) 도쿄 가든 시어터에서 열려요(17:30 개장·18:30 개연). 현지 좌석은 SS석 13,400엔·S석 10,800엔·A석 8,800엔. 2nd 앨범 「Chemical Spark」 완전 생산 한정판 구매자 대상 1차 선행은 끝났고, 이번 주 금요일 10/30 21시부터 11/9까지 2차 선행, 11/22 12시에 일반 판매가 열립니다. 배신 티켓은 6,800엔(SPWN·ZAIKO), 아카이브는 2027/1/22 23:59까지. 공식 해시태그는 #夢煌めけこより. 보드에는 도쿄역 공식 숍 새 구역 리뉴얼(11/13)과 兎田ぺこら 피규어 소식도 있어요.",
+   "links": [
+    {
+     "label": "ホロライブ 공식: 1st 라이브 정보 해금",
+     "url": "https://hololivepro.com/news/20261011-01-310/"
+    },
+    {
+     "label": "4Gamer: 개최 결정",
+     "url": "https://www.4gamer.net/games/760/G076029/20261013014/"
+    },
+    {
+     "label": "eeo Media: 티켓·굿즈 정보",
+     "url": "https://eeo.today/media/2026/10/19/404656/"
+    }
+   ],
+   "items": [
+    "https://hololivepro.com/news/20261011-01-310/",
+    "https://hololivepro.com/news/20261020-%e5%85%ac%e5%bc%8f%e3%82%b7%e3%83%a7%e3%83%83%e3%83%97%e3%80%8chololive-production-official-shop-in-tokyo-station%e3%80%8d%e3%80%81%e6%96%b0%e5%8c%ba%e7%94%bb%e3%81%ab%e3%81%a6%e3%83%aa%e3%83%8b/",
+    "https://dengekionline.com/article/202610/92237"
    ]
   },
   {
@@ -74,14 +125,14 @@
     "ハイキュー!!"
    ],
    "category": "exhibit",
-   "tag": "유행 4위",
+   "tag": "유행 5위",
    "when": "2026/10/30 ~ 2027/1/11 (오사카 2027/4/24 ~ 6/20)",
-   "where": "森アーツセンターギャラリー (六本木ヒルズ 52층)",
-   "desc": "원작자 古舘春一의 대규모 원화전이 롯폰기 힐즈 모리 아트 센터 갤러리에서 10월 30일 문을 열어요. 전 일정 입장 시간 지정제이고 추첨·선착 등 판매 구분이 나뉘어 있으며, 회차에 따라 굿즈 세트가 붙은 표와 없는 표가 다르니 살 때 구분을 확인하세요. 리세일 사이트에는 점프 정기구독 선행으로 당선된 표도 나와 있습니다. 전시 구성 자체는 아직 공식에서 자세히 풀지 않았고, 새로 그린 키 비주얼 2탄과 작가 코멘트가 공개된 상태. 도쿄 다음은 2027년 봄 오사카 순회. 연말 ジャンプフェスタ2027(12/19~) 스테이지도 있으니 점프 팬은 같이 체크.",
+   "where": "森アーツセンターギャラリー (六本木ヒルズ 森タワー 52층)",
+   "desc": "원작자 古舘春一의 세 번째 원화전이 이번 주 금요일 10월 30일, 롯폰기 힐즈 모리 타워 52층 모리 아트 센터 갤러리에서 개막해요(~2027/1/11). 전 일정 입장 시간 지정제입니다. 디지털판 『週刊少年ジャンプ』 정기구독자 선행 추첨은 10/30~11/8 입장분이 대상이었고, e+ 선착 판매는 11월 이후 회차 위주라 첫 주는 남은 표가 적어요. 리세일 사이트에 10/30 12시·18시 회차가 올라와 있지만 개인 간 재판매라 가격·유효성은 직접 확인하세요. 도쿄 다음은 2027년 봄 오사카(4/24~6/20).",
    "links": [
     {
-     "label": "livedoor 뉴스(女子旅プレス): 회장·회기·키 비주얼",
-     "url": "https://news.livedoor.com/article/detail/31825129/"
+     "label": "アニメ!アニメ!: 원화전 개최 발표",
+     "url": "https://animeanime.jp/article/2026/07/14/101067.html"
     },
     {
      "label": "원화전.info 도쿄 회장 안내",
@@ -90,117 +141,123 @@
    ],
    "items": [
     "https://gengaten.info/2026/10/11276/",
-    "https://gengaten.info/2027/04/11326/",
-    "https://collabo-cafe.com/events/collabo/jump-festa-2027-super-stage-cast/"
+    "https://gengaten.info/2027/04/11326/"
    ]
   },
   {
-   "title": "hololive RECORDS MUSIC STAGE 2027, 마린 불참·와타메 대체 출연",
+   "title": "『勝利の女神：NIKKE』 4주년, 10/29 점검 후 「ラプンツェル：サンクチュアリ」 무료 배포",
    "works": [
-    "ホロライブ"
+    "NIKKE"
    ],
-   "category": "live",
-   "tag": "유행 3위",
-   "when": "2027/1/9(토) · 1/10(일) · 博衣こより 1st 라이브 12/22",
-   "where": "Kアリーナ横浜 (요코하마역 동쪽 출구 도보 약 9분)",
-   "desc": "hololive RECORDS가 처음 여는 리얼 라이브. 셀렉션 앨범 「hololive RECORDS HISTORY COLLECTION」(7/16 예약 시작)에 선행 추첨 시리얼이 붙은 연동 공연이에요. 출연은 DAY1 AZKi·さくらみこ·ハコス・ベールズ·ReGLOSS, DAY2 白上フブキ·宝鐘マリン·こぼ・かなえる·FLOW GLOW였는데, 10/19에 宝鐘マリン이 성대결절 치료를 위해 DAY2 출연을 접고 角巻わため가 대신 서기로 발표됐습니다(본인은 손글씨 편지로 '다음 무대에서 만날 수 있게 만전을 기하겠다'고). 같은 주 홀로라이브는 博衣こより 1st 라이브(東京ガーデンシアター 12/22) 정보 해금, FLOW GLOW × マリオンクレープ(11/4~) 등 소식이 많았어요.",
+   "category": "campaign",
+   "tag": "유행 6위",
+   "when": "10/29(목) 점검 후 ~ 11/19 04:59",
+   "where": "게임 내 (스마트폰·PC)",
+   "desc": "10/24 4주년 기념 생방송 「約束の地へ、女神集結」에서 새 SSR 니케 「紅蓮：神殺」「マリアン：クイーン」「ラプンツェル：サンクチュアリ」(CV 三森すずこ)가 발표됐어요. ラプンツェル：サンクチュアリ는 스토리 이벤트 「MARIA-n」, 14일 로그인 보너스, 4TH ANNIVERSARY 이벤트로 얻을 수 있고 조건을 채우면 최대 4체까지 무료. 기간은 10/29 점검 후부터 11/19 04:59까지. 아군 회복과 공격 강화를 맡는 지원형(ピルグリム·ゴッデス, RL)입니다. 공식에 따르면 4주년 이벤트 전체로 모집 259회분에 해당하는 보상이 풀려요. 같은 방송에서 신장 49~50 해방도 공개됐고, 보드에는 gladgarb 콜라보 옷 예약 소식도 있어요.",
    "links": [
     {
-     "label": "KAI-YOU: 요코하마 2DAYS 라이브 출연진 발표",
-     "url": "https://kai-you.net/article/95992"
+     "label": "4Gamer: 4주년 새 정보 정리",
+     "url": "https://www.4gamer.net/games/456/G045622/20261024008/"
     },
     {
-     "label": "PR TIMES: 셀렉션 앨범과 선행 추첨 시리얼",
-     "url": "https://prtimes.jp/main/html/rd/p/000001251.000030268.html"
+     "label": "4Gamer: ラプンツェル：サンクチュアリ 성능",
+     "url": "https://www.4gamer.net/games/456/G045622/20261024006/"
     },
     {
-     "label": "4Gamers(중국어): 마린 DAY2 불참·와타메 대체",
-     "url": "https://www.4gamers.com.tw/news/detail/82728/houshou-marine-withdraws-hololive-records-music-stage-2027"
+     "label": "電撃オンライン: 생방송 2부 정리",
+     "url": "https://dengekionline.com/article/202610/91981"
     }
    ],
    "items": [
-    "https://panora.tokyo/archives/160581",
-    "https://hololivepro.com/news/20261011-01-310/",
-    "https://collabo-cafe.com/events/collabo/hololive-flow-glow-shop-tieup-marion-crepes-2026/"
+    "https://dengekionline.com/article/202610/91984",
+    "https://dengekionline.com/article/202610/91994",
+    "https://dengekionline.com/article/202610/91934",
+    "https://collabo-cafe.com/events/collabo/nikke-fashion-gladgarb-tt-star-2026/"
    ]
   },
   {
-   "title": "ヘタリア 20周年原画展 WorldFesta, 도쿄는 10/28까지",
+   "title": "劇場版 「紺青の拳」 TIFF 상영 10/31, 30주년 芸術花火는 11/21 요코하마",
    "works": [
-    "ヘタリア"
+    "名探偵コナン"
    ],
-   "category": "exhibit",
-   "tag": "마감 임박",
-   "when": "도쿄 ~10/28(수) · 오사카 11/7 ~ 11/23 · 描き下ろしストア 10/31~ · WS 카페 11/13~",
-   "where": "池袋 サンシャインシティ 展示ホールA → なんばパークスミュージアム",
-   "desc": "ヘタリア 20주년을 기념하는 원화전. 도쿄 회장은 이케부쿠로 선샤인시티 전시홀A(東池袋역 도보 3분)로 10:00~19:00, 마지막 날은 17:00까지이고 입장 마감은 폐장 30분 전. 전 일정 일시 지정제로 전매권 2,300円, 패스포트 케이스 세트 4,300円. 전시는 日丸屋秀和의 육필 연필화와 컬러 일러스트, 등신대 이탈리아 입상, 포토스팟 구성이에요. 도쿄가 끝나면 11/7부터 오사카 난바파크스 뮤지엄으로 옮기고, 그 사이 10/31부터 描き下ろしストア(도쿄·오사카), 11/13부터 ヘタリアWS 카페(이케부쿠로·오사카)가 이어집니다.",
+   "category": "event",
+   "tag": "유행 8위",
+   "when": "10/31(토) 10:40 TIFF 상영 · 11/21(토) 13:00 개장·17:00 개연 芸術花火 · 渋谷 POP UP 11/26~",
+   "where": "도쿄 국제영화제 회장 · 横浜 山下ふ頭 · 渋谷",
+   "desc": "제39회 도쿄 국제영화제에서 2019년 극장판 『名探偵コナン 紺青の拳(フィスト)』(감독 永岡智佳, 시리즈 첫 해외 무대 싱가포르)가 10/31(토) 10:40에 상영돼요. 일반 2,200엔·학생 1,100엔이고 10/17부터 판매 중. 11/21(토)에는 TV 애니 방송 30주년 기념 「名探偵コナン」芸術花火2026이 요코하마 山下ふ頭에서 처음 열립니다. 역대 오프닝·엔딩과 극반에 맞춰 불꽃을 쏘는 음악×불꽃 쇼로, 우천 결행·악천후 중지. 맨 앞 프리미엄석(굿즈 포함) 14,500엔, S석 8,900엔부터, 요코하마 시민 할인 7,700엔(선착 200명, 주소 확인 신분증 필요). 『ハイウェイの堕天使』의 무대가 요코하마라는 점도 화제예요.",
    "links": [
     {
-     "label": "PR TIMES: 도쿄 회장·시간·티켓 안내",
-     "url": "https://prtimes.jp/main/html/rd/p/000008676.000016756.html"
+     "label": "アニメハック: TIFF 상영 안내",
+     "url": "https://anime.eiga.com/event/174941/"
     },
     {
-     "label": "アニメ!アニメ!(릴리스): 전시 구성",
-     "url": "https://animeanime.jp/release/prtimes/20260724/301374.html"
+     "label": "요코하마시 관광 공식: 芸術花火2026",
+     "url": "https://www.welcome.city.yokohama.jp/eventinfo/ev_detail.php?bid=yw13364"
+    },
+    {
+     "label": "芸術花火 공식 사이트",
+     "url": "https://www.ytv.co.jp/conanhanabi/"
     }
    ],
    "items": [
-    "https://gengaten.info/2026/10/11336/",
-    "https://gengaten.info/2026/11/11338/",
-    "https://collabo-cafe.com/events/collabo/hetalia-ws-autumn-parade-popup-tokyo-osaka-2026/",
-    "https://collabo-cafe.com/events/collabo/hetalia-cafe-mixx-garden-pastel-pop-parfait-2026/"
+    "https://anime.eiga.com/event/174941/",
+    "https://animeanime.jp/article/2026/10/27/104251.html",
+    "https://collabo-cafe.com/events/collabo/detective-conan-geijutsu-hanabi-yokohama-2026/",
+    "https://collabo-cafe.com/events/collabo/conan-diner-popup-shop-shibuya-stream-2026/"
    ]
   },
   {
-   "title": "薬屋のひとりごと × スイーツパラダイス 3탄, 10/30부터 7개 점포",
+   "title": "『ゴジラ-0.0』 11/3 「ゴジラの日」 개봉, 콜라보 러시 막바지",
    "works": [
-    "薬屋のひとりごと"
+    "ゴジラ-0.0"
    ],
    "category": "collab",
-   "tag": "유행 2위",
-   "when": "10/30 ~ 11/23 (점포별로 다름) · 타이베이 POP UP 11/5~",
-   "where": "SoLaDo原宿 · 天王寺ミオ · 名古屋パルコ · 丸井大宮 · 仙台パルコ · 横浜ビブレ · 福岡パルコ",
-   "desc": "스이파라의 薬屋 콜라보 카페 3탄이 10월 30일부터 전국 7개 점포에서 열려요. 좌석 예약은 스이츠파라다이스 앱으로만 받고 당일 예약은 안 됩니다. 점포마다 기간이 조금씩 다르니 공식 콜라보 페이지에서 가려는 점포를 확인하세요. 메뉴는 10/23에 해금됐고(보드 소식 참고), 노벨티·굿즈는 순차 공개. 같은 주에 猫猫·壬氏 새 그림 굿즈를 모은 POP UP SHOP이 타이베이에 11/5 오픈, 롯폰기 「東京シティビュー」 콜라보는 종료 임박, 이바라키현 콜라보 메뉴 2탄과 ワークマン의 980円대 T셔츠 소식도 있었어요.",
+   "tag": "유행 9위",
+   "when": "11/3(화·祝) 개봉 (북미 11/6) · 世界の山ちゃん 11/1~ · ぴよりん 11/3~",
+   "where": "전국 극장 · 아이치(世界の山ちゃん·ぴよりん) 등",
+   "desc": "山崎貴가 다시 감독·각본·VFX를 맡은 신작이 다음 주 화요일 11월 3일, 「ゴジラの日」에 개봉해요. 초대 『ゴジラ』, 『ゴジラ-1.0』에 이어 이 날 개봉은 세 번째. 북미도 같은 주 11/6에 개봉해 일본 제작 고질라로는 처음으로 미일이 거의 동시에 공개됩니다. 神木隆之介·浜辺美波가 계속 출연하고, 일본 실사 고질라 처음으로 「Filmed for IMAX」로 찍었어요. 9/26 뉴욕 영화제에서 먼저 상영됐을 때 킹기도라 등장이 알려졌습니다. 개봉에 맞춰 世界の山ちゃん(아이치, 11/1~), 나고야 명물 ぴよりん(11/3~), 고질라 피부 건강 샌들, 하드록 카페 메뉴 등 콜라보가 이어져요.",
    "links": [
     {
-     "label": "스이츠파라다이스 공식: 薬屋 콜라보 3탄",
-     "url": "https://www.sweets-paradise.jp/collaboration/kusuriyanohitorigoto3"
+     "label": "VG+: 11/3 공개·북미 동시기 공개",
+     "url": "https://virtualgorillaplus.com/movie/godzilla-minus-0/"
     },
     {
-     "label": "電撃オンライン: 콜라보 카페 개최 안내",
-     "url": "https://dengekionline.com/article/202607/80325"
+     "label": "Real Sound: 뉴욕 영화제 첫 공개",
+     "url": "https://realsound.jp/movie/2026/09/post-2535714.html"
     }
    ],
    "items": [
-    "https://collabo-cafe.com/events/collabo/kusuriya-anime-cafe-sweets-paradise-2026-add-info/",
-    "https://animeanime.jp/article/2026/10/23/104117.html",
-    "https://animeanime.jp/article/2026/10/23/104106.html"
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-sekai-no-yamachan-2026/",
+    "https://collabo-cafe.com/events/collabo/godzilla-minus-zero-piyorin-2026/",
+    "https://animeanime.jp/article/2026/10/27/104249.html",
+    "https://dengekionline.com/article/202610/91896"
    ]
   },
   {
-   "title": "『ウマ娘』 첫 월드투어 LA 공연, 미국 비자 미취득으로 취소",
+   "title": "『名探偵プリキュア！』×『おジャ魔女どれみ』 콜라보 회 방송",
    "works": [
-    "ウマ娘"
+    "名探偵プリキュア！",
+    "おジャ魔女どれみ"
    ],
-   "category": "live",
-   "tag": "이번 주 화제",
-   "when": "현지 10/22·23 예정이던 공연 → 10/20 14시 취소 발표 · プリコネR 콜라보 10/31",
-   "where": "로스앤젤레스",
-   "desc": "Cygames는 10월 20일, 현지 시간 22·23일로 잡혀 있던 로스앤젤레스 공연을 취소했어요. 이유는 공연에 필요한 미국 비자를 받지 못한 것. 반년 이상 전부터 현지 변호사·프로모터와 준비했지만 승인이 내려오지 않아 19일에 '아직 승인 전'을 알리고 20일 14시까지 최종 판단을 미뤘다가 결국 중지했습니다. 현지 관람권·배신권·JTB 투어·라이브 뷰잉은 환불 예정이고, 21일 안내에서는 현지 참가 예정자의 숙박·교통비를 돌려주고 취소 수수료도 부담한다는 방침이 나왔어요. 다만 항공권·호텔을 스스로 예약한 팬에 대한 대응은 '검토 중'에 머물러 보상을 요구하는 목소리가 이어지고 있습니다. 비자 절차가 어느 단계에서 멈췄는지는 공표되지 않았어요.",
+   "category": "collab",
+   "tag": "유행 11위",
+   "when": "10/25(일) 39화 방송 · 콜라보 굿즈 10/16~",
+   "where": "TV 방송 · 굿즈 판매처",
+   "desc": "10월 25일 방송한 39화 「おジャ魔女なハロウィン♪」에서 キュアット探偵事務所 4명이 마녀 견습생으로 분장하는 핼러윈 회가 나갔어요. 주인공 明智あんな가 1999년으로 타임슬립한다는 설정이 『おジャ魔女どれみ』의 방송 시작 해(1999)와 이어져 성사된 콜라보입니다. 荒牧壮也 프로듀서는 どれみ 본인은 나오지 않지만 그걸 역이용한 연출을 봐 달라고 했어요. あんな·みくる·くれあ·るるか의 아크릴 스탠드·캔뱃지 등 콜라보 굿즈는 10/16 발매. おジャ魔女どれみ도 유행 13위에 함께 올라왔고, 보드에는 리얼 탈출 게임 콜라보 굿즈 소식도 있어요.",
    "links": [
     {
-     "label": "GameBusiness.jp: 비자 미취득으로 해외 라이브 중지",
-     "url": "https://www.gamebusiness.jp/article/2026/10/21/28400.html"
+     "label": "アニメ!アニメ!: 콜라보 회 발표",
+     "url": "https://animeanime.jp/article/2026/10/16/103892.html"
     },
     {
-     "label": "電ファミニコゲーマー: 20일 14시 최종 판단 발표",
-     "url": "https://news.denfaminicogamer.jp/news/261020y"
+     "label": "電ファミニコゲーマー: 콜라보 회·굿즈",
+     "url": "https://news.denfaminicogamer.jp/news/2610162z"
     }
    ],
    "items": [
-    "https://kai-you.net/article/96887",
-    "https://dengekionline.com/article/202610/91491",
-    "https://dengekionline.com/article/202610/91309"
+    "https://animeanime.jp/article/2026/10/25/104182.html",
+    "https://animeanime.jp/article/2026/10/24/104149.html",
+    "https://animeanime.jp/article/2026/10/25/104168.html"
    ]
   }
  ]
