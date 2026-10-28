@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (10/28 기준)",
+ "src": "AniList 방영 정보 (10/29 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 763318
+   "w": 764006
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 80975
+   "w": 81043
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 72749
+   "w": 72915
   },
   {
    "t": "転生したら剣でした 第2期",
@@ -73,7 +73,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 52537
+   "w": 52907
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -149,28 +149,28 @@
    "w": 39895
   },
   {
-   "t": "氷の城壁 第2期",
-   "d": 4,
-   "tm": "23:56",
-   "st": "TBS",
-   "s": "2026-10-01",
-   "r": 16,
-   "pv": "https://www.youtube.com/watch?v=VvzeL7UMCE8",
-   "site": "https://korinojoheki-pr.com/",
-   "x": "korinojoheki_pr",
-   "w": 37140
-  },
-  {
    "t": "東京リベンジャーズ 三天戦争編",
    "d": 5,
    "tm": "25:53",
    "st": "MBS・TBS・CBC アニメイズム枠ほか",
    "s": "2026-10-03",
-   "r": 17,
+   "r": 16,
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 37115
+   "w": 37261
+  },
+  {
+   "t": "氷の城壁 第2期",
+   "d": 4,
+   "tm": "23:56",
+   "st": "TBS",
+   "s": "2026-10-01",
+   "r": 17,
+   "pv": "https://www.youtube.com/watch?v=VvzeL7UMCE8",
+   "site": "https://korinojoheki-pr.com/",
+   "x": "korinojoheki_pr",
+   "w": 37140
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -182,7 +182,7 @@
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 32398
+   "w": 32512
   },
   {
    "t": "ドラゴンボール超 ビルス",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 25797
+   "w": 25908
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -290,19 +290,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24845
-  },
-  {
-   "t": "野生のラスボスが現れた！ 第2期",
-   "d": 6,
-   "tm": "22:30",
-   "st": "TOKYO MXほか",
-   "s": "2026-09-26",
-   "r": 32,
-   "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
-   "site": "https://lastboss-anime.com/",
-   "x": "lastboss_anime",
-   "w": 23496
+   "w": 24854
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -310,11 +298,23 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 33,
+   "r": 32,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 23390
+   "w": 23568
+  },
+  {
+   "t": "野生のラスボスが現れた！ 第2期",
+   "d": 6,
+   "tm": "22:30",
+   "st": "TOKYO MXほか",
+   "s": "2026-09-26",
+   "r": 33,
+   "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
+   "site": "https://lastboss-anime.com/",
+   "x": "lastboss_anime",
+   "w": 23496
   },
   {
    "t": "貸した魔力は【リボ払い】で強制徴収",
@@ -386,7 +386,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20293
+   "w": 20307
   },
   {
    "t": "桃源暗鬼 日光・華厳の滝編",
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 14898
+   "w": 14962
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14848,
+   "w": 14854,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12503
+   "w": 12545
   },
   {
    "t": "天は赤い河のほとり",
@@ -604,7 +604,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 11561
+   "w": 11596
   },
   {
    "t": "#ゾンビさがしてます",
@@ -652,19 +652,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8030
-  },
-  {
-   "t": "幻想水滸伝",
-   "d": 2,
-   "tm": "23:30",
-   "st": "TOKYO MX・関西テレビほか",
-   "s": "2026-10-03",
-   "r": 72,
-   "pv": "https://www.youtube.com/watch?v=m4T9VcBD0vo",
-   "site": "https://suikoden-anime.com/",
-   "x": "Suikoden_anime",
-   "w": 7379
+   "w": 8037
   },
   {
    "t": "魔法少女育成計画 restart",
@@ -672,11 +660,23 @@
    "tm": "26:00",
    "st": "テレ東・AT-Xほか",
    "s": "2026-10-06",
-   "r": 73,
+   "r": 72,
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7313
+   "w": 7413
+  },
+  {
+   "t": "幻想水滸伝",
+   "d": 2,
+   "tm": "23:30",
+   "st": "TOKYO MX・関西テレビほか",
+   "s": "2026-10-03",
+   "r": 73,
+   "pv": "https://www.youtube.com/watch?v=m4T9VcBD0vo",
+   "site": "https://suikoden-anime.com/",
+   "x": "Suikoden_anime",
+   "w": 7379
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -772,7 +772,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4834
+   "w": 4842
   },
   {
    "t": "バーテックスフォース",
@@ -871,29 +871,29 @@
    "w": 2899
   },
   {
-   "t": "うまゆるふるげ〜と!",
-   "d": 7,
-   "tm": "21:00",
-   "st": "",
-   "s": "2026-09-27",
-   "r": 104,
-   "pv": "https://www.youtube.com/watch?v=rUHYbwZDVVI",
-   "site": "",
-   "x": "",
-   "w": 2828,
-   "rd": 0
-  },
-  {
    "t": "DARK MACHINE -The Animation-",
    "d": 2,
    "tm": "25:45",
    "st": "",
    "s": "2026-10-14",
-   "r": 105,
+   "r": 104,
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 2799
+   "w": 2837
+  },
+  {
+   "t": "うまゆるふるげ〜と!",
+   "d": 7,
+   "tm": "21:00",
+   "st": "",
+   "s": "2026-09-27",
+   "r": 105,
+   "pv": "https://www.youtube.com/watch?v=rUHYbwZDVVI",
+   "site": "",
+   "x": "",
+   "w": 2828,
+   "rd": 0
   },
   {
    "t": "蒼き伝承 ウェルシュ&シェーダー",
@@ -917,7 +917,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2560
+   "w": 2563
   },
   {
    "t": "忍たま乱太郎",
@@ -953,7 +953,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1903
+   "w": 1905
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1061,7 +1061,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1441
+   "w": 1440
   },
   {
    "t": "ニンジャラ",
@@ -1073,7 +1073,7 @@
    "pv": "",
    "site": "https://www.tv-tokyo.co.jp/anime/ninjala/",
    "x": "Ninjala_JP",
-   "w": 1428
+   "w": 1429
   },
   {
    "t": "Enter the Garden",
@@ -1097,7 +1097,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1307,
+   "w": 1309,
    "rd": 5
   },
   {
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1052
+   "w": 1053
   },
   {
    "t": "mofusand",
@@ -1159,7 +1159,7 @@
    "pv": "",
    "site": "http://www9.nhk.or.jp/anime/ojaru/",
    "x": "",
-   "w": 691
+   "w": 693
   },
   {
    "t": "おでかけ子ザメ シーズン2",
@@ -1268,7 +1268,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 350
+   "w": 351
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
@@ -1583,7 +1583,7 @@
    "pv": "https://www.youtube.com/watch?v=ASyVK4DQXVM",
    "site": "https://www.pref.kanagawa.jp/docs/ie2/animation/kanakanakazoku/kanakanakazoku.html",
    "x": "",
-   "w": 119
+   "w": 118
   },
   {
    "t": "タヌキとキツネ",
@@ -1823,7 +1823,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 40551
+   "w": 40715
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1859,7 +1859,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30052
+   "w": 30124
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -2172,7 +2172,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3452
+   "w": 3466
   },
   {
    "t": "サイバーパンク: エッジランナーズ2",
