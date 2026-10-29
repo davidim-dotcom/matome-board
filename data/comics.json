@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-29T06:35:40.039663+09:00",
+ "updated": "2026-10-29T12:44:15.073246+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1140,7 +1140,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc9c3456a92465b7fb8f70eeda825fd6677d62742eabe0825df3ef97eb01d1d309ff574b981c40e3fd762e9992c13a1192705a6ad2b",
-   "seenTo": 6853393,
+   "seenTo": 6856713,
    "coverNo": "comic_new6/6843808",
    "updatedAt": "2026-10-28T12:44"
   },
@@ -1408,7 +1408,7 @@
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6853393,
+   "seenTo": 6856713,
    "coverNo": "comic_new6/6853393",
    "updatedAt": "2026-10-29T03:07"
   },
@@ -5047,7 +5047,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-10-29T06:36",
+   "updatedAt": "2026-10-29T12:45",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
