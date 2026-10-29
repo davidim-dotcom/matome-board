@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (10/29 기준)",
+ "src": "AniList 방영 정보 (10/30 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 764006
+   "w": 764295
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -23,7 +23,7 @@
    "s": "2026-10-02",
    "r": 3,
    "pv": "https://www.youtube.com/watch?v=YvNvvUeCztE",
-   "site": "https://kusuriyanohitorigoto.jp/",
+   "site": "https://kusuriyanohitorigoto.jp/season3/",
    "x": "kusuriya_PR",
    "w": 106652
   },
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81043
+   "w": 81067
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -73,7 +73,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 52907
+   "w": 53310
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -178,11 +178,11 @@
    "tm": "24:45",
    "st": "フジテレビ「＋Ultra」ほか",
    "s": "2026-10-08",
-   "r": 19,
+   "r": 18,
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 32512
+   "w": 32914
   },
   {
    "t": "ドラゴンボール超 ビルス",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 25908
+   "w": 26102
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -290,19 +290,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24854
-  },
-  {
-   "t": "野生のラスボスが現れた！ 第2期",
-   "d": 6,
-   "tm": "22:30",
-   "st": "TOKYO MXほか",
-   "s": "2026-09-26",
-   "r": 32,
-   "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
-   "site": "https://lastboss-anime.com/",
-   "x": "lastboss_anime",
-   "w": 23588
+   "w": 24859
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -310,11 +298,23 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 33,
+   "r": 32,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 23568
+   "w": 23725
+  },
+  {
+   "t": "野生のラスボスが現れた！ 第2期",
+   "d": 6,
+   "tm": "22:30",
+   "st": "TOKYO MXほか",
+   "s": "2026-09-26",
+   "r": 33,
+   "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
+   "site": "https://lastboss-anime.com/",
+   "x": "lastboss_anime",
+   "w": 23588
   },
   {
    "t": "貸した魔力は【リボ払い】で強制徴収",
@@ -386,7 +386,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20307
+   "w": 20312
   },
   {
    "t": "桃源暗鬼 日光・華厳の滝編",
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 14962
+   "w": 15197
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14854,
+   "w": 14855,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12545
+   "w": 12560
   },
   {
    "t": "天は赤い河のほとり",
@@ -652,7 +652,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8037
+   "w": 8040
   },
   {
    "t": "幻想水滸伝",
@@ -676,7 +676,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7413
+   "w": 7440
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -772,7 +772,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4842
+   "w": 4844
   },
   {
    "t": "バーテックスフォース",
@@ -1061,7 +1061,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1440
+   "w": 1442
   },
   {
    "t": "ニンジャラ",
@@ -1097,7 +1097,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1309,
+   "w": 1310,
    "rd": 5
   },
   {
@@ -1174,28 +1174,28 @@
    "w": 671
   },
   {
-   "t": "MyGO!!!!!メンバーの日常",
-   "d": 7,
-   "tm": "",
-   "st": "",
-   "s": "2022-08-24",
-   "r": 129,
-   "pv": "https://www.youtube.com/watch?v=N5OrxHi4dqU",
-   "site": "",
-   "x": "",
-   "w": 626
-  },
-  {
    "t": "I.CINNAMOROLL Animation",
    "d": 7,
    "tm": "",
    "st": "",
    "s": "2023-10-05",
-   "r": 130,
+   "r": 129,
    "pv": "https://www.youtube.com/watch?v=KuKYxjVw3V4",
    "site": "",
    "x": "i_cn_official",
-   "w": 625
+   "w": 626
+  },
+  {
+   "t": "MyGO!!!!!メンバーの日常",
+   "d": 7,
+   "tm": "",
+   "st": "",
+   "s": "2022-08-24",
+   "r": 130,
+   "pv": "https://www.youtube.com/watch?v=N5OrxHi4dqU",
+   "site": "",
+   "x": "",
+   "w": 626
   },
   {
    "t": "パンどろぼう",
@@ -1268,7 +1268,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 351
+   "w": 350
   },
   {
    "t": "しろたん",
@@ -1478,8 +1478,8 @@
   },
   {
    "t": "ゆうさんち！from 遊ハち",
-   "d": 4,
-   "tm": "24:00",
+   "d": 1,
+   "tm": "11:00",
    "st": "フジテレビ・カンテレ",
    "s": "2026-10-05",
    "r": 154,
@@ -1843,7 +1843,7 @@
    "tm": "23:00",
    "st": "",
    "s": "2027-01-08",
-   "r": 18,
+   "r": 19,
    "pv": "https://www.youtube.com/watch?v=kLO7KyjhGR0",
    "site": "https://kinioto-anime.com/",
    "x": "kinioto_anime",
@@ -1859,7 +1859,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30124
+   "w": 30181
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -2172,7 +2172,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3466
+   "w": 3477
   },
   {
    "t": "サイバーパンク: エッジランナーズ2",
