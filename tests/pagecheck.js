@@ -49,7 +49,7 @@ async function run(dev) {
   if (!rows) bad.push(`${dev}: 피드에 소식 카드가 없음`);
   for (const t of TABS) {
     const n0 = errs.length;
-    await page.evaluate((t) => document.querySelector(`nav.tabs [data-tab="${t}"]`).click(), t);
+    await page.evaluate((t) => (document.querySelector(`nav.tabs [data-tab="${t}"]`) || document.querySelector(`#gpick [data-game="${t}"]`)).click(), t);  // 게임은 게임 탭 안의 고르는 칸
     await page.waitForTimeout(900);
     const shown = await page.evaluate((t) => { const s = document.getElementById(t); return !!s && s.offsetHeight > 40 && getComputedStyle(s).display !== "none"; }, t);
     if (!shown) bad.push(`${dev} ${t}: 탭 내용이 안 보임`);

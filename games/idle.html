@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>放置 (Test) · 마토메 보드</title>
+<title>放置 · 마토메 보드</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <!-- 放置(Test) 방치형 게임(동인 서클 육성). 2026-10 에 index.html 에서 이 파일로 옮겨 보드 첫 화면을 가볍게 했다(그림 data URI 150KB + 코드 약 60KB).
@@ -233,7 +233,7 @@ function fmtT(s){s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/
 // ---------- UI ----------
 let mode=1;// 1,10,0(max)
 sec.innerHTML=`<div class="panel" style="padding:12px">
-<span class="id-test">TEST</span><p class="id-note">방치형 게임 테스트 버전이에요. 목표는 서클 랭크 <b>기업 부스</b>(하루 몇 번 들르면 1~2주). 밸런스와 저장 형식이 바뀔 수 있어요(기록은 이 브라우저에만, 10/27 밸런스 조정으로 새로 시작).</p>
+<p class="id-note">동인 서클을 키우는 방치형 게임이에요. 목표는 서클 랭크 <b>기업 부스</b>(하루 몇 번 들르면 1~2주). 밸런스와 저장 형식이 바뀔 수 있어요(기록은 이 브라우저에만, 10/27 밸런스 조정으로 새로 시작).</p>
 <div class="id-top"><div class="id-fans"><span id="idF">0</span><small>팬</small></div><div class="id-ps">초당 <b id="idP">0</b><br>열정 <b id="idE">0</b> (+<span id="idEm">0</span>%)</div></div>
 <div class="id-rank"><img id="idRkI" alt=""><div><div class="t">서클 랭크 <b id="idRkN"></b> <span id="idRkS"></span></div><div class="pb"><i id="idRkB"></i></div><div class="sub" id="idRkT"></div></div></div>
 <div class="id-buff" id="idBuff"></div>
