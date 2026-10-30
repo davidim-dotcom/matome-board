@@ -5,6 +5,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   python3 collector.py           소식 수집 → data/items.json, data/meta.json
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
+  python3 collector.py --weekly-draft   지금 주간 요약의 7일이 끝났으면 이번 주(월요일 시작) 자동 초안 → data/weekly.json
   python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
   python3 collector.py --translate-test   일본어 한 문장을 번역해 보고 결과만 출력(번역 경로 점검)
 직접 추가할 소식은 data/manual.json, 공개 보드에서 빼고 싶은 소식은 data/blocklist.json에 적는다.
@@ -574,6 +575,25 @@ def rank_works(history):
     return [(name(k), c) for k, c in sorted(total.items(), key=lambda x: -x[1])]
 
 
+RISE_DAYS = 3  # 급상승: 최근 며칠과 그 전을 비교
+
+
+def rising_works(history, names):
+    """유행 작품(names) 중 최근 RISE_DAYS일 하루 평균이 그 전 평균의 2배+1 이상이고 최근 합계가 6건 이상인 것.
+    x = 최근 하루 평균 / (그 전 하루 평균 + .5). 큰 순으로 6개"""
+    days = sorted(history)
+    if len(days) < RISE_DAYS + 4: return []
+    rec = {wkey(n): c for n, c in rank_works({d: history[d] for d in days[-RISE_DAYS:]})}
+    old = {wkey(n): c for n, c in rank_works({d: history[d] for d in days[:-RISE_DAYS]})}
+    nb = len(days) - RISE_DAYS
+    out = []
+    for n in names:
+        k = wkey(n); r = rec.get(k, 0); b = old.get(k, 0) / nb
+        if r >= 6 and r / RISE_DAYS >= 2 * b + 1:
+            out.append({"n": n, "r": r, "b": round(b, 2), "x": round((r / RISE_DAYS) / (b + .5), 1)})
+    return sorted(out, key=lambda x: -x["x"])[:6]
+
+
 def update_trends(tr, ref):
     """오늘 본 기사에서 작품명을 세고, 최근 TREND_DAYS일 합계로 순위를 낸다."""
     today = ref.strftime("%Y-%m-%d")
@@ -589,6 +609,7 @@ def update_trends(tr, ref):
     tr["history"] = {d: v for d, v in tr["history"].items() if d >= cutoff}
     old_top = set(tr.get("top", []))
     tr["top"] = [n for n, c in rank_works(tr["history"]) if c >= TREND_MIN][:TREND_TOP]
+    tr["rising"] = rising_works(tr["history"], tr["top"])
     tr["updated"] = ref.isoformat()
     json.dump(tr, open(TRENDS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     rising = [n for n in tr["top"] if n not in old_top]
@@ -709,9 +730,77 @@ def main():
     items = keep[:KEEP]
     save_json(OUT, items)
     meta = load_json(os.path.join(DATA, "meta.json"), {})
-    meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "count": len(items)})
+    meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "rising": _tr.get("rising", []), "count": len(items)})
     save_json(os.path.join(DATA, "meta.json"), meta)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
+
+
+WEEKLY = os.path.join(DATA, "weekly.json")
+WEEKDAY_KO = "월화수목금토일"
+
+
+def _kdate(v, with_time=True):
+    """ISO → '11/3(화) 18:00' (00:00 이면 날짜만)"""
+    try: d = datetime.fromisoformat(v if re.search(r"[+-]\d\d:\d\d$|Z$", v) else v + "+09:00").astimezone(JST)
+    except Exception: return ""
+    t = d.strftime("%H:%M")
+    return f"{d.month}/{d.day}({WEEKDAY_KO[d.weekday()]})" + (f" {t}" if with_time and t != "00:00" else "")
+
+
+def weekly_draft(ref):
+    """지금 주간 요약의 기간(week 부터 7일)이 끝났으면 이번 주(월요일 시작) 자동 초안을 유행 순위로 쓴다.
+    사람이나 Claude 가 쓴 요약(수요일 시작처럼 주 중간에 시작하는 것도)은 그 7일 동안 덮어쓰지 않는다. 설명은 유행 수치 + 대표 소식 원문 요약이고, auto=true 로 표시한다."""
+    cur = load_json(WEEKLY, {})
+    monday = (ref - timedelta(days=ref.weekday())).date()
+    try: start = datetime.strptime(str(cur.get("week", ""))[:10], "%Y-%m-%d").date()
+    except ValueError: start = None
+    if start and start + timedelta(days=6) >= ref.date():
+        print(f"주간 요약: 지금 것({start}~{start + timedelta(days=6)})이 아직 이번 기간 — 그대로 둠"); return
+    items = load_json(OUT, [])
+    tr = load_trends()
+    ranked = [(n, c) for n, c in rank_works(tr.get("history", {})) if c >= TREND_MIN][:15]
+    rise = {wkey(x["n"]): x for x in tr.get("rising", []) if isinstance(x, dict) and x.get("n")}
+    sunday = monday + timedelta(days=6)
+    week_end = datetime.combine(sunday, datetime.max.time(), JST)
+    def when_key(it):
+        try: s = datetime.fromisoformat((it.get("eventDate") or "") + ("" if re.search(r"[+-]\d\d:\d\d$", it.get("eventDate") or "") else "+09:00")) if it.get("eventDate") else None
+        except Exception: s = None
+        if s and ref - timedelta(days=1) <= s <= week_end: return (0, s.timestamp())          # 이번 주 일정
+        if s and s > week_end and s <= ref + timedelta(days=21): return (1, s.timestamp())    # 3주 안 일정
+        try: a = datetime.fromisoformat(it.get("addedAt", ""))
+        except Exception: a = ref - timedelta(days=99)
+        return (2, -a.timestamp())                                                             # 그 밖엔 새로 들어온 순
+    picks = []
+    for rank, (w, total) in enumerate(ranked, 1):
+        k = wkey(w)
+        rel = [it for it in items if any(wkey(x) == k for x in it.get("works", [])) or (len(k) >= 3 and wnorm(w) in wnorm(it.get("title", "")))]
+        live = [it for it in rel if not (item_end(it) and item_end(it) < ref - timedelta(hours=12))]
+        if not live: continue
+        live.sort(key=when_key)
+        main = live[0]
+        whens = []
+        if main.get("eventDate"):
+            whens.append(_kdate(main["eventDate"]) + (f" ~ {_kdate(main['endDate'], False)}" if main.get("endDate") else ""))
+        if main.get("ticketOpen") and main["ticketOpen"][:10] != (main.get("eventDate") or "")[:10]: whens.append("판매·추첨 " + _kdate(main["ticketOpen"]))
+        if main.get("deadline"): whens.append("마감 " + _kdate(main["deadline"]))
+        rs = rise.get(k)
+        head = f"최근 14일 기사 {total}건으로 유행 {rank}위" + (f", 최근 {RISE_DAYS}일 {rs['r']}건으로 평소의 {rs['x']}배 급상승" if rs else "") + f". 보드에 지금 소식 {len(live)}건이 있어요."
+        body = re.sub(r"\s*The post .*$", "", main.get("summary") or "").strip()  # 기계 번역은 어색해서 원문 요약을 쓴다(WordPress 꼬리 'The post …' 는 뗌)
+        links, seen = [], set()
+        for it in live:
+            if it.get("url") and it["url"] not in seen and len(links) < 3:
+                seen.add(it["url"]); links.append({"label": f"{it.get('source') or '원문'}: {(it.get('title_ko') or it.get('title', ''))[:40]}", "url": it["url"]})
+        picks.append({"title": (main.get("title") or "")[:120], "works": [w], "category": main.get("category", "other"),
+                      "tag": f"유행 {rank}위" + (" · 급상승" if rs else ""), "when": " · ".join(x for x in whens if x)[:200],
+                      "where": (main.get("venue") or "")[:160], "desc": (head + (" 대표 소식: " + body[:240] if body else ""))[:1500],
+                      "links": links, "items": [it["url"] for it in live[:6] if it.get("url")]})
+        if len(picks) >= 8: break
+    if not picks:
+        print("주간 요약: 초안을 만들 소식이 없음"); return
+    out = {"week": monday.isoformat(), "range": f"{monday.month}/{monday.day}(월) ~ {sunday.month}/{sunday.day}(일)",
+           "title": "이번 주 요약 · 자동 정리", "updated": ref.date().isoformat(), "auto": True, "picks": picks}
+    save_json(WEEKLY, out)
+    print(f"주간 요약: {monday} 주 자동 초안 {len(picks)}건 → data/weekly.json")
 
 
 TRANSLATE_MAX = 150  # 한 번 실행에서 한국어로 번역할 최대 소식 수(제목+요약, 소식당 요청 2번)
@@ -1716,6 +1805,11 @@ if __name__ == "__main__":
         sys.exit(0)
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
+    elif "--weekly-draft" in sys.argv:
+        try:
+            weekly_draft(datetime.now(JST))
+        except Exception as e:  # 실패해도 워크플로는 이어 간다
+            print(f"주간 요약 초안 실패: {e}", file=sys.stderr)
     elif "--comics" in sys.argv:
         try:
             export_comics(datetime.now(JST))
