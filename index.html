@@ -296,6 +296,37 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .facts{font-size:13px;margin:0 0 8px;display:grid;gap:2px}
 .facts .hot{color:var(--pink);font-weight:500}
 .facts .ph{display:flex;flex-wrap:wrap;gap:2px 10px} .facts .ph b{font-weight:600} .facts .ph span.over{color:var(--muted);text-decoration:line-through}
+/* 오늘 카드(피드 맨 위) */
+.today{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px;margin:8px 0}
+.today summary{list-style:none;cursor:pointer;display:flex;gap:10px;align-items:baseline;padding:10px 0;flex-wrap:wrap}
+.today summary::-webkit-details-marker{display:none}
+.today summary b{font-size:15px} .today summary span{font-size:13px;color:var(--muted)}
+.today summary::after{content:"▾";margin-left:auto;color:var(--muted);font-size:12px} .today[open] summary::after{content:"▴"}
+.today .th{font-size:12px;font-weight:700;color:var(--muted);margin:6px 0 2px;display:flex;align-items:center;gap:8px}
+.today ul{list-style:none;margin:0 0 4px;padding:0}
+.today li button{all:unset;cursor:pointer;display:flex;align-items:baseline;gap:6px;width:100%;padding:3px 0;font-size:14px;line-height:1.4;min-width:0}
+.today li .tm{flex:none;font-weight:700;color:var(--pink);font-variant-numeric:tabular-nums} .today li .tl{flex:none;font-size:12px;color:var(--amber);font-weight:600}
+.today li .tt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} /* 한 줄로(제목이 길면 …) */
+.today li.past{opacity:.5} .today li.more{font-size:12px;color:var(--muted);padding:2px 0}
+.today .tair{font-size:13px;margin:0 0 8px;overflow-wrap:anywhere}
+.today>:last-child{margin-bottom:10px}
+/* 그림으로 보기 */
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0}
+@media (min-width:600px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ptile{all:unset;cursor:pointer;display:flex;flex-direction:column;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.ptile.over{opacity:.55}
+.pimg{position:relative;display:block;aspect-ratio:4/3;background:color-mix(in srgb,currentColor 22%,var(--surface));overflow:hidden}
+.pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pimg em{position:absolute;left:8px;right:8px;top:50%;transform:translateY(-50%);text-align:center;font-style:normal;font-weight:700;font-size:14px;color:var(--ink);opacity:.8;overflow-wrap:anywhere}
+.pimg img+em{display:none}
+.pimg .newbadge{position:absolute;top:6px;left:6px}
+.pdate{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px}
+.pcap{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:7px 8px 9px}
+.pcap b{flex-basis:100%;font-size:13px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;color:var(--ink)}
+.pmodal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.pmodal>div{position:relative;background:var(--bg);width:100%;max-width:760px;max-height:86vh;overflow:auto;border-radius:16px 16px 0 0;padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px))}
+.pmodal .row{border-bottom:0}
+.pclose{position:absolute;top:6px;right:8px;border:0;background:none;font-size:24px;color:var(--muted);line-height:1;padding:4px 8px;z-index:1}
 /* 여행 플래너(캘린더 ✈) */
 .trip-form{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0}
 .trip-form label{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
@@ -385,7 +416,7 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .ctool:hover{border-color:var(--pink)}
 .ctool[aria-pressed="true"]{background:var(--pink-soft);border-color:var(--pink)} .ctool[aria-pressed="true"] b{color:var(--pink)}
 .cal-head .btn{padding:5px 11px;line-height:1}
-.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-wd,.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
 .cal-wd span{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 4px}
 .cal-wd span:first-child{color:var(--pink)} .cal-wd span:last-child{color:var(--cyan)}
 .cday{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:10px;aspect-ratio:1/1.08;padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink);cursor:pointer}
@@ -565,6 +596,8 @@ const tkey = t=>String(t||"").replace(/[\s　]/g,"").toLowerCase();
 const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 미정"];
 let items = new Map();
 let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬(추천순이 기본)
+let feedView="list"; try{feedView=localStorage.getItem("matome-view")==="grid"?"grid":"list"}catch{} // 피드 보기: 목록 / 그림(2026-10 말)
+let todayOpen=true; try{todayOpen=localStorage.getItem("matome-today")!=="0"}catch{}
 let trends = []; // meta.json 의 유행 작품(최근 14일 기사에 많이 나온 이름, 순위순)
 let calYM = null, calDay = null; // 캘린더가 보여 주는 달 {y,m} 과 고른 날 "YYYY-MM-DD"
 // 표시 언어: 기본은 원문(일본어). 기계 번역이 어색해 2026-10에 기본값을 원문으로 바꾸면서 저장 키도 바꿔(matome-lang → matome-lang2) 모두 원문에서 다시 시작한다
@@ -768,17 +801,56 @@ function render(){
   const ago=lastSeen?Math.round((Date.now()-lastSeen)/3600000):0;
   const newBar=nNew?`<div class="newbar"><span>지난 방문(${ago<1?"방금":ago<48?ago+"시간 전":Math.round(ago/24)+"일 전"}) 이후 새 소식 <b>${nNew}</b>건${nMineNew?` · 내 작품 <b>${nMineNew}</b>건`:""}</span><button type="button" class="chip" data-fnew aria-pressed="${feedNew}">${feedNew?"전체 보기":"새 소식만"}</button></div>`:"";
   if(!$("#feedBody")) $("#feed").innerHTML=`<div class="fsearch"><input type="search" id="fq" placeholder="소식 검색 (제목·장소·작품, 한국어 작품명도)" autocomplete="off" enterkeyhint="search"></div><div id="feedBody"></div>`;
-  const sortChips=[["rec","추천순"],["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("");
+  const sortChips=[["rec","추천순"],["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("")
+    +`<button class="chip sort view" data-fview aria-pressed="${feedView==="grid"}" title="목록 / 그림으로 보기">${feedView==="grid"?"☰ 목록":"▦ 그림"}</button>`;
   const sh=sharedId&&items.get(sharedId);
   const sharedBox=sh?`<div class="shared"><div class="shared-h"><b>공유된 소식</b><button type="button" class="btn ghost" data-unshare>닫기</button></div>${rowHtml(sh,{},notOver({it:sh})?"":"over")}</div>`:"";
-  $("#feedBody").innerHTML = sharedBox + (q.length?"":renderMap(feed)) + newBar + `<div class="filters">${vtChips}${sortChips}</div>`
+  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)) + (q.length?"":renderMap(feed)) + newBar + `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (q.length?`<div class="fcount"><span class="note">「${esc(feedQ.trim())}」 검색 결과 ${feed.length}건${feedPast?` (끝난 소식 ${feed.filter(x=>!notOver(x)).length}건 포함)`:""}</span><button type="button" class="chip" data-fpast aria-pressed="${feedPast}">지난 소식 포함</button></div>`:"")
-    + (feed.length?feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join(""):q.length?"":`<div class="empty">${feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
+    + (feed.length?(feedView==="grid"?gridHtml(feed):feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join("")):q.length?"":`<div class="empty">${feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
   if(sharedScroll&&sh){sharedScroll=false;const row=document.querySelector("#feedBody .shared .row");if(row)requestAnimationFrame(()=>{row.scrollIntoView({block:"center"});row.classList.add("flash")})}
   renderCalendar(shown);
   renderAnime(all);
   if(!$("#works").hidden) renderWorks();
+}
+/* ---------- 그림으로 보기 ---------- 대표 사진 격자(폰 2열·넓으면 3열). 누르면 카드 전체를 상자로 연다(openCard). 그림이 없으면 분류색 타일 */
+function gridHtml(feed){
+  const dlab=it=>{const d=parseDate(it.eventDate),e=parseDate(it.endDate);if(!d)return"";const f=x=>jst(x,{month:"numeric",day:"numeric"});return e&&jstYmd(e)!==jstYmd(d)?`${f(d)}~${f(e)}`:jst(d,{month:"numeric",day:"numeric",weekday:"short"})};
+  return `<div class="pgrid">${feed.map(({it})=>`<button type="button" class="ptile${notOver({it})?"":" over"}" data-ptile="${esc(it.id)}">
+    <span class="pimg cat-${it.category}">${it.image?`<img src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}<em>${esc((it.works[0]||it.source||"").slice(0,10))}</em>
+      ${isNew(it)?`<span class="newbadge">NEW</span>`:""}${dlab(it)?`<span class="pdate">${esc(dlab(it))}</span>`:""}</span>
+    <span class="pcap"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${it.region==="KR"?`<span class="krbadge">한국</span>`:""}<b>${esc(tx(it,"title"))}</b></span></button>`).join("")}</div>`;
+}
+function openCard(id){
+  const it=items.get(id); if(!it) return;
+  const box=document.createElement("div");box.className="pmodal";
+  box.innerHTML=`<div role="dialog" aria-label="소식"><button type="button" class="pclose" data-pclose aria-label="닫기">×</button>${rowHtml(it,{},notOver({it})?"":"over")}</div>`;
+  box.addEventListener("click",e=>{if(e.target===box||e.target.closest("[data-pclose],a[data-work]"))box.remove()}); // 작품 이름을 누르면 상자를 닫고 허브로
+  document.body.appendChild(box);
+}
+/* ---------- 오늘 카드 ---------- 피드 맨 위: 오늘(JST) 판매·추첨 시작, 마감, 시작하는 행사, 오늘 방송, 내 작품 새 소식. 접어 두면 기억(matome-today) */
+function todayHtml(live,nMineNew){
+  const uniq=L=>{const seen=new Set();return L.sort((a,b)=>a.d-b.d).filter(x=>{const k=wkey(x.it.title).slice(0,14)+x.l;if(seen.has(k))return false;seen.add(k);return true})}; // 같은 소식을 여러 매체가 쓴 것은 하나만
+  const t=jstYmd(new Date()), now=Date.now(), opens=[], ends=[], starts=[];
+  for(const {it} of live){
+    const ph=it.phases.length?it.phases:[{n:"",s:it.ticketOpen,e:it.deadline}];
+    for(const p of ph){const s=parseDate(p.s),e=parseDate(p.e);
+      if(s&&jstYmd(s)===t)opens.push({it,d:s,l:p.n||(PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작")});
+      if(e&&jstYmd(e)===t)ends.push({it,d:e,l:(p.n?p.n+" ":"")+"마감",past:!!hm(e)&&e<now})} // 시각 없는 마감(00:00)은 그날 끝까지로 본다
+    const d=parseDate(it.eventDate); if(d&&jstYmd(d)===t&&it.category!=="stream")starts.push({it,d,l:CATS[it.category]});
+  }
+  const wd=jstDay(), w=new Set(S.watching), air=season?season.list.filter(a=>a.d===wd&&a.tm):[], mine=air.filter(a=>w.has(tkey(a.t))||w.has(a.t));
+  const total=opens.length+ends.length+starts.length; for(const L of [opens,ends,starts]){const u=uniq(L);L.length=0;L.push(...u)} // 요약 숫자도 중복 뺀 수
+  if(!total&&!air.length&&!nMineNew) return "";
+  const li=L=>(L=uniq(L)).slice(0,3).map(x=>`<li${x.past?' class="past"':""}><button type="button" data-ptile="${esc(x.it.id)}"><span class="tm">${esc(hm(x.d)||"오늘")}</span><span class="tl">${esc(x.l)}</span><span class="tt">${esc(tx(x.it,"title"))}</span></button></li>`).join("")+(L.length>3?`<li class="more">외 ${L.length-3}건 · 캘린더에서 오늘을 눌러 보세요</li>`:"");
+  const sum=[opens.length&&`판매 ${opens.length}`,ends.length&&`마감 ${ends.length}`,starts.length&&`시작 ${starts.length}`,air.length&&`방송 ${air.length}`,nMineNew&&`★ 새 소식 ${nMineNew}`].filter(Boolean).join(" · ");
+  return `<details class="today"${todayOpen?" open":""}><summary><b>오늘 ${esc(ymdLabel(t).replace(/^(\d+)월 (\d+)일/,"$1/$2"))}</b><span>${esc(sum)}</span></summary>
+    ${opens.length?`<p class="th">🎫 판매·추첨 시작</p><ul>${li(opens)}</ul>`:""}
+    ${ends.length?`<p class="th">⏰ 마감</p><ul>${li(ends)}</ul>`:""}
+    ${starts.length?`<p class="th">🎉 오늘 시작</p><ul>${li(starts)}</ul>`:""}
+    ${air.length?`<p class="th">📺 오늘 방송 ${air.length}편${mine.length?` · 보는 중 ${mine.length}편`:""}</p><p class="tair">${(mine.length?mine:air.slice().sort((a,b)=>(a.r||999)-(b.r||999))).slice(0,4).map(a=>`${esc(a.tm)} ${esc(a.t.slice(0,18))}`).join(" · ")}</p>`:""}
+    ${nMineNew?`<p class="th">★ 내 작품 새 소식 ${nMineNew}건 <button type="button" class="chip" data-fmine-new>모아 보기</button></p>`:""}</details>`;
 }
 /* ---------- 피드 검색 ---------- 제목·요약(원문·한국어)·장소·출처·작품 이름과 그 한국어 이름을 NFKC·소문자로 부분 일치 */
 function searchText(it){return it._st||(it._st=wnorm([it.title,it.summary,it.title_ko,it.summary_ko,it.venue,it.address,it.source,...it.works,...it.works.map(w=>WORKS.ko.get(wkey(w))||"")].join(" ")))}
@@ -1452,6 +1524,10 @@ function routeHash(){
   if(location.hash==="#works"){openWork(null,false);return true}
   const mt=location.hash.match(/^#trip=(\d{4}-\d\d-\d\d)~(\d{4}-\d\d-\d\d)(?:,(\w+))?$/);
   if(mt){trip=tripFix({s:mt[1],e:mt[2],r:mt[3]||"kanto"});calDay="trip";showTab("sched");render();return true}
+  if(location.hash==="#weekend"){const t=weekendDays()[0];calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay="weekend";showTab("sched");render();return true} // 홈 화면 바로가기(manifest shortcuts)
+  if(location.hash==="#cal"){calDay=null;calYM=null;showTab("sched");render();return true}
+  if(location.hash==="#play"){showTab("play");return true}
+  if(location.hash==="#trip"){trip=tripFix(trip||tripDefault());calDay="trip";history.replaceState(null,"",tripHash());showTab("sched");render();return true}
   if(location.hash==="#idle"){$('#gpick [data-game="idle"]').hidden=false;showTab("idle");return true} // 放置는 숨겨 두고 주소 끝 #idle 로만 연다
   return false;
 }
@@ -1691,7 +1767,8 @@ document.addEventListener("input",e=>{if(e.target.id==="whQ"){workQ=e.target.val
 document.addEventListener("change",e=>{if(e.target.id==="tripS"||e.target.id==="tripE"){const v=e.target.value;if(!v)return;
   if(e.target.id==="tripS"){const len=Math.round((new Date(trip.e)-new Date(trip.s))/DAY);trip.s=v;trip.e=addYmd(v,len)}else trip.e=v; // 출발을 바꾸면 기간 길이는 그대로
   tripFix(trip);history.replaceState(null,"",tripHash());render()}});
-document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
+document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("today")){todayOpen=e.target.open;try{localStorage.setItem("matome-today",todayOpen?"1":"0")}catch{}}
+  if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
 document.addEventListener("keydown",e=>{const p=e.target.closest&&e.target.closest("[data-pin]");if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
@@ -1700,6 +1777,9 @@ document.addEventListener("click",e=>{
     if(/^#(work|trip)/.test(location.hash))history.replaceState(null,"",location.pathname+location.search); // 다른 탭으로 가면 주소의 #work·#trip 은 지운다
     showTab(target);window.scrollTo(0,0);return}
   const gp=e.target.closest("[data-game]"); if(gp){showTab(gp.dataset.game);return}
+  const pt=e.target.closest("[data-ptile]"); if(pt){openCard(pt.dataset.ptile);return}
+  if(e.target.closest("[data-fview]")){feedView=feedView==="grid"?"list":"grid";try{localStorage.setItem("matome-view",feedView)}catch{};render();return}
+  if(e.target.closest("[data-fmine-new]")){feedMine=true;feedNew=true;render();return}
   const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
   if(e.target.closest("[data-workback]")){openWork(null);return}
   if(e.target.closest("[data-workall]")){workAll=true;renderWorks();return}
