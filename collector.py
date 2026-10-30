@@ -1942,12 +1942,31 @@ def export_comics(ref):
           f"(이번에 글 {stats['opened']}건 확인, 새 화 {stats['new']}건, 낚시글 {stats['bait']}건 제외)")
 
 
+def dump_page(src):
+    """--check 와 환경변수 DUMP=출처 이름: 그 출처 주소의 원본 앞부분과 링크 주변을 로그로 보여 준다(html 출처의 item 정규식을 고칠 때).
+    클라우드 세션에서는 외부 사이트가 막혀 있어 Actions 의 '소스 점검'(입력 dump)으로 본다."""
+    url = src.get("url", "").replace("{ym}", datetime.now(JST).strftime("%Y%m"))
+    page = fetch(url, src.get("headers")).decode("utf-8", "replace")
+    print(f"--- DUMP {src.get('name')}: {url} ({len(page)}자)")
+    body = page.find("<body")
+    print(page[max(0, body):max(0, body) + 1500] if body >= 0 else page[:1500])
+    seen = 0
+    for m in re.finditer(r'href="[^"]*(news|article|topics|info)[^"]*"', page):
+        if seen >= 4: break
+        print(f"--- 링크 주변 {seen + 1} (위치 {m.start()})")
+        print(page[max(0, m.start() - 300):m.start() + 900]); seen += 1
+    print("--- DUMP 끝")
+
+
 def check():
     """소스마다 가져오기만 해 보고 결과를 출력한다. 파일은 쓰지 않는다. 실패가 있으면 종료 코드 1."""
     ref = datetime.now(JST)
     bad = 0
     for src in SOURCES:
         name = src.get("name", src["type"])
+        if os.environ.get("DUMP") and os.environ["DUMP"] == name:
+            try: dump_page(src)
+            except Exception as e: print(f"--- DUMP 실패: {e}")
         try:
             got = collect(src, ref)
             print(f"OK   {name}: 원본 {RAW.get(name, len(got))}건 중 {len(got)}건 통과 (그림 {sum(1 for g in got if g.get('image'))}건)")
