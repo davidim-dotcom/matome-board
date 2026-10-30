@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 S = 4            # 그리는 배율
-TOP = 64         # 모자가 들어가게 위로 늘리는 높이(원본 px)
+TOP = 52         # 모자가 들어가게 위로 늘리는 높이(원본 px)
 INK = (34, 24, 36, 255)
 
 
@@ -29,29 +29,24 @@ def rot(pts, c, deg):
     return [(cx + (x - cx) * math.cos(r) - (y - cy) * math.sin(r), cy + (x - cx) * math.sin(r) + (y - cy) * math.cos(r)) for x, y in pts]
 
 
-def witch_hat(W, H):
-    """보라 마녀 모자: 넓은 챙 + 끝이 꺾인 원뿔 + 주황 띠·금색 버클. 오른쪽 경단 머리 위에 오른쪽으로 기울여 얹는다."""
+def witch_hat(W, H, cx, by, wid, deg):
+    """보라 마녀 모자: 아래로 휜 챙(옆에서 본 납작한 타원 아래쪽 반) + 끝이 뒤로 꺾인 원뿔 + 주황 띠·금색 버클.
+    cx, by: 챙 가운데(원본 좌표), wid: 챙 너비, deg: 기울기. 2026-10 처음엔 경단 머리 위에 크게 얹었는데 떠 보여서, 머리 위 잭오랜턴(귤)이 쓰게 바꿨다."""
     L = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(L)
-    c = P(246, 72); deg = 16; w = 7 * S
-    body, dark, band, gold = (92, 62, 140, 255), (70, 44, 112, 255), (245, 140, 40, 255), (250, 210, 70, 255)
-    cone = [P(206, 60), P(222, 16), P(238, -16), P(262, -34), P(292, -28), P(270, -14), P(258, 8), P(270, 60)]
-    cone = rot(cone, c, deg)
-    brim_box = [P(178, 50), P(316, 82)]
-    brim = Image.new("RGBA", (W, H), (0, 0, 0, 0)); bd = ImageDraw.Draw(brim)
-    bd.ellipse(brim_box, fill=dark, outline=INK, width=w)
-    brim = brim.rotate(-deg, center=c, resample=Image.BICUBIC)
-    L.alpha_composite(brim)
+    k = lambda x, y: P(cx + x * wid / 100, by + y * wid / 100)
+    w = 5 * S
+    body, dark, band, gold = (96, 64, 146, 255), (66, 42, 104, 255), (245, 140, 40, 255), (250, 210, 70, 255)
+    brim = [k(-50, 0), k(-40, 7), k(-20, 11), k(0, 12), k(20, 11), k(40, 7), k(50, 0), k(36, -4), k(0, -6), k(-36, -4)]
+    cone = [k(-28, -3), k(-20, -34), k(-10, -62), k(4, -82), k(22, -92), k(36, -86), k(18, -76), k(12, -58), k(20, -30), k(28, -3)]
+    d.polygon(brim, fill=dark, outline=INK, width=w)
     d.polygon(cone, fill=body, outline=INK, width=w)
-    d.line(cone + [cone[0]], fill=INK, width=w, joint="curve")
-    # 주황 띠 + 버클
-    b = rot([P(206, 50), P(270, 50), P(270, 64), P(206, 64)], c, deg)
-    d.polygon(b, fill=band, outline=INK, width=w // 2 + 2)
-    k = rot([P(230, 49), P(246, 49), P(246, 65), P(230, 65)], c, deg)
-    d.polygon(k, fill=gold, outline=INK, width=w // 2 + 1)
-    # 별 반짝이
-    sx, sy = rot([P(250, 24)], c, deg)[0]
-    star = [(sx + math.cos(math.radians(a)) * (9 if i % 2 == 0 else 4) * S, sy + math.sin(math.radians(a)) * (9 if i % 2 == 0 else 4) * S) for i, a in enumerate(range(-90, 270, 36))]
+    d.polygon([k(-27, -6), k(-25, -18), k(25, -18), k(27, -6)], fill=band, outline=INK, width=w // 2 + 2)
+    d.rectangle([k(-6, -19), k(6, -5)], fill=gold, outline=INK, width=w // 2 + 1)
+    d.line([k(-14, -40), k(-8, -66)], fill=(140, 110, 190, 255), width=S * 3)  # 빛 받은 면
+    sx, sy = k(10, -46)
+    star = [(sx + math.cos(math.radians(a)) * (7 if i % 2 == 0 else 3) * S * wid / 100, sy + math.sin(math.radians(a)) * (7 if i % 2 == 0 else 3) * S * wid / 100) for i, a in enumerate(range(-90, 270, 36))]
     d.polygon(star, fill=gold, outline=INK, width=S * 2)
+    if deg: L = L.rotate(deg, center=P(cx, by), resample=Image.BICUBIC)
     return L
 
 
@@ -89,7 +84,7 @@ def halloween():
     big = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     big.alpha_composite(base.resize((w * S, h * S), Image.LANCZOS), (0, TOP * S))
     jack_face(ImageDraw.Draw(big))
-    big.alpha_composite(sticker(witch_hat(W, H), 6))
+    big.alpha_composite(sticker(witch_hat(W, H, 110, 12, 62, 8), 5))  # 잭오랜턴(귤, 가운데 x≈111·위 y≈8) 머리에
     big.alpha_composite(bat(W, H, 34, 18, 1.15, 12))
     big.alpha_composite(bat(W, H, 296, 150, .8, -10))
     out = big.resize((w, h + TOP), Image.LANCZOS)

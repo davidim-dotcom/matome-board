@@ -108,7 +108,7 @@ GitHub 웹에서 파일을 열고 연필 아이콘으로 고친 뒤 *Commit chan
 
 ## 도로롱 계절 옷
 
-할로윈(10/15~10/31)에는 도로롱이 마녀 모자를 쓰고 귤이 호박이 되며 할로윈 대사를 합니다. 그림은 `assets/mascot_season.py`로 만들었고, 직접 그린 계절 그림이 있으면 `assets/mascot_halloween.png`를 바꾸면 됩니다. 주소 끝에 `?mochi=halloween`을 붙이면 날짜와 상관없이 미리 볼 수 있습니다.
+할로윈(10/15~10/31)에는 도로롱 머리 위 귤이 마녀 모자를 쓴 호박이 되고, 박쥐가 날며 할로윈 대사를 합니다. 그림은 `assets/mascot_season.py`로 만들었고, 직접 그린 계절 그림이 있으면 `assets/mascot_halloween.png`를 바꾸면 됩니다. 주소 끝에 `?mochi=halloween`을 붙이면 날짜와 상관없이 미리 볼 수 있습니다.
 
 ## 도로롱 오미쿠지
 
