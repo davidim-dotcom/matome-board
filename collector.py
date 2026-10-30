@@ -2096,6 +2096,8 @@ def dump_page(src):
         if seen >= 4: break
         print(f"--- 링크 주변 {seen + 1} (위치 {m.start()})")
         print(page[max(0, m.start() - 300):m.start() + 900]); seen += 1
+    links = sorted({html.unescape(m.group(1)) for m in re.finditer(r'href="([^"]*(?:rss|feed|atom|/cat|categor|/tag/|ranking|hot)[^"]*)"', page, re.I)})
+    print(f"--- RSS·카테고리·순위 링크 {len(links)}개"); print("\n".join(links[:60]))
     print("--- DUMP 끝")
 
 
@@ -2111,7 +2113,8 @@ def check():
                 except Exception as e: print(f"--- DUMP 실패: {e}")
         try:
             got = collect(src, ref)
-            print(f"OK   {name}: 원본 {RAW.get(name, len(got))}건 중 {len(got)}건 통과 (그림 {sum(1 for g in got if g.get('image'))}건)")
+            print(f"OK   {name}: 원본 {RAW.get(name, len(got))}건 중 {len(got)}건 통과 (그림 {sum(1 for g in got if g.get('image'))}건)"
+                  + (f" · 피드 {_cache.get(src['url'])}" if src["type"] == "site" else ""))
             for g in got[:4]:
                 print(f"       + {g['title'][:70]}")
             for ti in DROPPED.get(name, [])[:3]:
