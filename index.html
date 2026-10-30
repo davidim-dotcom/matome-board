@@ -35,7 +35,7 @@
 <style>
 :root{
   --bg:#EEF1F8; --surface:#FFFFFF; --ink:#1B1F3B; --muted:#646985; --line:#D5DAE8;
-  --pink:#D6246E; --cyan:#13819A; --amber:#B7791F; --pink-soft:#FBE3EE;
+  --pink:#D6246E; --cyan:#13819A; --amber:#B7791F; --pink-soft:#FBE3EE; --torii:#C8442B;
   --sea:#DCE6F3; --land:#FFFFFF; --land23:#F7F2FA;
   color-scheme:light;
   box-sizing:border-box;
@@ -44,13 +44,13 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#13152A; --surface:#1E2139; --ink:#ECEDF6; --muted:#9A9EBB; --line:#30345A;
-    --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; color-scheme:dark;
+    --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; --torii:#FF7A5C; color-scheme:dark;
     --sea:#0F1124; --land:#1E2139; --land23:#262A48;
   }
 }
 :root[data-theme="dark"]{
   --bg:#13152A; --surface:#1E2139; --ink:#ECEDF6; --muted:#9A9EBB; --line:#30345A;
-  --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; color-scheme:dark;
+  --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; --torii:#FF7A5C; color-scheme:dark;
   --sea:#0F1124; --land:#1E2139; --land23:#262A48;
 }
 *,*::before,*::after{box-sizing:inherit}
@@ -377,6 +377,15 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .tmap .pin.sel circle{stroke:var(--ink);stroke-width:2.5}
 .tmap .pin.p-pink circle{fill:var(--pink)} .tmap .pin.p-cyan circle{fill:var(--cyan)} .tmap .pin.p-amber circle{fill:var(--amber)}
 .mapinfo{font-size:13px;margin-top:8px}
+.tmap .seichi{cursor:pointer} .tmap .seichi path{fill:var(--torii)} .tmap .seichi circle{fill:transparent}
+.tmap .seichi.sel circle{fill:color-mix(in srgb,var(--torii) 22%,transparent);stroke:var(--torii);stroke-width:1.2}
+.sj-out{margin-top:8px;font-size:12px;color:var(--muted)} .sj-out summary{cursor:pointer;padding:2px 0}
+.sj-out>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sj-out button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 9px;font-size:12px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sj{margin:0 0 10px} .sj .vn{color:var(--torii)} .sj .sjt{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:0 6px;margin-left:6px;color:var(--muted);font-weight:400}
+.sj p{margin:2px 0;overflow-wrap:anywhere} .sj .sjw a{margin-right:8px}
+.wh-sj{border:1px solid var(--line);border-left:3px solid var(--torii);border-radius:10px;padding:8px 10px;margin:0 0 8px;background:var(--surface)}
+.wh-sj p{margin:2px 0;font-size:13px;overflow-wrap:anywhere} .wh-sj .actions{margin-top:4px;display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
 .mapinfo .vn{font-weight:700;font-size:14px}
 .mapinfo ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px}
 .mapinfo li button{all:unset;cursor:pointer;color:var(--ink)}
@@ -1126,8 +1135,33 @@ let akibaOpen=false;
 // 오타쿠 행사가 몰리는 곳. [이름, 위도, 경도]. 23구 보기 / 수도권 보기에 따로 둔다
 const SPOTS={"23":[["秋葉原",35.6985,139.7731],["池袋",35.7325,139.7095],["有楽町",35.675,139.763],["お台場",35.627,139.776],["豊洲",35.649,139.79]], // 구 이름과 같은 新宿·渋谷·中野는 뺐다
   kanto:[["幕張メッセ",35.6478,140.0347],["舞浜",35.6329,139.8853],["横浜",35.4593,139.6351],["川崎",35.5313,139.6976],["さいたま新都心",35.8946,139.6309],["ところざわサクラタウン",35.7868,139.4847],["立川",35.6984,139.4139],["千葉",35.6131,140.1133],["海老名",35.4525,139.3905]]};
-let mapView="23", mapSel=null, mapGroups=[], mapOutside=0, mapOpen=false;
+let mapView="23", mapSel=null, mapGroups=[], mapOutside=0, mapOpen=false, mapList=[];
 try{mapOpen=localStorage.getItem("matome-map")==="1"}catch{}
+/* 성지순례(data/seichi.json, 사람이 고침): 작품의 무대·명소. 지도의 '⛩ 성지' 칩을 켜면 ⛩ 표시(누르면 설명·근처 2km 안 행사), 작품 허브에 '성지' 칸 */
+let mapSeichi=false, seichi=null, seichiKo=new Map(), seichiTried=false;
+try{mapSeichi=localStorage.getItem("matome-seichi")==="1"}catch{}
+async function loadSeichi(){
+  if(seichiTried) return; seichiTried=true;
+  const raw=await getJSON("data/seichi.json",null), str=(v,n)=>String(v??"").slice(0,n);
+  const ko=raw&&raw.works&&typeof raw.works==="object"?raw.works:{};
+  seichiKo=new Map(Object.entries(ko).map(([k,v])=>[wkey(canonWork(str(k,60))),str(v,60)]));
+  seichi=(raw&&Array.isArray(raw.spots)?raw.spots:[]).slice(0,300).map((x,i)=>x&&typeof x==="object"?{i,n:str(x.n,60),w:(Array.isArray(x.w)?x.w:[]).slice(0,4).map(w=>canonWork(str(w,60))).filter(Boolean),
+    geo:geoOk(x.geo,"")?x.geo.map(Number):[],a:str(x.a,60),d:str(x.d,160),t:x.t==="명소"?"명소":"배경"}:null).filter(x=>x&&x.n&&x.geo.length&&x.w.length);
+  if(!$("#feed").hidden&&mapSeichi) render(); if(!$("#works").hidden) renderWorks();
+}
+const kmDist=(a,b)=>{const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,h=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const seichiWorkName=w=>seichiKo.get(wkey(w))||WORKS.ko.get(wkey(w))||w;
+const seichiOf=w=>seichi?seichi.filter(x=>x.w.some(n=>wkey(n)===w.key)):[];
+const seichiGmap=x=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(`${x.n} ${x.a}`.trim());
+function seichiInfo(i){
+  const s0=seichi&&seichi[i]; if(!s0) return "";
+  const grp=seichi.filter(x=>x===s0||kmDist(x.geo,s0.geo)<.4); // 붙어 있는 곳(秋葉原의 두 곳 등)은 같이 보여 준다
+  const near=mapList.filter(x=>x.it.geo.length&&hasPlace(x.it)).map(x=>({it:x.it,km:kmDist(s0.geo,x.it.geo)})).filter(x=>x.km<=2).sort((a,b)=>a.km-b.km);
+  return grp.map(x=>`<div class="sj"><div class="vn">⛩ ${esc(x.n)}<span class="sjt">${x.t==="명소"?"명소":"작품 무대"}</span></div>
+    <div class="sjw">${x.w.map(w=>`<a href="#work=${encodeURIComponent(w)}" data-work="${esc(w)}">${esc(seichiWorkName(w))}</a>`).join("")}</div>
+    <p>${esc(x.d)}</p><small class="note">${esc(x.a)}</small> · <a href="${esc(seichiGmap(x))}" target="_blank" rel="noopener">구글 지도에서 보기</a></div>`).join("")
+    +`<div class="vn" style="font-size:13px">근처 2km 안 행사 ${near.length}건</div>`+(near.length?`<ul>${near.slice(0,8).map(({it,km})=>`<li><small>${km<1?Math.round(km*1000/50)*50+"m":km.toFixed(1)+"km"}</small><button data-goto="${esc(it.id)}">${esc(tx(it,"title"))}</button></li>`).join("")}</ul>`:`<span class="note">지금 피드 조건으로는 근처 행사가 없어요.</span>`);
+}
 const mproj=([lat,lon])=>[(lon-138.93)*0.81208*1231.4,(35.92-lat)*1231.4];
 window.MATOME={get api(){return BBS.api},map:{TOKYO,KANTO,MAPBOX,mproj}}; // 같은 출처 게임 페이지(games/*.html)가 parent.MATOME 으로 스코어 보드 주소·도쿄 지도를 쓴다
 const hasPlace=it=>it.venue&&!/某所/.test(it.venue);
@@ -1135,6 +1169,7 @@ function gmapUrl(it){const q=hasPlace(it)?`${it.venue} ${it.address||""}`.trim()
 const pinTone=c=>["live","official"].includes(c)?"pink":["collab","popup","doujin"].includes(c)?"amber":"cyan";
 function renderMap(list){
   if(mapWeekend){const days=weekendDays();list=list.filter(x=>onWeekend(x.it,days))}
+  mapList=list; if(mapSeichi&&!seichiTried) loadSeichi();
   const groups=new Map(); let outside=0;
   for(const x of list){
     const it=x.it; if(!it.geo.length||!hasPlace(it)) continue;
@@ -1152,7 +1187,7 @@ function renderMap(list){
     if(c){c.venues.push(g);c.items.push(...g.items)} else mapGroups.push({k:g.k,x:g.x,y:g.y,it:g.it,venues:[g],items:[...g.items]});
   }
   mapGroups.sort((a,b)=>a.items.length-b.items.length); mapOutside=outside; // 많은 곳을 위에 그린다
-  if(mapSel&&!mapGroups.some(c=>c.k===mapSel)) mapSel=null;
+  if(mapSel&&!/^s\d+$/.test(mapSel)&&!mapGroups.some(c=>c.k===mapSel)) mapSel=null;
   const n=mapGroups.reduce((s,g)=>s+g.items.length,0);
   if(!n&&!outside&&!mapWeekend) return "";
   const inBox=(x,y,m=0)=>x>=vx+m&&x<=vx+vw-m&&y>=vy+m&&y<=vy+vh-m;
@@ -1162,17 +1197,22 @@ function renderMap(list){
   const lbl=(mapView==="23"?TOKYO.filter(t=>t[4]&&inBox(t[2],t[3],14)).map(([nm,,cx,cy])=>{const [dx,dy]=NUDGE[nm]||[0,0];return `<text x="${cx+dx}" y="${cy+dy}" font-size="${V.t}">${esc(nm.replace(/[区市町村]$/,""))}</text>`}).join("")
     :[["千葉",1160,220],["埼玉",640,-5],["神奈川",470,560],["東京",470,230]].map(([nm,x,y])=>`<text x="${x}" y="${y}" font-size="${V.t}">${nm}</text>`).join(""))
     +SPOTS[mapView].map(([nm,lat,lon])=>{const [x,y]=mproj([lat,lon]);return `<g class="spot"${nm==="秋葉原"?` data-akiba="1" style="cursor:pointer"`:""}><path d="M${x-V.s*.3},${y}l${V.s*.3},-${V.s*.3}l${V.s*.3},${V.s*.3}l-${V.s*.3},${V.s*.3}z"/><text x="${x+V.R+2}" y="${y+V.s*.4}" font-size="${V.s}" text-anchor="start">${esc(nm)}</text></g>`}).join("");
+  const sjOn=mapSeichi&&seichi, sjIn=sjOn?seichi.filter(x=>{const [px,py]=mproj(x.geo);return inBox(px,py)}):[], sjFar=sjOn?seichi.filter(x=>{const [px,py]=mproj(x.geo);return px<330||px>1290||py<-50||py>750}):[], sjMore=sjOn?seichi.length-sjIn.length-sjFar.length:0;
+  const torii=sjIn.map(x=>{const [cx,cy]=mproj(x.geo),u=V.s*.55,f=v=>v.toFixed(1);
+    return `<g class="seichi${mapSel==="s"+x.i?" sel":""}" data-seichi="${x.i}" tabindex="0" role="button" aria-label="성지 ${esc(x.n)}"><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(u*1.6)}"/><path d="M${f(cx-u*1.15)},${f(cy-u)}h${f(u*2.3)}v${f(u*.32)}h-${f(u*2.3)}zM${f(cx-u*.8)},${f(cy-u*.45)}h${f(u*1.6)}v${f(u*.22)}h-${f(u*1.6)}zM${f(cx-u*.68)},${f(cy-u*.7)}h${f(u*.26)}v${f(u*1.75)}h-${f(u*.26)}zM${f(cx+u*.42)},${f(cy-u*.7)}h${f(u*.26)}v${f(u*1.75)}h-${f(u*.26)}z"/></g>`}).join("");
   const pins=mapGroups.filter(g=>inBox(g.x,g.y)).map((g,i)=>{const r=g.items.length>1?V.R:V.r;
     return `<g class="pin p-${pinTone(g.it.category)}${g.k===mapSel?" sel":""}" data-pin="${esc(g.k)}" tabindex="0" role="button" aria-label="${esc(g.venues.map(v=>v.venue).join(", "))} ${g.items.length}건"><circle cx="${g.x.toFixed(1)}" cy="${g.y.toFixed(1)}" r="${r.toFixed(1)}"/>${g.items.length>1?`<text x="${g.x.toFixed(1)}" y="${g.y.toFixed(1)}" font-size="${(r*1.15).toFixed(1)}">${g.items.length}</text>`:""}</g>`}).join("");
-  return `<details class="mapbox"${mapOpen?" open":""}><summary>도쿄 지도 <small>· 행사장 ${groups.size}곳 · 소식 ${n}건</small></summary><div class="mapbody">
-    <div class="filters"><button class="chip" data-mapview="23" aria-pressed="${mapView==="23"}">23구</button><button class="chip" data-mapview="kanto" aria-pressed="${mapView==="kanto"}">수도권 (千葉·神奈川·埼玉)</button><button class="chip" data-mapweekend aria-pressed="${mapWeekend}">이번 주말</button></div>
-    <svg class="tmap" viewBox="${vx} ${vy} ${vw} ${vh}" role="img" aria-label="도쿄 행사장 지도"><g>${land}</g><g>${lbl}</g><g>${pins}</g></svg>
+  return `<details class="mapbox"${mapOpen?" open":""}><summary>도쿄 지도 <small>· 행사장 ${groups.size}곳 · 소식 ${n}건${sjOn?` · 성지 ${seichi.length}곳`:""}</small></summary><div class="mapbody">
+    <div class="filters"><button class="chip" data-mapview="23" aria-pressed="${mapView==="23"}">23구</button><button class="chip" data-mapview="kanto" aria-pressed="${mapView==="kanto"}">수도권 (千葉·神奈川·埼玉)</button><button class="chip" data-mapweekend aria-pressed="${mapWeekend}">이번 주말</button><button class="chip" data-mapseichi aria-pressed="${mapSeichi}">⛩ 성지</button></div>
+    <svg class="tmap" viewBox="${vx} ${vy} ${vw} ${vh}" role="img" aria-label="도쿄 행사장 지도"><g>${land}</g><g>${lbl}</g><g>${pins}</g><g>${torii}</g></svg>
+    ${sjMore||sjFar.length?`<details class="sj-out"><summary>${sjMore?`수도권 보기에 ⛩ ${sjMore}곳 더 · `:""}수도권 밖 성지 ${sjFar.length}곳</summary><div>${sjFar.map(x=>`<button type="button" data-seichi="${x.i}">⛩ ${esc(x.n)} · ${esc(seichiWorkName(x.w[0]))}</button>`).join("")}</div></details>`:""}
     <div class="mapinfo" id="mapinfo">${mapInfo()}</div>${akibaHtml(list)}<p class="note" style="margin:8px 0 0;font-size:11px">경계: 国土数値情報(行政区域) 가공 · 장소를 누르면 구글 지도가 열려요.</p></div></details>`;
 }
 function mapInfo(){
+  if(/^s\d+$/.test(mapSel||"")) return seichiInfo(+mapSel.slice(1));
   const g=mapGroups.find(g=>g.k===mapSel);
   const [vx,vy,vw,vh]=MAPBOX[mapView], hidden=mapGroups.filter(g=>!(g.x>=vx&&g.x<=vx+vw&&g.y>=vy&&g.y<=vy+vh)).reduce((n,g)=>n+g.items.length,0);
-  if(!g) return `<span class="note">점을 누르면 그곳에서 열리는 행사가 보여요. 숫자는 그 자리의 소식 수, ◆는 행사가 자주 열리는 동네예요.${hidden?` 이 범위 밖 행사 ${hidden}건은 수도권 보기에 있어요.`:""}${mapOutside?` 수도권 밖 행사 ${mapOutside}건은 각 소식의 장소 링크로 지도를 열 수 있어요.`:""}</span>`;
+  if(!g) return `<span class="note">점을 누르면 그곳에서 열리는 행사가 보여요. 숫자는 그 자리의 소식 수, ◆는 행사가 자주 열리는 동네예요.${mapSeichi?" ⛩는 작품의 무대·명소(성지)예요.":""}${hidden?` 이 범위 밖 행사 ${hidden}건은 수도권 보기에 있어요.`:""}${mapOutside?` 수도권 밖 행사 ${mapOutside}건은 각 소식의 장소 링크로 지도를 열 수 있어요.`:""}</span>`;
   const byDate=(a,b)=>(parseDate(a.eventDate)||Infinity)-(parseDate(b.eventDate)||Infinity);
   return g.venues.map(v=>`<div class="vn">${esc(v.venue)}</div><a href="${esc(gmapUrl(v.it))}" target="_blank" rel="noopener">구글 지도에서 보기</a>
     <ul>${[...v.items].sort(byDate).map(it=>`<li><small>${esc(it.eventDate?jst(parseDate(it.eventDate),{month:"numeric",day:"numeric",weekday:"short"}):"날짜 미정")}</small><button data-goto="${esc(it.id)}">${esc(tx(it,"title"))}</button></li>`).join("")}</ul>`).join(`<hr class="vsep">`);
@@ -1482,13 +1522,14 @@ function renderWorks(){
   const ani=season?season.list.filter(a=>animeHas(a,w)):[];
   const cms=comics?comics.series.filter(x=>comicHas(x,w)):[];
   const bzAll=buzzOf(w), bz=bzAll.slice(0,8);
+  if(!seichiTried) loadSeichi(); const sjs=seichiOf(w);
   const picks=weekly&&weekly.picks?weekly.picks.filter(p=>p.works.some(x=>wkey(canonWork(x))===w.key)):[];
   const sr=trendHist?trendSeries(w):[];
   // 함께 나오는 작품: 이 작품 소식(끝난 것 포함)에 같이 붙은 작품 태그를 센다(콜라보 상대·같은 시리즈)
   const co=new Map(); for(const it of mine) for(const x of new Set(it.works.map(canonWork))){const k=wkey(x);if(k!==w.key&&k.length>=2&&!WORKS.skip.has(k)&&!w.vars.includes(wnorm(x)))co.set(k,{n:x,c:(co.get(k)?.c||0)+1})}
   const coHtml=[...co.values()].sort((a,b)=>b.c-a.c).slice(0,8).map(x=>`<button type="button" data-work="${esc(x.n)}">${esc(x.n)} <small>${x.c}</small></button>`).join("");
   const rise=rising.find(r=>r.key===w.key);
-  const badges=[rank?`<span>유행 ${rank}위</span>`:"",rise?`<span title="최근 3일 하루 평균 기사 수가 그 전의 ${rise.x}배">급상승 ×${rise.x}</span>`:"",live.length?`<span class="c">소식 ${live.length}건</span>`:"",ani.length?`<span class="c">방영 중</span>`:"",bzAll.length?`<span class="c">X 언급 ${bzAll.length}</span>`:"",cms.length?`<span class="c">만갤 연재</span>`:""].join("");
+  const badges=[rank?`<span>유행 ${rank}위</span>`:"",rise?`<span title="최근 3일 하루 평균 기사 수가 그 전의 ${rise.x}배">급상승 ×${rise.x}</span>`:"",live.length?`<span class="c">소식 ${live.length}건</span>`:"",ani.length?`<span class="c">방영 중</span>`:"",bzAll.length?`<span class="c">X 언급 ${bzAll.length}</span>`:"",cms.length?`<span class="c">만갤 연재</span>`:"",sjs.length?`<span class="c">성지 ${sjs.length}곳</span>`:""].join("");
   const todayIso=new Date().toLocaleDateString("sv-SE",{timeZone:"Asia/Tokyo"}), ws=new Set(S.watching);
   const aniHtml=ani.map(a=>{const meta=[a.d<7?DAYS[a.d]+"요일":DAYS[a.d],a.tm&&esc(a.tm)+" JST",a.st&&esc(a.st),a.s&&(a.s>todayIso?`<span class="soon">${esc(a.s.slice(5).replace("-","/"))} 시작</span>`:"")].filter(Boolean).join(" · ");
     const img=thumbs.get(tkey(a.t)),hue=parseInt(hashId(a.t).slice(1),36)%360;
@@ -1503,7 +1544,7 @@ function renderWorks(){
   const wkHtml=picks.map(p=>`<div class="wh-wk"><h4>${esc(p.title)}</h4>${p.when?`<div class="wf">${esc(p.when)}${p.where?" · "+esc(p.where):""}</div>`:""}<p>${esc(p.desc)}</p>${p.links.length?`<div class="src">출처 · ${p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||l.url.replace(/^https?:\/\//,""))}</a>`).join(" · ")}</div>`:""}</div>`).join("");
   const LIM=20, shownLive=workAll?live:live.slice(0,LIM);
   el.innerHTML=`<div class="wh-top"><button type="button" class="btn ghost" data-workback>← 작품 목록</button><span class="wh-acts"><button type="button" class="btn ghost wh-fol" data-follow aria-pressed="${myWorks().some(x=>x.key===w.key)}">${myWorks().some(x=>x.key===w.key)?"★ 내 작품":"☆ 내 작품에 추가"}</button><button type="button" class="btn ghost" data-workshare>링크 공유</button></span></div>
-    <h2 class="wh-title">${esc(w.name)}</h2>${w.ko?`<p class="wh-ko">${esc(w.ko)}</p>`:""}<div class="wh-badges">${badges}</div>
+    <h2 class="wh-title">${esc(w.name)}</h2>${w.ko||seichiKo.get(w.key)?`<p class="wh-ko">${esc(w.ko||seichiKo.get(w.key))}</p>`:""}<div class="wh-badges">${badges}</div>
     ${sr.some(x=>x.c)?`<h3 class="wh-sec">유행 추이 <small>최근 ${sr.length}일, 뉴스 제목·본문에 이름이 나온 기사 수</small></h3>${trendHtml(sr)}`:trendTried?"":`<p class="note">유행 추이를 불러오는 중…</p>`}
     ${wkHtml?`<h3 class="wh-sec">주간 요약에서 <small>${esc(weekly.range||"")}</small></h3>${wkHtml}`:""}
     ${coHtml?`<h3 class="wh-sec">함께 나오는 작품 <small>이 작품 소식에 같이 태그된 작품 · 숫자는 소식 수</small></h3><div class="wh-co">${coHtml}</div>`:""}
@@ -1513,6 +1554,8 @@ function renderWorks(){
     ${mine.length>live.length?`<p class="note">끝난 소식 ${mine.length-live.length}건은 빼고 보여 줘요.</p>`:""}
     ${bz.length?`<h3 class="wh-sec">X 반응 <small>Togetter 정리 · 최근 일주일</small></h3>${bz.map(x=>buzzRow(x,0)).join("")}`:""}
     ${aniHtml?`<h3 class="wh-sec">방영 <small>${esc(season.name||"")}</small></h3>${aniHtml}`:""}
+    ${sjs.length?`<h3 class="wh-sec">⛩ 성지 <small>작품의 무대·명소 · 위치는 대략이에요</small></h3>${sjs.map(x=>{const [px,py]=mproj(x.geo),inMap=px>=330&&px<=1290&&py>=-50&&py<=750;
+      return `<div class="wh-sj"><b>${esc(x.n)}</b> <span class="note">· ${x.t==="명소"?"명소":"작품 무대"} · ${esc(x.a)}</span><p>${esc(x.d)}</p><div class="actions">${inMap?`<button type="button" class="lnk btn ghost" data-seichimap="${x.i}">보드 지도에서 보기 · 근처 행사</button>`:""}<a href="${esc(seichiGmap(x))}" target="_blank" rel="noopener">구글 지도</a></div></div>`}).join("")}`:""}
     ${cmHtml?`<h3 class="wh-sec">만갤 연재 <small>누르면 원문(디시)이 열리고 마지막으로 연 화를 기억해요</small></h3>${cmHtml}`:""}`;
 }
 function openWork(name,push=true){
@@ -1820,8 +1863,16 @@ document.addEventListener("click",e=>{
   const vt=e.target.closest("[data-vt]"); if(vt){filterVt=vt.dataset.vt;render();return}
   const mv=e.target.closest("[data-mapview]"); if(mv){mapView=mv.dataset.mapview;mapSel=null;render();return}
   if(e.target.closest("[data-akiba]")){akibaOpen=!akibaOpen;render();return}
+  if(e.target.closest("[data-mapseichi]")){mapSeichi=!mapSeichi;try{localStorage.setItem("matome-seichi",mapSeichi?"1":"0")}catch{}if(!mapSeichi&&/^s\d+$/.test(mapSel||""))mapSel=null;render();return}
+  const sjm=e.target.closest("[data-seichimap]"); if(sjm){const x=seichi&&seichi[+sjm.dataset.seichimap];if(!x)return;
+    mapSeichi=mapOpen=true;try{localStorage.setItem("matome-seichi","1");localStorage.setItem("matome-map","1")}catch{}
+    const [px,py]=mproj(x.geo),[bx,by,bw,bh]=MAPBOX["23"];mapView=px>=bx&&px<=bx+bw&&py>=by&&py<=by+bh?"23":"kanto";mapSel="s"+x.i;if(/^#(work|trip)/.test(location.hash))history.replaceState(null,"",location.pathname+location.search);showTab("feed");render();
+    requestAnimationFrame(()=>{const m=document.querySelector(".mapbox");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})});return}
+  const sj=e.target.closest("[data-seichi]"); if(sj){const k="s"+sj.dataset.seichi;mapSel=mapSel===k?null:k;
+    document.querySelectorAll(".tmap .seichi").forEach(p=>p.classList.toggle("sel","s"+p.dataset.seichi===mapSel));document.querySelectorAll(".tmap .pin.sel").forEach(p=>p.classList.remove("sel"));
+    const mi=$("#mapinfo");mi.innerHTML=mapInfo();if(sj.tagName==="BUTTON")mi.scrollIntoView({behavior:"smooth",block:"nearest"});return}
   const pin=e.target.closest("[data-pin]"); if(pin){mapSel=mapSel===pin.dataset.pin?null:pin.dataset.pin;
-    document.querySelectorAll(".tmap .pin").forEach(p=>p.classList.toggle("sel",p.dataset.pin===mapSel));$("#mapinfo").innerHTML=mapInfo();return}
+    document.querySelectorAll(".tmap .pin").forEach(p=>p.classList.toggle("sel",p.dataset.pin===mapSel));document.querySelectorAll(".tmap .seichi.sel").forEach(p=>p.classList.remove("sel"));$("#mapinfo").innerHTML=mapInfo();return}
   const wg=e.target.closest("[data-wkgoto]"); if(wg){e.preventDefault();filterCat=null;filterVt="all";feedQ="";feedMine=feedNew=false;if($("#fq"))$("#fq").value="";render();
     document.querySelector('nav.tabs [data-tab="feed"]').dispatchEvent(new MouseEvent("click",{bubbles:true}));
     const row=document.querySelector(`#feed article.row[data-id="${CSS.escape(wg.dataset.wkgoto)}"]`);

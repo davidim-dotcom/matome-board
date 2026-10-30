@@ -54,7 +54,7 @@ const GAMES = {
   '2048': { sheet: 'scores_2048', stage: 131072, head: ['시각', '이름', '점수', '최고 타일', '', '2048 달성'] },
   derby: { sheet: 'scores_derby', stage: 7, head: ['시각', '이름', '점수', '레이스', '선수', 'URA 제패'] }, // まとめダービー
   run: { sheet: 'scores_run', stage: 99, head: ['시각', '이름', '점수', '스테이지', '선수', ''] }, // まとめラン(2026-10 ダービー를 대체)
-  pen: { sheet: 'scores_pen', stage: 3, head: ['시각', '이름', '점수', '난이도', '곡:난이도', '풀콤보'] }, // ペンライト・オンステージ(skin 으로 곡·난이도별 순위)
+  pen: { sheet: 'scores_pen', stage: 4, head: ['시각', '이름', '점수', '난이도', '곡:난이도', '풀콤보'] }, // ペンライト・オンステージ(skin 으로 곡·난이도별 순위)
   ensei: { sheet: 'scores_ensei', stage: 30, head: ['시각', '이름', '점수', '방문', '원정 날짜', ''] }, // 도쿄 원정 대작전(skin = 그 주 원정 날짜, 주마다 순위)
 };
 const game_ = g => GAMES[g] ? g : 'dm';

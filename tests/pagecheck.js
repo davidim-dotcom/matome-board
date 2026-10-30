@@ -71,6 +71,16 @@ async function run(dev) {
   if (ovg.length) bad.push(`${dev} 그림 보기: 화면 밖으로 넘침 → ${ovg.join(" | ")}`);
   await page.evaluate(() => { document.querySelector(".pmodal")?.remove(); const b = document.querySelector("[data-fview]"); if (b) b.click(); });  // 목록으로 되돌림
   console.log(`${tiles && modal && !ovg.length ? "OK  " : "FAIL"} ${dev} 그림 보기`);
+  // 도쿄 지도의 '⛩ 성지'(data/seichi.json): 켜면 ⛩ 표시가 찍히고, 누르면 설명이 나온다
+  await page.evaluate(() => { const d = document.querySelector(".mapbox"); if (d) d.open = true; document.querySelector("[data-mapseichi]")?.click(); });
+  await page.waitForSelector(".tmap .seichi", { timeout: 6000 }).catch(() => {});  // seichi.json 을 처음 켤 때 읽는다(CI 에서 900ms 로는 모자랐다)
+  const sj = await page.$$eval(".tmap .seichi", (a) => a.length);
+  await page.evaluate(() => document.querySelector(".tmap .seichi")?.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+  const sji = await page.evaluate(() => !!document.querySelector("#mapinfo .sj")), ovs = await page.evaluate(OVERFLOW);
+  if (!sj || !sji) bad.push(`${dev} 성지 지도: ⛩ ${sj}개, 설명 ${sji ? "나옴" : "안 나옴"}`);
+  if (ovs.length) bad.push(`${dev} 성지 지도: 화면 밖으로 넘침 → ${ovs.join(" | ")}`);
+  await page.evaluate(() => document.querySelector("[data-mapseichi]")?.click());
+  console.log(`${sj && sji && !ovs.length ? "OK  " : "FAIL"} ${dev} 성지 지도`);
   // 작품 허브 주소로 바로 들어오는 길(#work=)
   await page.goto(`http://127.0.0.1:${PORT}/#work=${encodeURIComponent("ホロライブ")}`, { waitUntil: "load" });
   await page.waitForTimeout(2000);
