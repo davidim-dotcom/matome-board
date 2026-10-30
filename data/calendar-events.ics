@@ -1,0 +1,5205 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//matome-board//calendar//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:마토메 보드 · 행사
+X-WR-TIMEZONE:Asia/Tokyo
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:98c3d30abfe95916-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261121T070000Z
+DTEND:20261121T090000Z
+SUMMARY:劇場アニメーション『魔法使いの夜』公開記念
+ 舞台挨拶【東京・1回目】
+LOCATION:TOHOシネマズ日比谷 東京都
+DESCRIPTION:극장 애니메이션 “마법사의 밤” 공개 기념 
+ 무대 인사【도쿄·1회째】\nアニメハック イベント\nhtt
+ ps://anime.eiga.com/event/174966/
+URL:https://anime.eiga.com/event/174966/
+END:VEVENT
+BEGIN:VEVENT
+UID:505f12896c334f0e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261121T104500Z
+DTEND:20261121T124500Z
+SUMMARY:劇場アニメーション『魔法使いの夜』公開記念
+ 舞台挨拶【東京・2回目】
+LOCATION:TOHOシネマズ日比谷 東京都
+DESCRIPTION:극장 애니메이션 “마법사의 밤” 공개 기념 
+ 무대 인사【도쿄·2회째】\nアニメハック イベント\nhtt
+ ps://anime.eiga.com/event/174967/
+URL:https://anime.eiga.com/event/174967/
+END:VEVENT
+BEGIN:VEVENT
+UID:f5eaf8ddc9561978-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261122T044000Z
+DTEND:20261122T064000Z
+SUMMARY:劇場アニメーション『魔法使いの夜』公開記念
+ 舞台挨拶【大阪・1回目】
+LOCATION:TOHOシネマズ梅田 大阪府
+DESCRIPTION:극장 애니메이션 “마법사의 밤” 공개 기념 
+ 무대 인사【오사카·1회째】\nアニメハック イベント\n
+ https://anime.eiga.com/event/174968/
+URL:https://anime.eiga.com/event/174968/
+END:VEVENT
+BEGIN:VEVENT
+UID:f2240695df7589d7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261122T083000Z
+DTEND:20261122T103000Z
+SUMMARY:劇場アニメーション『魔法使いの夜』公開記念
+ 舞台挨拶【大阪・2回目】
+LOCATION:TOHOシネマズ梅田 大阪府
+DESCRIPTION:극장 애니메이션 “마법사의 밤” 공개 기념 
+ 무대 인사【오사카·2회째】\nアニメハック イベント\n
+ https://anime.eiga.com/event/174969/
+URL:https://anime.eiga.com/event/174969/
+END:VEVENT
+BEGIN:VEVENT
+UID:6b69de7a713d4dd1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:劇場版『魔法使いの夜』11月20日公開初日よりIMAX
+ 上映決定！ 戸松遥＆小林裕介登壇の舞台挨拶も開催
+DESCRIPTION:극장판『마법사의 밤』11월 20일 공개 첫날부
+ 터 IMAX 상영 결정! 토마츠 하루카 & 고바야시 유스케 등
+ 단의 무대 인사도 개최\n電撃オンライン\nhttps://dengekion
+ line.com/article/202610/92582\nhttps://w.pia.jp/s/maho26kba/
+URL:https://dengekionline.com/article/202610/92582
+END:VEVENT
+BEGIN:VEVENT
+UID:e85a71d613499d28-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261225
+SUMMARY:「THE WORLD OF BIOHAZARD 30周年展」発表会＆内覧会レ
+ ポート。ドミトレスクの座像や等身大ウェスカーなど
+ ，迫力ある立体展示と趣向を凝らした演出が満載
+DESCRIPTION:「THE WORLD OF BIOHAZARD 30주년전」 발표회＆내람
+ 회 리포트. 도미토레스크의 좌상이나 등신대 웨스커 
+ 등\, 박력 있는 입체 전시와 취향을 응시한 연출이 가
+ 득\n4Gamer\nhttps://www.4gamer.net/games/013/G101397/20261030002/
+URL:https://www.4gamer.net/games/013/G101397/20261030002/
+END:VEVENT
+BEGIN:VEVENT
+UID:b672844533b6e6ae-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:「Dead by Daylight」，映画「テリファー」とのコラ
+ ボチャプターが登場。新キラー“Art the Clown”を体験
+ できるPTBをスタート
+DESCRIPTION:「Dead by Daylight」\, 영화 「테리퍼」와의 콜라
+ 보레이션 챕터가 등장. 새로운 킬러 “Art the Clown”을 
+ 체험할 수 있는 PTB를 스타트\n4Gamer\nhttps://www.4gamer.net/ga
+ mes/333/G033338/20261029062/
+URL:https://www.4gamer.net/games/333/G033338/20261029062/
+END:VEVENT
+BEGIN:VEVENT
+UID:7686e677b280a5b3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:「PlayStation Partner Awards 2026 Japan Asia」，2026年12月3
+ 日に開催
+DESCRIPTION:「PlayStation Partner Awards 2026 Japan Asia」\, 2026년 12
+ 월 3일에 개최\n4Gamer\nhttps://www.4gamer.net/games/999/G999903/202
+ 61029063/
+URL:https://www.4gamer.net/games/999/G999903/20261029063/
+END:VEVENT
+BEGIN:VEVENT
+UID:d14a9b91889fe4aa-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:インディーゲームのグラフィックス制作を学ぶ
+ 「GAME GRAPHICS JAM」，11月7日にオンライン開催。「ghostpi
+ a」「アンリアルライフ」を題材にした講演も
+DESCRIPTION:인디 게임의 그래픽 제작을 배우는 「GAME GRAPHI
+ CS JAM」\, 11월 7일에 온라인 개최. 「ghostpia」 「언리얼 
+ 라이프」를 소재로 한 강연도\n4Gamer\nhttps://www.4gamer.net/
+ games/991/G999101/20261029055/
+URL:https://www.4gamer.net/games/991/G999101/20261029055/
+END:VEVENT
+BEGIN:VEVENT
+UID:9734a49943ecc630-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:にじさんじ「さんばか」が可憐なお嬢様コーデ
+ をまとう新グッズ「SANBAKA Palais de Rose」が10月30日発売
+DESCRIPTION:니지산지 「산바카」가 가련한 아가씨 코데를
+  입은 신상품 「SANBAKA Palais de Rose」가 10월 30일 발매\n4G
+ amer\nhttps://www.4gamer.net/games/004/G100451/20261029044/
+URL:https://www.4gamer.net/games/004/G100451/20261029044/
+END:VEVENT
+BEGIN:VEVENT
+UID:e1dc37091fc96387-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:ボロボロのRV車を修理しながら終末世界を冒険。
+ 最大4人協力型サバイバルドライブゲーム「Nomad Drive」
+ ，配信開始
+DESCRIPTION:보로보로의 RV차를 수리하면서 종말 세계를 모
+ 험. 최대 4명 협력형 서바이벌 드라이브 게임 「Nomad Dri
+ ve」\, 배포 개시\n4Gamer\nhttps://www.4gamer.net/games/054/G105417/
+ 20261029033/
+URL:https://www.4gamer.net/games/054/G105417/20261029033/
+END:VEVENT
+BEGIN:VEVENT
+UID:9f60a6e1088dd9c1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ジェラート ピケより「スヌーピー」コラボグッ
+ ズが11月6日発売！お揃いのボーダー柄を着た仲間たち
+ とのルームウェア、雑貨など多数ラインナップ
+DESCRIPTION:젤라토 피케에서 "스누피"콜라보 상품이 11월 6
+ 일 발매! 갖추어진 테두리 무늬를 입은 동료들과의 룸
+ 웨어\, 잡화 등 다수 라인업\nインサイド\nhttps://www.insid
+ e-games.jp/article/2026/10/30/190104.html
+URL:https://www.inside-games.jp/article/2026/10/30/190104.html
+END:VEVENT
+BEGIN:VEVENT
+UID:26a9a7a7b29d4678-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:しまむらで「雪ミク」アイテムが11月3日発売！
+ 可愛いデザインのTシャツ・雑貨を用意、オンライン
+ ストアは同日15時から
+DESCRIPTION:시마무라에서 「유키 미쿠」아이템이 11월 3일
+  발매! 귀여운 디자인의 티셔츠・잡화를 준비\, 온라인
+  스토어는 같은 날 15시부터\nインサイド\nhttps://www.insid
+ e-games.jp/article/2026/10/30/190095.html
+URL:https://www.inside-games.jp/article/2026/10/30/190095.html
+END:VEVENT
+BEGIN:VEVENT
+UID:b72e8eccb04d0760-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ドンキ・アピタで「ワイルド・スピード」グッ
+ ズが11月7日発売！ブライアンのナンバープレート型イ
+ ンテリアや、ボンベ型クッションなど豊富なデザイン
+DESCRIPTION:돈키 아피타에서 '와일드 스피드' 상품이 11월 
+ 7일 발매! 브라이언의 넘버 플레이트형 인테리어나\, 
+ 봄베형 쿠션 등 풍부한 디자인\nインサイド\nhttps://www.i
+ nside-games.jp/article/2026/10/30/190089.html
+URL:https://www.inside-games.jp/article/2026/10/30/190089.html
+END:VEVENT
+BEGIN:VEVENT
+UID:980866a40d0b95a7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:くら寿司で「にじさんじ」コラボ第3弾が開催！
+ 咎人、リトテツ、おうとうのグッズやコラボメニュー
+ を多数展開
+DESCRIPTION:쿠라 스시에서 「니지 산지」콜라보 제3탄이 
+ 개최!咎人\, リトテツ\, 우도우의 상품과 콜라보레이션
+  메뉴를 다수 전개\nインサイド\nhttps://www.inside-games.jp/a
+ rticle/2026/10/30/190061.html
+URL:https://www.inside-games.jp/article/2026/10/30/190061.html
+END:VEVENT
+BEGIN:VEVENT
+UID:d50819d9e724aea4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261111
+DTEND;VALUE=DATE:20261112
+SUMMARY:カービィがちょこんと乗った「いちごケーキ」
+ が可愛い！ 「カービィカフェ PETIT」初のホールケー
+ キが11月1日発売
+DESCRIPTION:커비가 조금 탄 "딸기 케이크"가 귀엽다! '커비
+ 카페 PETIT' 첫 홀케이크 11월 1일 발매\nインサイド\nhttps
+ ://www.inside-games.jp/article/2026/10/29/190058.html
+URL:https://www.inside-games.jp/article/2026/10/29/190058.html
+END:VEVENT
+BEGIN:VEVENT
+UID:19348032a1d6903e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:TVアニメ「リコリス・リコイル」POP UP SHOP in マル
+ イの開催が決定！　「ポンチョスタイル」をコンセプ
+ トにした新規描き下ろしイラストグッズが登場
+LOCATION:新宿マルイ 東京都新宿区
+DESCRIPTION:TV 애니메이션 「리콜리스·리코일」POP UP SHOP i
+ n 마루이의 개최가 결정! '판초 스타일'을 컨셉으로 한 
+ 신규 신작 일러스트 상품이 등장\nGAME Watch\nhttps://game.wa
+ tch.impress.co.jp/docs/news/2152665.html
+URL:https://game.watch.impress.co.jp/docs/news/2152665.html
+END:VEVENT
+BEGIN:VEVENT
+UID:900282f831d91d01-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:新作「OD」の展示も！ コジプロ10周年記念展を一
+ 足先に見てきた実物大ルーデンスがお出迎え。会場の
+ 様子やグッズを撮り下ろしで紹介
+LOCATION:麻布台ヒルズ 東京都港区
+DESCRIPTION:신작 「OD」의 전시도! 코지프로 10주년 기념전
+ 을 한발 앞서 본 실물대 루덴스가 마중. 회장의 모습이
+ 나 상품을 찍어 내려 소개\nGAME Watch\nhttps://game.watch.impre
+ ss.co.jp/docs/news/2152569.html
+URL:https://game.watch.impress.co.jp/docs/news/2152569.html
+END:VEVENT
+BEGIN:VEVENT
+UID:4d749732ff0d8d9f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:「プチプラネット」のリリース日が12月4日に決
+ 定！ 「原神」のHoYoverseが手掛けるスローライフゲー
+ ムグッズが当たる各種キャンペーンも開催
+DESCRIPTION:「쁘띠 플래닛」의 릴리스일이 12월 4일에 결
+ 정! 「하라진」의 HoYoverse가 다루는 슬로우 라이프 게
+ 임 상품이 맞는 각종 캠페인도 개최\nGAME Watch\nhttps://gam
+ e.watch.impress.co.jp/docs/news/2152568.html
+URL:https://game.watch.impress.co.jp/docs/news/2152568.html
+END:VEVENT
+BEGIN:VEVENT
+UID:5385e1265b170cb5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:くら寿司×「にじさんじ」コラボ第1弾景品はめ
+ っちゃデカいクリアポスター！ 実物を一足早く撮影
+ してきた
+DESCRIPTION:쿠라 스시 × 「니지 산지」콜라보 제1탄 경품
+ 은 엄청 큰 클리어 포스터! 실물을 한발 빨리 촬영해왔
+ 다\nGAME Watch\nhttps://game.watch.impress.co.jp/docs/kikaku/2151603.ht
+ ml
+URL:https://game.watch.impress.co.jp/docs/kikaku/2151603.html
+END:VEVENT
+BEGIN:VEVENT
+UID:b6e1c00ea7de2d09-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261124
+SUMMARY:「ギルクラ×カバネリ展」内覧レポ！ 世界観堪
+ 能できる展示＋いのりと無名がかわいい両主役梶裕貴
+ さん＆畠中祐さんも登場
+DESCRIPTION:「길쿠라×가바네리전」내람 레포! 세계관 즐
+ 길 수 있는 전시＋이노리와 무명이 귀여운 양주역 카
+ 지 유키씨＆하타나카 유우씨도 등장\nGAME Watch\nhttps://ga
+ me.watch.impress.co.jp/docs/preview/2152441.html
+URL:https://game.watch.impress.co.jp/docs/preview/2152441.html
+END:VEVENT
+BEGIN:VEVENT
+UID:85dc599525a0bdf2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:「暁のヨナ」完結記念 アニメイトフェア 12月19
+ 日より開催!
+DESCRIPTION:「아키노 요나」완결 기념 애니메이트 페어 12
+ 월 19일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/akatsuki-no-yona-kanketsu-animate-fair-2026/
+URL:https://collabo-cafe.com/events/collabo/akatsuki-no-yona-kanketsu-ani
+ mate-fair-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:7254e0d4914787f9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:鋼の錬金術師 × JR東海 推し旅 第2弾 11月27日より
+ 開催!
+DESCRIPTION:강철의 연금술사 × JR 도카이 추천 여행 제2탄 
+ 11월 27일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/
+ events/collabo/fullmetal-alchemist-event-oshitabi-jr-central-2026/
+URL:https://collabo-cafe.com/events/collabo/fullmetal-alchemist-event-osh
+ itabi-jr-central-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f5d2f142908c48db-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:TVアニメ『WIND BREAKER』とのコラボレーションカフ
+ ェ第2弾が開催決定！
+DESCRIPTION:TV 애니메이션 “WIND BREAKER”와의 콜라보레이
+ 션 카페 제2탄이 개최 결정!\nスイーツパラダイス\nhttps
+ ://www.sweets-paradise.jp/collaboration/wb2?utm_source=rss&utm_medium=rs
+ s&utm_campaign=tv%25e3%2582%25a2%25e3%2583%258b%25e3%2583%25a1%25e3%2580
+ %258ewind-breaker%25e3%2580%258f%25e3%2581%25a8%25e3%2581%25ae%25e3%2582
+ %25b3%25e3%2583%25a9%25e3%2583%259c%25e3%2583%25ac%25e3%2583%25bc%25e3%2
+ 582%25b7%25e3%2583%25a7%25e3%2583%25b3%25e3%2582%25ab%25e3%2583%2595%25e
+ 3%2582%25a7%25e7%25ac%25ac2%25e5%25bc%25be
+URL:https://www.sweets-paradise.jp/collaboration/wb2?utm_source=rss&utm_m
+ edium=rss&utm_campaign=tv%25e3%2582%25a2%25e3%2583%258b%25e3%2583%25a1%2
+ 5e3%2580%258ewind-breaker%25e3%2580%258f%25e3%2581%25a8%25e3%2581%25ae%2
+ 5e3%2582%25b3%25e3%2583%25a9%25e3%2583%259c%25e3%2583%25ac%25e3%2583%25b
+ c%25e3%2582%25b7%25e3%2583%25a7%25e3%2583%25b3%25e3%2582%25ab%25e3%2583%
+ 2595%25e3%2582%25a7%25e7%25ac%25ac2%25e5%25bc%25be
+END:VEVENT
+BEGIN:VEVENT
+UID:45d965fde693a6c8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:『もちわさ日 Collaboration Cafe』の 開催が決定！
+DESCRIPTION:「모치와사일 Collaboration Cafe」의 개최가 결정!
+ \nスイーツパラダイス\nhttps://www.sweets-paradise.jp/collaborat
+ ion/mochiwasabi2?utm_source=rss&utm_medium=rss&utm_campaign=%25e3%2580%2
+ 58e%25e3%2582%2582%25e3%2581%25a1%25e3%2582%258f%25e3%2581%2595%25e6%259
+ 7%25a5-collaboration-cafe%25e3%2580%258f%25e3%2581%25ae-%25e9%2596%258b%
+ 25e5%2582%25ac%25e3%2581%258c%25e6%25b1%25ba%25e5%25ae%259a%25ef%25bc%25
+ 81-2
+URL:https://www.sweets-paradise.jp/collaboration/mochiwasabi2?utm_source=
+ rss&utm_medium=rss&utm_campaign=%25e3%2580%258e%25e3%2582%2582%25e3%2581
+ %25a1%25e3%2582%258f%25e3%2581%2595%25e6%2597%25a5-collaboration-cafe%25
+ e3%2580%258f%25e3%2581%25ae-%25e9%2596%258b%25e5%2582%25ac%25e3%2581%258
+ c%25e6%25b1%25ba%25e5%25ae%259a%25ef%25bc%2581-2
+END:VEVENT
+BEGIN:VEVENT
+UID:3b15c5854d2b7749-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:『BanG Dream! Our Notes（バンドリ！アワーノーツ）
+ 』とのコラボカフェ開催決定！！
+DESCRIPTION:「BanG Dream! Our Notes(번들리!아워 노트)」와의 
+ 콜라보 카페 개최 결정! !\nスイーツパラダイス\nhttps://
+ www.sweets-paradise.jp/collaboration/ournotes?utm_source=rss&utm_medium=
+ rss&utm_campaign=30764-2
+URL:https://www.sweets-paradise.jp/collaboration/ournotes?utm_source=rss&
+ utm_medium=rss&utm_campaign=30764-2
+END:VEVENT
+BEGIN:VEVENT
+UID:7a6998911b35dab0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:800名以上のクリエイターが出展するVRメタバース
+ 即売会「メタフェス2026」が10/31よりVRChatにて開催
+DESCRIPTION:800명 이상의 크리에이터가 출전하는 VR 메타버
+ 스 즉매회 「메타페스 2026」이 10/31부터 VRChat에서 개최
+ \nPANORA\nhttps://panora.tokyo/archives/161669
+URL:https://panora.tokyo/archives/161669
+END:VEVENT
+BEGIN:VEVENT
+UID:7827919d0f19cb68-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ストリーマー20名が激突　「餓狼伝説 City of the Wo
+ lves STREAMER CUP」が11/7に開催　SNK公式チャンネルにて生
+ 配信決定
+DESCRIPTION:스트리머 20명이 격돌 “아랑 전설 City of the Wol
+ ves STREAMER CUP”가 11/7에 개최 SNK 공식 채널에서 생 전달
+  결정\nPANORA\nhttps://panora.tokyo/archives/161652
+URL:https://panora.tokyo/archives/161652
+END:VEVENT
+BEGIN:VEVENT
+UID:c7927811b275ed41-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:オーディオブランド「TuneMATE」より、にじさんじ
+ 所属・樋口楓とのコラボイヤホン「TMX004-KAEDE」が発売
+ 　11/16より受注開始
+DESCRIPTION:오디오 브랜드 「TuneMATE」보다\, 니지산지 소
+ 속・히구치 카에와의 콜라보 이어폰 「TMX004-KAEDE」가 
+ 발매 11/16부터 수주 개시\nPANORA\nhttps://panora.tokyo/archives/
+ 161647
+URL:https://panora.tokyo/archives/161647
+END:VEVENT
+BEGIN:VEVENT
+UID:ab95062e71e128d4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:フェンダー×ポケモン、ドット絵仕様の30周年記
+ 念ギター発表　8-bitサウンド機能も搭載
+DESCRIPTION:펜더×포켓몬\, 도트 그림 사양의 30주년 기념 
+ 기타 발표 8-bit 사운드 기능도 탑재\nKAI-YOU\nhttps://kai-you
+ .net/article/97014
+URL:https://kai-you.net/article/97014
+END:VEVENT
+BEGIN:VEVENT
+UID:a4646c2f9a966e4f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:公式ショップ「hololive production official shop in Tokyo S
+ tation」、新区画にてリニューアルオープン決定！
+LOCATION:東京キャラクターストリート 東京都千代田区
+DESCRIPTION:공식 숍 「hololive production official shop in Tokyo Stat
+ ion」\, 신구획에서 리뉴얼 오픈 결정!\nホロライブ公式
+ \nhttps://hololivepro.com/news/20261020-01-312/
+URL:https://hololivepro.com/news/20261020-01-312/
+END:VEVENT
+BEGIN:VEVENT
+UID:7c0eb1672f653fa1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261216
+DTEND;VALUE=DATE:20261217
+SUMMARY:鷹嶺ルイ 1stライブ＠Kanadevia Hall 情報解禁！
+DESCRIPTION:타카미네 루이 1st 라이브@Kanadevia Hall 정보 해
+ 금!\nホロライブ公式\nhttps://hololivepro.com/news/20261004-01-30
+ 7/\nhttps://l-tike.com/takanelui/\nhttps://hololive-production.zaiko.io/
+ item/385308
+URL:https://hololivepro.com/news/20261004-01-307/
+END:VEVENT
+BEGIN:VEVENT
+UID:b13ceb69b7d8954c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+SUMMARY:「薬屋のひとりごと」猫猫＆壬氏、見上げる先
+ には…♪劇場版の衣装が巾着に!? アクスタや色紙も！
+  新グッズ登場＆アニメイトフェア開催
+DESCRIPTION:「약점의 한사람마다」고양이 고양이＆미즈
+ 씨\, 올려다보는데는…♪극장판의 의상이 건착에!? 악
+ 스타나 색종이도! 신상품 등장 & 애니메이트 페어 개최
+ \nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/30/104344.
+ html
+URL:https://animeanime.jp/article/2026/10/30/104344.html
+END:VEVENT
+BEGIN:VEVENT
+UID:570b47c738d94305-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:あなたの“推し活”事情を教えて！ よく買うグ
+ ッズ、よく行くイベントは？ アンケート〆切は11月2
+ 日【“推し活”調査隊】
+DESCRIPTION:당신의 "추천 활동"사정을 말해! 잘 사는 상품\
+ , 잘 가는 이벤트는? 앙케이트 〆절은 11월 2일【“추천
+ 활”조사대】\nアニメ!アニメ!\nhttps://animeanime.jp/article/
+ 2026/10/30/104342.html
+URL:https://animeanime.jp/article/2026/10/30/104342.html
+END:VEVENT
+BEGIN:VEVENT
+UID:a6a73e57b84cb60c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:「ガンダムSEED FREEDOM」アスラン、カガリとペア
+ リング♪ キラ＆ラクスはお揃いネックレス☆「THE KISS
+ 」コラボジュエリー登場
+DESCRIPTION:「건담 SEED FREEDOM」아스란\, 카가리와 페어링
+ ♪ 키라&락스는 갖추어진 목걸이☆\nアニメ!アニメ!\nht
+ tps://animeanime.jp/article/2026/10/30/104333.html
+URL:https://animeanime.jp/article/2026/10/30/104333.html
+END:VEVENT
+BEGIN:VEVENT
+UID:53aa203756dfcece-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:「サイコーじゃんッ」「コラボはよ」―「ちい
+ かわ」登場のアイス公式、マンガを現実で再現!? お尻
+ もプリティなクオリティ
+DESCRIPTION:「사이코쨩」「콜라보하요」―「치이카와」
+ 등장의 아이스 공식\, 만화를 현실로 재현!? 엉덩이도 
+ 예쁜 퀄리티\nアニメ!アニメ!\nhttps://animeanime.jp/article/20
+ 26/10/30/104332.html
+URL:https://animeanime.jp/article/2026/10/30/104332.html
+END:VEVENT
+BEGIN:VEVENT
+UID:d52ab3daaf8a3d4f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Ado×アナスイがコラボ！“青薔薇”の世界を表現
+ した限定コスメ＆ハンカチ、ポーチが登場♪
+DESCRIPTION:Ado×아나수이가 콜라보레이션! “청장미”의 
+ 세계를 표현한 한정 코스메틱 & 손수건\, 파우치가 등
+ 장♪\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/30/1
+ 04329.html
+URL:https://animeanime.jp/article/2026/10/30/104329.html
+END:VEVENT
+BEGIN:VEVENT
+UID:40f87a9b52dfb6d9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:『ダンガンロンパ』×ウェンディーズ・ファース
+ トキッチン初コラボが11/13開幕！ 描き下ろしクリアフ
+ ァイル付きポテトや限定グッズ登場
+DESCRIPTION:『당간 롬파』×웬디즈 퍼스트 키친 첫 콜라보
+ 레이션이 11/13 개막! 신작 클리어 파일 첨부 감자나 한
+ 정 상품 등장\n電撃オンライン\nhttps://dengekionline.com/arti
+ cle/202610/92623
+URL:https://dengekionline.com/article/202610/92623
+END:VEVENT
+BEGIN:VEVENT
+UID:cf9fd7f08124cffb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:『刀剣乱舞ぱずぎり』に新たな刀剣男士3振りが1
+ 1/4登場決定！ 特徴的な髪型や装飾が気になるシルエ
+ ットが先行公開！
+DESCRIPTION:『도검 난무 파즈기리』에 새로운 도검 남사 3
+  흔들림이 11/4 등장 결정! 특징적인 헤어스타일이나 장
+ 식이 신경이 쓰이는 실루엣이 선행 공개!\n電撃オンラ
+ イン\nhttps://dengekionline.com/article/202610/92603
+URL:https://dengekionline.com/article/202610/92603
+END:VEVENT
+BEGIN:VEVENT
+UID:d72889c3a860b0eb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:【ウマ娘】フォーエバーヤング等身大フィギュ
+ アが米キーンランド競馬場に登場！ Cygames冠レースは1
+ 0月31日開催
+DESCRIPTION:【말 딸】포에버 영 등신대 피규어가 미국 킨
+ 랜드 경마장에 등장! Cygames 크라운 레이스는 10월 31일 
+ 개최\n電撃オンライン\nhttps://dengekionline.com/article/202610/
+ 92569
+URL:https://dengekionline.com/article/202610/92569
+END:VEVENT
+BEGIN:VEVENT
+UID:cedb8cca1a1cbde0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:メガネの形をしたLinuxマシン「Raven Prism」予約開
+ 始 MITメディアラボから続く30年越しのウェアラブルコ
+ ンピュータ
+DESCRIPTION:안경의 형태로 리눅스 머신 "Raven Prism"예약 시
+ 작\nMoguLive\nhttps://www.moguravr.com/raven-prism-reservation-starts/
+URL:https://www.moguravr.com/raven-prism-reservation-starts/
+END:VEVENT
+BEGIN:VEVENT
+UID:c7396e516ebc2b0a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ハシラス、冠水したアンダーパスへの進入を疑
+ 似体験する防災XRを開発
+DESCRIPTION:하실러스\, 관수한 언더패스 진입을 의사 체험
+ 하는 방재 XR 개발\nMoguLive\nhttps://www.moguravr.com/hashilus-und
+ erpass-flood-prevention-xr/
+URL:https://www.moguravr.com/hashilus-underpass-flood-prevention-xr/
+END:VEVENT
+BEGIN:VEVENT
+UID:437a326ae62547c4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:「デスストランディング」の世界に没入できるAR
+ アプリが期間限定で登場！ 麻布台ヒルズで開催中の
+ 展示会で体験可能
+LOCATION:麻布台ヒルズ 東京都港区
+DESCRIPTION:「데스스트랜딩」의 세계에 몰입할 수 있는 AR
+ 앱이 기간 한정으로 등장! 아자부다이 힐즈에서 개최
+ 중인 전시회에서 체험 가능\nMoguLive\nhttps://www.moguravr.com
+ /kojima-productions-death-stranding-ar-app/
+URL:https://www.moguravr.com/kojima-productions-death-stranding-ar-app/
+END:VEVENT
+BEGIN:VEVENT
+UID:f13324d45a88724d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:イオンモール系VTuber静馬レイ、イオン公式との
+ コラボキャンペーン開催決定
+DESCRIPTION:이온 몰계 VTuber 시즈마 레이\, 이온 공식과의 
+ 콜라보 캠페인 개최 결정\nMoguLive\nhttps://www.moguravr.com/si
+ zmarei-aeonmall-blackfriday/
+URL:https://www.moguravr.com/sizmarei-aeonmall-blackfriday/
+END:VEVENT
+BEGIN:VEVENT
+UID:1aed6a50caac08da-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:リラックマ × ハイキュー!! POP UP in 5都市 11月20日
+ より登場!
+DESCRIPTION:리락쿠마 × 하이큐!! POP UP in 5 도시 11월 20일부
+ 터 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /rilakkuma-haikyu-popup-store-2026-add-info-burasage-nuigurumi/\nhttps:/
+ /livepocket.jp/p/h--q-
+URL:https://collabo-cafe.com/events/collabo/rilakkuma-haikyu-popup-store-
+ 2026-add-info-burasage-nuigurumi/
+END:VEVENT
+BEGIN:VEVENT
+UID:ef946f51c3d0b43e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270102
+DTEND;VALUE=DATE:20270103
+SUMMARY:らんま1/2 × アベイル グッズ15種 11月7日より発売
+ !
+DESCRIPTION:란마 1/2 × 아베일 상품 15종 11월 7일부터 발매!
+ \nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/ranma-good
+ s-avail-2026/
+URL:https://collabo-cafe.com/events/collabo/ranma-goods-avail-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c9464d8749680b93-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:葛飾北斎×初音ミク ストア アニメイト福岡ANNEX i
+ n 11月2日開催!
+DESCRIPTION:카츠 시카 호쿠사이 × 하츠네 미쿠 스토어 애
+ 니메이트 후쿠오카 ANNEX in 11 월 2 일 개최!\nコラボカフ
+ ェ\nhttps://collabo-cafe.com/events/collabo/hatsune-miku-hokusai-rella-
+ popup-animate-fukuoka-annex-2026/
+URL:https://collabo-cafe.com/events/collabo/hatsune-miku-hokusai-rella-po
+ pup-animate-fukuoka-annex-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:76bdeec284ac0aba-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20270201
+SUMMARY:薬屋のひとりごと × ツムラ のど飴キャンペーン
+  11月2日より開催!
+DESCRIPTION:약점의 한사람 × 츠무라 목사탕 캠페인 11 월 2
+  일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/kusuriya-tsumura-nodoame-campaign-2026-2027/
+URL:https://collabo-cafe.com/events/collabo/kusuriya-tsumura-nodoame-camp
+ aign-2026-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:c02e6d35124333d5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:カグラナナ × AVIOT POPUP SHOP in 新宿 10月30日より開
+ 催!
+LOCATION:新宿マルイ 東京都新宿区
+DESCRIPTION:카그라나나 × AVIOT POPUP SHOP in 신주쿠 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/nana-kagura-aviot-popup-shinjuku-marui-men-2026/
+URL:https://collabo-cafe.com/events/collabo/nana-kagura-aviot-popup-shinj
+ uku-marui-men-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:b151a55be6a2b01b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:ポケピース × サンシャインシティ 11月16日より
+ イベント開催!
+LOCATION:サンシャインシティ 東京都豊島区
+DESCRIPTION:포케 피스 × 선샤인 시티 11 월 16 일부터 이벤
+ 트 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /pocket-monster-event-pokepeace-sunshine-city-twinkle-star-idol-2026/
+URL:https://collabo-cafe.com/events/collabo/pocket-monster-event-pokepeac
+ e-sunshine-city-twinkle-star-idol-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:9b8e2ac85e61bf2e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:アズールレーン レースクイーン POP UP in 渋谷 11
+ 月20日より開催!
+LOCATION:SHIBUYA109 東京都渋谷区
+DESCRIPTION:아줄 레인 레이스 퀸 POP UP in 시부야 11월 20일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/azurlane-racequeen-popup-amnibus-store-blue-2026/
+URL:https://collabo-cafe.com/events/collabo/azurlane-racequeen-popup-amni
+ bus-store-blue-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:aae7de46f33f54da-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:ポケピース POP UP STORE in 全国9会場 11月16日より順
+ 次開催!
+DESCRIPTION:포켓피스 POP UP STORE in 전국 9 회장 11월 16일부
+ 터 순차적으로 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/pokemon-pokepeace-flowering-popup-2026/
+URL:https://collabo-cafe.com/events/collabo/pokemon-pokepeace-flowering-p
+ opup-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:5a5e60ed7627456d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:パワパフ ガールズの休日 POPUP in 京都IP書店 11月1
+ 4日より開催!
+DESCRIPTION:파워 퍼프 걸스의 휴일 POPUP in 교토 IP 서점 11 
+ 월 14 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/the-powerpuff-girls-girls-holiday-popup-kyoto-ip-shoten-20
+ 26/
+URL:https://collabo-cafe.com/events/collabo/the-powerpuff-girls-girls-hol
+ iday-popup-kyoto-ip-shoten-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c52cffd761772f89-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20270130
+SUMMARY:月刊flowers コラボカフェ in 神保町 11月5日より開
+ 催!
+DESCRIPTION:월간 flowers 콜라보 카페 in 진보초 11월 5일부터
+  개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/ge
+ kkan-flowers-cafe-lish-jimbocho-2026-2027/
+URL:https://collabo-cafe.com/events/collabo/gekkan-flowers-cafe-lish-jimb
+ ocho-2026-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:21548da3c7f0f65a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:あらいぐま カルカル団 × ヴィレヴァン 11月15日
+ まで受注販売!
+DESCRIPTION:아라이구마 칼칼단 × 빌레반 11월 15일까지 수
+ 주 판매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /calcaldan-village-vanguard-goods-2026/
+URL:https://collabo-cafe.com/events/collabo/calcaldan-village-vanguard-go
+ ods-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:9e1693a8a05bdd1e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:NO.6 × カラオケの鉄人 15周年コラボ 11月5日より
+ 開催!
+DESCRIPTION:NO.6 × 노래방의 철인 15주년 콜라보레이션 11월
+  5일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events
+ /collabo/no6-shop-tieup-karatetsu-15th-2026/
+URL:https://collabo-cafe.com/events/collabo/no6-shop-tieup-karatetsu-15th
+ -2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:603466947c06d84a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:たまごっち × サンキューマート 30周年雑貨 10月3
+ 0日より発売!
+DESCRIPTION:다마고치 × 선큐 마트 30 주년 잡화 10 월 30 일
+ 부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/tamagotchi-goods-thankyoumart-30th-2026/
+URL:https://collabo-cafe.com/events/collabo/tamagotchi-goods-thankyoumart
+ -30th-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3c5d779d6e0a8d19-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:すとぷりら6組のカフェ in スイパラ池袋 10月30日
+ より開催!
+LOCATION:池袋周辺 東京都豊島区
+DESCRIPTION:스토 푸리라 6 세트의 카페 in 스이 팔라 이케
+ 부쿠로 10 월 30 일부터 개최!\nコラボカフェ\nhttps://colla
+ bo-cafe.com/events/collabo/strawberry-prince-cafe-stpr-paradise-sweets-p
+ aradise-ikebukuro-2026/
+URL:https://collabo-cafe.com/events/collabo/strawberry-prince-cafe-stpr-p
+ aradise-sweets-paradise-ikebukuro-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:de7af529cd0fcbbb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ミッフィーほかほかダイニング 押上・心斎橋で1
+ 0月31日より開催!
+DESCRIPTION:미피 외에도 식사 오시아게 · 신사이바시에서
+  10 월 31 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.c
+ om/events/collabo/miffy-cafe-hokahoka-dining-solamachi-shinsaibashi-2026
+ /
+URL:https://collabo-cafe.com/events/collabo/miffy-cafe-hokahoka-dining-so
+ lamachi-shinsaibashi-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:135953a5c8008634-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:東方Project × キュアメイドカフェ 10月30日より開
+ 催!
+DESCRIPTION:동방 Project × 큐어 메이드 카페 10 월 30 일부터
+  개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/to
+ ho-project-cafe-curemaid-cafe-akihabara-2026/
+URL:https://collabo-cafe.com/events/collabo/toho-project-cafe-curemaid-ca
+ fe-akihabara-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f1f98479e0515fbf-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:ギルティクラウン×甲鉄城のカバネリ展 10月30日
+ より銀座で開催!
+LOCATION:銀座周辺 東京都中央区
+DESCRIPTION:길티크라운×갑철성의 카바네리전 10월 30일부
+ 터 긴자에서 개최!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/guilty-crown-kabaneri-gengaten-tenjikai-ginza-mirai-museum
+ -2026/\nhttps://l-tike.com/event/mevent/?mid=791093
+URL:https://collabo-cafe.com/events/collabo/guilty-crown-kabaneri-gengate
+ n-tenjikai-ginza-mirai-museum-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c5877fd1d44cec2a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ホロライブ、ファッションレーベル「holoSynQ」始
+ 動　FLOW GLOWのストリートウェアを展開
+DESCRIPTION:홀로 라이브\, 패션 라벨 「holoSynQ」시동 FLOW GL
+ OW의 스트리트 웨어를 전개\nKAI-YOU\nhttps://kai-you.net/articl
+ e/97012
+URL:https://kai-you.net/article/97012
+END:VEVENT
+BEGIN:VEVENT
+UID:94947575d7fb0b0d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:【超かぐや姫！】東京ドームシティコラボが11/27
+ 開始。アトラクションからフードまで園内がかぐやた
+ ち一色に！
+LOCATION:東京ドームシティ 東京都文京区
+DESCRIPTION:【슈퍼 카구야 공주! 】도쿄 돔 시티 콜라보레
+ 이션이 11/27 개시. 어트랙션으로부터 푸드까지 원내가 
+ 카구야들 일색에!\n電撃オンライン\nhttps://dengekionline.co
+ m/article/202610/92519
+URL:https://dengekionline.com/article/202610/92519
+END:VEVENT
+BEGIN:VEVENT
+UID:260e54f7732a12da-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:ぽこピー 狸豆商店パーク in 有楽町マルイ 11月13
+ 日より開催!
+LOCATION:有楽町マルイ 東京都千代田区
+DESCRIPTION:포코피 콩콩 상점 파크 in 유라쿠초 마루이 11
+ 월 13일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/pokopea-tanukimame-shoten-park-popup-yurakucho-marui-2026/\
+ nhttps://l-tike.com/event/mevent/?mid=796729
+URL:https://collabo-cafe.com/events/collabo/pokopea-tanukimame-shoten-par
+ k-popup-yurakucho-marui-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3a2ff81cc31126ba-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261118
+SUMMARY:Five Nights at Freddy’s ストア in 押上・池袋 11月3日
+ より順次開催!
+DESCRIPTION:Five Nights at Freddy’s 스토어 in 오시아게·이케
+ 부쿠로 11월 3일부터 순차 개최!\nコラボカフェ\nhttps://c
+ ollabo-cafe.com/events/collabo/fnaf-infolens-popup-solamachi-ikebukuro-2
+ 026/
+URL:https://collabo-cafe.com/events/collabo/fnaf-infolens-popup-solamachi
+ -ikebukuro-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ebcf3d43d7ee86fd-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:チアリステイルズ POP-UP STORE in 3都市 10月30日より
+ 開催!
+DESCRIPTION:치아리스테일즈 POP-UP STORE in 3 도시 10월 30일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /cheeristails-1st-popup-shinsaibashi-parco-2026/
+URL:https://collabo-cafe.com/events/collabo/cheeristails-1st-popup-shinsa
+ ibashi-parco-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:156bfa1427790403-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:カピバラさん とてててショップ in ソラマチ 10月
+ 30日より開催!
+LOCATION:東京ソラマチ 東京都墨田区
+DESCRIPTION:카피바라씨 굉장히 가게 in 소라마치 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/kapibarasan-sougen-days-totetete-shop-solamachi-2026/
+URL:https://collabo-cafe.com/events/collabo/kapibarasan-sougen-days-totet
+ ete-shop-solamachi-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3846fafbd0801d46-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:沖縄開催の初音ミク公式イベント「CHURA MIKU STREET
+  2026」バージョンの初音ミクデジタルフィギュア「ホ
+ ロモデル」が発売決定
+DESCRIPTION:오키나와 개최의 하츠네 미쿠 공식 이벤트 「C
+ HURA MIKU STREET 2026」버젼의 하츠네 미쿠 디지털 피겨 「
+ 홀로 모델」이 발매 결정\nPANORA\nhttps://panora.tokyo/archives
+ /161604
+URL:https://panora.tokyo/archives/161604
+END:VEVENT
+BEGIN:VEVENT
+UID:4c35c2746eff7fd2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261030T090000Z
+DTEND:20261030T110000Z
+SUMMARY:にじさんじから「SANBAKA Palais de Rose」グッズが登
+ 場　10/30 18時から販売開始
+DESCRIPTION:니지 산지에서 "SANBAKA Palais de Rose"상품이 등장 
+ 10/30 18시부터 판매 개시\nPANORA\nhttps://panora.tokyo/archives/1
+ 61568
+URL:https://panora.tokyo/archives/161568
+END:VEVENT
+BEGIN:VEVENT
+UID:070273dbe7404e8f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:ホロライブ宙科そぴあ、儒烏風亭らでんと「幼
+ 馴染」だと公表　今後のコラボも予告
+DESCRIPTION:홀로 라이브 주과 소피아\, 유우 풍정 라덴과 "
+ 소꿉친구"라고 공표 향후의 콜라보레이션도 예고\nKAI-Y
+ OU\nhttps://kai-you.net/article/97007
+URL:https://kai-you.net/article/97007
+END:VEVENT
+BEGIN:VEVENT
+UID:2e62ed260b8caae8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:サンリオ、ドラマ『VIVANT』コラボの全面中止を
+ 発表　中国で作品に批判、現地法人も中止表明
+DESCRIPTION:산리오\, 드라마 'VIVANT' 콜라보레이션의 전면 
+ 중지를 발표 중국에서 작품에 비판\, 현지 법인도 중지
+  표명\nKAI-YOU\nhttps://kai-you.net/article/97006
+URL:https://kai-you.net/article/97006
+END:VEVENT
+BEGIN:VEVENT
+UID:33ef0b6bacd7977a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:ドトール×「シナモロール」コラボ「福袋2027」
+ が10月30日より予約開始！ユニフォーム姿ぬいぐるみ
+ など同梱のオリジナルバッグセット
+DESCRIPTION:도톨×「시나모롤」콜라보「복주머니 2027」이
+  10월 30일부터 예약 개시! 유니폼 모습 인형 등 동봉 오
+ 리지널 가방 세트\nアニメ!アニメ!\nhttps://animeanime.jp/art
+ icle/2026/10/29/104324.html
+URL:https://animeanime.jp/article/2026/10/29/104324.html
+END:VEVENT
+BEGIN:VEVENT
+UID:1b0258e31bd6a3c6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:「ジョジョ」×JINSのコラボメガネがハイセンス
+ ッ！本日10月29日発売、ラインナップは全8種
+DESCRIPTION:「조조」×JINS의 콜라보 안경이 하이센스! 오
+ 늘 10월 29일 발매\, 라인업은 총 8종\nアニメ!アニメ!\nht
+ tps://animeanime.jp/article/2026/10/29/104320.html
+URL:https://animeanime.jp/article/2026/10/29/104320.html
+END:VEVENT
+BEGIN:VEVENT
+UID:6ddcdfd3d100747f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261219T053000Z
+DTEND:20261219T073000Z
+SUMMARY:READING HIGH noir 「アスクレピオスの夢」シリーズ
+ 第二弾 『THANATOS～タナトス～』【1回目】
+LOCATION:新国立劇場 中劇場 東京都
+DESCRIPTION:READING HIGH noir 「아스클레피오스의 꿈」시리즈
+  제2탄 「THANATOS～타나토스～」【1회째】\nアニメハッ
+ ク イベント\nhttps://anime.eiga.com/event/174959/
+URL:https://anime.eiga.com/event/174959/
+END:VEVENT
+BEGIN:VEVENT
+UID:23d238e066541be4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261219T093000Z
+DTEND:20261219T113000Z
+SUMMARY:READING HIGH noir 「アスクレピオスの夢」シリーズ
+ 第二弾 『THANATOS～タナトス～』【2回目】
+LOCATION:新国立劇場 中劇場 東京都
+DESCRIPTION:READING HIGH noir 「아스클레피오스의 꿈」시리즈
+  제2탄 「THANATOS～타나토스～」【2회째】\nアニメハッ
+ ク イベント\nhttps://anime.eiga.com/event/174960/
+URL:https://anime.eiga.com/event/174960/
+END:VEVENT
+BEGIN:VEVENT
+UID:cc9e7fb5aa433bfc-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261220T040000Z
+DTEND:20261220T060000Z
+SUMMARY:READING HIGH noir 「アスクレピオスの夢」シリーズ
+ 第二弾 『THANATOS～タナトス～』【3回目】
+LOCATION:新国立劇場 中劇場 東京都
+DESCRIPTION:READING HIGH noir 「아스클레피오스의 꿈」시리즈
+  제2탄 「THANATOS～타나토스～」【3회째】\nアニメハッ
+ ク イベント\nhttps://anime.eiga.com/event/174961/
+URL:https://anime.eiga.com/event/174961/
+END:VEVENT
+BEGIN:VEVENT
+UID:0f384fb202a0bcc7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261220T080000Z
+DTEND:20261220T100000Z
+SUMMARY:READING HIGH noir 「アスクレピオスの夢」シリーズ
+ 第二弾 『THANATOS～タナトス～』【4回目】
+LOCATION:新国立劇場 中劇場 東京都
+DESCRIPTION:READING HIGH noir 「아스클레피오스의 꿈」시리즈
+  제2탄 「THANATOS～타나토스～」【4회째】\nアニメハッ
+ ク イベント\nhttps://anime.eiga.com/event/174962/
+URL:https://anime.eiga.com/event/174962/
+END:VEVENT
+BEGIN:VEVENT
+UID:9a6f135e4d11e43c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:『バンドリ！ ガルパ』×『魔法少女ノ魔女裁判
+ 』コラボが11/6開演。追加楽曲は『The Tale was Hers』『LaV
+ I‐Bavellabion』『MAdEaR MAdEaR』
+DESCRIPTION:『번들리! 갈파』×『마법소녀 노마녀재판』 
+ 콜라보레이션이 11/6 개연. 추가 악곡은 「The Tale was Hers
+ 」 「LaVI-Bavellabion」 「MAdEaR MAdEaR」\n電撃オンライン\nh
+ ttps://dengekionline.com/article/202610/92521
+URL:https://dengekionline.com/article/202610/92521
+END:VEVENT
+BEGIN:VEVENT
+UID:f12551f7e0e746b2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ジョアンフレンズ 初カフェ 渋谷PARCOほか 11月7日
+ より開催!
+DESCRIPTION:조안 프렌즈 첫 카페 시부야 PARCO 외 11 월 7 일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/zonfriends-cafe-the-guest-cafe-parco-2026/\nhttps://l-tike.com/zonfr
+ iends_cafe_tokyo/
+URL:https://collabo-cafe.com/events/collabo/zonfriends-cafe-the-guest-caf
+ e-parco-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:8d8b539f4defb407-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:VTuberグループ「ゆうぎり高校」が2日後のイベン
+ ト開催中止を発表　天羅洲テラスの活動休止を受け
+DESCRIPTION:VTuber 그룹 「유기리 고등학교」가 2 일 후 이
+ 벤트 개최 중지를 발표 천라주 테라스의 활동 휴지\nKAI
+ -YOU\nhttps://kai-you.net/article/97004
+URL:https://kai-you.net/article/97004
+END:VEVENT
+BEGIN:VEVENT
+UID:0e9c8643860a4c7e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:「ハイキュー!!」烏野や音駒のコラボメニューが
+ 登場！“飛べ”チャーハンや“繋げ”ドーナツを銀座
+ で♪
+LOCATION:銀座周辺 東京都中央区
+DESCRIPTION:「하이큐!!」카라스노와 오토코마의 콜라보레
+ 이션 메뉴가 등장! “날아” 볶음밥이나 “연결” 도
+ 넛을 긴자로♪\nアニメ!アニメ!\nhttps://animeanime.jp/article
+ /2026/10/29/104316.html\nhttps://eplus.jp/haikyu-challengers-ex-cc
+URL:https://animeanime.jp/article/2026/10/29/104316.html
+END:VEVENT
+BEGIN:VEVENT
+UID:9492bbadfdf0e0b5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:見せてもらおうか、ザクザクの実力とやらを！
+ 「ガンダム」シャア専用チョコフレーク!? ザクが主役
+ の限定パケで登場
+DESCRIPTION:보여줄까\, 자쿠자쿠의 실력과 야라! 「건담」
+ 샤아 전용 초코플레이크!? 자쿠가 주역의 한정 패케로 
+ 등장\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/29/1
+ 04308.html
+URL:https://animeanime.jp/article/2026/10/29/104308.html
+END:VEVENT
+BEGIN:VEVENT
+UID:c3e40b966e3c8220-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:「メンバーがすごい」「糖分のフリーレン」「
+ お願いだからグッズ化して」明治ミルクチョコ100周年
+ イラストにファン歓喜！原作者も「感動してる」「夢
+ かな…」と喜びの声を投稿【反応まとめ】
+LOCATION:東京国際フォーラム 東京都千代田区
+DESCRIPTION:「멤버가 대단해」 「당분의 프리렌」 「부탁
+ 이니까 상품화해」 메이지 밀크 초콜릿 100주년 일러스
+ 트에 팬 환희! 원작자도 「감동하고 있다」 「꿈일까
+ …」라고 기쁨의 목소리를 투고 【반응 정리】\nアニ
+ メ!アニメ!\nhttps://animeanime.jp/article/2026/10/29/104307.html
+URL:https://animeanime.jp/article/2026/10/29/104307.html
+END:VEVENT
+BEGIN:VEVENT
+UID:e14baa00ee159f36-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:「呪術廻戦」虎杖悠仁、乙骨憂太、禪院直哉ら
+ をダーク＆モードにデザイン！「呪彩と静寂」を表現
+ した「HARE」コラボアパレル登場
+DESCRIPTION:「주술회전」 호랑이 지진\, 을골우타\, 요원 
+ 나오야 등을 다크&모드로 디자인! 「주채와 정적」을 
+ 표현한 「HARE」콜라보아 패럴 등장\nアニメ!アニメ!\nht
+ tps://animeanime.jp/article/2026/10/29/104305.html
+URL:https://animeanime.jp/article/2026/10/29/104305.html
+END:VEVENT
+BEGIN:VEVENT
+UID:03bbe0b52e9ee0aa-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:【マビノギモバイル】『推しの子』コラボが11/4
+ 開幕！ アイやアクアの衣装＆限定イベント登場
+DESCRIPTION:【마비노기 모바일】『추천의 아이』 콜라보
+ 레이션이 11/4 개막! 아이와 아쿠아 의상 & 한정 이벤트 
+ 등장\n電撃オンライン\nhttps://dengekionline.com/article/202610/
+ 92445
+URL:https://dengekionline.com/article/202610/92445
+END:VEVENT
+BEGIN:VEVENT
+UID:c2a981d4b190b998-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:「Midnight Grand Orchestra」、12月公演を全席入場無料
+ に変更
+DESCRIPTION:'Midnight Grand Orchestra'\, 12월 공연을 전석 입장 
+ 무료로 변경\nMoguLive\nhttps://www.moguravr.com/midnight-grand-orch
+ estra-midnight-mission-free-admission/
+URL:https://www.moguravr.com/midnight-grand-orchestra-midnight-mission-fr
+ ee-admission/
+END:VEVENT
+BEGIN:VEVENT
+UID:13551f94ced25bc0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:FZMZ、VRChatでライブ「DEEP:DAWN」再演決定
+DESCRIPTION:FZMZ\, VRChat에서 라이브 'DEEP:DAWN' 재연 결정\nMogu
+ Live\nhttps://www.moguravr.com/fzmz-deepdawn-vrchat/
+URL:https://www.moguravr.com/fzmz-deepdawn-vrchat/
+END:VEVENT
+BEGIN:VEVENT
+UID:cbfa3314cef73e41-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:お前のほうからキスしてくれよ POPUP in 渋谷 11月7
+ 日より開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:너 쪽에서 키스 해줘 POPUP in 시부야 11 월 7 일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/omakiss-drama-popup-shop-tower-space-shibuya-2026/
+URL:https://collabo-cafe.com/events/collabo/omakiss-drama-popup-shop-towe
+ r-space-shibuya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:d8e28e4485ac23c1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:松平健 × しまむら ハッピー&ゴージャスなグッ
+ ズ 10月31日発売!
+DESCRIPTION:마츠다이라 켄 × 시마무라 해피 & 화려한 상품
+  10 월 31 일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/matsudaira-ken-shimamura-item-20261031/
+URL:https://collabo-cafe.com/events/collabo/matsudaira-ken-shimamura-item
+ -20261031/
+END:VEVENT
+BEGIN:VEVENT
+UID:445e257c40c7ed5b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20270101
+SUMMARY:サンリオ × アリナミン わんこ応援団 11月1日よ
+ りキャンペーン開催!
+DESCRIPTION:산리오×아리나민 완코 응원단 캠페인이 11월 1
+ 일부터 시작됩니다!\nコラボカフェ\nhttps://collabo-cafe.com
+ /events/collabo/sanrio-alinamin-wanko-ouendan-campaign-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-alinamin-wanko-ouendan
+ -campaign-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:4c61789aefd887c1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:はなまるおばけ × 1日分の野菜 11月2日よりトー
+ トバッグ登場!
+DESCRIPTION:하나 마루 귀신 × 1 일분의 야채 11 월 2 일부터
+  토트 백 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events
+ /collabo/hanamaruobake-itoen-ichinichibun-no-yasai-tote-campaign-2026/
+URL:https://collabo-cafe.com/events/collabo/hanamaruobake-itoen-ichinichi
+ bun-no-yasai-tote-campaign-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:7c25cb5f86b4401b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ヒロアカ 10周年 POPUP in 池袋・名古屋 11月7日より
+ 開催!
+DESCRIPTION:히로아카 10주년 POPUP in 이케부쿠로·나고야 11
+ 월 7일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/heroaca-10th-bones-store-popup-ikebukuro-nagoya-2026/
+URL:https://collabo-cafe.com/events/collabo/heroaca-10th-bones-store-popu
+ p-ikebukuro-nagoya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:d21d211e52ca8465-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261130
+SUMMARY:ベルサイユのばら版画展 in 東京・五反田 EDITION88
+  11月12日より開催!
+DESCRIPTION:베르사유의 장미 판화전 in 도쿄·고탄다 EDITION
+ 88 11월 12일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.c
+ om/events/collabo/rose-of-versailles-hanga-exhibition-edition88-gotanda-
+ 2026/
+URL:https://collabo-cafe.com/events/collabo/rose-of-versailles-hanga-exhi
+ bition-edition88-gotanda-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:d45ab9f8ba7156b6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261214
+SUMMARY:GLAY × GiGO全国 11月7日よりキャンペーン第3弾開催
+ !
+DESCRIPTION:GLAY × GiGO 전국 11월 7일부터 캠페인 제3탄 개최
+ !\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/glay-gigo
+ -campaign-vol3-2026/
+URL:https://collabo-cafe.com/events/collabo/glay-gigo-campaign-vol3-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:15d64a116559b11c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:ジョジョ SBR × ドコモ POP UP in タワーレコード 開
+ 催中!
+DESCRIPTION:조조 SBR × 도코모 POP UP in 타워 레코드 개최중!
+ \nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/jojo-sbr-d
+ ocomo-2nd-3rd-stage-popup-tower-records-2026/
+URL:https://collabo-cafe.com/events/collabo/jojo-sbr-docomo-2nd-3rd-stage
+ -popup-tower-records-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:11a27021e31d438c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:ギルティクラウン×カバネリ展 カフェ 銀座で10
+ 月30日より開催!
+LOCATION:銀座周辺 東京都中央区
+DESCRIPTION:길티 크라운 × 카바네리 전 카페 긴자에서 10 
+ 월 30 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/guilty-crown-kabaneri-cafe-the-scene-table-ginza-2026/
+URL:https://collabo-cafe.com/events/collabo/guilty-crown-kabaneri-cafe-th
+ e-scene-table-ginza-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3990cadc2b79b1eb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261117
+SUMMARY:ゼルダの伝説 × ローソン 時のオカリナキャンペ
+ ーン 11月3日開始!
+DESCRIPTION:젤다의 전설 × 로손시의 오카리나 캠페인 11월
+  3일 개시!\nコラボカフェ\nhttps://collabo-cafe.com/events/colla
+ bo/zelda-ocarina-of-time-lawson-campaign-2026/
+URL:https://collabo-cafe.com/events/collabo/zelda-ocarina-of-time-lawson-
+ campaign-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c3363f0feb7cac31-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:刀剣乱舞 刀猫男士 POP UP in 秋葉原・京都 10月31日
+ より開催!
+LOCATION:秋葉原周辺 東京都千代田区
+DESCRIPTION:도검 난무 검 고양이 남사 POP UP in 아키하바라 
+ 교토 10월 31일부터 개최!\nコラボカフェ\nhttps://collabo-ca
+ fe.com/events/collabo/toukenranbu-tounyan-champdeherbe-goods-popup-akiha
+ bara-kyoto-2026/
+URL:https://collabo-cafe.com/events/collabo/toukenranbu-tounyan-champdehe
+ rbe-goods-popup-akihabara-kyoto-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:1ecbb7c68ac448ac-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:サンリオキャラクターズ × タイトー 11月14日 キ
+ ャンペーン開催!
+DESCRIPTION:산리오 캐릭터 × 타이토 11 월 14 일 캠페인 개
+ 최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/sanrio
+ -velvety-night-taito-campaign-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-velvety-night-taito-ca
+ mpaign-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:154bc5211f73c520-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261124
+SUMMARY:鬼滅の刃 再放送記念カフェ 無限列車編 二期 in u
+ fotable Cafe 11月3日開始!
+DESCRIPTION:귀멸의 칼날 재방송 기념 카페 무한 열차편 2
+ 기 in ufotable Cafe 11월 3일 개시!\nコラボカフェ\nhttps://col
+ labo-cafe.com/events/collabo/kimetsu-rerun-mugen-train-vol2-ufotable-caf
+ e-2026/\nhttps://livepocket.jp/t/4kxvj
+URL:https://collabo-cafe.com/events/collabo/kimetsu-rerun-mugen-train-vol
+ 2-ufotable-cafe-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:499fb6ca8fd368f3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:アメイジングデジタルサーカス × しまむら グッ
+ ズ 10月31日発売!
+DESCRIPTION:어메이징 디지털 서커스 × 시마무라 상품 10 
+ 월 31 일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/the-amazing-digital-circus-shimamura-item-20261031/
+URL:https://collabo-cafe.com/events/collabo/the-amazing-digital-circus-sh
+ imamura-item-20261031/
+END:VEVENT
+BEGIN:VEVENT
+UID:a4f8ef8d1ee48a49-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ヘタリア20周年原画展 2027年 名古屋・福岡・横浜
+ で巡回決定!
+DESCRIPTION:헤타리아 20주년 원화전 2027년 나고야·후쿠오
+ 카·요코하마에서 순회 결정!\nコラボカフェ\nhttps://coll
+ abo-cafe.com/events/collabo/hetalia-gengaten-tenjikai-20th-worldfesta-to
+ ur-2027/\nhttps://eplus.jp/hetalia-exhibition/
+URL:https://collabo-cafe.com/events/collabo/hetalia-gengaten-tenjikai-20t
+ h-worldfesta-tour-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:2213c8c0a38c0f65-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:超かぐや姫! × 東京ドームシティ 11月27日よりコ
+ ラボ開催!
+LOCATION:東京ドームシティ 東京都文京区
+DESCRIPTION:슈퍼 카구야 공주! × 도쿄 돔 시티 11 월 27 일
+ 부터 협업 개최!\nコラボカフェ\nhttps://collabo-cafe.com/even
+ ts/collabo/cho-kaguyahime-event-tokyo-dome-city-memorial-wonder-land-202
+ 6/
+URL:https://collabo-cafe.com/events/collabo/cho-kaguyahime-event-tokyo-do
+ me-city-memorial-wonder-land-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:6d5756057fe002a8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270109
+DTEND;VALUE=DATE:20270110
+SUMMARY:NIKKE オーケストラコンサート 2027年1月9日 横浜で
+ 開催!
+LOCATION:パシフィコ横浜 神奈川県
+DESCRIPTION:NIKKE 오케스트라 콘서트 2027 년 1 월 9 일 요코
+ 하마에서 개최!\nコラボカフェ\nhttps://collabo-cafe.com/event
+ s/collabo/nikke-event-orchestral-concert-pacifico-yokohama-2027/\nhttps:
+ //eplus.jp/nikke_concert/
+URL:https://collabo-cafe.com/events/collabo/nikke-event-orchestral-concer
+ t-pacifico-yokohama-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:391f7b065ae328fa-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270529
+DTEND;VALUE=DATE:20270530
+SUMMARY:『劇場版モノノ怪』が三部作で描いた“合成の
+ 誤謬” 本当に大切な感情とは何か？
+DESCRIPTION:『극장판 모노노괴』가 3부작으로 그린 ​​
+ “합성의 오모” 정말 소중한 감정이란 무엇인가?\nKAI-
+ YOU\nhttps://kai-you.net/article/96999
+URL:https://kai-you.net/article/96999
+END:VEVENT
+BEGIN:VEVENT
+UID:7263500126f13468-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:麻雀ゲーム『雀魂』が『葬送のフリーレン』と
+ コラボ　告知ビジュアルを公開
+DESCRIPTION:마작게임 『작작혼』이 『장송의 프리렌』과 
+ 콜라보레이션 알림 비주얼을 공개\nKAI-YOU\nhttps://kai-you.
+ net/article/96996
+URL:https://kai-you.net/article/96996
+END:VEVENT
+BEGIN:VEVENT
+UID:6d728495df3ccce3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:生田斗真「声優というお仕事をするのは初めて
+ なんです」ディズニー劇場最新作「ビリーと魔法のは
+ じまり」三つ目の猫・ビーフ役に！ハロウィンイベン
+ トで発表【レポ】
+DESCRIPTION:이쿠타 토마 "성우라는 일을 하는 것은 처음입
+ 니다" 디즈니 극장 최신작 "빌리와 마법의 시작" 세 번
+ 째 고양이 쇠고기 역에! 할로윈 이벤트로 발표 【레포
+ 】\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/29/1043
+ 03.html
+URL:https://animeanime.jp/article/2026/10/29/104303.html
+END:VEVENT
+BEGIN:VEVENT
+UID:45b07cb26334e0a1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:サンリオ「ハローキティ」「マイメロディ」「
+ マイスウィートピアノ」が大人かわいいファッション
+ に♪ FRAY I.Dと限定コラボ
+DESCRIPTION:산리오 「헬로 키티」 「마이 멜로디」 「마
+ 이 스위트 피아노」가 어른 귀여운 패션에♪ FRAY I.D와 
+ 한정 콜라보레이션\nアニメ!アニメ!\nhttps://animeanime.jp/a
+ rticle/2026/10/29/104300.html
+URL:https://animeanime.jp/article/2026/10/29/104300.html
+END:VEVENT
+BEGIN:VEVENT
+UID:33f49ad87848de55-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:ローソン『ゼルダの伝説 時のオカリナ』キャン
+ ペーンが11/3（火・祝）より開催。クリアファイルが
+ もらえるほか特別装飾店舗など
+DESCRIPTION:로손 「젤다의 전설 때의 오카리나」캠페인이
+  11/3(화・축)부터 개최. 클리어 파일을 받을 수 있는 것
+  외에 특별 장식 점포 등\n電撃オンライン\nhttps://dengeki
+ online.com/article/202610/92437
+URL:https://dengekionline.com/article/202610/92437
+END:VEVENT
+BEGIN:VEVENT
+UID:273a2da718530ff5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:VTuber音楽レーベル「ELECTRIC TOWN MUSIC」始動
+DESCRIPTION:VTuber 음악 라벨 「ELECTRIC TOWN MUSIC」시동\nMoguLiv
+ e\nhttps://www.moguravr.com/electric-town-music-label-start/
+URL:https://www.moguravr.com/electric-town-music-label-start/
+END:VEVENT
+BEGIN:VEVENT
+UID:fb8cbc36bf58a473-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:LINE FRIENDS レストラン街 POPUP in 9会場 11月20日より
+ 開催!
+DESCRIPTION:LINE FRIENDS 레스토랑가 POPUP in 9 회장 11월 20일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /line-friends-restaurant-gai-popup-tour-2026/
+URL:https://collabo-cafe.com/events/collabo/line-friends-restaurant-gai-p
+ opup-tour-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:927514ace8d74c5d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:うすた京介ワールド POP UP STORE in 大阪 11月19日よ
+ り開催!
+DESCRIPTION:우스타 쿄스케 월드 POP UP STORE in 오사카 11월 19
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/usutaworld-moriguchi-popup-keihan-dept-2026/
+URL:https://collabo-cafe.com/events/collabo/usutaworld-moriguchi-popup-ke
+ ihan-dept-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:090e1570f21f316b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:ぬるめた テーマパーク POP UP SHOP in 新宿 11月17日
+ より開催!
+LOCATION:新宿マルイ アネックス 東京都新宿区
+DESCRIPTION:미지근한 테마파크 POP UP SHOP in 신주쿠 11월 17
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/nullmeta-theme-park-popup-kirara-fuz-shinjuku-2026/
+URL:https://collabo-cafe.com/events/collabo/nullmeta-theme-park-popup-kir
+ ara-fuz-shinjuku-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f524743851b5b4e5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:まほあこ 職業体験 POP UP in コトブキヤ 11月13日よ
+ り開催!
+DESCRIPTION:마호아코 직업 체험 POP UP in 코토부키야 11월 13
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/mahoako-shokugyo-taiken-popup-kotobukiya-2026/
+URL:https://collabo-cafe.com/events/collabo/mahoako-shokugyo-taiken-popup
+ -kotobukiya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:d2f3267fcb87cb4b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:VITURE、「Phantom Blade Zero」公式コラボモデル「Phant
+ om Beast XRグラス」の国内予約受付を10/29より開始
+DESCRIPTION:VITURE\, 'Phantom Blade Zero' 공식 콜라보레이션 모
+ 델 'Phantom Beast XR 유리'의 국내 예약 접수를 10/29부터 개
+ 시\nPANORA\nhttps://panora.tokyo/archives/161532
+URL:https://panora.tokyo/archives/161532
+END:VEVENT
+BEGIN:VEVENT
+UID:25e243eb20a656fd-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:VTuberキャスティングサービス・ぶいきゃす、「
+ 勝利の女神:NIKKE」の4周年を盛り上げる配信キャンペ
+ ーンを10/29より開催
+DESCRIPTION:VTuber 캐스팅서비스·부이카스\, “승리의 여신
+ : NIKKE”의 4주년을 북돋우는 전달 캠페인을 10/29부터 
+ 개최\nPANORA\nhttps://panora.tokyo/archives/161517
+URL:https://panora.tokyo/archives/161517
+END:VEVENT
+BEGIN:VEVENT
+UID:e4cbdf5fdf4acda2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:uyet、デザイナー「僵尸パア」と学ぶ、VTuber向け
+ 時短サムネイル作成ウェビナーを11/26に開催
+DESCRIPTION:uyet\, 디자이너 '광범파어'라고 배우는\, VTuber
+ 용시 짧은 썸네일 작성 웨비나를 11/26에 개최\nPANORA\nhtt
+ ps://panora.tokyo/archives/161507
+URL:https://panora.tokyo/archives/161507
+END:VEVENT
+BEGIN:VEVENT
+UID:b71c9186a49ecdfc-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:Vシンガー理芽×ビートメイカーkrynX、新曲発表　
+ MVはJACKSON kakiがVRChatで撮影
+DESCRIPTION:V싱어 리아×비트 메이커 krynX\, 신곡 발표 MV는 
+ JACKSON kaki가 VRChat로 촬영\nKAI-YOU\nhttps://kai-you.net/article/9
+ 6993
+URL:https://kai-you.net/article/96993
+END:VEVENT
+BEGIN:VEVENT
+UID:41bccacd666dc969-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:星街すいせい×TAKU INOUEのミドグラ、12月ライブを
+ 全席無料に　チケットはすべて払い戻し対応へ
+DESCRIPTION:호시카이 수이세이×TAKU INOUE의 미도그라\, 12월
+  라이브를 전석 무료로 티켓은 모두 환불 대응에\nKAI-YO
+ U\nhttps://kai-you.net/article/96992
+URL:https://kai-you.net/article/96992
+END:VEVENT
+BEGIN:VEVENT
+UID:27ff48e5cde12cf7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T045000Z
+DTEND:20261031T065000Z
+SUMMARY:『楽園追放 心のレゾナンス』完成披露舞台挨拶
+LOCATION:新宿バルト9 東京都
+DESCRIPTION:『낙원 추방 마음의 레조넌스』 완성 피로 무
+ 대 인사\nアニメハック イベント\nhttps://anime.eiga.com/even
+ t/174957/\nhttps://w.pia.jp/t/rakuen-tsuiho/
+URL:https://anime.eiga.com/event/174957/
+END:VEVENT
+BEGIN:VEVENT
+UID:a5e56092696c27be-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261129T031000Z
+DTEND:20261129T051000Z
+SUMMARY:『最終楽章 響け！ユーフォニアム』後編 フィナ
+ ーレ舞台挨拶【1回目】
+LOCATION:新宿ピカデリー 東京都
+DESCRIPTION:『최종 악장 울려라! 유포니엄」후편 피날레 
+ 무대 인사【1회째】\nアニメハック イベント\nhttps://ani
+ me.eiga.com/event/174955/\nhttps://l-tike.com/sound-euphonium2026/
+URL:https://anime.eiga.com/event/174955/
+END:VEVENT
+BEGIN:VEVENT
+UID:cf894bd1fda124cf-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261129T065500Z
+DTEND:20261129T085500Z
+SUMMARY:『最終楽章 響け！ユーフォニアム』後編 フィナ
+ ーレ舞台挨拶【2回目】
+LOCATION:新宿ピカデリー 東京都
+DESCRIPTION:『최종 악장 울려라! 유포니엄」후편 피날레 
+ 무대 인사【2회째】\nアニメハック イベント\nhttps://ani
+ me.eiga.com/event/174956/\nhttps://l-tike.com/sound-euphonium2026/
+URL:https://anime.eiga.com/event/174956/
+END:VEVENT
+BEGIN:VEVENT
+UID:08d36f0879071816-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:「エヴァンゲリオン」×「コトダマン」コラボ第
+ 3弾！ 長髪のレイ＆シンジvsゲンドウが登場、初号機
+ たちも参戦
+DESCRIPTION:「에반게리온」×「코토다만」콜라보 제3탄! 
+ 긴 머리 레이 & 신지 vs 겐도우가 등장\, 초호기들도 참
+ 전\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/28/1042
+ 97.html
+URL:https://animeanime.jp/article/2026/10/28/104297.html
+END:VEVENT
+BEGIN:VEVENT
+UID:001ec5578491af6a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:マイメロディ＆クロミがサーティワンとコラボ
+ ♡ スプーンチャームやシール帳付きアイスセット登
+ 場！
+DESCRIPTION:마이 멜로디 & 크로미가 서티원과 콜라보 ♡ 
+ 스푼 매력이나 씰북 첨부 아이스 세트 등장!\nアニメ!
+ アニメ!\nhttps://animeanime.jp/article/2026/10/28/104296.html
+URL:https://animeanime.jp/article/2026/10/28/104296.html
+END:VEVENT
+BEGIN:VEVENT
+UID:e24fdbab39939908-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270104
+DTEND;VALUE=DATE:20270105
+SUMMARY:「魔入りました！入間くん」スピンオフ「if 魔
+ フィア」27年1月4日放送開始　メインビジュアル公開
+ 、キャストは続投
+DESCRIPTION:「마 들어갔습니다! 이루마군」스핀 오프 「if
+  마피아」27년 1월 4일 방송 개시 메인 비주얼 공개\nア
+ ニメハック\nhttps://anime.eiga.com/news/127748/
+URL:https://anime.eiga.com/news/127748/
+END:VEVENT
+BEGIN:VEVENT
+UID:d6c1d78d68e9743f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261210T010000Z
+DTEND:20270104T100000Z
+SUMMARY:TVアニメ「Dr.STONE」展 科学王国ミュージアム
+LOCATION:サンシャインシティ 展示ホールA 東京都
+DESCRIPTION:TV 애니메이션 "Dr.STONE"전 과학 왕국 박물관\nア
+ ニメハック イベント\nhttps://anime.eiga.com/event/174954/\nhttp
+ s://eplus.jp/anime-drstone-exhibition/
+URL:https://anime.eiga.com/event/174954/
+END:VEVENT
+BEGIN:VEVENT
+UID:614687c2c1ebd973-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270326
+DTEND;VALUE=DATE:20270327
+SUMMARY:【デート・ア・ライブ】シリーズ完結編。新作
+ アニメ『Last Date』2027年3月26日より劇場上映決定
+DESCRIPTION:【데이트·아·라이브】시리즈 완결편. 신작 
+ 애니메이션 「Last Date」2027년 3월 26일부터 극장 상영 
+ 결정\n電撃オンライン\nhttps://dengekionline.com/article/202610/
+ 92325
+URL:https://dengekionline.com/article/202610/92325
+END:VEVENT
+BEGIN:VEVENT
+UID:57694c71a55d3ca8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:チェンソーマン レゼ篇 × グラニフ 全19種 11月3
+ 日より発売!
+DESCRIPTION:첸소만 레제편 × 그라니프 전 19종 11월 3일부
+ 터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /chainsawman-fashion-graniph-reze-2026/
+URL:https://collabo-cafe.com/events/collabo/chainsawman-fashion-graniph-r
+ eze-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c77845457ab4ce75-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:KAMITSUBAKI STUDIO 理芽が、気鋭のビートメイカーkryn
+ Xとのコラボ楽曲「kotowari」をリリースへ
+DESCRIPTION:KAMITSUBAKI STUDIO 리모가 기예의 비트 메이커 krynX
+ 와의 콜라보레이션 곡 「kotowari」를 릴리스에\nPANORA\nht
+ tps://panora.tokyo/archives/161244
+URL:https://panora.tokyo/archives/161244
+END:VEVENT
+BEGIN:VEVENT
+UID:c292ed1cbfa07071-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270110
+DTEND;VALUE=DATE:20270111
+SUMMARY:Diosたなか×天竜川ナコン、15年来の友人がツーマ
+ ンライブで共演「奇跡が起きました」
+DESCRIPTION:Dios 타나카 × 텐류가와 나콘\, 15 년 후의 친구
+ 가 투맨 라이브에서 공연 "기적이 일어났습니다"\nKAI-YO
+ U\nhttps://kai-you.net/article/96991\nhttps://wallwall.zaiko.io/ja/item/
+ 385842
+URL:https://kai-you.net/article/96991
+END:VEVENT
+BEGIN:VEVENT
+UID:4b1d9cb479332334-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:「装甲騎兵ボトムズ」スコープドッグ×「楽園追
+ 放」アーハンが“共闘”！コラボビジュアル公開&ス
+ タンディ設置が決定
+DESCRIPTION:「장갑 기병 보텀즈」스코프독×「낙원 추방
+ 」아한이 “공투”! 협업 비주얼 공개 & 스탠디 설치 
+ 결정\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/28/1
+ 04290.html
+URL:https://animeanime.jp/article/2026/10/28/104290.html
+END:VEVENT
+BEGIN:VEVENT
+UID:91aaa6733cc1f14f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+SUMMARY:「呪術廻戦 完結展」スピンオフ「呪術廻戦≡」
+ の追加展示エリアが登場！公式図録の別冊ほか新作グ
+ ッズ情報も
+DESCRIPTION:「주술회전 완결전」 스핀오프 「주술회전≡
+ 」의 추가 전시 에리어가 등장! 공식 도록의 별책 외 
+ 신작 상품 정보도\nアニメ!アニメ!\nhttps://animeanime.jp/art
+ icle/2026/10/28/104285.html
+URL:https://animeanime.jp/article/2026/10/28/104285.html
+END:VEVENT
+BEGIN:VEVENT
+UID:19a4b7659ac9b78a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:「サンリオ」シナモロール×ドトールの“福袋202
+ 7”登場！ ユニフォーム姿のぬいやトートバッグがキ
+ ュート♪ 10月30日予約開始
+DESCRIPTION:「산리오」시나모롤×도톨의 “복주머니 2027
+ ” 등장! 유니폼 모습의 봉제인형 토트 백이 귀여운♪ 
+ 10월 30일 예약 개시\nアニメ!アニメ!\nhttps://animeanime.jp/a
+ rticle/2026/10/28/104283.html
+URL:https://animeanime.jp/article/2026/10/28/104283.html
+END:VEVENT
+BEGIN:VEVENT
+UID:ab1243e6ea10df94-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:【グラクロ×P5R】『ペルソナ5 ザ・ロイヤル』コ
+ ラボ10/29開催。本日20時の生放送で最新情報解禁
+DESCRIPTION:【그라쿠로×P5R】『페르소나 5 더 로얄』 콜라
+ 보레이션 10/29 개최. 오늘 20시 생방송으로 최신 정보 
+ 해금\n電撃オンライン\nhttps://dengekionline.com/article/202610/
+ 92277
+URL:https://dengekionline.com/article/202610/92277
+END:VEVENT
+BEGIN:VEVENT
+UID:b7bf6f8a95429e83-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:【サーティワン×マイメロディ＆クロミ】コラボ
+ が11/1より開催。初のオリジナルシール帳やスプーン
+ チャーム付きアイスが登場
+DESCRIPTION:【서티원×마이 멜로디＆크로미】콜라보레이
+ 션이 11/1부터 개최. 최초의 오리지널 씰북이나 스푼 매
+ 력이 있는 아이스가 등장\n電撃オンライン\nhttps://dengek
+ ionline.com/article/202610/92304
+URL:https://dengekionline.com/article/202610/92304
+END:VEVENT
+BEGIN:VEVENT
+UID:fc6e6f59de0e33a0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:まちカドまぞく × BOOKOFF 新商品 11月20日より登場
+ !
+DESCRIPTION:거리 카드 마조쿠 × BOOKOFF 신상품 11월 20일부
+ 터 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /machikado-mazoku-heisei-fashion-bookoff-collabo-2026/
+URL:https://collabo-cafe.com/events/collabo/machikado-mazoku-heisei-fashi
+ on-bookoff-collabo-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:db93d2038e77ddce-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:ハイキュー!! × 宅麺 4校のコラボラーメン 11月12
+ 日より発売!
+DESCRIPTION:하이큐!! × 택면 4교의 콜라보라면 11월 12일부
+ 터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /haikyu-shop-tieup-takumen-ramen-2026/\nhttps://livepocket.jp/e/th_kinsh
+ icho
+URL:https://collabo-cafe.com/events/collabo/haikyu-shop-tieup-takumen-ram
+ en-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:60ccf7acf5b62de6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:おでかけ!プリキュアマルシェ in 全国4会場 11月13
+ 日より巡回開催!
+DESCRIPTION:외출! 프리큐어 마르쉐 in 전국 4 회장 11 월 13 
+ 일부터 순회 개최!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/precure-odekake-marche-nov-popup-2026/
+URL:https://collabo-cafe.com/events/collabo/precure-odekake-marche-nov-po
+ pup-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:cfaa3f150784a849-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:タコピーの原罪 × ばくだん焼本舗 11月25日より
+ コラボ開催!
+LOCATION:東京ドームシティ 東京都文京区
+DESCRIPTION:타카피의 원죄 × 바쿠 야키 본점 11 월 25 일부
+ 터 콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-cafe
+ .com/events/collabo/takopis-original-sin-shop-tieup-bakudanyaki-honpo-20
+ 26/
+URL:https://collabo-cafe.com/events/collabo/takopis-original-sin-shop-tie
+ up-bakudanyaki-honpo-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c956f8a2fdfff416-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:金カム × サンリオ POPUP in キデイランド 11月13日
+ より開催!
+DESCRIPTION:김 캠 × 산리오 POPUP in 키데일랜드 11월 13일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /goldenkamuy-sanrio-3rd-popup-kiddyland-2026/
+URL:https://collabo-cafe.com/events/collabo/goldenkamuy-sanrio-3rd-popup-
+ kiddyland-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ae1b74b3c947f18c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270129
+DTEND;VALUE=DATE:20270130
+SUMMARY:NIKKE 一番くじ 第9弾 リトルマーメイド 1月29日よ
+ り発売!
+DESCRIPTION:NIKKE 이치 반 쿠지 제 9 탄 리틀 머메이드 1 월 2
+ 9 일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events
+ /collabo/nikke-ichiban-kuji-chapter9-2027/
+URL:https://collabo-cafe.com/events/collabo/nikke-ichiban-kuji-chapter9-2
+ 027/
+END:VEVENT
+BEGIN:VEVENT
+UID:e7fd6aa2a1c36d3a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Mマス knick-knacks Vol.2 ストア in ハンズ 11月13日よ
+ り開催!
+DESCRIPTION:M매스 knick-knacks Vol.2 스토어 in 핸즈 11월 13일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /idolmaster-sidem-knick-knacks-vol2-hands-2026-add-info-goods/
+URL:https://collabo-cafe.com/events/collabo/idolmaster-sidem-knick-knacks
+ -vol2-hands-2026-add-info-goods/
+END:VEVENT
+BEGIN:VEVENT
+UID:71351f84f16cb0b5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:恋とき × ブランチパーク 11月3日よりコラボスイ
+ ーツ販売!
+DESCRIPTION:사랑 때 × 브런치 파크 11 월 3 일부터 콜라보 
+ 스위트 판매!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/koitoki-cafe-brunchpark-takeout-2026/
+URL:https://collabo-cafe.com/events/collabo/koitoki-cafe-brunchpark-takeo
+ ut-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:5bf99fb698cae715-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261111
+DTEND;VALUE=DATE:20261112
+SUMMARY:エスターバニー × マイメロディ ストア in 2会場 
+ 11月11日より開催!
+DESCRIPTION:에스터 토끼 × 마이 멜로디 스토어 in 2 회장 11
+  월 11 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/
+ events/collabo/esther-bunny-mymelody-after-school-popup-shinjuku-osaka-2
+ 026/
+URL:https://collabo-cafe.com/events/collabo/esther-bunny-mymelody-after-s
+ chool-popup-shinjuku-osaka-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:1178f6903c3a7740-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ズートピア × 東京ばな奈 10周年ショコラサンド 
+ 11月6日発売!
+DESCRIPTION:주토 피어 × 도쿄 바나나 10 주년 쇼콜라 샌드 
+ 11 월 6 일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/event
+ s/collabo/zootopia-goods-tokyo-banana-chocolat-sandwich-10th-2026/
+URL:https://collabo-cafe.com/events/collabo/zootopia-goods-tokyo-banana-c
+ hocolat-sandwich-10th-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:46e81cf10c611ae7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261111
+SUMMARY:しぐれうい展2026「Uitopia」アニメイトフェア 11月
+ 10日より開催!
+DESCRIPTION:시구레 우이 전시회 2026 「Uitopia」애니메이트 
+ 페어 11 월 10 일부터 개최!\nコラボカフェ\nhttps://collabo-
+ cafe.com/events/collabo/ui-shigure-uitopia-animate-fair-2026/
+URL:https://collabo-cafe.com/events/collabo/ui-shigure-uitopia-animate-fa
+ ir-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:708e121fc5dc57d1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:メダロット カフェ in 秋葉原・大阪 11月20日より
+ コラボ開催!
+DESCRIPTION:메달롯 카페 in 아키하바라・오사카 11월 20일
+ 부터 콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-c
+ afe.com/events/collabo/medarot-cafe-collabocafe-honpo-akihabara-osaka-20
+ 26/
+URL:https://collabo-cafe.com/events/collabo/medarot-cafe-collabocafe-honp
+ o-akihabara-osaka-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e8fed69d86d6d441-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:サンリオ FIBER HEATあったかソックス 10月28日しま
+ むらで発売!
+DESCRIPTION:산리오 FIBER HEAT 따뜻한 양말 10 월 28 일 시마 
+ 무라에서 발매!\nコラボカフェ\nhttps://collabo-cafe.com/event
+ s/collabo/sanrio-characters-fiber-heat-socks-shimamura-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-characters-fiber-heat-
+ socks-shimamura-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:364fa8cf02118627-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261106T090000Z
+DTEND:20261106T110000Z
+SUMMARY:鬼灯の冷徹 原画展 和紙風ポストカード特典 チ
+ ケット11月6日発売!
+DESCRIPTION:귀등의 냉철 원화전 일본 종이풍 엽서 특전 티
+ 켓 11월 6일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/hozukino-reitetsu-gengaten-tenjikai-what-cafe-tennozu-2027-a
+ dd-info-tokuten/
+URL:https://collabo-cafe.com/events/collabo/hozukino-reitetsu-gengaten-te
+ njikai-what-cafe-tennozu-2027-add-info-tokuten/
+END:VEVENT
+BEGIN:VEVENT
+UID:a5f8a860bb37dbd1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:NIKKE オンリーショップ in アニメイト池袋本店 11
+ 月7日より開催!
+LOCATION:アニメイト池袋本店 東京都豊島区
+DESCRIPTION:NIKKE 온리 숍 in 애니메이트 이케부쿠로 본점 11
+ 월 7일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/nikke-seasons-in-lofi-onlyshop-animate-2026/
+URL:https://collabo-cafe.com/events/collabo/nikke-seasons-in-lofi-onlysho
+ p-animate-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3b7a0c023af6ff47-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:まついぬ 7周年 POP UP SHOP in 新宿 11月17日より開催
+ !
+LOCATION:新宿マルイ アネックス 東京都新宿区
+DESCRIPTION:마츠이누 7주년 POP UP SHOP in 신주쿠 11월 17일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /matsuinu-7th-anniv-popup-marui-annex-shinjuku-2026/
+URL:https://collabo-cafe.com/events/collabo/matsuinu-7th-anniv-popup-maru
+ i-annex-shinjuku-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e43ff363e5421035-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:アオのハコ × ゾゾタウン 千夏と雛の衣装を再現
+  11月2日受注開始!
+DESCRIPTION:아오의 자코 × 조조 타운 치나츠와 병아리의 
+ 의상을 재현 11월 2일 수주 개시!\nコラボカフェ\nhttps://
+ collabo-cafe.com/events/collabo/aonohako-fashion-zozotown-black-collecti
+ on-2026/
+URL:https://collabo-cafe.com/events/collabo/aonohako-fashion-zozotown-bla
+ ck-collection-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:d0d6531fbfe69480-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:にじさんじが12/4から開催されるAnime x Game Festival 
+ Korea 2026に出展　ステージ出演も決定
+DESCRIPTION:니지산지가 12/4부터 개최되는 Anime x Game Festival
+  Korea 2026에 출전 스테이지 출연도 결정\nPANORA\nhttps://pan
+ ora.tokyo/archives/161467
+URL:https://panora.tokyo/archives/161467
+END:VEVENT
+BEGIN:VEVENT
+UID:76c6e2a9ed3df21b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:ホロライブ運営、VTuberの虚偽情報を発信した未
+ 成年者と示談　親権者が賠償金の支払いを約束
+DESCRIPTION:홀로 라이브 운영\, VTuber의 허위 정보를 발신
+ 한 미성년자와 시담 친권자가 배상금 지불을 약속\nKAI-
+ YOU\nhttps://kai-you.net/article/96987
+URL:https://kai-you.net/article/96987
+END:VEVENT
+BEGIN:VEVENT
+UID:a168d367fedcf2ae-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:「COUNTDOWN JAPAN」にオーイシマサヨシ、初音ミク
+ が初出演　全179組を発表
+DESCRIPTION:「COUNTDOWN JAPAN」에 오이시마사요시\, 하츠네 
+ 미쿠가 첫 출연 총 179조를 발표\nKAI-YOU\nhttps://kai-you.net/
+ article/96985
+URL:https://kai-you.net/article/96985
+END:VEVENT
+BEGIN:VEVENT
+UID:bd501acb5d2352dc-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:「にじさんじ」が2026年12月4日(金)から開催され
+ るAnime x Game Festival Korea 2026に出展決定！ステージ出演
+ も決定！
+DESCRIPTION:「니지산지」가 2026년 12월 4일(금)부터 개최되
+ 는 Anime x Game Festival Korea 2026에 출전 결정! 스테이지 출
+ 연도 결정!\nにじさんじ公式\nhttps://www.nijisanji.jp/news/vyr
+ r62oge
+URL:https://www.nijisanji.jp/news/vyrr62oge
+END:VEVENT
+BEGIN:VEVENT
+UID:86f62ceb5af57b89-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261109
+SUMMARY:愛田真夕美「マリオネット」初の本格的原画展
+ 、開催！マンガ原稿やカラーイラスト約70点　ヴァニ
+ ラ画廊で10月28日から
+DESCRIPTION:아이타 마유미 “마리오 넷” 최초의 본격적 
+ 원화전\, 개최! 만화 원고나 컬러 일러스트 약 70점 바
+ 닐라 화랑으로 10월 28일부터\nアニメ!アニメ!\nhttps://ani
+ meanime.jp/article/2026/10/28/104273.html
+URL:https://animeanime.jp/article/2026/10/28/104273.html
+END:VEVENT
+BEGIN:VEVENT
+UID:53acf41e41f11306-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:「チェンソーマン レゼ篇」プールシーンや、「
+ 呪術廻戦」死滅回游の新たな展示が登場！MAPPA15周年
+ 記念展覧会の後期が開幕
+DESCRIPTION:「첸소만 레제편」풀 씬이나\, 「주술회전」
+ 사멸 회계의 새로운 전시가 등장! MAPPA 15주년 기념전람
+ 회 후기 개막\nアニメ!アニメ!\nhttps://animeanime.jp/article/2
+ 026/10/28/104271.html
+URL:https://animeanime.jp/article/2026/10/28/104271.html
+END:VEVENT
+BEGIN:VEVENT
+UID:2e079c5dc41d109a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:「葬送のフリーレン」山田鐘人・アベツカサや
+ 「NANA」矢沢あいら漫画家40名の描き下ろし展示も！「
+ 明治ミルクチョコレート100周年展」開催
+LOCATION:東京国際フォーラム 東京都千代田区
+DESCRIPTION:「장송의 프리렌」야마다 종인・아베츠카사
+ 나 「NANA」야자와 아이라 만화가 40명의 신작 전시도! 
+ 「메이지 밀크 초콜릿 100주년전」개최\nアニメ!アニメ
+ !\nhttps://animeanime.jp/article/2026/10/28/104270.html
+URL:https://animeanime.jp/article/2026/10/28/104270.html
+END:VEVENT
+BEGIN:VEVENT
+UID:74a479c622436c8f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:帳区、男性VTuber二期生オーディションの募集開
+ 始
+DESCRIPTION:장구\, 남성 VTuber 2기생 오디션 모집 개시\nMoguL
+ ive\nhttps://www.moguravr.com/tobariq-2nd-gen-audition/
+URL:https://www.moguravr.com/tobariq-2nd-gen-audition/
+END:VEVENT
+BEGIN:VEVENT
+UID:7ed47f3f9e3ca1c1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:ホロライブVTuber森カリオペ、Desktop Mateに登場
+DESCRIPTION:홀로 라이브 VTuber 모리 칼리오페\, Desktop Mate에
+  등장\nMoguLive\nhttps://www.moguravr.com/desktop-mate-mori-calliope-d
+ lc/
+URL:https://www.moguravr.com/desktop-mate-mori-calliope-dlc/
+END:VEVENT
+BEGIN:VEVENT
+UID:5fbcbc1da48fd0fa-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261028T090000Z
+DTEND:20261028T110000Z
+SUMMARY:にじさんじ「SILENT SERVANTS」グッズ 10月28日より発
+ 売!
+DESCRIPTION:니지 산지 "SILENT SERVANTS"상품 10 월 28 일부터 발
+ 매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/nijisa
+ nji-silent-servants-goods-2026/
+URL:https://collabo-cafe.com/events/collabo/nijisanji-silent-servants-goo
+ ds-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:1e19f20b0dbacba7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:しずくちゃん 限定アイテム 10月28日よりサンキ
+ ューマートに登場!
+DESCRIPTION:Shizuku-chan 한정 아이템 10 월 28 일부터 선큐 마
+ 트에 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/shizuku-heisei-fancy-goods-thankyoumart-2026/
+URL:https://collabo-cafe.com/events/collabo/shizuku-heisei-fancy-goods-th
+ ankyoumart-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:43260ea552a244bf-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:東リベ チェックver. POP UP in GiGO3店舗 11月7日より
+ 開催!
+DESCRIPTION:히가시 리베 체크 ver. POP UP in GiGO3 점포 11월 7
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/tokyo-revengers-check-ver-collabo-gigo-2026/
+URL:https://collabo-cafe.com/events/collabo/tokyo-revengers-check-ver-col
+ labo-gigo-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:75ad5ab7078c794a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ガンダムシリーズ 火消魂 POPUP SHOP in 浅草 10月31
+ 日より開催!
+DESCRIPTION:건담 시리즈 화소혼 POPUP SHOP in 아사쿠사 10월 3
+ 1일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/gundam-runway-hikeshi-popup-asakusa-2026/
+URL:https://collabo-cafe.com/events/collabo/gundam-runway-hikeshi-popup-a
+ sakusa-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:2170439d1616c7b5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261201
+SUMMARY:にじさんじ × 100時間カレー 初コラボ 11月2日よ
+ り開催!
+DESCRIPTION:니지 산지 × 100 시간 카레 첫 콜라보레이션 11 
+ 월 2 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/nijisanji-shop-tieup-100hours-curry-2026/
+URL:https://collabo-cafe.com/events/collabo/nijisanji-shop-tieup-100hours
+ -curry-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:a8c863e1ad735613-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:ホロライブ轟はじめ×FILAのアイテムが爆ポップ
+ ！ 本人こだわりのデザインが解禁
+DESCRIPTION:홀로 라이브 굉 시작 × FILA 아이템이 폭 팝! 본
+ 인 조건의 디자인이 해금\nKAI-YOU\nhttps://kai-you.net/article/
+ 96979
+URL:https://kai-you.net/article/96979
+END:VEVENT
+BEGIN:VEVENT
+UID:3f7c0f5a94ef8f41-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261029T010000Z
+DTEND:20261029T030000Z
+SUMMARY:明治ミルクチョコレートが100周年 『葬送のフリ
+ ーレン』『NANA』など漫画40作とコラボ
+LOCATION:東京国際フォーラム 東京都千代田区
+DESCRIPTION:메이지 밀크 초콜릿이 100주년 「장송의 프리
+ 렌」 「NANA」 등 만화 40작과 콜라보레이션\nKAI-YOU\nhttps
+ ://kai-you.net/article/96977\nhttps://l-tike.com/meijimilkc/\nhttps://ep
+ lus.jp/meiji-milkchocolate100th/
+URL:https://kai-you.net/article/96977
+END:VEVENT
+BEGIN:VEVENT
+UID:5f0ab06cadb15980-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:劇場版「チェンソーマン」より、「レゼ」がカ
+ フェ二道のバイト衣装でプライズフィギュア化！エプ
+ ロンの紐を後ろで結ぶ姿が可愛らしい
+DESCRIPTION:극장판 「첸소만」보다\, 「레제」가 카페 2길
+ 의 아르바이트 의상으로 프라이즈 피규어화! 앞치마의
+  끈을 뒤로 묶는 모습이 귀엽다\nアニメ!アニメ!\nhttps:/
+ /animeanime.jp/article/2026/10/27/104267.html
+URL:https://animeanime.jp/article/2026/10/27/104267.html
+END:VEVENT
+BEGIN:VEVENT
+UID:f7ebce0199eefc12-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:「BLEACH」アニメ完結　スペシャルエンディング
+ ムービーと、歴代の一護を描くTHE STORIES VISUAL MOVIE公開
+DESCRIPTION:「BLEACH」애니메이션 완결 스페셜 엔딩 무비와
+  역대의 일호를 그리는 THE STORIES VISUAL MOVIE 공개\nアニ
+ メハック\nhttps://anime.eiga.com/news/127738/
+URL:https://anime.eiga.com/news/127738/
+END:VEVENT
+BEGIN:VEVENT
+UID:8601b5e2a630794b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261025T010000Z
+DTEND:20261025T030000Z
+SUMMARY:TVアニメ『BLEACH 千年血戦篇-禍進譚-』最終回直前
+ 一挙上映＆トークイベント
+LOCATION:ユナイテッド・シネマ アクアシティお台場 東
+ 京都
+DESCRIPTION:TV 애니메이션 “BLEACH 천년 혈전편-연진담-” 
+ 최종회 직전 일거 상영 & 토크 이벤트\nアニメハック 
+ イベント\nhttps://anime.eiga.com/event/174953/\nhttps://w.pia.jp/t/b
+ leach-anime/
+URL:https://anime.eiga.com/event/174953/
+END:VEVENT
+BEGIN:VEVENT
+UID:79b0247c23a7a11b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:バーチャルシンガー獅子神レオナ、7thワンマン
+ ライブ「Identity」開催決定
+DESCRIPTION:가상 가수 사자신 레오나\, 7th 원맨 라이브 'Ide
+ ntity' 개최 결정\nMoguLive\nhttps://www.moguravr.com/shishigami-leon
+ a-7th-live-identity/\nhttps://react-event.zaiko.io/e/identity-2026
+URL:https://www.moguravr.com/shishigami-leona-7th-live-identity/
+END:VEVENT
+BEGIN:VEVENT
+UID:1643480446622b6b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20270301
+SUMMARY:らんま1/2 × 舞浜ユーラシア 湯めぐりコラボ 12月
+ 1日より開催!
+DESCRIPTION:란마 1/2 × 마이하마 유라시아 유메구리 콜라
+ 보레이션 12월 1일부터 개최!\nコラボカフェ\nhttps://colla
+ bo-cafe.com/events/collabo/ranma-event-spa-hotel-maihama-eurasia-2026/
+URL:https://collabo-cafe.com/events/collabo/ranma-event-spa-hotel-maihama
+ -eurasia-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:baa1987ca307b724-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:デキる猫は今日も憂鬱 × アベイル 10月31日より
+ グッズ発売!
+DESCRIPTION:데키는 고양이는 오늘도 우울 × 어베일 10 월 3
+ 1 일부터 상품 발매!\nコラボカフェ\nhttps://collabo-cafe.com
+ /events/collabo/dekineko-avail-item-20261031/
+URL:https://collabo-cafe.com/events/collabo/dekineko-avail-item-20261031/
+END:VEVENT
+BEGIN:VEVENT
+UID:b29bea4623569cf8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:ドムドム POPUP SHOP in フタバ図書4店舗 11月7日より
+ 巡回開催!
+DESCRIPTION:돔돔 POPUP SHOP in 후타바 도서 4 점포 11 월 7 일
+ 부터 순회 개최!\nコラボカフェ\nhttps://collabo-cafe.com/even
+ ts/collabo/domdom-hamburger-junkai-popup-futaba-tosho-2026/
+URL:https://collabo-cafe.com/events/collabo/domdom-hamburger-junkai-popup
+ -futaba-tosho-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:37cd7b4c7de35338-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:izna 2nd Anniversary Cafe with SWEETS PARADISE開催！
+DESCRIPTION:izna 2nd Anniversary Cafe with SWEETS PARADISE 개최!\nス
+ イーツパラダイス\nhttps://www.sweets-paradise.jp/collaboration/i
+ zna?utm_source=rss&utm_medium=rss&utm_campaign=izna-2nd-anniversary-cafe
+ -with-sweets-paradise%25e9%2596%258b%25e5%2582%25ac%25ef%25bc%2581
+URL:https://www.sweets-paradise.jp/collaboration/izna?utm_source=rss&utm_
+ medium=rss&utm_campaign=izna-2nd-anniversary-cafe-with-sweets-paradise%2
+ 5e9%2596%258b%25e5%2582%25ac%25ef%25bc%2581
+END:VEVENT
+BEGIN:VEVENT
+UID:8b5a5257ed8d1424-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:KAMITSUBAKI STUDIO 明透 サードアルバム「BELOVED」&琶
+ 舞 ファーストアルバム「LOVELESS」が10月28日に同時配
+ 信リリース
+DESCRIPTION:KAMITSUBAKI STUDIO 아키타 3rd 앨범 'BELOVED'& 琶舞 퍼
+ 스트 앨범 'LOVELESS'가 10월 28일에 동시 전달 릴리스\nPANO
+ RA\nhttps://panora.tokyo/archives/161318
+URL:https://panora.tokyo/archives/161318
+END:VEVENT
+BEGIN:VEVENT
+UID:cc6c0667c4a8d927-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:「ズートピア」公開10周年をお祝い♪「東京ばな
+ 奈」限定デザインのショコラサンド&タキシード姿の
+ ニックグッズが登場
+DESCRIPTION:「주트 피어」공개 10주년을 축하♪ 「도쿄 바
+ 나나」한정 디자인의 쇼콜라 샌드&턱시도 모습의 닉 
+ 상품이 등장\nアニメ!アニメ!\nhttps://animeanime.jp/article/20
+ 26/10/27/104254.html
+URL:https://animeanime.jp/article/2026/10/27/104254.html
+END:VEVENT
+BEGIN:VEVENT
+UID:1c4ed5f9584f50fb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:「幽☆遊☆白書」幽助、次の修行はスキンケア!?
+ “右ストレートでぶっとばす”スカジャンも見逃せね
+ ぇな…！「uno」コラボ【11月1日～】
+DESCRIPTION:「유☆유☆백서」 유스케\, 다음의 수행은 스
+ 킨 케어! 「uno」콜라보【11월 1일～】\nアニメ!アニメ!\
+ nhttps://animeanime.jp/article/2026/10/27/104253.html
+URL:https://animeanime.jp/article/2026/10/27/104253.html
+END:VEVENT
+BEGIN:VEVENT
+UID:2b5fd3afb2e84ef6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:「名探偵コナン」名曲の数々×花火がエモい!!「
+ ハイウェイの堕天使」の舞台・横浜で花火ショー開催
+ 決定！
+LOCATION:横浜周辺 神奈川県
+DESCRIPTION:「명탐정 코난」명곡의 여러가지×불꽃이 에
+ 모있다!! 「하이웨이의 타천사」의 무대·요코하마에
+ 서 불꽃놀이 쇼 개최 결정!\nアニメ!アニメ!\nhttps://anime
+ anime.jp/article/2026/10/27/104251.html
+URL:https://animeanime.jp/article/2026/10/27/104251.html
+END:VEVENT
+BEGIN:VEVENT
+UID:b01327d19fe5a3a9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:ゴジラの表皮を履いたら…!?「ゴジラ-0.0」×「ゴ
+ リラの裸足」痛気持ちイイ健康サンダルが登場
+DESCRIPTION:고질라의 표피를 신으면…\nアニメ!アニメ!\nht
+ tps://animeanime.jp/article/2026/10/27/104249.html
+URL:https://animeanime.jp/article/2026/10/27/104249.html
+END:VEVENT
+BEGIN:VEVENT
+UID:82994c9ea3f6a778-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:宮田俊哉＆佐久間大介が出演！“エヴァ初号機
+ ”も出現!? タコピーのばくだん焼きも♪ TBSの新イベ
+ ント「アニメの場」
+DESCRIPTION:미야다 슌야 & 사쿠마 다이스케가 출연! “에
+ 바 초호기”도 출현!?\nアニメ!アニメ!\nhttps://animeanime.j
+ p/article/2026/10/27/104247.html
+URL:https://animeanime.jp/article/2026/10/27/104247.html
+END:VEVENT
+BEGIN:VEVENT
+UID:03df142a68fca9cc-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:『幽遊白書』×unoコラボが11/1より開始。幽助が
+ まさかのスキンケアに挑戦!? 限定スカジャンが当たる
+ キャンペーンも開催
+DESCRIPTION:『유유 백서』×uno 콜라보레이션이 11/1부터 시
+ 작. 유스케가 설마의 스킨 케어에 도전!? 한정 스카쟌
+ 이 맞는 캠페인도 개최\n電撃オンライン\nhttps://dengekion
+ line.com/article/202610/92211
+URL:https://dengekionline.com/article/202610/92211
+END:VEVENT
+BEGIN:VEVENT
+UID:fd78214a2fec5037-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ちろぴのクエスト!! ストア in 全国4会場 11月6日
+ より順次開催!
+DESCRIPTION:치로피의 퀘스트!! 스토어 in 전국 4 회장 11월 6
+ 일부터 순차적으로 개최!\nコラボカフェ\nhttps://collabo-c
+ afe.com/events/collabo/tiropino-quest-popup-marui-2026/
+URL:https://collabo-cafe.com/events/collabo/tiropino-quest-popup-marui-20
+ 26/
+END:VEVENT
+BEGIN:VEVENT
+UID:15e7eb1bf1d1391f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261027T060000Z
+DTEND:20261027T080000Z
+SUMMARY:レアアニマル × しまむらパーク パジャマや寝具
+ など好評発売中!
+DESCRIPTION:희귀 동물 × 시마무라 파크 파자마와 침구 등 
+ 호평 발매 중!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/rare-animal-shimamura-item-20261027/
+URL:https://collabo-cafe.com/events/collabo/rare-animal-shimamura-item-20
+ 261027/
+END:VEVENT
+BEGIN:VEVENT
+UID:37111379c9bc3622-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261125
+SUMMARY:ウマ娘 × 茨城県美浦村 食の秋コラボ 11月12日よ
+ り開催!
+DESCRIPTION:말 딸 × 이바라키 현 미우라 무라 음식의 가을
+  콜라보레이션 11 월 12 일부터 개최!\nコラボカフェ\nhtt
+ ps://collabo-cafe.com/events/collabo/umamusume-miho-village-2026/
+URL:https://collabo-cafe.com/events/collabo/umamusume-miho-village-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ac91044988ac3a2e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:写らナイんです POP UP in 紀伊國屋書店 新宿 11月18
+ 日より開催!
+LOCATION:新宿周辺 東京都新宿区
+DESCRIPTION:사진 나이입니다 POP UP in 키이 쿠니 야 서점 신
+ 주쿠 11 월 18 일부터 개최!\nコラボカフェ\nhttps://collabo-
+ cafe.com/events/collabo/utsuranaindesu-popup-shop-kinokuniya-2026-add-in
+ fo-goods/
+URL:https://collabo-cafe.com/events/collabo/utsuranaindesu-popup-shop-kin
+ okuniya-2026-add-info-goods/
+END:VEVENT
+BEGIN:VEVENT
+UID:96150b505f253173-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261207
+SUMMARY:メイドインアビス × 焼肉ホルモンたけ田 11月6日
+ よりコラボ開催!
+DESCRIPTION:메이드 인 어비스 × 야키니쿠 호르몬 타케다 1
+ 1 월 6 일부터 협업 개최!\nコラボカフェ\nhttps://collabo-ca
+ fe.com/events/collabo/miabyss-yakiniku-horumon-takeda-2026/
+URL:https://collabo-cafe.com/events/collabo/miabyss-yakiniku-horumon-take
+ da-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:5001852a32a6b34c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ケロロ軍曹 POP UP SHOP in ゲオ 全国50店舗 11月6日よ
+ り開催!
+DESCRIPTION:케로로 군조 POP UP SHOP in 게오 전국 50점포 11월 
+ 6일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/keroro-gunso-star-popup-geo-2026/
+URL:https://collabo-cafe.com/events/collabo/keroro-gunso-star-popup-geo-2
+ 026/
+END:VEVENT
+BEGIN:VEVENT
+UID:4f375de9bdf83f9f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:ハセシン 誕生日記念 POP UP SHOP in 渋谷 10月30日よ
+ り開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:하세신 생일 기념 POP UP SHOP in 시부야 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/haseshin-birthday-popup-shibuya-tsutaya-2026/
+URL:https://collabo-cafe.com/events/collabo/haseshin-birthday-popup-shibu
+ ya-tsutaya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:b7298eda0ec99b7e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:エヴァンゲリオン × ハードロックカフェ グッズ
+  11月3日発売!
+DESCRIPTION:에반게리온 × 하드 록 카페 상품 11 월 3 일 발
+ 매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/evange
+ lion-hard-rock-cafe-goods-2026/
+URL:https://collabo-cafe.com/events/collabo/evangelion-hard-rock-cafe-goo
+ ds-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e55ba7d10a93d72b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261130
+SUMMARY:ナルミヤキャラクターズ × 東京/京都競馬場 11月
+ 7日より開催!
+DESCRIPTION:나루미야 캐릭터 × 도쿄 / 교토 경마장 11 월 7 
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/narumiya-characters-umajo-tokyo-kyoto-2026/
+URL:https://collabo-cafe.com/events/collabo/narumiya-characters-umajo-tok
+ yo-kyoto-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:7301da067cebeca8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261211
+SUMMARY:ALIEN STAGE × アニメイトカフェ 11月19日より開催!
+DESCRIPTION:ALIEN STAGE × 애니메이트 카페 11월 19일부터 개
+ 최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/alien-
+ stage-cafe-animate-cafe-exhibition-2026/
+URL:https://collabo-cafe.com/events/collabo/alien-stage-cafe-animate-cafe
+ -exhibition-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:59d78164cb1ad401-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:快獣ブースカ ほのぼの商店街 in ルミネエスト新
+ 宿 10月28日開催!
+LOCATION:新宿周辺 東京都新宿区
+DESCRIPTION:쾌수 부스카 호노 보의 상가 in 루미네 에스트 
+ 신주쿠 10 월 28 일 개최!\nコラボカフェ\nhttps://collabo-caf
+ e.com/events/collabo/booska-honobono-shotengai-popup-lumine-est-shinjuku
+ -2026/
+URL:https://collabo-cafe.com/events/collabo/booska-honobono-shotengai-pop
+ up-lumine-est-shinjuku-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:4330b58d9271df64-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261207
+SUMMARY:ラブライブ ラブナゴヤ!フェス 名古屋で11月6日
+ より開催!
+DESCRIPTION:러브 라이브 러브 나고야! 페스 나고야에서 11 
+ 월 6 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/lovelive-event-love-nagoya-fes-2026/
+URL:https://collabo-cafe.com/events/collabo/lovelive-event-love-nagoya-fe
+ s-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:982f5b5e88eff14c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:ガンダム × チョコフレーク ザクザク出撃せよ!! 
+ 11月16日開始!
+DESCRIPTION:건담 × 초코플레이크 자쿠자크 출격하라!! 11
+ 월 16일 개시!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/gundam-shop-tieup-nissin-cisco-chocoflake-2026/
+URL:https://collabo-cafe.com/events/collabo/gundam-shop-tieup-nissin-cisc
+ o-chocoflake-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ee5dfb2c02fc4c25-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261103T060000Z
+DTEND:20261103T080000Z
+SUMMARY:ちいかわ ふわふわルームシューズ しまむらで11
+ 月3日発売!
+DESCRIPTION:치이카와 푹신푹신 룸 슈즈 시마무라에서 11 
+ 월 3 일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/chiikawa-goods-shimamura-room-shoes-2026/
+URL:https://collabo-cafe.com/events/collabo/chiikawa-goods-shimamura-room
+ -shoes-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:9507cbb9ba827bd0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:ペコちゃん 2027年スケジュール手帳 11月1日より
+ 先着プレゼント!
+DESCRIPTION:페코 짱 2027 년 스케줄 수첩 11 월 1 일부터 선
+ 착 선물!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /fujiya-pekochan-schedule-book-present-2026/
+URL:https://collabo-cafe.com/events/collabo/fujiya-pekochan-schedule-book
+ -present-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:5963ed401d12d4c0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:ウマ娘 × サントリー自販機 10月29日よりコラボ
+ 第2弾開催!
+DESCRIPTION:말 딸 × 산토리 자판기 10 월 29 일부터 콜라보
+ 레이션 제 2 탄 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/umamusume-suntory-vending-campaign-vol2-2026/
+URL:https://collabo-cafe.com/events/collabo/umamusume-suntory-vending-cam
+ paign-vol2-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:6ad44d4918220343-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261116
+SUMMARY:ホロライブ オータムストリート フェア 10月29日
+ より開催!
+DESCRIPTION:홀로 라이브 오텀 스트리트 페어 10 월 29 일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /hololive-goods-seasonal-days-autumn-street-tsutaya-2026/
+URL:https://collabo-cafe.com/events/collabo/hololive-goods-seasonal-days-
+ autumn-street-tsutaya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:cd1b3374688f965d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270116
+DTEND;VALUE=DATE:20270117
+SUMMARY:入間くん グッズフェア in アニメイト 2027年1月16
+ 日より開催!
+DESCRIPTION:이루마군 상품 페어 in 애니메이트 2027년 1월 16
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/iruma-kun-yumekawa-goods-fair-animate-2027/
+URL:https://collabo-cafe.com/events/collabo/iruma-kun-yumekawa-goods-fair
+ -animate-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:d3caa9f1e1ddc8ed-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261117
+SUMMARY:Suicaのペンギン × NewDays コラボ商品20品が順次登
+ 場!
+DESCRIPTION:Suica의 펭귄 ​​× NewDays 콜라보레이션 상품 20
+ 품이 순차적으로 등장!\nコラボカフェ\nhttps://collabo-cafe
+ .com/events/collabo/suica-penguin-newdays-campaign-2026/
+URL:https://collabo-cafe.com/events/collabo/suica-penguin-newdays-campaig
+ n-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:237260fd0fbaa499-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270116
+DTEND;VALUE=DATE:20270117
+SUMMARY:東リベ Sincerely yours フェア in アニメイト 1月16日
+ より開催!
+DESCRIPTION:히가시 리베 Sincerely yours 페어 in 애니메이트 1
+ 월 16일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/tokyo-revengers-sincerely-yours-fair-animate-2027/
+URL:https://collabo-cafe.com/events/collabo/tokyo-revengers-sincerely-you
+ rs-fair-animate-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:e5837dbc8ac5c554-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261028T090000Z
+DTEND:20261028T110000Z
+SUMMARY:にじさんじから「SILENT SERVANTS」グッズが登場　10
+ /28 18時から販売開始
+DESCRIPTION:니지 산지에서 "SILENT SERVANTS"상품이 등장 10/28 1
+ 8시부터 판매 개시\nPANORA\nhttps://panora.tokyo/archives/161296
+URL:https://panora.tokyo/archives/161296
+END:VEVENT
+BEGIN:VEVENT
+UID:2497b713e54a6ca0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:アイドルVTuber「らびぱれ!!」、結成2周年記念ラ
+ イブのグッズラインナップを公開　メンバー本人がデ
+ ザインを手がけたオリジナルアイテムが登場
+DESCRIPTION:아이돌 VTuber 「라비파레!!」\, 결성 2주년 기념
+  라이브의 상품 라인업을 공개 멤버 본인이 디자인을 
+ 다룬 오리지널 아이템이 등장\nPANORA\nhttps://panora.tokyo/ar
+ chives/161286\nhttps://lovvebox.zaiko.io/e/lavvipare-2nd-anniversary
+URL:https://panora.tokyo/archives/161286
+END:VEVENT
+BEGIN:VEVENT
+UID:9ca1a758b6b7fe23-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:VRChat音楽フェス「ESPERA -AdHoc Live Festival 2026-」最
+ 終日11/22の全出演アーティストが公開　Kizuna AI、春猿
+ 火、など、多彩な世界観をもつアーティストが出演
+DESCRIPTION:VRChat 음악 페스티벌 「ESPERA -AdHoc Live Festival 202
+ 6-」마지막 날 11/22의 전 출연 아티스트가 공개 Kizuna AI\
+ , 춘원화\, 등 다채로운 세계관을 가진 아티스트가 출
+ 연\nPANORA\nhttps://panora.tokyo/archives/161273\nhttps://riotmusic-liv
+ e.zaiko.io/e/espera-adhoc-2026
+URL:https://panora.tokyo/archives/161273
+END:VEVENT
+BEGIN:VEVENT
+UID:0c70232868ddcb4b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:学生によるゲーム制作イベント「holo Indie GameJAM@Y
+ DA」が横浜デジタルアーツ専門学校にて12月に開催決
+ 定
+LOCATION:横浜周辺 神奈川県
+DESCRIPTION:학생에 의한 게임 제작 이벤트 「holo Indie GameJA
+ M@YDA」가 요코하마 디지털 아트 전문학교에서 12월에 
+ 개최 결정\nPANORA\nhttps://panora.tokyo/archives/161256
+URL:https://panora.tokyo/archives/161256
+END:VEVENT
+BEGIN:VEVENT
+UID:f7f42565d108de00-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:あおぎり高校 8周年を記念した各種企画が実施決
+ 定　京王電鉄とのコラボなど記念企画を10/28より順次
+ 展開
+DESCRIPTION:아오기리 고등학교 8주년을 기념한 각종 기획
+ 이 실시 결정 게이오 전철과의 콜라보레이션 등 기념 
+ 기획을 10/28부터 순차 전개\nPANORA\nhttps://panora.tokyo/archiv
+ es/161245
+URL:https://panora.tokyo/archives/161245
+END:VEVENT
+BEGIN:VEVENT
+UID:ce9449ea407edb84-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:VTuberグループ「あおぎり高校」8周年企画が発表
+ 　京王井の頭線でラッピング電車を運行
+DESCRIPTION:VTuber 그룹 「아오기리 고등학교」8주년 기획
+ 이 발표 게이오 이노카시라 선으로 랩핑 전철을 운행\n
+ KAI-YOU\nhttps://kai-you.net/article/96975
+URL:https://kai-you.net/article/96975
+END:VEVENT
+BEGIN:VEVENT
+UID:d6d5f5d2c3ddbb51-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:SF小説『三体』の公式ゲーム『三体　審判前夜』
+ 発表　映像はすべて生成AIで制作
+DESCRIPTION:SF 소설 '삼체'의 공식 게임 '삼체 심판 전야' 
+ 발표 영상은 모두 생성 AI로 제작\nKAI-YOU\nhttps://kai-you.ne
+ t/article/96970
+URL:https://kai-you.net/article/96970
+END:VEVENT
+BEGIN:VEVENT
+UID:0193b556fa84a902-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:公式ショップ「hololive production official shop in Tokyo S
+ tation」、新区画にてリニューアルオープン決定！
+LOCATION:東京キャラクターストリート 東京都千代田区
+DESCRIPTION:공식 숍 「hololive production official shop in Tokyo Stat
+ ion」\, 신구획에서 리뉴얼 오픈 결정!\nホロライブ公式
+ \nhttps://hololivepro.com/news/20261020-%e5%85%ac%e5%bc%8f%e3%82%b7%e3%8
+ 3%a7%e3%83%83%e3%83%97%e3%80%8chololive-production-official-shop-in-toky
+ o-station%e3%80%8d%e3%80%81%e6%96%b0%e5%8c%ba%e7%94%bb%e3%81%ab%e3%81%a6
+ %e3%83%aa%e3%83%8b/
+URL:https://hololivepro.com/news/20261020-%e5%85%ac%e5%bc%8f%e3%82%b7%e3%
+ 83%a7%e3%83%83%e3%83%97%e3%80%8chololive-production-official-shop-in-tok
+ yo-station%e3%80%8d%e3%80%81%e6%96%b0%e5%8c%ba%e7%94%bb%e3%81%ab%e3%81%a
+ 6%e3%83%aa%e3%83%8b/
+END:VEVENT
+BEGIN:VEVENT
+UID:b16d963e98018f49-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:ちいかわ、ハチワレ、うさぎ達がお弁当に!? 花
+ 屋さんや魚屋さんでお仕事も♪ 「ちいかわぽけっと
+ 」公式グッズ第4弾発売でPOP UP STORE開催【レポ】
+DESCRIPTION:치이카와\, 꿀벌\, 토끼들이 도시락에!? 꽃집이
+ 나 생선 가게에서 일도 ♪ "치이카와 포켓"공식 상품 
+ 제 4 탄 발매로 POP UP STORE 개최 【레포】\nアニメ!アニ
+ メ!\nhttps://animeanime.jp/article/2026/10/27/104243.html
+URL:https://animeanime.jp/article/2026/10/27/104243.html
+END:VEVENT
+BEGIN:VEVENT
+UID:1c16a27edc5cff81-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:「サンリオ」ポムポムプリンの“ぷるぷるプリ
+ ン”などをお手軽に作れる♪「貝印」製菓アイテムが
+ 登場
+DESCRIPTION:“산리오” 폼 폼 푸딩의 “푸르푸루 푸딩” 
+ 등을 간편하게 만들 수 있다♪ “패패” 제과 아이템
+ 이 등장\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/
+ 27/104242.html
+URL:https://animeanime.jp/article/2026/10/27/104242.html
+END:VEVENT
+BEGIN:VEVENT
+UID:9c8020a83ccd0f88-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:「スヌーピー」×ファミマ、コラボ第2弾が本日10
+ 月27日スタート！ 買って可愛くて便利な“まめ皿”も
+ らえる♪
+DESCRIPTION:「스누피」×파미마\, 콜라보레이션 제2탄이 
+ 오늘 10월 27일 스타트! 사고 귀엽고 편리한 "물집 접시"
+ 받을 수 있습니다 ♪\nアニメ!アニメ!\nhttps://animeanime.jp
+ /article/2026/10/27/104231.html
+URL:https://animeanime.jp/article/2026/10/27/104231.html
+END:VEVENT
+BEGIN:VEVENT
+UID:9e9c1402943aefd5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:『ルミナ・アークの最弱無双』12月15日サービス
+ 終了。『ラスト・セーフゾーン』への移行特別キャン
+ ペーンが開催中
+DESCRIPTION:『루미나 아크의 최약무쌍』 12월 15일 서비스 
+ 종료. 「라스트 세이프 존」으로의 이행 특별 캠페인 
+ 개최 중\n電撃オンライン\nhttps://dengekionline.com/article/202
+ 610/91757
+URL:https://dengekionline.com/article/202610/91757
+END:VEVENT
+BEGIN:VEVENT
+UID:96af1dee25143a1d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Lil ala mode POP UP SHOP in 京都髙島屋S.C. 11月6日より
+ 開催!
+DESCRIPTION:Lil ala mode POP UP SHOP in 교토 다카시마야 S.C. 11월
+  6일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events
+ /collabo/lilalamode-nov-popup-shop-kyoto-takashimaya-2026/
+URL:https://collabo-cafe.com/events/collabo/lilalamode-nov-popup-shop-kyo
+ to-takashimaya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:0bcb872df65ebed0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:ホワイトタイガーとブラックタイガー ストア in 
+ 渋谷 11月6日開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:화이트 타이거와 블랙 타이거 스토어 in 시부
+ 야 11월 6일 개최!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/whitetiger-to-blacktiger-bustour-popup-shibuya-modi-2026/
+URL:https://collabo-cafe.com/events/collabo/whitetiger-to-blacktiger-bust
+ our-popup-shibuya-modi-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:946be97568306b82-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:なんでもいきもの POP UP in キデイランド 11月6日
+ より開催!
+LOCATION:東急プラザ表参道「オモカド」 東京都渋谷区
+DESCRIPTION:뭐든지 이키모노 POP UP in 키데일랜드 11월 6일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/nandemoikimono-norionigiri-popup-kiddyland-omokado-2026/
+URL:https://collabo-cafe.com/events/collabo/nandemoikimono-norionigiri-po
+ pup-kiddyland-omokado-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:61dc1628d3480c5c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:チ。 ―地球の運動について― ストア in karendo 11
+ 月6日より開催!
+DESCRIPTION:치. ―지구의 운동에 대해― 스토어 in karendo 11
+ 월 6일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/chi-karendo-collabo-shop-2026/
+URL:https://collabo-cafe.com/events/collabo/chi-karendo-collabo-shop-2026
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:d1b63ac07475e21e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261027T100000Z
+DTEND:20261027T120000Z
+SUMMARY:ホロライブ所属・姫森ルーナが「ケロロ軍曹☆ 
+ ハチャメチャTVショー」実況プレイに参戦　10/27 19時
+ より配信開始
+DESCRIPTION:홀로 라이브 소속 · 히메모리 루나가 "케로로 
+ 군조 ☆ 하차 메챠 TV 쇼"실황 플레이에 참전 10/27 19시
+ 부터 배포 개시\nPANORA\nhttps://panora.tokyo/archives/161210
+URL:https://panora.tokyo/archives/161210
+END:VEVENT
+BEGIN:VEVENT
+UID:615a814b657e1e2e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261121T070000Z
+DTEND:20261121T090000Z
+SUMMARY:声優 梶裕貴の音声AI「梵そよぎ」がAITuber化　本
+ 人とのゲーム実況を生配信
+DESCRIPTION:성우 카지 히로키의 음성 AI "가미 소요기"가 AI
+ Tuber화 본인과의 게임 실황을 생 전달\nKAI-YOU\nhttps://kai-
+ you.net/article/96967
+URL:https://kai-you.net/article/96967
+END:VEVENT
+BEGIN:VEVENT
+UID:6594aae0bf66d238-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:にじさんじChroNoiR、2ndライブをGMOアリーナさいた
+ まで開催　初のCDシングルも発売
+LOCATION:さいたまスーパーアリーナ 埼玉県
+DESCRIPTION:니지 산지 ChroNoiR\, 2nd 라이브를 GMO 아레나까지
+  개최 첫 CD 싱글도 발매\nKAI-YOU\nhttps://kai-you.net/article/96
+ 964\nhttps://eplus.jp/chronoir_2ndlive/sp/
+URL:https://kai-you.net/article/96964
+END:VEVENT
+BEGIN:VEVENT
+UID:cb4ac492f484abd2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261012T010000Z
+DTEND:20261031T113000Z
+SUMMARY:アニメ10周年記念展示会『この素晴らしい世界に
+ 祝福を！展』〜Cheerful〜
+LOCATION:秋葉原UDX AKIBA_SQUARE 東京都
+DESCRIPTION:애니메이션 10주년 기념 전시회 “이 멋진 세
+ 계에 축복을! 전시회」~Cheerful~\nアニメハック イベン
+ ト\nhttps://anime.eiga.com/event/174857/
+URL:https://anime.eiga.com/event/174857/
+END:VEVENT
+BEGIN:VEVENT
+UID:c7450a46d972a59e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:「NIJISANJI EN」が2026年11月27日(金)から開催されるA
+ FA Singapore 2026に出展決定！さらにステージ出演も決定
+ ！
+DESCRIPTION:「NIJISANJI EN」이 2026년 11월 27일(금)부터 개최
+ 되는 AFA Singapore 2026에 출전 결정! 또한 스테이지 출연
+ 도 결정!\nにじさんじ公式\nhttps://www.nijisanji.jp/news/xw4geh
+ 3o0y
+URL:https://www.nijisanji.jp/news/xw4geh3o0y
+END:VEVENT
+BEGIN:VEVENT
+UID:e891a46450b0fbd4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:「薬屋のひとりごと」猫猫＆子翠は「パズドラ
+ 」でも仲良し！ 初コラボ開催、壬氏様たちが集結
+DESCRIPTION:「약점의 한사람마다」고양이 고양이＆자취
+ 는 「파즈도라」에서도 사이좋다! 첫 콜라보레이션 개
+ 최\, 미 씨가 집결\nアニメ!アニメ!\nhttps://animeanime.jp/art
+ icle/2026/10/26/104228.html
+URL:https://animeanime.jp/article/2026/10/26/104228.html
+END:VEVENT
+BEGIN:VEVENT
+UID:33fa82f61d383979-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270326
+DTEND;VALUE=DATE:20270327
+SUMMARY:「デート・ア・ライブF Last Date」27年3月26日公開
+ 　特報映像とティザービジュアル第2弾が披露
+DESCRIPTION:「데이트 어 라이브 F Last Date」27년 3월 26일 공
+ 개 특보 영상과 티저 비주얼 제2탄이 피로\nアニメハッ
+ ク\nhttps://anime.eiga.com/news/127726/
+URL:https://anime.eiga.com/news/127726/
+END:VEVENT
+BEGIN:VEVENT
+UID:70e58d588d790678-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T040000Z
+DTEND:20261024T060000Z
+SUMMARY:アニメ『怪獣８号』防衛隊ブートキャンプ in タ
+ チカワ
+LOCATION:立川ステージガーデン 東京都
+DESCRIPTION:애니메이션 「괴수 8호」방위대 부트캠프 in 
+ 타치카와\nアニメハック イベント\nhttps://anime.eiga.com/ev
+ ent/174738/\nhttps://l-tike.com/kaiju-no8/
+URL:https://anime.eiga.com/event/174738/
+END:VEVENT
+BEGIN:VEVENT
+UID:f9240048a7d14597-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T060000Z
+DTEND:20261024T080000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【北海道】
+LOCATION:札幌市内某所 北海道
+DESCRIPTION:히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출
+ 시 이벤트【홋카이도】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174601/
+URL:https://anime.eiga.com/event/174601/
+END:VEVENT
+BEGIN:VEVENT
+UID:162c046c371f8391-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261025T025500Z
+DTEND:20261025T045500Z
+SUMMARY:「青春ブタ野郎はディアフレンドの夢を見ない
+ 」公開記念舞台挨拶【大阪・1回目】
+LOCATION:T・ジョイ梅田 大阪府
+DESCRIPTION:「청춘 돼지 놈은 디아프렌드의 꿈을 보지 않
+ 는다」공개 기념 무대 인사【오사카·1회째】\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174910/
+URL:https://anime.eiga.com/event/174910/
+END:VEVENT
+BEGIN:VEVENT
+UID:1f1963781580c187-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261025T060500Z
+DTEND:20261025T080500Z
+SUMMARY:「青春ブタ野郎はディアフレンドの夢を見ない
+ 」公開記念舞台挨拶【大阪・2回目】
+LOCATION:T・ジョイ梅田 大阪府
+DESCRIPTION:「청춘 돼지 놈은 디아프렌드의 꿈을 보지 않
+ 는다」공개 기념 무대 인사【오사카·2회째】\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174911/
+URL:https://anime.eiga.com/event/174911/
+END:VEVENT
+BEGIN:VEVENT
+UID:b8bb9ae15079b52c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261025T070500Z
+DTEND:20261025T090500Z
+SUMMARY:「青春ブタ野郎はディアフレンドの夢を見ない
+ 」公開記念舞台挨拶【愛知・1回目】
+LOCATION:ミッドランドスクエアシネマ 名古屋 愛知県
+DESCRIPTION:「청춘 돼지 놈은 디아프렌드의 꿈을 보지 않
+ 는다」공개 기념 무대 인사【아이치・1회째】\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174912/
+URL:https://anime.eiga.com/event/174912/
+END:VEVENT
+BEGIN:VEVENT
+UID:d851085ac45a130b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261025T101500Z
+DTEND:20261025T121500Z
+SUMMARY:「青春ブタ野郎はディアフレンドの夢を見ない
+ 」公開記念舞台挨拶【愛知・2回目】
+LOCATION:ミッドランドスクエアシネマ 名古屋 愛知県
+DESCRIPTION:「청춘 돼지 놈은 디아프렌드의 꿈을 보지 않
+ 는다」공개 기념 무대 인사【아이치・2회째】\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174913/
+URL:https://anime.eiga.com/event/174913/
+END:VEVENT
+BEGIN:VEVENT
+UID:3ef481dc57e77098-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261026T072000Z
+DTEND:20261026T092000Z
+SUMMARY:アマデオともうひとつの新世界【1回目】　第39
+ 回東京国際映画祭(TIFF)
+LOCATION:シネスイッチ銀座 東京都
+DESCRIPTION:아마데오와 또 하나의 신세계【1회째】 제39회
+  도쿄국제영화제(TIFF)\nアニメハック イベント\nhttps://a
+ nime.eiga.com/event/174924/
+URL:https://anime.eiga.com/event/174924/
+END:VEVENT
+BEGIN:VEVENT
+UID:f040f1235e2fd69d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261026T101000Z
+DTEND:20261026T121000Z
+SUMMARY:ウォーキング・ウィズ・アニメーターズ【1回目
+ 】　第39回東京国際映画祭(TIFF)
+LOCATION:シネスイッチ銀座 東京都
+DESCRIPTION:워킹·위즈·애니메이터즈[1회째] 제39회 도쿄 
+ 국제 영화제(TIFF)\nアニメハック イベント\nhttps://anime.e
+ iga.com/event/174938/
+URL:https://anime.eiga.com/event/174938/
+END:VEVENT
+BEGIN:VEVENT
+UID:33c973dc970a9204-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261027T022000Z
+DTEND:20261027T042000Z
+SUMMARY:我々は宇宙人　第39回東京国際映画祭(TIFF)
+LOCATION:角川シネマ有楽町 東京都
+DESCRIPTION:우리는 우주인 제39회 도쿄국제영화제(TIFF)\nア
+ ニメハック イベント\nhttps://anime.eiga.com/event/174940/
+URL:https://anime.eiga.com/event/174940/
+END:VEVENT
+BEGIN:VEVENT
+UID:f398d478cb328a07-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261027T110000Z
+DTEND:20261027T130000Z
+SUMMARY:GROTESQQQUE-グロテスク-【1回目】　第39回東京国際
+ 映画祭(TIFF)
+LOCATION:丸の内ピカデリー 東京都
+DESCRIPTION:GROTESQQQUE-그로테스크-【1회째】 제39회 도쿄국
+ 제영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga.
+ com/event/174933/
+URL:https://anime.eiga.com/event/174933/
+END:VEVENT
+BEGIN:VEVENT
+UID:c7bad32786ffd658-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261028T074000Z
+DTEND:20261028T094000Z
+SUMMARY:フォーガットン・アイランド 忘却の魔法島【1回
+ 目】　第39回東京国際映画祭(TIFF)
+LOCATION:丸の内ピカデリー 東京都
+DESCRIPTION:포가튼 아일랜드 망각의 마법도[1회째] 제39회 
+ 도쿄 국제 영화제(TIFF)\nアニメハック イベント\nhttps://
+ anime.eiga.com/event/174929/
+URL:https://anime.eiga.com/event/174929/
+END:VEVENT
+BEGIN:VEVENT
+UID:c808c08238eb6ff0-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261028T080000Z
+DTEND:20261028T100000Z
+SUMMARY:第4期デー（放送30周年記念）　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:제4기 데이(방송 30주년 기념) 게게게기 2026\nア
+ ニメハック イベント\nhttps://anime.eiga.com/event/174919/
+URL:https://anime.eiga.com/event/174919/
+END:VEVENT
+BEGIN:VEVENT
+UID:b3be07327dfebc43-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261028T102000Z
+DTEND:20261028T122000Z
+SUMMARY:金の国 水の国　第39回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:김의 나라 물의 나라 제39회 도쿄 국제 영화제(
+ TIFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/174
+ 942/
+URL:https://anime.eiga.com/event/174942/
+END:VEVENT
+BEGIN:VEVENT
+UID:5db98982de812537-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261029T083500Z
+DTEND:20261029T103500Z
+SUMMARY:劇場アニメ『ベルサイユのばら』　第39回東京国
+ 際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:극장 애니메이션 “베르사유의 장미” 제39회 
+ 도쿄 국제 영화제(TIFF)\nアニメハック イベント\nhttps://
+ anime.eiga.com/event/174943/
+URL:https://anime.eiga.com/event/174943/
+END:VEVENT
+BEGIN:VEVENT
+UID:0e856d4cc84ac16e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261030T012000Z
+DTEND:20261030T032000Z
+SUMMARY:アマデオともうひとつの新世界【2回目】　第39
+ 回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:아마데오와 또 하나의 신세계【2회째】 제39회
+  도쿄국제영화제(TIFF)\nアニメハック イベント\nhttps://a
+ nime.eiga.com/event/174925/
+URL:https://anime.eiga.com/event/174925/
+END:VEVENT
+BEGIN:VEVENT
+UID:66327be238f2ec9a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261030T105000Z
+DTEND:20261030T125000Z
+SUMMARY:GROTESQQQUE-グロテスク-【2回目】　第39回東京国際
+ 映画祭(TIFF)
+LOCATION:丸の内ピカデリー 東京都
+DESCRIPTION:그로테스퀘크 - 그로테스크 - [2회] 제39회 도쿄
+ 국제영화제(TIFF)\nアニメハック イベント\nhttps://anime.ei
+ ga.com/event/174934/
+URL:https://anime.eiga.com/event/174934/
+END:VEVENT
+BEGIN:VEVENT
+UID:c28787e9394e93df-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T014000Z
+DTEND:20261031T034000Z
+SUMMARY:劇場版「名探偵コナン 紺青の拳（フィスト）」
+ 　第39回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:극장판 「명탐정 코난 청청의 주먹(피스트)」 
+ 제39회 도쿄 국제 영화제(TIFF)\nアニメハック イベント\
+ nhttps://anime.eiga.com/event/174941/
+URL:https://anime.eiga.com/event/174941/
+END:VEVENT
+BEGIN:VEVENT
+UID:d3ad04f82435f75e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T043000Z
+DTEND:20261031T063000Z
+SUMMARY:ひゃくえむ。　第39回東京国際映画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:찡그린다. 제39회 도쿄국제영화제(TIFF)\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174948/
+URL:https://anime.eiga.com/event/174948/
+END:VEVENT
+BEGIN:VEVENT
+UID:8f7d581b3b28c13a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T060000Z
+DTEND:20261031T080000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【愛知】
+LOCATION:名古屋市内某所 愛知県
+DESCRIPTION:히가시야마 나오 「OVER THE RAINBOW」전국 8곳 출
+ 시 이벤트【아이치】\nアニメハック イベント\nhttps://a
+ nime.eiga.com/event/174602/
+URL:https://anime.eiga.com/event/174602/
+END:VEVENT
+BEGIN:VEVENT
+UID:ffd701b36ae9ec23-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T063000Z
+DTEND:20261031T083000Z
+SUMMARY:LAWSON presents TrySail Event 2026 コワイセイルのTrick運
+ 動会【東京・1回目】
+LOCATION:Shibuya LOVEZ 東京都
+DESCRIPTION:LAWSON presents TrySail Event 2026 코와이세일의 Trick 
+ 운동회【도쿄・1회째】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174821/
+URL:https://anime.eiga.com/event/174821/
+END:VEVENT
+BEGIN:VEVENT
+UID:3727fa4ae9da2048-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T064000Z
+DTEND:20261031T084000Z
+SUMMARY:フォーガットン・アイランド 忘却の魔法島【2回
+ 目】　第39回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:포가튼 아일랜드 망각의 마법도[2회째] 제39회 
+ 도쿄 국제 영화제(TIFF)\nアニメハック イベント\nhttps://
+ anime.eiga.com/event/174930/
+URL:https://anime.eiga.com/event/174930/
+END:VEVENT
+BEGIN:VEVENT
+UID:64f774b88676e167-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T070000Z
+DTEND:20261031T090000Z
+SUMMARY:君と花火と約束と【1回目】　第39回東京国際映
+ 画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:너와 불꽃과 약속과 【1회째】 제39회 도쿄국
+ 제영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga.
+ com/event/174951/
+URL:https://anime.eiga.com/event/174951/
+END:VEVENT
+BEGIN:VEVENT
+UID:fd04695d1c1131d8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T080000Z
+DTEND:20261031T100000Z
+SUMMARY:下野紘音楽祭
+LOCATION:アリーナ立川立飛 東京都
+DESCRIPTION:시모노 히로 음악 축제\nアニメハック イベン
+ ト\nhttps://anime.eiga.com/event/174537/
+URL:https://anime.eiga.com/event/174537/
+END:VEVENT
+BEGIN:VEVENT
+UID:4dc8e22708b4c702-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T080500Z
+DTEND:20261031T100500Z
+SUMMARY:CHERRY AND VIRGIN【1回目】　第39回東京国際映画祭(TI
+ FF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:CHERRY AND VIRGIN【1회째】제39회 도쿄국제영화제(
+ TIFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/174
+ 927/
+URL:https://anime.eiga.com/event/174927/
+END:VEVENT
+BEGIN:VEVENT
+UID:964d60f2f349a796-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T093000Z
+DTEND:20261031T113000Z
+SUMMARY:サノバビッチ【1回目】　第39回東京国際映画祭(T
+ IFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:사노바비치【1회째】제39회 도쿄국제영화제(TI
+ FF)\nアニメハック イベント\nhttps://anime.eiga.com/event/17493
+ 6/
+URL:https://anime.eiga.com/event/174936/
+END:VEVENT
+BEGIN:VEVENT
+UID:daa6f0766370f755-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261031T100000Z
+DTEND:20261031T120000Z
+SUMMARY:LAWSON presents TrySail Event 2026 コワイセイルのTrick運
+ 動会【東京・2回目】
+LOCATION:Shibuya LOVEZ 東京都
+DESCRIPTION:LAWSON presents TrySail Event 2026 코와이세일의 Trick 
+ 운동회【도쿄・2회째】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174822/
+URL:https://anime.eiga.com/event/174822/
+END:VEVENT
+BEGIN:VEVENT
+UID:ec22cab4f228e541-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T040000Z
+DTEND:20261101T060000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【石川】
+LOCATION:金沢市内某所 石川県
+DESCRIPTION:히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출
+ 시 이벤트【이시카와】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174603/
+URL:https://anime.eiga.com/event/174603/
+END:VEVENT
+BEGIN:VEVENT
+UID:f284f7514d8f6734-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T043000Z
+DTEND:20261101T063000Z
+SUMMARY:LAWSON presents TrySail Event 2026 コワイセイルのTrick運
+ 動会【東京・3回目】
+LOCATION:Shibuya LOVEZ 東京都
+DESCRIPTION:LAWSON presents TrySail Event 2026 코와이세일의 Trick 
+ 운동회【도쿄・3회째】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174823/
+URL:https://anime.eiga.com/event/174823/
+END:VEVENT
+BEGIN:VEVENT
+UID:36368d471e62592c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T060000Z
+DTEND:20261101T080000Z
+SUMMARY:『デモンズ・クレスト』 先行上映イベント
+LOCATION:ユナイテッド・シネマ アクアシティお台場 東
+ 京都
+DESCRIPTION:「데몬즈 크레스트」 선행 상영 이벤트\nアニ
+ メハック イベント\nhttps://anime.eiga.com/event/174870/\nhttps:/
+ /eplus.jp/demonscrest-anime/
+URL:https://anime.eiga.com/event/174870/
+END:VEVENT
+BEGIN:VEVENT
+UID:83dcf083aca07573-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T070000Z
+DTEND:20261101T090000Z
+SUMMARY:時をかける少女　第39回東京国際映画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:시간을 걸리는 소녀 제39회 도쿄 국제 영화제(T
+ IFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/1749
+ 47/
+URL:https://anime.eiga.com/event/174947/
+END:VEVENT
+BEGIN:VEVENT
+UID:257a6d95b55c745a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T075000Z
+DTEND:20261101T095000Z
+SUMMARY:ghost／夜の果て【1回目】　第39回東京国際映画祭
+ (TIFF)
+LOCATION:TOHOシネマズ 日比谷 東京都
+DESCRIPTION:ghost/밤의 끝 【1회째】제39회 도쿄국제영화제(
+ TIFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/174
+ 931/
+URL:https://anime.eiga.com/event/174931/
+END:VEVENT
+BEGIN:VEVENT
+UID:2b645c6a5e212d31-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T080000Z
+DTEND:20261101T100000Z
+SUMMARY:LAWSON presents TrySail Event 2026 コワイセイルのTrick運
+ 動会【東京・4回目】
+LOCATION:Shibuya LOVEZ 東京都
+DESCRIPTION:LAWSON presents TrySail Event 2026 코와이세일의 Trick 
+ 운동회【도쿄・4회째】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174824/
+URL:https://anime.eiga.com/event/174824/
+END:VEVENT
+BEGIN:VEVENT
+UID:ed18fe095a3e9bcd-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261101T105000Z
+DTEND:20261101T125000Z
+SUMMARY:ウォーキング・ウィズ・アニメーターズ【2回目
+ 】　第39回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:워킹·위즈·애니메이터즈[2회째] 제39회 도쿄 
+ 국제 영화제(TIFF)\nアニメハック イベント\nhttps://anime.e
+ iga.com/event/174939/
+URL:https://anime.eiga.com/event/174939/
+END:VEVENT
+BEGIN:VEVENT
+UID:35ec913305253c54-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261102T023000Z
+DTEND:20261102T043000Z
+SUMMARY:サノバビッチ【2回目】　第39回東京国際映画祭(T
+ IFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:사노바비치【2회째】제39회 도쿄국제영화제(TI
+ FF)\nアニメハック イベント\nhttps://anime.eiga.com/event/17493
+ 7/
+URL:https://anime.eiga.com/event/174937/
+END:VEVENT
+BEGIN:VEVENT
+UID:8906b18799e81d43-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261102T073000Z
+DTEND:20261102T093000Z
+SUMMARY:機動警察パトレイバー EZY　File 1　第39回東京国
+ 際映画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:기동 경찰 패트레이버 EZY File 1 제39회 도쿄 국
+ 제 영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga
+ .com/event/174949/
+URL:https://anime.eiga.com/event/174949/
+END:VEVENT
+BEGIN:VEVENT
+UID:14c42d4e466d4376-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261102T093000Z
+DTEND:20261102T113000Z
+SUMMARY:君と花火と約束と【2回目】　第39回東京国際映
+ 画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:너와 불꽃과 약속과 【2회째】 제39회 도쿄국
+ 제영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga.
+ com/event/174952/
+URL:https://anime.eiga.com/event/174952/
+END:VEVENT
+BEGIN:VEVENT
+UID:860121077c9e5b9e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261102T115500Z
+DTEND:20261102T135500Z
+SUMMARY:Iron Boy（英題）　第39回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:Iron Boy(영제) 제39회 도쿄 국제 영화제(TIFF)\nア
+ ニメハック イベント\nhttps://anime.eiga.com/event/174935/
+URL:https://anime.eiga.com/event/174935/
+END:VEVENT
+BEGIN:VEVENT
+UID:ff50afbc9193e3c9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261103T064500Z
+DTEND:20261103T084500Z
+SUMMARY:ghost／夜の果て【2回目】　第39回東京国際映画祭
+ (TIFF)
+LOCATION:ヒューマントラストシネマ有楽町 東京都
+DESCRIPTION:ghost/밤의 끝【2회째】제39회 도쿄국제영화제(T
+ IFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/1749
+ 32/
+URL:https://anime.eiga.com/event/174932/
+END:VEVENT
+BEGIN:VEVENT
+UID:37bf4d5a89d2e8e9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261103T073000Z
+DTEND:20261103T093000Z
+SUMMARY:アマデオともうひとつの新世界【3回目】　第39
+ 回東京国際映画祭(TIFF)
+LOCATION:TOHOシネマズ シャンテ 東京都
+DESCRIPTION:아마데오와 또 하나의 신세계【3회째】제39회 
+ 도쿄국제영화제(TIFF)\nアニメハック イベント\nhttps://an
+ ime.eiga.com/event/174926/
+URL:https://anime.eiga.com/event/174926/
+END:VEVENT
+BEGIN:VEVENT
+UID:22e46369f65f68b8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261103T080000Z
+DTEND:20261103T100000Z
+SUMMARY:機動警察パトレイバー EZY　File 2　第39回東京国
+ 際映画祭(TIFF)
+LOCATION:東京ミッドタウン日比谷 東京都
+DESCRIPTION:기동 경찰 패트레이버 EZY File 2 제39회 도쿄 국
+ 제 영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga
+ .com/event/174950/
+URL:https://anime.eiga.com/event/174950/
+END:VEVENT
+BEGIN:VEVENT
+UID:d0202f5355b10243-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261103T113000Z
+DTEND:20261103T133000Z
+SUMMARY:CHERRY AND VIRGIN【2回目】　第39回東京国際映画祭(TI
+ FF)
+LOCATION:角川シネマ有楽町 東京都
+DESCRIPTION:CHERRY AND VIRGIN【2회째】제39회 도쿄국제영화제(
+ TIFF)\nアニメハック イベント\nhttps://anime.eiga.com/event/174
+ 928/
+URL:https://anime.eiga.com/event/174928/
+END:VEVENT
+BEGIN:VEVENT
+UID:4b4c8b6d8e81d97b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261107T040000Z
+DTEND:20261107T060000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【東
+ 京・1部】
+LOCATION:都内某所 東京都
+DESCRIPTION:난죠 아이노 새 앨범 출시 이벤트 [도쿄 · 1 부
+ ]\nアニメハック イベント\nhttps://anime.eiga.com/event/174433/
+URL:https://anime.eiga.com/event/174433/
+END:VEVENT
+BEGIN:VEVENT
+UID:4e216fbda385772a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261107T060000Z
+DTEND:20261107T080000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【東
+ 京・2部】
+LOCATION:都内某所 東京都
+DESCRIPTION:난죠 아이노 새 앨범 릴리스 이벤트【도쿄・2
+ 부】\nアニメハック イベント\nhttps://anime.eiga.com/event/17
+ 4434/
+URL:https://anime.eiga.com/event/174434/
+END:VEVENT
+BEGIN:VEVENT
+UID:1cdbda6c0164d08a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261107T060000Z
+DTEND:20261107T080000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【宮城】
+LOCATION:仙台市内某所 宮城県
+DESCRIPTION:히가시야마 나오 「OVER THE RAINBOW」전국 8곳 출
+ 시 이벤트【미야기】\nアニメハック イベント\nhttps://a
+ nime.eiga.com/event/174604/
+URL:https://anime.eiga.com/event/174604/
+END:VEVENT
+BEGIN:VEVENT
+UID:c7bbbf8535dd3ea2-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261107T083000Z
+DTEND:20261107T103000Z
+SUMMARY:古川 慎 3rd Live【熊本】
+LOCATION:市民会館シアーズホーム夢ホール(熊本市民会館
+ ) 熊本県
+DESCRIPTION:후루카와 신 3rd Live[구마모토]\nアニメハック 
+ イベント\nhttps://anime.eiga.com/event/173740/
+URL:https://anime.eiga.com/event/173740/
+END:VEVENT
+BEGIN:VEVENT
+UID:edcfa62d46536a31-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261108T040000Z
+DTEND:20261108T060000Z
+SUMMARY:TVアニメ『SPY×FAMILY』：スペシャルイベント『SPY
+ ×FAMILY』ANIME EXTRA MISSION Ⅱ【昼の部】
+LOCATION:ベルサール高田馬場 東京都
+DESCRIPTION:TV 애니메이션 「SPY×FAMILY」：스페셜 이벤트 
+ 「SPY×FAMILY」ANIME EXTRA MISSION Ⅱ【낮의 부】\nアニメハ
+ ック イベント\nhttps://anime.eiga.com/event/173561/\nhttps://pia.j
+ p/v/spy-family26pkg/
+URL:https://anime.eiga.com/event/173561/
+END:VEVENT
+BEGIN:VEVENT
+UID:cc4a691761972ead-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261108T090000Z
+DTEND:20261108T110000Z
+SUMMARY:TVアニメ『SPY×FAMILY』：スペシャルイベント『SPY
+ ×FAMILY』ANIME EXTRA MISSION Ⅱ【夜の部】
+LOCATION:ベルサール高田馬場 東京都
+DESCRIPTION:TV 애니메이션 「SPY×FAMILY」：스페셜 이벤트 
+ 「SPY×FAMILY」ANIME EXTRA MISSION Ⅱ【밤의 부】\nアニメハ
+ ック イベント\nhttps://anime.eiga.com/event/173562/\nhttps://pia.j
+ p/v/spy-family26pkg/
+URL:https://anime.eiga.com/event/173562/
+END:VEVENT
+BEGIN:VEVENT
+UID:4807e1d70da73cdf-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261114T060000Z
+DTEND:20261114T080000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【広島】
+LOCATION:広島市内某所 広島県
+DESCRIPTION:히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출
+ 시 이벤트【히로시마】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174605/
+URL:https://anime.eiga.com/event/174605/
+END:VEVENT
+BEGIN:VEVENT
+UID:fdcc518323505220-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261115T040000Z
+DTEND:20261115T060000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【大阪】
+LOCATION:大阪市内某所 大阪府
+DESCRIPTION:히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출
+ 시 이벤트【오사카】\nアニメハック イベント\nhttps://a
+ nime.eiga.com/event/174606/
+URL:https://anime.eiga.com/event/174606/
+END:VEVENT
+BEGIN:VEVENT
+UID:6e71cfd73d900b49-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261118T100000Z
+DTEND:20261118T120000Z
+SUMMARY:太田晃博作画展記念デー　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:오오타 아키히로 작화전 기념 데이 게게게 2026
+ \nアニメハック イベント\nhttps://anime.eiga.com/event/174915/
+URL:https://anime.eiga.com/event/174915/
+END:VEVENT
+BEGIN:VEVENT
+UID:841b97180fc84aa6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261119T100000Z
+DTEND:20261119T120000Z
+SUMMARY:菅叶和NEW BORN LIVE
+LOCATION:KT Zepp Yokohama 神奈川県
+DESCRIPTION:스가이와 NEW BORN LIVE\nアニメハック イベント\n
+ https://anime.eiga.com/event/173435/
+URL:https://anime.eiga.com/event/173435/
+END:VEVENT
+BEGIN:VEVENT
+UID:e2ff1ec8f240a640-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261121T080000Z
+DTEND:20261121T100000Z
+SUMMARY:第6期デー　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:제6기 데이 게게게 2026\nアニメハック イベン
+ ト\nhttps://anime.eiga.com/event/174916/
+URL:https://anime.eiga.com/event/174916/
+END:VEVENT
+BEGIN:VEVENT
+UID:a4aaa5698ea1c12e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261127T100000Z
+DTEND:20261127T120000Z
+SUMMARY:スペシャルトークショー「京極夏彦、"悪魔くん"
+ を大いに語る」　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:스페셜 토크 쇼 「쿄고쿠 나츠히코\, "악마군"
+ 을 많이 말한다"게게게기 2026\nアニメハック イベント\
+ nhttps://anime.eiga.com/event/174918/
+URL:https://anime.eiga.com/event/174918/
+END:VEVENT
+BEGIN:VEVENT
+UID:c1efcb4a9819eee9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:おでかけ子ザメ ベビー子ザメ POP UP in 東京駅 11
+ 月6日より開催!
+LOCATION:東京キャラクターストリート 東京都千代田区
+DESCRIPTION:외출 아이 상어 아기 아이 상어 POP UP in 도쿄역
+  11 월 6 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/odekake-kozame-baby-kozame-popup-tokyo-character-street
+ -2026/
+URL:https://collabo-cafe.com/events/collabo/odekake-kozame-baby-kozame-po
+ pup-tokyo-character-street-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:4669ff79371113e1-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:にじさんじ×極楽湯・RAKU SPA第四弾コラボキャン
+ ペーン“ととのうにじさんじ”が11月12日(木)より開催
+ 決定!
+DESCRIPTION:니지산지×극락탕·RAKU SPA 제4탄 콜라보레이션 
+ 캠페인 “토토노우니지산지”가 11월 12일(목)부터 개
+ 최 결정!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /gkmarketing-j25qpkmt/
+URL:https://collabo-cafe.com/events/collabo/gkmarketing-j25qpkmt/
+END:VEVENT
+BEGIN:VEVENT
+UID:c395daebfe68a9ee-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ぐでたま × アベイル 抱き枕やエプロンなど 10月
+ 31日より発売!
+DESCRIPTION:구데타마 × 어베일 안아 베개나 앞치마 등 10
+ 월 31일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/gudetama-avail-goods-2026/
+URL:https://collabo-cafe.com/events/collabo/gudetama-avail-goods-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:8e7f356de4f0d2c7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270409
+DTEND;VALUE=DATE:20270426
+SUMMARY:デート・ア・ライブ展 精霊メモリアル 池袋で4
+ 月9日より開催!
+LOCATION:サンシャインシティ 東京都豊島区
+DESCRIPTION:데이트·아·라이브전 정령 기념 이케부쿠로에
+ 서 4월 9일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/date-a-live-gengaten-tenjikai-sunshine-city-2027/
+URL:https://collabo-cafe.com/events/collabo/date-a-live-gengaten-tenjikai
+ -sunshine-city-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:7e4fcd7f06dda201-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:Re:AcT所属 獅子神レオナ、7thワンマンライブ「Iden
+ tity」が12/26に開催決定　11/5には12thシングルがBOOTHに
+ て先行販売
+DESCRIPTION:Re:AcT 소속 사자신 레오나\, 7th 원맨 라이브 「I
+ dentity」가 12/26에 개최 결정 11/5에는 12th 싱글이 BOOTH에
+ 서 선행 판매\nPANORA\nhttps://panora.tokyo/archives/161191\nhttps:/
+ /react-event.zaiko.io/e/identity-2026
+URL:https://panora.tokyo/archives/161191
+END:VEVENT
+BEGIN:VEVENT
+UID:ebc1e0f0edb878f5-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:ChroNoiR、ニューシングルを1/27に発売＆2ndライブ
+ を5/15にGMOアリーナさいたまで開催決定
+LOCATION:さいたまスーパーアリーナ 埼玉県
+DESCRIPTION:ChroNoiR\, 뉴 싱글을 1/27에 발매 & 2nd 라이브를 5/
+ 15에 GMO 아레나까지 개최 결정\nPANORA\nhttps://panora.tokyo/ar
+ chives/161196\nhttps://eplus.jp/chronoir_2ndlive/sp/
+URL:https://panora.tokyo/archives/161196
+END:VEVENT
+BEGIN:VEVENT
+UID:4323028baa6c068b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20270104
+SUMMARY:「超かぐや姫！×東京ドームシティ～MEMORIAL WONDER
+  LAND～」開催　ARで仮想空間「ツクヨミ」の世界観を
+ 体験
+LOCATION:東京ドームシティ 東京都文京区
+DESCRIPTION:「슈퍼 카구야 공주!×도쿄 돔 시티~MEMORIAL WONDE
+ R LAND~」개최 AR로 가상 공간 「츠쿠요미」의 세계관을 
+ 체험\nPANORA\nhttps://panora.tokyo/archives/161186
+URL:https://panora.tokyo/archives/161186
+END:VEVENT
+BEGIN:VEVENT
+UID:f2461d6fa77732b8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:にじさんじ×くら寿司キャンペーン、ちいかわコ
+ ラボでの不正行為を受け「景品管理・運用体制を強化
+ 」
+DESCRIPTION:니지산지×쿠라 스시 캠페인\, 치이카와 콜라
+ 보레이션에서의 부정 행위를 받아 「경품 관리·운용 
+ 체제를 강화」\nKAI-YOU\nhttps://kai-you.net/article/96954
+URL:https://kai-you.net/article/96954
+END:VEVENT
+BEGIN:VEVENT
+UID:cf82ea19fa3db27c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270515
+DTEND;VALUE=DATE:20270516
+SUMMARY:ChroNoiR ニューシングル 2027年1月27日(水)発売！さ
+ らに、2027年5月15日(土)に2ndライブをGMOアリーナさいた
+ まで開催決定！
+LOCATION:さいたまスーパーアリーナ 埼玉県
+DESCRIPTION:ChroNoiR 뉴 싱글 2027년 1월 27일(수) 발매! 게다가
+ \, 2027년 5월 15일(토)에 2nd 라이브를 GMO 아레나까지까지
+  개최 결정!\nにじさんじ公式\nhttps://www.nijisanji.jp/news/pb
+ hfwle_7qw\nhttps://eplus.jp/chronoir_2ndlive/sp/
+URL:https://www.nijisanji.jp/news/pbhfwle_7qw
+END:VEVENT
+BEGIN:VEVENT
+UID:e527c139f85db704-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:「薬屋のひとりごと」×「ツムラ和漢のど飴シリ
+ ーズ」コラボ！ オリジナルグッズが抽選で当たる
+DESCRIPTION:「약점의 한사람마다」×「츠무라 화한 목 사
+ 탕 시리즈」콜라보레이션! 오리지널 상품이 추첨으로 
+ 맞습니다.\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/
+ 10/26/104226.html
+URL:https://animeanime.jp/article/2026/10/26/104226.html
+END:VEVENT
+BEGIN:VEVENT
+UID:1fb8c9e6ee57ad9e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:話題の謎ネコマンガ「ねこまんまのポチ」ホッ
+ コリ癒しの日常をお手元に♪ コンビニでブロマイド
+ 発売！
+DESCRIPTION:화제의 수수께끼 고양이 만화 「고양이 만의 
+ 포치」 먼지 치유의 일상을 수중에 ♪ 편의점에서 브
+ 로마이드 발매!\nアニメ!アニメ!\nhttps://animeanime.jp/articl
+ e/2026/10/26/104225.html
+URL:https://animeanime.jp/article/2026/10/26/104225.html
+END:VEVENT
+BEGIN:VEVENT
+UID:68f53dbddccc023a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:【USJ】スヌーピーやマリオたちのフードにミニ
+ オンのカーニバル・ゲームも！「ホリデー・キッズフ
+ リー・パス」は楽しくてお得な施策
+DESCRIPTION:【USJ】스누피나 마리오들의 푸드에 미니언의 
+ 카니발·게임도! 「홀리데이・키즈 프리・패스」는 즐
+ 겁고 유익한 시책\nアニメ!アニメ!\nhttps://animeanime.jp/art
+ icle/2026/10/26/104224.html
+URL:https://animeanime.jp/article/2026/10/26/104224.html
+END:VEVENT
+BEGIN:VEVENT
+UID:62ac2d597ddee6b4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:「ちいかわパークストア」のグッズが関西で買
+ える!! 特典もモリモリ♪ 大阪に11月グランドオープン
+DESCRIPTION:「치이카와 파크 스토어」의 상품을 간사이에
+ 서 살 수 있다!! 특전도 모리모리♪ 오사카에 11월 그랜
+ 드 오픈\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/
+ 26/104220.html
+URL:https://animeanime.jp/article/2026/10/26/104220.html
+END:VEVENT
+BEGIN:VEVENT
+UID:0c6d0ed7452e61ca-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:「Suicaのペンギン」×NewDays、コラボ商品全20品が
+ 登場！ お子様ランチや限定マカロン、グッズも
+DESCRIPTION:「Suica의 펭귄」×NewDays\, 콜라보레이션 상품 
+ 전 20품이 등장! 어린이 점심이나 한정 마카롱\, 상품도
+ \nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/26/104219.
+ html
+URL:https://animeanime.jp/article/2026/10/26/104219.html
+END:VEVENT
+BEGIN:VEVENT
+UID:e5b45c4d8adfcdcb-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:宮野真守、横浜アリーナで“スター”と夢のコ
+ ラボ！ こっちのけんと、神山智洋らと笑いと歌にあ
+ ふれる一夜
+LOCATION:横浜アリーナ 神奈川県
+DESCRIPTION:미야노 마모루\, 요코하마 아레나에서 “스타
+ ”와 꿈의 콜라보레이션! 이쪽의 켄과 카미야마 토모
+ 히로 등과 웃음과 노래가 넘치는 하룻밤\nアニメ!アニ
+ メ!\nhttps://animeanime.jp/article/2026/10/26/104216.html
+URL:https://animeanime.jp/article/2026/10/26/104216.html
+END:VEVENT
+BEGIN:VEVENT
+UID:5a0709b95b8817c3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:「ピルクル400」×「ポケモン」コラボパッケージ
+ 登場！ カントー地方の51匹が勢ぞろい
+DESCRIPTION:「피클 400」×「포켓몬」콜라보 패키지 등장! 
+ 칸토 지방의 51 마리가 집결\nアニメ!アニメ!\nhttps://anim
+ eanime.jp/article/2026/10/26/104210.html
+URL:https://animeanime.jp/article/2026/10/26/104210.html
+END:VEVENT
+BEGIN:VEVENT
+UID:28904a951508b8c6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261114T065500Z
+DTEND:20261114T085500Z
+SUMMARY:「ガールズ＆パンツァー 最終章 第5話」大ヒッ
+ ト記念舞台挨拶
+LOCATION:ユナイテッド・シネマ水戸 茨城県
+DESCRIPTION:「걸즈＆판처 최종장 제5화」대히트 기념 무
+ 대 인사\nアニメハック イベント\nhttps://anime.eiga.com/even
+ t/174965/\nhttps://w.pia.jp/t/gup-finale/
+URL:https://anime.eiga.com/event/174965/
+END:VEVENT
+BEGIN:VEVENT
+UID:3c32f90dd797da94-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261128T060000Z
+DTEND:20261128T080000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【大
+ 阪・1部】
+LOCATION:大阪市内某所 大阪府
+DESCRIPTION:난죠 아이노 새 앨범 릴리스 이벤트【오사카 1
+ 부】\nアニメハック イベント\nhttps://anime.eiga.com/event/17
+ 4435/
+URL:https://anime.eiga.com/event/174435/
+END:VEVENT
+BEGIN:VEVENT
+UID:333927504ab8b22e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261128T060000Z
+DTEND:20261128T080000Z
+SUMMARY:東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベ
+ ント【福岡】
+LOCATION:福岡県某所
+DESCRIPTION:히가시야마 나오 「OVER THE RAINBOW」전국 8곳 출
+ 시 이벤트【후쿠오카】\nアニメハック イベント\nhttps:
+ //anime.eiga.com/event/174607/
+URL:https://anime.eiga.com/event/174607/
+END:VEVENT
+BEGIN:VEVENT
+UID:f5e57228884c2f3b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261128T080000Z
+DTEND:20261128T100000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【大
+ 阪・2部】
+LOCATION:大阪市内某所 大阪府
+DESCRIPTION:난죠 아이노 새 앨범 릴리스 이벤트【오사카 2
+ 부】\nアニメハック イベント\nhttps://anime.eiga.com/event/17
+ 4436/
+URL:https://anime.eiga.com/event/174436/
+END:VEVENT
+BEGIN:VEVENT
+UID:4bbfed9ea7df450c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261128T083000Z
+DTEND:20261128T103000Z
+SUMMARY:古川 慎 3rd Live【埼玉】
+LOCATION:川口リリア・フカガワみらいホール 熊本県
+DESCRIPTION:후루카와 신 3rd Live[사이타마]\nアニメハック 
+ イベント\nhttps://anime.eiga.com/event/173741/
+URL:https://anime.eiga.com/event/173741/
+END:VEVENT
+BEGIN:VEVENT
+UID:86253666db47b030-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261129T040000Z
+DTEND:20261129T060000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【名
+ 古屋・1部】
+LOCATION:名古屋市内某所 愛知県
+DESCRIPTION:난죠 아이노 새 앨범 릴리스 이벤트【나고야·
+ 1부】\nアニメハック イベント\nhttps://anime.eiga.com/event/1
+ 74437/
+URL:https://anime.eiga.com/event/174437/
+END:VEVENT
+BEGIN:VEVENT
+UID:6f220ba279525a6e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261129T060000Z
+DTEND:20261129T080000Z
+SUMMARY:南條愛乃 ニューアルバム リリースイベント【名
+ 古屋・2部】
+LOCATION:名古屋市内某所 愛知県
+DESCRIPTION:난죠 아이노 새 앨범 릴리스 이벤트【나고야·
+ 2부】\nアニメハック イベント\nhttps://anime.eiga.com/event/1
+ 74438/
+URL:https://anime.eiga.com/event/174438/
+END:VEVENT
+BEGIN:VEVENT
+UID:50d0d9f7cbb318c3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261129T080000Z
+DTEND:20261129T100000Z
+SUMMARY:第5期 西洋妖怪デー　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:제5기 서양 요괴 데이 게게게 2026\nアニメハッ
+ ク イベント\nhttps://anime.eiga.com/event/174920/\nhttps://w.pia.jp
+ /t/gegegeki/
+URL:https://anime.eiga.com/event/174920/
+END:VEVENT
+BEGIN:VEVENT
+UID:47d1abe029760e8f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261130T093000Z
+DTEND:20261130T113000Z
+SUMMARY:第5期デー（命日当日）　ゲゲゲ忌2026
+LOCATION:調布市文化会館たづくり　くすのきホール 東京
+ 都
+DESCRIPTION:제5기 데이(내일 당일) 게게게기 2026\nアニメハ
+ ック イベント\nhttps://anime.eiga.com/event/174921/\nhttps://w.pia
+ .jp/t/gegegeki/
+URL:https://anime.eiga.com/event/174921/
+END:VEVENT
+BEGIN:VEVENT
+UID:10a33a0a6d06c145-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261212T010000Z
+DTEND:20270221T110000Z
+SUMMARY:高橋和希原画展 YU-GI-OH! ART WORKS
+LOCATION:CREATIVE MUSEUM TOKYO 東京都
+DESCRIPTION:다카하시 와키 원화전 YU-GI-OH! ART WORKS\nアニメ
+ ハック イベント\nhttps://anime.eiga.com/event/174515/
+URL:https://anime.eiga.com/event/174515/
+END:VEVENT
+BEGIN:VEVENT
+UID:a12c553f68c368d7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261219T010000Z
+DTEND:20270223T110000Z
+SUMMARY:魚豊十周年展 UO10.
+LOCATION:YURAKUCHO MUSEUM 東京都
+DESCRIPTION:우오 토요 주년 전 UO10.\nアニメハック イベン
+ ト\nhttps://anime.eiga.com/event/174858/
+URL:https://anime.eiga.com/event/174858/
+END:VEVENT
+BEGIN:VEVENT
+UID:0040012520cf79ab-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261225T010000Z
+DTEND:20270125T110000Z
+SUMMARY:芥見下々『呪術廻戦』完結展
+LOCATION:新宿住友ビル　三角広場 東京都
+DESCRIPTION:아쿠미 내려 『주술회전』 완결전\nアニメハ
+ ック イベント\nhttps://anime.eiga.com/event/174815/
+URL:https://anime.eiga.com/event/174815/
+END:VEVENT
+BEGIN:VEVENT
+UID:78541e6d048aa2ea-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261226T070000Z
+DTEND:20261226T090000Z
+SUMMARY:アース・スター エンターテイメント 20周年FES ～
+ ずっと「ありがとう」、ずっと「よろしくね」！～
+LOCATION:TFTホール 東京都
+DESCRIPTION:어스 스타 엔터테인먼트 20주년 FES ～계속 「
+ 고마워」\, 쭉 「좋아요」! ~\nアニメハック イベント\n
+ https://anime.eiga.com/event/174789/\nhttps://eplus.jp/sf/detail/4542210
+ 001-P0030001?P6=001&P1=0402&P59=1
+URL:https://anime.eiga.com/event/174789/
+END:VEVENT
+BEGIN:VEVENT
+UID:8fbc3b07dedf737f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:【刃牙道×陳麻婆豆腐】麻婆豆腐で一向に構わん
+ ！！！ 地上最強のコラボ11/2開始ッッ。烈海王的薬膳
+ 麻辣キノコ麻婆、刃牙的スタミナ背徳麻婆、消力杏仁
+ 豆腐が登場
+DESCRIPTION:【칼 송곳도×첸 마파 두부】마파 두부로 일향
+ 에 상관없습니다! ! ! 지상 최강의 콜라보레이션 11/2 시
+ 작.烈海王的薬膳麻辣 버섯 마파\, 칼라 스타미나 배덕 
+ 마파\, 소력 살인 두부 등장\n電撃オンライン\nhttps://den
+ gekionline.com/article/202610/92112
+URL:https://dengekionline.com/article/202610/92112
+END:VEVENT
+BEGIN:VEVENT
+UID:2020f4044e4ee491-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270104
+DTEND;VALUE=DATE:20270105
+SUMMARY:『デート・ア・ライブ』布製シャツの着せ方を
+ 自由に調整可能、その内には豪奢な…！ 1/4スケール
+ のビッグサイズも嬉しい時崎狂三の新作フィギュア
+DESCRIPTION:『데이트·아·라이브』천제 셔츠의 입는 방법
+ 을 자유롭게 조정 가능\, 그 안에는 호사스러운…! 1/4
+ 스케일의 빅 사이즈도 기쁜 토키사키 미츠조의 신작 
+ 피규어\n電撃オンライン\nhttps://dengekionline.com/article/2026
+ 10/92087
+URL:https://dengekionline.com/article/202610/92087
+END:VEVENT
+BEGIN:VEVENT
+UID:adc132d2d3a926be-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:【くら寿司×にじさんじ】コラボ第3弾が10/30開催
+ ！ 剣持刀也らの限定メニューやグッズ登場
+DESCRIPTION:【쿠라 스시 × 니지 산지】 콜라보레이션 제3
+ 탄이 10/30 개최! 검지도야 등의 한정 메뉴와 상품 등장\
+ n電撃オンライン\nhttps://dengekionline.com/article/202610/92085
+URL:https://dengekionline.com/article/202610/92085
+END:VEVENT
+BEGIN:VEVENT
+UID:24e99840b20ead7c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:アップランド主催のVTuberライブ『＊ASTERISK』開催
+ 決定！ 会場はVRChatの「Virtual Sanrio Puroland」
+DESCRIPTION:업랜드 주최의 VTuber 라이브 「＊ASTERISK」개최 
+ 결정! 장소는 VRChat의 "Virtual Sanrio Puroland"\nMoguLive\nhttps:/
+ /www.moguravr.com/asterisk-virtual-sanrio-puroland/
+URL:https://www.moguravr.com/asterisk-virtual-sanrio-puroland/
+END:VEVENT
+BEGIN:VEVENT
+UID:fea141546f531014-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:しろたんふんわりストア in 池袋 2会場 10月27日よ
+ り開催!
+DESCRIPTION:시로탄 부드러운 스토어 in 이케부쿠로 2 회장 
+ 10 월 27 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/sirotan-diner-popup-jr-ikebukuro-2026/
+URL:https://collabo-cafe.com/events/collabo/sirotan-diner-popup-jr-ikebuk
+ uro-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f783af74caf52d11-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:名探偵コナン 芸術花火2026 11月21日に横浜・山下
+ ふ頭で開催!
+LOCATION:横浜周辺 神奈川県
+DESCRIPTION:명탐정 코난 예술 불꽃 놀이 2026 11 월 21 일에 
+ 요코하마 · 야마시타 부두에서 개최!\nコラボカフェ\nh
+ ttps://collabo-cafe.com/events/collabo/detective-conan-geijutsu-hanabi-y
+ okohama-2026/
+URL:https://collabo-cafe.com/events/collabo/detective-conan-geijutsu-hana
+ bi-yokohama-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:35bd0020700f1a77-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:ウマ娘 × 北海道日高 スタンプラリー 12月19日よ
+ り開催!
+DESCRIPTION:말 딸 × 홋카이도 히다카 스탬프 랠리 12 월 19 
+ 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/umamusume-hidaka-stamp-rally-2026-2027/
+URL:https://collabo-cafe.com/events/collabo/umamusume-hidaka-stamp-rally-
+ 2026-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:3e683a209ec6ae91-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:ハンターハンター NEON DINER in アニメイト 11月13日
+ より開催!
+DESCRIPTION:헌터 헌터 NEON DINER in 애니메이트 11월 13일부터
+  개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/hu
+ nter-x-hunter-neon-diner-animatecafe-2026/
+URL:https://collabo-cafe.com/events/collabo/hunter-x-hunter-neon-diner-an
+ imatecafe-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:e2e4629bd971392e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:にじさんじ × くら寿司 コラボ第3弾 10月30日より
+ 開催!
+DESCRIPTION:니지 산지 × 쿠라 스시 콜라보레이션 제 3 탄 1
+ 0 월 30 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com
+ /events/collabo/nijisanji-kurasushi-vol3-2026/
+URL:https://collabo-cafe.com/events/collabo/nijisanji-kurasushi-vol3-2026
+ /
+END:VEVENT
+BEGIN:VEVENT
+UID:bb511708e2746f9b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261109
+SUMMARY:ブルブルくん ポップアップストア in 京都 10月30
+ 日より開催!
+DESCRIPTION:부르부르군 팝업 스토어 in 교토 10월 30일부터 
+ 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/bur
+ uburu-pop-up-store-kyoto-2026/
+URL:https://collabo-cafe.com/events/collabo/buruburu-pop-up-store-kyoto-2
+ 026/
+END:VEVENT
+BEGIN:VEVENT
+UID:8b122662991ffc75-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ちびまる子ちゃん × LOWRYS FARM アイテム 10月31日
+ より発売!
+DESCRIPTION:Chibi Maruko-chan × LOWRYS FARM 아이템 10 월 31 일부
+ 터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /chibimarukochan-lowrysfarm-collabo-2026/
+URL:https://collabo-cafe.com/events/collabo/chibimarukochan-lowrysfarm-co
+ llabo-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:55be8917db65fbb3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:タヌキとキツネ チャーム・エプロンなど 10月31
+ 日アベイルに登場!
+DESCRIPTION:너구리와 여우 매력 앞치마 등 10 월 31 일 어베
+ 일에 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/tanu-kitsu-avail-oct-goods-shimamura-2026/
+URL:https://collabo-cafe.com/events/collabo/tanu-kitsu-avail-oct-goods-sh
+ imamura-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:30dcdfc9237d99df-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:パペットスンスン 常設店 東京・大阪 11月20日よ
+ り順次オープン!
+DESCRIPTION:퍼핏승승 상설점 도쿄·오사카 11월 20일부터 
+ 순차 오픈!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/puppet-sunsun-store-tokyo-osaka-2026/
+URL:https://collabo-cafe.com/events/collabo/puppet-sunsun-store-tokyo-osa
+ ka-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:1ea4e91c908e3e11-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:サンリオ はんてん&ルームパンツ 10月28日しまむ
+ らパークに登場!
+DESCRIPTION:산리오 한텐 & 룸 팬츠 10월 28일 시마무라 파크
+ 에 등장!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /sanrio-characters-hanten-roompants-shimamura-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-characters-hanten-room
+ pants-shimamura-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:abd817e672265871-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270123
+DTEND;VALUE=DATE:20270124
+SUMMARY:ブルアカふぇす2027 幕張メッセで1月23日・24日開
+ 催決定!
+LOCATION:幕張メッセ 千葉県
+DESCRIPTION:부르카 2027 마쿠하리 멧세에서 1 월 23 일 · 24 
+ 일 개최 결정!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/bluearchive-event-blue-archive-fes-2027/\nhttps://eplus.jp/bluea
+ rchive-fes-6th/
+URL:https://collabo-cafe.com/events/collabo/bluearchive-event-blue-archiv
+ e-fes-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:4ffea1b66a244afd-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T030000Z
+DTEND:20261024T050000Z
+SUMMARY:HUNTER×HUNTER グッズ アベイルにて10月24日より受注
+ 販売!
+DESCRIPTION:HUNTER×HUNTER 굿즈 아베일에서 10월 24일부터 수
+ 주 판매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /hunter-x-hunter-avail-oct-reorder-shimamura-park-2026/
+URL:https://collabo-cafe.com/events/collabo/hunter-x-hunter-avail-oct-reo
+ rder-shimamura-park-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:091ec2ac05f3710c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:カウボーイビバップ × BEAMS 初コラボ 10月30日よ
+ り発売!
+DESCRIPTION:카우보이 비밥 × BEAMS 첫 콜라보레이션 10월 30
+ 일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/cowboy-bebop-beams-mangart-2026/
+URL:https://collabo-cafe.com/events/collabo/cowboy-bebop-beams-mangart-20
+ 26/
+END:VEVENT
+BEGIN:VEVENT
+UID:6ae496c9ccad340c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270120
+DTEND;VALUE=DATE:20270121
+SUMMARY:原神CAFE 初の常設カフェ 有楽町マルイに1月20日
+ オープン!
+LOCATION:有楽町マルイ 東京都千代田区
+DESCRIPTION:하라진 CAFE 최초의 상설 카페 유라쿠초 마루이
+ 에 1월 20일 오픈!\nコラボカフェ\nhttps://collabo-cafe.com/eve
+ nts/collabo/genshin-cafe-yurakucho-marui-2027/
+URL:https://collabo-cafe.com/events/collabo/genshin-cafe-yurakucho-marui-
+ 2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:f0de97869d717076-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261130
+SUMMARY:もちわさ日 カフェ in S-PiCK CAFE 11月3日より開催!
+DESCRIPTION:모치와사일 카페 in S-PiCK CAFE 11월 3일부터 개최
+ !\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/mochiwasa
+ bi-cafe-s-pick-cafe-2026/
+URL:https://collabo-cafe.com/events/collabo/mochiwasabi-cafe-s-pick-cafe-
+ 2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:c14e2444239bc1e3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:ゴジラ-0.0 × 世界の山ちゃん in 愛知 11月1日より
+ 開催!
+DESCRIPTION:고질라-0.0 × 세계의 산 짱 in 아이치 11월 1일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /godzilla-minus-zero-sekai-no-yamachan-2026/
+URL:https://collabo-cafe.com/events/collabo/godzilla-minus-zero-sekai-no-
+ yamachan-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ad3afbbef5a290fe-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ウルトラマンティガ × アベイル グッズ 10月31日
+ より発売!
+DESCRIPTION:울트라 맨티가 × 어베일 상품 10 월 31 일부터 
+ 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo/ult
+ raman-tiga-avail-goods-2026/
+URL:https://collabo-cafe.com/events/collabo/ultraman-tiga-avail-goods-202
+ 6/
+END:VEVENT
+BEGIN:VEVENT
+UID:2f7c4db2ee649661-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:モンスターズ・インク×アベイル ドア型ポーチ
+ など 10月31日発売!
+DESCRIPTION:몬스터즈 잉크×아베일 도어형 파우치 등 10월 
+ 31일 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/colla
+ bo/monsters-shop-tieup-avail-2026/
+URL:https://collabo-cafe.com/events/collabo/monsters-shop-tieup-avail-202
+ 6/
+END:VEVENT
+BEGIN:VEVENT
+UID:1fda4b6426bf2810-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:サカモトデイズ 6周年記念 第3回キャラクター人
+ 気投票 好評開催中!
+DESCRIPTION:사카모토 데이즈 6주년 기념 제3회 캐릭터 인
+ 기 투표 호평 개최중!\nコラボカフェ\nhttps://collabo-cafe.c
+ om/events/collabo/sakamoto-days-character-popular-ranking-vol3-2026/
+URL:https://collabo-cafe.com/events/collabo/sakamoto-days-character-popul
+ ar-ranking-vol3-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:42045914676012ed-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:しろたん POP UP in 新宿マルイアネックス 11月5日
+ より開催!
+LOCATION:新宿マルイ アネックス 東京都新宿区
+DESCRIPTION:Shirotan POP UP in 신주쿠 마루이 넥스 11 월 5 일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /sirotan-tv-anime-popup-shinjuku-marui-annex-2026/
+URL:https://collabo-cafe.com/events/collabo/sirotan-tv-anime-popup-shinju
+ ku-marui-annex-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:ba43f45afb88d0c6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261214
+SUMMARY:リンバスカンパニー展 地獄篇 福岡三越で11月21
+ 日より開催!
+DESCRIPTION:림버스 컴퍼니 전 지옥편 후쿠오카 미츠코시
+ 에서 11월 21일부터 개최!\nコラボカフェ\nhttps://collabo-ca
+ fe.com/events/collabo/limbuscompany-event-exhibition-fukuoka-2026/\nhttp
+ s://eplus.jp/limbuscompany-ex/\nhttps://w.pia.jp/t/limbuscompany/
+URL:https://collabo-cafe.com/events/collabo/limbuscompany-event-exhibitio
+ n-fukuoka-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:1195ea89dbb9ebac-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ストリーマーksonがハロウィンパーティーを秋葉
+ 原MOGRAで突発開催　コスプレOK、本人も来場
+LOCATION:秋葉原周辺 東京都千代田区
+DESCRIPTION:스트리머 kson이 할로윈 파티를 아키하바라 MOGR
+ A에서 돌발 개최 코스프레 OK\, 본인도 방문\nKAI-YOU\nhttps
+ ://kai-you.net/article/96958
+URL:https://kai-you.net/article/96958
+END:VEVENT
+BEGIN:VEVENT
+UID:f557d570a0f8749f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:『超かぐや姫！』×東京ドームシティがコラボイ
+ ベント開催　ARでツクヨミを体験できる！
+LOCATION:東京ドームシティ 東京都文京区
+DESCRIPTION:"슈퍼 카구야 공주! 』×도쿄 돔 시티가 콜라보
+  이벤트 개최 AR에서 쓰쿠요미를 체험할 수 있다!\nKAI-YO
+ U\nhttps://kai-you.net/article/96956
+URL:https://kai-you.net/article/96956
+END:VEVENT
+BEGIN:VEVENT
+UID:af2bcc38c570bde9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:にじさんじ×くら寿司キャンペーン開催　くら寿
+ 司「景品管理・運用体制を強化」
+DESCRIPTION:니지 산지 × 쿠라 스시 캠페인 개최 쿠라 스시
+  「경품 관리 · 운용 체제를 강화」\nKAI-YOU\nhttps://kai-yo
+ u.net/article/96954
+URL:https://kai-you.net/article/96954
+END:VEVENT
+BEGIN:VEVENT
+UID:765e88730cc8dc51-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:VRChat音楽フェス「ESPERA」にキズナアイ、春猿火
+ ら9組集結　出演者とVRChatの意外な接点
+DESCRIPTION:VRChat 뮤직 페스티벌 'ESPERA'에 키즈나 아이\, 사
+ 루가 하루 등 9팀이 집결하다 출연자들과 VRChat의 뜻밖
+ 의 인연\nKAI-YOU\nhttps://kai-you.net/article/96948\nhttps://riotmusi
+ c-live.zaiko.io/ja/e/espera-adhoc-2026
+URL:https://kai-you.net/article/96948
+END:VEVENT
+BEGIN:VEVENT
+UID:6d8f1489f7ea920c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Number_i、初の5大ドームツアー開幕　5ヶ月ぶりの
+ 札幌で味噌ラーメンを食べる
+DESCRIPTION:Number_i\, 첫 5대 돔 투어 개막 5개월 만의 삿포
+ 로에서 된장라면을 먹는다\nKAI-YOU\nhttps://kai-you.net/articl
+ e/96952
+URL:https://kai-you.net/article/96952
+END:VEVENT
+BEGIN:VEVENT
+UID:0aa81d8f0f25135e-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:くら寿司×「にじさんじ」第3弾コラボが10月30日
+ スタート 「咎人」「リトテツ」「おうとう」の限定
+ メニュー＆グッズ登場
+DESCRIPTION:쿠라 스시 × 「니지 산지」제 3 탄 콜라보레이
+ 션이 10 월 30 일 스타트 「기인」 「리토 테츠」 「오
+ 우 토우」의 한정 메뉴 & 상품 등장\nアニメ!アニメ!\nht
+ tps://animeanime.jp/article/2026/10/26/104201.html
+URL:https://animeanime.jp/article/2026/10/26/104201.html
+END:VEVENT
+BEGIN:VEVENT
+UID:53ac946141647c08-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261210
+DTEND;VALUE=DATE:20261211
+SUMMARY:「Dr.STONE」体験型展覧会が開催　石化の追体験や
+ 気球や滑車の体験コーナーなど
+DESCRIPTION:「Dr.STONE」체험형 전람회가 개최 석화의 추체
+ 험이나 풍선이나 활차의 체험 코너 등\nアニメハック\n
+ https://anime.eiga.com/news/127701/\nhttps://eplus.jp/anime-drstone-exhi
+ bition/）。詳細はイベント公式サイトで確認できる（ht
+ tps://anime-dr-stone.event-tenjikai.com/）
+URL:https://anime.eiga.com/news/127701/
+END:VEVENT
+BEGIN:VEVENT
+UID:bb0bfaafb8897ee4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:【ガンダムエース創刊25周年】フェア＆オンリー
+ ショップが11月7日よりアニメイトで開催。安彦良和ら
+ コミカライズ作家陣のグッズが多数登場！
+DESCRIPTION:【건담 에이스 창간 25주년】페어&온리 숍이 11
+ 월 7일부터 애니메이트에서 개최. 야스히코 료와라 코
+ 미칼라이즈 작가진의 상품이 다수 등장!\n電撃オンラ
+ イン\nhttps://dengekionline.com/article/202610/91894
+URL:https://dengekionline.com/article/202610/91894
+END:VEVENT
+BEGIN:VEVENT
+UID:8c9da784a30240b8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:VRChatで一大音楽フェス「ESPERA -AdHoc Live Festival 2026
+ -」開催！ 、Kizuna AI、春猿火、月白累など出演
+DESCRIPTION:VRChat에서 일대 음악 페스티벌 「ESPERA -AdHoc Live
+  Festival 2026-」개최! \, 키즈나 AI\, 춘원불\, 월백누 등 
+ 출연\nMoguLive\nhttps://www.moguravr.com/espera-adhoc-live-festival-20
+ 26-lineup-ticket/\nhttps://riotmusic-live.zaiko.io/ja/e/espera-adhoc-202
+ 6
+URL:https://www.moguravr.com/espera-adhoc-live-festival-2026-lineup-ticke
+ t/
+END:VEVENT
+BEGIN:VEVENT
+UID:d39a771b09d73014-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:ふたりのけもの POP UP STORE in 渋谷ロフト 11月4日
+ より開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:후타 노노 모노 POP UP STORE in 시부야 로프트 11 
+ 월 4 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/ev
+ ents/collabo/futari-no-kemono-kinoko-kiichigo-popup-shibuya-loft-2026/
+URL:https://collabo-cafe.com/events/collabo/futari-no-kemono-kinoko-kiich
+ igo-popup-shibuya-loft-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f5109e689e3114c7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:初音ミク マジカルミライ 2026 POP UP in 渋谷 11月3
+ 日より開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:하츠네 미쿠 마법의 미라이 2026 POP UP in 시부야
+  11 월 3 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/hatsune-miku-magical-mirai-popup-shibuya-tsutaya-2026/
+URL:https://collabo-cafe.com/events/collabo/hatsune-miku-magical-mirai-po
+ pup-shibuya-tsutaya-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:89d716fb1322b987-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:桃源暗鬼 POPUP in ベースヤードトーキョー 10月30
+ 日より開催!
+DESCRIPTION:모모겐 암소 POPUP in 베이스 야드 도쿄 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/tougen-anki-nikko-kegon-special-popup-baseyard-tokyo-2026/
+URL:https://collabo-cafe.com/events/collabo/tougen-anki-nikko-kegon-speci
+ al-popup-baseyard-tokyo-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:64c0dd8c8444ec9d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:SEGA ポップアップストア in 沖縄PARCO CITY 10月30日
+ より開催!
+DESCRIPTION:SEGA 팝업 스토어 in 오키나와 PARCO CITY 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/sega-okinawa-popup-shop-parco-city-2026/
+URL:https://collabo-cafe.com/events/collabo/sega-okinawa-popup-shop-parco
+ -city-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:3abb61075c839bb7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:会いに行けるアイドルVTuber「らびぱれ!!」、結成
+ 2周年記念楽曲「夢とか、まだ信じてる。」をリリー
+ ス　11/8には周年ライブを開催
+DESCRIPTION:만나러 갈 수 있는 아이돌 VTuber 「라비파레!!
+ 」\, 결성 2주년 기념 악곡 「꿈이라든지\, 아직 믿고 
+ 있다.」를 릴리스 11/8에는 주년 라이브를 개최\nPANORA\nh
+ ttps://panora.tokyo/archives/161133\nhttps://lovvebox.zaiko.io/e/lavvipa
+ re-2nd-anniversary
+URL:https://panora.tokyo/archives/161133
+END:VEVENT
+BEGIN:VEVENT
+UID:fa3ed4f28aca02da-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270326
+DTEND;VALUE=DATE:20270327
+SUMMARY:アニメ『デート・ア・ライブF』2027年3月26日劇場
+ 上映決定！ 反転十香の特報PV＆ムビチケ情報公開
+DESCRIPTION:애니메이션 “데이트·아·라이브 F” 2027년 3
+ 월 26일 극장 상영 결정! 반전 토카의 특보 PV&무비티케 
+ 정보 공개\n電撃オンライン\nhttps://dengekionline.com/article/
+ 202610/92019
+URL:https://dengekionline.com/article/202610/92019
+END:VEVENT
+BEGIN:VEVENT
+UID:056d7add6f8b5355-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:幸祜 ONE-MAN LIVE「PLAYER」シリーズの応援上映会が
+ 新宿バルト9にて3週連続で開催　来場者特典は複製コ
+ メント入りポストカード
+LOCATION:新宿周辺 東京都新宿区
+DESCRIPTION:유키 ONE-MAN LIVE 「PLAYER」시리즈의 응원 상영회
+ 가 신주쿠 발트 9에서 3주 연속으로 개최 방문자 특전
+ 은 복제 코멘트들이 엽서\nPANORA\nhttps://panora.tokyo/archives
+ /160947
+URL:https://panora.tokyo/archives/160947
+END:VEVENT
+BEGIN:VEVENT
+UID:bf6e7ef0f5aeb570-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:「ギルクラ×カバネリ」コラボカフェが銀座に！
+  いのり＆無名のパフェや作品モチーフのメニューが
+ 登場
+LOCATION:銀座周辺 東京都中央区
+DESCRIPTION:「길쿠라×카바네리」콜라보 카페가 긴자에! 
+ 이노리 & 무명의 파르페나 작품 모티브의 메뉴가 등장\
+ nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/25/104185.h
+ tml
+URL:https://animeanime.jp/article/2026/10/25/104185.html
+END:VEVENT
+BEGIN:VEVENT
+UID:03aadae9c7483af8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:「プリキュア×おジャ魔女どれみ」夢のコラボに
+ 大反響！ “おジャ魔女プリキュア”爆誕で「きゃわ
+ いい！」「尊すぎ」【ネタバレあり反応まとめ】
+DESCRIPTION:「프리큐어×오자 마녀 도레미」꿈의 콜라보
+ 레이션에 대반향! “오자 마녀 프리큐어” 폭탄으로 
+ “굉장히 좋다!” “너무 존중”\nアニメ!アニメ!\nhttps
+ ://animeanime.jp/article/2026/10/25/104182.html
+URL:https://animeanime.jp/article/2026/10/25/104182.html
+END:VEVENT
+BEGIN:VEVENT
+UID:ce6046cb33d39554-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:「TANK CHAIR-戦車椅子-」×「フールナイト」両原作
+ 者によるコラボイラスト披露　コメントも到着
+DESCRIPTION:「TANK CHAIR-전차 의자-」×「후르나이트」양원
+ 작자에 의한 콜라보레이션 일러스트 피로 코멘트도 도
+ 착\nアニメハック\nhttps://anime.eiga.com/news/127711/
+URL:https://anime.eiga.com/news/127711/
+END:VEVENT
+BEGIN:VEVENT
+UID:8bbb1f1e7d4d6e92-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:『魔入りました!入間くん』アニメイトフェア 12
+ 月5日より開催!
+LOCATION:アニメイト池袋本店 東京都豊島区
+DESCRIPTION:『마 들어갔습니다! 이루마군』 애니메이트 
+ 페어 12월 5일부터 개최!\nコラボカフェ\nhttps://collabo-caf
+ e.com/events/collabo/irumakun-animate-fair-2026/
+URL:https://collabo-cafe.com/events/collabo/irumakun-animate-fair-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:49d8a1763b038340-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:サンリオハウス カフェ併設常設店 in 名古屋 10月
+ 29日オープン!
+DESCRIPTION:산리오 하우스 카페 병설 상설점 in 나고야 10
+ 월 29일 오픈!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/sanrio-house-nagoya-parco-cafe-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-house-nagoya-parco-caf
+ e-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:a5e003ed034e42a7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270113
+DTEND;VALUE=DATE:20270114
+SUMMARY:DUSTCELLら所属のALLT STUDIOに、ぎゅる子となちぴが
+ 加入　レーベル初の主催ライブも開催
+DESCRIPTION:DUSTCELL 등 소속의 ALLT STUDIO에\, 규루코와 나치
+ 피가 가입 라벨 첫 주최 라이브도 개최\nKAI-YOU\nhttps://ka
+ i-you.net/article/96946\nhttps://eplus.jp/unsen/
+URL:https://kai-you.net/article/96946
+END:VEVENT
+BEGIN:VEVENT
+UID:1f913e0ecf691d1f-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:宮野真守が店内放送！「LaLa」50周年×ローソンコ
+ ラボ開催―「夏目友人帳」「桜蘭高校」描き下ろしグ
+ ッズなど手に入る
+DESCRIPTION:미야노 마모루가 점내 방송! 「LaLa」50주년 × 
+ 로손 콜라보레이션 개최―「나츠메 친구장」 「사쿠
+ 라란 고등학교」 신작 상품 등 입수\nアニメ!アニメ!\nh
+ ttps://animeanime.jp/article/2026/10/25/104177.html
+URL:https://animeanime.jp/article/2026/10/25/104177.html
+END:VEVENT
+BEGIN:VEVENT
+UID:de43a3f75a6749ee-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:「ゲゲゲの鬼太郎」目玉おやじ、ねこ娘…妖怪
+ 出没注意!? ラリーやフォトブース、ノベルティなど登
+ 場のタイアップ企画が開催【調布PARCO／11月18日～】
+DESCRIPTION:「게게게의 키타로」메달 아버지\, 고양이 딸
+ …요괴 출몰 주의!? 랠리나 포토 부스\, 노벨티 등 등장
+ 의 타이업 기획이 개최\nアニメ!アニメ!\nhttps://animeanime
+ .jp/article/2026/10/25/104174.html
+URL:https://animeanime.jp/article/2026/10/25/104174.html
+END:VEVENT
+BEGIN:VEVENT
+UID:98d39461d0bdb8c8-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:蓮ノ空 スートテーマ衣装 ストア in 渋谷モディ 1
+ 2月12日より開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:연꽃 하늘 수트 테마 의상 스토어 in 시부야 모
+ 디 12월 12일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.
+ com/events/collabo/lovelive-hasunosora-popup-amnibus-store-white-2026/
+URL:https://collabo-cafe.com/events/collabo/lovelive-hasunosora-popup-amn
+ ibus-store-white-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:5ac99d6c60e8457a-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:【ウマ娘】新ウマ娘“ウインマリリン”が発表
+ 、新育成シナリオは10/26から開幕！ 最大80連のガチャ
+ 無料キャンペーンが開催
+DESCRIPTION:【말딸】신말딸 “윈마릴린”이 발표\, 신육
+ 성 시나리오는 10/26부터 개막! 최대 80개의 가챠 무료 
+ 캠페인 개최\n電撃オンライン\nhttps://dengekionline.com/artic
+ le/202610/91982
+URL:https://dengekionline.com/article/202610/91982
+END:VEVENT
+BEGIN:VEVENT
+UID:08b28c60648760a6-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:『NIKKE』新ニケ《ラプンツェル：サンクチュアリ
+ 》（声優：三森すずこ）が発表。イベント参加で仲間
+ に！【4周年記念10/24生放送：第2部】
+DESCRIPTION:『NIKKE』신 니케《라푼젤:상처리》(성우:미모
+ 리 스즈코)가 발표. 이벤트 참가로 동료에게! 【4주년 
+ 기념 10/24 생방송：제2부】\n電撃オンライン\nhttps://deng
+ ekionline.com/article/202610/91984
+URL:https://dengekionline.com/article/202610/91984
+END:VEVENT
+BEGIN:VEVENT
+UID:d606762d994548e9-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:サンリオ ハロウィンマスコット 10月26日よりし
+ まむらパークで発売!
+DESCRIPTION:산리오 할로윈 마스코트 10월 26일부터 시마무
+ 라 파크에서 발매!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/sanrio-halloween-mascot-charm-avail-online-2026/
+URL:https://collabo-cafe.com/events/collabo/sanrio-halloween-mascot-charm
+ -avail-online-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:8ac1dd2a9a8307f7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270214
+DTEND;VALUE=DATE:20270215
+SUMMARY:神椿所属の明透・琶舞 TWO-MAN LIVE「I」が2/14に開
+ 催決定　それぞれのアルバムも10/28に同時リリース
+DESCRIPTION:신츠바키 소속의 명투·비무 TWO-MAN LIVE 「I」가
+  2/14에 개최 결정 각각의 앨범도 10/28에 동시 릴리스\nPA
+ NORA\nhttps://panora.tokyo/archives/160937
+URL:https://panora.tokyo/archives/160937
+END:VEVENT
+BEGIN:VEVENT
+UID:83ef67a0865d9c40-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270214
+DTEND;VALUE=DATE:20270215
+SUMMARY:Vシンガー明透と琶舞、初の現地ライブ開催決定
+ 　米山舞描き下ろしビジュアルも公開
+DESCRIPTION:V 싱어 아키토와 비무\, 첫 현지 라이브 개최 
+ 결정 미야마 마이 신작 비주얼도 공개\nKAI-YOU\nhttps://kai
+ -you.net/article/96943
+URL:https://kai-you.net/article/96943
+END:VEVENT
+BEGIN:VEVENT
+UID:8ae0c095749de72b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:「美女と野獣」水彩タッチのベル＆野獣、コグ
+ スワース、ルミエール、ポット夫人もラインナップ！
+  華やかで心ときめく35周年記念グッズ
+DESCRIPTION:「미녀와 야수」수채화 터치의 벨&야수\, 코그
+ 스워스\, 루미에르\, 냄비 부인도 라인업! 화려하고 마
+ 음 설레는 35주년 기념 상품\nアニメ!アニメ!\nhttps://anim
+ eanime.jp/article/2026/10/24/104161.html
+URL:https://animeanime.jp/article/2026/10/24/104161.html
+END:VEVENT
+BEGIN:VEVENT
+UID:3862a4a2df51c1f4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:ムーミンやリトルミィとあま～いクリスマス♪
+ 「メリーチョコレート」との限定コラボ缶が登場
+DESCRIPTION:무민이나 리틀미와 아마~이 크리스마스♪ 「
+ 메리 초콜릿」과의 한정 콜라보레이션 캔이 등장\nア
+ ニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/24/104156.html
+URL:https://animeanime.jp/article/2026/10/24/104156.html
+END:VEVENT
+BEGIN:VEVENT
+UID:6f19f6d5fec33656-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:毎年大人気♪「ペコちゃん」手帳＆ボールペン
+ がかわいすぎ☆不二家「創業116周年 創業祭セール」
+ 開催
+DESCRIPTION:매년 대인기♪「페코짱」수첩＆볼펜이 너무 
+ 귀여워☆후지가「창업 116주년 창업제 세일」개최\nア
+ ニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/24/104151.html
+URL:https://animeanime.jp/article/2026/10/24/104151.html
+END:VEVENT
+BEGIN:VEVENT
+UID:1b6f42b19a3626d4-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:ミッフィー 冬小物やパジャマなど アベイルにて
+ 10月31日より発売!
+DESCRIPTION:미피 겨울 소품이나 잠옷 등 어베일에서 10월 3
+ 1일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/miffy-avail-item-20261031/
+URL:https://collabo-cafe.com/events/collabo/miffy-avail-item-20261031/
+END:VEVENT
+BEGIN:VEVENT
+UID:e20c72f67c9275a7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:マツケンアニメ ポップアップストア in 渋谷 10月
+ 30日より開催!
+LOCATION:渋谷周辺 東京都渋谷区
+DESCRIPTION:마츠켄 애니메이션 팝업 스토어 in 시부야 10 
+ 월 30 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/e
+ vents/collabo/matsuken-anime-popup-store-tokyo-anime-center-2026/
+URL:https://collabo-cafe.com/events/collabo/matsuken-anime-popup-store-to
+ kyo-anime-center-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:f34c94d4c24a26ff-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:名探偵プリキュア × サミット 美食探偵セール 10
+ 月24日より開催!
+DESCRIPTION:명탐정 프리큐어 × 서밋 미식 탐정 세일 10월 2
+ 4일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/
+ collabo/meitantei-precure-movie-summit-store-sale-2026/
+URL:https://collabo-cafe.com/events/collabo/meitantei-precure-movie-summi
+ t-store-sale-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:efc541a76dfb8a41-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:ちびまる子ちゃん MARUKO楼 in 日比谷 10月30日より
+ 開催!
+DESCRIPTION:치비 마루코 찬 MARUKO 루 in 히비야 10 월 30 일부
+ 터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
+ /chibimarukochan-popup-maruko-rou-hibiya-chanter-2026/
+URL:https://collabo-cafe.com/events/collabo/chibimarukochan-popup-maruko-
+ rou-hibiya-chanter-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:56ca54c480afee31-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:ピングー お誕生日限定 バースデーステッカー 10
+ 月28日プレゼント!
+DESCRIPTION:핑구 생일 한정 생일 스티커 10 월 28 일 선물!\n
+ コラボカフェ\nhttps://collabo-cafe.com/events/collabo/pingu-birthd
+ ay-sticker-present-2026/
+URL:https://collabo-cafe.com/events/collabo/pingu-birthday-sticker-presen
+ t-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:27f260fe796275b7-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:プリキュア プリティストア出張店 in 4会場 10月30
+ 日より開催!
+DESCRIPTION:프리큐어 프리티 스토어 출장점 in 4 회장 10월 
+ 30일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events
+ /collabo/precure-pretty-store-popup-marui-2026-2027/
+URL:https://collabo-cafe.com/events/collabo/precure-pretty-store-popup-ma
+ rui-2026-2027/
+END:VEVENT
+BEGIN:VEVENT
+UID:eab431ed4be3efea-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:『ラブライブ！』と『宇宙戦艦ヤマト』が異色
+ コラボ　高坂穂乃果とサーシャが秋葉原を駆ける
+LOCATION:秋葉原周辺 東京都千代田区
+DESCRIPTION:『러브라이브! '와 '우주 전함 야마토'가 이색 
+ 콜라보레이션 타카사카 호노카와 사샤가 아키하바라
+ 를 달린다\nKAI-YOU\nhttps://kai-you.net/article/96941
+URL:https://kai-you.net/article/96941
+END:VEVENT
+BEGIN:VEVENT
+UID:6bcc6cf14c7f2c51-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T100000Z
+DTEND:20261024T120000Z
+SUMMARY:星街すいせい、新宿歌舞伎町で路上ライブ開催
+ 　当日にサプライズ発表
+LOCATION:新宿周辺 東京都新宿区
+DESCRIPTION:호시가 수이세이\, 신주쿠 가부키초에서 노상 
+ 라이브 개최 당일에 서프라이즈 발표\nKAI-YOU\nhttps://kai-
+ you.net/article/96940
+URL:https://kai-you.net/article/96940
+END:VEVENT
+BEGIN:VEVENT
+UID:b77098dd6881ad64-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:「名探偵プリキュア！」プリキュアが魔女見習
+ いに!?「おジャ魔女どれみ」コラボ回の先行カット公
+ 開
+DESCRIPTION:「명탐정 프리큐어!」 프리큐어가 마녀견습에
+ !?\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/24/10414
+ 9.html
+URL:https://animeanime.jp/article/2026/10/24/104149.html
+END:VEVENT
+BEGIN:VEVENT
+UID:e2e39dfb8ccf116d-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:ミッフィー マフラーやバッグなど しまむらにて
+ 10月24日より発売!
+DESCRIPTION:미피 머플러와 가방 등 시마무라에서 10 월 24 
+ 일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
+ ollabo/miffy-shimamura-20261024/
+URL:https://collabo-cafe.com/events/collabo/miffy-shimamura-20261024/
+END:VEVENT
+BEGIN:VEVENT
+UID:1788e602f7d46387-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T110000Z
+DTEND:20261024T130000Z
+SUMMARY:KAMITSUBAKI STUDIO所属の明透・琶舞による全編無料
+ の3Dライブ「Cross Night LIVE」がYouTube Liveにて開催
+DESCRIPTION:KAMITSUBAKI STUDIO 소속의 명투·비무에 의한 전편 
+ 무료의 3D 라이브 「Cross Night LIVE」가 YouTube Live에서 개
+ 최\nPANORA\nhttps://panora.tokyo/archives/160952
+URL:https://panora.tokyo/archives/160952
+END:VEVENT
+BEGIN:VEVENT
+UID:0cc937ddd26c8869-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:VTuber×メタバースの無料イベント「メタバース福
+ 祉会」が11/1に開催　ファッションショー、音楽ライ
+ ブなどを実施
+DESCRIPTION:VTuber × 메타 버스의 무료 이벤트 「메타 버스 
+ 복지회」가 11/1에 개최 패션쇼\, 음악 라이브 등을 실
+ 시\nPANORA\nhttps://panora.tokyo/archives/161038
+URL:https://panora.tokyo/archives/161038
+END:VEVENT
+BEGIN:VEVENT
+UID:688e194b52567f3b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:にじさんじ・伊波ライ 1st ミニアルバム「Hero」
+ をデジタルリリース＆アルバムリリース記念3Dソロラ
+ イブ「Behavior」が伊波ライYouTubeチャンネルにて開催決
+ 定
+DESCRIPTION:니지 산지 · 이나미 라이 1st 미니 앨범 「Hero
+ 」를 디지털 릴리스 & 앨범 릴리스 기념 3D 솔로 라이브
+  「Behavior」가 이나라이 YouTube 채널에서 개최 결정\nPANO
+ RA\nhttps://panora.tokyo/archives/161033
+URL:https://panora.tokyo/archives/161033
+END:VEVENT
+BEGIN:VEVENT
+UID:22eea7e51f6dc344-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261024T110000Z
+DTEND:20261024T130000Z
+SUMMARY:Vシンガー明透×琶舞、初の3DライブをYouTubeで全
+ 編無料配信
+DESCRIPTION:V 싱어 아키타루×유무\, 첫 3D 라이브를 YouTube
+ 에서 전편 무료 전달\nKAI-YOU\nhttps://kai-you.net/article/96934
+URL:https://kai-you.net/article/96934
+END:VEVENT
+BEGIN:VEVENT
+UID:92683a102b085156-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20270120
+DTEND;VALUE=DATE:20270121
+SUMMARY:『原神』初の常設カフェが東京・有楽町で2027年1
+ 月20日にオープン予定
+LOCATION:有楽町周辺 東京都千代田区
+DESCRIPTION:『하라진』 첫 상설 카페가 도쿄・유라쿠초에
+ 서 2027년 1월 20일에 오픈 예정\n電撃オンライン\nhttps://
+ dengekionline.com/article/202610/91932
+URL:https://dengekionline.com/article/202610/91932
+END:VEVENT
+BEGIN:VEVENT
+UID:88063a4021e32a41-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:VTuber対バン音楽ライブ「パノライブ！」Vol.10レ
+ ポート　Vol.11は10/24の明日開催！
+DESCRIPTION:VTuber 대 밴 음악 라이브 「파노 라이브!」 Vol.1
+ 0 리포트 Vol.11은 10/24의 내일 개최!\nPANORA\nhttps://panora.to
+ kyo/archives/160991\nhttps://livepocket.jp/e/panolive_011
+URL:https://panora.tokyo/archives/160991
+END:VEVENT
+BEGIN:VEVENT
+UID:586e5b430a54cf73-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261022T150000Z
+DTEND:20261122T145900Z
+SUMMARY:VTuber事務所ハコネクト所属「ちゃまこ」の誕生
+ 日記念グッズ&ボイスが10/23より販売開始
+DESCRIPTION:VTuber 사무소 하코넥트 소속 「차마코」의 생
+ 일 기념 상품 & 보이스가 10/23부터 판매 개시\nPANORA\nhttp
+ s://panora.tokyo/archives/160983
+URL:https://panora.tokyo/archives/160983
+END:VEVENT
+BEGIN:VEVENT
+UID:2afb2913e8cab176-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:アップランド、「Virtual Sanrio Puroland」にてVTuber音
+ 楽の祭典「＊ASTERISK」を12/12に開催　6年ぶりの復活開
+ 催
+DESCRIPTION:업랜드\, 「Virtual Sanrio Puroland」에서 VTuber 음악
+ 의 제전 「*ASTERISK」를 12/12에 개최 6년만의 부활 개최\n
+ PANORA\nhttps://panora.tokyo/archives/160973
+URL:https://panora.tokyo/archives/160973
+END:VEVENT
+BEGIN:VEVENT
+UID:c534569487ed5d99-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:『ゴジバト』生放送“ゴジバトサミット出張版
+ ”が11/3“ゴジラ・フェス”で開催！ 豪華ゲストの出
+ 演も発表
+DESCRIPTION:“고지바트” 생방송 “고지바트 서밋 출장판
+ ”이 11/3 “고질라 페스티벌”에서 개최! 호화 게스트 
+ 출연도 발표\n電撃オンライン\nhttps://dengekionline.com/artic
+ le/202610/91928
+URL:https://dengekionline.com/article/202610/91928
+END:VEVENT
+BEGIN:VEVENT
+UID:0738f11e6a470d1c-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261222
+DTEND;VALUE=DATE:20261223
+SUMMARY:博衣こより 1stライブ＠東京ガーデンシアター 情
+ 報解禁！
+LOCATION:東京ガーデンシアター 東京都江東区
+DESCRIPTION:하카이 코요 1st 라이브 @ 도쿄 가든 극장 정보 
+ 해금!\nホロライブ公式\nhttps://hololivepro.com/news/20261011-01
+ -310/\nhttps://l-tike.com/st1/hakuikoyori1222\nhttps://hololive-producti
+ on.zaiko.io/ja/item/385382
+URL:https://hololivepro.com/news/20261011-01-310/
+END:VEVENT
+BEGIN:VEVENT
+UID:771717b12df90b17-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:VTuber音楽イベント「ASTERISK」が6年ぶり復活　電
+ 脳少女シロらがサンリオのVR空間でライブ
+DESCRIPTION:VTuber 음악 이벤트 「ASTERISK」가 6년 만에 부활\
+ nKAI-YOU\nhttps://kai-you.net/article/96932
+URL:https://kai-you.net/article/96932
+END:VEVENT
+BEGIN:VEVENT
+UID:e85b085f44fe785b-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261111
+SUMMARY:スターレイル開拓ゲーム in 横浜 10月31日よりコ
+ ラボ開催!
+LOCATION:横浜周辺 神奈川県
+DESCRIPTION:스타 레일 개척 게임 in 요코하마 10월 31일부터
+  콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-cafe.co
+ m/events/collabo/houkai-starrail-event-yokohama-kaitaku-game-2026/
+URL:https://collabo-cafe.com/events/collabo/houkai-starrail-event-yokoham
+ a-kaitaku-game-2026/
+END:VEVENT
+BEGIN:VEVENT
+UID:b8143d9636f6faaf-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:「ミッフィー」のシチューやパンケーキ、スモ
+ アで温まろう♪ テーマカフェが東京・大阪で期間限
+ 定オープン
+DESCRIPTION:「미피」의 스튜나 팬케이크\, 스모아로 따뜻
+ 해지자♪ 테마 카페가 도쿄・오사카에서 기간 한정 오
+ 픈\nアニメ!アニメ!\nhttps://animeanime.jp/article/2026/10/23/1041
+ 31.html
+URL:https://animeanime.jp/article/2026/10/23/104131.html
+END:VEVENT
+BEGIN:VEVENT
+UID:624c47dc618ff1d3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART:20261030T020000Z
+DTEND:20261030T040000Z
+SUMMARY:アニメーション特別シンポジウム ～2027年 新た
+ なアニメアワードのスタートに向けて～　第39回東京
+ 国際映画祭(TIFF)
+LOCATION:ポートホール 東京都
+DESCRIPTION:애니메이션 특별 심포지엄 ～2027년 새로운 애
+ 니메이션 어워드의 스타트를 향해～ 제39회 도쿄 국제 
+ 영화제(TIFF)\nアニメハック イベント\nhttps://anime.eiga.com
+ /event/174964/
+URL:https://anime.eiga.com/event/174964/
+END:VEVENT
+BEGIN:VEVENT
+UID:9f9945542285e0fa-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:富野由悠季と細田守のスペシャル対談が11/23（月
+ ・祝）に神奈川県小田原市城内で開催
+DESCRIPTION:도미노 유유키와 호소다 모리의 스페셜 대담
+ 이 11/23(월·축)에 가나가와현 오다와라시 성내에서 개
+ 최\n電撃オンライン\nhttps://dengekionline.com/article/202610/919
+ 18
+URL:https://dengekionline.com/article/202610/91918
+END:VEVENT
+BEGIN:VEVENT
+UID:d8828354a8787ac3-ev@matome-board
+DTSTAMP:20261030T093511Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:“スターレイル開拓ゲーム in 横浜”10/31より開
+ 催。オリジナルカードプレゼントやフォトスポット、
+ コラボ花火など実施
+LOCATION:横浜周辺 神奈川県
+DESCRIPTION:"스타 레일 개척 게임 in 요코하마"10/31부터 개
+ 최. 오리지널 카드 선물이나 포토 스폿\, 콜라보레이션
+  불꽃 등 실시\n電撃オンライン\nhttps://dengekionline.com/art
+ icle/202610/91911
+URL:https://dengekionline.com/article/202610/91911
+END:VEVENT
+END:VCALENDAR
