@@ -130,8 +130,17 @@ GAME_REAL_RE = re.compile(r"会場|店舗|カフェ|ストア|ショップ|展(?
 GAME_SOURCES = {s["name"] for s in SOURCES if s.get("game")}
 
 
+GAME_STORE_RE = re.compile(r"(Steam|PlayStation|PS|ニンテンドー|Nintendo|Microsoft|Xbox|Epic Games|App |Google Play)\s*ストア(ページ)?|ストアページ|eショップ", re.I)
+
+
+def game_title(title):
+    """게임 판매처 이름(Steamストアページ 등)의 'ストア'가 매장으로 잡히지 않게 지운 제목"""
+    return GAME_STORE_RE.sub(" ", title or "")
+
+
 def is_game_noise(title):
-    return bool(GAME_NOISE_RE.search(title or "")) and not GAME_REAL_RE.search(title or "")
+    t = game_title(title)
+    return bool(GAME_NOISE_RE.search(t)) and not GAME_REAL_RE.search(t)
 
 
 # ────────────────────────────────────────────────────────────────
@@ -233,7 +242,7 @@ def build(title, body, link, src, ref, default_cat="other"):
     if words and default_cat != "stream" and not any(w in text for w in words):
         return None
     # 게임 뉴스는 본문에 '이벤트'(게임 안 이벤트)가 흔해서 제목에 행사 단어나 바깥 행사 단어가 있어야 통과(신작 발표·Steam 페이지 공개 등을 거름)
-    if src.get("game") and not (any(w in title for w in words) or GAME_REAL_RE.search(title)):
+    if src.get("game") and not (any(w in game_title(title) for w in words) or GAME_REAL_RE.search(game_title(title))):
         return None
     event = opening = deadline = end = ""
     rng = re.search(DATE_RE.pattern + r"\s*[〜～~\-－]\s*" + DATE_RE.pattern.replace("?P<", "?P<e_"), text)
