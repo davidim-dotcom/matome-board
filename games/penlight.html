@@ -44,6 +44,13 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
 .help{font-size:12px;color:var(--muted);margin:8px 0 0}
 .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 12px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
+.res{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.res[hidden]{display:none}
+.res .hd{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.res svg{display:block;width:100%;height:auto;margin:6px 0 4px;background:#0c0b24;border-radius:8px}
+.res .lg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--muted)} .res .lg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:0}
+.res p{margin:6px 0 0;font-size:13px;overflow-wrap:anywhere}
+.res button{border:0;background:var(--pink);color:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;margin-left:4px}
 .pbtn{position:absolute;left:8px;top:8px;width:42px;height:42px;border:1px solid rgba(255,255,255,.35);border-radius:10px;background:rgba(10,8,30,.6);color:#fff;font-size:15px;cursor:pointer;touch-action:manipulation}
 .pmenu{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,15,.66)}
 .pbtn[hidden],.pmenu[hidden]{display:none}
@@ -65,6 +72,7 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
     <div class="pmenu" id="pmenu" hidden><div class="box"><b>PAUSE</b><small id="pinfo"></small>
       <button type="button" class="go" id="pGo">▶ 이어서 하기</button><button type="button" id="pRe">↻ 처음부터</button><button type="button" id="pQuit">■ 그만하기 · 곡 고르기</button></div></div></div>
   <div class="bar"><span>타이밍 <button type="button" id="offM">−</button> <b id="offV">0ms</b> <button type="button" id="offP">+</button></span><button type="button" id="snd">♪ 소리 켜짐</button></div>
+  <div class="res" id="res" hidden></div>
   <p class="help">노트가 아래 선에 닿을 때 그 줄을 탭 · 길쭉한 노트는 끝까지 누르기 · 화살표 노트는 그 방향으로 밀기 · 「ハイ!」는 콜. EXPERT 는 선으로 이어진 두 노트를 동시에. 🎃·🎄 곡은 그 기간에만 열려요. 도중에 멈추려면 왼쪽 위 ❚❚(PC는 Esc) — 이어서 하기·처음부터·그만하기. 소리와 노트가 어긋나면 타이밍 ±(늦게 들리면 +). PC는 D·F·J 키와 ←·→.</p>
   <div class="board">
     <div class="hd"><p id="rkTitle">SCORE BOARD</p><button type="button" id="rkRe">↻ 새로고침</button></div>
@@ -242,7 +250,7 @@ function evNow(ev){return songNow()-((performance.now()-(ev&&ev.timeStamp||perfo
 function start(){const c=ac();if(!c){toast('이 브라우저는 소리를 낼 수 없어요');return}if(BUS)BUS.gain.value=snd?.1:0;
   const song=SONGS[songI].build(),lv=LEVELS[lvI];G.song=song;G.notes=buildChart(song,lv.id).map(n=>Object.assign(n,{hit:null,held:false,done:false}));G.look=lv.look;
   Object.assign(G,{state:'play',score:0,combo:0,maxCombo:0,j:{p:0,g:0,o:0,m:0},fever:0,feverT:0,fx:[],judge:null,callText:null,ended:0,pos:0});
-  G.t0=c.currentTime+2.2;G.next=G.t0;G.dur=song.len*song.st()+1.5;G.resumeTo=null;presses.clear();clearInterval(G.timer);G.timer=setInterval(tick,30);$('sub').hidden=true;ui()}
+  G.t0=c.currentTime+2.2;G.next=G.t0;G.dur=song.len*song.st()+1.5;G.resumeTo=null;presses.clear();clearInterval(G.timer);G.timer=setInterval(tick,30);$('sub').hidden=true;$('res').hidden=true;ui()}
 function stop(){clearInterval(G.timer);G.timer=0}
 function ui(){$('pbtn').hidden=G.state!=='play';$('pmenu').hidden=G.state!=='pause';
   if(G.state==='pause'){const N=G.notes.length||1,d=G.notes.filter(n=>n.hit||n.done).length;$('pinfo').textContent=`${SONGS[songI].name} · ${LEVELS[lvI].name} · 진행 ${Math.round(d/N*100)}% · ${G.score.toLocaleString()}점`}}
@@ -253,7 +261,7 @@ function pause(msg){if(G.state!=='play')return;G.pauseAt=songNow();stop();if(AC)
 function resume(){if(G.state!=='pause')return;const c=ac();if(!c)return;const st=G.song.st(),from=G.pauseAt-2;
   G.t0=c.currentTime+.15-from;G.pos=Math.max(0,Math.ceil(from/st));G.resumeTo=G.pauseAt;G.state='play';clearInterval(G.timer);G.timer=setInterval(tick,30);ui()}
 // 그만하기: 기록 없이 제목 화면으로
-function quit(msg){if(G.state!=='play'&&G.state!=='pause')return;stop();if(AC)mkBus();G.state='title';G.notes=[];G.resumeTo=null;G.feverT=0;presses.clear();ui();if(msg)toast(msg)}
+function quit(msg){if(G.state!=='play'&&G.state!=='pause')return;$('res').hidden=true;stop();if(AC)mkBus();G.state='title';G.notes=[];G.resumeTo=null;G.feverT=0;presses.clear();ui();if(msg)toast(msg)}
 // 음악 예약(0.2초 앞까지)
 let callBuf=null,callLd=false;function callLoad(){if(callLd||!AC)return;callLd=true;fetch('../assets/race/umapyoi.mp3').then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((res,rej)=>AC.decodeAudioData(b,res,rej))).then(b=>{callBuf=b}).catch(()=>{})}
 const frameHidden=()=>{try{return !!window.frameElement&&!frameElement.getClientRects().length}catch(e){return false}};
@@ -266,7 +274,7 @@ function tick(){if(G.state!=='play'||!AC)return;if(frameHidden())return pause('�
 
 // ---------- 판정 ----------
 const PTS={p:1000,g:700,o:300};
-function judge(n,dt,kind){const a=Math.abs(dt),r=a<=WIN.p?'p':a<=WIN.g?'g':'o';n.hit=r;G.j[r]++;G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);
+function judge(n,dt,kind){const a=Math.abs(dt),r=a<=WIN.p?'p':a<=WIN.g?'g':'o';n.hit=r;n.dt=dt;G.j[r]++;G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);
   const mul=(1+Math.min(G.combo,200)*.002)*(G.feverT>0?1.5:1);G.score+=Math.round(PTS[r]*mul);
   G.fever=clamp(G.fever+(r==='p'?5:r==='g'?2:0),0,100);if(G.fever>=100&&G.feverT<=0){G.feverT=8;G.fever=0;G.fx.push({k:'fever',t:0})}
   G.judge={r,t:0,late:dt>0,lane:n.lane};G.lit[n.lane]=1;burst(n.lane,r);if(kind)hitSfx(kind);
@@ -393,9 +401,28 @@ function loop(ts){requestAnimationFrame(loop);const dt=Math.min(.05,(ts-last)/10
   else if(G.state==='play'&&G.resumeTo!=null){if(now>=G.resumeTo)G.resumeTo=null;else{cx.textAlign='center';cx.font='bold 40px "Black Han Sans",sans-serif';cx.fillStyle='#fff';cx.fillText(Math.ceil(G.resumeTo-now),W/2,340);cx.font='11px monospace';cx.fillText('READY',W/2,358)}}
   if(G.state==='title')drawTitle(ts/1000);if(G.state==='result')drawResult()}
 requestAnimationFrame(loop);
+// 결과 그래프: 곡 시간(가로)에 노트마다 판정 시각 차이(세로, 위 FAST·아래 LATE)를 찍고 MISS 는 맨 아래 빨간 줄. 평균이 한쪽으로 쏠렸으면 타이밍 보정값을 권한다
+function resultPanel(){const song=G.song,T=song.len*song.st()||1,hits=G.notes.filter(n=>n.hit&&n.hit!=='m'&&Number.isFinite(n.dt)),miss=G.notes.filter(n=>n.hit==='m');
+  const COL={p:'#ffe066',g:'#7ee0ff',o:'#c9c9ff'},X=t=>(8+clamp(t/T,0,1)*344).toFixed(1),Y=dt=>(56+clamp(dt/WIN.o,-1,1)*44).toFixed(1);
+  const sec=t=>`${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
+  let svg=`<svg viewBox="0 0 360 120" role="img" aria-label="판정 그래프"><line x1="8" x2="352" y1="56" y2="56" stroke="#fff" stroke-opacity=".35"/>`
+    +[-WIN.g,-WIN.p,WIN.p,WIN.g].map(w=>`<line x1="8" x2="352" y1="${Y(w)}" y2="${Y(w)}" stroke="#fff" stroke-opacity=".1" stroke-dasharray="3 3"/>`).join('')
+    +`<text x="10" y="18" fill="#b8a8ff" font-size="9">FAST</text><text x="10" y="100" fill="#b8a8ff" font-size="9">LATE</text>`
+    +hits.map(n=>`<circle cx="${X(n.t)}" cy="${Y(n.dt)}" r="1.9" fill="${COL[n.hit]}"/>`).join('')
+    +miss.map(n=>`<rect x="${(+X(n.t)-.8).toFixed(1)}" y="106" width="1.6" height="9" fill="#ff6b6b"/>`).join('')
+    +`<text x="8" y="117" fill="#8a84b8" font-size="8">0:00</text><text x="352" y="117" fill="#8a84b8" font-size="8" text-anchor="end">${sec(T)}</text></svg>`;
+  const ds=hits.map(n=>n.dt*1000).sort((a,b)=>a-b),med=ds.length?ds[ds.length>>1]:0,fast=hits.filter(n=>n.hit!=='p'&&n.dt<0).length,late=hits.filter(n=>n.hit!=='p'&&n.dt>0).length;
+  // MISS 가 가장 많은 8초 구간
+  const B=8,cnt={};for(const n of miss){const k=Math.floor(n.t/B);cnt[k]=(cnt[k]||0)+1}const worst=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+  const fix=ds.length>=20&&Math.abs(med)>=15?clamp(Math.round((OFFSET+med)/10)*10,-300,300):null;
+  $('res').innerHTML=`<div class="hd"><span>RESULT GRAPH · 판정 그래프</span><span>${hits.length+miss.length}노트</span></div>${svg}
+    <div class="lg"><span><i style="background:#ffe066"></i>PERFECT</span><span><i style="background:#7ee0ff"></i>GREAT</span><span><i style="background:#c9c9ff"></i>GOOD</span><span><i style="background:#ff6b6b;border-radius:1px"></i>MISS</span><span>위 = 일찍 · 아래 = 늦게</span></div>
+    <p>FAST ${fast} · LATE ${late} · 누른 시각 중앙값 <b>${med>0?'+':''}${Math.round(med)}ms</b>${med>0?' (늦게)':med<0?' (일찍)':''}${worst&&worst[1]>=2?` · MISS 가 많았던 곳 <b>${sec(worst[0]*B)}~${sec((+worst[0]+1)*B)}</b> (${worst[1]}개)`:''}</p>
+    ${fix!=null&&fix!==OFFSET?`<p>한쪽으로 쏠려 있어요. 타이밍을 <b>${OFFSET}ms → ${fix>0?'+':''}${fix}ms</b> 로 바꾸면 노트와 더 잘 맞을 거예요.<button type="button" id="resFix">적용</button></p>`:ds.length>=20?'<p>타이밍은 잘 맞아요.</p>':''}`;
+  $('res').hidden=false;const b=$('resFix');if(b)b.onclick=()=>{setOff(fix);b.disabled=true;toast(`타이밍을 ${fix}ms 로 바꿨어요`)}}
 function finish(){stop();G.state='result';G.resumeTo=null;ui();G.feverT=0;const N=G.notes.length||1,acc=(G.j.p+G.j.g*.7+G.j.o*.4)/N;G.result={acc,rank:acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C',fc:G.j.m===0};
   let hi=0;const key='pen-hi-'+SONGS[songI].id+'-'+LEVELS[lvI].id;try{hi=+localStorage.getItem(key)||0;if(G.score>hi)localStorage.setItem(key,G.score)}catch(e){}
-  runEnd()}
+  runEnd();try{resultPanel()}catch(e){}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause('화면을 떠나서 일시정지했어요')});
 
 // ---------- 스코어 보드(보드의 게시판 웹 앱, game=pen, skin=곡:난이도 로 따로 모음) ----------

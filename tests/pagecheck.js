@@ -81,6 +81,15 @@ async function run(dev) {
   if (ovs.length) bad.push(`${dev} 성지 지도: 화면 밖으로 넘침 → ${ovs.join(" | ")}`);
   await page.evaluate(() => document.querySelector("[data-mapseichi]")?.click());
   console.log(`${sj && sji && !ovs.length ? "OK  " : "FAIL"} ${dev} 성지 지도`);
+  // 캘린더 도구: 기간 행사 막대 · 콜라보 카페
+  for (const k of ["bars", "cafe"]) {
+    await page.evaluate((k) => { document.querySelector('nav.tabs [data-tab="sched"]').click(); document.querySelector(`[data-calnav="${k}"]`)?.click(); }, k);
+    await page.waitForTimeout(400);
+    const ok = await page.evaluate((k) => !!document.querySelector(k === "bars" ? "#sched .gb-row, #sched .empty" : "#sched .cafe-sum"), k), ovc = await page.evaluate(OVERFLOW);
+    if (!ok) bad.push(`${dev} 캘린더 ${k}: 내용이 안 나옴`);
+    if (ovc.length) bad.push(`${dev} 캘린더 ${k}: 화면 밖으로 넘침 → ${ovc.join(" | ")}`);
+    console.log(`${ok && !ovc.length ? "OK  " : "FAIL"} ${dev} 캘린더 ${k}`);
+  }
   // 작품 허브 주소로 바로 들어오는 길(#work=)
   await page.goto(`http://127.0.0.1:${PORT}/#work=${encodeURIComponent("ホロライブ")}`, { waitUntil: "load" });
   await page.waitForTimeout(2000);
