@@ -46,3 +46,16 @@ jobs:
 
       - name: 페이지 스크립트 문법(node --check)
         run: python tests/jscheck.py
+
+      # 실제 브라우저(폰 크기 2종)로 페이지를 열어 탭마다 스크립트 오류·화면 가로 넘침·빈 화면을 본다
+      - name: 브라우저 설치(playwright chromium, 캐시)
+        id: pwcache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-1.47.2-${{ runner.os }}
+      - run: npm i --no-save --no-audit --no-fund playwright@1.47.2
+      - if: steps.pwcache.outputs.cache-hit != 'true'
+        run: npx playwright@1.47.2 install --with-deps chromium
+      - name: 페이지 점검(브라우저)
+        run: node tests/pagecheck.js
