@@ -1,0 +1,48 @@
+name: 코드 점검
+
+# PR 마다(그리고 main 에 사람이 푸시할 때) 수집기·페이지 코드를 점검한다. 봇의 데이터 커밋(data/ 만)은 건너뛴다.
+# 네트워크 없이 가짜 피드로 수집기를 한 바퀴 돌리므로(tests/smoke.py) 정의 안 된 이름 같은 고장이 머지 전에 걸린다.
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 도구 설치
+        run: pip install pillow pyflakes
+
+      - name: 파이썬 문법
+        run: python -m py_compile collector.py assets/race/midi2bgm.py tests/smoke.py tests/jscheck.py
+
+      - name: 정의 안 된 이름(pyflakes)
+        run: |
+          python -m pyflakes collector.py tests/*.py | tee flakes.txt || true
+          if grep -E "undefined name|referenced before assignment|undefined local" flakes.txt; then exit 1; fi
+
+      - name: data/*.json 형식
+        run: python -c "import json,glob;[json.load(open(f,encoding='utf-8')) for f in glob.glob('data/*.json')+['manifest.webmanifest']];print('ok')"
+
+      - name: 수집기 스모크 테스트(가짜 피드)
+        run: python tests/smoke.py
+
+      - name: 페이지 스크립트 문법(node --check)
+        run: python tests/jscheck.py

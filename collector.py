@@ -5,6 +5,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS), data/calendar*.ics(구독용 달력), data/xbuzz.json(X 화제)
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
+  python3 collector.py --alert-broken   소식 수집 단계가 실패했을 때(출처 절반 넘게 실패 → 종료 코드 3, 또는 오류) 바로 이슈(워크플로 전용)
   python3 collector.py --alert          출처가 3회 연속 실패하거나 2일 연속 빈 피드면 GitHub 이슈(워크플로 전용, GITHUB_TOKEN)
   python3 collector.py --weekly-draft   지금 주간 요약의 7일이 끝났으면 이번 주(월요일 시작) 자동 초안 → data/weekly.json
   python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
@@ -34,7 +35,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
           자주 나온 이름을 다음 실행부터 작품 태그로 자동 사용한다.
 표준 라이브러리만 사용. GitHub Actions나 cron으로 하루 몇 번 돌리면 된다.
 """
-import json, os, re, sys, html, time, unicodedata
+import json, os, re, sys, html, time, tempfile, unicodedata
 import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
@@ -798,8 +799,13 @@ def blocked(it, block):
         or any(k.lower() in t for k in block.get("titles", []) if k)
 
 
+# 수집기 고장 기록(이번 실행만). 워크플로의 --alert-broken 이 읽어 이슈를 연다
+BROKEN_FILE = os.path.join(os.environ.get("RUNNER_TEMP") or tempfile.gettempdir(), "matome-broken.json")
+
+
 def main():
     ref = datetime.now(JST)
+    if os.path.exists(BROKEN_FILE): os.remove(BROKEN_FILE)
     old = load_json(OUT, [])
     block = load_json(os.path.join(DATA, "blocklist.json"), {})
     seen = {(o.get("url"), o.get("title")) for o in old}
@@ -843,6 +849,14 @@ def main():
             kr_seen.append(gg); kr_keys.add(kk)
         keep_new.append(g)
     new = keep_new
+    tried = [x for x in status if x["ok"] is not None]
+    bad = [x for x in tried if x["ok"] is False]
+    if len(tried) >= 6 and len(bad) * 2 > len(tried):
+        # 절반 넘게 실패 = 출처가 아니라 수집기(코드·네트워크)가 고장. 데이터를 쓰지 않고 멈춰 워크플로가 커밋을 건너뛰고 바로 이슈를 연다
+        json.dump({"at": ref.isoformat(timespec="minutes"), "tried": len(tried), "bad": bad},
+                  open(BROKEN_FILE, "w", encoding="utf-8"), ensure_ascii=False)
+        print(f"수집 중단: 출처 {len(tried)}곳 중 {len(bad)}곳 실패 → 데이터를 쓰지 않음", file=sys.stderr)
+        sys.exit(3)
     p = prev.get(BUZZ_NAME, {})
     try:  # X 화제(Togetter): 소식 피드와 별개 파일. 출처 상태·알림에는 같이 들어간다
         braw = collect_buzz(ref)
@@ -1135,9 +1149,17 @@ ALERT_TITLE = "[자동] 소식 출처 수집 이상"
 def source_alert():
     """meta.json 의 출처 상태를 보고 오래 고장 난 출처가 있으면 GitHub 이슈를 열거나 고치고, 다 회복되면 닫는다(--alert, 워크플로 전용).
     이슈는 하나만 쓴다(제목으로 찾음). 문제 출처 목록이 바뀔 때만 댓글을 달아 알림이 너무 자주 가지 않게 한다. 실패해도 워크플로는 이어 간다."""
+    call = gh_api()
+    if not call: return
+    alert_run(load_json(os.path.join(DATA, "meta.json"), {}).get("sources", []), call)
+    broken_close(call)
+
+
+def gh_api():
+    """GitHub REST 호출 함수(워크플로가 주는 GITHUB_TOKEN·GITHUB_REPOSITORY). 없으면 None."""
     repo, tok = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
     if not repo or not tok:
-        print("출처 알림: GITHUB_REPOSITORY/GITHUB_TOKEN 이 없어 건너뜀"); return
+        print("GitHub 알림: GITHUB_REPOSITORY/GITHUB_TOKEN 이 없어 건너뜀"); return None
     def call(method, path, body=None):
         req = urllib.request.Request(f"https://api.github.com/repos/{repo}{path}", method=method,
                                      data=json.dumps(body).encode() if body is not None else None,
@@ -1145,15 +1167,50 @@ def source_alert():
                                               "User-Agent": "matome-board", "Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=20) as r:
             return json.loads(r.read() or b"null")
-    alert_run(load_json(os.path.join(DATA, "meta.json"), {}).get("sources", []), call)
+    return call
+
+
+BROKEN_TITLE = "[자동] 수집기 고장 — 데이터 갱신 멈춤"
+
+def _open_issue(call, title):
+    return next((i for i in call("GET", "/issues?state=open&per_page=100") or []
+                 if i.get("title") == title and "pull_request" not in i), None)
+
+
+def broken_run(call, info, run_url):
+    """소식 수집 단계가 실패했을 때(--alert-broken): 출처 절반 넘게 실패(BROKEN_FILE)거나 수집기가 오류로 멈춘 것.
+    이슈를 하나 열고(이미 열려 있으면 댓글), 다음에 정상 실행되면 broken_close 가 닫는다."""
+    if info:
+        rows = "\n".join(f"| {x['n']} | `{(x.get('e') or '')[:120]}` |" for x in info.get("bad", [])[:30])
+        body = (f"이번 실행({info.get('at')})에서 출처 {info.get('tried')}곳 중 **{len(info.get('bad', []))}곳**이 실패해서, "
+                "출처 문제가 아니라 수집기 코드나 네트워크가 고장 난 것으로 보고 **데이터를 커밋하지 않았어요**(보드는 이전 소식 그대로).\n\n"
+                "오류가 모두 같다면(예: `name '…' is not defined`) 최근 `collector.py` 변경을 의심해 주세요.\n\n"
+                f"| 출처 | 오류 |\n|---|---|\n{rows}\n\n실행 기록: {run_url}\n\n다음 실행이 정상이면 자동으로 닫혀요.")
+    else:
+        body = ("소식 수집 단계가 오류로 멈춰서 **데이터를 커밋하지 않았어요**(보드는 이전 소식 그대로). "
+                f"실행 기록의 「소식 수집」 단계 로그에서 Traceback 을 확인해 주세요.\n\n실행 기록: {run_url}\n\n다음 실행이 정상이면 자동으로 닫혀요.")
+    cur = _open_issue(call, BROKEN_TITLE)
+    if cur:
+        call("POST", f"/issues/{cur['number']}/comments", {"body": "또 실패했어요.\n\n" + body})
+        print(f"고장 알림: 이슈 #{cur['number']} 댓글")
+    else:
+        r = call("POST", "/issues", {"title": BROKEN_TITLE, "body": body})
+        print(f"고장 알림: 이슈 #{(r or {}).get('number')} 열음")
+
+
+def broken_close(call):
+    cur = _open_issue(call, BROKEN_TITLE)
+    if cur:
+        call("POST", f"/issues/{cur['number']}/comments", {"body": "수집이 다시 정상으로 돌았어요. 이슈를 닫습니다."})
+        call("PATCH", f"/issues/{cur['number']}", {"state": "closed"})
+        print(f"고장 알림: 회복 → 이슈 #{cur['number']} 닫음")
 
 
 def alert_run(sources, call):
     bad = [x for x in sources if isinstance(x, dict) and (
         (x.get("ok") is False and int(x.get("f", 0)) >= ALERT_FAILS) or (x.get("ok") is True and int(x.get("zr", 0)) >= ALERT_EMPTY))]
     names = sorted(x["n"] for x in bad)
-    cur = next((i for i in call("GET", "/issues?state=open&per_page=100") or []
-                if i.get("title") == ALERT_TITLE and "pull_request" not in i), None)
+    cur = _open_issue(call, ALERT_TITLE)
     old = set()
     if cur:
         m = re.search(r"<!-- bad:(.*?) -->", cur.get("body") or "")
@@ -1267,21 +1324,55 @@ def translate_ja_ko(text):
     return "".join(seg[0] for seg in (data[0] or []) if seg and seg[0]).strip()
 
 
+def _gloss():
+    """번역 용어집: works.json 의 ko(대표 이름 → 한국어 이름)와, 대표 이름 이상으로 긴 별칭(ウマ娘 プリティーダービー 등).
+    짧은 별칭(ガンダム·ポケモン)은 기계 번역(건담·포켓몬)이 더 자연스러워서 넣지 않는다. 전각·반각 표기를 둘 다 둔다."""
+    ko = {str(k): str(v) for k, v in (_works.get("ko") or {}).items() if v}
+    g = dict(ko)
+    for a, c in (_works.get("alias") or {}).items():
+        if c in ko and len(a) >= len(c): g.setdefault(a, ko[c])
+    out = {}
+    full = str.maketrans("!?:&", "！？：＆")
+    for k, v in g.items():
+        for f in {k, unicodedata.normalize("NFKC", k), unicodedata.normalize("NFKC", k).translate(full)}:
+            if len(f) >= 2: out.setdefault(f, v)
+    return sorted(out.items(), key=lambda kv: -len(kv[0]))
+GLOSS = _gloss()
+GLOSS_VER = format(sum(ord(c) * (i + 1) for i, c in enumerate(json.dumps(GLOSS, ensure_ascii=False))) % 99991, "x")
+
+
+def gloss_pre(text):
+    """번역 전에 작품 이름을 한국어 이름으로 바꿔 둔다(구글 번역은 한글을 그대로 둔다) → 「薬屋のひとりごと」가 매번 다르게 옮겨지지 않음"""
+    for ja, ko in GLOSS:
+        if ja in text: text = text.replace(ja, ko)
+    return text
+
+
+def gloss_miss(it):
+    """용어집 작품 이름이 원문에 있는데 번역문에 한국어 이름이 없으면 True(예전 번역 다시 하기)"""
+    if it.get("tg") == GLOSS_VER: return False
+    src, ko = it.get("title", "") + "\n" + it.get("summary", ""), it.get("title_ko", "") + "\n" + it.get("summary_ko", "")
+    return any(ja in src and k not in ko for ja, k in GLOSS)
+
+
 def translate_items(items):
     """아직 번역하지 않은 소식의 제목·요약을 한국어로 번역해 title_ko / summary_ko 에 넣는다.
+    작품 이름은 용어집(GLOSS, works.json 의 ko)대로 미리 바꿔 넣고, 예전 번역에 한국어 이름이 빠졌으면 한 번 다시 번역한다(tg=용어집 버전).
     일본어가 없는 글은 빈 문자열(원문 그대로 표시). 번역이 실패하면 그 자리에서 멈추고 다음 실행에 다시 시도한다(키를 안 남김)."""
     done = 0
     for it in items:
-        if "title_ko" in it:
+        if "title_ko" in it and not gloss_miss(it):
             continue
         if done >= TRANSLATE_MAX:
             break
         try:
             if JA_RE.search(it.get("title", "")):
-                it["title_ko"] = translate_ja_ko(it["title"])[:200]
+                tko = translate_ja_ko(gloss_pre(it["title"]))[:200]
                 time.sleep(0.2)
-                it["summary_ko"] = translate_ja_ko(it["summary"])[:400] if it.get("summary") and JA_RE.search(it["summary"]) else ""
+                sko = translate_ja_ko(gloss_pre(it["summary"]))[:400] if it.get("summary") and JA_RE.search(it["summary"]) else ""
                 time.sleep(0.2)
+                it["title_ko"], it["summary_ko"] = tko, sko
+                if any(ja in it["title"] + it.get("summary", "") for ja, _ in GLOSS): it["tg"] = GLOSS_VER
             else:
                 it["title_ko"], it["summary_ko"] = "", ""
             done += 1
@@ -2290,10 +2381,16 @@ if __name__ == "__main__":
     if "--check" in sys.argv:
         sys.exit(check())
     if "--translate-test" in sys.argv:
-        print(translate_ja_ko("「薬屋のひとりごと」原画展が池袋で10月31日より開催、前売券はe+で発売中"))
+        t = "「薬屋のひとりごと」原画展が池袋で10月31日より開催、前売券はe+で発売中"
+        print(translate_ja_ko(t)); print(translate_ja_ko(gloss_pre(t)), "(용어집)")
         sys.exit(0)
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
+    elif "--alert-broken" in sys.argv:
+        call = gh_api()
+        if call:
+            srv, repo, rid = (os.environ.get(k, "") for k in ("GITHUB_SERVER_URL", "GITHUB_REPOSITORY", "GITHUB_RUN_ID"))
+            broken_run(call, load_json(BROKEN_FILE, None), f"{srv}/{repo}/actions/runs/{rid}")
     elif "--alert" in sys.argv:
         try:
             source_alert()
