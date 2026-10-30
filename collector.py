@@ -67,8 +67,7 @@ SOURCES = [
     {"type": "rss", "name": "4Gamer", "url": "https://www.4gamer.net/rss/index.xml", "game": True},
     {"type": "site", "name": "インサイド", "url": "https://www.inside-games.jp/", "game": True},
     {"type": "rss", "name": "GAME Watch", "url": "https://game.watch.impress.co.jp/data/rss/1.0/gmw/feed.rdf", "game": True},
-    {"type": "site", "name": "ファミ通.com", "url": "https://www.famitsu.com/", "game": True},
-    {"type": "site", "name": "Gamer", "url": "https://www.gamer.ne.jp/", "game": True},
+    # ファミ通.com: 첫 화면에 RSS 링크가 없고 흔한 주소도 없음. Gamer(gamer.ne.jp): Actions 요청을 403 으로 거부. 둘 다 2026-10 확인.
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
     # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
     {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_embed=wp:featuredmedia&_fields=title,excerpt,link,date_gmt,_links,_embedded",
@@ -301,13 +300,20 @@ def feed_image(el, ns):
 
 def parse_feed(xml_bytes):
     """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None, 이미지 주소)]"""
+    m = re.match(rb'\s*<\?xml[^>]*encoding=["\']([\w-]+)', xml_bytes)
+    if m and m.group(1).lower() not in (b"utf-8", b"utf8", b"us-ascii", b"iso-8859-1"):  # Shift_JIS·EUC-JP 는 XML 파서가 못 읽어 UTF-8 로 바꾼다
+        enc = m.group(1).decode()
+        xml_bytes = re.sub(rb'encoding=["\'][\w-]+["\']', b'encoding="utf-8"', xml_bytes.decode(enc, "replace").encode("utf-8"), count=1)
     root = ET.fromstring(xml_bytes)
     ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/",
           "content": "http://purl.org/rss/1.0/modules/content/"}
     entries = []
-    for it in root.iter("item"):  # RSS 2.0 (RSS 1.0/RDF 의 item 도 잡힌다)
+    r1 = "{http://purl.org/rss/1.0/}"  # RSS 1.0(RDF)은 item·title 등에 이 이름공간이 붙는다(4Gamer·GAME Watch). 2026-10 전에는 못 읽어 0건이었다
+    for it in [*root.iter("item"), *root.iter(r1 + "item")]:  # RSS 2.0 / RSS 1.0
+        q = r1 if it.tag.startswith(r1) else ""
         when = parse_when(it.findtext("pubDate") or it.findtext("dc:date", default="", namespaces=ns))
-        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when, feed_image(it, ns)))
+        desc = it.findtext(q + "description") or it.findtext("content:encoded", default="", namespaces=ns) or ""
+        entries.append((it.findtext(q + "title") or "", desc, it.findtext(q + "link") or "", when, feed_image(it, ns)))
     for e in root.findall("a:entry", ns):  # Atom(유튜브 포함)
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
