@@ -91,6 +91,7 @@ SOURCES = [
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
      "title": "title", "date": "publishedAtForUser", "image": "thumbnail.url", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
+    {"type": "site", "name": "Togetter(점검)", "url": "https://togetter.com/"},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
