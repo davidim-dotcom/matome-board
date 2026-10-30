@@ -102,6 +102,9 @@ SOURCES = [
     {"type": "rss", "name": "한국 뉴스(애니메이션 콜라보 카페)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20%EC%B9%B4%ED%8E%98%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(애니 전시회)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EC%A0%84%EC%8B%9C%ED%9A%8C%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(애니 내한 공연)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EB%82%B4%ED%95%9C%20%EA%B3%B5%EC%97%B0%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    # 한국 정식 공개·발매(2026-10): 애니플러스·라프텔 방영 시작, 국내 정식 발매 굿즈. KR_LOC_RE 의 플랫폼 이름이 한국 신호
+    {"type": "rss", "name": "한국 뉴스(애니 국내 방영)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20OR%20%EB%9D%BC%ED%94%84%ED%85%94%20%EC%8B%A0%EC%9E%91%20%EB%B0%A9%EC%98%81%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    {"type": "rss", "name": "한국 뉴스(애니 국내 발매)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EA%B5%AD%EB%82%B4%20%EC%A0%95%EC%8B%9D%20%EB%B0%9C%EB%A7%A4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(일본 애니 콜라보)", "url": "https://news.google.com/rss/search?q=%EC%9D%BC%EB%B3%B8%20%EC%95%A0%EB%8B%88%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     # 직접 추가 예시
     # {"type": "rss", "name": "@official_x", "url": "http://localhost:1200/twitter/user/official_x"},  # RSSHub
@@ -176,17 +179,20 @@ OPEN_WORDS = r"受付|発売|先行|抽選|販売|예매|예약|판매|오픈"
 END_WORDS = r"締切|〆切|しめきり|まで|마감|까지"
 # 한국 출처(region=KR)는 이 규칙을 먼저 본다(일본어 CAT_RULES 는 한국어 기사에 안 걸림)
 KR_CAT_RULES = [("popup", r"팝업|스토어"), ("exhibit", r"전시|원화전|展"), ("live", r"내한|공연|콘서트|페스티벌"),  # '라이브'는 러브라이브·홀로라이브와 겹쳐 뺐다
-                ("collab", r"콜라보|컬래버|카페"), ("event", r"행사|팬미팅|상영회|페스타|체험"), ("goods", r"굿즈")]
-KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사")
+                ("collab", r"콜라보|컬래버|카페"), ("stream", r"방영|방송|동시 ?공개|독점 ?공개|더빙|자막|개봉"),  # 한국 정식 공개(애니플러스·라프텔·극장 개봉)
+                ("event", r"행사|팬미팅|상영회|페스타|체험"), ("goods", r"굿즈|발매|출시|피규어")]
+KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사|"
+                         r"방영|동시 ?공개|독점 ?공개|더빙|개봉|정식 발매|발매|출시|예약 판매")  # 뒤쪽은 한국 정식 공개·발매(2026-10)
 # 일본 IP 신호. '애니'는 뒤에 다른 한글이 붙지 않을 때만(애니모·애니런·애니모어 제외), 만화·게임처럼 넓은 말은 빼고 작품·회사 이름으로 본다(+ works.json 의 한국어 이름)
 KR_IP_RE = re.compile(r"애니(?:메이션|송)?(?![가-힣])|日|일본|버튜버|VTuber|홀로라이브|니지산지|극장판|포켓몬|산리오|헬로키티|쿠로미|마이멜로디|시나모롤|리락쿠마|스밋코|"
                       r"짱구|코난|원피스|나루토|귀멸|주술회전|체인소|스파이 ?패밀리|하이큐|최애의 아이|진격의 거인|드래곤볼|슬램덩크|건담|에반게리온|지브리|도라에몽|"
                       r"치이카와|먼작귀|마리오|젤다|커비|파이널 ?판타지|페르소나|블루 ?아카이브|블루록|우마무스메|프리큐어|세일러문|블리치|헌터|러브라이브|아이돌마스터|"
                       r"하츠네 ?미쿠|보컬로이드|카드캡터|히로아카|나의 히어로|은혼|강철의 연금술사|원펀맨|케로로|앙상블 ?스타즈|프로세카|명탐정", re.I)
-KR_ABROAD_RE = re.compile(r"도쿄|오사카|교토|후쿠오카|나고야|삿포로|요코하마|일본 현지|현지 개최|업데이트|인게임|게임 ?내|사전 ?예약|정식 출시")  # 일본에서 열리는 행사·게임 안 콜라보(한국 기사)
+KR_ABROAD_RE = re.compile(r"도쿄|오사카|교토|후쿠오카|나고야|삿포로|요코하마|일본 현지|현지 개최|업데이트|인게임|게임 ?내|사전 ?예약|정식 출시|일본 (?:방영|개봉|발매)")  # 일본에서 열리는 행사·게임 안 콜라보(한국 기사)
 # 한국에서 열린다는 신호(제목). 2026-10 첫 수집에서 일본 현지 콜라보(나라현·하드록 카페 등)·게임 안 콜라보·부동산 기사가 섞여, 한국 장소·내한 말이 있어야 통과
 KR_LOC_RE = re.compile(r"국내|한국|韓|서울|부산|대구|인천|광주|대전|울산|수원|성남|고양|일산|판교|제주|홍대|성수|강남|잠실|여의도|명동|용산|신촌|합정|건대|서울숲|"
-                       r"코엑스|더현대|롯데|현대백화점|신세계|스타필드|아이파크몰|킨텍스|벡스코|덕스|애니메이트|내한|상륙|첫 해외")
+                       r"코엑스|더현대|롯데|현대백화점|신세계|스타필드|아이파크몰|킨텍스|벡스코|덕스|애니메이트|내한|상륙|첫 해외|"
+                       r"애니플러스|라프텔|애니맥스|애니박스|대원|CGV|메가박스|한국어 더빙|한국어 자막|우리말")  # 한국 플랫폼·극장(국내 공개 신호)
 KR_IP_GENERIC = {"애니", "애니메이션", "애니송", "日", "일본"}
 
 
@@ -267,6 +273,35 @@ def find_dates(text, ref):
     return out
 
 
+# 티켓 접수 단계: 「FC先行」「最速先行」「2次先行」「プレイガイド先行」「一般発売」처럼 공연은 여러 번 접수한다(2026-10). 라벨 뒤 80자 안의 날짜(기간)를 그 단계의 시작·끝으로.
+PHASE_RE = re.compile(r"(?P<n>(?:FC|ファンクラブ|最速|オフィシャル|公式|プレイガイド|(?:第?[一二三四五六七八九\d１-９]次)|CD|アプリ|モバイル|[A-Za-z\u30a0-\u30ff\u4e00-\u9fff]{1,8})\s*(?:抽選|先着)?先行(?:抽選|先着|予約|受付|販売)?(?:\s*[（(](?:抽選|先着)[）)])?"
+                      r"|一般(?:発売|販売|先着)|先行(?:抽選|販売|予約)|抽選(?:受付|販売|予約)?)")
+PHASE_MAX, PHASE_SPAN = 6, 80
+PHASE_CATS = {"live", "official", "event", "exhibit", "doujin", "other"}  # 기사 본문에서 단계를 찾아 넣을 분류(굿즈·만화 기사의 '先行'은 상품 선행 판매)
+PHASE_SKIP = re.compile(r"^(?:は|が|の|で|と|に|も|や|・|、|を|から|より)")  # 「は先行」처럼 조사가 라벨로 잡힌 것
+
+
+def find_phases(text, ref):
+    """본문에서 [{n:단계 이름, s:시작, e:끝}] 을 시작 순으로(최대 PHASE_MAX). 같은 이름은 처음 것만. 날짜가 없는 라벨은 버린다."""
+    out, seen = [], set()
+    for m in PHASE_RE.finditer(text):
+        n = re.sub(r"\s+", "", m.group(0))
+        if PHASE_SKIP.match(n) or n in seen:
+            continue
+        win = text[m.end(): m.end() + PHASE_SPAN]
+        cut = PHASE_RE.search(win)
+        if cut:
+            win = win[:cut.start()]  # 다음 단계 라벨 앞까지만
+        win = re.split(r"[。\n]", win)[0]  # 문장·줄이 끝나면 그 뒤 날짜는 다른 얘기
+        ds = find_dates(win, ref)
+        if not ds:
+            continue
+        s_, e_ = ds[0][0], (ds[1][0] if len(ds) >= 2 and ds[1][0] > ds[0][0] and re.search(r"[〜～~\-－]|まで|から", win) else "")
+        seen.add(n); out.append({"n": n[:30], "s": s_, **({"e": e_} if e_ else {})})
+    out.sort(key=lambda x: x["s"])
+    return out[:PHASE_MAX]
+
+
 def kr_gram(t):
     k = wkey(re.sub(r"\[[^\]]*\]|【[^】]*】", "", t or ""))  # [포토]·[현장] 같은 머리말은 뺀다
     return {k[i:i + 2] for i in range(len(k) - 1)}
@@ -313,11 +348,19 @@ def build(title, body, link, src, ref, default_cat="other"):
         elif not event:
             event = iso
     works = tag_works(text, src.get("works", []))
+    cat = classify(text, default_cat, kr)
+    phases = find_phases(text, ref) if not kr and cat in PHASE_CATS else []
+    if phases:  # 단계가 있으면 첫 단계 시작·끝을 판매 시작·마감으로(비어 있을 때만)
+        pd = {p["s"] for p in phases} | {p["e"] for p in phases if p.get("e")}
+        if event in pd or end in pd:  # 「FC先行 11/19 12:00〜11/22」 기간이 행사 기간으로 잡힌 것 → 단계 날짜가 아닌 첫 날짜를 행사일로
+            event, end = next((iso for iso, _ in find_dates(text, ref) if iso not in pd), ""), ""
+        opening = opening if opening and opening not in pd else phases[0]["s"]
+        deadline = deadline if deadline and deadline not in pd else next((p["e"] for p in phases if p.get("e")), "")
     return {
-        "title": title[:200], "category": classify(text, default_cat, kr), "source": src.get("name", ""), **({"region": "KR"} if kr else {}),
+        "title": title[:200], "category": cat, "source": src.get("name", ""), **({"region": "KR"} if kr else {}),
         "platform": src["type"], "works": works[:5], "eventDate": event, "endDate": end, "ticketOpen": opening,
         "deadline": deadline, "venue": "", "ticketUrl": ticket_url(urls_in(body) + [link]), "ticketUrls": ticket_urls(urls_in(body) + [link]),
-        "url": link, "summary": re.sub(r"\s+", " ", body)[:140],
+        "url": link, "summary": re.sub(r"\s+", " ", body)[:140], **({"phases": phases} if phases else {}),
     }
 
 
@@ -867,7 +910,7 @@ def main():
         status.append({"n": BUZZ_NAME, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
     for n in new:
         n["addedAt"] = ref.isoformat()
-    enrich(new + old)
+    enrich(new + old, ref)
     translate_items(new + old)
     update_trends(_tr, ref)
     json.dump(_cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False)
@@ -924,7 +967,7 @@ def write_feed(ref):
     방송 예정(stream)은 너무 많고 금방 지나가서 뺀다."""
     from email.utils import format_datetime
     from xml.sax.saxutils import escape as xe
-    items = [it for it in load_json(OUT, []) if it.get("category") != "stream" and it.get("url")]
+    items = [it for it in load_json(OUT, []) if (it.get("category") != "stream" or it.get("region") == "KR") and it.get("url")]  # 한국 방영 소식은 넣는다
     def added(it):
         try: return datetime.fromisoformat(it.get("addedAt", ""))
         except ValueError: return ref - timedelta(days=60)
@@ -1086,6 +1129,14 @@ def ics_events(it, ref):
     ev, end = _when(it.get("eventDate")), _when(it.get("endDate"))
     if ev and (end or ev) > ref - timedelta(days=7):
         out.append(("ev", ev, end if end and end > ev else None, ""))
+    phases = [p for p in (it.get("phases") or []) if isinstance(p, dict) and p.get("s")]
+    if phases:  # 단계가 있으면 단계마다 시작·마감(ticketOpen·deadline 은 첫 단계와 겹치므로 안 넣음)
+        for i, p in enumerate(phases[:PHASE_MAX]):
+            for k, v, label in ((f"p{i}s", p.get("s"), f"{p.get('n', '')} 시작"), (f"p{i}e", p.get("e"), f"{p.get('n', '')} 마감")):
+                d = _when(v)
+                if d and d > ref:
+                    out.append((k, d, None, label))
+        return out
     for k, label in (("ticketOpen", "판매·추첨 시작"), ("deadline", "마감")):
         d = _when(it.get(k))
         if d and d > ref:
@@ -1109,7 +1160,7 @@ def _ics_fold(line):
 
 def write_calendars(ref):
     import hashlib
-    items = [it for it in load_json(OUT, []) if it.get("category") != "stream"]
+    items = [it for it in load_json(OUT, []) if it.get("category") != "stream" or it.get("region") == "KR"]
     utc = lambda d: d.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     day = lambda d: d.strftime("%Y%m%d")
     stamp = utc(ref)
@@ -1469,19 +1520,29 @@ def site_ticket_links(url):
     return _site_links[host]
 
 
-def page_info(url):
-    """기사 페이지를 한 번 열어 (og:image, 티켓 링크 목록)을 돌려준다. 실패하면 ("", [])."""
+def page_text(page):
+    """기사 본문(<article>/<main>, 없으면 <body>)의 글자만. 티켓 단계(find_phases)용."""
+    m = re.search(r"<article[\s>].*?</article>", page, re.S | re.I) or re.search(r"<main[\s>].*?</main>", page, re.S | re.I) \
+        or re.search(r"<body[\s>].*?</body>", page, re.S | re.I)
+    t = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", m.group(0) if m else page, flags=re.S | re.I)
+    t = re.sub(r"<br\s*/?>|</(p|div|li|tr|h\d)>", "\n", t, flags=re.I)
+    return html.unescape(re.sub(r"[ \t\u3000]+", " ", re.sub(r"<[^>]+>", " ", t)))[:20000]
+
+
+def page_info(url, ref=None):
+    """기사 페이지를 한 번 열어 (og:image, 티켓 링크 목록, 티켓 단계)를 돌려준다. 실패하면 ("", [], [])."""
     try:
         page = fetch(url).decode("utf-8", "replace")
     except Exception:
-        return "", []
-    return og_from_html(page, url), ticket_links_in(page, site_ticket_links(url))
+        return "", [], []
+    return og_from_html(page, url), ticket_links_in(page, site_ticket_links(url)), (find_phases(page_text(page), ref) if ref else [])
 
 
-def enrich(items):
-    """소식마다 기사 페이지를 한 번 열어 빠진 썸네일(og:image)과 티켓 링크(ticketUrls, 사이트별 하나씩)를 채운다.
+def enrich(items, ref=None):
+    """소식마다 기사 페이지를 한 번 열어 빠진 썸네일(og:image)과 티켓 링크(ticketUrls, 사이트별 하나씩), 티켓 단계(phases, 피드 요약에 없던 것)를 채운다.
     한 번 연 소식은 "scanned": true 로 표시해 다시 열지 않는다. 새 소식부터 차례로 ENRICH_MAX 건까지."""
-    tried = imgs = 0
+    tried = imgs = phs = 0
+    ref = ref or datetime.now(JST)
     found = []  # (항목, 링크): 같은 출처에서 같은 링크가 여러 기사에 나오면 사이트 공통 배너로 보고 버린다
     for it in items:
         if it.get("scanned") or not it.get("url"):
@@ -1492,11 +1553,15 @@ def enrich(items):
         if tried >= ENRICH_MAX:
             break
         tried += 1
-        img, tks_found = page_info(it["url"])
+        img, tks_found, phases = page_info(it["url"], ref)
         it["scanned"] = True
         if not it.get("image"):
             it["image"] = img
             imgs += bool(img)
+        if it.get("category") in PHASE_CATS and len(phases) > len(it.get("phases") or []):  # 기사 본문이 피드 요약보다 단계를 더 안다
+            it["phases"] = phases; phs += 1
+            it["ticketOpen"] = it.get("ticketOpen") or phases[0]["s"]
+            it["deadline"] = it.get("deadline") or next((p["e"] for p in phases if p.get("e")), "")
         for tk in tks_found:
             found.append((it, tk))
     dup = {}
@@ -1514,7 +1579,7 @@ def enrich(items):
         it["ticketUrl"] = have[0]
         tks += 1
     if tried:
-        print(f"기사 보강: {tried}건 열어 썸네일 {imgs}건, 티켓 링크 {tks}건 채움")
+        print(f"기사 보강: {tried}건 열어 썸네일 {imgs}건, 티켓 링크 {tks}건, 티켓 단계 {phs}건 채움")
 
 
 def og_image(site):

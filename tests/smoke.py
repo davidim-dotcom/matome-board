@@ -6,7 +6,7 @@
 확인하는 것: 모든 출처가 가짜 피드를 읽어 OK(이름 오류 같은 코드 고장이면 여기서 FAIL), main() 이 끝까지 돌아
 items/meta/feed/달력 파일을 씀, 출처 절반 넘게 실패하면 데이터를 안 쓰고 종료 코드 3, 출처·고장 알림 이슈 흐름, 번역 용어집, 주간 초안.
 """
-import json, os, shutil, sys, tempfile, traceback, urllib.parse
+import json, os, re, shutil, sys, tempfile, traceback, urllib.parse
 from datetime import datetime, timedelta, timezone
 from email.utils import format_datetime
 from xml.sax.saxutils import escape
@@ -27,10 +27,13 @@ D1, D2 = (NOW + timedelta(days=20)), (NOW + timedelta(days=30))
 JA = [f"「薬屋のひとりごと」コラボカフェ 池袋で{D1.month}月{D1.day}日〜{D2.month}月{D2.day}日開催",
       f"ホロライブ 3Dライブ {D1.month}月{D1.day}日 東京ガーデンシアター チケット先行受付開始",
       f"ちいかわ ポップアップストア 渋谷で開催決定 {D1.month}月{D1.day}日から",
-      f"『ウマ娘』原画展 {D1.month}月{D1.day}日〜{D2.month}月{D2.day}日 秋葉原UDX"]
+      f"『ウマ娘』原画展 {D1.month}月{D1.day}日〜{D2.month}月{D2.day}日 秋葉原UDX",
+      f"『にじさんじ』ライブ {D2.month}月{D2.day}日 幕張メッセ FC先行抽選は{D1.month}月{D1.day}日12:00〜{D1.month}月{D1.day + 3}日23:59、一般発売は{D1.month}月{D1.day + 6}日10:00より"]
 KO = [f"성수 '귀멸의 칼날' 팝업스토어 오픈…{D1.month}월 {D1.day}일까지",
       f"홍대에 '체인소 맨' 애니 콜라보 카페 상륙 {D1.month}월 {D1.day}일",
-      "코엑스 '진격의 거인' 애니 전시회 개최"]
+      "코엑스 '진격의 거인' 애니 전시회 개최",
+      f"애니플러스, '체인소 맨' 2기 {D1.month}월 {D1.day}일 국내 동시 방영 확정",
+      "일본 방영 앞둔 '주술회전' 3기 PV 공개"]  # 마지막은 한국 장소 신호가 없어 걸러져야 한다
 calls = []
 FAIL_ALL = False
 
@@ -63,6 +66,10 @@ def fake_fetch(url, headers=None, data=None):
         return f'<html><script type="application/ld+json">{json.dumps(evs, ensure_ascii=False)}</script></html>'.encode()
     if "news.google.com" in url and "hl=ko" in url:
         return rss([t + " - 스모크일보" for t in KO], url)
+    art = re.search(r"#(\d+)$|/smoke(\d+)/$|/news/s(\d+)$|/e(\d+)$", url)
+    if art and "rss" not in url.split("#")[0][-8:] or (art and "#" in url):  # 기사 페이지(보강): 그 소식 제목만 든 본문
+        i = int(next(g for g in art.groups() if g)) % len(JA)
+        return f"<html><head><meta property='og:image' content='https://example.com/{i}.jpg'></head><body><article><p>{JA[i]}</p></article></body></html>".encode()
     if url.rstrip("/") in SITES:  # site 종류: 첫 화면에서 RSS 링크를 찾는다
         return f'<html><head><link rel="alternate" type="application/rss+xml" href="{url.rstrip("/")}/smoke.rss"></head></html>'.encode()
     return rss(JA, url)  # rss·youtube·Togetter·기사 페이지(보강)
@@ -122,6 +129,17 @@ def t_main():
     assert new and all(x.get("title") and x.get("url") for x in new)
     assert any(x.get("region") == "KR" for x in new), "한국 소식이 하나도 안 남음"
     assert any("[번역]" in (x.get("title_ko") or "") for x in new), "번역이 안 붙음"
+    ph = [x for x in new if x.get("phases")]
+    assert ph and all(x["title"].startswith("『にじさんじ』") or x["title"].startswith("にじさんじ 『にじさんじ』") for x in ph), [(x["title"][:30], x["phases"]) for x in ph]
+    x = ph[0]
+    assert [p["n"] for p in x["phases"]] == ["FC先行抽選", "一般発売"] and x["phases"][0].get("e") and x["ticketOpen"] == x["phases"][0]["s"], x["phases"]
+    assert any(x.get("image") for x in new), "보강(og:image)이 안 됨"
+    kr = {x["title"][:5]: x["category"] for x in new if x.get("region") == "KR"}
+    assert kr.get("애니플러스") == "stream" and not any(k.startswith("일본 방영") for k in kr), kr
+    fn, C.FEED_N = C.FEED_N, 1000  # 한국 방영(stream) 소식이 RSS 에서 빠지지 않는지(60건 한도 밖일 수 있어 한도를 올려 본다)
+    try: C.write_feed(C.datetime.now(C.JST))
+    finally: C.FEED_N = fn
+    assert "애니플러스" in open(os.path.join(C.DATA, "feed.xml"), encoding="utf-8").read(), "한국 방영 소식이 RSS 에 없음"
     for f in ("feed.xml", "calendar.ics", "calendar-events.ics", "calendar-tickets.ics", "xbuzz.json"):
         assert os.path.getsize(os.path.join(C.DATA, f)) > 0, f
     import xml.etree.ElementTree as ET
