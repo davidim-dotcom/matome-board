@@ -183,6 +183,18 @@ def t_gloss():
     assert it["title_ko"] == "홀로라이브 3D 라이브", it["title_ko"]  # 표기만 고친다
 
 
+def t_trunc():
+    real = C._gtx
+    def gtx(q):  # 구글이 뒷부분을 빠뜨리는 경우를 흉내: 문장부호가 둘 이상 든 긴 조각이면 앞 몇 글자만
+        return [("[번역]" + q[:6] if len(q) > 40 else "[번역]" + q, q)]
+    C._gtx = gtx
+    try:
+        ko = C.translate_ja_ko("ゴジラの表皮を履いたら…!?「ゴジラ-0.0」×「ゴリラの裸足」痛気持ちイイ健康サンダルが登場")
+    finally:
+        C._gtx = real
+    assert "健康サンダルが登場" in ko and ko.count("[번역]") == 2, ko
+
+
 def t_weekly():
     w = C.load_json(C.WEEKLY, {})
     w["week"] = "2000-01-03"; C.save_json(C.WEEKLY, w)
@@ -193,7 +205,7 @@ def t_weekly():
 
 
 for n, f in [("출처마다 가짜 피드 읽기", t_sources), ("main() 한 바퀴", t_main), ("고장 방지(절반 넘게 실패)", t_guard),
-             ("출처·고장 알림 이슈", t_alerts), ("번역 용어집", t_gloss), ("주간 요약 자동 초안", t_weekly)]:
+             ("출처·고장 알림 이슈", t_alerts), ("번역 용어집", t_gloss), ("번역 잘림 보정", t_trunc), ("주간 요약 자동 초안", t_weekly)]:
     check(n, f)
 shutil.rmtree(TMP, ignore_errors=True)
 fails = [n for n, e in results if e]
