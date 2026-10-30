@@ -2,7 +2,7 @@
 """마토메 보드 수집기 — GitHub 공개 보드용
 
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
-  python3 collector.py           소식 수집 → data/items.json, data/meta.json
+  python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS)
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
   python3 collector.py --weekly-draft   지금 주간 요약의 7일이 끝났으면 이번 주(월요일 시작) 자동 초안 → data/weekly.json
@@ -687,7 +687,14 @@ def main():
     seen = {(o.get("url"), o.get("title")) for o in old}
     by_key = {(o.get("url"), o.get("title")): o for o in old}
     new = []
+    meta = load_json(os.path.join(DATA, "meta.json"), {})
+    prev = {x.get("n"): x for x in meta.get("sources", []) if isinstance(x, dict)}
+    status = []  # 출처마다 이번 실행 결과(페이지 사이트 개요의 '출처 상태' 표)
     for src in SOURCES:
+        name = src.get("name", src["type"])
+        p = prev.get(name, {})
+        if src["type"] == "holodex" and not os.environ.get("HOLODEX_API_KEY"):
+            status.append({"n": name, "ok": None, "e": "HOLODEX_API_KEY 없음(건너뜀)"}); continue
         try:
             got = collect(src, ref)
             for g in got:  # 이미 있는 소식에도 나중에 생긴 필드(좌표·주소)를 채운다
@@ -698,9 +705,12 @@ def main():
             fresh = [g for g in got if (g["url"], g["title"]) not in seen and not blocked(g, block)]
             seen.update((g["url"], g["title"]) for g in fresh)
             new += fresh
-            print(f"{src.get('name', src['type'])}: {len(got)}건 중 새 소식 {len(fresh)}건")
+            print(f"{name}: {len(got)}건 중 새 소식 {len(fresh)}건")
+            status.append({"n": name, "ok": True, "c": len(got), "new": len(fresh), "at": ref.isoformat(timespec="minutes")})
         except Exception as e:
-            print(f"{src.get('name', src['type'])}: 실패 ({e})", file=sys.stderr)
+            print(f"{name}: 실패 ({e})", file=sys.stderr)
+            # f: 연속 실패 횟수, at: 마지막으로 성공한 시각(이전 기록에서 이어받음)
+            status.append({"n": name, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
     for n in new:
         n["addedAt"] = ref.isoformat()
     enrich(new + old)
@@ -729,10 +739,56 @@ def main():
         keep.append(it)
     items = keep[:KEEP]
     save_json(OUT, items)
-    meta = load_json(os.path.join(DATA, "meta.json"), {})
-    meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "rising": _tr.get("rising", []), "count": len(items)})
+    meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "rising": _tr.get("rising", []), "count": len(items), "sources": status})
     save_json(os.path.join(DATA, "meta.json"), meta)
+    write_feed(ref)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
+
+
+SITE = "https://davidim-dotcom.github.io/matome-board/"
+FEED = os.path.join(DATA, "feed.xml")
+FEED_N = 60
+CAT_KO = {"live": "공연", "event": "행사", "official": "공식", "doujin": "동인", "collab": "콜라보", "popup": "팝업",
+          "exhibit": "전시", "manga": "만화", "goods": "굿즈", "stream": "방송", "campaign": "캠페인", "other": "기타"}
+
+def write_feed(ref):
+    """data/feed.xml: 새로 들어온 소식 FEED_N 건과 이번 주간 요약을 RSS 2.0 으로. RSS 앱·디스코드 RSS 봇으로 구독한다.
+    방송 예정(stream)은 너무 많고 금방 지나가서 뺀다."""
+    from email.utils import format_datetime
+    from xml.sax.saxutils import escape as xe
+    items = [it for it in load_json(OUT, []) if it.get("category") != "stream" and it.get("url")]
+    def added(it):
+        try: return datetime.fromisoformat(it.get("addedAt", ""))
+        except ValueError: return ref - timedelta(days=60)
+    items.sort(key=added, reverse=True)
+    def when(v):
+        try: return _kdate(v)
+        except Exception: return ""
+    out = []
+    wk = load_json(WEEKLY, {})
+    if wk.get("picks"):
+        body = "\n".join(f"{i + 1}. {p.get('title', '')}" + (f" ({p['when']})" if p.get("when") else "") for i, p in enumerate(wk["picks"]))
+        try: wd = datetime.fromisoformat(str(wk.get("updated") or wk.get("week"))[:10]).replace(tzinfo=JST)
+        except ValueError: wd = ref
+        out.append((f"[주간 요약] {wk.get('title', '')} {wk.get('range', '')}".strip(), SITE + "#weekly", body,
+                    wd, f"weekly-{wk.get('week', '')}", "주간 요약"))
+    for it in items[:FEED_N]:
+        bits = [x for x in (
+            f"{when(it['eventDate'])}" + (f" ~ {when(it['endDate'])}" if it.get("endDate") else "") if it.get("eventDate") else "",
+            f"장소: {it['venue']}" if it.get("venue") else "",
+            f"판매·추첨 시작: {when(it['ticketOpen'])}" if it.get("ticketOpen") else "",
+            f"마감: {when(it['deadline'])}" if it.get("deadline") else "",
+            it.get("title_ko") or "", (it.get("summary") or "")[:300]) if x]
+        out.append((it.get("title", ""), it["url"], "\n".join(bits), added(it), it["url"], CAT_KO.get(it.get("category"), "기타")))
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>', '<rss version="2.0"><channel>',
+           f"<title>마토메 보드</title><link>{SITE}</link><description>일본 게임·애니·버튜버·만화 공연·이벤트 소식</description><language>ja</language>",
+           f"<lastBuildDate>{format_datetime(ref)}</lastBuildDate>"]
+    for title, link, desc, d, guid, cat in out:
+        xml.append(f"<item><title>{xe(title)}</title><link>{xe(link)}</link><guid isPermaLink=\"false\">{xe(guid)}</guid>"
+                   f"<category>{xe(cat)}</category><pubDate>{format_datetime(d)}</pubDate><description>{xe(desc)}</description></item>")
+    xml.append("</channel></rss>")
+    with open(FEED, "w", encoding="utf-8") as f:
+        f.write("\n".join(xml) + "\n")
 
 
 WEEKLY = os.path.join(DATA, "weekly.json")
@@ -1808,6 +1864,7 @@ if __name__ == "__main__":
     elif "--weekly-draft" in sys.argv:
         try:
             weekly_draft(datetime.now(JST))
+            write_feed(datetime.now(JST))  # 초안이 생겼으면 RSS 에도
         except Exception as e:  # 실패해도 워크플로는 이어 간다
             print(f"주간 요약 초안 실패: {e}", file=sys.stderr)
     elif "--comics" in sys.argv:
