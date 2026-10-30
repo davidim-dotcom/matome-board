@@ -60,6 +60,17 @@ async function run(dev) {
     for (const e of errs.slice(n0)) bad.push(`${dev} ${t}: ${e}`);
     console.log(`${bad.some((b) => b.startsWith(`${dev} ${t}`)) ? "FAIL" : "OK  "} ${dev} ${t}`);
   }
+  // 피드 '그림으로 보기'(격자)와 카드 상자
+  await page.evaluate(() => document.querySelector('nav.tabs [data-tab="feed"]').click());
+  await page.evaluate(() => { const b = document.querySelector("[data-fview]"); if (b && b.getAttribute("aria-pressed") !== "true") b.click(); });
+  await page.waitForTimeout(700);
+  const tiles = await page.$$eval(".ptile", (a) => a.length), ovg = await page.evaluate(OVERFLOW);
+  await page.evaluate(() => { const t = document.querySelector(".ptile"); if (t) t.click(); });
+  const modal = await page.evaluate(() => !!document.querySelector(".pmodal .row"));
+  if (!tiles || !modal) bad.push(`${dev} 그림 보기: 타일 ${tiles}개, 카드 상자 ${modal ? "열림" : "안 열림"}`);
+  if (ovg.length) bad.push(`${dev} 그림 보기: 화면 밖으로 넘침 → ${ovg.join(" | ")}`);
+  await page.evaluate(() => { document.querySelector(".pmodal")?.remove(); const b = document.querySelector("[data-fview]"); if (b) b.click(); });  // 목록으로 되돌림
+  console.log(`${tiles && modal && !ovg.length ? "OK  " : "FAIL"} ${dev} 그림 보기`);
   // 작품 허브 주소로 바로 들어오는 길(#work=)
   await page.goto(`http://127.0.0.1:${PORT}/#work=${encodeURIComponent("ホロライブ")}`, { waitUntil: "load" });
   await page.waitForTimeout(2000);
