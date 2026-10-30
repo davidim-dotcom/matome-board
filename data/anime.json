@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 73092
+   "w": 73504
   },
   {
    "t": "転生したら剣でした 第2期",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 37389
+   "w": 37503
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -470,7 +470,7 @@
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 16527,
+   "w": 16642,
    "rd": 6
   },
   {
@@ -604,7 +604,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 11736
+   "w": 11811
   },
   {
    "t": "#ゾンビさがしてます",
@@ -880,7 +880,7 @@
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 2874
+   "w": 2889
   },
   {
    "t": "うまゆるふるげ〜と!",
@@ -1001,7 +1001,7 @@
    "pv": "https://www.youtube.com/watch?v=rV-fcFL5vtU",
    "site": "https://rilakkuma-anime.com/",
    "x": "rilakkuma_anime",
-   "w": 1789
+   "w": 1792
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1538,28 +1538,28 @@
    "w": 126
   },
   {
-   "t": "ロクローの大ぼうけん",
-   "d": 7,
-   "tm": "",
-   "st": "",
-   "s": "2024-04-01",
-   "r": 160,
-   "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
-   "site": "https://rokurostudio.jp/",
-   "x": "planetstudio696",
-   "w": 124
-  },
-  {
    "t": "おしりダンディ ザ・ヤング",
    "d": 8,
    "tm": "",
    "st": "",
    "s": "2026-04-04",
-   "r": 161,
+   "r": 160,
    "pv": "https://www.youtube.com/watch?v=ClHFIN462aw",
    "site": "",
    "x": "",
    "w": 124
+  },
+  {
+   "t": "ロクローの大ぼうけん",
+   "d": 7,
+   "tm": "",
+   "st": "",
+   "s": "2024-04-01",
+   "r": 161,
+   "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
+   "site": "https://rokurostudio.jp/",
+   "x": "planetstudio696",
+   "w": 123
   },
   {
    "t": "太鼓の達人 (2022)",
