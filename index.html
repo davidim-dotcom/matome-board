@@ -261,7 +261,7 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 /* 게임 고르기(게임 탭 맨 위) */
 .gpick{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin:10px 0 12px}
 .gpick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px 7px;border:1px solid var(--line);border-radius:12px;background:var(--surface);line-height:1.2;min-width:0}
-.gpick button[hidden]{display:none}
+.gpick[hidden],.gpick button[hidden]{display:none} /* display:grid 가 hidden 속성을 이겨서 모든 탭 밑에 보이던 문제 */
 .gpick i{font-style:normal;font-size:20px;margin-bottom:2px} .gpick b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%} .gpick small{font-size:11px;color:var(--muted);white-space:nowrap}
 .gpick button[aria-pressed="true"]{background:var(--pink-soft);border-color:var(--pink)} .gpick button[aria-pressed="true"] b{color:var(--pink)}
 
@@ -497,7 +497,6 @@ textarea{min-height:110px;resize:vertical}
       <h2>사이트 개요</h2>
       <p>tera가 필요해서 만듬.</p>
       <p class="help" id="mochiBack" hidden>오른쪽 아래 도로롱을 숨겼어요. <button class="btn ghost" type="button" id="mochiCall">다시 부르기</button></p>
-      <p class="help">일본 게임·애니·버튜버·만화의 공연, 이벤트, 콜라보, 팝업, 전시 소식을 공식 사이트와 뉴스 RSS에서 모아 하루 네 번 갱신합니다. 날짜는 일본 시간이고, 예매와 일정은 원문에서 꼭 확인해 주세요. 피드에서 버튜버만 골라 보거나 날짜순으로 볼 수 있고, 캘린더에서 날을 누르면 그날의 일정이 나옵니다. 기본은 일본어 원문이고, 맨 위의 한국어를 누르면 Google 기계 번역으로 제목과 요약만 바꿔 볼 수 있습니다(어색한 번역이 많으니 참고용).</p>
     </div>
     <div class="panel">
       <h2>구독 · 출처 상태</h2>

@@ -53,6 +53,8 @@ async function run(dev) {
     await page.waitForTimeout(900);
     const shown = await page.evaluate((t) => { const s = document.getElementById(t); return !!s && s.offsetHeight > 40 && getComputedStyle(s).display !== "none"; }, t);
     if (!shown) bad.push(`${dev} ${t}: 탭 내용이 안 보임`);
+    const gp = await page.evaluate(() => { const g = document.getElementById("gpick"); return !!g && g.offsetHeight > 0; });
+    if (gp !== ["game", "g2048", "derby"].includes(t)) bad.push(`${dev} ${t}: 게임 고르는 칸이 ${gp ? "게임 밖에서 보임" : "게임 탭에서 안 보임"}`);  // 2026-10 모든 탭 밑에 보이던 문제
     const ov = await page.evaluate(OVERFLOW);
     if (ov.length) bad.push(`${dev} ${t}: 화면(${W}px) 밖으로 넘침 → ${ov.join(" | ")}`);
     for (const e of errs.slice(n0)) bad.push(`${dev} ${t}: ${e}`);
