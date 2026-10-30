@@ -2,7 +2,7 @@
 """마토메 보드 수집기 — GitHub 공개 보드용
 
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
-  python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS)
+  python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS), data/calendar*.ics(구독용 달력)
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
   python3 collector.py --alert          출처가 3회 연속 실패하거나 2일 연속 빈 피드면 GitHub 이슈(워크플로 전용, GITHUB_TOKEN)
@@ -792,6 +792,7 @@ def main():
                 or (it.get("source") in GAME_SOURCES and is_game_noise(it.get("title", ""))):
             continue
         if it.get("works"): it["works"] = tag_works("", it["works"])  # 예전 태그도 대표 이름으로(ゴジラ－0.0 → ゴジラ-0.0 등)
+        guess_place(it)  # 장소 칸이 비면 data/venues.json 으로 채움(예전 추정은 다시 찾음)
         end = item_end(it)
         if end and end < ref - timedelta(days=30):
             continue
@@ -807,6 +808,7 @@ def main():
     meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "rising": _tr.get("rising", []), "count": len(items), "sources": status})
     save_json(os.path.join(DATA, "meta.json"), meta)
     write_feed(ref)
+    write_calendars(ref)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
 
 
@@ -854,6 +856,124 @@ def write_feed(ref):
     xml.append("</channel></rss>")
     with open(FEED, "w", encoding="utf-8") as f:
         f.write("\n".join(xml) + "\n")
+
+
+# ---- 장소 사전(data/venues.json, 사람이 고침) ----
+# 콜라보·팝업 기사는 대개 장소 칸이 비어 있어 지도·이번 주말 보기에 안 잡힌다. 제목·요약에 아는 장소 이름이 있으면 venue·geo·address 를 채운다.
+VENUES_FILE = os.path.join(DATA, "venues.json")
+AREA_SKIP_RE = re.compile(r"巡回|全国|各地|\d+都市|\d+会場|ツアー|順次|ほか|・(?:大阪|名古屋|福岡|札幌|東京)")  # 여러 곳에서 열리는 행사는 한 점으로 찍지 않는다
+_VENUES = None
+
+
+def _venue_table():
+    global _VENUES
+    if _VENUES is None:
+        v = load_json(VENUES_FILE, {})
+        nf = lambda t: unicodedata.normalize("NFKC", t)
+        spots = sorted(((nf(nm), x) for x in v.get("venues", []) if x.get("geo") for nm in [x["n"], *x.get("a", [])]), key=lambda t: -len(t[0]))
+        areas = [(nf(nm), x) for x in v.get("areas", []) if x.get("geo") for nm in [x["n"], *x.get("a", [])]]
+        _VENUES = (spots, areas)
+    return _VENUES
+
+
+def guess_place(it):
+    """장소 칸이 빈 소식에 장소 사전으로 venue·geo·address 를 넣는다(placeGuess=True). 예전 추정은 매번 지우고 다시 찾아 사전 수정이 반영된다.
+    구체 장소는 제목 → 요약 순(긴 이름 먼저), 동네·도시는 제목에 딱 하나만 있고 순회·여러 도시 말이 없을 때만 '○○周辺'."""
+    if it.get("placeGuess"):
+        for k in ("venue", "address"): it[k] = ""
+        it["geo"] = []; it.pop("placeGuess", None)
+    if it.get("venue") or it.get("category") == "stream" or it.get("platform") in ("holodex", "youtube"):
+        return False
+    spots, areas = _venue_table()
+    t = unicodedata.normalize("NFKC", it.get("title", ""))
+    if AREA_SKIP_RE.search(t):
+        return False
+    for text in (t, unicodedata.normalize("NFKC", it.get("summary", ""))):
+        for nm, x in spots:
+            if nm in text:
+                it.update(venue=x["n"], geo=list(x["geo"]), address=x.get("addr", ""), placeGuess=True)
+                return True
+    hits = {x["n"]: x for nm, x in areas if nm in t}
+    if len(hits) == 1:
+        x = next(iter(hits.values()))
+        it.update(venue=x["n"].split("(")[0] + "周辺", geo=list(x["geo"]), address=x.get("addr", ""), placeGuess=True)
+        return True
+    return False
+
+
+# ---- 구독용 달력(data/calendar*.ics) ----
+# 구글 캘린더·아이폰 캘린더에서 'URL로 구독'하면 새 일정이 자동으로 들어온다. 페이지의 '달력에 추가'(한 번 받는 .ics)와 같은 규칙.
+CALENDARS = [("calendar.ics", "마토메 보드", ("ev", "ticketOpen", "deadline")),
+             ("calendar-events.ics", "마토메 보드 · 행사", ("ev",)),
+             ("calendar-tickets.ics", "마토메 보드 · 예매·마감", ("ticketOpen", "deadline"))]
+
+
+def _when(v):
+    if not v: return None
+    try: return datetime.fromisoformat(v if re.search(r"[+-]\d\d:\d\d$|Z$", v) else v + "+09:00").astimezone(JST)
+    except ValueError: return None
+
+
+def ics_events(it, ref):
+    """(종류, 시작, 끝|None, 머리말) 목록. 끝난 지 7일 넘은 행사, 지난 판매 시작·마감은 뺀다."""
+    out = []
+    ev, end = _when(it.get("eventDate")), _when(it.get("endDate"))
+    if ev and (end or ev) > ref - timedelta(days=7):
+        out.append(("ev", ev, end if end and end > ev else None, ""))
+    for k, label in (("ticketOpen", "판매·추첨 시작"), ("deadline", "마감")):
+        d = _when(it.get(k))
+        if d and d > ref:
+            out.append((k, d, None, label))
+    return out
+
+
+def _ics_text(t):
+    return str(t or "").replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\r", "").replace("\n", "\\n")
+
+
+def _ics_fold(line):
+    out, n = "", 0
+    for ch in line:
+        b = len(ch.encode("utf-8"))
+        if n + b > 73:
+            out += "\r\n "; n = 1
+        out += ch; n += b
+    return out
+
+
+def write_calendars(ref):
+    import hashlib
+    items = [it for it in load_json(OUT, []) if it.get("category") != "stream"]
+    utc = lambda d: d.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    day = lambda d: d.strftime("%Y%m%d")
+    stamp = utc(ref)
+    for fname, title, kinds in CALENDARS:
+        L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//matome-board//calendar//KO", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+             f"X-WR-CALNAME:{_ics_text(title)}", "X-WR-TIMEZONE:Asia/Tokyo", "REFRESH-INTERVAL;VALUE=DURATION:PT6H", "X-PUBLISHED-TTL:PT6H"]
+        n = 0
+        for it in items:
+            uid = hashlib.sha1(f"{it.get('url', '')}|{it.get('title', '')}|{it.get('eventDate', '')}".encode()).hexdigest()[:16]
+            for k, d, e, label in ics_events(it, ref):
+                if k not in kinds: continue
+                allday = d.hour == 0 and d.minute == 0 and (not e or (e.hour == 0 and e.minute == 0))
+                L += ["BEGIN:VEVENT", f"UID:{uid}-{k}@matome-board", f"DTSTAMP:{stamp}"]
+                if allday:
+                    L += [f"DTSTART;VALUE=DATE:{day(d)}", f"DTEND;VALUE=DATE:{day((e or d) + timedelta(days=1))}"]
+                else:
+                    L += [f"DTSTART:{utc(d)}", f"DTEND:{utc(e if e and e > d else d + timedelta(hours=2 if k == 'ev' else 0.5))}"]
+                L.append("SUMMARY:" + _ics_text((f"[{label}] " if label else "") + it.get("title", "")))
+                if it.get("venue"):
+                    L.append("LOCATION:" + _ics_text(it["venue"] + (" " + it["address"] if it.get("address") and it["address"] not in it["venue"] else "")))
+                desc = [x for x in (it.get("title_ko"), it.get("source"), it.get("url"), *(it.get("ticketUrls") or [])[:2]) if x]
+                L.append("DESCRIPTION:" + _ics_text("\n".join(desc)))
+                if it.get("url"): L.append("URL:" + it["url"])
+                if k != "ev" and not allday:
+                    L += ["BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + _ics_text(label), "TRIGGER:-PT30M", "END:VALARM"]
+                L.append("END:VEVENT"); n += 1
+        L.append("END:VCALENDAR")
+        with open(os.path.join(DATA, fname), "w", encoding="utf-8", newline="") as f:
+            f.write("\r\n".join(_ics_fold(x) for x in L) + "\r\n")
+        print(f"→ data/{fname}: 일정 {n}개")
 
 
 ALERT_FAILS = 3   # 이만큼 연속 실패하면 이슈
