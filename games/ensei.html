@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>도쿄 원정 대작전 · 마토메 보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<!-- 도쿄 원정 대작전(2026-10 말). 보드의 게임 탭이 iframe 으로 연다. 이번 주말(토) 실제로 열리는 보드 소식(data/items.json)으로 판을 만든다:
+     아침 9시 東京駅에서 출발해 21시 30분까지, 예산·체력 안에서 행사장(콜라보 카페·팝업·전시·공연)을 돌며 만족도(⭐)를 모은다.
+     줄 서기·한정 굿즈 품절·당일 추첨은 그 주 날짜와 장소로 정해지는 의사 난수라, 같은 주에는 모두 같은 판이다(스코어 보드는 주마다 따로).
+     지도는 보드의 도쿄 23구 경계(parent.MATOME.map)를 쓰고, 혼자 열면 점만 찍는다. -->
+<style>
+:root{--bg:#EEF1F8;--surface:#FFFFFF;--ink:#1B1F3B;--muted:#646985;--line:#D5DAE8;--pink:#D6246E;--cyan:#13819A;--amber:#B7791F;--pink-soft:#FBE3EE;--land:#FFFFFF;--land23:#F7F2FA;--sea:#DCE6F3;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#13152A;--surface:#1E2139;--ink:#ECEDF6;--muted:#9A9EBB;--line:#30345A;--pink:#FF5C9A;--cyan:#4FC3D9;--amber:#F2B655;--pink-soft:#3A1F33;--land:#1E2139;--land23:#262A48;--sea:#0F1124;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR","Noto Sans JP",system-ui,sans-serif;font-size:14px;line-height:1.5;padding:4px 2px 20px}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:520px;margin:0 auto}
+h1{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:22px;margin:4px 0 0;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:12px;margin:2px 0 8px}
+.stat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;position:sticky;top:0;z-index:3;background:var(--bg);padding:6px 0}
+.stat div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:5px 6px;text-align:center;line-height:1.2}
+.stat small{display:block;font-size:10px;color:var(--muted)} .stat b{font-size:15px;font-variant-numeric:tabular-nums}
+.stat .low b{color:var(--pink)}
+.map{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--sea);margin-top:4px}
+canvas{display:block;width:100%;height:auto;touch-action:manipulation}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px}
+.card h3{margin:0 0 2px;font-size:15px;line-height:1.35;overflow-wrap:anywhere}
+.card .v{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.chips{display:flex;flex-wrap:wrap;gap:4px 10px;margin:6px 0;font-size:13px}
+.chips span{white-space:nowrap}
+.warn{color:var(--pink);font-size:13px;font-weight:600;margin:4px 0}
+.btns{display:flex;gap:6px;margin-top:6px}
+.btn{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px;cursor:pointer;text-align:center;text-decoration:none;color:var(--ink);font-weight:600}
+.btn.go{background:var(--pink);border-color:var(--pink);color:#fff} .btn:disabled{opacity:.45;cursor:default}
+.list{margin-top:8px;display:grid;gap:6px}
+.sp{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 9px;cursor:pointer;text-align:left;width:100%}
+.sp .no{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px}
+.sp .tt{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .sp .mm{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp .rw{font-size:12px;font-weight:700;color:var(--amber);white-space:nowrap}
+.sp.done{opacity:.45} .sp.no-go .rw{color:var(--muted)} .sp[aria-pressed="true"]{border-color:var(--pink)}
+.log{margin-top:8px;font-size:13px;display:grid;gap:3px}
+.log p{margin:0;padding:5px 9px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+.log p.good{border-color:var(--amber)} .log p.bad{border-color:var(--pink)}
+.end{background:var(--surface);border:2px solid var(--pink);border-radius:14px;padding:14px;margin-top:10px;text-align:center}
+.end .big{font-family:"Black Han Sans",sans-serif;font-size:44px;line-height:1.1;color:var(--pink)}
+.end ol{text-align:left;font-size:13px;margin:8px 0 0;padding-left:20px}
+.board{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.board .hd{display:flex;justify-content:space-between;align-items:center}.board .hd p{margin:0;font-size:12px;color:var(--muted)}.board .hd button{border:0;background:none;color:var(--cyan);cursor:pointer}
+ol.rank{list-style:none;margin:6px 0 0;padding:0}
+ol.rank li{display:grid;grid-template-columns:26px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:6px 2px;border-top:1px solid var(--line);font-size:13px}
+ol.rank li .no{font-weight:700;color:var(--muted);text-align:center} ol.rank li .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} ol.rank li .st{font-size:11px;color:var(--muted)} ol.rank li.mine{background:var(--pink-soft)}
+ol.rank li.nil{display:block;color:var(--muted);text-align:center;padding:14px 0}
+form.subm{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 0 0;padding:8px;border-radius:10px;background:var(--pink-soft)}
+form.subm .me{flex-basis:100%;font-size:13px} form.subm input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 8px} form.subm button{border:0;background:var(--pink);color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer}
+.help{font-size:12px;color:var(--muted);margin:6px 0 0}
+.toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 12px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🗾 도쿄 원정 대작전</h1>
+  <p class="sub" id="sub">불러오는 중…</p>
+  <div class="stat" id="stat"></div>
+  <div class="map"><canvas id="cv" width="360" height="360"></canvas></div>
+  <div id="sel"></div>
+  <div class="btns"><button type="button" class="btn" id="home">🏠 오늘은 여기까지(귀가)</button><button type="button" class="btn" id="reset">↺ 처음부터</button></div>
+  <div id="end"></div>
+  <div class="list" id="list"></div>
+  <div class="log" id="log"></div>
+  <p class="help">아침 9시 東京駅에서 출발해 21시 30분까지 행사장을 돌며 ⭐만족도를 모아요. 이동·입장에 돈과 체력이 들고, 카페에서 먹으면 체력이 돌아와요. 줄 서기·한정 굿즈 품절·당일 추첨은 주마다 정해져 있어 이번 주에는 모두 같은 판이에요. 같은 작품을 두 곳 이상 들르면 추가 ⭐, 종류가 다양하면 보너스.</p>
+  <div class="board"><div class="hd"><p id="rkTitle">이번 주 원정 순위</p><button type="button" id="rkRe">↻ 새로고침</button></div>
+    <form class="subm" id="subm" hidden><span class="me" id="subMe"></span><input id="name" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname"><button id="subBtn">기록 등록</button></form>
+    <ol class="rank" id="rank"></ol></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id), cv=$('cv'), cx=cv.getContext('2d'), W=360, H=360;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)}
+(function fit(){const r=Math.min(3,window.devicePixelRatio||1);cv.width=W*r;cv.height=H*r;cx.setTransform(r,0,0,r,0,0)})();
+const P=(()=>{try{return parent!==window&&parent.MATOME?parent.MATOME:null}catch(e){return null}})();
+
+// ---------- 날짜·난수 ----------
+const jstYmd=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+const WD=['일','월','화','수','목','금','토'];
+function dayOf(){const t=jstYmd(new Date()),wd=new Date(t+'T12:00:00+09:00').getUTCDay(),add=n=>jstYmd(new Date(new Date(t+'T12:00:00+09:00').getTime()+n*864e5));return wd===6||wd===0?t:add(6-wd)} // 이번 주말(토), 오늘이 토·일이면 오늘
+const DAY=dayOf(), dl=s=>{const d=new Date(s+'T00:00:00Z');return `${d.getUTCMonth()+1}/${d.getUTCDate()}(${WD[d.getUTCDay()]})`};
+function hash(s){let h=2166136261;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rnd(seed){let a=hash(seed);return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const parseD=v=>{if(!v)return null;const d=new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(v)?v:v+'+09:00');return isNaN(d)?null:d};
+const hm=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(Math.round(m%60)).padStart(2,'0')}`;
+const yen=n=>'¥'+Math.round(n).toLocaleString();
+function safeUrl(u){try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch(e){return ''}}
+function hashId(s){let h=2166136261;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return 'i'+(h>>>0).toString(36)} // 보드 카드 id 와 같은 식(#item=)
+
+// ---------- 장소 종류 ----------
+const CAT={
+  collab:{n:'콜라보 카페',e:'☕',col:'#e2a23a',stay:70,cost:2200,rw:85,hp:+14,open:[11*60,21*60],q:45},
+  popup:{n:'팝업 스토어',e:'🛍️',col:'#ff6fb5',stay:40,cost:3000,rw:75,hp:-6,open:[10*60,20*60],q:60,sold:true},
+  exhibit:{n:'전시·원화전',e:'🖼️',col:'#4fc3d9',stay:70,cost:1800,rw:95,hp:-10,open:[10*60,19*60],q:30},
+  event:{n:'이벤트',e:'🎪',col:'#8b7bff',stay:90,cost:2500,rw:110,hp:-14,open:[10*60,18*60],q:40},
+  live:{n:'공연',e:'🎤',col:'#ff4f6b',stay:150,cost:9000,rw:260,hp:-22,q:0},
+  shop:{n:'상설 숍',e:'📚',col:'#7aa36b',stay:40,cost:2000,rw:50,hp:-5,open:[10*60,21*60],q:20,sold:true},
+};
+const MAPCAT={collab:'collab',popup:'popup',exhibit:'exhibit',event:'event',official:'event',doujin:'event',live:'live',campaign:'popup'};
+// 판이 작을 때 채우는 상설 명소(대략 좌표)
+const LANDMARK=[['アニメイト池袋本店',35.7316,139.7146],['秋葉原ラジオ会館',35.6984,139.7713],['中野ブロードウェイ',35.7090,139.6656],['まんだらけ渋谷店',35.6612,139.6990],['ポケモンセンターメガトウキョー',35.7290,139.7194],['東京キャラクターストリート',35.6812,139.7667],['乙女ロード',35.7295,139.7177],['ゲーマーズ秋葉原本店',35.6993,139.7712]];
+const START={name:'東京駅',lat:35.6812,lon:139.7671};
+const BOX=[35.52,35.86,139.56,139.95]; // 위도·경도 상자(23구 근처)
+
+// ---------- 판 만들기 ----------
+let spots=[], S=null;
+function inBox(g){return g&&g.length===2&&g[0]>=BOX[0]&&g[0]<=BOX[1]&&g[1]>=BOX[2]&&g[1]<=BOX[3]}
+function build(items){
+  const day0=new Date(DAY+'T00:00:00+09:00'),cand=[];
+  for(const it of items){if(!it||it.region==='KR'||!MAPCAT[it.category]||!inBox(it.geo))continue;
+    const s=parseD(it.eventDate);if(!s)continue;const sd=jstYmd(s),ed=it.endDate?jstYmd(parseD(it.endDate)||s):sd;if(sd>DAY||ed<DAY)continue;
+    let cat=MAPCAT[it.category];const t=s.getUTCHours()*60+s.getUTCMinutes();const jm=(t+9*60)%1440;
+    let timed=null;if((cat==='live'||cat==='event')&&sd===DAY&&jm>=10*60&&jm<=20*60&&ed===sd){timed=jm;cat='live'}
+    else if(cat==='live')cat='event';
+    cand.push({it,cat,timed,lat:+it.geo[0],lon:+it.geo[1],venue:it.venue||'',title:it.title})}
+  // 같은 장소(약 150m)는 하나로
+  const R=rnd('ensei'+DAY),uniq=[];for(const c of cand.sort(()=>R()-.5)){if(uniq.some(u=>Math.hypot((u.lat-c.lat)*111,(u.lon-c.lon)*90)<.15))continue;uniq.push(c)}
+  const per={},pick=[];for(const c of uniq){if((per[c.cat]=(per[c.cat]||0)+1)>4)continue;pick.push(c);if(pick.length>=11)break}
+  for(const [n,lat,lon] of LANDMARK){if(pick.length>=9)break;if(pick.some(p=>Math.hypot((p.lat-lat)*111,(p.lon-lon)*90)<.3))continue;pick.push({it:null,cat:'shop',timed:null,lat,lon,venue:n,title:n})}
+  spots=pick.map((c,i)=>{const C=CAT[c.cat],r=rnd(DAY+'|'+(c.it?c.it.url||c.it.title:c.title));
+    const works=c.it&&Array.isArray(c.it.works)?c.it.works.slice(0,3):[];
+    return {i,cat:c.cat,C,title:String(c.title||'').slice(0,90),venue:c.venue,lat:c.lat,lon:c.lon,works,timed:c.timed,
+      id:c.it?(c.it.id||hashId((safeUrl(c.it.url||'')||'')+'|'+String(c.it.title||'').slice(0,200).trim()+'|'+(c.it.eventDate||''))):'',
+      q:Math.round(r()*C.q/5)*5, sold:C.sold?Math.round((12*60+r()*7*60)/30)*30:null, lucky:9+Math.floor(r()*11), rw:Math.round(C.rw*(.85+r()*.35)), cost:Math.round(C.cost*(.8+r()*.5)/100)*100}});
+  fitView();newDay()}
+function newDay(){S={t:9*60,yen:20000,hp:100,star:0,at:{...START},visited:[],route:[],log:[],sel:null,over:false,anim:null};render();renderMap()}
+
+// ---------- 규칙 ----------
+const km=(a,b)=>{const R=6371,dLa=(b.lat-a.lat)*Math.PI/180,dLo=(b.lon-a.lon)*Math.PI/180,x=Math.sin(dLa/2)**2+Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(x))};
+function trip(sp){const d=km(S.at,sp),mv=Math.round(6+d*3),fare=170+Math.round(d*2)*10,hp=Math.round(2+d*.8);const arrive=S.t+mv;
+  let start=arrive,why='';
+  if(sp.timed!=null){if(arrive>sp.timed)why=`공연 ${hm(sp.timed)} 시작에 늦어요`;start=Math.max(arrive,sp.timed)}
+  else{const [o,c]=sp.C.open;if(arrive>c-30)why=`${hm(c)}에 문을 닫아요`;start=Math.max(arrive,o)}
+  const peak=start>=12*60&&start<15*60?1.5:1,queue=sp.timed!=null?0:Math.round(sp.q*peak/5)*5;
+  const leave=sp.timed!=null?sp.timed+sp.C.stay:start+queue+sp.C.stay;
+  if(!why&&leave>21*60+30)why='21:30 전에 못 끝나요';
+  if(!why&&S.yen<fare+sp.cost)why='돈이 모자라요';
+  if(!why&&S.hp-hp+Math.min(0,sp.C.hp)<=0)why='체력이 모자라요';
+  if(S.visited.includes(sp.i))why='이미 다녀왔어요';
+  const sold=sp.sold!=null&&start+queue>=sp.sold, lucky=Math.floor((start+queue)/60)===sp.lucky&&sp.cat!=='live';
+  let rw=sp.rw*(sold?.4:1)+(lucky?60:0);
+  const combo=sp.works.some(w=>S.route.some(r=>r.works.includes(w)));if(combo)rw+=40;
+  return {d,mv,fare,hp,arrive,start,queue,leave,why,sold,lucky,combo,rw:Math.round(rw)}}
+function go(sp){const tr=trip(sp);if(tr.why){toast(tr.why);return}if(S.anim)return;
+  const from={...S.at};S.anim={from,to:sp,t0:performance.now(),dur:700};
+  setTimeout(()=>{S.anim=null;S.t=tr.leave;S.yen-=tr.fare+sp.cost;S.hp=Math.min(100,S.hp-tr.hp+sp.C.hp);S.star+=tr.rw;S.at={name:sp.venue||sp.title,lat:sp.lat,lon:sp.lon};S.visited.push(sp.i);
+    S.route.push({i:sp.i,title:sp.title,cat:sp.cat,works:sp.works,arr:tr.arrive,leave:tr.leave,rw:tr.rw,id:sp.id});
+    const msg=[`${hm(tr.arrive)} ${sp.C.e} ${sp.title.slice(0,40)}`];
+    if(tr.queue)msg.push(`줄 ${tr.queue}분`);if(sp.timed!=null)msg.push(`공연 관람 ${hm(sp.timed)}~${hm(tr.leave)}`);
+    if(tr.sold)msg.push('한정 굿즈 품절 😢');if(tr.lucky)msg.push('당일 추첨 당첨! ✨ +60');if(tr.combo)msg.push('같은 작품 연속 💕 +40');
+    msg.push(`⭐+${tr.rw}`);S.log.unshift({t:msg.join(' · '),k:tr.sold?'bad':tr.lucky||tr.combo?'good':''});S.sel=null;
+    if(S.hp<=0||!spots.some(s=>!trip(s).why))finish();render();renderMap()},720);
+  animate()}
+function bonus(){const kinds=new Set(S.route.map(r=>r.cat)).size;return {kinds,var:kinds>=4?120:kinds>=3?60:0,money:Math.floor(Math.max(0,S.yen)/200)}}
+function finish(){if(S.over)return;S.over=true;const b=bonus();S.final=S.star+b.var+b.money;render();renderMap();runEnd()}
+const TITLE=s=>s>=900?'전설의 원정대':s>=650?'숙련 원정러':s>=400?'주말 오타쿠':'새내기 원정러';
+
+// ---------- 화면 ----------
+function render(){
+  $('sub').textContent=`${dl(DAY)} 판 · 행사장 ${spots.length}곳 · 이번 주 보드 소식으로 만든 동선 퍼즐`;
+  $('stat').innerHTML=`<div><small>시각</small><b>${hm(S.t)}</b></div><div class="${S.yen<3000?'low':''}"><small>예산</small><b>${yen(S.yen)}</b></div><div class="${S.hp<25?'low':''}"><small>체력</small><b>${Math.max(0,S.hp)}</b></div><div><small>만족도</small><b>⭐${S.star}</b></div>`;
+  const sp=S.sel!=null?spots[S.sel]:null;
+  if(sp&&!S.over){const tr=trip(sp);$('sel').innerHTML=`<div class="card"><div class="v">${sp.C.e} ${sp.C.n}${sp.works.length?' · '+esc(sp.works.join(', ')):''}</div><h3>${esc(sp.title)}</h3><div class="v">📍 ${esc(sp.venue)}</div>
+    <div class="chips"><span>🚃 ${tr.mv}분 · ${yen(tr.fare)}</span><span>🎫 ${yen(sp.cost)}</span><span>⏱ ${sp.timed!=null?`공연 ${hm(sp.timed)} 시작 · ${sp.C.stay}분`:`머무름 ${sp.C.stay}분`}</span>${sp.timed==null?`<span>🕘 ${hm(sp.C.open[0])}~${hm(sp.C.open[1])}</span>`:''}<span>💪 ${sp.C.hp>0?'+':''}${sp.C.hp-tr.hp}</span><span>⭐ 약 ${tr.rw}</span></div>
+    ${tr.why?`<p class="warn">${esc(tr.why)}</p>`:`<p class="v">${hm(tr.arrive)} 도착 → ${hm(tr.leave)} 출발 예정 (줄 서기는 가 봐야 알아요)</p>`}
+    <div class="btns"><button type="button" class="btn go" id="goBtn" ${tr.why?'disabled':''}>여기로 가기</button>${sp.id?`<a class="btn" href="../#item=${esc(sp.id)}" target="_top">보드에서 보기</a>`:''}</div></div>`;
+    const b=$('goBtn');if(b)b.onclick=()=>go(sp)}else $('sel').innerHTML=S.over?'':`<div class="card"><p class="v" style="margin:0">지도의 번호나 아래 목록을 눌러 갈 곳을 고르세요. 지금 위치: <b>${esc(S.at.name)}</b></p></div>`;
+  const L=spots.map(s=>({s,tr:trip(s)})).sort((a,b)=>(S.visited.includes(a.s.i)-S.visited.includes(b.s.i))||(!!a.tr.why-!!b.tr.why)||a.tr.mv-b.tr.mv);
+  $('list').innerHTML=S.over?'':L.map(({s,tr})=>`<button type="button" class="sp${S.visited.includes(s.i)?' done':tr.why?' no-go':''}" data-sp="${s.i}" aria-pressed="${S.sel===s.i}"><span class="no" style="background:${s.C.col}">${s.i+1}</span>
+    <span style="min-width:0"><span class="tt" style="display:block">${s.C.e} ${esc(s.title)}</span><span class="mm" style="display:block">${S.visited.includes(s.i)?'다녀옴':tr.why?esc(tr.why):`🚃${tr.mv}분 · ${s.timed!=null?'공연 '+hm(s.timed):s.C.n} · ${esc(s.venue)}`}</span></span><span class="rw">⭐${tr.rw}</span></button>`).join('');
+  $('log').innerHTML=S.log.map(l=>`<p class="${l.k}">${esc(l.t)}</p>`).join('');
+  if(S.over){const b=bonus();$('end').innerHTML=`<div class="end"><p class="v" style="margin:0">${dl(DAY)} 원정 결과</p><div class="big">⭐${S.final}</div><b>${TITLE(S.final)}</b>
+    <p class="v">들른 곳 ${S.route.length}곳 · 종류 ${b.kinds}가지 보너스 +${b.var} · 남은 돈 보너스 +${b.money}</p>
+    <ol>${S.route.map(r=>`<li>${hm(r.arr)} ${CAT[r.cat].e} ${r.id?`<a href="../#item=${esc(r.id)}" target="_top">${esc(r.title.slice(0,46))}</a>`:esc(r.title.slice(0,46))} · ⭐${r.rw}</li>`).join('')||'<li>오늘은 아무 데도 안 갔어요</li>'}</ol>
+    <p class="help">이 코스는 실제 이번 주말 소식이에요. 제목을 누르면 보드에서 볼 수 있어요.</p></div>`}else $('end').innerHTML='';
+  $('home').disabled=S.over}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-sp]');if(b&&!S.over){S.sel=+b.dataset.sp;render();renderMap();$('sel').scrollIntoView({block:'nearest',behavior:'smooth'})}});
+$('home').onclick=()=>{if(!S.over&&confirm('오늘 원정을 마칠까요?'))finish()};
+$('reset').onclick=()=>{if(S.route.length&&!S.over&&!confirm('처음부터 다시 할까요?'))return;$('subm').hidden=true;newDay()};
+
+// ---------- 지도 ----------
+let BOXV=[706,118,380,380]; // 보는 범위(보드 지도 투영 좌표). 판을 만들 때 행사장·東京駅이 다 들어오게 확대한다(fitView)
+const raw=([lat,lon])=>P&&P.map?P.map.mproj([lat,lon]):[(lon-138.93)*0.81208*1231.4,(35.92-lat)*1231.4];
+const proj=g=>{const [x,y]=raw(g);return [(x-BOXV[0])/BOXV[2]*W,(y-BOXV[1])/BOXV[3]*H]};
+function fitView(){const pts=[[START.lat,START.lon],...spots.map(s=>[s.lat,s.lon])].map(raw),xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);
+  const cx0=(Math.min(...xs)+Math.max(...xs))/2,cy0=(Math.min(...ys)+Math.max(...ys))/2,size=Math.max(70,(Math.max(...xs)-Math.min(...xs))*1.3,(Math.max(...ys)-Math.min(...ys))*1.3);
+  BOXV=[cx0-size/2,cy0-size/2,size,size]}
+let paths=null;
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+function renderMap(){cx.clearRect(0,0,W,H);cx.fillStyle=css('--sea')||'#0f1124';cx.fillRect(0,0,W,H);
+  if(P&&P.map&&!paths){try{paths=P.map.TOKYO.map(t=>({p:new Path2D(t[1]),k:t[4],n:t[0],x:t[2],y:t[3]}))}catch(e){paths=[]}}
+  if(paths&&paths.length){cx.save();cx.scale(W/BOXV[2],H/BOXV[3]);cx.translate(-BOXV[0],-BOXV[1]);for(const t of paths){cx.fillStyle=t.k?css('--land23'):css('--land');cx.fill(t.p);cx.strokeStyle=css('--line');cx.lineWidth=1.2*BOXV[2]/W;cx.stroke(t.p)}
+    cx.fillStyle=css('--muted');cx.globalAlpha=.55;cx.font=`${(10*BOXV[2]/W).toFixed(2)}px sans-serif`;cx.textAlign='center';for(const t of paths)if(t.k)cx.fillText(t.n,t.x,t.y);cx.globalAlpha=1;cx.restore()}
+  // 지나온 길
+  const pts=[proj([START.lat,START.lon]),...S.route.map(r=>proj([spots[r.i].lat,spots[r.i].lon]))];cx.strokeStyle=css('--pink');cx.lineWidth=2.5;cx.setLineDash([6,4]);cx.beginPath();pts.forEach((p,i)=>i?cx.lineTo(p[0],p[1]):cx.moveTo(p[0],p[1]));cx.stroke();cx.setLineDash([]);
+  // 출발점
+  const s0=proj([START.lat,START.lon]);cx.fillStyle=css('--ink');cx.fillRect(s0[0]-5,s0[1]-5,10,10);cx.font='bold 10px sans-serif';cx.textAlign='left';cx.fillText('東京駅',s0[0]+7,s0[1]+4);
+  for(const sp of spots){const [x,y]=proj([sp.lat,sp.lon]),done=S.visited.includes(sp.i),no=!done&&!!trip(sp).why,sel=S.sel===sp.i;
+    cx.globalAlpha=done||no?.45:1;cx.fillStyle=sp.C.col;cx.beginPath();cx.arc(x,y,sel?13:10,0,Math.PI*2);cx.fill();cx.strokeStyle=sel?css('--ink'):'#fff';cx.lineWidth=sel?3:2;cx.stroke();
+    cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(done?'✓':String(sp.i+1),x,y+4);cx.globalAlpha=1}
+  // 지금 위치(이동 중이면 사이)
+  let at=proj([S.at.lat,S.at.lon]);if(S.anim){const k=Math.min(1,(performance.now()-S.anim.t0)/S.anim.dur),a=proj([S.anim.from.lat,S.anim.from.lon]),b=proj([S.anim.to.lat,S.anim.to.lon]);at=[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k-Math.sin(k*Math.PI)*16]}
+  if(ME.complete&&ME.naturalWidth){cx.imageSmoothingEnabled=false;cx.drawImage(ME,at[0]-ME.naturalWidth*.7,at[1]-ME.naturalHeight*1.4,ME.naturalWidth*1.4,ME.naturalHeight*1.4)}else{cx.fillStyle=css('--pink');cx.beginPath();cx.arc(at[0],at[1],6,0,Math.PI*2);cx.fill()}}
+const ME=new Image();ME.src='../assets/game/player.png';ME.onload=()=>S&&renderMap();
+function animate(){renderMap();if(S.anim)requestAnimationFrame(animate)}
+cv.addEventListener('click',e=>{if(S.over)return;const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;let best=null,bd=22;
+  for(const sp of spots){const [px,py]=proj([sp.lat,sp.lon]),d=Math.hypot(px-x,py-y);if(d<bd){bd=d;best=sp}}if(best){S.sel=best.i;render();renderMap()}});
+matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',()=>S&&renderMap());
+
+// ---------- 스코어 보드(game=ensei, skin=원정 날짜: 주마다 따로) ----------
+const RK={ready:false,run:null,sent:false,mine:null};
+const api=()=>{try{const a=P&&P.api;return /^https:\/\/script\.google\.com\/macros\//.test(a||'')?a:''}catch(e){return ''}};
+function nil(t){$('rank').innerHTML='<li class="nil">'+t+'</li>'}
+async function loadRank(){$('rkTitle').textContent=`${dl(DAY)} 원정 순위`;const a=api();if(!a){nil('순위는 보드의 게임 탭에서 열면 보여요.');return}nil('불러오는 중…');
+  try{const r=await fetch(a+'?scores=1&limit=30&game=ensei&skin='+encodeURIComponent(DAY)+'&v='+Date.now(),{cache:'no-store'});const j=await r.json();if(!Array.isArray(j.scores)){nil('순위는 준비 중이에요.');return}RK.ready=true;
+    const L=j.scores.filter(v=>String(v.skin||'')===DAY).slice(0,30);
+    $('rank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;return `<li class="${mine?'mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(String(v.name).slice(0,12))}</span><span class="st">${Math.floor(+v.stage||0)}곳</span><b>⭐${Math.floor(+v.score||0).toLocaleString()}</b></li>`}).join('')
+      :'<li class="nil">이번 주 첫 원정 기록을 남겨 보세요.</li>'}catch(e){nil('순위를 불러오지 못했어요. ↻ 로 다시 시도해 주세요.')}}
+function runEnd(){if(!RK.ready||S.final<=0)return;RK.run={score:S.final,stage:Math.max(1,S.route.length)};RK.sent=false;$('subMe').innerHTML=`이번 원정 <b>⭐${S.final}</b> · ${S.route.length}곳 · ${TITLE(S.final)}`;
+  const n=$('name');if(!n.value){try{n.value=localStorage.getItem('dm-name')||''}catch(e){}}$('subBtn').disabled=false;$('subm').hidden=false}
+$('subm').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run,a=api();if(!run||RK.sent||!a)return;const name=$('name').value.replace(/\s+/g,' ').trim().slice(0,12);if(!name){toast('이름을 적어 주세요');return}
+  let lastSent=0;try{lastSent=+localStorage.getItem('ensei-sent')||0}catch(err){}if(Date.now()-lastSent<30000){toast('조금 뒤에 다시 등록해 주세요');return}
+  const body=JSON.stringify({type:'score',game:'ensei',name,score:run.score,stage:run.stage,skin:DAY,clear:false});$('subBtn').disabled=true;
+  try{let ok=false;try{const r=await fetch(a,{method:'POST',body});ok=r.ok&&(await r.json()).ok===true}catch(err){await fetch(a,{method:'POST',body,mode:'no-cors'});ok=true}if(!ok)throw 0;
+    RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('ensei-sent',String(Date.now()))}catch(err){}$('subm').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200)}
+  catch(err){$('subBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
+$('rkRe').onclick=loadRank;
+
+// ---------- 시작 ----------
+const getJ=u=>fetch(u+'?v='+Math.floor(Date.now()/600000),{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[]);
+Promise.all([getJ('../data/manual.json'),getJ('../data/items.json')]).then(([m,a])=>{build([...(Array.isArray(m)?m:[]),...(Array.isArray(a)?a:[])]);loadRank()});
+window.ENSEI={get S(){return S},get spots(){return spots},trip,go,finish,DAY}; // 점검용
+})();
+</script>
+</body>
+</html>
