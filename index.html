@@ -186,7 +186,7 @@ a.wk-work{text-decoration:none}
 /* 폰에서는 게임(iframe)이 터치를 다 가져가 페이지가 안 내려가므로: 화면 높이에 맞추고, 오른쪽에 스크롤용 띠(.gamegrip)를 두고,
    위에 '스코어 보드로' 버튼, 결과가 나오면 화면 아래 '기록 등록' 버튼(#hmFab)을 띄운다 */
 .gamewrap{position:relative}
-#idleFrame{height:auto;min-height:480px}
+.gameframe.autoh{height:auto;min-height:480px}
 .gamegrip{display:none}
 .hm-jump{display:flex;justify-content:flex-end;margin:0 0 6px}
 .hm-jump button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:2px 4px;cursor:pointer}
@@ -259,7 +259,7 @@ nav.tabs button{border:0;background:none;padding:8px 10px;flex:none;border-radiu
 nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 /* 게임 고르기(게임 탭 맨 위) */
-.gpick{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin:10px 0 12px}
+.gpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin:10px 0 12px} /* 게임이 늘어 여러 줄로 */
 .gpick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px 7px;border:1px solid var(--line);border-radius:12px;background:var(--surface);line-height:1.2;min-width:0}
 .gpick[hidden],.gpick button[hidden]{display:none} /* display:grid 가 hidden 속성을 이겨서 모든 탭 밑에 보이던 문제 */
 .gpick i{font-style:normal;font-size:20px;margin-bottom:2px} .gpick b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%} .gpick small{font-size:11px;color:var(--muted);white-space:nowrap}
@@ -545,6 +545,8 @@ textarea{min-height:110px;resize:vertical}
     <button type="button" data-game="game"><i aria-hidden="true">🚀</i><b>弾幕</b><small>탄막 슈팅</small></button>
     <button type="button" data-game="g2048"><i aria-hidden="true">🍉</i><b>Holo Mobile</b><small>수박·2048</small></button>
     <button type="button" data-game="derby"><i aria-hidden="true">🏇</i><b>まとめラン</b><small>달리기</small></button>
+    <button type="button" data-game="pen"><i aria-hidden="true">🎤</i><b>ペンライト</b><small>리듬 게임</small></button>
+    <button type="button" data-game="ensei"><i aria-hidden="true">🗾</i><b>도쿄 원정</b><small>이번 주 동선</small></button>
     <button type="button" data-game="idle" hidden><i aria-hidden="true">📚</i><b>放置</b><small>서클 육성</small></button>
   </div>
   <section id="game" hidden></section>
@@ -556,7 +558,9 @@ textarea{min-height:110px;resize:vertical}
       <form class="dm-sub" id="hmSub" hidden><span class="me" id="hmSubMe"></span><input id="hmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="hmSubBtn">기록 등록</button></form>
       <ol class="dm-rank" id="hmRank"></ol></div></section>
   <section id="derby" hidden></section>
-  <section id="idle" hidden><iframe id="idleFrame" class="gameframe" data-src="games/idle.html" title="放置" loading="lazy"></iframe></section>
+  <section id="idle" hidden><iframe id="idleFrame" class="gameframe autoh" data-src="games/idle.html" title="放置" loading="lazy"></iframe></section>
+  <section id="pen" hidden><iframe id="penFrame" class="gameframe autoh" data-src="games/penlight.html" title="ペンライト・オンステージ" loading="lazy" allow="autoplay"></iframe></section>
+  <section id="ensei" hidden><iframe id="enseiFrame" class="gameframe autoh" data-src="games/ensei.html" title="도쿄 원정 대작전" loading="lazy"></iframe></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
@@ -1125,6 +1129,7 @@ const SPOTS={"23":[["秋葉原",35.6985,139.7731],["池袋",35.7325,139.7095],["
 let mapView="23", mapSel=null, mapGroups=[], mapOutside=0, mapOpen=false;
 try{mapOpen=localStorage.getItem("matome-map")==="1"}catch{}
 const mproj=([lat,lon])=>[(lon-138.93)*0.81208*1231.4,(35.92-lat)*1231.4];
+window.MATOME={get api(){return BBS.api},map:{TOKYO,KANTO,MAPBOX,mproj}}; // 같은 출처 게임 페이지(games/*.html)가 parent.MATOME 으로 스코어 보드 주소·도쿄 지도를 쓴다
 const hasPlace=it=>it.venue&&!/某所/.test(it.venue);
 function gmapUrl(it){const q=hasPlace(it)?`${it.venue} ${it.address||""}`.trim():it.geo.join(",");return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q)}
 const pinTone=c=>["live","official"].includes(c)?"pink":["collab","popup","doujin"].includes(c)?"amber":"cyan";
@@ -1748,7 +1753,7 @@ function onAction(e){
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
 })();
-const GAME_TABS=["game","g2048","derby","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
+const GAME_TABS=["game","g2048","derby","pen","ensei","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
 function showTab(target){
   if(target==="play"){let g="game";try{g=localStorage.getItem("matome-game")||g}catch{};target=GAME_TABS.includes(g)&&!($(`#gpick [data-game="${g}"]`)||{}).hidden?g:"game"} // 게임 탭은 마지막에 하던 게임부터
   const isGame=GAME_TABS.includes(target), navKey=isGame?"play":target;
@@ -1759,7 +1764,7 @@ function showTab(target){
   document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
   if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
   if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
-  if(target==="idle"){const f=$("#idleFrame");if(f&&!f.src){f.src=f.dataset.src; // 放置(Test)는 games/idle.html 을 탭을 처음 열 때만 받는다(2026-10 에 보드에서 분리)
+  {const f=$(`#${target} iframe.autoh`);if(f&&!f.src){f.src=f.dataset.src; // 독립 게임 페이지(放置·ペンライト·도쿄 원정)는 탭을 처음 열 때만 받는다
     f.addEventListener("load",()=>{try{const d=f.contentDocument,fit=()=>{f.style.height=d.documentElement.scrollHeight+8+"px"};fit();new ResizeObserver(fit).observe(d.body)}catch{}})}} // 같은 출처라 안쪽 높이에 맞춰 늘려 페이지가 통째로 스크롤되게(iframe 안 스크롤 없음)
 }
 document.addEventListener("input",e=>{if(e.target.id==="whQ"){workQ=e.target.value;const g=$("#whGrid");if(g)g.innerHTML=workGrid()}

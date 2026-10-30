@@ -1,6 +1,6 @@
 """ラン BGM: 운영자가 준 8비트 MIDI(assets/race/src/bgm_run.mid)를 index.html 의 `const RUN_MIDI=…` 한 줄로 바꾼다.
    python3 assets/race/midi2bgm.py            → 그 줄을 출력
-   python3 assets/race/midi2bgm.py --write    → index.html 의 RUN_MIDI 줄을 바꿔 씀
+   python3 assets/race/midi2bgm.py --write    → index.html·games/penlight.html 의 RUN_MIDI 줄을 바꿔 씀
    표준 라이브러리만 쓴다. 16분음표 격자로 반올림하고, 트랙(채널) 순서대로 m(리드)·h(화음)·a(아르페지오)·b(베이스)·d(드럼, ch10)에 넣는다.
    음 하나 = 3글자(앞 음과의 칸 차이·길이(칸)·음높이-pb(가장 낮은 음))를 64글자 알파벳으로. 칸 차이가 63을 넘으면 길이 0인 쉼 토큰을 끼운다."""
 import json, re, struct, sys
@@ -78,9 +78,10 @@ def line():
 if __name__ == '__main__':
     L = line()
     if '--write' in sys.argv:
-        f = ROOT / 'index.html'; s = f.read_text()
-        s2, n = re.subn(r'^const RUN_MIDI=.*$', lambda m: L, s, flags=re.M)
-        assert n == 1, 'index.html 에 RUN_MIDI 줄이 하나 있어야 함'
-        f.write_text(s2); print('index.html: RUN_MIDI', len(L), '자')
+        for name in ('index.html', 'games/penlight.html'):  # ラン 과 펜라이트 리듬 게임(같은 곡)
+            f = ROOT / name; s = f.read_text()
+            s2, n = re.subn(r'^const RUN_MIDI=.*$', lambda m: L, s, flags=re.M)
+            assert n == 1, f'{name} 에 RUN_MIDI 줄이 하나 있어야 함'
+            f.write_text(s2); print(f'{name}: RUN_MIDI', len(L), '자')
     else:
         print(L)

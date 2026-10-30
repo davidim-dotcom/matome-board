@@ -54,12 +54,14 @@ const GAMES = {
   '2048': { sheet: 'scores_2048', stage: 131072, head: ['시각', '이름', '점수', '최고 타일', '', '2048 달성'] },
   derby: { sheet: 'scores_derby', stage: 7, head: ['시각', '이름', '점수', '레이스', '선수', 'URA 제패'] }, // まとめダービー
   run: { sheet: 'scores_run', stage: 99, head: ['시각', '이름', '점수', '스테이지', '선수', ''] }, // まとめラン(2026-10 ダービー를 대체)
+  pen: { sheet: 'scores_pen', stage: 3, head: ['시각', '이름', '점수', '난이도', '곡:난이도', '풀콤보'] }, // ペンライト・オンステージ(skin 으로 곡·난이도별 순위)
+  ensei: { sheet: 'scores_ensei', stage: 30, head: ['시각', '이름', '점수', '방문', '원정 날짜', ''] }, // 도쿄 원정 대작전(skin = 그 주 원정 날짜, 주마다 순위)
 };
 const game_ = g => GAMES[g] ? g : 'dm';
 function scoreSheet_(g) { const G = GAMES[game_(g)]; return sheet_(G.sheet, G.head); }
 
 // GET ?limit=200 → {posts:[{at,name,text}]} 최신 글부터
-// GET ?scores=1&limit=30[&game=suika|2048] → {scores:[{at,name,score,stage,skin,clear}]} 점수 높은 순(같은 점수는 먼저 올린 기록이 위)
+// GET ?scores=1&limit=30[&game=suika|2048|pen|ensei][&skin=…] → {scores:[{at,name,score,stage,skin,clear}]} 점수 높은 순(같은 점수는 먼저 올린 기록이 위)
 function doGet(e) { return safe_(() => get_(e)); }
 function doPost(e) { return safe_(() => post_(e)); }
 // 실패하면 구글의 HTML 오류 화면 대신 {"error":"…"} JSON 을 돌려줘 페이지와 브라우저에서 원인이 보이게 한다
@@ -68,7 +70,7 @@ function safe_(f) { try { return f(); } catch (err) { return out_({ ok: false, e
 function get_(e) {
   migrate_(false);
   const p = (e && e.parameter) || {};
-  if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP), p.game) });
+  if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP), p.game, p.skin) });
   const sh = sheet_();
   const n = Math.min(Number((e && e.parameter && e.parameter.limit) || PAGE), 500);
   const last = sh.getLastRow();
@@ -92,14 +94,14 @@ function post_(e) {
 }
 
 // 최근 SCORE_SCAN 행만 읽어 정렬한다(시트가 아주 커져도 느려지지 않게). 지우려면 그 행을 지우면 된다.
-function topScores_(n, g) {
+function topScores_(n, g, skin) { // skin 을 주면 그 값인 기록만(펜라이트 곡·난이도, 도쿄 원정 주)
   const sh = scoreSheet_(g);
   const last = sh.getLastRow();
   if (last < 2) return [];
   const k = Math.min(SCORE_SCAN, last - 1);
   const rows = sh.getRange(last - k + 1, 1, k, 6).getValues();
   return rows.map((r, i) => ({ i, at: r[0], name: String(r[1] || '익명'), score: Number(r[2]) || 0, stage: Number(r[3]) || 1, skin: String(r[4] || ''), clear: r[5] === true || r[5] === 'TRUE' || r[5] === 1 }))
-    .filter(r => r.score > 0)
+    .filter(r => r.score > 0 && (!skin || r.skin === String(skin).slice(0, 12)))
     .sort((a, b) => b.score - a.score || a.i - b.i)
     .slice(0, n)
     .map(r => ({ at: fmt_(r.at).slice(0, 10), name: r.name, score: r.score, stage: r.stage, skin: r.skin, clear: r.clear }));

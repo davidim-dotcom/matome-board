@@ -8,7 +8,7 @@ const { chromium, devices } = require("playwright");
 
 const ROOT = path.dirname(__dirname);
 const PORT = 8799;
-const TABS = ["feed", "sched", "weekly", "works", "buzz", "anime", "comics", "about", "game", "g2048", "derby"];
+const TABS = ["feed", "sched", "weekly", "works", "buzz", "anime", "comics", "about", "game", "g2048", "derby", "pen", "ensei"];
 const DEVS = ["Pixel 7", "iPhone SE"];  // 보통 폰(412px)과 좁은 폰(320px)
 const bad = [];
 
@@ -54,7 +54,7 @@ async function run(dev) {
     const shown = await page.evaluate((t) => { const s = document.getElementById(t); return !!s && s.offsetHeight > 40 && getComputedStyle(s).display !== "none"; }, t);
     if (!shown) bad.push(`${dev} ${t}: 탭 내용이 안 보임`);
     const gp = await page.evaluate(() => { const g = document.getElementById("gpick"); return !!g && g.offsetHeight > 0; });
-    if (gp !== ["game", "g2048", "derby"].includes(t)) bad.push(`${dev} ${t}: 게임 고르는 칸이 ${gp ? "게임 밖에서 보임" : "게임 탭에서 안 보임"}`);  // 2026-10 모든 탭 밑에 보이던 문제
+    if (gp !== ["game", "g2048", "derby", "pen", "ensei"].includes(t)) bad.push(`${dev} ${t}: 게임 고르는 칸이 ${gp ? "게임 밖에서 보임" : "게임 탭에서 안 보임"}`);  // 2026-10 모든 탭 밑에 보이던 문제
     const ov = await page.evaluate(OVERFLOW);
     if (ov.length) bad.push(`${dev} ${t}: 화면(${W}px) 밖으로 넘침 → ${ov.join(" | ")}`);
     for (const e of errs.slice(n0)) bad.push(`${dev} ${t}: ${e}`);
