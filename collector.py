@@ -125,7 +125,7 @@ def is_noise(title):
 # 2026-10 電撃オンライン 85건에서 22건이 걸렸고 모두 게임 안 소식이었다.
 GAME_NOISE_RE = re.compile(r"ガチャ|ガシャ|召喚|SSR|★5|参戦|実装|新階層|育成イベント|イベントクエスト|ログインボーナス|ピックアップ|アップデート|アプデ|配布|復刻|"
                            r"新キャラ|新衣装|新スキン|シーズン\d|DLC|メンテナンス|サービス終了|配信開始|事前登録|ネットワークテスト|βテスト|攻略|新章|新ストーリー|スナップイベント")
-GAME_REAL_RE = re.compile(r"会場|店舗|カフェ|ストア|ショップ|展示|展覧|原画展|ライブ|LIVE|ファンフェス|フェスティバル|上映|舞台|ステージ|POP ?UP|ポップアップ|フェア|物販|"
+GAME_REAL_RE = re.compile(r"会場|店舗|カフェ|ストア|ショップ|展(?!開|望)|ライブ|LIVE|ファンフェス|フェスティバル|上映|舞台|ステージ|POP ?UP|ポップアップ|フェア|物販|"
                           r"イオン|幕張|試遊会|体験会|オフライン|ゲームショウ|ジャンプフェスタ|コミケ|AnimeJapan|グッズ|一番くじ|ローソン|ファミマ|ファミリーマート|セブン|コンビニ|プライズ|ROUND1|キャンペーン", re.I)
 GAME_SOURCES = {s["name"] for s in SOURCES if s.get("game")}
 
@@ -231,6 +231,9 @@ def build(title, body, link, src, ref, default_cat="other"):
         return None
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
     if words and default_cat != "stream" and not any(w in text for w in words):
+        return None
+    # 게임 뉴스는 본문에 '이벤트'(게임 안 이벤트)가 흔해서 제목에 행사 단어나 바깥 행사 단어가 있어야 통과(신작 발표·Steam 페이지 공개 등을 거름)
+    if src.get("game") and not (any(w in title for w in words) or GAME_REAL_RE.search(title)):
         return None
     event = opening = deadline = end = ""
     rng = re.search(DATE_RE.pattern + r"\s*[〜～~\-－]\s*" + DATE_RE.pattern.replace("?P<", "?P<e_"), text)
