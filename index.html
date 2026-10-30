@@ -288,6 +288,12 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 @media (max-width:420px){.pic{width:64px;height:64px}}
 .facts{font-size:13px;margin:0 0 8px;display:grid;gap:2px}
 .facts .hot{color:var(--pink);font-weight:500}
+.facts .ph{display:flex;flex-wrap:wrap;gap:2px 10px} .facts .ph b{font-weight:600} .facts .ph span.over{color:var(--muted);text-decoration:line-through}
+/* 이번 주 한 장(주말 일정 공유 이미지) 미리보기 */
+.shot{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;display:flex;align-items:center;justify-content:center;padding:16px}
+.shot>div{background:var(--surface);border-radius:14px;padding:12px;width:100%;max-width:380px;max-height:100%;overflow:auto}
+.shot img{width:100%;border-radius:8px;display:block;border:1px solid var(--line)}
+.shot .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap} .shot .actions .btn{flex:1;text-align:center}
 .facts a.place{color:inherit;text-decoration:none;justify-self:start}
 .facts a.place::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg) translateY(-1px);background:var(--pink)}
 .facts a.place span{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
@@ -604,6 +610,7 @@ function normalize(raw){
     summary:String(raw.summary||"").slice(0,400).trim(),
     title_ko:String(raw.title_ko||"").slice(0,200).trim(), summary_ko:String(raw.summary_ko||"").slice(0,400).trim(), // 수집기가 Google 번역으로 만든 한국어
     image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
+    phases:(Array.isArray(raw.phases)?raw.phases:[]).filter(p=>p&&typeof p==="object"&&parseDate(p.s)).slice(0,6).map(p=>({n:String(p.n||"").slice(0,30),s:String(p.s),e:parseDate(p.e)?String(p.e):""})), // 티켓 접수 단계(FC先行 → 一般発売 …): 수집기가 기사에서 찾음
     addedAt:raw.addedAt||new Date().toISOString()
   };
   it.id = raw.id || hashId((it.url||"")+"|"+it.title+"|"+(it.eventDate||""));
@@ -645,7 +652,9 @@ async function initStore(){
 function upcomingDeadlines(){
   const now=Date.now(),out=[];
   for(const it of items.values()){
-    for(const [k,label] of [["ticketOpen",PERIOD_CATS.includes(it.category)?"예약 시작":"판매 시작"],["deadline","마감"]]){
+    if(it.phases.length){ // 단계가 있으면 단계마다(ticketOpen·deadline 은 첫 단계와 같다)
+      for(const p of it.phases) for(const [v,suf] of [[p.s,"시작"],[p.e,"마감"]]){const d=parseDate(v);if(d&&d>now&&d-now<21*DAY)out.push({it,d,label:`${p.n} ${suf}`})}
+    }else for(const [k,label] of [["ticketOpen",PERIOD_CATS.includes(it.category)?"예약 시작":"판매 시작"],["deadline","마감"]]){
       const d=parseDate(it[k]); if(d && d>now && d-now<21*DAY) out.push({it,d,label}); // 이미 지난 예매 시작·마감은 띄우지 않는다
     }
     if(PERIOD_CATS.includes(it.category)&&it.endDate){const d=parseDate(it.endDate);if(d&&d>now&&d-now<5*DAY)out.push({it,d,label:"기간 종료"})}
@@ -675,8 +684,13 @@ function rowHtml(it,ev,cls=""){
   else if(it.eventDate) facts.push(`<span>행사 ${esc(fmt(it.eventDate))}</span>`);
   if(it.venue) facts.push(hasPlace(it)?`<a class="place" href="${esc(gmapUrl(it))}" target="_blank" rel="noopener" title="구글 지도에서 보기"><span>${esc(it.venue)}</span>${it.address&&!it.venue.includes(it.address)?` · ${esc(it.address)}`:""}${it.pg?` <small class="pg" title="장소 칸이 비어 있어 기사 제목·요약에서 찾은 장소예요">기사 기준</small>`:""}</a>`:`<span>장소 ${esc(it.venue)}</span>`);
   const near=v=>{const d=parseDate(v);return d&&d-Date.now()<7*DAY&&d>Date.now()};
+  if(it.phases.length){ // 티켓 접수 단계: 「FC先行 11/1(토) 12:00 ~ 11/8(일) · 一般発売 11/29(토) 10:00」, 지난 단계는 줄 긋기, 7일 안이면 분홍
+    const now=Date.now(), ph=it.phases.map(p=>{const s=parseDate(p.s),e=parseDate(p.e);const over=(e||s)<now;return `<span class="${over?"over":near(p.s)||near(p.e)?"hot":""}"><b>${esc(p.n)}</b> ${esc(fmt(p.s))}${e?` ~ ${esc(fmt(p.e))}`:""}</span>`});
+    facts.push(`<span class="ph">${ph.join("")}</span>`);
+  }else{
   if(it.ticketOpen) facts.push(`<span class="${near(it.ticketOpen)?"hot":""}">${PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작"} ${esc(fmt(it.ticketOpen))}</span>`);
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
+  }
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
     <div class="meta">${isNew(it)?`<span class="newbadge">NEW</span>`:""}${it.region==="KR"?`<span class="krbadge" title="한국에서 열리는 행사(한국 기사)">한국</span>`:""}<span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${["","유행","방영 중","급상승"][hotScore(it).why]}</span>`:""}${it.source?`<span>${esc(it.source)}${it.also?` 외 ${it.also.length}곳`:""}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
@@ -799,6 +813,76 @@ function weekendHtml(list){
   return `<h3 class="cal-h">이번 주말 · ${esc(days.map(lab).join(" ~ "))}<small>${L.length}건</small></h3>`
     +(L.length?order.map(r=>`<p class="cal-sub">${esc(r)} ${groups.get(r).length}</p>`+groups.get(r).map(x=>rowHtml(x.it,x.ev)).join("")).join(""):`<div class="empty">이번 주말에 열리는 일정이 없어요.</div>`);
 }
+/* ---------- 이번 주 한 장 ---------- 주말 행사와 곧 오는 마감을 1080×1920(스토리 크기) 그림으로. canvas 로 그려 저장·공유(navigator.share 로 파일) */
+function wrapLines(g,text,maxW,maxLines){
+  const out=[];let line="";
+  for(const ch of String(text||"")){if(g.measureText(line+ch).width>maxW&&line){out.push(line);line=ch;if(out.length===maxLines)break}else line+=ch}
+  if(out.length<maxLines&&line)out.push(line);
+  if(out.length===maxLines&&(line&&!out.includes(line)||g.measureText(out[maxLines-1]).width>maxW)){let l=out[maxLines-1];while(l&&g.measureText(l+"…").width>maxW)l=l.slice(0,-1);out[maxLines-1]=l+"…"}
+  return out;
+}
+async function weekendShot(){
+  const days=weekendDays(), lab=d=>{const x=new Date(d+"T00:00:00Z");return `${x.getUTCMonth()+1}/${x.getUTCDate()}(${WD[x.getUTCDay()]})`};
+  const live=[...items.values()].filter(it=>notOver({it}));
+  const L=live.filter(it=>onWeekend(it,days)).sort((a,b)=>(/^東京/.test(regionOf(b))-/^東京/.test(regionOf(a)))||regionOf(a).localeCompare(regionOf(b),"ja")||(parseDate(a.eventDate)-parseDate(b.eventDate)));
+  const dl=upcomingDeadlines().slice(0,4);
+  try{await Promise.all(['400 80px "Black Han Sans"','700 38px "IBM Plex Sans KR"','400 30px "IBM Plex Sans KR"'].map(f=>document.fonts.load(f)))}catch{}
+  const W=1080,H=1920,c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");
+  const C={bg:"#13152A",sur:"#1E2139",ink:"#ECEDF6",mut:"#9A9EBB",line:"#30345A",pink:"#FF5C9A",cyan:"#4FC3D9",amber:"#F2B655"};
+  const catC=k=>["live","official"].includes(k)?C.pink:["collab","popup","doujin"].includes(k)?C.amber:["other","goods","campaign"].includes(k)?C.mut:C.cyan;
+  const F=(w,px,fam="IBM Plex Sans KR")=>g.font=`${w} ${px}px "${fam}","Noto Sans JP","Hiragino Sans",sans-serif`;
+  g.fillStyle=C.bg;g.fillRect(0,0,W,H);
+  g.fillStyle=C.pink;g.fillRect(0,0,W,14);
+  F(400,84,"Black Han Sans");g.fillStyle=C.ink;g.textBaseline="top";g.fillText("마토메 보드",60,70);
+  F(500,34);g.fillStyle=C.mut;g.fillText("일본 게임·애니·버튜버·만화 소식",60,175);
+  try{const im=$(".brand .lilly");if(im&&im.complete&&im.naturalWidth){g.imageSmoothingEnabled=false;g.drawImage(im,W-60-im.naturalWidth*5,50,im.naturalWidth*5,im.naturalHeight*5);g.imageSmoothingEnabled=true}}catch{}
+  let y=270;
+  g.fillStyle=C.sur;g.beginPath();g.roundRect(60,y,W-120,96,20);g.fill();
+  F(700,40);g.fillStyle=C.pink;g.fillText("이번 주말",90,y+26);
+  F(700,40);g.fillStyle=C.ink;g.fillText(`${days.map(lab).join(" ~ ")}  ·  ${L.length}건`,290,y+26);
+  y+=140;
+  const RH=124, DB=dl.length?270+dl.length*78:120, maxY=H-DB, rows=[]; // RH 행 높이, DB 아래 마감 칸+바닥글 높이
+  for(const it of L){
+    if(y+RH>maxY-50){rows.push({more:L.length-rows.filter(x=>x.it).length});break}
+    rows.push({it,y});y+=RH;
+  }
+  if(!L.length){F(400,34);g.fillStyle=C.mut;g.fillText("이번 주말에 열리는 일정이 없어요.",60,y);y+=60}
+  for(const r of rows){
+    if(r.more){F(400,30);g.fillStyle=C.mut;g.fillText(`… 외 ${r.more}건은 보드에서`,60,y+6);y+=50;continue}
+    const it=r.it, d=parseDate(it.eventDate), e=parseDate(it.endDate);
+    g.fillStyle=C.sur;g.beginPath();g.roundRect(60,r.y,W-120,RH-12,18);g.fill();
+    g.fillStyle=catC(it.category);g.fillRect(60,r.y+16,8,RH-44);
+    F(700,25);g.fillStyle=catC(it.category);g.fillText(CATS[it.category],90,r.y+14);
+    F(400,25);g.fillStyle=C.mut;const when=e&&jstYmd(e)!==jstYmd(d)?`${jst(d,{month:"numeric",day:"numeric"})} ~ ${jst(e,{month:"numeric",day:"numeric"})}`:fmt(it.eventDate);
+    const reg=regionOf(it).replace(/^東京 · /,"").replace(/^장소 정보 없음.*|^그 밖의 장소$/,""); // 지역(구·현)은 장소 앞에 짧게
+    g.fillText(wrapLines(g,[when,reg,it.venue].filter(Boolean).join("  ·  "),W-120-60-g.measureText(CATS[it.category]).width-40,1)[0]||"",90+g.measureText(CATS[it.category]).width+30,r.y+14);
+    F(700,31);g.fillStyle=C.ink;wrapLines(g,tx(it,"title"),W-120-50,2).forEach((l,i)=>g.fillText(l,90,r.y+48+i*36));
+  }
+  if(dl.length){
+    y=Math.max(y+20,H-DB);
+    g.fillStyle=C.line;g.fillRect(60,y,W-120,2);y+=30;
+    F(700,36);g.fillStyle=C.amber;g.fillText("곧 오는 판매·마감",60,y);y+=70;
+    for(const {it,d,label} of dl){
+      const days=Math.ceil((d-Date.now())/DAY), dn=days<=0?"오늘":"D-"+days;
+      F(400,40,"Black Han Sans");g.fillStyle=C.pink;g.fillText(dn,60,y-4);
+      F(700,26);g.fillStyle=C.amber;g.fillText(`${jst(d,{month:"numeric",day:"numeric"})} ${label}${hm(d)?" "+hm(d):""}`,200,y+2);
+      F(400,28);g.fillStyle=C.ink;g.fillText(wrapLines(g,tx(it,"title"),W-260,1)[0]||"",200,y+36);
+      y+=78;
+    }
+  }
+  F(400,26);g.fillStyle=C.mut;g.textAlign="center";g.fillText("예매 링크·지도·달력은 보드에서  ·  davidim-dotcom.github.io/matome-board",W/2,H-70);g.textAlign="left";
+  g.fillStyle=C.pink;g.fillRect(0,H-14,W,14);
+  c.toBlob(blob=>{
+    if(!blob){toast("그림을 만들지 못했어요");return}
+    const url=URL.createObjectURL(blob), file=new File([blob],`matome-weekend-${days[0]}.png`,{type:"image/png"});
+    const can=!!(navigator.canShare&&navigator.canShare({files:[file]}));
+    const box=document.createElement("div");box.className="shot";box.innerHTML=`<div><img alt="이번 주말 일정 그림"><div class="actions">${can?`<button type="button" class="btn" data-shotshare>공유</button>`:""}<a class="btn" download="${esc(file.name)}">저장</a><button type="button" class="btn ghost" data-shotclose>닫기</button></div></div>`;
+    box.querySelector("img").src=url; box.querySelector("a").href=url;
+    box.addEventListener("click",ev=>{if(ev.target===box||ev.target.closest("[data-shotclose]")){box.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
+      else if(ev.target.closest("[data-shotshare]")) navigator.share({files:[file],title:"이번 주말 일정 · 마토메 보드"}).catch(()=>{})});
+    document.body.appendChild(box);
+  },"image/png");
+}
 /* ---------- 출처 상태(사이트 개요) ---------- 수집기가 실행마다 meta.json 에 남기는 출처별 결과 */
 // 달력 구독: 구글은 cid=webcal 주소, 아이폰·맥은 webcal:// 링크를 누르면 구독 창이 뜬다. 그 밖은 주소 복사
 function renderCalSubs(){
@@ -822,7 +906,8 @@ function icsEvents(it){
   const out=[], now=Date.now(), ev=parseDate(it.eventDate), end=parseDate(it.endDate);
   if(ev&&(end||ev)>now-DAY/2) out.push({k:"ev",d:ev,e:end&&end>ev?end:null,label:""});
   const pre=PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작";
-  for(const [k,label] of [["ticketOpen",pre],["deadline","마감"]]){const d=parseDate(it[k]);if(d&&d>now)out.push({k,d,e:null,label})}
+  if(it.phases.length) it.phases.forEach((p,i)=>{for(const [k,v,suf] of [[`p${i}s`,p.s,"시작"],[`p${i}e`,p.e,"마감"]]){const d=parseDate(v);if(d&&d>now)out.push({k,d,e:null,label:`${p.n} ${suf}`})}});
+  else for(const [k,label] of [["ticketOpen",pre],["deadline","마감"]]){const d=parseDate(it[k]);if(d&&d>now)out.push({k,d,e:null,label})}
   return it._ics=out;
 }
 function icsText(list){
@@ -961,7 +1046,7 @@ function renderCalendar(shown){
   for(const x of shown){
     const it=x.it, s=jstYmd(parseDate(it.eventDate)), e=jstYmd(parseDate(it.endDate));
     if(s){(starts[s]??=[]).push(x); if(e&&e>s) periods.push({x,s,e})}
-    for(const k of ["ticketOpen","deadline"]){const d=jstYmd(parseDate(it[k])); if(d) (tickets[d]??=[]).push({x,k})}
+    for(const v of it.phases.length?it.phases.flatMap(p=>[p.s,p.e]):[it.ticketOpen,it.deadline]){const d=jstYmd(parseDate(v)); if(d) (tickets[d]??=[]).push({x,k:v})}
   }
   const ongoing=day=>periods.filter(p=>p.s<day&&day<=p.e).map(p=>p.x);
   const byDate=(a,b)=>parseDate(a.it.eventDate)-parseDate(b.it.eventDate)||new Date(b.it.addedAt)-new Date(a.it.addedAt);
@@ -986,7 +1071,7 @@ function renderCalendar(shown){
     const list=Object.keys(starts).filter(d=>d.startsWith(ym)).sort().flatMap(d=>starts[d].slice().sort(byDate));
     detail=`<h3 class="cal-h">${y}년 ${m}월 일정<small>${list.length}건</small></h3>`+(list.length?list.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join(""):`<div class="empty">이달에 시작하는 일정이 없어요.</div>`);
   }
-  $("#sched").innerHTML=`<div class="cal-head"><button class="btn" data-calnav="prev" aria-label="이전 달">‹</button><h2>${y}년 ${m}월</h2><button class="btn" data-calnav="next" aria-label="다음 달">›</button><button class="btn" data-calnav="today">오늘</button><button class="btn" data-calnav="weekend" aria-pressed="${calDay==="weekend"}">이번 주말</button></div>
+  $("#sched").innerHTML=`<div class="cal-head"><button class="btn" data-calnav="prev" aria-label="이전 달">‹</button><h2>${y}년 ${m}월</h2><button class="btn" data-calnav="next" aria-label="다음 달">›</button><button class="btn" data-calnav="today">오늘</button><button class="btn" data-calnav="weekend" aria-pressed="${calDay==="weekend"}">이번 주말</button><button class="btn" data-calnav="shot" title="이번 주말 일정과 마감을 그림 한 장으로 저장·공유">🖼</button></div>
     <div class="cal-wd">${WD.map(w=>`<span>${w}</span>`).join("")}</div><div class="cal-grid">${grid}</div>
     <div class="cal-legend"><span><i class="dot cat-live"></i>공연·공식 행사</span><span><i class="dot cat-collab"></i>콜라보·팝업·동인</span><span><i class="dot cat-event"></i>이벤트·전시·만화</span><span><i class="dot tk"></i>예매·마감</span><span>숫자 = 진행 중</span></div>
     ${detail}<p class="note" style="margin-top:14px">달력 앱에 자동으로 받으려면 사이트 개요의 '달력 구독'을 쓰세요. 날을 누르면 그날 시작하는 일정, 예매·마감, 진행 중인 기간 행사를 보여 줘요. 고른 날을 다시 누르면 이달 전체 목록으로 돌아가요.</p>`;
@@ -1512,6 +1597,7 @@ document.addEventListener("click",e=>{
   const cn=e.target.closest("[data-calnav]"); if(cn){const k=cn.dataset.calnav;
     if(k==="today"){const t=jstYmd(new Date());calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay=t}
     else if(k==="weekend"){const t=weekendDays()[0];calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay="weekend"}
+    else if(k==="shot"){weekendShot();return}
     else{let {y,m}=calYM;m+=k==="next"?1:-1;if(m>12){m=1;y++}if(m<1){m=12;y--}calYM={y,m};calDay=null}
     render();return}
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
