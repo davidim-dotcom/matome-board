@@ -73,7 +73,7 @@ async function run(dev) {
   console.log(`${tiles && modal && !ovg.length ? "OK  " : "FAIL"} ${dev} 그림 보기`);
   // 도쿄 지도의 '⛩ 성지'(data/seichi.json): 켜면 ⛩ 표시가 찍히고, 누르면 설명이 나온다
   await page.evaluate(() => { const d = document.querySelector(".mapbox"); if (d) d.open = true; document.querySelector("[data-mapseichi]")?.click(); });
-  await page.waitForTimeout(900);
+  await page.waitForSelector(".tmap .seichi", { timeout: 6000 }).catch(() => {});  // seichi.json 을 처음 켤 때 읽는다(CI 에서 900ms 로는 모자랐다)
   const sj = await page.$$eval(".tmap .seichi", (a) => a.length);
   await page.evaluate(() => document.querySelector(".tmap .seichi")?.dispatchEvent(new MouseEvent("click", { bubbles: true })));
   const sji = await page.evaluate(() => !!document.querySelector("#mapinfo .sj")), ovs = await page.evaluate(OVERFLOW);
