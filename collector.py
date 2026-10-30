@@ -1316,19 +1316,41 @@ TRANSLATE_MAX = 150  # 한 번 실행에서 한국어로 번역할 최대 소식
 JA_RE = re.compile(r"[\u3040-\u30ff\u4e00-\u9fff]")  # 가나·한자가 있으면 일본어 글
 
 
-def translate_ja_ko(text):
-    """Google 번역(키 없는 gtx 엔드포인트)으로 일본어 → 한국어. 실패하면 예외."""
+def _gtx(text):
+    """Google 번역(키 없는 gtx 엔드포인트) 응답의 문장 조각 [(한국어, 일본어)]. 실패하면 예외."""
     q = urllib.parse.urlencode({"client": "gtx", "sl": "ja", "tl": "ko", "dt": "t", "q": text})
     data = json.loads(fetch("https://translate.googleapis.com/translate_a/single?" + q,
                             {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"}))
-    return "".join(seg[0] for seg in (data[0] or []) if seg and seg[0]).strip()
+    return [(seg[0] or "", seg[1] or "") for seg in (data[0] or []) if seg and isinstance(seg[0], str) and len(seg) > 1]
+
+
+SPLIT_RE = re.compile(r"(?<=[…!?！？☆★♪。　])(?![…!?！？☆★♪。　])")  # 이어진 부호(…!?)는 한 덩어리로
+
+
+def translate_ja_ko(text, deep=True):
+    """일본어 → 한국어. 구글이 한 조각 안에서 뒷부분을 통째로 빠뜨리는 일이 있어서(2026-10: 「ゴジラの表皮を履いたら…!?「ゴジラ-0.0」×…」 47자 → '고질라의 표피를 신으면…'),
+    번역이 원문 조각의 절반도 안 되면 그 조각을 문장부호(…!?☆♪ 등) 뒤에서 나눠 따로 번역해 잇는다."""
+    out = []
+    for ko, ja in _gtx(text):
+        if deep and len(ja) >= 12 and len(ko.strip()) < .5 * len(ja.strip()):
+            parts = [p for p in SPLIT_RE.split(ja) if p.strip()]
+            if len(parts) > 1:
+                ko = " ".join(translate_ja_ko(p, False) for p in parts) + " "
+        out.append(ko)
+    return re.sub(r" {2,}", " ", "".join(out)).strip()
+
+
+def ko_short(it):
+    """예전 번역 제목이 원문의 절반도 안 되면(뒷부분이 빠진 번역) True"""
+    t, k = it.get("title", ""), it.get("title_ko", "")
+    return bool(k) and len(t) >= 20 and len(k) < .5 * len(t)
 
 
 def _gloss():
-    """번역 용어집: works.json 의 ko(대표 이름 → 한국어 이름)와, 대표 이름 이상으로 긴 별칭(ウマ娘 プリティーダービー 등).
+    """번역 용어집: works.json 의 ko(대표 이름 → 한국어 이름)·terms(캐릭터·멤버 이름)와, 대표 이름 이상으로 긴 별칭(ウマ娘 プリティーダービー 등).
     짧은 별칭(ガンダム·ポケモン)은 기계 번역(건담·포켓몬)이 더 자연스러워서 넣지 않는다. 전각·반각 표기를 둘 다 둔다."""
     ko = {str(k): str(v) for k, v in (_works.get("ko") or {}).items() if v}
-    g = dict(ko)
+    g = {**{str(k): str(v) for k, v in (_works.get("terms") or {}).items() if v}, **ko}  # terms: 캐릭터·멤버 이름(猫猫 → 마오마오)
     for a, c in (_works.get("alias") or {}).items():
         if c in ko and len(a) >= len(c): g.setdefault(a, ko[c])
     out = {}
@@ -1373,7 +1395,7 @@ def translate_items(items):
     일본어가 없는 글은 빈 문자열(원문 그대로 표시). 번역이 실패하면 그 자리에서 멈추고 다음 실행에 다시 시도한다(키를 안 남김)."""
     done = 0
     for it in items:
-        if "title_ko" in it and not gloss_miss(it):
+        if "title_ko" in it and not gloss_miss(it) and not (it.get("tg") != GLOSS_VER and ko_short(it)):
             gloss_fix(it); continue
         if done >= TRANSLATE_MAX:
             break
@@ -1385,7 +1407,7 @@ def translate_items(items):
                 time.sleep(0.2)
                 it["title_ko"], it["summary_ko"] = tko, sko
                 gloss_fix(it)
-                if any(ja in it["title"] + it.get("summary", "") for ja, _ in GLOSS): it["tg"] = GLOSS_VER
+                it["tg"] = GLOSS_VER  # 지금 방식(용어집·잘림 보정)으로 번역함 → 다시 하지 않는다
             else:
                 it["title_ko"], it["summary_ko"] = "", ""
             done += 1
