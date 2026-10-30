@@ -32,7 +32,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
           자주 나온 이름을 다음 실행부터 작품 태그로 자동 사용한다.
 표준 라이브러리만 사용. GitHub Actions나 cron으로 하루 몇 번 돌리면 된다.
 """
-import json, os, re, sys, html, time
+import json, os, re, sys, html, time, unicodedata
 import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
@@ -228,10 +228,7 @@ def build(title, body, link, src, ref, default_cat="other"):
             opening = iso
         elif not event:
             event = iso
-    works = list(src.get("works", []))
-    for w in WATCH:
-        if w.lower() in text.lower() and w not in works:
-            works.append(w)
+    works = tag_works(text, src.get("works", []))
     return {
         "title": title[:200], "category": classify(text, default_cat), "source": src.get("name", ""),
         "platform": src["type"], "works": works[:5], "eventDate": event, "endDate": end, "ticketOpen": opening,
@@ -338,7 +335,7 @@ def ld_item(ev, src, ref):
     geo, addr = ld_place(loc, venue)
     offers = ev.get("offers") if isinstance(ev.get("offers"), dict) else {}
     text = f"{title} {kind}"
-    works = list(src.get("works", [])) + [w for w in WATCH if w.lower() in text.lower() and w not in src.get("works", [])]
+    works = tag_works(text, src.get("works", []))
     return {"title": title[:200], "category": classify(text, "event"), "source": src.get("name", ""), "platform": src["type"],
             "works": works[:5], "eventDate": start, "endDate": end, "ticketOpen": "", "deadline": "", "venue": venue[:80],
             "ticketUrl": ticket_url([str(offers.get("url") or "")]), "ticketUrls": ticket_urls([str(offers.get("url") or "")]), "url": link, "summary": kind[:140],
@@ -515,6 +512,24 @@ def collect(src, ref):
     raise ValueError(f"알 수 없는 소스 종류: {t}")
 
 
+# ---- 작품 이름 정리(data/works.json, 사람이 고침) ----
+# 같은 작품이 『ゴジラ-0.0』/『ゴジラ－0.0』, 『超かぐや姫！』/『超かぐや姫!』처럼 갈라지지 않게 NFKC·소문자·공백·문장부호를 뗀 키(wkey)로 비교하고,
+# 다른 이름(hololive→ホロライブ 등)은 works.json 의 alias 로, 'X 부제'는 X 가 작품이면 X 로 묶는다.
+WORKS_FILE = os.path.join(DATA, "works.json")
+WK_STRIP = re.compile(r"[\s・·:!?~〜\-_.,()\[\]【】「」『』'\"/|&＆×✕]")
+def wnorm(s): return unicodedata.normalize("NFKC", s or "").lower()
+def wkey(n): return WK_STRIP.sub("", wnorm(n))
+def clean_name(n): return re.sub(r"^[『「【\s]+|[』」】\s]+$", "", n or "").strip()
+try: _works = json.load(open(WORKS_FILE, encoding="utf-8"))
+except Exception: _works = {}
+ALIAS = {wkey(k): str(v) for k, v in (_works.get("alias") or {}).items() if wkey(k)}
+SKIP = {wkey(x) for x in (_works.get("skip") or []) if wkey(x)}
+def canon(n):
+    """앞뒤 괄호를 떼고 별칭이면 대표 이름으로"""
+    n = clean_name(n)
+    return ALIAS.get(wkey(n), n)
+
+
 TRENDS = os.path.join(DATA, "trends.json")
 NAME_RE = re.compile(r"[『「]([^』」\n]{2,30})[』」]")
 STOP = re.compile(r"^(第?\d+[話期弾回]|PV|MV|特報|本予告|公式)|^[\d\s:：.、/]+$")
@@ -533,25 +548,47 @@ def load_trends():
     except Exception: return {"history": {}, "top": []}
 
 
+def rank_works(history):
+    """history({날짜: {이름: 횟수}})의 이름을 같은 작품끼리 묶어 [(대표 이름, 합계)]를 많은 순으로.
+    같은 키(wkey)끼리 합치고, 'X 부제'는 X 가 작품(씨앗·별칭 대상·혼자서도 TREND_MIN 이상)이면 X 에 더한다.
+    대표 이름은 씨앗·별칭 대상과 같은 표기가 있으면 그것, 없으면 가장 많이 나온 표기."""
+    total, spell = {}, {}
+    for v in history.values():
+        for n, c in v.items():
+            n = canon(n); k = wkey(n)
+            if len(k) < 2 or k in SKIP: continue
+            total[k] = total.get(k, 0) + c
+            spell.setdefault(k, {})[n] = spell.get(k, {}).get(n, 0) + c
+    preferred = {wkey(w): w for w in WORKS_SEED} | {wkey(v): v for v in ALIAS.values()}
+    parents = set(preferred) | {k for k, c in total.items() if c >= TREND_MIN}
+    for k in sorted(total, key=lambda x: -total[x]):
+        if k not in total: continue
+        best = max(spell[k], key=spell[k].get)
+        head = canon(re.split(r"[\s　]+", best)[0]); hk = wkey(head)
+        if hk != k and len(hk) >= 2 and hk in parents and hk not in SKIP:
+            total[hk] = total.get(hk, 0) + total.pop(k)
+            sp = spell.setdefault(hk, {}); sp.setdefault(head, 0)
+    def name(k):
+        if k in preferred: return preferred[k]
+        return max(spell[k], key=spell[k].get)
+    return [(name(k), c) for k, c in sorted(total.items(), key=lambda x: -x[1])]
+
+
 def update_trends(tr, ref):
     """오늘 본 기사에서 작품명을 세고, 최근 TREND_DAYS일 합계로 순위를 낸다."""
     today = ref.strftime("%Y-%m-%d")
     counts = {}
     for text in SEEN_TEXT:
-        for n in {base_title(m) for m in NAME_RE.findall(text)}:
-            if len(n) >= 2 and not STOP.search(n):
+        for n in {canon(base_title(clean_name(m))) for m in NAME_RE.findall(text)}:
+            if len(n) >= 2 and not STOP.search(n) and wkey(n) not in SKIP:
                 counts[n] = counts.get(n, 0) + 1
     day = tr["history"].setdefault(today, {})
     for n, c in counts.items():
         day[n] = max(day.get(n, 0), c)  # 같은 날 여러 번 돌려도 중복 집계하지 않음
     cutoff = (ref - timedelta(days=TREND_DAYS)).strftime("%Y-%m-%d")
     tr["history"] = {d: v for d, v in tr["history"].items() if d >= cutoff}
-    total = {}
-    for v in tr["history"].values():
-        for n, c in v.items():
-            total[n] = total.get(n, 0) + c
     old_top = set(tr.get("top", []))
-    tr["top"] = [n for n, c in sorted(total.items(), key=lambda x: -x[1]) if c >= TREND_MIN][:TREND_TOP]
+    tr["top"] = [n for n, c in rank_works(tr["history"]) if c >= TREND_MIN][:TREND_TOP]
     tr["updated"] = ref.isoformat()
     json.dump(tr, open(TRENDS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     rising = [n for n in tr["top"] if n not in old_top]
@@ -560,7 +597,38 @@ def update_trends(tr, ref):
 
 
 _tr = load_trends()
-WATCH = list(dict.fromkeys(WORKS_SEED + _tr.get("top", [])))
+
+
+def _watch():
+    """태깅할 작품: 씨앗 + 유행 상위(키로 중복 제거). 본문에서 찾을 표기는 대표 이름과 별칭(3글자 이상만, 짧은 별칭은 다른 낱말에 섞이기 쉬움)"""
+    out = {}
+    top = [n for n, c in rank_works(_tr.get("history", {})) if c >= TREND_MIN][:TREND_TOP]  # 저장된 top 은 예전 방식(부제 따로)일 수 있어 다시 묶는다
+    for w in WORKS_SEED + top:
+        c = canon(w); k = wkey(c)
+        if len(k) >= 2 and k not in SKIP: out.setdefault(k, [c, {wnorm(c)}])
+    for a, v in (_works.get("alias") or {}).items():
+        k = wkey(v)
+        if k in out and len(wkey(a)) >= 3: out[k][1].add(wnorm(a))
+    return out
+WATCH = _watch()  # 키 → [대표 이름, {찾을 표기}]
+
+
+def canon_work(n):
+    """소식의 작품 태그 하나를 대표 이름으로: 별칭 → 같은 키의 대표 이름 → 'X 부제'면 X"""
+    c = canon(n); k = wkey(c)
+    if k in WATCH: return WATCH[k][0]
+    head = canon(re.split(r"[\s　]+", c)[0]); hk = wkey(head)
+    if hk != k and hk in WATCH: return WATCH[hk][0]
+    return c
+
+
+def tag_works(text, base=()):
+    """작품 태그: 소스가 준 이름(정리해서) + 본문에 나오는 WATCH 작품. 같은 작품은 하나만, 최대 5개"""
+    out, keys, t = [], set(), wnorm(text)
+    for w in list(base) + [c for c, vs in WATCH.values() if any(v in t for v in vs)]:
+        c = canon_work(w); k = wkey(c)
+        if c and k not in keys: keys.add(k); out.append(c)
+    return out[:5]
 
 
 
@@ -627,6 +695,7 @@ def main():
             it["category"] = classify(it["title"] + "\n" + it.get("summary", ""), "other")
         if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))):
             continue
+        if it.get("works"): it["works"] = tag_works("", it["works"])  # 예전 태그도 대표 이름으로(ゴジラ－0.0 → ゴジラ-0.0 등)
         end = item_end(it)
         if end and end < ref - timedelta(days=30):
             continue
