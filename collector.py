@@ -5,6 +5,7 @@ GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 �
   python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS)
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
+  python3 collector.py --alert          출처가 3회 연속 실패하거나 2일 연속 빈 피드면 GitHub 이슈(워크플로 전용, GITHUB_TOKEN)
   python3 collector.py --weekly-draft   지금 주간 요약의 7일이 끝났으면 이번 주(월요일 시작) 자동 초안 → data/weekly.json
   python3 collector.py --check   소스별로 가져오기만 해 보고 OK/FAIL 출력(파일은 쓰지 않음)
   python3 collector.py --translate-test   일본어 한 문장을 번역해 보고 결과만 출력(번역 경로 점검)
@@ -61,8 +62,12 @@ SOURCES = [
     # e+ 등 티켓 링크는 기사 보강(enrich)이 상세 페이지에서 찾는다. e+ 자체는 Actions 에서 503 으로 막혀 소스로 못 쓴다(2026-10).
     {"type": "ldjson", "name": "アニメハック イベント", "url": "https://anime.eiga.com/event/cal/{ym}/", "months": 3},
     # 電撃オンライン: RSS가 없어 Google 뉴스 사이트맵(제목+링크만)을 피드처럼 읽음
-    {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml"},
-    {"type": "site", "name": "4Gamer", "url": "https://www.4gamer.net/"},
+    # 게임 뉴스(game=True): 게임 안 이벤트·가챠·참전·업데이트 소식은 GAME_NOISE_RE 로 거른다(실제 행사·매장 콜라보·굿즈 단어가 있으면 남김)
+    {"type": "rss", "name": "電撃オンライン", "url": "https://dengekionline.com/newsSitemap.xml", "game": True},
+    {"type": "rss", "name": "4Gamer", "url": "https://www.4gamer.net/rss/index.xml", "game": True},
+    {"type": "site", "name": "インサイド", "url": "https://www.inside-games.jp/", "game": True},
+    {"type": "rss", "name": "GAME Watch", "url": "https://game.watch.impress.co.jp/data/rss/1.0/gmw/feed.rdf", "game": True},
+    # ファミ通.com: 첫 화면에 RSS 링크가 없고 흔한 주소도 없음. Gamer(gamer.ne.jp): Actions 요청을 403 으로 거부. 둘 다 2026-10 확인.
     {"type": "site", "name": "MoguLive", "url": "https://www.moguravr.com/"},
     # 콜라보 카페·팝업. /feed/ 가 빈 응답(Content-Length 0)을 돌려줘서 WordPress REST API로 읽음
     {"type": "wpjson", "name": "コラボカフェ", "url": "https://collabo-cafe.com/wp-json/wp/v2/events?per_page=40&orderby=date&order=desc&lang=ja&_embed=wp:featuredmedia&_fields=title,excerpt,link,date_gmt,_links,_embedded",
@@ -114,6 +119,28 @@ EVENT_WORDS_RE = re.compile(r"上映会|イベント|開催|ライブ|LIVE|公�
 
 def is_noise(title):
     return bool(NOISE_RE.search(title or "")) and not EVENT_WORDS_RE.search(title or "")
+
+
+# 게임 뉴스 출처(game=True)의 게임 안 소식: 가챠·참전·새 캐릭터·업데이트·서비스 종료 등. 공연·매장·굿즈 같은 바깥 행사 단어가 제목에 있으면 남긴다.
+# 2026-10 電撃オンライン 85건에서 22건이 걸렸고 모두 게임 안 소식이었다.
+GAME_NOISE_RE = re.compile(r"ガチャ|ガシャ|召喚|SSR|★5|参戦|実装|新階層|育成イベント|イベントクエスト|ログインボーナス|ピックアップ|アップデート|アプデ|配布|復刻|"
+                           r"新キャラ|新衣装|新スキン|シーズン\d|DLC|メンテナンス|サービス終了|配信開始|事前登録|ネットワークテスト|βテスト|攻略|新章|新ストーリー|スナップイベント")
+GAME_REAL_RE = re.compile(r"会場|店舗|カフェ|ストア|ショップ|展(?!開|望)|ライブ|LIVE|ファンフェス|フェスティバル|上映|舞台|ステージ|POP ?UP|ポップアップ|フェア|物販|"
+                          r"イオン|幕張|試遊会|体験会|オフライン|ゲームショウ|ジャンプフェスタ|コミケ|AnimeJapan|グッズ|一番くじ|ローソン|ファミマ|ファミリーマート|セブン|コンビニ|プライズ|ROUND1|キャンペーン", re.I)
+GAME_SOURCES = {s["name"] for s in SOURCES if s.get("game")}
+
+
+GAME_STORE_RE = re.compile(r"(Steam|PlayStation|PS|ニンテンドー|Nintendo|Microsoft|Xbox|Epic Games|App |Google Play)\s*ストア(ページ)?|ストアページ|eショップ", re.I)
+
+
+def game_title(title):
+    """게임 판매처 이름(Steamストアページ 등)의 'ストア'가 매장으로 잡히지 않게 지운 제목"""
+    return GAME_STORE_RE.sub(" ", title or "")
+
+
+def is_game_noise(title):
+    t = game_title(title)
+    return bool(GAME_NOISE_RE.search(t)) and not GAME_REAL_RE.search(t)
 
 
 # ────────────────────────────────────────────────────────────────
@@ -209,10 +236,13 @@ def classify(text, default="other"):
 
 def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
-    if is_noise(title):
+    if is_noise(title) or (src.get("game") and is_game_noise(title)):
         return None
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
     if words and default_cat != "stream" and not any(w in text for w in words):
+        return None
+    # 게임 뉴스는 본문에 '이벤트'(게임 안 이벤트)가 흔해서 제목에 행사 단어나 바깥 행사 단어가 있어야 통과(신작 발표·Steam 페이지 공개 등을 거름)
+    if src.get("game") and not (any(w in game_title(title) for w in words) or GAME_REAL_RE.search(game_title(title))):
         return None
     event = opening = deadline = end = ""
     rng = re.search(DATE_RE.pattern + r"\s*[〜～~\-－]\s*" + DATE_RE.pattern.replace("?P<", "?P<e_"), text)
@@ -282,13 +312,20 @@ def feed_image(el, ns):
 
 def parse_feed(xml_bytes):
     """RSS 2.0 · Atom · Google 뉴스 사이트맵 → [(제목, 본문, 링크, 게시일 datetime|None, 이미지 주소)]"""
+    m = re.match(rb'\s*<\?xml[^>]*encoding=["\']([\w-]+)', xml_bytes)
+    if m and m.group(1).lower() not in (b"utf-8", b"utf8", b"us-ascii", b"iso-8859-1"):  # Shift_JIS·EUC-JP 는 XML 파서가 못 읽어 UTF-8 로 바꾼다
+        enc = m.group(1).decode()
+        xml_bytes = re.sub(rb'encoding=["\'][\w-]+["\']', b'encoding="utf-8"', xml_bytes.decode(enc, "replace").encode("utf-8"), count=1)
     root = ET.fromstring(xml_bytes)
     ns = {"a": "http://www.w3.org/2005/Atom", "media": "http://search.yahoo.com/mrss/", "dc": "http://purl.org/dc/elements/1.1/",
           "content": "http://purl.org/rss/1.0/modules/content/"}
     entries = []
-    for it in root.iter("item"):  # RSS 2.0 (RSS 1.0/RDF 의 item 도 잡힌다)
+    r1 = "{http://purl.org/rss/1.0/}"  # RSS 1.0(RDF)은 item·title 등에 이 이름공간이 붙는다(4Gamer·GAME Watch). 2026-10 전에는 못 읽어 0건이었다
+    for it in [*root.iter("item"), *root.iter(r1 + "item")]:  # RSS 2.0 / RSS 1.0
+        q = r1 if it.tag.startswith(r1) else ""
         when = parse_when(it.findtext("pubDate") or it.findtext("dc:date", default="", namespaces=ns))
-        entries.append((it.findtext("title") or "", it.findtext("description") or "", it.findtext("link") or "", when, feed_image(it, ns)))
+        desc = it.findtext(q + "description") or it.findtext("content:encoded", default="", namespaces=ns) or ""
+        entries.append((it.findtext(q + "title") or "", desc, it.findtext(q + "link") or "", when, feed_image(it, ns)))
     for e in root.findall("a:entry", ns):  # Atom(유튜브 포함)
         link = e.find("a:link", ns)
         desc = e.findtext("media:group/media:description", default="", namespaces=ns) or e.findtext("a:summary", default="", namespaces=ns) or e.findtext("a:content", default="", namespaces=ns)
@@ -438,6 +475,8 @@ def discover(site):
 
 
 SEEN_TEXT = []  # 유행 감지용: (제목+본문)
+RAW = {}  # 출처 이름 → 이번에 피드에서 읽은 글 수(거르기 전). 0 이 이어지면 피드가 고장 난 것(출처 상태·이슈 알림)
+DROPPED = {}  # 출처 이름 → 걸러진 글 제목 몇 개(--check 에서 보여 줌)
 
 
 def html_entries(page, src):
@@ -474,12 +513,15 @@ def collect(src, ref):
         else:
             entries = parse_feed(raw)
         out = []
+        RAW[src.get("name", t)] = len(entries)
         for ti, de, li, when, img in entries:
             if when and when < ref - timedelta(days=FRESH_DAYS):
                 continue
             ti, de = clean(ti), clean(de)
             SEEN_TEXT.append(f"{ti}\n{de[:300]}")
             x = build(ti, de, li, src, ref, cat)
+            if not x:
+                DROPPED.setdefault(src.get("name", t), []).append(ti)
             if x:
                 if img: x["image"] = urllib.parse.urljoin(li or src.get("url", ""), img.strip())  # 피드에 그림이 있으면 그대로, 없으면 main()에서 og:image 를 찾는다
                 out.append(x)
@@ -493,6 +535,7 @@ def collect(src, ref):
                 x = ld_item(ev, src, ref)
                 if x and x["url"] not in seen_u:
                     seen_u.add(x["url"]); out.append(x)
+        RAW[src.get("name", t)] = len(out)
         return out
     if t == "holodex":
         key = os.environ.get("HOLODEX_API_KEY")
@@ -706,7 +749,10 @@ def main():
             seen.update((g["url"], g["title"]) for g in fresh)
             new += fresh
             print(f"{name}: {len(got)}건 중 새 소식 {len(fresh)}건")
-            status.append({"n": name, "ok": True, "c": len(got), "new": len(fresh), "at": ref.isoformat(timespec="minutes")})
+            raw = RAW.get(name, len(got))
+            # zr: 피드가 비어 있던(원본 0건) 연속 횟수. 거른 뒤 0건은 흔하지만 원본 0건이 이어지면 주소·구조가 바뀐 것
+            status.append({"n": name, "ok": True, "c": len(got), "raw": raw, "new": len(fresh), "at": ref.isoformat(timespec="minutes"),
+                           "zr": int(p.get("zr", 0)) + 1 if raw == 0 else 0})
         except Exception as e:
             print(f"{name}: 실패 ({e})", file=sys.stderr)
             # f: 연속 실패 횟수, at: 마지막으로 성공한 시각(이전 기록에서 이어받음)
@@ -724,7 +770,8 @@ def main():
             it["geo"] = []
         if it.get("category") == "live" and re.search(CAT_RULES[2][1], it.get("title", "")):  # 예전에 공연으로 잘못 분류된 스토어 소식
             it["category"] = classify(it["title"] + "\n" + it.get("summary", ""), "other")
-        if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))):
+        if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))) \
+                or (it.get("source") in GAME_SOURCES and is_game_noise(it.get("title", ""))):
             continue
         if it.get("works"): it["works"] = tag_works("", it["works"])  # 예전 태그도 대표 이름으로(ゴジラ－0.0 → ゴジラ-0.0 등)
         end = item_end(it)
@@ -789,6 +836,65 @@ def write_feed(ref):
     xml.append("</channel></rss>")
     with open(FEED, "w", encoding="utf-8") as f:
         f.write("\n".join(xml) + "\n")
+
+
+ALERT_FAILS = 3   # 이만큼 연속 실패하면 이슈
+ALERT_EMPTY = 8   # 피드가 이만큼 연속으로 비어 있으면(하루 4번이라 2일) 이슈
+ALERT_TITLE = "[자동] 소식 출처 수집 이상"
+
+def source_alert():
+    """meta.json 의 출처 상태를 보고 오래 고장 난 출처가 있으면 GitHub 이슈를 열거나 고치고, 다 회복되면 닫는다(--alert, 워크플로 전용).
+    이슈는 하나만 쓴다(제목으로 찾음). 문제 출처 목록이 바뀔 때만 댓글을 달아 알림이 너무 자주 가지 않게 한다. 실패해도 워크플로는 이어 간다."""
+    repo, tok = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
+    if not repo or not tok:
+        print("출처 알림: GITHUB_REPOSITORY/GITHUB_TOKEN 이 없어 건너뜀"); return
+    def call(method, path, body=None):
+        req = urllib.request.Request(f"https://api.github.com/repos/{repo}{path}", method=method,
+                                     data=json.dumps(body).encode() if body is not None else None,
+                                     headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json",
+                                              "User-Agent": "matome-board", "Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return json.loads(r.read() or b"null")
+    alert_run(load_json(os.path.join(DATA, "meta.json"), {}).get("sources", []), call)
+
+
+def alert_run(sources, call):
+    bad = [x for x in sources if isinstance(x, dict) and (
+        (x.get("ok") is False and int(x.get("f", 0)) >= ALERT_FAILS) or (x.get("ok") is True and int(x.get("zr", 0)) >= ALERT_EMPTY))]
+    names = sorted(x["n"] for x in bad)
+    cur = next((i for i in call("GET", "/issues?state=open&per_page=100") or []
+                if i.get("title") == ALERT_TITLE and "pull_request" not in i), None)
+    old = set()
+    if cur:
+        m = re.search(r"<!-- bad:(.*?) -->", cur.get("body") or "")
+        old = set(filter(None, (m.group(1) if m else "").split("|")))
+    if not bad:
+        if cur:
+            call("POST", f"/issues/{cur['number']}/comments", {"body": "모든 출처가 다시 정상이에요. 이슈를 닫습니다."})
+            call("PATCH", f"/issues/{cur['number']}", {"state": "closed"})
+            print(f"출처 알림: 회복 → 이슈 #{cur['number']} 닫음")
+        else:
+            print("출처 알림: 문제 없음")
+        return
+    def line(x):
+        if x.get("ok") is False:
+            return f"| {x['n']} | {x.get('f')}회 연속 실패 | {x.get('at') or '기록 없음'} | `{(x.get('e') or '')[:120]}` |"
+        return f"| {x['n']} | 피드가 {x.get('zr')}회 연속 비어 있음 | {x.get('at', '')} | 원본 0건 |"
+    body = ("수집기가 이 출처들에서 소식을 못 가져오고 있어요. 사이트 주소나 RSS 구조가 바뀌었을 수 있으니 "
+            "`collector.py` 의 `SOURCES` 를 고치고 Actions 의 **소스 점검**으로 확인해 주세요. 모두 회복되면 이 이슈는 자동으로 닫혀요.\n\n"
+            "| 출처 | 상태 | 마지막 성공 | 오류 |\n|---|---|---|---|\n" + "\n".join(line(x) for x in bad) +
+            f"\n\n기준: {ALERT_FAILS}회 연속 실패 또는 {ALERT_EMPTY}회(약 2일) 연속 빈 피드.\n<!-- bad:{'|'.join(names)} -->")
+    if not cur:
+        r = call("POST", "/issues", {"title": ALERT_TITLE, "body": body})
+        print(f"출처 알림: 이슈 #{(r or {}).get('number')} 열음 ({', '.join(names)})"); return
+    call("PATCH", f"/issues/{cur['number']}", {"body": body})
+    if set(names) != old:
+        add, fixed = sorted(set(names) - old), sorted(old - set(names))
+        msg = " / ".join(t for t in ((f"새로 문제: {', '.join(add)}" if add else ""), (f"회복: {', '.join(fixed)}" if fixed else "")) if t)
+        call("POST", f"/issues/{cur['number']}/comments", {"body": msg})
+        print(f"출처 알림: 이슈 #{cur['number']} 갱신 ({msg})")
+    else:
+        print(f"출처 알림: 이슈 #{cur['number']} 그대로 ({', '.join(names)})")
 
 
 WEEKLY = os.path.join(DATA, "weekly.json")
@@ -1844,7 +1950,11 @@ def check():
         name = src.get("name", src["type"])
         try:
             got = collect(src, ref)
-            print(f"OK   {name}: {len(got)}건 (피드에 그림 {sum(1 for g in got if g.get('image'))}건)")
+            print(f"OK   {name}: 원본 {RAW.get(name, len(got))}건 중 {len(got)}건 통과 (그림 {sum(1 for g in got if g.get('image'))}건)")
+            for g in got[:4]:
+                print(f"       + {g['title'][:70]}")
+            for ti in DROPPED.get(name, [])[:3]:
+                print(f"       - {ti[:70]}")
         except Exception as e:
             bad += 1
             print(f"FAIL {name}: {e}")
@@ -1861,6 +1971,11 @@ if __name__ == "__main__":
         sys.exit(0)
     if "--anime" in sys.argv:
         export_anime(datetime.now(JST))
+    elif "--alert" in sys.argv:
+        try:
+            source_alert()
+        except Exception as e:  # 알림이 실패해도 워크플로는 이어 간다
+            print(f"출처 알림 실패: {e}", file=sys.stderr)
     elif "--weekly-draft" in sys.argv:
         try:
             weekly_draft(datetime.now(JST))

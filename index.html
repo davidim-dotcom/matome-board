@@ -22,6 +22,12 @@
 <meta name="twitter:image" content="https://davidim-dotcom.github.io/matome-board/assets/og.png">
 <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<!-- 홈 화면 앱(PWA): manifest.webmanifest + sw.js(오프라인 때 마지막으로 받은 데이터) -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="마토메">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="alternate" type="application/rss+xml" title="마토메 보드" href="data/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -595,12 +601,12 @@ async function initStore(){
     items.set(it.id,it);
   }
   groupDups(); followW=null;
-  sourceStat=(Array.isArray(meta.sources)?meta.sources:[]).slice(0,80).map(x=>({n:String(x&&x.n||"").slice(0,40),ok:x&&x.ok===true?1:x&&x.ok===false?0:-1,c:Math.max(0,+(x&&x.c)||0),nw:Math.max(0,+(x&&x.new)||0),f:Math.max(0,+(x&&x.f)||0),at:String(x&&x.at||"").slice(0,25),e:String(x&&x.e||"").slice(0,160)})).filter(x=>x.n);
+  sourceStat=(Array.isArray(meta.sources)?meta.sources:[]).slice(0,80).map(x=>({n:String(x&&x.n||"").slice(0,40),ok:x&&x.ok===true?1:x&&x.ok===false?0:-1,c:Math.max(0,+(x&&x.c)||0),nw:Math.max(0,+(x&&x.new)||0),raw:x&&x.raw!=null?Math.max(0,+x.raw||0):-1,zr:Math.max(0,+(x&&x.zr)||0),f:Math.max(0,+(x&&x.f)||0),at:String(x&&x.at||"").slice(0,25),e:String(x&&x.e||"").slice(0,160)})).filter(x=>x.n);
   renderSources();
   if(anime&&Array.isArray(anime.list)) season={id:anime.season||"current",name:anime.name||"",src:anime.src||"",list:anime.list.map(normAnime).filter(a=>a.t)};
   thumbs=new Map(Object.entries(thumbMap||{}).filter(([,v])=>typeof v==="string"&&/^(data\/thumbs\/[\w.\-]+|https:\/\/)/.test(v)).map(([k,v])=>[tkey(k),v]));
   trends=trendNames.map(x=>x.toLowerCase());
-  if(meta.updated){const d=new Date(meta.updated);$("#storeNote").innerHTML=`일본 게임·애니·버튜버·만화 소식<br><span style="white-space:nowrap">${esc(jst(d,{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}))} 업데이트</span>`}
+  if(meta.updated){const d=new Date(meta.updated);$("#storeNote").innerHTML=`일본 게임·애니·버튜버·만화 소식<br><span style="white-space:nowrap">${esc(jst(d,{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}))} 업데이트${navigator.onLine===false?" · 오프라인(저장된 소식)":""}</span>`}
   render();
 }
 
@@ -758,9 +764,9 @@ function weekendHtml(list){
 function renderSources(){
   const el=$("#srcStat"); if(!el) return;
   if(!sourceStat.length){el.innerHTML=`<p class="note">다음 자동 갱신부터 보여요.</p>`;return}
-  const bad=sourceStat.filter(x=>x.ok===0), ago=v=>{const d=v?new Date(v):null;return d&&!isNaN(d)?relDay(d.toISOString()):"기록 없음"};
-  el.innerHTML=`<p class="help">${bad.length?`<b class="hot">${bad.length}곳이 이번에 실패했어요.</b> 여러 번 이어지면 그 출처의 주소나 구조가 바뀐 거예요.`:"모든 출처가 이번 갱신에서 정상이에요."}</p>
-    <table class="srct"><thead><tr><th>출처</th><th>상태</th><th>가져온 수</th></tr></thead><tbody>${sourceStat.map(x=>`<tr class="${x.ok===0?"bad":x.ok<0?"skip":""}"><td>${esc(x.n)}</td><td>${x.ok===1?"정상":x.ok===0?`실패${x.f>1?` ${x.f}회 연속`:""}<small title="${esc(x.e)}">마지막 성공: ${esc(ago(x.at))}</small>`:`건너뜀<small>${esc(x.e)}</small>`}</td><td>${x.ok===1?`${x.c}건${x.nw?` · 새 ${x.nw}`:""}`:"–"}</td></tr>`).join("")}</tbody></table>`;
+  const bad=sourceStat.filter(x=>x.ok===0||(x.ok===1&&x.zr>=4)), ago=v=>{const d=v?new Date(v):null;return d&&!isNaN(d)?relDay(d.toISOString()):"기록 없음"};
+  el.innerHTML=`<p class="help">${bad.length?`<b class="hot">${bad.length}곳이 소식을 못 가져오고 있어요.</b> 3번 연속 실패하거나 이틀 내내 피드가 비면 운영자에게 GitHub 이슈로 알림이 가요.`:"모든 출처가 이번 갱신에서 정상이에요."}</p>
+    <table class="srct"><thead><tr><th>출처</th><th>상태</th><th>가져온 수</th></tr></thead><tbody>${sourceStat.map(x=>`<tr class="${x.ok===0||(x.ok===1&&x.zr>=4)?"bad":x.ok<0?"skip":""}"><td>${esc(x.n)}</td><td>${x.ok===1?(x.zr>=4?`빈 피드 ${x.zr}회 연속<small>주소나 구조가 바뀌었을 수 있어요</small>`:"정상"):x.ok===0?`실패${x.f>1?` ${x.f}회 연속`:""}<small title="${esc(x.e)}">마지막 성공: ${esc(ago(x.at))}</small>`:`건너뜀<small>${esc(x.e)}</small>`}</td><td>${x.ok===1?`${x.c}건${x.nw?` · 새 ${x.nw}`:""}${x.raw>=0?`<small>원본 ${x.raw}건</small>`:""}`:"–"}</td></tr>`).join("")}</tbody></table>`;
 }
 /* ---------- 달력에 추가(.ics) ----------
    행사일(기간이면 시작~끝)·판매 시작·마감을 iCalendar 일정으로 만든다. 시각이 00:00 이면 하루 종일 일정, 판매 시작·마감은 30분 일정 + 30분 전 알림.
@@ -1419,6 +1425,8 @@ function syncLang(){document.querySelectorAll(".langsw [data-lang]").forEach(b=>
 syncLang();
 initStore().then(()=>{if(/^#work/.test(location.hash)&&!$("#works").hidden)renderWorks()});
 routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터가 오면 다시 그림)
+// 홈 화면 앱·오프라인용 서비스 워커(sw.js). file:// 이나 http 미리보기에서는 등록하지 않는다(localhost 는 테스트용으로 허용)
+if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 <!-- ===== 弾幕 mini game: まとめ結界 / MAID BUSTER LILLY (그림은 운영자 시트에서 assets/game/extract.py 로 잘라낸 assets/game/*.png, 우주 배경만 paint.py) ===== -->
 <style>

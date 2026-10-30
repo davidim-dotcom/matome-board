@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write   # 출처 이상 알림 이슈(collector.py --alert)
 
 concurrency:
   group: update-data
@@ -54,3 +55,8 @@ jobs:
             git commit -m "소식 업데이트 $(TZ=Asia/Tokyo date '+%m/%d %H:%M')"
             git push
           fi
+
+      - name: 출처 이상 알림(3회 연속 실패·2일 연속 빈 피드면 이슈, 회복되면 닫음)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python collector.py --alert
