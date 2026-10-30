@@ -43,6 +43,14 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
 .help{font-size:12px;color:var(--muted);margin:8px 0 0}
 .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 12px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
+.pbtn{position:absolute;left:8px;top:8px;width:42px;height:42px;border:1px solid rgba(255,255,255,.35);border-radius:10px;background:rgba(10,8,30,.6);color:#fff;font-size:15px;cursor:pointer;touch-action:manipulation}
+.pmenu{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,15,.66)}
+.pbtn[hidden],.pmenu[hidden]{display:none}
+.pmenu .box{width:min(240px,80%);background:#171436;border:1px solid #5b4aa8;border-radius:14px;padding:16px;display:grid;gap:8px;text-align:center;color:#ffe3f3}
+.pmenu .box b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:24px;letter-spacing:.04em}
+.pmenu .box small{color:#b8a8ff;font-size:12px}
+.pmenu button{border:0;border-radius:10px;padding:11px;font-weight:700;cursor:pointer;background:#2a2357;color:#fff;touch-action:manipulation}
+.pmenu button.go{background:#D6246E}
 </style>
 </head>
 <body>
@@ -51,9 +59,12 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
   <div class="row" id="songs"></div>
   <p class="lab">LEVEL · 난이도</p>
   <div class="row" id="levels"></div>
-  <div class="stage" id="stage"><canvas id="cv" width="360" height="560"></canvas></div>
+  <div class="stage" id="stage"><canvas id="cv" width="360" height="560"></canvas>
+    <button type="button" class="pbtn" id="pbtn" aria-label="일시정지" hidden>❚❚</button>
+    <div class="pmenu" id="pmenu" hidden><div class="box"><b>PAUSE</b><small id="pinfo"></small>
+      <button type="button" class="go" id="pGo">▶ 이어서 하기</button><button type="button" id="pRe">↻ 처음부터</button><button type="button" id="pQuit">■ 그만하기 · 곡 고르기</button></div></div></div>
   <div class="bar"><span>타이밍 <button type="button" id="offM">−</button> <b id="offV">0ms</b> <button type="button" id="offP">+</button></span><button type="button" id="snd">♪ 소리 켜짐</button></div>
-  <p class="help">노트가 아래 선에 닿을 때 그 줄을 탭 · 길쭉한 노트는 끝까지 누르기 · 화살표 노트는 그 방향으로 밀기 · 「ハイ!」는 콜. 소리와 노트가 어긋나면 타이밍 ±(늦게 들리면 +). PC는 D·F·J 키와 ←·→.</p>
+  <p class="help">노트가 아래 선에 닿을 때 그 줄을 탭 · 길쭉한 노트는 끝까지 누르기 · 화살표 노트는 그 방향으로 밀기 · 「ハイ!」는 콜. 도중에 멈추려면 왼쪽 위 ❚❚(PC는 Esc) — 이어서 하기·처음부터·그만하기. 소리와 노트가 어긋나면 타이밍 ±(늦게 들리면 +). PC는 D·F·J 키와 ←·→.</p>
   <div class="board">
     <div class="hd"><p id="rkTitle">SCORE BOARD</p><button type="button" id="rkRe">↻ 새로고침</button></div>
     <form class="sub" id="sub" hidden><span class="me" id="subMe"></span><input id="name" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname"><button id="subBtn">기록 등록</button></form>
@@ -77,9 +88,11 @@ cx.imageSmoothingEnabled=false;
 
 // ---------- 소리(칩튠: ラン 과 같은 방식) ----------
 let AC=null, BUS=null, DLY=null, NB=null, snd=true;try{snd=localStorage.getItem('pen-snd')!=='off'}catch(e){}
-function ac(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();
-  BUS=AC.createGain();BUS.gain.value=.1;const comp=AC.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=6;BUS.connect(comp);comp.connect(AC.destination);
-  DLY=AC.createDelay(1);DLY.delayTime.value=.18;const fb=AC.createGain();fb.gain.value=.22;const wet=AC.createGain();wet.gain.value=.28;DLY.connect(fb);fb.connect(DLY);DLY.connect(wet);wet.connect(BUS);
+// 출력 버스. 멈추거나 그만둘 때 새로 만들어, 옛 버스에 이미 예약된 음(0.2초 앞까지)·콜 녹음을 끊는다
+function mkBus(){if(BUS){try{BUS.disconnect();DLY.disconnect()}catch(e){}}
+  BUS=AC.createGain();BUS.gain.value=snd?.1:0;const comp=AC.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=6;BUS.connect(comp);comp.connect(AC.destination);
+  DLY=AC.createDelay(1);DLY.delayTime.value=.18;const fb=AC.createGain();fb.gain.value=.22;const wet=AC.createGain();wet.gain.value=.28;DLY.connect(fb);fb.connect(DLY);DLY.connect(wet);wet.connect(BUS)}
+function ac(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();mkBus();
   NB=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate);const o=NB.getChannelData(0);for(let i=0;i<o.length;i++)o[i]=Math.random()*2-1}
   if(AC.state==='suspended')AC.resume();return AC}
 const midi=n=>440*Math.pow(2,(n-69)/12);
@@ -153,7 +166,7 @@ function buildChart(song,lv){const st=song.st(),notes=[],holdMin=lv===1?8:6,minG
 
 // ---------- 상태 ----------
 let songI=0, lvI=1, OFFSET=0;try{songI=clamp(+localStorage.getItem('pen-song')||0,0,SONGS.length-1);lvI=clamp(+(localStorage.getItem('pen-lv')??1),0,2);OFFSET=clamp(+localStorage.getItem('pen-offset')||0,-300,300)}catch(e){}
-const G={state:'title',song:null,notes:[],t0:0,pos:0,next:0,timer:0,score:0,combo:0,maxCombo:0,j:{p:0,g:0,o:0,m:0},fever:0,feverT:0,fx:[],judge:null,beatFlash:0,callText:null,ended:0,look:1.4,lit:[0,0,0]};
+const G={state:'title',pauseAt:0,resumeTo:null,song:null,notes:[],t0:0,pos:0,next:0,timer:0,score:0,combo:0,maxCombo:0,j:{p:0,g:0,o:0,m:0},fever:0,feverT:0,fx:[],judge:null,beatFlash:0,callText:null,ended:0,look:1.4,lit:[0,0,0]};
 const LANE_X=[60,180,300], JUDGE_Y=478, TOP_Y=206, WIN={p:.05,g:.09,o:.13};
 const laneX=(lane,y)=>{const k=(y-TOP_Y)/(JUDGE_Y-TOP_Y);return W/2+(LANE_X[lane]-W/2)*(.32+.68*k)};
 function renderPicks(){
@@ -162,7 +175,9 @@ function renderPicks(){
   $('offV').textContent=(OFFSET>0?'+':'')+OFFSET+'ms';$('snd').textContent=snd?'♪ 소리 켜짐':'♪ 소리 꺼짐';
   $('rkTitle').textContent=`SCORE BOARD · ${SONGS[songI].name} · ${LEVELS[lvI].name}`}
 renderPicks();
-document.addEventListener('click',e=>{const s=e.target.closest('[data-song]'),l=e.target.closest('[data-lv]');if((s||l)&&G.state==='play')return toast('곡이 끝난 뒤에 바꿀 수 있어요');
+document.addEventListener('click',e=>{const s=e.target.closest('[data-song]'),l=e.target.closest('[data-lv]');
+  if((s||l)&&G.state==='play'){pause();return toast('곡을 바꾸려면 그만하기를 누르거나 한 번 더 고르세요')}
+  if((s||l)&&G.state==='pause')quit();
   if(s){songI=+s.dataset.song;try{localStorage.setItem('pen-song',songI)}catch(e){}renderPicks();loadRank()}
   if(l){lvI=+l.dataset.lv;try{localStorage.setItem('pen-lv',lvI)}catch(e){}renderPicks();loadRank()}});
 const setOff=v=>{OFFSET=clamp(v,-300,300);try{localStorage.setItem('pen-offset',OFFSET)}catch(e){}renderPicks()};
@@ -170,18 +185,28 @@ $('offM').onclick=()=>setOff(OFFSET-10);$('offP').onclick=()=>setOff(OFFSET+10);
 $('snd').onclick=()=>{snd=!snd;try{localStorage.setItem('pen-snd',snd?'on':'off')}catch(e){}if(BUS)BUS.gain.value=snd?.1:0;renderPicks()};
 
 // 지금 스피커로 나가는 소리의 곡 안 시각(초). getOutputTimestamp 가 있으면 출력 지연까지 반영
-function songNow(){if(!AC)return 0;let t;try{const o=AC.getOutputTimestamp&&AC.getOutputTimestamp();t=o&&o.contextTime>0?o.contextTime+(performance.now()-o.performanceTime)/1000:AC.currentTime-(AC.outputLatency||0)}catch(e){t=AC.currentTime}return t-G.t0-OFFSET/1000}
+function songNow(){if(!AC)return 0;if(G.state==='pause')return G.pauseAt;let t;try{const o=AC.getOutputTimestamp&&AC.getOutputTimestamp();t=o&&o.contextTime>0?o.contextTime+(performance.now()-o.performanceTime)/1000:AC.currentTime-(AC.outputLatency||0)}catch(e){t=AC.currentTime}return Math.min(t,AC.currentTime)-G.t0-OFFSET/1000}
 function evNow(ev){return songNow()-((performance.now()-(ev&&ev.timeStamp||performance.now()))/1000)} // 입력 순간(이벤트 시각)으로 되돌림
 
 function start(){const c=ac();if(!c){toast('이 브라우저는 소리를 낼 수 없어요');return}if(BUS)BUS.gain.value=snd?.1:0;
   const song=SONGS[songI].build(),lv=LEVELS[lvI];G.song=song;G.notes=buildChart(song,lv.id).map(n=>Object.assign(n,{hit:null,held:false,done:false}));G.look=lv.look;
   Object.assign(G,{state:'play',score:0,combo:0,maxCombo:0,j:{p:0,g:0,o:0,m:0},fever:0,feverT:0,fx:[],judge:null,callText:null,ended:0,pos:0});
-  G.t0=c.currentTime+2.2;G.next=G.t0;G.dur=song.len*song.st()+1.5;clearInterval(G.timer);G.timer=setInterval(tick,30);$('sub').hidden=true;
-  try{if(window.parent&&parent!==window&&parent.document)parent.document.querySelector('nav.tabs')}catch(e){}}
+  G.t0=c.currentTime+2.2;G.next=G.t0;G.dur=song.len*song.st()+1.5;G.resumeTo=null;presses.clear();clearInterval(G.timer);G.timer=setInterval(tick,30);$('sub').hidden=true;ui()}
 function stop(){clearInterval(G.timer);G.timer=0}
+function ui(){$('pbtn').hidden=G.state!=='play';$('pmenu').hidden=G.state!=='pause';
+  if(G.state==='pause'){const N=G.notes.length||1,d=G.notes.filter(n=>n.hit||n.done).length;$('pinfo').textContent=`${SONGS[songI].name} · ${LEVELS[lvI].name} · 진행 ${Math.round(d/N*100)}% · ${G.score.toLocaleString()}점`}}
+// 일시정지: 박자 시계를 그 자리에 세우고 예약된 소리를 버린다. 누르고 있던 롱 노트는 그대로 끝난 것으로(감점 없음)
+function pause(msg){if(G.state!=='play')return;G.pauseAt=songNow();stop();if(AC)mkBus();G.state='pause';
+  for(const n of G.notes)if(n.held){n.held=false;n.done=true}presses.clear();ui();if(msg)toast(msg)}
+// 이어서 하기: 멈춘 곳 2초 앞부터 음악을 다시 틀어 박자를 잡게 한다(그 사이 노트는 이미 판정된 것이라 다시 안 나옴)
+function resume(){if(G.state!=='pause')return;const c=ac();if(!c)return;const st=G.song.st(),from=G.pauseAt-2;
+  G.t0=c.currentTime+.15-from;G.pos=Math.max(0,Math.ceil(from/st));G.resumeTo=G.pauseAt;G.state='play';clearInterval(G.timer);G.timer=setInterval(tick,30);ui()}
+// 그만하기: 기록 없이 제목 화면으로
+function quit(msg){if(G.state!=='play'&&G.state!=='pause')return;stop();if(AC)mkBus();G.state='title';G.notes=[];G.resumeTo=null;G.feverT=0;presses.clear();ui();if(msg)toast(msg)}
 // 음악 예약(0.2초 앞까지)
 let callBuf=null,callLd=false;function callLoad(){if(callLd||!AC)return;callLd=true;fetch('../assets/race/umapyoi.mp3').then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((res,rej)=>AC.decodeAudioData(b,res,rej))).then(b=>{callBuf=b}).catch(()=>{})}
-function tick(){if(G.state!=='play'||!AC)return;const song=G.song,st=song.st();if(document.hidden)return;
+const frameHidden=()=>{try{return !!window.frameElement&&!frameElement.getClientRects().length}catch(e){return false}};
+function tick(){if(G.state!=='play'||!AC)return;if(frameHidden())return pause('게임 화면을 떠나서 일시정지했어요');const song=G.song,st=song.st();if(document.hidden)return;
   while(G.pos<song.len&&G.t0+G.pos*st<AC.currentTime+.2){const t=G.t0+G.pos*st,ev=song.steps[G.pos];
     if(ev)for(const e of ev){const k=e[0];if(k==='m')tone(e[1],t,st*e[2]*.92,{duty:.25,g:.16,echo:true});else if(k==='h')tone(e[1],t,st*e[2]*.9,{duty:.125,g:.07});else if(k==='a')tone(e[1],t,st*e[2]*.9,{duty:.25,g:.045,rel:.2});
       else if(k==='b')tone(e[1],t,st*e[2]*.92,{tri:true,g:.4,rel:.7});else if(k==='d')KIT[e[1]](t)}
@@ -209,13 +234,16 @@ function up(id,now){const p=presses.get(id);presses.delete(id);if(!p||!p.note)re
   if(n.type==='flick'&&!n.hit&&now>n.t+WIN.o)miss(n)}
 const pt=e=>{const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}};
 let tap0=0;
-cv.addEventListener('pointerdown',e=>{const p=pt(e);if(G.state!=='play'){const now=performance.now();if(now-tap0<450){tap0=0;start()}else{tap0=now;ac();callLoad()}return}
+cv.addEventListener('pointerdown',e=>{const p=pt(e);if(G.state==='pause')return;if(G.state!=='play'){const now=performance.now();if(now-tap0<450){tap0=0;start()}else{tap0=now;ac();callLoad()}return}
   e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(err){}down(laneAt(p.x),evNow(e),e.pointerId,p.x)});
 cv.addEventListener('pointermove',e=>{if(G.state==='play')move(e.pointerId,pt(e).x)});
 for(const k of ['pointerup','pointercancel'])cv.addEventListener(k,e=>{if(G.state==='play')up(e.pointerId,evNow(e))});
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 const KEYS={d:0,f:1,j:2,D:0,F:1,J:2};
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.repeat)return;
+  if(e.key==='Escape'||e.key==='p'||e.key==='P'){if(G.state==='play'){e.preventDefault();pause()}else if(G.state==='pause'){e.preventDefault();resume()}return}
+  if(e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return; // 버튼은 그 버튼이 처리
+  if(G.state==='pause'){if(e.key===' '||e.key==='Enter'){e.preventDefault();resume()}return}
   if(G.state!=='play'){if(e.key===' '||e.key==='Enter'){e.preventDefault();start()}return}
   if(e.key in KEYS){e.preventDefault();down(KEYS[e.key],evNow(e),'k'+e.key.toLowerCase(),LANE_X[KEYS[e.key]])}
   else if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();const dir=e.key==='ArrowLeft'?-1:1,now=evNow(e),n=G.notes.find(n=>!n.hit&&!n.done&&n.type==='flick'&&n.dir===dir&&Math.abs(n.t-now)<=WIN.o);if(n){judge(n,now-n.t,'flick');n.done=true}}});
@@ -286,20 +314,21 @@ function drawResult(){const r=G.result;cx.fillStyle='rgba(5,5,15,.78)';cx.fillRe
   cx.font='bold 13px monospace';cx.fillStyle='#fff';cx.fillText('DOUBLE TAP TO RETRY',W/2,440)}
 let last=performance.now();
 function loop(ts){requestAnimationFrame(loop);const dt=Math.min(.05,(ts-last)/1000);last=ts;
-  const now=G.state==='play'?songNow():ts/1000,song=G.song,beat=G.state==='play'&&song?now*song.bpm/60:ts/1000*1.2;
+  const live=G.state==='play'||G.state==='pause',now=live?songNow():ts/1000,song=G.song,beat=live&&song?now*song.bpm/60:ts/1000*1.2;
   if(G.state==='play'){for(const n of G.notes){if(n.hit||n.done)continue;if(n.t-now>0)break;if(now-n.t>WIN.o+.02&&n.type!=='flick')miss(n);else if(n.type==='flick'&&now-n.t>WIN.o+.12){let pend=false;for(const p of presses.values())if(p.note===n)pend=true;if(!pend)miss(n)}}
     for(const n of G.notes)if(n.type==='hold'&&n.held&&now>=n.t+n.dur){n.held=false;n.done=true;G.score+=Math.round(300*(G.feverT>0?1.5:1));G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);burst(n.lane,'p');for(const [id,p] of presses)if(p.note===n)presses.delete(id)}
     if(G.feverT>0)G.feverT-=dt;if(now>G.dur)finish()}
   for(let l=0;l<3;l++)G.lit[l]=Math.max(0,G.lit[l]-dt*4);if(G.judge)G.judge.t+=dt;if(G.callText)G.callText.t+=dt;
   G.fx=G.fx.filter(f=>{f.t+=dt;if(f.k==='p'){f.x+=f.vx;f.y+=f.vy;f.vy+=.15;return f.t<.6}return f.t<1.3});
-  drawStage(now,beat);drawHighway(now);if(G.state==='play')drawNotes(now);drawCrowd(now,beat);drawHud(now);
+  drawStage(now,beat);drawHighway(now);if(live)drawNotes(now);drawCrowd(now,beat);drawHud(now);
   if(G.state==='play'&&now<0){cx.textAlign='center';cx.font='bold 46px "Black Han Sans",sans-serif';cx.fillStyle='#fff';cx.fillText(Math.ceil(-now),W/2,340)}
+  else if(G.state==='play'&&G.resumeTo!=null){if(now>=G.resumeTo)G.resumeTo=null;else{cx.textAlign='center';cx.font='bold 40px "Black Han Sans",sans-serif';cx.fillStyle='#fff';cx.fillText(Math.ceil(G.resumeTo-now),W/2,340);cx.font='11px monospace';cx.fillText('READY',W/2,358)}}
   if(G.state==='title')drawTitle(ts/1000);if(G.state==='result')drawResult()}
 requestAnimationFrame(loop);
-function finish(){stop();G.state='result';G.feverT=0;const N=G.notes.length||1,acc=(G.j.p+G.j.g*.7+G.j.o*.4)/N;G.result={acc,rank:acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C',fc:G.j.m===0};
+function finish(){stop();G.state='result';G.resumeTo=null;ui();G.feverT=0;const N=G.notes.length||1,acc=(G.j.p+G.j.g*.7+G.j.o*.4)/N;G.result={acc,rank:acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C',fc:G.j.m===0};
   let hi=0;const key='pen-hi-'+SONGS[songI].id+'-'+LEVELS[lvI].id;try{hi=+localStorage.getItem(key)||0;if(G.score>hi)localStorage.setItem(key,G.score)}catch(e){}
   runEnd()}
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&G.state==='play'){stop();G.state='title';toast('화면을 떠나서 곡을 멈췄어요')}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pause('화면을 떠나서 일시정지했어요')});
 
 // ---------- 스코어 보드(보드의 게시판 웹 앱, game=pen, skin=곡:난이도 로 따로 모음) ----------
 const RK={ready:false,run:null,sent:false,mine:null};
@@ -322,7 +351,8 @@ $('sub').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run
     RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('pen-sent',String(Date.now()))}catch(err){}$('sub').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200)}
   catch(err){$('subBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
 $('rkRe').onclick=loadRank;loadRank();
-window.PEN={G,SONGS,LEVELS,buildChart,start,songNow}; // 점검용
+$('pbtn').onclick=()=>pause();$('pGo').onclick=resume;$('pRe').onclick=()=>{quit();start()};$('pQuit').onclick=()=>quit('곡을 그만뒀어요');
+window.PEN={G,SONGS,LEVELS,buildChart,start,songNow,pause,resume,quit}; // 점검용
 })();
 </script>
 </body>
