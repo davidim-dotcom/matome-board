@@ -213,8 +213,9 @@ function renderMap(){cx.clearRect(0,0,W,H);cx.fillStyle=css('--sea')||'#0f1124';
     cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(done?'✓':String(sp.i+1),x,y+4);cx.globalAlpha=1}
   // 지금 위치(이동 중이면 사이)
   let at=proj([S.at.lat,S.at.lon]);if(S.anim){const k=Math.min(1,(performance.now()-S.anim.t0)/S.anim.dur),a=proj([S.anim.from.lat,S.anim.from.lon]),b=proj([S.anim.to.lat,S.anim.to.lon]);at=[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k-Math.sin(k*Math.PI)*16]}
-  if(ME.complete&&ME.naturalWidth){cx.imageSmoothingEnabled=false;cx.drawImage(ME,at[0]-ME.naturalWidth*.7,at[1]-ME.naturalHeight*1.4,ME.naturalWidth*1.4,ME.naturalHeight*1.4)}else{cx.fillStyle=css('--pink');cx.beginPath();cx.arc(at[0],at[1],6,0,Math.PI*2);cx.fill()}}
-const ME=new Image();ME.src='../assets/game/player.png';ME.onload=()=>S&&renderMap();
+  if(ME.complete&&ME.naturalWidth){const fw=ME.naturalWidth/8,fh=ME.naturalHeight,s=50/fh,f=S.anim?Math.floor(performance.now()/90)%8:0,left=S.anim&&S.anim.to.lon<S.anim.from.lon; // 걷기 8칸, 이동 중에만 걷고 왼쪽으로 가면 뒤집는다
+    cx.save();cx.translate(at[0],at[1]);if(left)cx.scale(-1,1);cx.drawImage(ME,f*fw,0,fw,fh,-fw*s/2,-fh*s,fw*s,fh*s);cx.restore()}else{cx.fillStyle=css('--pink');cx.beginPath();cx.arc(at[0],at[1],6,0,Math.PI*2);cx.fill()}}
+const ME=new Image();ME.src='../assets/lilly/anim_walk.png';ME.onload=()=>S&&renderMap();
 function animate(){renderMap();if(S.anim)requestAnimationFrame(animate)}
 cv.addEventListener('click',e=>{if(S.over)return;const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;let best=null,bd=22;
   for(const sp of spots){const [px,py]=proj([sp.lat,sp.lon]),d=Math.hypot(px-x,py-y);if(d<bd){bd=d;best=sp}}if(best){S.sel=best.i;render();renderMap()}});

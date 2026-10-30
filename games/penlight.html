@@ -92,7 +92,8 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function fit(){const r=Math.min(3,window.devicePixelRatio||1);cv.width=W*r;cv.height=H*r;cx.setTransform(r,0,0,r,0,0)}fit();
 
 // ---------- 그림(저장소 도트) ----------
-const IMG={};for(const [k,f] of [['lilly','../assets/game/player.png'],['lillyB','../assets/game/skill_b.png'],['sora','../assets/game/hc_sora_m.png'],['miko','../assets/game/hc_miko_m.png'],['cat','../assets/game/cat.png']]){const i=new Image();i.src=f;IMG[k]=i}
+// 릴리 춤(2026-10 말 새 도트, assets/lilly/extract.py): 한 줄에 8칸 — 평소 twirl(회전 춤, 제목·결과에서는 천천히), FEVER jig(만세)
+const IMG={};for(const [k,f] of [['twirl','../assets/lilly/anim_twirl.png'],['jig','../assets/lilly/anim_jig.png'],['sora','../assets/game/hc_sora_m.png'],['miko','../assets/game/hc_miko_m.png'],['cat','../assets/game/cat.png']]){const i=new Image();i.src=f;IMG[k]=i}
 cx.imageSmoothingEnabled=false;
 
 // ---------- 소리(칩튠: ラン 과 같은 방식) ----------
@@ -337,8 +338,9 @@ function drawStage(now,beat){const TH=theme();
   cx.fillStyle='#ffe3f3';cx.font='bold 13px "Black Han Sans",sans-serif';cx.textAlign='center';cx.fillText(SONGS[songI].name,W/2,48);
   cx.font='11px monospace';cx.fillStyle='#b8a8ff';cx.fillText(G.state==='play'?`${LEVELS[lvI].name}  COMBO ${G.combo}`:'PENLIGHT ON STAGE',W/2,68);
   // 아이돌(릴리)·백댄서
-  const bob=Math.abs(Math.sin(beat*Math.PI))*6;const L=fever?IMG.lillyB:IMG.lilly;
-  if(L.complete&&L.naturalWidth){const s=2.4;cx.drawImage(L,W/2-L.naturalWidth*s/2,184-L.naturalHeight*s-bob,L.naturalWidth*s,L.naturalHeight*s)}
+  const L=fever?IMG.jig:IMG.twirl;
+  if(L.complete&&L.naturalWidth){const fw=L.naturalWidth/8,fh=L.naturalHeight,f=(G.state==='play'?Math.floor(beat*2):G.state==='pause'?Math.floor(G.pauseAt*2):Math.floor(now*3))%8,s=112/fh; // 박자에 두 칸씩(4박에 한 바퀴)
+    cx.drawImage(L,((f%8)+8)%8*fw,0,fw,fh,W/2-fw*s/2,186-fh*s,fw*s,fh*s)}
   for(const [k,x,ph] of [['sora',96,0],['miko',264,.5]]){const im=IMG[k];if(im.complete&&im.naturalWidth){const s=2.2,b=Math.abs(Math.sin((beat+ph)*Math.PI))*5;cx.drawImage(im,x-im.naturalWidth*s/2,184-im.naturalHeight*s-b,im.naturalWidth*s,im.naturalHeight*s)}}
   // 콜 글자
   if(G.callText&&G.callText.t<1.1){const k=G.callText.t;cx.save();cx.globalAlpha=1-Math.max(0,k-.6)/.5;cx.font=`bold ${28+k*14}px "Black Han Sans",sans-serif`;cx.fillStyle='#fff';cx.strokeStyle='#ff4f9a';cx.lineWidth=5;cx.textAlign='center';cx.strokeText(G.callText.text,W/2,120);cx.fillText(G.callText.text,W/2,120);cx.restore()}}

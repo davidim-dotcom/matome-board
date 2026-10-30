@@ -63,9 +63,9 @@ body{margin:0;background:var(--bg);color:var(--ink);
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .wrap{max-width:760px;margin:0 auto;padding:20px 16px 64px}
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 4px;letter-spacing:-.5px}
-/* 사이트 대표 캐릭터 메이드 버스터 릴리(弾幕 자기 그림 assets/game/player.png)를 제목 옆에. CSS 로만 둥실거린다 */
+/* 사이트 대표 캐릭터 메이드 버스터 릴리: 2026-10 말 운영자 새 그림의 둥근 배지(assets/lilly/badge.png, assets/lilly/extract.py)를 제목 옆에. CSS 로만 둥실거린다 */
 .brand{display:flex;align-items:center;gap:10px}
-.brand .lilly{height:54px;width:auto;image-rendering:pixelated;animation:lilly-bob 2.4s ease-in-out infinite;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25));flex:none}
+.brand .lilly{height:52px;width:52px;border-radius:50%;animation:lilly-bob 2.4s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(0,0,0,.28));flex:none}
 @keyframes lilly-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.brand .lilly{animation:none}}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
@@ -513,7 +513,7 @@ textarea{min-height:110px;resize:vertical}
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><img class="lilly" src="assets/game/player.png" alt="" width="36" height="41" decoding="async"><h1>마토메 보드</h1></div>
+  <div class="brand"><img class="lilly" src="assets/lilly/badge.png" alt="" width="52" height="52" decoding="async"><h1>마토메 보드</h1></div>
   <div class="topbar">
     <p class="sub" id="storeNote">일본 게임·애니·버튜버·만화 공연과 이벤트 소식</p>
     <div class="langsw" role="group" aria-label="표시 언어"><button type="button" data-lang="ja" aria-pressed="true">原文</button><button type="button" data-lang="ko" aria-pressed="false">한국어</button></div>
@@ -1046,7 +1046,7 @@ async function weekendShot(){
   g.fillStyle=C.pink;g.fillRect(0,0,W,14);
   F(400,84,"Black Han Sans");g.fillStyle=C.ink;g.textBaseline="top";g.fillText("마토메 보드",60,70);
   F(500,34);g.fillStyle=C.mut;g.fillText("일본 게임·애니·버튜버·만화 소식",60,175);
-  try{const im=$(".brand .lilly");if(im&&im.complete&&im.naturalWidth){g.imageSmoothingEnabled=false;g.drawImage(im,W-60-im.naturalWidth*5,50,im.naturalWidth*5,im.naturalHeight*5);g.imageSmoothingEnabled=true}}catch{}
+  try{const im=$(".brand .lilly");if(im&&im.complete&&im.naturalWidth){g.save();g.shadowColor="rgba(0,0,0,.45)";g.shadowBlur=24;g.drawImage(im,W-60-190,46,190,190);g.restore()}}catch{}
   let y=270;
   g.fillStyle=C.sur;g.beginPath();g.roundRect(60,y,W-120,96,20);g.fill();
   F(700,40);g.fillStyle=C.pink;g.fillText("이번 주말",90,y+26);
