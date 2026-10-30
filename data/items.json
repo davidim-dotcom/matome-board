@@ -1,5 +1,26 @@
 [
  {
+  "title": "‘진격의 거인展 FINAL’ 11월 14일 부산 개막",
+  "category": "exhibit",
+  "source": "BNT뉴스",
+  "region": "KR",
+  "platform": "rss",
+  "works": [
+   "進撃の巨人"
+  ],
+  "eventDate": "2026-11-14T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBhWjdqNmtBd08xNXJLZ0g3YmwxNmdBeVNtdlRIM3ZDUW1SbS05dnBSNzQ4MzZqS1RVZzJIbEFxbUljWUtzQ3JlUzN1NDFwd2JDb0I2WFpGcWRmV2xQc0tJNzdFQ3Y?oc=5",
+  "summary": "",
+  "addedAt": "2026-10-30T21:09:35.334178+09:00",
+  "scanned": true
+ },
+ {
   "title": "「名探偵コナン」グッズが、しまむら・アベイルに登場！コナン＆怪盗キッドが中心のアパレル、バッグ類など豊富なデザイン",
   "category": "goods",
   "source": "インサイド",
@@ -353,7 +374,8 @@
   "scanned": true,
   "title_ko": "Critical Role과 홀로라이브에 의한, TRPG 「Daggerheart」플레이 기획 「Shattered Legends」가 스타트",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표이사 사장：타니고 모토아키)는, 미디어 제작회사, Critical Role와의 첫 콜라보레이션 기획 「Shattered Legends(셔터드 레전드)」를 실시하는 것을 알려 드리겠습니다. Cr […]",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "博衣こより 1stライブ＠東京ガーデンシアター 情報解禁！",
@@ -386,6 +408,7 @@
   ],
   "address": "東京都江東区",
   "tg": "107da",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -410,7 +433,8 @@
   "scanned": true,
   "title_ko": "주식회사 Aiming과 커버 주식회사의 협업 타이틀 「홀로라이브 마작 -호로쨩-」타이틀 발표＆사전 등록 접수 개시!",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키, 이하 「커버」)는, 주식회사 Aiming(본사: 도쿄도 시부야구, 대표 이사 사장: 시바 다다시, 이하 「Aiming」)과 협업 타이틀로서, 2026년 전달 예정의 신작 게임 「홀로라이브 마 […]",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "【にじさんじ】伊波ライ 1st ミニアルバム『Hero』をデジタルリリース＆アルバムリリース記念3Dソロライブ『Behavior』を伊波ライYouTubeチャンネルにて開催決定！",
@@ -434,7 +458,8 @@
   "scanned": true,
   "title_ko": "【니지산지】이나미 라이 1st 미니앨범 「Hero」를 디지털 릴리스＆앨범 릴리스 기념 3D솔로 라이브 「Behavior」를 이나라이 YouTube 채널에서 개최 결정!",
   "summary_ko": "",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "‘카드캡터 사쿠라’ 콜라보 카페, 서울숲서 개최…日 굿즈 15종 선봬",
@@ -553,7 +578,8 @@
   "addedAt": "2026-10-30T19:42:07.356693+09:00",
   "scanned": true,
   "title_ko": "",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "‘귀멸의 칼날’ 음악감독 카지우라 유키, 오는 11월 첫 내한 공연 개최",
@@ -574,7 +600,8 @@
   "addedAt": "2026-10-30T19:42:07.356693+09:00",
   "scanned": true,
   "title_ko": "",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "アニメーション特別シンポジウム ～2027年 新たなアニメアワードのスタートに向けて～　第39回東京国際映画祭(TIFF)",
@@ -624,7 +651,8 @@
   "scanned": true,
   "title_ko": "유희민이라 모여!! 홀로라이브의 호라게 전달에서 매료한 탤런트들의 「비명」과 「3D 리액션」을 한번 더 보자! 【할로윈 특집 걸작선/설화 라미, 사쿠하라 보탄, 타카미네 루이, 미즈미야 추, 로보코씨】",
   "summary_ko": "과거의 배달보다 무심코 웃어 버리는 3개의 공포 게임 배달을 픽업합니다!",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "ブラウンダスト2 POP UP SHOP in 3都市 11月4日より開催!",
@@ -669,7 +697,8 @@
   "scanned": true,
   "title_ko": "홀로라이브 패션 라벨 \"holoSynQ\"시동 FLOW GLOW의 스트리트웨어를 전개",
   "summary_ko": "VTuber 그룹 홀로라이브를 운영하는 커버 주식회사가 새로운 패션 라벨 '홀로라이브 - holoSynQ(홀로라이브 홀로싱크)'의 시작을 발표했다. 섬유 무역 회사 인 MN Interfashion Co., Ltd.와의 공동 기획으로 VTuber 문화를 일상복에 떨어 뜨린 유",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "【にじさんじ】星川サラ 2ndミニアルバム『Stella Note』試聴動画・楽曲詳細を公開！また、「圧倒的☆スター星」先行配信開始&MV公開決定！",
@@ -943,7 +972,8 @@
   "addedAt": "2026-10-30T18:47:20.143434+09:00",
   "scanned": true,
   "title_ko": "STPR PARADISE Collabo Cafe 2026 개최 결정! !",
-  "summary_ko": "STPR Family의 「애니메이트 걸스 페스티벌 2026」에의 출전에 맞추어, 올해도 STPR PARADISE Collabo Cafe의 개최가 결정되었습니다! ! 각 그룹의 오리지널 콜라보레이션 메뉴가 등장! ! ※ […] The post STPR PARADISE Co"
+  "summary_ko": "STPR Family의 「애니메이트 걸스 페스티벌 2026」에의 출전에 맞추어, 올해도 STPR PARADISE Collabo Cafe의 개최가 결정되었습니다! ! 각 그룹의 오리지널 콜라보레이션 메뉴가 등장! ! ※ […] The post STPR PARADISE Co",
+  "ps": true
  },
  {
   "title": "アニメ『薬屋のひとりごと』とのコラボカフェ第3弾の開催が決定！",
@@ -1018,6 +1048,7 @@
   ],
   "address": "東京都渋谷区",
   "tg": "107da",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -1049,7 +1080,7 @@
   "works": [],
   "eventDate": "2026-11-21T16:00",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-29T20:30",
   "deadline": "",
   "venue": "TOHOシネマズ日比谷",
   "ticketUrl": "",
@@ -1065,7 +1096,14 @@
   "addedAt": "2026-10-30T18:35:11.975292+09:00",
   "scanned": true,
   "title_ko": "극장 애니메이션 “마법사의 밤” 공개 기념 무대 인사【도쿄·1회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-29T20:30"
+   }
+  ]
  },
  {
   "title": "劇場アニメーション『魔法使いの夜』公開記念舞台挨拶【東京・2回目】",
@@ -1075,7 +1113,7 @@
   "works": [],
   "eventDate": "2026-11-21T19:45",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-29T20:30",
   "deadline": "",
   "venue": "TOHOシネマズ日比谷",
   "ticketUrl": "",
@@ -1091,7 +1129,14 @@
   "addedAt": "2026-10-30T18:35:11.975292+09:00",
   "scanned": true,
   "title_ko": "극장 애니메이션 “마법사의 밤” 공개 기념 무대 인사【도쿄·2회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-29T20:30"
+   }
+  ]
  },
  {
   "title": "劇場アニメーション『魔法使いの夜』公開記念舞台挨拶【大阪・1回目】",
@@ -1101,7 +1146,7 @@
   "works": [],
   "eventDate": "2026-11-22T13:40",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-29T20:30",
   "deadline": "",
   "venue": "TOHOシネマズ梅田",
   "ticketUrl": "",
@@ -1117,7 +1162,14 @@
   "addedAt": "2026-10-30T18:35:11.975292+09:00",
   "scanned": true,
   "title_ko": "극장 애니메이션 “마법사의 밤” 공개 기념 무대 인사【오사카·1회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-29T20:30"
+   }
+  ]
  },
  {
   "title": "劇場アニメーション『魔法使いの夜』公開記念舞台挨拶【大阪・2回目】",
@@ -1127,7 +1179,7 @@
   "works": [],
   "eventDate": "2026-11-22T17:30",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-29T20:30",
   "deadline": "",
   "venue": "TOHOシネマズ梅田",
   "ticketUrl": "",
@@ -1143,7 +1195,14 @@
   "addedAt": "2026-10-30T18:35:11.975292+09:00",
   "scanned": true,
   "title_ko": "극장 애니메이션 “마법사의 밤” 공개 기념 무대 인사【오사카·2회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-29T20:30"
+   }
+  ]
  },
  {
   "title": "劇場版『魔法使いの夜』11月20日公開初日よりIMAX上映決定！ 戸松遥＆小林裕介登壇の舞台挨拶も開催",
@@ -1595,7 +1654,8 @@
   "addedAt": "2026-10-30T18:35:11.975292+09:00",
   "scanned": true,
   "title_ko": "돈키 아피타에서 '와일드 스피드' 상품이 11월 7일 발매! 브라이언의 넘버 플레이트형 인테리어나, 봄베형 쿠션 등 풍부한 디자인",
-  "summary_ko": "돈 키호테, 아피타에서, 「와일드 스피드」의 오리지널 한정 상품이 11월 7일부터 발매! 카 투어 등 각종 캠페인도 실시."
+  "summary_ko": "돈 키호테, 아피타에서, 「와일드 스피드」의 오리지널 한정 상품이 11월 7일부터 발매! 카 투어 등 각종 캠페인도 실시.",
+  "ps": true
  },
  {
   "title": "カバー、ファッションレーベル「ホロライブ ホロシンク」を発表！第1弾はVTuberグループ「FLOW GLOW」テーマのストリートウェア",
@@ -1619,7 +1679,8 @@
   "scanned": true,
   "title_ko": "커버, 패션 라벨 「홀로라이브 홀로 싱크」를 발표! 제1탄은 VTuber 그룹 'FLOW GLOW' 테마의 스트리트웨어",
   "summary_ko": "VTuber 그룹 「FLOW GLOW」를 테마로 한 유니섹스의 스트리트 웨어가 전개!",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "ガシャポン「ガンダム」×「ホロライブ」コラボイラストのラバマスが発売！ぬいアーマー姿の「サザビー×星街すいせい」など全6種",
@@ -1644,7 +1705,8 @@
   "scanned": true,
   "title_ko": "가샤폰 「건담」×「홀로라이브」콜라보레이션 일러스트의 라바마스가 발매! 봉제 아머 차림의 「사자비×호시마치 스이세이」등 총 6종",
   "summary_ko": "가샤폰 「GUNDAM × 홀로라이브 캡슐 러버 마스코트 1」이 10월 제5주부터 발매!",
-  "tg": "bf6c"
+  "tg": "bf6c",
+  "ps": true
  },
  {
   "title": "くら寿司で「にじさんじ」コラボ第3弾が開催！咎人、リトテツ、おうとうのグッズやコラボメニューを多数展開",
@@ -2096,6 +2158,7 @@
   ],
   "address": "神奈川県",
   "tg": "107da",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -2153,7 +2216,8 @@
   "scanned": true,
   "title_ko": "타카미네 루이 1st 라이브@Kanadevia Hall 정보 해금!",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키)는, 폐사가 운영하는 여성 VTuber 그룹 「홀로라이브」소속의 「타카미네 루이」의 솔로 라이브",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "ハコス・ベールズ 1stライブ＠Kanadevia Hall 情報解禁！",
@@ -2179,7 +2243,8 @@
   "scanned": true,
   "title_ko": "하코스 베일즈 1st 라이브 @ Kanadevia Hall 정보 해금!",
   "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표이사 사장：타니고 모토아키)는, 폐사가 운영하는 여성 VTuber 그룹 「홀로라이브」소속의 「하코스 베일즈」의 솔로 라이브 Hakos Baelz 1st Concert “REGALIA”가 2026년 12월 […]",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "「アソビ★まわり隊！」デビュー記念イベント「アキバ★かくれんぼ！」が秋葉原で開催決定！",
@@ -2392,7 +2457,8 @@
   "scanned": true,
   "image": "https://cimg.kgl-systems.io/camion/files/92465/ogp_Dbgv.jpg?x=1280",
   "title_ko": "「FF14」도쿄 팬 페스티벌 2026 기조 강연 정보 정리. 「시라가네의 원더러」의 최신 정보를 체크(수시 갱신)【2026.10.31】",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "『三國志 戦棋版』先行試遊会レポート。SLGの壮大さとSRPGの緻密な戦術が融合。手動操作で逆転も狙える“盤上戦”の魅力を開発陣が力説",
@@ -2542,7 +2608,8 @@
   "addedAt": "2026-10-30T17:56:02.099271+09:00",
   "scanned": true,
   "title_ko": "하실러스, 관수한 언더패스 진입을 의사 체험하는 방재 XR 개발",
-  "summary_ko": "10월 31일, 가나가와현 야마토시에서 “방재·소방 체험 축제 2026”이 개최됩니다. 회장에서는, 주식회사 하시라스가 개발한 언더 패스 관수 사고 방지 XR을 체험할 수 있습니다. 관수된 언더패스에 진입하는 위험과 사고를 막기 위한 지식을 […] The post 하시라스, 관수한 언더패스에"
+  "summary_ko": "10월 31일, 가나가와현 야마토시에서 “방재·소방 체험 축제 2026”이 개최됩니다. 회장에서는, 주식회사 하시라스가 개발한 언더 패스 관수 사고 방지 XR을 체험할 수 있습니다. 관수된 언더패스에 진입하는 위험과 사고를 막기 위한 지식을 […] The post 하시라스, 관수한 언더패스에",
+  "ps": true
  },
  {
   "title": "「デスストランディング」の世界に没入できるARアプリが期間限定で登場！ 麻布台ヒルズで開催中の展示会で体験可能",
@@ -3081,7 +3148,8 @@
   "scanned": true,
   "title_ko": "홀로라이브, 패션 라벨 「holoSynQ」시동 FLOW GLOW의 스트리트 웨어를 전개",
   "summary_ko": "VTuber 그룹 홀로라이브를 운영하는 커버 주식회사가 새로운 패션 라벨 '홀로라이브 - holoSynQ(홀로라이브 홀로싱크)'의 시작을 발표했다. 섬유 무역 회사 인 MN Interfashion Co., Ltd.와의 공동 기획으로 VTuber 문화를 일상복에 떨어 뜨린 유",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "【潜入レポ】これはもう国宝級!?少女漫画、ついに国立新美術館へーー原画800点超の大ボリュームで名作に再会『少女漫画・インフィニティ　萩尾望都×山岸凉子×大和和紀 三人展』",
@@ -3324,6 +3392,7 @@
    139.7633
   ],
   "address": "東京都千代田区",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -3416,7 +3485,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/30120759/74603-389-c5108464e430d3d752c99fa6d84aab9f-1920x1260-1.webp",
   "title_ko": "오키나와 개최의 하츠네 미쿠 공식 이벤트 「CHURA MIKU STREET 2026」버젼의 하츠네 미쿠 디지털 피겨 「홀로 모델」이 발매 결정",
-  "summary_ko": "주식회사 Gugenka 주식회사 Gugenka(대표 이사 CEO 미카미 마사시)는, 2026년 11월 1일(일)부터 「CHURA MIKU STREET 2026」버젼의 하츠네 미쿠의 디지털 피겨 「홀로 모델」을 판매해 The post 오키나와 개최의 하츠네 미쿠 공식 이벤트 「CHUR"
+  "summary_ko": "주식회사 Gugenka 주식회사 Gugenka(대표 이사 CEO 미카미 마사시)는, 2026년 11월 1일(일)부터 「CHURA MIKU STREET 2026」버젼의 하츠네 미쿠의 디지털 피겨 「홀로 모델」을 판매해 The post 오키나와 개최의 하츠네 미쿠 공식 이벤트 「CHUR",
+  "ps": true
  },
  {
   "title": "Desktop Mate ハローキティ DLC・クロミ DLCが20%オフになる「ハローキティ＆クロミ 誕生日記念セール」が開催",
@@ -3512,7 +3582,8 @@
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/30115550/4747-2937-e7dc087c63a5459934e90a3b95ebc1e8-900x506-1.webp",
   "title_ko": "사쿠라 미코 2nd Live 영상이, JOYSOUND 「미루 하코」로 전달 결정 한정 상품 티켓이나 친필 사인들이 상품이 맞는 캠페인도 개최",
   "summary_ko": "주식회사 엑싱 USEN&U-NEXT GROUP의 주식회사 엑싱은 통신 가라오케 「JOYSOUND」의 영상 시청 서비스 「미루 하코」에서 여성 VTuber 그룹 「홀로라이브」소속, 「사쿠라 미코」의 2nd 솔로라 The post 사쿠라 미코 2nd Live 영상이, JO",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "にじさんじから「SANBAKA Palais de Rose」グッズが登場　10/30 18時から販売開始",
@@ -4071,7 +4142,8 @@
   "addedAt": "2026-10-29T18:46:47.277282+09:00",
   "scanned": true,
   "title_ko": "「미소녀 전사 세일러 문」극장 쇼, 27년 4월부터 제4기가 상연 결정! 제3기 추가정보도 분명히",
-  "summary_ko": "'미소녀 전사 세일러 문'의 극장 쇼 '미소녀 전사 세일러 문 -Shining Theater Shinagawa Tokyo-'가 도쿄 시나가와 프린스 호텔에 있는 클럽 eX에서 현재 상연 중이다. 이번 호평을 받아 제4기 공연이 2027년 4월부터 상연되기로 결정했다"
+  "summary_ko": "'미소녀 전사 세일러 문'의 극장 쇼 '미소녀 전사 세일러 문 -Shining Theater Shinagawa Tokyo-'가 도쿄 시나가와 프린스 호텔에 있는 클럽 eX에서 현재 상연 중이다. 이번 호평을 받아 제4기 공연이 2027년 4월부터 상연되기로 결정했다",
+  "ps": true
  },
  {
   "title": "「呪術廻戦」虎杖悠仁、乙骨憂太、禪院直哉らをダーク＆モードにデザイン！「呪彩と静寂」を表現した「HARE」コラボアパレル登場",
@@ -4286,7 +4358,8 @@
   "scanned": true,
   "title_ko": "'Midnight Grand Orchestra', 12월 공연을 전석 입장 무료로 변경",
   "summary_ko": "호시마치 스이세이와 TAKU INOUE에 의한 음악 유닛 「Midnight Grand Orchestra」는, 2026년 12월 5일과 6일에 LaLa arena TOKYO-BAY에서 개최하는 RE:IGNITION Serie […] The post 「Midnight Grand",
-  "tg": "bf6c"
+  "tg": "bf6c",
+  "ps": true
  },
  {
   "title": "FZMZ、VRChatでライブ「DEEP:DAWN」再演決定",
@@ -4307,7 +4380,8 @@
   "addedAt": "2026-10-29T18:46:47.277282+09:00",
   "scanned": true,
   "title_ko": "FZMZ, VRChat에서 라이브 'DEEP:DAWN' 재연 결정",
-  "summary_ko": "11월 5일과 7일의 18시, VRChat 내에서 FZMZ의 1st LIVE 「DEEP:DAWN」이 재연됩니다. 최신 악곡의 릴리스를 기념한 개최로, 회장은 새롭게 공개된 월드의 FZMZ Point Zero입니다. 참가비 없음 […] The post FZMZ, VRChat에서 라이브 \""
+  "summary_ko": "11월 5일과 7일의 18시, VRChat 내에서 FZMZ의 1st LIVE 「DEEP:DAWN」이 재연됩니다. 최신 악곡의 릴리스를 기념한 개최로, 회장은 새롭게 공개된 월드의 FZMZ Point Zero입니다. 참가비 없음 […] The post FZMZ, VRChat에서 라이브 \"",
+  "ps": true
  },
  {
   "title": "お前のほうからキスしてくれよ POPUP in 渋谷 11月7日より開催!",
@@ -4481,7 +4555,8 @@
   "addedAt": "2026-10-29T18:46:47.277282+09:00",
   "scanned": true,
   "title_ko": "GLAY × GiGO 전국 11월 7일부터 캠페인 제3탄 개최!",
-  "summary_ko": "록 밴드 「GLAY」와 GiGO의 콜라보 캠페인 제3탄이, 2026년 11월 7일~12월 13일에 전국의 GiGO 그룹의 가게에서 개최. GiGO 한정 경품이나 콜라보 카페, 라이브 포토 카드 첨부의 「GLAY 로고 구이」등이 순차 등장!"
+  "summary_ko": "록 밴드 「GLAY」와 GiGO의 콜라보 캠페인 제3탄이, 2026년 11월 7일~12월 13일에 전국의 GiGO 그룹의 가게에서 개최. GiGO 한정 경품이나 콜라보 카페, 라이브 포토 카드 첨부의 「GLAY 로고 구이」등이 순차 등장!",
+  "ps": true
  },
  {
   "title": "ジョジョ SBR × ドコモ POP UP in タワーレコード 開催中!",
@@ -4708,7 +4783,7 @@
   ],
   "eventDate": "2027-01-09T00:00",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-11-14T12:00",
   "deadline": "2026-11-08T00:00",
   "venue": "パシフィコ横浜",
   "ticketUrl": "https://eplus.jp/nikke_concert/",
@@ -4728,6 +4803,23 @@
   ],
   "address": "神奈川県",
   "tg": "107da",
+  "ps": true,
+  "phases": [
+   {
+    "n": "先行抽選",
+    "s": "",
+    "e": "2026-11-08T00:00"
+   },
+   {
+    "n": "抽選",
+    "s": "2026-11-14T12:00",
+    "e": "2026-11-29T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-12-12T12:00"
+   }
+  ],
   "placeGuess": true
  },
  {
@@ -5100,7 +5192,8 @@
   "scanned": true,
   "title_ko": "호시마치 스이세이×TAKU INOUE의 미도그라, 12월 라이브를 전석 무료로 티켓은 모두 환불 대응에",
   "summary_ko": "호시마치 스이세이씨와 TAKU INOUE씨에 의한 음악 프로젝트·Midnight Grand Orchestra(통칭·미도그라)가, 12월 5일(토)와 6일(일)에 개최하는 “RE Series” 제1탄 공연 “Midnight Mission”을, 전석 입장 무료로 개최하면 10월 28",
-  "tg": "bf6c"
+  "tg": "bf6c",
+  "ps": true
  },
  {
   "title": "『楽園追放 心のレゾナンス』完成披露舞台挨拶",
@@ -5110,8 +5203,8 @@
   "works": [],
   "eventDate": "2026-10-31T13:50",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-09-20T11:00",
+  "deadline": "2026-10-04T23:59",
   "venue": "新宿バルト9",
   "ticketUrl": "https://w.pia.jp/t/rakuen-tsuiho/",
   "ticketUrls": [
@@ -5128,7 +5221,24 @@
   "addedAt": "2026-10-29T06:35:03.471919+09:00",
   "scanned": true,
   "title_ko": "『낙원 추방 마음의 레조넌스』 완성 피로 무대 인사",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-09-20T11:00",
+    "e": "2026-10-04T23:59"
+   },
+   {
+    "n": "抽選",
+    "s": "2026-10-05T18:00"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-06T10:00",
+    "e": "2026-10-30T16:00"
+   }
+  ]
  },
  {
   "title": "『最終楽章 響け！ユーフォニアム』後編 フィナーレ舞台挨拶【1回目】",
@@ -5138,8 +5248,8 @@
   "works": [],
   "eventDate": "2026-11-29T12:10",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-24T11:00",
+  "deadline": "2026-11-03T23:59",
   "venue": "新宿ピカデリー",
   "ticketUrl": "https://l-tike.com/sound-euphonium2026/",
   "ticketUrls": [
@@ -5156,7 +5266,15 @@
   "addedAt": "2026-10-29T06:35:03.471919+09:00",
   "scanned": true,
   "title_ko": "『최종 악장 울려라! 유포니엄」후편 피날레 무대 인사【1회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-24T11:00",
+    "e": "2026-11-03T23:59"
+   }
+  ]
  },
  {
   "title": "『最終楽章 響け！ユーフォニアム』後編 フィナーレ舞台挨拶【2回目】",
@@ -5166,8 +5284,8 @@
   "works": [],
   "eventDate": "2026-11-29T15:55",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-24T11:00",
+  "deadline": "2026-11-03T23:59",
   "venue": "新宿ピカデリー",
   "ticketUrl": "https://l-tike.com/sound-euphonium2026/",
   "ticketUrls": [
@@ -5184,7 +5302,15 @@
   "addedAt": "2026-10-29T06:35:03.471919+09:00",
   "scanned": true,
   "title_ko": "『최종 악장 울려라! 유포니엄」후편 피날레 무대 인사【2회째】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-24T11:00",
+    "e": "2026-11-03T23:59"
+   }
+  ]
  },
  {
   "title": "「エヴァンゲリオン」×「コトダマン」コラボ第3弾！ 長髪のレイ＆シンジvsゲンドウが登場、初号機たちも参戦",
@@ -5340,7 +5466,8 @@
   "scanned": true,
   "image": "https://cimg.kgl-systems.io/camion/files/92325/ogp_lJEB.jpg?x=1280",
   "title_ko": "【데이트·아·라이브】시리즈 완결편. 신작 애니메이션 「Last Date」2027년 3월 26일부터 극장 상영 결정",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "【FGO】“ぐだぐだイベント2026”11月開催予定。参加条件は“アフタータイムのはじまり”のクリア",
@@ -5448,7 +5575,8 @@
   "addedAt": "2026-10-29T00:47:23.028649+09:00",
   "scanned": true,
   "title_ko": "Dios 타나카 × 텐류가와 나콘, 15 년 후의 친구가 투맨 라이브에서 공연 \"기적이 일어났습니다\"",
-  "summary_ko": "밴드·디오스의 보컬의 타나카(구 내 리리쿠노보요미)씨와, 래퍼/YouTuber의 텐류가와 나콘씨에 의한 투먼 라이브가, 2027년 1월 10일(일)에 도쿄·오모테산도의 WALL&WALL에서 개최된다. 10월 28일(수)에 양자가 X로 발표했다. 실은, 2명은 약 15년 ​​전부터"
+  "summary_ko": "밴드·디오스의 보컬의 타나카(구 내 리리쿠노보요미)씨와, 래퍼/YouTuber의 텐류가와 나콘씨에 의한 투먼 라이브가, 2027년 1월 10일(일)에 도쿄·오모테산도의 WALL&WALL에서 개최된다. 10월 28일(수)에 양자가 X로 발표했다. 실은, 2명은 약 15년 ​​전부터",
+  "ps": true
  },
  {
   "title": "にじさんじから「Sleepy Sheepy」グッズを2026年10月22日(木)18時から販売開始！",
@@ -6298,7 +6426,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/28123809/193442-1-d4ef6a42679a877c3350e49113d62477-3900x2194-1.webp",
   "title_ko": "VTuber 라이브 이벤트를 전개하는 「부이카후 ♪」, 새로운 음악 라벨 「ELECTRIC TOWN MUSIC」를 시동",
-  "summary_ko": "주식회사 DURA 아키하바라를 거점으로 VTuber 라이브 이벤트를 전개하는 「부이카후아♪」는, 주식회사 YUZURIHA Records(이하, YUZURIHA Records)와 공동으로, 새로운 음악 라벨 「ELECTRIC T The post VTuber 라이브 이벤트를 전개하는 「부"
+  "summary_ko": "주식회사 DURA 아키하바라를 거점으로 VTuber 라이브 이벤트를 전개하는 「부이카후아♪」는, 주식회사 YUZURIHA Records(이하, YUZURIHA Records)와 공동으로, 새로운 음악 라벨 「ELECTRIC T The post VTuber 라이브 이벤트를 전개하는 「부",
+  "ps": true
  },
  {
   "title": "ホロライブ運営、VTuberの虚偽情報を発信した未成年者と示談　親権者が賠償金の支払いを約束",
@@ -6366,7 +6495,8 @@
   "addedAt": "2026-10-28T18:44:21.289206+09:00",
   "scanned": true,
   "title_ko": "VTuber 전문지 「월간 VTuber 스타일」이 3D 라이브의 제작 비용을 전액 부담 이례의 시도",
-  "summary_ko": "VTuber 전문지 '월간 VTuber 스타일'을 간행하는 주식회사 앱 스타일이 3D 라이브 제작을 지원하는 기획 '3D 라이브 지원 프로젝트'의 시작을 발표했다. 아울러 기획에의 참가자를 모집. 응모자 중에서 최대 3명의 VTuber를 선출하여 3D 모델 제작부터 라이브 실시까지 필요"
+  "summary_ko": "VTuber 전문지 '월간 VTuber 스타일'을 간행하는 주식회사 앱 스타일이 3D 라이브 제작을 지원하는 기획 '3D 라이브 지원 프로젝트'의 시작을 발표했다. 아울러 기획에의 참가자를 모집. 응모자 중에서 최대 3명의 VTuber를 선출하여 3D 모델 제작부터 라이브 실시까지 필요",
+  "ps": true
  },
  {
   "title": "「にじさんじ」が2026年12月4日(金)から開催されるAnime x Game Festival Korea 2026に出展決定！ステージ出演も決定！",
@@ -6726,7 +6856,8 @@
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/28123010/180618-60-f1f5a07fcbe925cb4465be639877704a-2048x1153-1.webp",
   "title_ko": "holo Indie, 「하네 호로!」추가 컨텐츠 「AREA15/holoro/holoh3ro DLC」를 발매 탤런트 총 8명이 플레이어블 캐릭터로서 추가",
   "summary_ko": "CCMC 주식회사 씨 씨 엠 씨(CCMC)는, 홀로라이브의 2차 창작 게임 브랜드 「holo Indie(홀로 인디)」보다 전달중의 고난이도 점프 액션 게임 「튀김 홀로! '(개발: Dice The post holo Indie, '하네 홀로!' 추가",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "ゲーミングデバイスブランド・SteelSeries、「Neo-Porte」所属VTuber4名のコラボグッズプレゼントキャンペーンを開催",
