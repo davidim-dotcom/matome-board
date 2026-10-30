@@ -82,9 +82,11 @@ SOURCES = [
     # 버튜버 이벤트·라이브·상품전. 전용 소스라 그룹명을 작품 태그로 붙이고, 굿즈·전시 단어도 통과시킨다
     {"type": "rss", "name": "PANORA", "url": "https://panora.tokyo/feed", "extra_words": VTUBER_WORDS},
     {"type": "rss", "name": "KAI-YOU", "url": "https://kai-you.net/contents/feed.rss"},
-    # 2026-10 부터 hololivepro.com 이 RSS(/news/feed/)와 WP REST 를 모두 닫아(404) 뉴스 목록 HTML 을 직접 읽는다
-    {"type": "html", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS,
-     "item": r'<a href="(?P<link>/news/[^"]+)" class="news_li">.*?<img src="(?P<image>[^"]*)".*?<p class="date">(?P<date>[\d.]+)</p>\s*<h2 class="tit">(?P<title>.*?)</h2>\s*<p class="txt">(?P<summary>.*?)</p>'},
+    # hololivepro.com: 2026-10 초 RSS(/news/feed/)가 404 여서 뉴스 목록 HTML 만 읽었는데, 10-30 에 RSS 가 다시 열리고 HTML 링크는 절대 주소로 바뀌어 HTML 이 0건이 됐다.
+    # 그래서 RSS 를 먼저 읽고, 실패하거나 비면 fallback(HTML, 링크는 상대·절대 둘 다)을 읽는다.
+    {"type": "rss", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS,
+     "fallback": {"type": "html", "url": "https://hololivepro.com/news/",
+                  "item": r'<a href="(?P<link>(?:https://hololivepro\.com)?/news/[^"]+)" class="news_li">.*?<img src="(?P<image>[^"]*)".*?<p class="date">(?P<date>[\d.]+)</p>\s*<h2 class="tit">(?P<title>.*?)</h2>\s*<p class="txt">(?P<summary>.*?)</p>'}},
     {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
@@ -498,6 +500,22 @@ def html_entries(page, src):
 
 
 def collect(src, ref):
+    """출처 하나를 읽는다. fallback 이 있으면 본 주소가 실패하거나 0건일 때 fallback 설정(같은 이름)으로 다시 읽는다."""
+    fb = src.get("fallback")
+    if not fb:
+        return collect_one(src, ref)
+    main_src = {k: v for k, v in src.items() if k != "fallback"}
+    try:
+        out = collect_one(main_src, ref)
+        if RAW.get(src.get("name", src["type"])):
+            return out
+        print(f"  {src.get('name')}: 0건이라 fallback({fb.get('type')})으로 읽음", file=sys.stderr)
+    except Exception as e:
+        print(f"  {src.get('name')}: 실패({e})라 fallback({fb.get('type')})으로 읽음", file=sys.stderr)
+    return collect_one({**main_src, **fb}, ref)
+
+
+def collect_one(src, ref):
     t = src["type"]
     if t in ("rss", "youtube", "site", "wpjson", "json", "html"):
         url = {"rss": lambda: src["url"], "site": lambda: discover(src["url"]), "wpjson": lambda: src["url"], "json": lambda: src["url"], "html": lambda: src["url"],
@@ -1942,12 +1960,34 @@ def export_comics(ref):
           f"(이번에 글 {stats['opened']}건 확인, 새 화 {stats['new']}건, 낚시글 {stats['bait']}건 제외)")
 
 
+def dump_page(src):
+    """--check 와 환경변수 DUMP=출처 이름: 그 출처 주소의 원본 앞부분과 링크 주변을 로그로 보여 준다(html 출처의 item 정규식을 고칠 때).
+    클라우드 세션에서는 외부 사이트가 막혀 있어 Actions 의 '소스 점검'(입력 dump)으로 본다."""
+    url = src.get("url", "").replace("{ym}", datetime.now(JST).strftime("%Y%m"))
+    page = fetch(url, src.get("headers")).decode("utf-8", "replace")
+    print(f"--- DUMP {src.get('name')}: {url} ({len(page)}자)")
+    body = page.find("<body")
+    print(page[max(0, body):max(0, body) + 1500] if body >= 0 else page[:1500])
+    seen = 0
+    start = max(0, body)  # <head> 의 canonical·alternate 링크는 건너뛰고 본문 링크만
+    for m in re.finditer(r'href="[^"]*/(news|article|topics|info)[^"]*/[^"/]+/?"', page[start:]):
+        m = re.compile(re.escape(m.group(0))).search(page, start + m.start())
+        if seen >= 4: break
+        print(f"--- 링크 주변 {seen + 1} (위치 {m.start()})")
+        print(page[max(0, m.start() - 300):m.start() + 900]); seen += 1
+    print("--- DUMP 끝")
+
+
 def check():
     """소스마다 가져오기만 해 보고 결과를 출력한다. 파일은 쓰지 않는다. 실패가 있으면 종료 코드 1."""
     ref = datetime.now(JST)
     bad = 0
     for src in SOURCES:
         name = src.get("name", src["type"])
+        if os.environ.get("DUMP") and os.environ["DUMP"] == name:
+            for d in [src] + ([{**src, **src["fallback"]}] if src.get("fallback") else []):
+                try: dump_page(d)
+                except Exception as e: print(f"--- DUMP 실패: {e}")
         try:
             got = collect(src, ref)
             print(f"OK   {name}: 원본 {RAW.get(name, len(got))}건 중 {len(got)}건 통과 (그림 {sum(1 for g in got if g.get('image'))}건)")

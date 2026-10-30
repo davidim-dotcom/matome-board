@@ -4,7 +4,12 @@ name: 소스 점검
 # collector.py 의 SOURCES 를 고친 뒤 Actions 화면에서 'Run workflow' 로 확인할 때 쓴다.
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      dump:
+        description: "페이지 원본을 로그로 볼 출처 이름(예: ホロライブ公式). 비우면 점검만"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -21,4 +26,5 @@ jobs:
       - name: 소스 점검
         env:
           HOLODEX_API_KEY: ${{ secrets.HOLODEX_API_KEY }}
+          DUMP: ${{ inputs.dump }}   # 입력은 run 줄에 직접 넣지 않고 환경변수로만 넘긴다(명령 주입 방지)
         run: python collector.py --check
