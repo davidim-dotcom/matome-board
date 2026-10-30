@@ -85,6 +85,7 @@ SOURCES = [
     # 2026-10 부터 hololivepro.com 이 RSS(/news/feed/)와 WP REST 를 모두 닫아(404) 뉴스 목록 HTML 을 직접 읽는다
     {"type": "html", "name": "ホロライブ公式", "url": "https://hololivepro.com/news/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS,
      "item": r'<a href="(?P<link>/news/[^"]+)" class="news_li">.*?<img src="(?P<image>[^"]*)".*?<p class="date">(?P<date>[\d.]+)</p>\s*<h2 class="tit">(?P<title>.*?)</h2>\s*<p class="txt">(?P<summary>.*?)</p>'},
+    {"type": "rss", "name": "ホロライブ公式RSS(점검)", "url": "https://hololivepro.com/news/feed/", "works": ["ホロライブ"], "extra_words": VTUBER_WORDS},
     {"type": "rss", "name": "ぶいすぽっ！公式", "url": "https://vspo.jp/news/feed", "works": ["ぶいすぽっ"], "extra_words": VTUBER_WORDS},
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
@@ -1951,7 +1952,9 @@ def dump_page(src):
     body = page.find("<body")
     print(page[max(0, body):max(0, body) + 1500] if body >= 0 else page[:1500])
     seen = 0
-    for m in re.finditer(r'href="[^"]*(news|article|topics|info)[^"]*"', page):
+    start = max(0, body)  # <head> 의 canonical·alternate 링크는 건너뛰고 본문 링크만
+    for m in re.finditer(r'href="[^"]*/(news|article|topics|info)[^"]*/[^"/]+/?"', page[start:]):
+        m = re.compile(re.escape(m.group(0))).search(page, start + m.start())
         if seen >= 4: break
         print(f"--- 링크 주변 {seen + 1} (위치 {m.start()})")
         print(page[max(0, m.start() - 300):m.start() + 900]); seen += 1
