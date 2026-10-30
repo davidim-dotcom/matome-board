@@ -95,6 +95,13 @@ SOURCES = [
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
     {"type": "holodex", "name": "VSPO", "org": "VSpo", "hours": 48},
+    # 한국에서 열리는 일본 IP 행사(region=KR): 한국 매체마다 따로 붙이지 않고 Google 뉴스 한국어 검색 RSS 로 모은다(gnews: 제목 끝 ' - 매체'를 떼어 출처로).
+    # 제목에 일본 IP 단어(KR_IP_RE·works.json 의 한국어 이름)와 행사 단어(KR_EVENT_RE)가 둘 다 있어야 통과
+    {"type": "rss", "name": "한국 뉴스(애니 팝업스토어)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%ED%8C%9D%EC%97%85%EC%8A%A4%ED%86%A0%EC%96%B4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    {"type": "rss", "name": "한국 뉴스(애니메이션 콜라보 카페)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20%EC%B9%B4%ED%8E%98%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    {"type": "rss", "name": "한국 뉴스(애니 전시회)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EC%A0%84%EC%8B%9C%ED%9A%8C%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    {"type": "rss", "name": "한국 뉴스(애니 내한 공연)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EB%82%B4%ED%95%9C%20%EA%B3%B5%EC%97%B0%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    {"type": "rss", "name": "한국 뉴스(일본 애니 콜라보)", "url": "https://news.google.com/rss/search?q=%EC%9D%BC%EB%B3%B8%20%EC%95%A0%EB%8B%88%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     # 직접 추가 예시
     # {"type": "rss", "name": "@official_x", "url": "http://localhost:1200/twitter/user/official_x"},  # RSSHub
     # {"type": "youtube", "name": "채널명", "channel_id": "UCxxxxxxxx", "works": ["이름"]},
@@ -164,9 +171,18 @@ CAT_RULES = [
     ("goods", r"グッズ|一番くじ|予約受付"),
     ("stream", r"配信|生放送|プレミア公開"),
 ]
-OPEN_WORDS = r"受付|発売|先行|抽選|販売"
-END_WORDS = r"締切|〆切|しめきり|まで"
-UA = {"User-Agent": "matome-board-collector/0.1 (personal use)"}
+OPEN_WORDS = r"受付|発売|先行|抽選|販売|예매|예약|판매|오픈"
+END_WORDS = r"締切|〆切|しめきり|まで|마감|까지"
+# 한국 출처(region=KR)는 이 규칙을 먼저 본다(일본어 CAT_RULES 는 한국어 기사에 안 걸림)
+KR_CAT_RULES = [("popup", r"팝업|스토어"), ("live", r"내한|공연|콘서트|라이브|페스티벌"), ("exhibit", r"전시|원화전|展"),
+                ("collab", r"콜라보|컬래버|카페"), ("event", r"행사|팬미팅|상영회|페스타|체험"), ("goods", r"굿즈")]
+KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사")
+# 일본 IP 신호. '애니'는 뒤에 다른 한글이 붙지 않을 때만(애니모·애니런·애니모어 제외), 만화·게임처럼 넓은 말은 빼고 작품·회사 이름으로 본다(+ works.json 의 한국어 이름)
+KR_IP_RE = re.compile(r"애니(?:메이션|송)?(?![가-힣])|日|일본|버튜버|VTuber|홀로라이브|니지산지|극장판|포켓몬|산리오|헬로키티|쿠로미|마이멜로디|시나모롤|리락쿠마|스밋코|"
+                      r"짱구|코난|원피스|나루토|귀멸|주술회전|체인소|스파이 ?패밀리|하이큐|최애의 아이|진격의 거인|드래곤볼|슬램덩크|건담|에반게리온|지브리|도라에몽|"
+                      r"치이카와|먼작귀|마리오|젤다|커비|파이널 ?판타지|페르소나|블루 ?아카이브|블루록|우마무스메|프리큐어|세일러문|블리치|헌터|러브라이브|아이돌마스터|"
+                      r"하츠네 ?미쿠|보컬로이드|카드캡터|히로아카|나의 히어로|은혼|강철의 연금술사|원펀맨|케로로|앙상블 ?스타즈|프로세카|명탐정", re.I)
+KR_ABROAD_RE = re.compile(r"도쿄|오사카|교토|후쿠오카|나고야|삿포로|요코하마|일본 현지|현지 개최")  # 한국 기사지만 일본에서 열리는 행사
 
 
 def fetch(url, headers=None, data=None):
@@ -206,7 +222,7 @@ def ticket_url(urls):
 
 
 DATE_RE = re.compile(
-    r"(?:(?P<y>20\d\d)\s*[年/.\-]\s*)?(?P<m>\d{1,2})\s*[月/]\s*(?P<d>\d{1,2})\s*日?"
+    r"(?:(?P<y>20\d\d)\s*[年/.\-년]\s*)?(?P<m>\d{1,2})\s*(?:[月/]\s*(?P<d>\d{1,2})\s*日?|월\s*(?P<d2>\d{1,2})\s*일)"  # 한국어는 '11월 7일'처럼 일까지(10월 3주차 제외)
     r"(?:\s*[（(][^)）]{1,3}[)）])?(?:\s*(?P<h>\d{1,2})\s*[:：時]\s*(?P<mi>\d{2})?)?")
 
 
@@ -214,7 +230,7 @@ def find_dates(text, ref):
     """본문 속 날짜를 (iso, 앞뒤 문맥) 목록으로."""
     out = []
     for m in DATE_RE.finditer(text):
-        mo, d = int(m["m"]), int(m["d"])
+        mo, d = int(m["m"]), int(m["d"] or m["d2"])
         if not (1 <= mo <= 12 and 1 <= d <= 31):
             continue
         y = int(m["y"]) if m["y"] else ref.year
@@ -229,8 +245,17 @@ def find_dates(text, ref):
     return out
 
 
-def classify(text, default="other"):
-    for cat, pat in CAT_RULES:
+def kr_gram(t):
+    k = wkey(re.sub(r"\[[^\]]*\]|【[^】]*】", "", t or ""))  # [포토]·[현장] 같은 머리말은 뺀다
+    return {k[i:i + 2] for i in range(len(k) - 1)}
+
+
+def dice(a, b):
+    return 2 * len(a & b) / (len(a) + len(b)) if a and b else 0
+
+
+def classify(text, default="other", kr=False):
+    for cat, pat in (KR_CAT_RULES if kr else []) + CAT_RULES:
         if re.search(pat, text):
             return cat
     return default
@@ -240,8 +265,12 @@ def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
     if is_noise(title) or (src.get("game") and is_game_noise(title)):
         return None
+    kr = src.get("region") == "KR"
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
-    if words and default_cat != "stream" and not any(w in text for w in words):
+    if kr:  # 한국 출처: 제목에 일본 IP 단어(또는 works.json 의 한국어 작품 이름)와 행사 단어가 둘 다
+        if not (KR_EVENT_RE.search(title) and (KR_IP_RE.search(title) or any(k in wnorm(title) for k, _ in KO_NAMES))) or KR_ABROAD_RE.search(title):
+            return None
+    elif words and default_cat != "stream" and not any(w in text for w in words):
         return None
     # 게임 뉴스는 본문에 '이벤트'(게임 안 이벤트)가 흔해서 제목에 행사 단어나 바깥 행사 단어가 있어야 통과(신작 발표·Steam 페이지 공개 등을 거름)
     if src.get("game") and not (any(w in game_title(title) for w in words) or GAME_REAL_RE.search(game_title(title))):
@@ -263,7 +292,7 @@ def build(title, body, link, src, ref, default_cat="other"):
             event = iso
     works = tag_works(text, src.get("works", []))
     return {
-        "title": title[:200], "category": classify(text, default_cat), "source": src.get("name", ""),
+        "title": title[:200], "category": classify(text, default_cat, kr), "source": src.get("name", ""), **({"region": "KR"} if kr else {}),
         "platform": src["type"], "works": works[:5], "eventDate": event, "endDate": end, "ticketOpen": opening,
         "deadline": deadline, "venue": "", "ticketUrl": ticket_url(urls_in(body) + [link]), "ticketUrls": ticket_urls(urls_in(body) + [link]),
         "url": link, "summary": re.sub(r"\s+", " ", body)[:140],
@@ -536,8 +565,14 @@ def collect_one(src, ref):
             if when and when < ref - timedelta(days=FRESH_DAYS):
                 continue
             ti, de = clean(ti), clean(de)
-            SEEN_TEXT.append(f"{ti}\n{de[:300]}")
+            pub = ""
+            if src.get("gnews"):  # Google 뉴스: '제목 - 매체' → 제목·출처. 요약은 제목 링크 반복이라 버린다
+                m = re.match(r"^(.*\S)\s+-\s+([^-]{1,40})$", ti)
+                if m: ti, pub = m.group(1), m.group(2).strip()
+                de = ""
+            if not src.get("region"): SEEN_TEXT.append(f"{ti}\n{de[:300]}")  # 한국 기사는 유행 감지(일본 작품명)에 넣지 않는다
             x = build(ti, de, li, src, ref, cat)
+            if x and pub: x["source"] = pub
             if not x:
                 DROPPED.setdefault(src.get("name", t), []).append(ti)
             if x:
@@ -586,6 +621,7 @@ try: _works = json.load(open(WORKS_FILE, encoding="utf-8"))
 except Exception: _works = {}
 ALIAS = {wkey(k): str(v) for k, v in (_works.get("alias") or {}).items() if wkey(k)}
 SKIP = {wkey(x) for x in (_works.get("skip") or []) if wkey(x)}
+KO_NAMES = [(wnorm(v), str(k)) for k, v in (_works.get("ko") or {}).items() if len(wnorm(v)) >= 2]  # 한국어 이름 → 대표 이름(한국 기사 작품 태그용)
 def canon(n):
     """앞뒤 괄호를 떼고 별칭이면 대표 이름으로"""
     n = clean_name(n)
@@ -707,7 +743,7 @@ def canon_work(n):
 def tag_works(text, base=()):
     """작품 태그: 소스가 준 이름(정리해서) + 본문에 나오는 WATCH 작품. 같은 작품은 하나만, 최대 5개"""
     out, keys, t = [], set(), wnorm(text)
-    for w in list(base) + [c for c, vs in WATCH.values() if any(v in t for v in vs)]:
+    for w in list(base) + [c for c, vs in WATCH.values() if any(v in t for v in vs)] + [c for k, c in KO_NAMES if k in t]:
         c = canon_work(w); k = wkey(c)
         if c and k not in keys: keys.add(k); out.append(c)
     return out[:5]
@@ -775,6 +811,16 @@ def main():
             print(f"{name}: 실패 ({e})", file=sys.stderr)
             # f: 연속 실패 횟수, at: 마지막으로 성공한 시각(이전 기록에서 이어받음)
             status.append({"n": name, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
+    # 한국 기사: 같은 행사를 여러 매체가 쓰고 날짜가 '11월'뿐이라 페이지의 묶기도 못 잡는다 → 제목이 비슷하면(2-gram Dice .5 이상) 처음 것만
+    kr_seen = [kr_gram(o.get("title", "")) for o in old if o.get("region") == "KR"]
+    keep_new = []
+    for g in new:
+        if g.get("region") == "KR":
+            gg = kr_gram(g.get("title", ""))
+            if any(dice(gg, h) >= .5 for h in kr_seen): continue
+            kr_seen.append(gg)
+        keep_new.append(g)
+    new = keep_new
     p = prev.get(BUZZ_NAME, {})
     try:  # X 화제(Togetter): 소식 피드와 별개 파일. 출처 상태·알림에는 같이 들어간다
         braw = collect_buzz(ref)
@@ -919,7 +965,14 @@ def collect_buzz(ref):
             print(f"{BUZZ_NAME}: 그림 실패 {x['u']} ({e})", file=sys.stderr)
     cut = ref - timedelta(days=BUZZ_DAYS)
     items = sorted((x for x in by.values() if (_when(x.get("d")) or ref) > cut or x["u"] in hot_now), key=lambda x: x.get("d", ""), reverse=True)[:BUZZ_MAX]
-    save_json(BUZZ, {"updated": now, "hot": hot_now, "items": items})
+    # X 에서 화제인 작품 이름: 일주일치 정리 제목의 『』「」 이름을 유행 감지와 같은 규칙으로 센다(뉴스 기반 trends 와는 따로)
+    names = {}
+    for x in items:
+        for n in {canon(base_title(clean_name(m))) for m in NAME_RE.findall(x.get("t", ""))}:
+            if len(n) >= 2 and not STOP.search(n) and wkey(n) not in SKIP:
+                names[n] = names.get(n, 0) + 1
+    ranked = [[n, c] for n, c in rank_works({"x": names}) if c >= 2][:40]
+    save_json(BUZZ, {"updated": now, "hot": hot_now, "names": ranked, "items": items})
     print(f"→ data/xbuzz.json: 인기 {len(hot_now)}건, 모두 {len(items)}건 (오타쿠 화제 {sum(1 for x in items if x.get('o'))}건)")
     return raw
 
@@ -927,7 +980,7 @@ def collect_buzz(ref):
 # ---- 장소 사전(data/venues.json, 사람이 고침) ----
 # 콜라보·팝업 기사는 대개 장소 칸이 비어 있어 지도·이번 주말 보기에 안 잡힌다. 제목·요약에 아는 장소 이름이 있으면 venue·geo·address 를 채운다.
 VENUES_FILE = os.path.join(DATA, "venues.json")
-AREA_SKIP_RE = re.compile(r"巡回|全国|各地|\d+都市|\d+会場|ツアー|順次|ほか|・(?:大阪|名古屋|福岡|札幌|東京)")  # 여러 곳에서 열리는 행사는 한 점으로 찍지 않는다
+AREA_SKIP_RE = re.compile(r"巡回|全国|各地|\d+都市|\d+会場|ツアー|順次|ほか|・(?:大阪|名古屋|福岡|札幌|東京)|순회|전국|지점|곳에서")  # 여러 곳에서 열리는 행사는 한 점으로 찍지 않는다
 _VENUES = None
 
 
@@ -1274,7 +1327,7 @@ def enrich(items):
     for it in items:
         if it.get("scanned") or not it.get("url"):
             continue
-        if it.get("platform") in ("holodex", "youtube"):  # 방송 항목은 열어 볼 게 없다
+        if it.get("platform") in ("holodex", "youtube") or it.get("region") == "KR":  # 방송 항목은 열어 볼 게 없고, 한국 기사(Google 뉴스 링크)는 열면 이동 페이지라 소용없다
             it["scanned"] = True
             continue
         if tried >= ENRICH_MAX:
