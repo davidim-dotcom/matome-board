@@ -136,6 +136,19 @@ def t_main():
     assert any(x.get("image") for x in new), "보강(og:image)이 안 됨"
     kr = {x["title"][:5]: x["category"] for x in new if x.get("region") == "KR"}
     assert kr.get("애니플러스") == "stream" and not any(k.startswith("일본 방영") for k in kr), kr
+    # 공유 페이지(data/share/{id}.html): 새 소식마다 있고 og 제목이 들어 있으며, id 가 페이지 hashId 와 같아야 한다
+    sh = os.path.join(C.DATA, "share")
+    for x in new[:5]:
+        if x.get("category") == "stream": continue
+        page = open(os.path.join(sh, C.page_id(x) + ".html"), encoding="utf-8").read()
+        assert 'property="og:title"' in page and f"#item={C.page_id(x)}" in page, x["title"]
+    if shutil.which("node"):  # 페이지의 hashId(JS)와 수집기 page_id(파이썬)가 같은지
+        import subprocess
+        js = re.search(r"function hashId\(s\)\{.*?\}\s*return.*?\}", open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()).group(0)
+        js += ";function safeUrl(u){try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:''}catch{return''}};const L=JSON.parse(require('fs').readFileSync(0,'utf8'));console.log(JSON.stringify(L.map(r=>hashId((safeUrl(r.url||'')||'')+'|'+String(r.title||'').slice(0,200).trim()+'|'+(r.eventDate||'')))))"
+        sample = new[:20] + [{"url": "https://ex.jp/ニュース/a b?q=日本", "title": " 「テスト」😀 ", "eventDate": "2026-11-01T10:00"}]
+        got = json.loads(subprocess.run(["node", "-e", js], input=json.dumps(sample), capture_output=True, text=True, check=True).stdout)
+        assert got == [C.page_id({k: v for k, v in x.items() if k != "id"}) for x in sample], "공유 페이지 id 가 페이지 hashId 와 다름"
     fn, C.FEED_N = C.FEED_N, 1000  # 한국 방영(stream) 소식이 RSS 에서 빠지지 않는지(60건 한도 밖일 수 있어 한도를 올려 본다)
     try: C.write_feed(C.datetime.now(C.JST))
     finally: C.FEED_N = fn
