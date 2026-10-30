@@ -418,6 +418,17 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .cal-head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:22px;margin:0;flex:1;text-align:center;letter-spacing:-.3px;white-space:nowrap}
 /* 캘린더 도구(이번 주말·주말 한 장·여행 일정): 아이콘만이면 뭔지 몰라서 2026-10 에 이름·설명 붙은 카드로 */
 .cal-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 4px}
+/* 기간 행사 막대(barsHtml): 오늘부터 6주. 7일 안에 끝나면 분홍 */
+.gb-axis{position:relative;height:16px;margin:10px 0 2px;font-size:10px;color:var(--muted)}
+.gb-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap} .gb-axis span:first-child{transform:none;color:var(--pink);font-weight:700}
+.gb-row{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:7px 0;cursor:pointer;color:inherit;font:inherit}
+.gb-t{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gb-m{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gb-track{position:relative;display:block;height:10px;margin-top:4px;border-radius:5px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100%/6))}
+.gb-bar{position:absolute;top:1px;bottom:1px;border-radius:4px;background:var(--cyan);min-width:4px}
+.gb-bar.cont{border-top-right-radius:0;border-bottom-right-radius:0} .gb-bar.pre{border-top-left-radius:0;border-bottom-left-radius:0}
+.gb-row.soon .gb-bar{background:var(--pink)} .gb-d{font-weight:700;color:var(--muted);margin-right:6px} .gb-row.soon .gb-d{color:var(--pink)}
+.cafe-sum{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px;color:var(--muted);margin:10px 0}
 .ctool{display:flex;flex-direction:column;align-items:center;gap:1px;padding:10px 6px 9px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:center;line-height:1.25}
 .ctool i{font-style:normal;font-size:22px;line-height:1.1;margin-bottom:3px}
 .ctool b{font-size:14px}
@@ -1236,6 +1247,42 @@ const WD=["일","월","화","수","목","금","토"];
 function jstYmd(d){return d?new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(d):""}
 function ymd(y,m,d){return new Date(Date.UTC(y,m-1,d)).toISOString().slice(0,10)}
 function ymdLabel(s){const d=new Date(s+"T00:00:00Z");return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 (${WD[d.getUTCDay()]})`}
+let barCat="all";
+const BAR_GROUPS={all:["전체",null],collab:["콜라보·팝업",["collab","popup"]],exhibit:["전시",["exhibit"]],etc:["공연·그 밖",null]};
+const DAYN=s=>Date.UTC(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10))/DAY;
+const mdLab=s=>`${+s.slice(5,7)}/${+s.slice(8,10)}`;
+// 기간 행사 막대: 시작~끝이 다른 날인 소식(방송 제외)을 오늘부터 6주 칸에 막대로, 먼저 끝나는 순
+function barsHtml(list){
+  const today=jstYmd(new Date()),t0=DAYN(today),span=42,t1=t0+span;
+  const all=list.map(x=>({it:x.it,s:jstYmd(parseDate(x.it.eventDate)),e:jstYmd(parseDate(x.it.endDate))})).filter(r=>r.s&&r.e&&r.e>r.s&&r.e>=today&&r.it.category!=="stream"&&DAYN(r.s)<t1);
+  const grp=r=>["collab","popup"].includes(r.it.category)?"collab":r.it.category==="exhibit"?"exhibit":"etc";
+  const rows=all.filter(r=>barCat==="all"||grp(r)===barCat).sort((a,b)=>a.e.localeCompare(b.e)||a.s.localeCompare(b.s));
+  const noEnd=list.filter(x=>["collab","popup","exhibit"].includes(x.it.category)&&!parseDate(x.it.endDate)).length;
+  const chips=Object.entries(BAR_GROUPS).map(([k,[nm]])=>{const n=k==="all"?all.length:all.filter(r=>grp(r)===k).length;return n||k==="all"?`<button class="chip" data-barcat="${k}" aria-pressed="${barCat===k}">${nm} ${n}</button>`:""}).join("");
+  const axis=[0,1,2,3,4,5].map(k=>`<span style="left:${(k/6*100).toFixed(2)}%">${k?mdLab(new Date((t0+k*7)*DAY).toISOString().slice(0,10)):"오늘"}</span>`).join("");
+  const body=rows.slice(0,80).map(r=>{const a=Math.max(DAYN(r.s),t0),b=Math.min(DAYN(r.e)+1,t1),left=(a-t0)/span*100,w=Math.max(.8,(b-a)/span*100),dl=DAYN(r.e)-t0;
+    const where=r.it.venue&&!/某所/.test(r.it.venue)?r.it.venue:regionOf(r.it);
+    return `<button type="button" class="gb-row${dl<=7?" soon":""}" data-ptile="${esc(r.it.id)}"><span class="gb-t">${esc(tx(r.it,"title"))}</span>
+      <span class="gb-m"><span class="gb-d">${dl<=0?"오늘까지":`D-${dl}`}</span>${esc(CATS[r.it.category])} · ${mdLab(r.s)}~${mdLab(r.e)}${where?" · "+esc(where):""}</span>
+      <span class="gb-track"><span class="gb-bar${DAYN(r.e)+1>t1?" cont":""}${DAYN(r.s)<t0?" pre":""}" style="left:${left.toFixed(2)}%;width:${w.toFixed(2)}%"></span></span></button>`}).join("");
+  return `<h3 class="cal-h">📊 기간 행사<small>시작~끝이 있는 소식 ${all.length}건 · 먼저 끝나는 순</small></h3><div class="filters">${chips}</div>
+    <div class="gb-axis">${axis}</div>${body||`<div class="empty">이 분류에 기간이 정해진 행사가 없어요.</div>`}
+    <p class="note" style="margin-top:10px">오늘부터 6주를 보여 줘요. 분홍은 7일 안에 끝나는 행사, 막대가 오른쪽 끝에 붙은 건 6주 뒤까지 이어져요. 누르면 소식 카드가 열려요.${noEnd?` 끝나는 날이 기사에 없는 콜라보·팝업·전시 ${noEnd}건은 빠졌어요.`:""}</p>`;
+}
+// 콜라보 카페 모아보기: 제목에 카페·식당 말이 있거나 콜라보 카페 전문 출처인 소식(공연·방송 제외), 진행 중 → 곧 시작 → 날짜 미정
+const CAFE_RE=/カフェ|Cafe|CAFE|cafe|喫茶|ダイニング|レストラン|食堂|居酒屋|コラボメニュー|コラボフード|ドリンク|スイーツ|くら寿司|ラーメン|キッチン|バー[ 　]|BAR\b|× ?HUB\b|카페/;
+const CAFE_SRC=["スイーツパラダイス"]; // 「コラボカフェ」 사이트는 이름과 달리 굿즈·팝업까지 다 다뤄서 제목으로만 고른다
+function cafeHtml(list){
+  const today=jstYmd(new Date());
+  const hit=list.filter(x=>!["live","stream","manga"].includes(x.it.category)&&(CAFE_SRC.includes(x.it.source)||CAFE_RE.test(x.it.title)));
+  const st=x=>jstYmd(parseDate(x.it.eventDate)), now=hit.filter(x=>st(x)&&st(x)<=today), soon=hit.filter(x=>st(x)>today), none=hit.filter(x=>!st(x));
+  const endOf=x=>jstYmd(parseDate(x.it.endDate))||"9999";
+  now.sort((a,b)=>endOf(a).localeCompare(endOf(b))); soon.sort((a,b)=>st(a).localeCompare(st(b))); none.sort((a,b)=>new Date(b.it.addedAt)-new Date(a.it.addedAt));
+  const sec=(t,L)=>L.length?`<p class="cal-sub">${t} ${L.length}</p>${gridHtml(L)}`:"";
+  return `<h3 class="cal-h">☕ 콜라보 카페<small>${hit.length}곳</small></h3><div class="cafe-sum"><span>진행 중 ${now.length}</span><span>곧 시작 ${soon.length}</span><span>날짜 미정 ${none.length}</span></div>`
+    +(hit.length?sec("지금 열려 있어요 · 먼저 끝나는 순",now)+sec("곧 시작해요",soon)+sec("날짜가 기사에 없어요 · 최근 소식 순",none):`<div class="empty">지금 콜라보 카페 소식이 없어요.</div>`)
+    +`<p class="note" style="margin-top:10px">제목에 카페·식당·메뉴 말이 있는 소식을 모았어요. 그림을 누르면 소식 카드(예매·공유·달력)가 열려요.</p>`;
+}
 function renderCalendar(shown){
   const today=jstYmd(new Date());
   if(!calYM){calYM={y:+today.slice(0,4),m:+today.slice(5,7)};calDay=today}
@@ -1262,6 +1309,8 @@ function renderCalendar(shown){
     $("#sched").innerHTML=`<div class="cal-head"><button class="btn" data-calnav="today" aria-label="달력으로">‹ 달력</button><h2>✈ 여행 일정 짜기</h2></div>`+tripHtml(shown.filter(notOver));return}
   let detail=""; const nWeekend=shown.filter(notOver).filter(x=>onWeekend(x.it)).length;
   if(calDay==="weekend") detail=weekendHtml(shown.filter(notOver));
+  else if(calDay==="bars") detail=barsHtml(shown.filter(notOver));
+  else if(calDay==="cafe") detail=cafeHtml(shown.filter(notOver));
   else if(calDay){
     const st=(starts[calDay]||[]).slice().sort(byDate), tk=tickets[calDay]||[], on=ongoing(calDay);
     const sec=(title,list)=>list.length?`<p class="cal-sub">${title} ${list.length}</p>`+list.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join(""):"";
@@ -1275,11 +1324,14 @@ function renderCalendar(shown){
   $("#sched").innerHTML=`<div class="cal-tools">
       <button type="button" class="ctool" data-calnav="weekend" aria-pressed="${calDay==="weekend"}"><i aria-hidden="true">🎌</i><b>이번 주말</b><small>${nWeekend?`토·일 ${nWeekend}건`:"토·일 일정"}</small></button>
       <button type="button" class="ctool" data-calnav="shot"><i aria-hidden="true">🖼️</i><b>주말 한 장</b><small>그림 저장·공유</small></button>
-      <button type="button" class="ctool" data-calnav="trip"><i aria-hidden="true">✈️</i><b>여행 일정</b><small>날짜별 행사</small></button></div>
+      <button type="button" class="ctool" data-calnav="trip"><i aria-hidden="true">✈️</i><b>여행 일정</b><small>날짜별 행사</small></button>
+      <button type="button" class="ctool" data-calnav="bars" aria-pressed="${calDay==="bars"}"><i aria-hidden="true">📊</i><b>기간 행사</b><small>언제 끝나나 막대로</small></button>
+      <button type="button" class="ctool" data-calnav="cafe" aria-pressed="${calDay==="cafe"}"><i aria-hidden="true">☕</i><b>콜라보 카페</b><small>그림으로 모아 보기</small></button></div>
+    ${calDay==="bars"||calDay==="cafe"?`<div class="cal-head"><button class="btn" data-calnav="today" aria-label="달력으로">‹ 달력</button></div>${detail}`:`
     <div class="cal-head"><button class="btn" data-calnav="prev" aria-label="이전 달">‹</button><h2>${y}년 ${m}월</h2><button class="btn" data-calnav="next" aria-label="다음 달">›</button><button class="btn" data-calnav="today">오늘</button></div>
     <div class="cal-wd">${WD.map(w=>`<span>${w}</span>`).join("")}</div><div class="cal-grid">${grid}</div>
     <div class="cal-legend"><span><i class="dot cat-live"></i>공연·공식 행사</span><span><i class="dot cat-collab"></i>콜라보·팝업·동인</span><span><i class="dot cat-event"></i>이벤트·전시·만화</span><span><i class="dot tk"></i>예매·마감</span><span>숫자 = 진행 중</span></div>
-    ${detail}<p class="note" style="margin-top:14px">달력 앱에 자동으로 받으려면 사이트 개요의 '달력 구독'을 쓰세요. 날을 누르면 그날 시작하는 일정, 예매·마감, 진행 중인 기간 행사를 보여 줘요. 고른 날을 다시 누르면 이달 전체 목록으로 돌아가요.</p>`;
+    ${detail}`}<p class="note" style="margin-top:14px">달력 앱에 자동으로 받으려면 사이트 개요의 '달력 구독'을 쓰세요. 날을 누르면 그날 시작하는 일정, 예매·마감, 진행 중인 기간 행사를 보여 줘요. 고른 날을 다시 누르면 이달 전체 목록으로 돌아가요.</p>`;
 }
 
 /* ---------- airing anime ---------- */
@@ -1884,11 +1936,13 @@ document.addEventListener("click",e=>{
     if(k==="today"){const t=jstYmd(new Date());calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay=t}
     else if(k==="weekend"){const t=weekendDays()[0];calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay="weekend"}
     else if(k==="shot"){weekendShot();return}
+    else if(k==="bars"||k==="cafe"){calDay=calDay===k?null:k}
     else if(k==="trip"){trip=tripFix(trip||tripDefault());calDay="trip";history.replaceState(null,"",tripHash())}
     else{let {y,m}=calYM;m+=k==="next"?1:-1;if(m>12){m=1;y++}if(m<1){m=12;y--}calYM={y,m};calDay=null}
     render();return}
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
     if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
+  const bc=e.target.closest("[data-barcat]"); if(bc){barCat=bc.dataset.barcat;render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
   const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=/^\d+$/.test(ce.dataset.ep)?Number(ce.dataset.ep):ce.dataset.ep;try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(()=>{renderComics();if(!$("#works").hidden)renderWorks()},0);return} // 링크는 그대로 열린다
   const co=e.target.closest("[data-cmopen]"); if(co){comicOpen=comicOpen===co.dataset.cmopen?null:co.dataset.cmopen;renderComics();return}
