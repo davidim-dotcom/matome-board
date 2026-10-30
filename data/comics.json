@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-10-30T12:44:40.910900+09:00",
+ "updated": "2026-10-30T17:59:28.718031+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1140,7 +1140,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc9c3456a92465b7fb8f70eeda825fd6677d62742eabe0825df3ef97eb01d1d309ff574b981c40e3fd762e9992c13a1192705a6ad2b",
-   "seenTo": 6870081,
+   "seenTo": 6872931,
    "coverNo": "comic_new6/6843808",
    "updatedAt": "2026-10-28T12:44"
   },
@@ -1411,16 +1411,21 @@
      "no": 6870081,
      "title": "번역) 나니와 금융도 58화",
      "date": "2026-10-30T11:37"
+    },
+    {
+     "no": 6870931,
+     "title": "번역) 나니와 금융도 59화",
+     "date": "2026-10-30T13:03"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67cc1c34502de3c2be21a91268d3dc5b2efd36509253817946b4e368add1ad10f9fa4c15a202f46ba",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67cc1c34502de3c2be21a91268d3dc8b6e5d16d0e5f4c30ea34cb917bd524ba09f78e13f0e23836af",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6870081,
-   "coverNo": "comic_new6/6870081",
-   "updatedAt": "2026-10-30T11:37"
+   "seenTo": 6872931,
+   "coverNo": "comic_new6/6870931",
+   "updatedAt": "2026-10-30T13:03"
   },
   {
    "id": "닌자슬레이어|",
@@ -5057,7 +5062,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-10-30T12:45",
+   "updatedAt": "2026-10-30T18:00",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6683,7 +6688,8 @@
   6844800,
   6853393,
   6858119,
-  6870081
+  6870081,
+  6870931
  ],
  "bad": [
   "comic_new6/6742384"
