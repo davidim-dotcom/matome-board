@@ -181,7 +181,7 @@ END_WORDS = r"締切|〆切|しめきり|まで|마감|까지"
 KR_CAT_RULES = [("popup", r"팝업|스토어"), ("exhibit", r"전시|원화전|展"), ("live", r"내한|공연|콘서트|페스티벌"),  # '라이브'는 러브라이브·홀로라이브와 겹쳐 뺐다
                 ("collab", r"콜라보|컬래버|카페"), ("stream", r"방영|방송|동시 ?공개|독점 ?공개|더빙|자막|개봉"),  # 한국 정식 공개(애니플러스·라프텔·극장 개봉)
                 ("event", r"행사|팬미팅|상영회|페스타|체험"), ("goods", r"굿즈|발매|출시|피규어")]
-KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사|"
+KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|展|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사|"
                          r"방영|동시 ?공개|독점 ?공개|더빙|개봉|정식 발매|발매|출시|예약 판매")  # 뒤쪽은 한국 정식 공개·발매(2026-10)
 # 일본 IP 신호. '애니'는 뒤에 다른 한글이 붙지 않을 때만(애니모·애니런·애니모어 제외), 만화·게임처럼 넓은 말은 빼고 작품·회사 이름으로 본다(+ works.json 의 한국어 이름)
 KR_IP_RE = re.compile(r"애니(?:메이션|송)?(?![가-힣])|日|일본|버튜버|VTuber|홀로라이브|니지산지|극장판|포켓몬|산리오|헬로키티|쿠로미|마이멜로디|시나모롤|리락쿠마|스밋코|"
@@ -276,7 +276,7 @@ def find_dates(text, ref):
 # 티켓 접수 단계: 「FC先行」「最速先行」「2次先行」「プレイガイド先行」「一般発売」처럼 공연은 여러 번 접수한다(2026-10). 라벨 뒤 80자 안의 날짜(기간)를 그 단계의 시작·끝으로.
 PHASE_RE = re.compile(r"(?P<n>(?:FC|ファンクラブ|最速|オフィシャル|公式|プレイガイド|(?:第?[一二三四五六七八九\d１-９]次)|CD|アプリ|モバイル|[A-Za-z\u30a0-\u30ff\u4e00-\u9fff]{1,8})\s*(?:抽選|先着)?先行(?:抽選|先着|予約|受付|販売)?(?:\s*[（(](?:抽選|先着)[）)])?"
                       r"|一般(?:発売|販売|先着)|先行(?:抽選|販売|予約)|抽選(?:受付|販売|予約)?)")
-PHASE_MAX, PHASE_SPAN = 6, 80
+PHASE_MAX, PHASE_SPAN, PHASE_RESCAN_MAX = 6, 80, 40
 PHASE_CATS = {"live", "official", "event", "exhibit", "doujin", "other"}  # 기사 본문에서 단계를 찾아 넣을 분류(굿즈·만화 기사의 '先行'은 상품 선행 판매)
 PHASE_SKIP = re.compile(r"^(?:は|が|の|で|と|に|も|や|・|、|を|から|より)")  # 「は先行」처럼 조사가 라벨로 잡힌 것
 
@@ -297,8 +297,11 @@ def find_phases(text, ref):
         if not ds:
             continue
         s_, e_ = ds[0][0], (ds[1][0] if len(ds) >= 2 and ds[1][0] > ds[0][0] and re.search(r"[〜～~\-－]|まで|から", win) else "")
+        dm = DATE_RE.search(win)
+        if not e_ and len(ds) == 1 and dm and re.match(r"\s*(まで|締切|〆切)", win[dm.end():]) and not re.search(r"から|より|開始|[〜～~]", win[:dm.start()]):
+            s_, e_ = "", s_  # 「抽選販売 期間は11月8日23時まで」처럼 날짜 하나가 마감이면 끝으로
         seen.add(n); out.append({"n": n[:30], "s": s_, **({"e": e_} if e_ else {})})
-    out.sort(key=lambda x: x["s"])
+    out.sort(key=lambda x: x["s"] or x.get("e", ""))
     return out[:PHASE_MAX]
 
 
@@ -351,10 +354,10 @@ def build(title, body, link, src, ref, default_cat="other"):
     cat = classify(text, default_cat, kr)
     phases = find_phases(text, ref) if not kr and cat in PHASE_CATS else []
     if phases:  # 단계가 있으면 첫 단계 시작·끝을 판매 시작·마감으로(비어 있을 때만)
-        pd = {p["s"] for p in phases} | {p["e"] for p in phases if p.get("e")}
+        pd = {p["s"] for p in phases if p["s"]} | {p["e"] for p in phases if p.get("e")}
         if event in pd or end in pd:  # 「FC先行 11/19 12:00〜11/22」 기간이 행사 기간으로 잡힌 것 → 단계 날짜가 아닌 첫 날짜를 행사일로
             event, end = next((iso for iso, _ in find_dates(text, ref) if iso not in pd), ""), ""
-        opening = opening if opening and opening not in pd else phases[0]["s"]
+        opening = opening if opening and opening not in pd else next((p["s"] for p in phases if p["s"]), "")
         deadline = deadline if deadline and deadline not in pd else next((p["e"] for p in phases if p.get("e")), "")
     return {
         "title": title[:200], "category": cat, "source": src.get("name", ""), **({"region": "KR"} if kr else {}),
@@ -1132,7 +1135,7 @@ def ics_events(it, ref):
     phases = [p for p in (it.get("phases") or []) if isinstance(p, dict) and p.get("s")]
     if phases:  # 단계가 있으면 단계마다 시작·마감(ticketOpen·deadline 은 첫 단계와 겹치므로 안 넣음)
         for i, p in enumerate(phases[:PHASE_MAX]):
-            for k, v, label in ((f"p{i}s", p.get("s"), f"{p.get('n', '')} 시작"), (f"p{i}e", p.get("e"), f"{p.get('n', '')} 마감")):
+            for k, v, label in ((f"p{i}s", p.get("s") or "", f"{p.get('n', '')} 시작"), (f"p{i}e", p.get("e") or "", f"{p.get('n', '')} 마감")):
                 d = _when(v)
                 if d and d > ref:
                     out.append((k, d, None, label))
@@ -1560,7 +1563,7 @@ def enrich(items, ref=None):
             imgs += bool(img)
         if it.get("category") in PHASE_CATS and len(phases) > len(it.get("phases") or []):  # 기사 본문이 피드 요약보다 단계를 더 안다
             it["phases"] = phases; phs += 1
-            it["ticketOpen"] = it.get("ticketOpen") or phases[0]["s"]
+            it["ticketOpen"] = it.get("ticketOpen") or next((p["s"] for p in phases if p["s"]), "")
             it["deadline"] = it.get("deadline") or next((p["e"] for p in phases if p.get("e")), "")
         for tk in tks_found:
             found.append((it, tk))
@@ -1578,8 +1581,23 @@ def enrich(items, ref=None):
         it["ticketUrls"] = have
         it["ticketUrl"] = have[0]
         tks += 1
-    if tried:
-        print(f"기사 보강: {tried}건 열어 썸네일 {imgs}건, 티켓 링크 {tks}건, 티켓 단계 {phs}건 채움")
+    # 2026-10 티켓 단계를 넣기 전에 이미 연 공연·공식 행사 소식은 단계를 찾으러 한 번 더 연다(실행당 PHASE_RESCAN_MAX 건, ps 로 표시해 되풀이하지 않음)
+    re_n = 0
+    for it in items:
+        if re_n >= PHASE_RESCAN_MAX: break
+        if it.get("ps") or it.get("phases") or not it.get("scanned") or it.get("category") not in ("live", "official") or not it.get("url") or item_end(it) and item_end(it) < ref:
+            continue
+        re_n += 1; it["ps"] = True
+        try:
+            phases = find_phases(page_text(fetch(it["url"]).decode("utf-8", "replace")), ref)
+        except Exception:
+            continue
+        if phases:
+            it["phases"] = phases; phs += 1
+            it["ticketOpen"] = it.get("ticketOpen") or next((p["s"] for p in phases if p["s"]), "")
+            it["deadline"] = it.get("deadline") or next((p["e"] for p in phases if p.get("e")), "")
+    if tried or re_n:
+        print(f"기사 보강: {tried}건 열어 썸네일 {imgs}건, 티켓 링크 {tks}건, 티켓 단계 {phs}건 채움(단계 재확인 {re_n}건)")
 
 
 def og_image(site):
