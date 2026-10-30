@@ -611,7 +611,7 @@ function normalize(raw){
     summary:String(raw.summary||"").slice(0,400).trim(),
     title_ko:String(raw.title_ko||"").slice(0,200).trim(), summary_ko:String(raw.summary_ko||"").slice(0,400).trim(), // 수집기가 Google 번역으로 만든 한국어
     image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
-    phases:(Array.isArray(raw.phases)?raw.phases:[]).filter(p=>p&&typeof p==="object"&&parseDate(p.s)).slice(0,6).map(p=>({n:String(p.n||"").slice(0,30),s:String(p.s),e:parseDate(p.e)?String(p.e):""})), // 티켓 접수 단계(FC先行 → 一般発売 …): 수집기가 기사에서 찾음
+    phases:(Array.isArray(raw.phases)?raw.phases:[]).filter(p=>p&&typeof p==="object"&&(parseDate(p.s)||parseDate(p.e))).slice(0,6).map(p=>({n:String(p.n||"").slice(0,30),s:parseDate(p.s)?String(p.s):"",e:parseDate(p.e)?String(p.e):""})), // 티켓 접수 단계(FC先行 → 一般発売 …): 수집기가 기사에서 찾음
     addedAt:raw.addedAt||new Date().toISOString()
   };
   it.id = raw.id || hashId((it.url||"")+"|"+it.title+"|"+(it.eventDate||""));
@@ -686,7 +686,7 @@ function rowHtml(it,ev,cls=""){
   if(it.venue) facts.push(hasPlace(it)?`<a class="place" href="${esc(gmapUrl(it))}" target="_blank" rel="noopener" title="구글 지도에서 보기"><span>${esc(it.venue)}</span>${it.address&&!it.venue.includes(it.address)?` · ${esc(it.address)}`:""}${it.pg?` <small class="pg" title="장소 칸이 비어 있어 기사 제목·요약에서 찾은 장소예요">기사 기준</small>`:""}</a>`:`<span>장소 ${esc(it.venue)}</span>`);
   const near=v=>{const d=parseDate(v);return d&&d-Date.now()<7*DAY&&d>Date.now()};
   if(it.phases.length){ // 티켓 접수 단계: 「FC先行 11/1(토) 12:00 ~ 11/8(일) · 一般発売 11/29(토) 10:00」, 지난 단계는 줄 긋기, 7일 안이면 분홍
-    const now=Date.now(), ph=it.phases.map(p=>{const s=parseDate(p.s),e=parseDate(p.e);const over=(e||s)<now;return `<span class="${over?"over":near(p.s)||near(p.e)?"hot":""}"><b>${esc(p.n)}</b> ${esc(fmt(p.s))}${e?` ~ ${esc(fmt(p.e))}`:""}</span>`});
+    const now=Date.now(), ph=it.phases.map(p=>{const s=parseDate(p.s),e=parseDate(p.e);const over=(e||s)<now;return `<span class="${over?"over":near(p.s)||near(p.e)?"hot":""}"><b>${esc(p.n)}</b> ${s?esc(fmt(p.s)):""}${e?` ~ ${esc(fmt(p.e))}`:""}</span>`});
     facts.push(`<span class="ph">${ph.join("")}</span>`);
   }else{
   if(it.ticketOpen) facts.push(`<span class="${near(it.ticketOpen)?"hot":""}">${PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작"} ${esc(fmt(it.ticketOpen))}</span>`);
