@@ -23,8 +23,8 @@ const OVERFLOW = () => {
   for (const e of document.querySelectorAll("body *")) {
     const r = e.getBoundingClientRect();
     if (!r.width || r.right <= W + 1 || !e.offsetParent || getComputedStyle(e).position === "fixed") continue;
-    let a = e.parentElement, clip = false;
-    while (a && a !== document.body) { if (getComputedStyle(a).overflowX !== "visible") { clip = true; break; } a = a.parentElement; }
+    let a = e.parentElement, clip = false;  // overflow 로 잘리는 부모 안, 고정 요소(마스코트 등) 안은 페이지를 밀지 않는다
+    while (a && a !== document.body) { const cs = getComputedStyle(a); if (cs.overflowX !== "visible" || cs.position === "fixed") { clip = true; break; } a = a.parentElement; }
     if (!clip) out.push(`${e.tagName.toLowerCase()}${e.id ? "#" + e.id : ""}.${e.className} right=${Math.round(r.right)}>${W}`);
   }
   return out.slice(0, 5);

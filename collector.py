@@ -956,6 +956,7 @@ def main():
     save_json(os.path.join(DATA, "meta.json"), meta)
     write_feed(ref)
     write_calendars(ref)
+    write_share_pages()
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
 
 
@@ -1159,6 +1160,93 @@ def _ics_fold(line):
             out += "\r\n "; n = 1
         out += ch; n += b
     return out
+
+
+SHARE_DIR = os.path.join(DATA, "share")
+
+
+def page_url(u):
+    """페이지 normalize 의 safeUrl(new URL(u).href)과 같은 주소: http(s)만, 한글·일본어 등은 퍼센트 인코딩(id 가 같아야 공유가 맞는다)"""
+    u = (u or "").strip()
+    if not re.match(r"https?://", u, re.I):
+        return ""
+    p = urllib.parse.urlsplit(u)
+    q = lambda t, safe: urllib.parse.quote(t, safe=safe + "%")
+    path = q(p.path, "/:@!$&'()*+,;=~-._") or "/"
+    return urllib.parse.urlunsplit((p.scheme.lower(), p.netloc.lower(), path, q(p.query, "/?:@!$&'()*+,;=~-._[]|"), q(p.fragment, "/?:@!$&'()*+,;=~-._#[]|")))
+
+
+def page_id(it):
+    """페이지 hashId((url|title|eventDate)) 를 그대로: FNV-1a 32비트, 코드포인트 단위, 36진수 앞에 'i'"""
+    if it.get("id"):
+        return str(it["id"])
+    s = f"{page_url(it.get('url'))}|{str(it.get('title') or '')[:200].strip()}|{it.get('eventDate') or ''}"
+    h = 2166136261
+    for ch in s:
+        h = ((h ^ ord(ch)) * 16777619) & 0xFFFFFFFF
+    d, out = "0123456789abcdefghijklmnopqrstuvwxyz", ""
+    while True:
+        h, r = divmod(h, 36); out = d[r] + out
+        if not h: return "i" + out
+
+
+def write_share_pages():
+    """data/share/{id}.html: 소식마다 og 태그(제목·날짜·장소·대표 그림)를 담은 작은 페이지. 카톡·디스코드·X 에 링크를 붙이면 그 소식 사진과 제목이 미리보기로 뜨고,
+    사람이 열면 보드의 #item={id} 로 바로 넘어간다(JS). 지금 소식(items.json + manual.json, 방송 제외)만 두고 나머지 파일은 지운다. 바뀐 파일만 쓴다."""
+    os.makedirs(SHARE_DIR, exist_ok=True)
+    keep, n_new = set(), 0
+    esc = lambda t: html.escape(str(t or ""), quote=True)
+    for it in load_json(os.path.join(DATA, "manual.json"), []) + load_json(OUT, []):
+        if not isinstance(it, dict) or it.get("category") == "stream" or not it.get("title"):
+            continue
+        pid = page_id(it)
+        if not re.fullmatch(r"[\w-]{1,20}", pid) or pid in keep:
+            continue
+        keep.add(pid)
+        when = _kdate(it.get("eventDate") or "") if it.get("eventDate") else ""
+        if when and it.get("endDate"):
+            when += " ~ " + _kdate(it["endDate"], False)
+        cat = CAT_KO.get(it.get("category"), "")
+        head = " · ".join(x for x in (("📅 " + when) if when else "", ("📍 " + it["venue"]) if it.get("venue") else "", cat, it.get("source", "")) if x)
+        body = it.get("summary_ko") or it.get("summary") or ""
+        ko = it.get("title_ko") or ""
+        desc = (head + (" — " + ko if ko else "") + (" | " + body if body else ""))[:200]
+        img = it.get("image") if str(it.get("image") or "").startswith("https://") else SITE + "assets/og.png"
+        go = f"../../#item={pid}"
+        page = f"""<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{esc(it['title'])} · 마토메 보드</title>
+<meta name="robots" content="noindex">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="마토메 보드">
+<meta property="og:title" content="{esc(it['title'])}">
+<meta property="og:description" content="{esc(desc)}">
+<meta property="og:image" content="{esc(img)}">
+<meta property="og:url" content="{SITE}data/share/{pid}.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(it['title'])}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:image" content="{esc(img)}">
+<link rel="canonical" href="{SITE}#item={pid}">
+<script>location.replace("{go}")</script>
+</head><body style="margin:0;padding:24px;font-family:sans-serif;background:#13152A;color:#ECEDF6">
+<p><a href="{go}" style="color:#4FC3D9">마토메 보드에서 보기 →</a></p><h1 style="font-size:18px">{esc(it['title'])}</h1><p>{esc(desc)}</p>
+</body></html>
+"""
+        path = os.path.join(SHARE_DIR, pid + ".html")
+        try:
+            if open(path, encoding="utf-8").read() == page:
+                continue
+        except OSError:
+            pass
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(page)
+        n_new += 1
+    gone = [f for f in os.listdir(SHARE_DIR) if f.endswith(".html") and f[:-5] not in keep]
+    for f in gone:
+        os.remove(os.path.join(SHARE_DIR, f))
+    print(f"→ data/share/: 공유 페이지 {len(keep)}개 (새로 쓰거나 바뀜 {n_new}, 지움 {len(gone)})")
 
 
 def write_calendars(ref):

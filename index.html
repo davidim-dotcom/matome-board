@@ -448,6 +448,8 @@ textarea{min-height:110px;resize:vertical}
 .mochi:hover .bye,.mochi:focus-within .bye{opacity:1}
 @media (hover:none){.mochi .bye{opacity:.75}}
 @media (max-width:520px){.mochi{width:64px;height:74px}}
+.mochi.season{height:125px} /* 계절 그림은 모자 때문에 세로가 길다(316×412) */
+@media (max-width:520px){.mochi.season{height:83px}}
 @keyframes mochi-dance{0%,100%{transform:translateY(0) rotate(-7deg) scale(1.03,.97)}25%{transform:translateY(-8px) rotate(0) scale(.98,1.03)}50%{transform:translateY(0) rotate(7deg) scale(1.03,.97)}75%{transform:translateY(-8px) rotate(0) scale(.98,1.03)}}
 @keyframes mochi-spin{0%{transform:translateY(0) rotate(0)}40%{transform:translateY(-22px) rotate(200deg)}100%{transform:translateY(0) rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.mochi *{animation:none!important}}
@@ -1587,7 +1589,13 @@ function onAction(e){
 (function(){
   const box=$("#mochi"), say=$("#mochiSay"), back=$("#mochiBack");
   // 고정 대사 + 누를 때마다 보드 데이터로 만드는 대사(talkData). 짧게, 말끝은 "~롱"
-  const LINES=["길게 누르면 오미쿠지야롱","도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?","원문 링크도 꼭 확인해롱","하루 네 번 새 소식이 와롱","캘린더에서 날짜를 눌러 봐롱","지도 열면 도쿄 행사가 보여롱","원문/한국어 바꿀 수 있어롱","만갤 이어 보기 해 봤어롱?","작품 이름 누르면 모아 봐롱","弾幕 탭에서 릴리랑 놀자롱","익명 게시판에 한마디 남겨롱","쓰다듬어 줘서 고마워롱","졸려롱… zzz"];
+  // 계절 옷: 날짜(JST 월-일)에 맞으면 그림·대사를 바꾼다. 그림은 assets/mascot_season.py 가 만든다. 미리 보기: 주소에 ?mochi=halloween
+  const SEASONS=[{id:"halloween",from:"10-15",to:"10-31",img:"assets/mascot_halloween.png",w:316,h:412,
+    lines:["트릭 오어 트릿이롱!","귤이 호박이 됐어롱","과자 안 주면 장난칠 거야롱","호박도 모자 썼어롱","할로윈 콜라보 찾아봐롱","박쥐 친구들이랑 왔어롱"]}];
+  const md=jstYmd(new Date()).slice(5), want=(location.search.match(/[?&]mochi=(\w+)/)||[])[1];
+  const SEA=SEASONS.find(x=>want?x.id===want:x.from<=md&&md<=x.to);
+  if(SEA){const im=box.querySelector("img.dance");im.src=SEA.img;im.width=SEA.w;im.height=SEA.h;box.classList.add("season","season-"+SEA.id)}
+  const LINES=[...(SEA?SEA.lines:[]),"길게 누르면 오미쿠지야롱","도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?","원문 링크도 꼭 확인해롱","하루 네 번 새 소식이 와롱","캘린더에서 날짜를 눌러 봐롱","지도 열면 도쿄 행사가 보여롱","원문/한국어 바꿀 수 있어롱","만갤 이어 보기 해 봤어롱?","작품 이름 누르면 모아 봐롱","弾幕 탭에서 릴리랑 놀자롱","익명 게시판에 한마디 남겨롱","쓰다듬어 줘서 고마워롱","졸려롱… zzz"];
   const cut=(t,n=13)=>{t=String(t||"").replace(/[「」『』]/g,"").replace(/\s+/g," ").trim();return t.length>n?t.slice(0,n)+"…":t};
   function talkData(){
     const out=[],now=Date.now(),live=[...items.values()].filter(it=>notOver({it}));
@@ -1622,7 +1630,7 @@ function onAction(e){
   let hide=false, last="", t=0; try{hide=localStorage.getItem("matome-mochi")==="off"}catch{}
   const sync=()=>{box.hidden=hide;back.hidden=!hide};
   sync();
-  function pick(){const data=talkData(),pool=data.length&&Math.random()<.65?data:LINES;let s,k=0;do{s=pool[Math.floor(Math.random()*pool.length)]}while(s===last&&pool.length>1&&++k<6);return last=s}
+  function pick(){const data=talkData(),pool=SEA&&Math.random()<.4?SEA.lines:data.length&&Math.random()<.65?data:LINES;let s,k=0;do{s=pool[Math.floor(Math.random()*pool.length)]}while(s===last&&pool.length>1&&++k<6);return last=s}
   $("#mochiBody").onclick=()=>{box.classList.remove("spin");void box.offsetWidth;box.classList.add("spin","talk");say.textContent=pick();
     clearTimeout(t);t=setTimeout(()=>box.classList.remove("talk","spin"),2600)};
   // 오미쿠지: 길게 누르면(0.5초) 하루 한 번 운세. 결과는 그날(JST) 내내 같다(localStorage matome-omikuji)
@@ -1702,7 +1710,8 @@ document.addEventListener("click",e=>{
   if(e.target.closest("[data-tripshare]")){const url=location.origin+location.pathname+tripHash(),title=`일본 여행 ${trip.s.slice(5).replace("-","/")}~${trip.e.slice(5).replace("-","/")} 행사 · 마토메 보드`;
     if(navigator.share)navigator.share({title,url}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>toast("여행 일정 링크를 복사했어요"),()=>toast(url));else toast(url);return}
   const sb=e.target.closest("[data-share]"); if(sb){const it=items.get(sb.dataset.share);if(!it)return;
-    const url=location.origin+location.pathname+"#item="+it.id, title=tx(it,"title");
+    // 공유 주소는 봇이 만든 data/share/{id}.html(그 소식의 og 제목·그림 → 카톡 미리보기에 사진이 뜨고, 열면 #item= 으로 넘어옴). 방송은 공유 페이지가 없어 #item=
+    const base=location.origin+location.pathname.replace(/index\.html$/,""), url=it.category==="stream"?base+"#item="+it.id:base+"data/share/"+it.id+".html", title=tx(it,"title");
     if(navigator.share)navigator.share({title:title+" · 마토메 보드",url}).catch(()=>{});
     else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>toast("이 소식 링크를 복사했어요"),()=>toast(url));
     else toast(url);return}
