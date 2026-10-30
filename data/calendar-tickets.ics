@@ -9,7 +9,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:cf0ae016b9fcd706-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261226
 DTEND;VALUE=DATE:20261227
 SUMMARY:[판매·추첨 시작] 10月30日予約開始☆「サンリオ
@@ -23,7 +23,7 @@ URL:https://animeanime.jp/article/2026/10/30/104354.html
 END:VEVENT
 BEGIN:VEVENT
 UID:7ac0fb9f35eb750b-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] 「ちびまる子ちゃん」がLOWRYS F
@@ -36,7 +36,7 @@ URL:https://anime.eiga.com/news/127729/
 END:VEVENT
 BEGIN:VEVENT
 UID:4c4e79fcab1baeb8-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270103
 DTEND;VALUE=DATE:20270104
 SUMMARY:[마감] ちいかわベビーカステラ 京都・錦市場に1
@@ -49,7 +49,7 @@ URL:https://collabo-cafe.com/events/collabo/chiikawa-shop-tieup-baby-cast
 END:VEVENT
 BEGIN:VEVENT
 UID:465319535c95f912-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:[판매·추첨 시작] ポケピース もふもふポーシェ
@@ -62,7 +62,7 @@ URL:https://collabo-cafe.com/events/collabo/pocket-monster-capsule-toy-ta
 END:VEVENT
 BEGIN:VEVENT
 UID:42713f8ca1400e2b-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:[마감] 劇場アニメ『青春ブタ野郎はディアフレ
@@ -87,7 +87,7 @@ URL:https://www.sweets-paradise.jp/collaboration/aobuta-dearfriend/?utm_s
 END:VEVENT
 BEGIN:VEVENT
 UID:a9e7b8e5e02fbc51-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270124
 DTEND;VALUE=DATE:20270125
 SUMMARY:[마감] ブラウンダスト2 POP UP SHOP in 3都市 11月4日
@@ -100,7 +100,7 @@ URL:https://collabo-cafe.com/events/collabo/browndust2-kemomimi-police-po
 END:VEVENT
 BEGIN:VEVENT
 UID:ca340d07cc920d56-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261125
 DTEND;VALUE=DATE:20261126
 SUMMARY:[마감] 「サカつく2026」，ポルトガル国籍の選手
@@ -114,7 +114,7 @@ URL:https://www.4gamer.net/games/915/G091522/20261029037/
 END:VEVENT
 BEGIN:VEVENT
 UID:9f60a6e1088dd9c1-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:[판매·추첨 시작] ジェラート ピケより「スヌー
@@ -129,7 +129,7 @@ URL:https://www.inside-games.jp/article/2026/10/30/190104.html
 END:VEVENT
 BEGIN:VEVENT
 UID:8741f3e2de38b60a-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261108T140000Z
 DTEND:20261108T143000Z
 SUMMARY:[마감] METAL ROBOT魂「 強化型ZZガンダム用フルアー
@@ -149,7 +149,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:26a9a7a7b29d4678-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] しまむらで「雪ミク」アイテ
@@ -163,7 +163,7 @@ URL:https://www.inside-games.jp/article/2026/10/30/190095.html
 END:VEVENT
 BEGIN:VEVENT
 UID:483716ea3bb24177-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] 「パペットスンスン」×「THE DO
@@ -178,7 +178,7 @@ URL:https://www.inside-games.jp/article/2026/10/30/190092.html
 END:VEVENT
 BEGIN:VEVENT
 UID:b72e8eccb04d0760-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:[판매·추첨 시작] ドンキ・アピタで「ワイルド
@@ -193,7 +193,7 @@ URL:https://www.inside-games.jp/article/2026/10/30/190089.html
 END:VEVENT
 BEGIN:VEVENT
 UID:d50819d9e724aea4-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:[판매·추첨 시작] カービィがちょこんと乗った
@@ -206,7 +206,7 @@ URL:https://www.inside-games.jp/article/2026/10/29/190058.html
 END:VEVENT
 BEGIN:VEVENT
 UID:900282f831d91d01-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[마감] 新作「OD」の展示も！ コジプロ10周年記念
@@ -221,7 +221,7 @@ URL:https://game.watch.impress.co.jp/docs/news/2152569.html
 END:VEVENT
 BEGIN:VEVENT
 UID:85dc599525a0bdf2-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270111
 DTEND;VALUE=DATE:20270112
 SUMMARY:[마감] 「暁のヨナ」完結記念 アニメイトフェア 
@@ -234,7 +234,7 @@ URL:https://collabo-cafe.com/events/collabo/akatsuki-no-yona-kanketsu-ani
 END:VEVENT
 BEGIN:VEVENT
 UID:7254e0d4914787f9-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270110
 DTEND;VALUE=DATE:20270111
 SUMMARY:[마감] 鋼の錬金術師 × JR東海 推し旅 第2弾 11月27
@@ -247,7 +247,7 @@ URL:https://collabo-cafe.com/events/collabo/fullmetal-alchemist-event-osh
 END:VEVENT
 BEGIN:VEVENT
 UID:c7927811b275ed41-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:[판매·추첨 시작] オーディオブランド「TuneMATE」
@@ -261,7 +261,7 @@ URL:https://panora.tokyo/archives/161647
 END:VEVENT
 BEGIN:VEVENT
 UID:570b47c738d94305-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261102
 DTEND;VALUE=DATE:20261103
 SUMMARY:[마감] あなたの“推し活”事情を教えて！ よく
@@ -275,7 +275,7 @@ URL:https://animeanime.jp/article/2026/10/30/104342.html
 END:VEVENT
 BEGIN:VEVENT
 UID:d52ab3daaf8a3d4f-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261104
 DTEND;VALUE=DATE:20261105
 SUMMARY:[판매·추첨 시작] Ado×アナスイがコラボ！“青薔
@@ -289,7 +289,7 @@ URL:https://animeanime.jp/article/2026/10/30/104329.html
 END:VEVENT
 BEGIN:VEVENT
 UID:f13324d45a88724d-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
 SUMMARY:[마감] イオンモール系VTuber静馬レイ、イオン公
@@ -301,7 +301,7 @@ URL:https://www.moguravr.com/sizmarei-aeonmall-blackfriday/
 END:VEVENT
 BEGIN:VEVENT
 UID:1aed6a50caac08da-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270117
 DTEND;VALUE=DATE:20270118
 SUMMARY:[마감] リラックマ × ハイキュー!! POP UP in 5都市 1
@@ -315,7 +315,7 @@ URL:https://collabo-cafe.com/events/collabo/rilakkuma-haikyu-popup-store-
 END:VEVENT
 BEGIN:VEVENT
 UID:ef946f51c3d0b43e-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:[판매·추첨 시작] らんま1/2 × アベイル グッズ15
@@ -327,7 +327,7 @@ URL:https://collabo-cafe.com/events/collabo/ranma-goods-avail-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:c9464d8749680b93-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261227
 DTEND;VALUE=DATE:20261228
 SUMMARY:[마감] 葛飾北斎×初音ミク ストア アニメイト福
@@ -341,7 +341,7 @@ URL:https://collabo-cafe.com/events/collabo/hatsune-miku-hokusai-rella-po
 END:VEVENT
 BEGIN:VEVENT
 UID:c02e6d35124333d5-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:[마감] カグラナナ × AVIOT POPUP SHOP in 新宿 10月30日
@@ -355,7 +355,7 @@ URL:https://collabo-cafe.com/events/collabo/nana-kagura-aviot-popup-shinj
 END:VEVENT
 BEGIN:VEVENT
 UID:b151a55be6a2b01b-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:[마감] ポケピース × サンシャインシティ 11月16
@@ -369,7 +369,7 @@ URL:https://collabo-cafe.com/events/collabo/pocket-monster-event-pokepeac
 END:VEVENT
 BEGIN:VEVENT
 UID:9b8e2ac85e61bf2e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261206
 DTEND;VALUE=DATE:20261207
 SUMMARY:[마감] アズールレーン レースクイーン POP UP in 
@@ -383,7 +383,7 @@ URL:https://collabo-cafe.com/events/collabo/azurlane-racequeen-popup-amni
 END:VEVENT
 BEGIN:VEVENT
 UID:aae7de46f33f54da-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270308
 DTEND;VALUE=DATE:20270309
 SUMMARY:[마감] ポケピース POP UP STORE in 全国9会場 11月16日
@@ -396,7 +396,7 @@ URL:https://collabo-cafe.com/events/collabo/pokemon-pokepeace-flowering-p
 END:VEVENT
 BEGIN:VEVENT
 UID:5a5e60ed7627456d-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261202
 DTEND;VALUE=DATE:20261203
 SUMMARY:[마감] パワパフ ガールズの休日 POPUP in 京都IP書
@@ -410,7 +410,7 @@ URL:https://collabo-cafe.com/events/collabo/the-powerpuff-girls-girls-hol
 END:VEVENT
 BEGIN:VEVENT
 UID:21548da3c7f0f65a-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] あらいぐま カルカル団 × ヴィレヴァン 11
@@ -423,7 +423,7 @@ URL:https://collabo-cafe.com/events/collabo/calcaldan-village-vanguard-go
 END:VEVENT
 BEGIN:VEVENT
 UID:9e1693a8a05bdd1e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261220
 DTEND;VALUE=DATE:20261221
 SUMMARY:[마감] NO.6 × カラオケの鉄人 15周年コラボ 11月5
@@ -436,7 +436,7 @@ URL:https://collabo-cafe.com/events/collabo/no6-shop-tieup-karatetsu-15th
 END:VEVENT
 BEGIN:VEVENT
 UID:3c5d779d6e0a8d19-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261216
 DTEND;VALUE=DATE:20261217
 SUMMARY:[마감] すとぷりら6組のカフェ in スイパラ池袋 10
@@ -451,7 +451,7 @@ URL:https://collabo-cafe.com/events/collabo/strawberry-prince-cafe-stpr-p
 END:VEVENT
 BEGIN:VEVENT
 UID:de7af529cd0fcbbb-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270124
 DTEND;VALUE=DATE:20270125
 SUMMARY:[마감] ミッフィーほかほかダイニング 押上・心
@@ -465,7 +465,7 @@ URL:https://collabo-cafe.com/events/collabo/miffy-cafe-hokahoka-dining-so
 END:VEVENT
 BEGIN:VEVENT
 UID:135953a5c8008634-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] 東方Project × キュアメイドカフェ 10月30日
@@ -478,7 +478,7 @@ URL:https://collabo-cafe.com/events/collabo/toho-project-cafe-curemaid-ca
 END:VEVENT
 BEGIN:VEVENT
 UID:f1f98479e0515fbf-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261123
 DTEND;VALUE=DATE:20261124
 SUMMARY:[마감] ギルティクラウン×甲鉄城のカバネリ展 10
@@ -493,7 +493,7 @@ URL:https://collabo-cafe.com/events/collabo/guilty-crown-kabaneri-gengate
 END:VEVENT
 BEGIN:VEVENT
 UID:a5286f393746da58-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270208
 DTEND;VALUE=DATE:20270209
 SUMMARY:[마감] 【潜入レポ】これはもう国宝級!?少女漫画
@@ -509,7 +509,7 @@ URL:https://animeanime.jp/article/2026/10/30/104328.html
 END:VEVENT
 BEGIN:VEVENT
 UID:016cc64781e11fe8-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261111
 DTEND;VALUE=DATE:20261112
 SUMMARY:[판매·추첨 시작] 『カービィカフェ PETIT』初の
@@ -523,7 +523,7 @@ URL:https://dengekionline.com/article/202610/92565
 END:VEVENT
 BEGIN:VEVENT
 UID:260e54f7732a12da-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:[마감] ぽこピー 狸豆商店パーク in 有楽町マルイ
@@ -538,7 +538,7 @@ URL:https://collabo-cafe.com/events/collabo/pokopea-tanukimame-shoten-par
 END:VEVENT
 BEGIN:VEVENT
 UID:3a2ff81cc31126ba-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270124
 DTEND;VALUE=DATE:20270125
 SUMMARY:[마감] Five Nights at Freddy’s ストア in 押上・池袋 1
@@ -552,7 +552,7 @@ URL:https://collabo-cafe.com/events/collabo/fnaf-infolens-popup-solamachi
 END:VEVENT
 BEGIN:VEVENT
 UID:ebcf3d43d7ee86fd-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] チアリステイルズ POP-UP STORE in 3都市 10月30
@@ -565,7 +565,7 @@ URL:https://collabo-cafe.com/events/collabo/cheeristails-1st-popup-shinsa
 END:VEVENT
 BEGIN:VEVENT
 UID:156bfa1427790403-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] カピバラさん とてててショップ in ソラマ
@@ -579,7 +579,7 @@ URL:https://collabo-cafe.com/events/collabo/kapibarasan-sougen-days-totet
 END:VEVENT
 BEGIN:VEVENT
 UID:33ef0b6bacd7977a-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261226
 DTEND;VALUE=DATE:20261227
 SUMMARY:[판매·추첨 시작] ドトール×「シナモロール」コ
@@ -593,7 +593,7 @@ URL:https://animeanime.jp/article/2026/10/29/104324.html
 END:VEVENT
 BEGIN:VEVENT
 UID:fe32221ef1ecbdf3-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] 「ウルトラマン」バルタン星
@@ -608,7 +608,7 @@ URL:https://animeanime.jp/article/2026/10/29/104318.html
 END:VEVENT
 BEGIN:VEVENT
 UID:37d0589602ada3a2-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] 【アイカツ！】しまむらコラ
@@ -622,7 +622,7 @@ URL:https://dengekionline.com/article/202610/92530
 END:VEVENT
 BEGIN:VEVENT
 UID:791d08577289dca8-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261112
 DTEND;VALUE=DATE:20261113
 SUMMARY:[판매·추첨 시작] TVアニメ『WIND BREAKER』とタピオ
@@ -636,7 +636,7 @@ URL:https://collabo-cafe.com/events/collabo/gkmarketing-4len7f2g/
 END:VEVENT
 BEGIN:VEVENT
 UID:f12551f7e0e746b2-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261215
 DTEND;VALUE=DATE:20261216
 SUMMARY:[마감] ジョアンフレンズ 初カフェ 渋谷PARCOほか 
@@ -650,7 +650,7 @@ URL:https://collabo-cafe.com/events/collabo/zonfriends-cafe-the-guest-caf
 END:VEVENT
 BEGIN:VEVENT
 UID:0e9c8643860a4c7e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270111
 DTEND;VALUE=DATE:20270112
 SUMMARY:[마감] 「ハイキュー!!」烏野や音駒のコラボメニ
@@ -665,7 +665,7 @@ URL:https://animeanime.jp/article/2026/10/29/104316.html
 END:VEVENT
 BEGIN:VEVENT
 UID:cbfa3314cef73e41-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] お前のほうからキスしてくれよ POPUP in 渋
@@ -679,7 +679,7 @@ URL:https://collabo-cafe.com/events/collabo/omakiss-drama-popup-shop-towe
 END:VEVENT
 BEGIN:VEVENT
 UID:d8e28e4485ac23c1-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] 松平健 × しまむら ハッピー&
@@ -692,7 +692,7 @@ URL:https://collabo-cafe.com/events/collabo/matsudaira-ken-shimamura-item
 END:VEVENT
 BEGIN:VEVENT
 UID:7c25cb5f86b4401b-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261220
 DTEND;VALUE=DATE:20261221
 SUMMARY:[마감] ヒロアカ 10周年 POPUP in 池袋・名古屋 11月7
@@ -705,7 +705,7 @@ URL:https://collabo-cafe.com/events/collabo/heroaca-10th-bones-store-popu
 END:VEVENT
 BEGIN:VEVENT
 UID:11a27021e31d438c-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261123
 DTEND;VALUE=DATE:20261124
 SUMMARY:[마감] ギルティクラウン×カバネリ展 カフェ 銀
@@ -719,7 +719,7 @@ URL:https://collabo-cafe.com/events/collabo/guilty-crown-kabaneri-cafe-th
 END:VEVENT
 BEGIN:VEVENT
 UID:1ecbb7c68ac448ac-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261206
 DTEND;VALUE=DATE:20261207
 SUMMARY:[마감] サンリオキャラクターズ × タイトー 11月1
@@ -732,7 +732,7 @@ URL:https://collabo-cafe.com/events/collabo/sanrio-velvety-night-taito-ca
 END:VEVENT
 BEGIN:VEVENT
 UID:499fb6ca8fd368f3-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] アメイジングデジタルサーカ
@@ -745,52 +745,52 @@ URL:https://collabo-cafe.com/events/collabo/the-amazing-digital-circus-sh
 END:VEVENT
 BEGIN:VEVENT
 UID:2213c8c0a38c0f65-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:[판매·추첨 시작] 超かぐや姫! × 東京ドームシテ
  ィ 11月27日よりコラボ開催!
 LOCATION:東京ドームシティ 東京都文京区
-DESCRIPTION:슈퍼 카구야 공주! × 도쿄 돔 시티 11 월 27 일
- 부터 협업 개최!\nコラボカフェ\nhttps://collabo-cafe.com/even
- ts/collabo/cho-kaguyahime-event-tokyo-dome-city-memorial-wonder-land-202
- 6/
+DESCRIPTION:초 가구야 공주! × 도쿄돔 시티 11월 27일부터 
+ 콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-cafe.com
+ /events/collabo/cho-kaguyahime-event-tokyo-dome-city-memorial-wonder-lan
+ d-2026/
 URL:https://collabo-cafe.com/events/collabo/cho-kaguyahime-event-tokyo-do
  me-city-memorial-wonder-land-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:2213c8c0a38c0f65-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270103
 DTEND;VALUE=DATE:20270104
 SUMMARY:[마감] 超かぐや姫! × 東京ドームシティ 11月27日
  よりコラボ開催!
 LOCATION:東京ドームシティ 東京都文京区
-DESCRIPTION:슈퍼 카구야 공주! × 도쿄 돔 시티 11 월 27 일
- 부터 협업 개최!\nコラボカフェ\nhttps://collabo-cafe.com/even
- ts/collabo/cho-kaguyahime-event-tokyo-dome-city-memorial-wonder-land-202
- 6/
+DESCRIPTION:초 가구야 공주! × 도쿄돔 시티 11월 27일부터 
+ 콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-cafe.com
+ /events/collabo/cho-kaguyahime-event-tokyo-dome-city-memorial-wonder-lan
+ d-2026/
 URL:https://collabo-cafe.com/events/collabo/cho-kaguyahime-event-tokyo-do
  me-city-memorial-wonder-land-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:6d5756057fe002a8-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 SUMMARY:[마감] NIKKE オーケストラコンサート 2027年1月9日 
  横浜で開催!
 LOCATION:パシフィコ横浜 神奈川県
-DESCRIPTION:NIKKE 오케스트라 콘서트 2027 년 1 월 9 일 요코
- 하마에서 개최!\nコラボカフェ\nhttps://collabo-cafe.com/event
- s/collabo/nikke-event-orchestral-concert-pacifico-yokohama-2027/\nhttps:
- //eplus.jp/nikke_concert/
+DESCRIPTION:승리의 여신 : 니케 오케스트라 콘서트 2027 년 
+ 1 월 9 일 요코하마에서 개최!\nコラボカフェ\nhttps://coll
+ abo-cafe.com/events/collabo/nikke-event-orchestral-concert-pacifico-yoko
+ hama-2027/\nhttps://eplus.jp/nikke_concert/
 URL:https://collabo-cafe.com/events/collabo/nikke-event-orchestral-concer
  t-pacifico-yokohama-2027/
 END:VEVENT
 BEGIN:VEVENT
 UID:927514ace8d74c5d-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261202
 DTEND;VALUE=DATE:20261203
 SUMMARY:[마감] うすた京介ワールド POP UP STORE in 大阪 11月
@@ -803,7 +803,7 @@ URL:https://collabo-cafe.com/events/collabo/usutaworld-moriguchi-popup-ke
 END:VEVENT
 BEGIN:VEVENT
 UID:001ec5578491af6a-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:[마감] マイメロディ＆クロミがサーティワンと
@@ -816,33 +816,33 @@ URL:https://animeanime.jp/article/2026/10/28/104296.html
 END:VEVENT
 BEGIN:VEVENT
 UID:57694c71a55d3ca8-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] チェンソーマン レゼ篇 × グラ
  ニフ 全19種 11月3日より発売!
-DESCRIPTION:첸소만 레제편 × 그라니프 전 19종 11월 3일부
- 터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
- /chainsawman-fashion-graniph-reze-2026/
+DESCRIPTION:체인소 맨 레제편 × 그라니프 전 19종 11월 3일
+ 부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/chainsawman-fashion-graniph-reze-2026/
 URL:https://collabo-cafe.com/events/collabo/chainsawman-fashion-graniph-r
  eze-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:57694c71a55d3ca8-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261102
 DTEND;VALUE=DATE:20261103
 SUMMARY:[마감] チェンソーマン レゼ篇 × グラニフ 全19種
   11月3日より発売!
-DESCRIPTION:첸소만 레제편 × 그라니프 전 19종 11월 3일부
- 터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/collabo
- /chainsawman-fashion-graniph-reze-2026/
+DESCRIPTION:체인소 맨 레제편 × 그라니프 전 19종 11월 3일
+ 부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/chainsawman-fashion-graniph-reze-2026/
 URL:https://collabo-cafe.com/events/collabo/chainsawman-fashion-graniph-r
  eze-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:1bc1b0e86f95b0d1-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:[판매·추첨 시작] イケメンのデカアクスタや可
@@ -856,7 +856,7 @@ URL:https://animeanime.jp/article/2026/10/28/104292.html
 END:VEVENT
 BEGIN:VEVENT
 UID:19a4b7659ac9b78a-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261226
 DTEND;VALUE=DATE:20261227
 SUMMARY:[판매·추첨 시작] 「サンリオ」シナモロール×ド
@@ -870,7 +870,7 @@ URL:https://animeanime.jp/article/2026/10/28/104283.html
 END:VEVENT
 BEGIN:VEVENT
 UID:17fdccc5ad6e0b54-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261112
 DTEND;VALUE=DATE:20261113
 SUMMARY:[마감] 「ベルサイユのばら」版画展が開催！池
@@ -884,7 +884,7 @@ URL:https://animeanime.jp/article/2026/10/28/104281.html
 END:VEVENT
 BEGIN:VEVENT
 UID:db93d2038e77ddce-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261112
 DTEND;VALUE=DATE:20261113
 SUMMARY:[판매·추첨 시작] ハイキュー!! × 宅麺 4校のコラ
@@ -898,13 +898,13 @@ URL:https://collabo-cafe.com/events/collabo/haikyu-shop-tieup-takumen-ram
 END:VEVENT
 BEGIN:VEVENT
 UID:cfaa3f150784a849-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261231
 DTEND;VALUE=DATE:20270101
 SUMMARY:[마감] タコピーの原罪 × ばくだん焼本舗 11月25
  日よりコラボ開催!
 LOCATION:東京ドームシティ 東京都文京区
-DESCRIPTION:타카피의 원죄 × 바쿠 야키 본점 11 월 25 일부
+DESCRIPTION:타코피의 원죄 × 바쿠단 야키 본점 11월 25일부
  터 콜라보레이션 개최!\nコラボカフェ\nhttps://collabo-cafe
  .com/events/collabo/takopis-original-sin-shop-tieup-bakudanyaki-honpo-20
  26/
@@ -913,20 +913,20 @@ URL:https://collabo-cafe.com/events/collabo/takopis-original-sin-shop-tie
 END:VEVENT
 BEGIN:VEVENT
 UID:ae1b74b3c947f18c-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270129
 DTEND;VALUE=DATE:20270130
 SUMMARY:[판매·추첨 시작] NIKKE 一番くじ 第9弾 リトルマ
  ーメイド 1月29日より発売!
-DESCRIPTION:NIKKE 이치 반 쿠지 제 9 탄 리틀 머메이드 1 월 2
- 9 일부터 발매!\nコラボカフェ\nhttps://collabo-cafe.com/events
- /collabo/nikke-ichiban-kuji-chapter9-2027/
+DESCRIPTION:승리의 여신 : 니케 이치 반 쿠지 제 9 탄 리틀 
+ 머메이드 1 월 29 일부터 발매!\nコラボカフェ\nhttps://col
+ labo-cafe.com/events/collabo/nikke-ichiban-kuji-chapter9-2027/
 URL:https://collabo-cafe.com/events/collabo/nikke-ichiban-kuji-chapter9-2
  027/
 END:VEVENT
 BEGIN:VEVENT
 UID:e7fd6aa2a1c36d3a-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261206
 DTEND;VALUE=DATE:20261207
 SUMMARY:[마감] Mマス knick-knacks Vol.2 ストア in ハンズ 11月1
@@ -939,7 +939,7 @@ URL:https://collabo-cafe.com/events/collabo/idolmaster-sidem-knick-knacks
 END:VEVENT
 BEGIN:VEVENT
 UID:71351f84f16cb0b5-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:[마감] 恋とき × ブランチパーク 11月3日よりコラ
@@ -952,7 +952,7 @@ URL:https://collabo-cafe.com/events/collabo/koitoki-cafe-brunchpark-takeo
 END:VEVENT
 BEGIN:VEVENT
 UID:1178f6903c3a7740-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:[판매·추첨 시작] ズートピア × 東京ばな奈 10周
@@ -965,7 +965,7 @@ URL:https://collabo-cafe.com/events/collabo/zootopia-goods-tokyo-banana-c
 END:VEVENT
 BEGIN:VEVENT
 UID:46e81cf10c611ae7-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261215
 DTEND;VALUE=DATE:20261216
 SUMMARY:[마감] しぐれうい展2026「Uitopia」アニメイトフェ
@@ -978,7 +978,7 @@ URL:https://collabo-cafe.com/events/collabo/ui-shigure-uitopia-animate-fa
 END:VEVENT
 BEGIN:VEVENT
 UID:708e121fc5dc57d1-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261213
 DTEND;VALUE=DATE:20261214
 SUMMARY:[마감] メダロット カフェ in 秋葉原・大阪 11月20
@@ -992,7 +992,7 @@ URL:https://collabo-cafe.com/events/collabo/medarot-cafe-collabocafe-honp
 END:VEVENT
 BEGIN:VEVENT
 UID:364fa8cf02118627-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:[판매·추첨 시작] 鬼灯の冷徹 原画展 和紙風ポス
@@ -1006,7 +1006,7 @@ URL:https://collabo-cafe.com/events/collabo/hozukino-reitetsu-gengaten-te
 END:VEVENT
 BEGIN:VEVENT
 UID:e43ff363e5421035-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:[마감] アオのハコ × ゾゾタウン 千夏と雛の衣装
@@ -1020,7 +1020,7 @@ URL:https://collabo-cafe.com/events/collabo/aonohako-fashion-zozotown-bla
 END:VEVENT
 BEGIN:VEVENT
 UID:4e79f67f8e65261f-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261130T145900Z
 DTEND:20261130T152900Z
 SUMMARY:[마감] VTuber専門誌『月刊VTuberスタイル』が3Dライ
@@ -1037,7 +1037,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:c6dd1e036874a78c-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] ミッフィー＆ボリスが「Maison d
@@ -1050,7 +1050,7 @@ URL:https://animeanime.jp/article/2026/10/28/104269.html
 END:VEVENT
 BEGIN:VEVENT
 UID:a8c863e1ad735613-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261130T025900Z
 DTEND:20261130T032900Z
 SUMMARY:[마감] ホロライブ轟はじめ×FILAのアイテムが爆
@@ -1067,7 +1067,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:3f7c0f5a94ef8f41-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261223
 DTEND;VALUE=DATE:20261224
 SUMMARY:[마감] 明治ミルクチョコレートが100周年 『葬送
@@ -1081,7 +1081,7 @@ URL:https://kai-you.net/article/96977
 END:VEVENT
 BEGIN:VEVENT
 UID:baa1987ca307b724-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] デキる猫は今日も憂鬱 × アベ
@@ -1093,7 +1093,7 @@ URL:https://collabo-cafe.com/events/collabo/dekineko-avail-item-20261031/
 END:VEVENT
 BEGIN:VEVENT
 UID:b2d0b63172bd7774-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] 「エヴァンゲリオン」×「ハー
@@ -1106,7 +1106,7 @@ URL:https://animeanime.jp/article/2026/10/27/104256.html
 END:VEVENT
 BEGIN:VEVENT
 UID:cc6c0667c4a8d927-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261111
 DTEND;VALUE=DATE:20261112
 SUMMARY:[판매·추첨 시작] 「ズートピア」公開10周年をお
@@ -1120,7 +1120,7 @@ URL:https://animeanime.jp/article/2026/10/27/104254.html
 END:VEVENT
 BEGIN:VEVENT
 UID:ac91044988ac3a2e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261213
 DTEND;VALUE=DATE:20261214
 SUMMARY:[마감] 写らナイんです POP UP in 紀伊國屋書店 新
@@ -1135,7 +1135,7 @@ URL:https://collabo-cafe.com/events/collabo/utsuranaindesu-popup-shop-kin
 END:VEVENT
 BEGIN:VEVENT
 UID:b7298eda0ec99b7e-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] エヴァンゲリオン × ハードロ
@@ -1148,7 +1148,7 @@ URL:https://collabo-cafe.com/events/collabo/evangelion-hard-rock-cafe-goo
 END:VEVENT
 BEGIN:VEVENT
 UID:59d78164cb1ad401-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261110
 DTEND;VALUE=DATE:20261111
 SUMMARY:[마감] 快獣ブースカ ほのぼの商店街 in ルミネエ
@@ -1163,7 +1163,7 @@ URL:https://collabo-cafe.com/events/collabo/booska-honobono-shotengai-pop
 END:VEVENT
 BEGIN:VEVENT
 UID:ee5dfb2c02fc4c25-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:[판매·추첨 시작] ちいかわ ふわふわルームシュ
@@ -1176,20 +1176,20 @@ URL:https://collabo-cafe.com/events/collabo/chiikawa-goods-shimamura-room
 END:VEVENT
 BEGIN:VEVENT
 UID:5963ed401d12d4c0-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261215
 DTEND;VALUE=DATE:20261216
 SUMMARY:[마감] ウマ娘 × サントリー自販機 10月29日より
  コラボ第2弾開催!
-DESCRIPTION:말 딸 × 산토리 자판기 10 월 29 일부터 콜라보
- 레이션 제 2 탄 개최!\nコラボカフェ\nhttps://collabo-cafe.co
- m/events/collabo/umamusume-suntory-vending-campaign-vol2-2026/
+DESCRIPTION:우마무스메 × 산토리 자판기 10월 29일부터 콜
+ 라보레이션 제2탄 개최!\nコラボカフェ\nhttps://collabo-caf
+ e.com/events/collabo/umamusume-suntory-vending-campaign-vol2-2026/
 URL:https://collabo-cafe.com/events/collabo/umamusume-suntory-vending-cam
  paign-vol2-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:cd1b3374688f965d-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270207
 DTEND;VALUE=DATE:20270208
 SUMMARY:[마감] 入間くん グッズフェア in アニメイト 2027
@@ -1202,7 +1202,7 @@ URL:https://collabo-cafe.com/events/collabo/iruma-kun-yumekawa-goods-fair
 END:VEVENT
 BEGIN:VEVENT
 UID:e64fa88315f26877-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261109T040000Z
 DTEND:20261109T043000Z
 SUMMARY:[마감] ニケ × gladgarb T.T.STARのコラボ服 予約受付
@@ -1220,7 +1220,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:237260fd0fbaa499-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270207
 DTEND;VALUE=DATE:20270208
 SUMMARY:[마감] 東リベ Sincerely yours フェア in アニメイト 1
@@ -1233,7 +1233,7 @@ URL:https://collabo-cafe.com/events/collabo/tokyo-revengers-sincerely-you
 END:VEVENT
 BEGIN:VEVENT
 UID:00199b2d0c2af1aa-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261103T080000Z
 DTEND:20261103T083000Z
 SUMMARY:[판매·추첨 시작] 7人組バーチャルアイドル「FouR
@@ -1251,7 +1251,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:00199b2d0c2af1aa-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261103T080000Z
 DTEND:20261103T083000Z
 SUMMARY:[마감] 7人組バーチャルアイドル「FouRTe Project」
@@ -1269,7 +1269,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:0c70232868ddcb4b-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261225
 DTEND;VALUE=DATE:20261226
 SUMMARY:[마감] 学生によるゲーム制作イベント「holo Indie 
@@ -1283,7 +1283,7 @@ URL:https://panora.tokyo/archives/161256
 END:VEVENT
 BEGIN:VEVENT
 UID:ce9449ea407edb84-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261116
 DTEND;VALUE=DATE:20261117
 SUMMARY:[마감] VTuberグループ「あおぎり高校」8周年企画
@@ -1295,7 +1295,7 @@ URL:https://kai-you.net/article/96975
 END:VEVENT
 BEGIN:VEVENT
 UID:81b1902d69d9b3fb-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:[판매·추첨 시작] 「サンリオ」キティ、ポムポ
@@ -1309,7 +1309,7 @@ URL:https://animeanime.jp/article/2026/10/26/104218.html
 END:VEVENT
 BEGIN:VEVENT
 UID:0bcb872df65ebed0-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] ホワイトタイガーとブラックタイガー ス
@@ -1323,7 +1323,7 @@ URL:https://collabo-cafe.com/events/collabo/whitetiger-to-blacktiger-bust
 END:VEVENT
 BEGIN:VEVENT
 UID:946be97568306b82-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:[마감] なんでもいきもの POP UP in キデイランド 11
@@ -1337,7 +1337,7 @@ URL:https://collabo-cafe.com/events/collabo/nandemoikimono-norionigiri-po
 END:VEVENT
 BEGIN:VEVENT
 UID:b2895b9a63151d2e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261124T030000Z
 DTEND:20261124T033000Z
 SUMMARY:[마감] インディーゲーム『めっちゃカメレオン
@@ -1355,7 +1355,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:8833d38ab669c1a1-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261223
 DTEND;VALUE=DATE:20261224
 SUMMARY:[마감] ホロライブの二次創作ゲームを学生70人が
@@ -1367,7 +1367,7 @@ URL:https://kai-you.net/article/96963
 END:VEVENT
 BEGIN:VEVENT
 UID:c1efcb4a9819eee9-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:[마감] おでかけ子ザメ ベビー子ザメ POP UP in 東
@@ -1382,7 +1382,7 @@ URL:https://collabo-cafe.com/events/collabo/odekake-kozame-baby-kozame-po
 END:VEVENT
 BEGIN:VEVENT
 UID:c395daebfe68a9ee-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] ぐでたま × アベイル 抱き枕や
@@ -1394,7 +1394,7 @@ URL:https://collabo-cafe.com/events/collabo/gudetama-avail-goods-2026/
 END:VEVENT
 BEGIN:VEVENT
 UID:ebc1e0f0edb878f5-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270127
 DTEND;VALUE=DATE:20270128
 SUMMARY:[판매·추첨 시작] ChroNoiR、ニューシングルを1/27
@@ -1408,7 +1408,7 @@ URL:https://panora.tokyo/archives/161196
 END:VEVENT
 BEGIN:VEVENT
 UID:cf82ea19fa3db27c-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270127
 DTEND;VALUE=DATE:20270128
 SUMMARY:[판매·추첨 시작] ChroNoiR ニューシングル 2027年1
@@ -1423,7 +1423,7 @@ URL:https://www.nijisanji.jp/news/pbhfwle_7qw
 END:VEVENT
 BEGIN:VEVENT
 UID:fac9af0f7c12b4c8-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:[판매·추첨 시작] サンリオキャラクターズの色
@@ -1437,33 +1437,33 @@ URL:https://animeanime.jp/article/2026/10/26/104218.html
 END:VEVENT
 BEGIN:VEVENT
 UID:35bd0020700f1a77-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270228
 DTEND;VALUE=DATE:20270301
 SUMMARY:[마감] ウマ娘 × 北海道日高 スタンプラリー 12月
  19日より開催!
-DESCRIPTION:말 딸 × 홋카이도 히다카 스탬프 랠리 12 월 19 
- 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/c
- ollabo/umamusume-hidaka-stamp-rally-2026-2027/
+DESCRIPTION:우마무스메 × 홋카이도 히다카 스탬프 랠리가
+  12월 19일부터 개최됩니다!\nコラボカフェ\nhttps://collabo
+ -cafe.com/events/collabo/umamusume-hidaka-stamp-rally-2026-2027/
 URL:https://collabo-cafe.com/events/collabo/umamusume-hidaka-stamp-rally-
  2026-2027/
 END:VEVENT
 BEGIN:VEVENT
 UID:e2e4629bd971392e-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
 SUMMARY:[마감] にじさんじ × くら寿司 コラボ第3弾 10月30
  日より開催!
-DESCRIPTION:니지 산지 × 쿠라 스시 콜라보레이션 제 3 탄 1
- 0 월 30 일부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com
- /events/collabo/nijisanji-kurasushi-vol3-2026/
+DESCRIPTION:니지산지 × 쿠라 스시 콜라보 제3탄 10월 30일
+ 부터 개최!\nコラボカフェ\nhttps://collabo-cafe.com/events/coll
+ abo/nijisanji-kurasushi-vol3-2026/
 URL:https://collabo-cafe.com/events/collabo/nijisanji-kurasushi-vol3-2026
  /
 END:VEVENT
 BEGIN:VEVENT
 UID:8b122662991ffc75-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] ちびまる子ちゃん × LOWRYS FARM 
@@ -1476,7 +1476,7 @@ URL:https://collabo-cafe.com/events/collabo/chibimarukochan-lowrysfarm-co
 END:VEVENT
 BEGIN:VEVENT
 UID:4ffea1b66a244afd-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART:20261101T140000Z
 DTEND:20261101T143000Z
 SUMMARY:[마감] HUNTER×HUNTER グッズ アベイルにて10月24日よ
@@ -1494,7 +1494,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:ad3afbbef5a290fe-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] ウルトラマンティガ × アベイ
@@ -1507,7 +1507,7 @@ URL:https://collabo-cafe.com/events/collabo/ultraman-tiga-avail-goods-202
 END:VEVENT
 BEGIN:VEVENT
 UID:2f7c4db2ee649661-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:[판매·추첨 시작] モンスターズ・インク×アベイ
@@ -1520,7 +1520,7 @@ URL:https://collabo-cafe.com/events/collabo/monsters-shop-tieup-avail-202
 END:VEVENT
 BEGIN:VEVENT
 UID:42045914676012ed-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
 SUMMARY:[마감] しろたん POP UP in 新宿マルイアネックス 11
@@ -1534,7 +1534,7 @@ URL:https://collabo-cafe.com/events/collabo/sirotan-tv-anime-popup-shinju
 END:VEVENT
 BEGIN:VEVENT
 UID:87615152330efec6-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:[마감] “QuizKnockの後輩”VTuberグループ「AlmaZarQ」
@@ -1545,20 +1545,20 @@ URL:https://kai-you.net/article/96960
 END:VEVENT
 BEGIN:VEVENT
 UID:f557d570a0f8749f-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20270103
 DTEND;VALUE=DATE:20270104
 SUMMARY:[마감] 『超かぐや姫！』×東京ドームシティがコ
  ラボイベント開催　ARでツクヨミを体験できる！
 LOCATION:東京ドームシティ 東京都文京区
-DESCRIPTION:"슈퍼 카구야 공주! 』×도쿄 돔 시티가 콜라보
-  이벤트 개최 AR에서 쓰쿠요미를 체험할 수 있다!\nKAI-YO
- U\nhttps://kai-you.net/article/96956
+DESCRIPTION:『초가구야 공주!』×도쿄 돔 시티가 콜라보레
+ 이션 이벤트 개최 AR에서 쓰쿠요미를 체험할 수 있다!\n
+ KAI-YOU\nhttps://kai-you.net/article/96956
 URL:https://kai-you.net/article/96956
 END:VEVENT
 BEGIN:VEVENT
 UID:d39a771b09d73014-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:[마감] ふたりのけもの POP UP STORE in 渋谷ロフト 11
@@ -1572,7 +1572,7 @@ URL:https://collabo-cafe.com/events/collabo/futari-no-kemono-kinoko-kiich
 END:VEVENT
 BEGIN:VEVENT
 UID:64c0dd8c8444ec9d-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261129
 DTEND;VALUE=DATE:20261130
 SUMMARY:[마감] SEGA ポップアップストア in 沖縄PARCO CITY 10
@@ -1585,7 +1585,7 @@ URL:https://collabo-cafe.com/events/collabo/sega-okinawa-popup-shop-parco
 END:VEVENT
 BEGIN:VEVENT
 UID:c50cc89dca8ffc64-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:[판매·추첨 시작] QuizKnockの後輩VTuberグループ「Al
@@ -1598,7 +1598,7 @@ URL:https://panora.tokyo/archives/161097
 END:VEVENT
 BEGIN:VEVENT
 UID:c50cc89dca8ffc64-deadline@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:[마감] QuizKnockの後輩VTuberグループ「AlmaZarQ」が2
@@ -1610,7 +1610,7 @@ URL:https://panora.tokyo/archives/161097
 END:VEVENT
 BEGIN:VEVENT
 UID:33e61b43f48e0a0b-ticketOpen@matome-board
-DTSTAMP:20261030T104644Z
+DTSTAMP:20261030T111500Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
 SUMMARY:[판매·추첨 시작] 「ガンダムZZ」ジュドーがモデ
