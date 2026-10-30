@@ -174,7 +174,7 @@ CAT_RULES = [
 OPEN_WORDS = r"受付|発売|先行|抽選|販売|예매|예약|판매|오픈"
 END_WORDS = r"締切|〆切|しめきり|まで|마감|까지"
 # 한국 출처(region=KR)는 이 규칙을 먼저 본다(일본어 CAT_RULES 는 한국어 기사에 안 걸림)
-KR_CAT_RULES = [("popup", r"팝업|스토어"), ("live", r"내한|공연|콘서트|라이브|페스티벌"), ("exhibit", r"전시|원화전|展"),
+KR_CAT_RULES = [("popup", r"팝업|스토어"), ("exhibit", r"전시|원화전|展"), ("live", r"내한|공연|콘서트|페스티벌"),  # '라이브'는 러브라이브·홀로라이브와 겹쳐 뺐다
                 ("collab", r"콜라보|컬래버|카페"), ("event", r"행사|팬미팅|상영회|페스타|체험"), ("goods", r"굿즈")]
 KR_EVENT_RE = re.compile(r"팝업|스토어|콜라보|컬래버|카페|전시|원화전|내한|공연|콘서트|페스티벌|페스타|팬미팅|상영회|행사")
 # 일본 IP 신호. '애니'는 뒤에 다른 한글이 붙지 않을 때만(애니모·애니런·애니모어 제외), 만화·게임처럼 넓은 말은 빼고 작품·회사 이름으로 본다(+ works.json 의 한국어 이름)
@@ -183,6 +183,26 @@ KR_IP_RE = re.compile(r"애니(?:메이션|송)?(?![가-힣])|日|일본|버튜�
                       r"치이카와|먼작귀|마리오|젤다|커비|파이널 ?판타지|페르소나|블루 ?아카이브|블루록|우마무스메|프리큐어|세일러문|블리치|헌터|러브라이브|아이돌마스터|"
                       r"하츠네 ?미쿠|보컬로이드|카드캡터|히로아카|나의 히어로|은혼|강철의 연금술사|원펀맨|케로로|앙상블 ?스타즈|프로세카|명탐정", re.I)
 KR_ABROAD_RE = re.compile(r"도쿄|오사카|교토|후쿠오카|나고야|삿포로|요코하마|일본 현지|현지 개최|업데이트|인게임|게임 ?내|사전 ?예약|정식 출시")  # 일본에서 열리는 행사·게임 안 콜라보(한국 기사)
+# 한국에서 열린다는 신호(제목). 2026-10 첫 수집에서 일본 현지 콜라보(나라현·하드록 카페 등)·게임 안 콜라보·부동산 기사가 섞여, 한국 장소·내한 말이 있어야 통과
+KR_LOC_RE = re.compile(r"국내|한국|韓|서울|부산|대구|인천|광주|대전|울산|수원|성남|고양|일산|판교|제주|홍대|성수|강남|잠실|여의도|명동|용산|신촌|합정|건대|서울숲|"
+                       r"코엑스|더현대|롯데|현대백화점|신세계|스타필드|아이파크몰|킨텍스|벡스코|덕스|애니메이트|내한|상륙|첫 해외")
+KR_IP_GENERIC = {"애니", "애니메이션", "애니송", "日", "일본"}
+
+
+def kr_ok(title):
+    """한국 행사 기사 판정: 행사 단어 + 일본 IP 신호 + 한국 장소 신호, 일본 현지·게임 안 콜라보 말 없음"""
+    return bool(KR_EVENT_RE.search(title) and (KR_IP_RE.search(title) or any(k in wnorm(title) for k, _ in KO_NAMES))
+                and KR_LOC_RE.search(title) and not KR_ABROAD_RE.search(title))
+
+
+def kr_key(title, cat):
+    """같은 행사 판정용: (제목의 첫 구체적 IP 이름, 분류). 애니·일본 같은 일반어만 있으면 None"""
+    for m in KR_IP_RE.finditer(title):
+        if m.group(0) not in KR_IP_GENERIC: return (m.group(0), cat)
+    k = next((c for k, c in KO_NAMES if k in wnorm(title)), None)
+    return (k, cat) if k else None
+
+
 UA = {"User-Agent": "matome-board-collector/0.1 (personal use)"}
 
 
@@ -269,7 +289,7 @@ def build(title, body, link, src, ref, default_cat="other"):
     kr = src.get("region") == "KR"
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
     if kr:  # 한국 출처: 제목에 일본 IP 단어(또는 works.json 의 한국어 작품 이름)와 행사 단어가 둘 다
-        if not (KR_EVENT_RE.search(title) and (KR_IP_RE.search(title) or any(k in wnorm(title) for k, _ in KO_NAMES))) or KR_ABROAD_RE.search(title):
+        if not kr_ok(title):
             return None
     elif words and default_cat != "stream" and not any(w in text for w in words):
         return None
@@ -814,12 +834,13 @@ def main():
             status.append({"n": name, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
     # 한국 기사: 같은 행사를 여러 매체가 쓰고 날짜가 '11월'뿐이라 페이지의 묶기도 못 잡는다 → 제목이 비슷하면(2-gram Dice .5 이상) 처음 것만
     kr_seen = [kr_gram(o.get("title", "")) for o in old if o.get("region") == "KR"]
+    kr_keys = {kr_key(o.get("title", ""), o.get("category")) for o in old if o.get("region") == "KR"} - {None}
     keep_new = []
     for g in new:
-        if g.get("region") == "KR":
-            gg = kr_gram(g.get("title", ""))
-            if any(dice(gg, h) >= .5 for h in kr_seen): continue
-            kr_seen.append(gg)
+        if g.get("region") == "KR":  # 제목이 비슷하거나, 같은 작품 이름·같은 분류면 같은 행사로 본다
+            gg, kk = kr_gram(g.get("title", "")), kr_key(g.get("title", ""), g.get("category"))
+            if any(dice(gg, h) >= .5 for h in kr_seen) or (kk and kk in kr_keys): continue
+            kr_seen.append(gg); kr_keys.add(kk)
         keep_new.append(g)
     new = keep_new
     p = prev.get(BUZZ_NAME, {})
@@ -838,6 +859,12 @@ def main():
     json.dump(_cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False)
     # 정리: 끝난 지 30일 넘은 것, 날짜 없이 45일 지난 것, 차단 목록에 걸린 것은 뺀다
     keep = []
+    kr_best = {}  # 한국 기사: 같은 행사(kr_key) 중 날짜·장소가 있는 기사 하나만 남긴다
+    for it in new + old:
+        if it.get("region") == "KR" and kr_ok(it.get("title", "")):
+            kk = kr_key(it.get("title", ""), classify(it.get("title", ""), "other", True))
+            score = (2 if it.get("eventDate") else 0) + (1 if it.get("venue") or re.search(r"홍대|성수|서울숲|코엑스|더현대", it.get("title", "")) else 0)
+            if kk and (kk not in kr_best or score > kr_best[kk][0]): kr_best[kk] = (score, id(it))
     for it in new + old:
         if it.get("geo") and not geo_ok(it["geo"], it.get("venue", "")):  # 예전에 저장된 都庁 대체 좌표 정리
             it["geo"] = []
@@ -847,6 +874,11 @@ def main():
                 or (it.get("source") in GAME_SOURCES and is_game_noise(it.get("title", ""))):
             continue
         if it.get("works"): it["works"] = tag_works("", it["works"])  # 예전 태그도 대표 이름으로(ゴジラ－0.0 → ゴジラ-0.0 등)
+        if it.get("region") == "KR":  # 한국 기사: 지금 기준으로 다시 거르고 분류하고, 같은 행사(작품 이름·분류)는 하나만
+            if not kr_ok(it.get("title", "")): continue
+            it["category"] = classify(it.get("title", ""), "other", True)
+            kk = kr_key(it.get("title", ""), it["category"])
+            if kk and kr_best.get(kk, (0, id(it)))[1] != id(it): continue
         guess_place(it)  # 장소 칸이 비면 data/venues.json 으로 채움(예전 추정은 다시 찾음)
         end = item_end(it)
         if end and end < ref - timedelta(days=30):
