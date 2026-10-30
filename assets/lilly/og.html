@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- 링크 미리보기 그림 assets/og.png(1200×630)의 원본. assets/lilly 폴더를 http 로 띄워 1200×630 창에서 스크린샷한다(poster.jpg·badge.png 는 extract.py 가 만든다). 클라우드 세션의 Chromium 은 Google Fonts 를 못 받으니 그땐 글꼴 woff2 를 따로 받아 @font-face 로 넣는다. -->
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0}
+.og{position:relative;width:1200px;height:630px;overflow:hidden;font-family:"IBM Plex Sans KR",sans-serif;color:#ECEDF6;
+ background:radial-gradient(900px 520px at 0% 0%,#4a1d45 0%,transparent 60%),radial-gradient(700px 500px at 100% 100%,#123e4f 0%,transparent 60%),#13152A}
+.art{position:absolute;right:-30px;top:-20px;width:600px;height:680px;background:url(poster.jpg) 55% 18%/cover;
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 34%);mask-image:linear-gradient(90deg,transparent 0,#000 34%)}
+.art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#13152A 0,transparent 30%)}
+.left{position:absolute;left:84px;top:96px;width:720px}
+.k{font-weight:700;letter-spacing:.18em;font-size:21px;color:#FF5C9A}
+h1{font-family:"Black Han Sans";font-weight:400;font-size:112px;line-height:1.02;margin:14px 0 24px;letter-spacing:-2px;display:flex;align-items:center;gap:20px;white-space:nowrap}
+h1 img{width:104px;height:104px;border-radius:50%;filter:drop-shadow(0 8px 18px rgba(0,0,0,.5))}
+p{font-size:27px;line-height:1.55;margin:0;color:#C9CBE0} p b{color:#fff}
+.chips{display:flex;gap:12px;margin-top:30px}
+.chips span{display:flex;align-items:center;gap:9px;padding:9px 18px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-size:20px;font-weight:700}
+.chips i{width:11px;height:11px;border-radius:50%}
+.url{position:absolute;left:84px;bottom:46px;font-size:21px;color:#9A9EBB}
+</style></head><body><div class="og"><div class="art"></div><div class="left">
+<div class="k">JAPAN EVENTS · まとめ</div>
+<h1>마토메 보드<img src="badge.png"></h1>
+<p>일본 <b>게임·애니·버튜버·만화</b>의 공연·콜라보·팝업·전시 소식을<br>한곳에 모아 하루 네 번 갱신</p>
+<div class="chips"><span><i style="background:#FF5C9A"></i>공연</span><span><i style="background:#F2B655"></i>콜라보·팝업</span><span><i style="background:#4FC3D9"></i>전시</span><span><i style="background:#A893FF"></i>버튜버</span></div>
+</div><div class="url">davidim-dotcom.github.io/matome-board</div></div></body></html>
