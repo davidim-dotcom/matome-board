@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>放置 (Test) · 마토메 보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<!-- 放置(Test) 방치형 게임(동인 서클 육성). 2026-10 에 index.html 에서 이 파일로 옮겨 보드 첫 화면을 가볍게 했다(그림 data URI 150KB + 코드 약 60KB).
+     보드의 放置 탭(#idle, 주소 끝 #idle 로 보임)이 iframe 으로 연다. 색 토큰은 index.html 의 :root 와 같게 둔다. 저장은 같은 출처의 localStorage idle-save-v2 그대로. -->
+<style>
+:root{
+  --bg:#EEF1F8; --surface:#FFFFFF; --ink:#1B1F3B; --muted:#646985; --line:#D5DAE8;
+  --pink:#D6246E; --cyan:#13819A; --amber:#B7791F; --pink-soft:#FBE3EE;
+  --sea:#DCE6F3; --land:#FFFFFF; --land23:#F7F2FA;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13152A; --surface:#1E2139; --ink:#ECEDF6; --muted:#9A9EBB; --line:#30345A;
+    --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; color-scheme:dark;
+    --sea:#0F1124; --land:#1E2139; --land23:#262A48;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13152A; --surface:#1E2139; --ink:#ECEDF6; --muted:#9A9EBB; --line:#30345A;
+  --pink:#FF5C9A; --cyan:#4FC3D9; --amber:#F2B655; --pink-soft:#3A1F33; color-scheme:dark;
+  --sea:#0F1124; --land:#1E2139; --land23:#262A48;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR","Noto Sans JP",system-ui,-apple-system,"Apple SD Gothic Neo","Hiragino Sans",sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding:8px 10px 24px}
+button,input,textarea,select{font:inherit;color:inherit} button{cursor:pointer}
+</style>
+</head>
+<body>
+<section id="idle"></section>
+<!-- 도트 리소스: assets/game/idle.py 가 만든 window.IDLE_ASSETS (예전에는 index.html 에 인라인) -->
+<script src="../assets/idle/assets.js"></script>
+<!-- ===== 放置ゲーム(Test): 同人サークル育成. 원본 idle-module.html + 2D 도트 장면(SC)·지연 시작·탭 밖 모달 대기를 더함 ===== -->
+<!--
+  ASSET MANIFEST (Claude Code: 도트 리소스로 교체할 때 이 객체만 덮어쓰면 됨)
+  window.IDLE_ASSETS = {
+    pixel: true,                       // true면 이미지에 image-rendering: pixelated 적용
+    gen:   [url0..url6],               // 설비 7단계 아이콘 (낙서→극장판), 정사각 권장 32/64px
+    cheer: url,                        // 응원 탭 중앙 캐릭터
+    bg:    url,                        // 게임 배경 (선택)
+    prestige: url                      // 환생 버튼 아이콘 (선택)
+  }
+  지정이 없으면: 보드의 美少女 그림(window.BISHOUJO_IMGS) → 그것도 없으면 이모지로 대체.
+-->
+<style>
+#idle{max-width:440px;margin:0 auto}
+.id-top{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;margin-bottom:6px}
+.id-fans{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.id-fans small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.id-ps{font-size:13px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.id-ps b{color:var(--ink)}
+.id-buff{font-size:12px;border-radius:8px;padding:6px 10px;margin:4px 0 8px;background:linear-gradient(90deg,#ffe3f1,#e6e4ff);color:#4a2a5a}
+.id-buff:empty{display:none}
+.id-test{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:#ff4f9a;border-radius:6px;padding:1px 7px;margin:0 0 6px}
+.id-note{font-size:11px;color:var(--muted);margin:0 0 8px}
+.id-rank{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:2px 0 8px}
+.id-rank img{width:32px;height:32px;image-rendering:pixelated}
+.id-rank .t{font-size:13px}.id-rank .t span{color:#e0a800;font-size:12px;letter-spacing:-1px}
+.id-rank .pb{height:5px;border-radius:3px;background:var(--line);margin:4px 0 3px}.id-rank .pb i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#ff6fa3,#8a5cf6)}
+.id-rank .sub{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.id-pre .pi{width:24px;height:24px;image-rendering:pixelated;vertical-align:-6px;margin-right:6px}
+.id-stage{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#2b1a55;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;touch-action:manipulation;user-select:none;-webkit-user-select:none;cursor:pointer}
+.id-cv{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+.id-stage .ch{width:110px;height:110px;border-radius:50%;background:#fff3;display:flex;align-items:center;justify-content:center;font-size:56px;overflow:hidden;transition:transform .08s}
+.id-stage .ch img{width:100%;height:100%;object-fit:cover}
+.id-stage .ch.bump{transform:scale(.92)}
+.id-stage .fever{position:absolute;bottom:16px;left:8px;z-index:1;font-size:12px;font-weight:800;color:#fff;background:#ff4f9a;border-radius:6px;padding:2px 8px;display:none}
+.id-stage .fever.on{display:block;animation:idpulse .6s infinite alternate}
+.id-stage .bar{position:absolute;z-index:1;left:10px;right:10px;bottom:6px;height:5px;border-radius:3px;background:#fff3}
+.id-stage .bar i{display:block;height:100%;border-radius:3px;background:#ffd166;width:0}
+.id-stage .pop{position:absolute;z-index:1;font-size:13px;font-weight:800;color:#ffd166;pointer-events:none;animation:idfloat .7s ease-out forwards;text-shadow:0 1px 2px #000}
+@keyframes idfloat{to{transform:translateY(-40px);opacity:0}}
+@keyframes idpulse{to{transform:scale(1.08)}}
+@media (prefers-reduced-motion:reduce){.id-stage .pop,.id-stage .fever.on{animation:none}}
+.id-mode{display:flex;gap:6px;margin:10px 0 6px}
+.id-mode button{flex:1;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-size:13px;font-weight:700}
+.id-mode button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.id-gen{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:6px}
+.id-gen.locked{opacity:.45}
+.id-gen .ic{width:44px;height:44px;border-radius:8px;background:#0001;display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden}
+.id-gen .ic img{width:100%;height:100%;object-fit:cover}
+.id-px img{image-rendering:pixelated}
+.id-gen .nm{font-weight:700;font-size:14px}
+.id-gen .sub{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.id-gen .ms{height:3px;border-radius:2px;background:var(--line);margin-top:4px}
+.id-gen .ms i{display:block;height:100%;border-radius:2px;background:#ff6fa3}
+.id-gen button{min-width:86px;padding:8px 6px;border-radius:8px;border:0;background:#6b5bd6;color:#fff;font:inherit;font-size:12px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}
+.id-gen button:disabled{background:var(--line);color:var(--muted)}
+.id-sec{font-size:13px;font-weight:800;margin:14px 2px 6px}
+.id-upg{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:6px;font-size:13px}
+.id-upg button{padding:7px 10px;border-radius:8px;border:0;background:#2e8b6e;color:#fff;font:inherit;font-size:12px;font-weight:700;white-space:nowrap}
+.id-upg button:disabled{background:var(--line);color:var(--muted)}
+.id-pre{padding:12px;border-radius:12px;background:linear-gradient(135deg,#3b1f6b,#b0306b);color:#fff;margin-top:12px}
+.id-pre p{margin:2px 0;font-size:13px}
+.id-pre button{margin-top:8px;width:100%;padding:11px;border-radius:10px;border:0;background:#ffd166;color:#3b1f6b;font:inherit;font-weight:800}
+.id-pre button:disabled{opacity:.5}
+.id-foot{display:flex;gap:6px;margin-top:12px}
+.id-foot button{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-size:12px}
+.id-tabs2{display:flex;gap:6px;margin:14px 0 6px}
+.id-tabs2 button{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:inherit;font-size:13px;font-weight:700;position:relative}
+.id-tabs2 button[aria-pressed="true"]{background:#6b5bd6;color:#fff;border-color:#6b5bd6}
+.id-tabs2 button .dot{position:absolute;top:4px;right:6px;width:7px;height:7px;border-radius:50%;background:#ff4f9a;display:none}
+.id-tabs2 button .dot.on{display:block}
+.id-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.id-slot{border:1px dashed var(--line);border-radius:10px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--muted);overflow:hidden;position:relative;background:var(--surface)}
+.id-slot img{width:100%;height:72%;object-fit:contain;image-rendering:pixelated}
+.id-slot .t{padding:3px;text-align:center;line-height:1.3}
+.id-coll{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.id-card{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1/1;background:#0002;border:2px solid transparent;cursor:pointer}
+.id-card img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.id-card.lock img{filter:grayscale(1) brightness(.35)}
+.id-card.on{border-color:#ff6fa3}
+.id-card .r{position:absolute;top:2px;left:3px;font-size:10px;color:#ffd166;text-shadow:0 1px 2px #000;font-weight:800}
+.id-card .lv{position:absolute;bottom:2px;right:3px;font-size:10px;color:#fff;text-shadow:0 1px 2px #000;font-weight:800}
+.id-desc{font-size:12px;color:var(--muted);margin:8px 2px 0;min-height:1.4em}
+.id-gacha{display:flex;gap:6px;margin-top:8px}
+.id-gacha button{flex:1;padding:10px 4px;border-radius:10px;border:0;background:linear-gradient(135deg,#ff6fa3,#8a5cf6);color:#fff;font:inherit;font-weight:800;font-size:13px;line-height:1.3}
+.id-gacha button.buy{background:var(--surface);color:var(--ink);border:1px solid var(--line);font-weight:700}
+.id-gacha button:disabled{opacity:.45}
+.id-gmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+.id-mis{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:6px;font-size:13px}
+.id-mis .pb{height:4px;border-radius:2px;background:var(--line);margin-top:5px}
+.id-mis .pb i{display:block;height:100%;border-radius:2px;background:#2e8b6e}
+.id-mis button{padding:7px 10px;border-radius:8px;border:0;background:#2e8b6e;color:#fff;font:inherit;font-size:12px;font-weight:700}
+.id-mis button:disabled{background:var(--line);color:var(--muted)}
+.id-res{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:8px 0}
+.id-res div{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1/1;animation:idflip .35s ease both}
+.id-res img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;background:#0003}
+.id-res span{position:absolute;bottom:0;left:0;right:0;font-size:9px;font-weight:800;color:#ffd166;background:#0008;text-align:center}
+.id-res div.r5{box-shadow:0 0 0 2px #ffd166,0 0 12px #ffd166}
+.id-res div.r4{box-shadow:0 0 0 2px #c77dff}
+@keyframes idflip{from{transform:rotateY(90deg);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.id-res div{animation:none}}
+.id-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:60;padding:20px}
+.id-modal.open{display:flex}
+.id-modal>div{background:var(--surface);color:var(--ink);border-radius:14px;padding:18px;max-width:320px;width:100%;text-align:center}
+.id-modal h3{margin:0 0 8px;font-size:17px}
+.id-modal p{margin:4px 0;font-size:14px}
+.id-modal button{margin-top:12px;padding:10px 22px;border-radius:10px;border:0;background:#6b5bd6;color:#fff;font:inherit;font-weight:700}
+</style>
+<script>
+(function(){
+'use strict';
+const sec=document.getElementById('idle');if(!sec)return;
+// ---------- design constants (see design doc) ----------
+// 2026-10 밸런스(하루 4번쯤 들르는 플레이를 시뮬레이션해 맞춤): 첫 15분에 굿즈까지, 첫날 콜라보카페·애니화,
+// 첫 환생은 1~2일째(누적 팬 10억), 최종 랭크 '기업 부스'는 7~11일. 예전 수치는 46분이면 극장판까지 열리고 환생 배율이 끝없이 커졌다.
+const GEN=[
+ {k:'낙서',b:15,p:.4,e:'✏️'},
+ {k:'일러스트',b:250,p:3,e:'🎨'},
+ {k:'동인지',b:5e3,p:25,e:'📕'},
+ {k:'굿즈',b:1.2e5,p:200,e:'🧸'},
+ {k:'콜라보카페',b:3.5e6,p:1.6e3,e:'☕'},
+ {k:'애니화',b:1.2e8,p:1.3e4,e:'📺'},
+ {k:'극장판',b:5e9,p:1.1e5,e:'🎬'},
+];
+const R=1.15,MS=[25,50,100,150,200],PRE_DIV=1e9,PRE_PER=.1;
+// 서클 랭크: 모든 회차의 누적 팬(LT)으로 오르고 내려가지 않는다. 랭크마다 전역 +25%·티켓 보상, 마지막 '기업 부스'가 완료 목표
+const RANKS=[{k:'신입 서클',at:0},{k:'섬 서클',at:1e5},{k:'생일석',at:1e8},{k:'셔터 앞',at:1e10},{k:'벽 서클',at:1e11},{k:'대형 서클',at:1e12},{k:'기업 부스',at:1e13}];
+const RANK_PER=.25,RANK_TK=[0,3,5,8,10,15,30];
+const OFF_CAP=[8,12,16,24],OFF_EFF=[.5,.6,.7,.8,.9,1];
+const UPG={cap:{name:'오프라인 상한',max:OFF_CAP.length-1,cost:l=>2e5*Math.pow(60,l),val:l=>OFF_CAP[l]+'시간'},
+           eff:{name:'오프라인 효율',max:OFF_EFF.length-1,cost:l=>5e4*Math.pow(30,l),val:l=>Math.round(OFF_EFF[l]*100)+'%'},
+           tap:{name:'응원 강화',max:10,cost:l=>500*Math.pow(15,l),val:l=>(0.5+l*.25).toFixed(2)+'초분/탭'}};
+// ---------- assets ----------
+const AS=Object.assign({},window.IDLE_ASSETS||{});
+const BS=Array.isArray(window.BISHOUJO_IMGS)?window.BISHOUJO_IMGS:[];
+const genArt=i=>(AS.gen&&AS.gen[i])||BS[i]||'';
+const cheerArt=()=>AS.cheer||BS[10]||BS[0]||'';
+// ---------- state ----------
+const ASST=[
+ {k:'초보소녀',r:3,t:'gen',a:0,v:.5,d:'낙서 생산 +50%'},
+ {k:'캐주얼',r:3,t:'gen',a:1,v:.5,d:'일러스트 생산 +50%'},
+ {k:'롤리팝',r:3,t:'gen',a:2,v:.5,d:'동인지 생산 +50%'},
+ {k:'토끼귀',r:3,t:'tap',v:.3,d:'응원 탭 +30%'},
+ {k:'연습생',r:3,t:'gen',a:3,v:.5,d:'굿즈 생산 +50%'},
+ {k:'마법소녀',r:4,t:'gen',a:4,v:.6,d:'콜라보카페 생산 +60%'},
+ {k:'축제퀸',r:4,t:'event',v:.5,d:'이벤트 버프 효과 +50%'},
+ {k:'고스로리',r:4,t:'cost',v:.05,d:'설비 비용 -5%'},
+ {k:'신부',r:4,t:'gen',a:5,v:.6,d:'애니화 생산 +60%'},
+ {k:'무녀',r:5,t:'off',v:.15,d:'오프라인 효율 +15%p'},
+ {k:'여신',r:5,t:'global',v:.15,d:'전역 생산 +15%'},
+];
+const RATE={5:.03,4:.18,3:.79},PITY=50,SLOTS=3,MAXLV=5;
+const lvScale=lv=>1+.2*(lv-1);
+const MPOOL=[{id:'tap',g:()=>100,txt:g=>`응원 ${g}번`},{id:'buy',g:()=>50,txt:g=>`설비 ${g}개 구매`},{id:'earn',g:r=>Math.max(1e4,Math.round(r*1800)),txt:g=>`팬 ${fmt(g)} 모으기`},{id:'upg',g:()=>1,txt:()=>'강화 1회'},{id:'pull',g:()=>1,txt:()=>'가챠 1회'}];
+const MREW=3,MALL=5;
+const KEY='idle-save-v2'; // v1(첫 테스트 수치) 기록은 밸런스가 달라 이어 쓰지 않는다
+const fresh=()=>({start:Date.now(),rank:0,done:0,F:0,L:0,LT:0,E:0,n:GEN.map((_,i)=>i===0?1:0),u:{cap:0,eff:0,tap:0},t:Date.now(),runs:0,best:0,tk:5,pity:0,own:{},slots:[],day:'',streak:0,lastDay:'',mis:[],misAll:false,st:{tap:0,buy:0,earn:0,upg:0,pull:0}});
+let ST;try{ST=Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'null')||{})}catch(e){ST=fresh()}
+const save=()=>{ST.t=Date.now();try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}};
+// ---------- math ----------
+function bonus(t,a){let s=0;for(const j of ST.slots){const x=ASST[j];if(!x||x.t!==t)continue;if(t==='gen'&&x.a!==a)continue;s+=x.v*lvScale(ST.own[j]||1)}return s}
+const costMul=()=>Math.max(.5,1-bonus('cost'));
+const bEff=i=>GEN[i].b*costMul();
+const cost=(i,n)=>bEff(i)*Math.pow(R,n);
+const costK=(i,n,k)=>bEff(i)*Math.pow(R,n)*(Math.pow(R,k)-1)/(R-1);
+const maxK=(i,n,F)=>Math.max(0,Math.floor(Math.log(F*(R-1)/(bEff(i)*Math.pow(R,n))+1)/Math.log(R)));
+const msCount=n=>MS.filter(m=>n>=m).length;
+const nextMs=n=>MS.find(m=>n<m)||null;
+let feverUntil=0;
+function eventBuff(){
+  try{if(typeof items==='undefined'||!items||!items.values)return{m:1,txt:''};
+    let gone=new Set();try{if(typeof S!=='undefined'&&S&&Array.isArray(S.deleted))gone=new Set(S.deleted)}catch(e){}
+    const now=Date.now(),day=864e5;let best=null,today=null;
+    for(const it of items.values()){if(gone.has(it.id))continue;const d=it.eventDate?new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(it.eventDate)?it.eventDate:it.eventDate+'+09:00'):null;if(!d||isNaN(d))continue;const dt=d-now;
+      if(Math.abs(dt)<day/2||(d.toDateString()===new Date(now).toDateString())){today=it}else if(dt>0&&dt<7*day&&(!best||d<best.d))best={it,d}}
+    if(today)return{m:2,txt:`🎉 오늘 「${today.title||'이벤트'}」 — 이벤트 당일 ×2`};
+    if(best)return{m:1.25,txt:`📅 ${Math.ceil((best.d-now)/day)}일 뒤 「${best.it.title||'이벤트'}」 — 이벤트 시즌 +25%`};
+  }catch(e){}return{m:1,txt:''}}
+let EV={m:1,txt:''};
+const evM=()=>1+(EV.m-1)*(1+bonus('event'));
+const rankIdx=()=>RANKS.reduce((r,x,i)=>ST.LT>=x.at?i:r,0);
+const rankMul=()=>1+RANK_PER*rankIdx();
+const gMult=()=>(1+PRE_PER*ST.E)*rankMul()*(1+bonus('global'))*evM()*(Date.now()<feverUntil?2:1);
+const genRate=i=>GEN[i].p*ST.n[i]*Math.pow(2,msCount(ST.n[i]))*(1+bonus('gen',i));
+const rate=()=>GEN.reduce((s,_,i)=>s+genRate(i),0)*gMult();
+const baseRate=()=>GEN.reduce((s,_,i)=>s+genRate(i),0)*(1+PRE_PER*ST.E)*rankMul()*(1+bonus('global'))*evM();
+const preGain=()=>Math.floor(Math.cbrt(ST.L/PRE_DIV)); // 누적 팬 10억에 1, 80억에 2, 270억에 3 …
+const U=['','K','M','B','T','aa','ab','ac','ad','ae','af','ag','ah'];
+function fmt(x){if(!isFinite(x))return '∞';if(x<1000)return x<10&&x%1?x.toFixed(1):Math.floor(x).toString();const e=Math.min(U.length-1,Math.floor(Math.log10(x)/3));return (x/Math.pow(1000,e)).toFixed(2).replace(/\.?0+$/,'')+U[e]}
+function fmtT(s){s=Math.floor(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60);return h?`${h}시간 ${m}분`:m?`${m}분 ${s%60}초`:`${s}초`}
+// ---------- UI ----------
+let mode=1;// 1,10,0(max)
+sec.innerHTML=`<div class="panel" style="padding:12px">
+<span class="id-test">TEST</span><p class="id-note">방치형 게임 테스트 버전이에요. 목표는 서클 랭크 <b>기업 부스</b>(하루 몇 번 들르면 1~2주). 밸런스와 저장 형식이 바뀔 수 있어요(기록은 이 브라우저에만, 10/27 밸런스 조정으로 새로 시작).</p>
+<div class="id-top"><div class="id-fans"><span id="idF">0</span><small>팬</small></div><div class="id-ps">초당 <b id="idP">0</b><br>열정 <b id="idE">0</b> (+<span id="idEm">0</span>%)</div></div>
+<div class="id-rank"><img id="idRkI" alt=""><div><div class="t">서클 랭크 <b id="idRkN"></b> <span id="idRkS"></span></div><div class="pb"><i id="idRkB"></i></div><div class="sub" id="idRkT"></div></div></div>
+<div class="id-buff" id="idBuff"></div>
+<div class="id-stage${AS.pixel?' id-px':''}" id="idStage"><span class="fever" id="idFev">FEVER ×2</span><div class="bar"><i id="idBar"></i></div></div>
+<div class="id-mode"><button data-m="1" aria-pressed="true">×1</button><button data-m="10" aria-pressed="false">×10</button><button data-m="0" aria-pressed="false">MAX</button></div>
+<div id="idGens"></div>
+<div class="id-tabs2"><button data-p="upg" aria-pressed="true">강화</button><button data-p="ast" aria-pressed="false">어시스턴트</button><button data-p="mis" aria-pressed="false">미션<span class="dot" id="idMisDot"></span></button></div>
+<div data-pane="upg"><div id="idUpg"></div></div>
+<div data-pane="ast" hidden><div class="id-slots" id="idSlots"></div><div class="id-desc" id="idDesc">카드를 눌러 배치/해제 (최대 3명)</div><div class="id-coll" id="idColl"></div>
+<div class="id-gacha"><button id="idG1">1회<br>🎫1</button><button id="idG10">10회<br>🎫10 (★4 확정)</button><button class="buy" id="idGBuy">🎫 구매<br><span id="idGBuyC"></span></button></div>
+<div class="id-gmeta"><span>보유 🎫 <b id="idTk">0</b></span><span>★5 천장 <b id="idPity">0</b>/${PITY}</span><span>★5 ${RATE[5]*100}% · ★4 ${RATE[4]*100}%</span></div></div>
+<div data-pane="mis" hidden><div class="id-gmeta" style="margin:0 2px 8px"><span>연속 접속 <b id="idStreak">0</b>일</span><span>미션 1개 🎫${MREW} · 전부 🎫+${MALL}</span></div><div id="idMis"></div></div>
+<div class="id-pre"><p>${AS.prestige?`<img class="pi" src="${AS.prestige}" alt="">`:''}<b>코미케 참가 (환생)</b></p><p style="opacity:.85;font-size:12px">설비·팬은 처음으로, 열정 1마다 전역 +${PRE_PER*100}%. 강화·랭크·어시스턴트는 유지돼요.</p><p id="idPreT"></p><button id="idPre">참가하기</button></div>
+<div class="id-foot"><button id="idExp">세이브 내보내기</button><button id="idImp">가져오기</button><button id="idReset">초기화</button></div>
+</div><div class="id-modal" id="idModal"><div><h3 id="idMT"></h3><div id="idMB"></div><button id="idMOk">확인</button></div></div>`;
+const $=id=>document.getElementById(id);
+const art=(url,emo)=>url?`<img src="${url}" alt="">`:emo;
+// ---------- 2D 도트 장면(동인 서클 부스) ----------
+// 아래 게임 수치와 연동한다: 설비 보유(소품·일꾼·×개수·마일스톤 별), 설비별 생산량(떠오르는 하트·코인·별),
+// 초당 팬(부스 앞 손님 수), 응원 탭(릴리 점프·하트), FEVER(분홍 조명·꽃가루·릴리 마법 포즈), 이벤트 버프(현수막),
+// 어시스턴트 배치(릴리 양옆), 가챠·강화·구매·환생·오프라인 보상(효과와 글자). 그림은 IDLE_ASSETS(저장소 도트).
+const SC=(()=>{
+  const W=256,H=144,cv=document.createElement('canvas');cv.width=W;cv.height=H;cv.className='id-cv';
+  const cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;
+  const L=s=>{if(!s)return null;const i=new Image();i.src=s;return i},ok=i=>i&&i.complete&&i.naturalWidth>0;
+  const IM={bg:L(AS.bg),lilly:L(AS.cheer),fever:L(AS.cheerFever),gen:(AS.gen||[]).map(L),ast:(AS.astMini||AS.ast||[]).map(L),work:(AS.work||[]).map(L),rank:(AS.rank||[]).map(L)};
+  // 벽(0~92)에 설비 소품을 왼쪽 4칸·오른쪽 3칸(32×32), 일꾼은 그 아래 바닥에. 가운데는 릴리·어시스턴트·부스 책상, 손님은 책상 앞
+  const PROP=[[2,16],[36,16],[2,54],[36,54],[186,16],[220,16],[203,54]];
+  const WORKX=[0,17,34,51,186,209,232],FLOOR=92;
+  const SLOT=[96,160,74];                                                    // 어시스턴트 가운데 x(발은 y=94)
+  const TABLE={x:76,y:90,w:104};
+  let t=0,parts=[],texts=[],vis=[],hop=0,bubble=null,flash=0,flashCol='#fff',burst=0,shake=0;
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  const txt=(x,y,s,col,life)=>texts.push({x,y,s,col:col||'#ffd166',life:life||60,max:life||60});
+  const spark=(x,y,n,col)=>{for(let k=0;k<n;k++){const a=rnd(0,Math.PI*2),v=rnd(.6,2);parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-.5,life:rnd(20,40),k:'sq',c:col||'#ffd166',g:.04})}};
+  const heart=(x,y,c)=>parts.push({x,y,vx:rnd(-.25,.25),vy:rnd(-.7,-.4),life:rnd(45,70),k:'heart',c:c||'#ff6fa3',g:0});
+  const HEART=['.x.x.','xxxxx','xxxxx','.xxx.','..x..'];
+  function px(x,y,w,h,c){cx.fillStyle=c;cx.fillRect(Math.round(x),Math.round(y),w,h)}
+  function drawHeart(x,y,c){for(let r=0;r<5;r++)for(let q=0;q<5;q++)if(HEART[r][q]==='x')px(x+q,y+r,1,1,c)}
+  function label(s,x,y,col,al){cx.font='bold 8px monospace';cx.textAlign='center';cx.textBaseline='alphabetic';cx.globalAlpha=al==null?1:al;cx.fillStyle='#1a1426';
+    for(const[dx,dy]of[[-1,0],[1,0],[0,-1],[0,1]])cx.fillText(s,Math.round(x)+dx,Math.round(y)+dy);cx.fillStyle=col;cx.fillText(s,Math.round(x),Math.round(y));cx.globalAlpha=1}
+  function img(i,x,y,a){if(!ok(i))return false;if(a!=null)cx.globalAlpha=a;cx.drawImage(i,Math.round(x),Math.round(y));cx.globalAlpha=1;return true}
+  // 손님: 7×12 도트 사람. 왼쪽·오른쪽에서 들어와 부스 앞에 줄 서고, 잠깐 있다가 굿즈를 들고 나간다
+  const HAIR=['#3a2a20','#c9814a','#ffd166','#7a4cc2','#2a2f6b','#e8e8f0','#ff6fa3'],CLOTH=['#5a63c8','#2e8b6e','#ff5c9a','#ffb800','#7df9ff','#c77dff','#e05555','#9aa4b8'];
+  function newVisitor(){const left=Math.random()<.5;return{x:left?-8:W+8,y:rnd(110,130),tx:rnd(TABLE.x+6,TABLE.x+TABLE.w-12),st:'in',w:rnd(90,220),hair:HAIR[Math.floor(rnd(0,HAIR.length))],cloth:CLOTH[Math.floor(rnd(0,CLOTH.length))],bag:false,ph:rnd(0,9),jump:0}}
+  function drawVisitor(v){const walk=v.st!=='wait',f=walk?Math.floor((t+v.ph*7)/6)%2:0,j=v.jump>0?-Math.sin(v.jump/10*Math.PI)*4:0,x=Math.round(v.x),y=Math.round(v.y+j);
+    px(x+1,y,5,3,v.hair);px(x+2,y+2,3,2,'#ffe0c8');px(x+1,y+4,5,5,v.cloth);px(x+1,y+9,2,3-f,'#2a2438');px(x+4,y+9,2,2+f,'#2a2438');
+    if(v.bag)px(v.x<W/2?x-2:x+6,y+6,3,3,'#ff6fa3')}
+  function frame(){
+    t++;const now=Date.now(),fev=now<feverUntil,r=rate(),ev=EV&&EV.m>1,rk=rankIdx();
+    // 손님 수 = 초당 팬의 로그(FEVER 면 +6)
+    const want=r>0?Math.min(6+rk*2,1+Math.floor(Math.log10(r+1)*1.6))+(fev?6:0):0; // 손님 상한은 서클 랭크가 오를수록 늘어난다
+    if(vis.filter(v=>v.st!=='out').length<want&&t%(fev?8:20)===0)vis.push(newVisitor());
+    for(const v of vis){if(v.jump>0)v.jump--;const sp=fev?1.1:.55;
+      if(v.st==='in'){v.x+=Math.sign(v.tx-v.x)*sp;if(Math.abs(v.tx-v.x)<1){v.st='wait'}}
+      else if(v.st==='wait'){if(--v.w<=0){v.st='out';v.bag=true;heart(v.x+3,v.y-4);v.tx=v.x<W/2?-12:W+12}}
+      else v.x+=Math.sign(v.tx-v.x)*sp}
+    vis=vis.filter(v=>!(v.st==='out'&&(v.x<-10||v.x>W+10)));
+    // 설비별 생산: 생산량에 비례(로그)해 소품에서 하트(0~2)·코인(3~4)·별(5~6)이 떠오른다
+    GEN.forEach((g,i)=>{if(!ST.n[i])return;const p=Math.min(.3,(.3+Math.log10(genRate(i)*gMult()+1)*.45)/30)*(fev?2:1);
+      if(Math.random()<p){const[X,Y]=PROP[i];parts.push({x:X+rnd(6,26),y:Y+6,vx:rnd(-.2,.2),vy:rnd(-.6,-.35),life:rnd(40,60),k:i<3?'heart':i<5?'coin':'star',c:i<3?'#ff6fa3':i<5?'#ffd166':'#7df9ff',g:0})}});
+    if(fev&&t%3===0)parts.push({x:rnd(0,W),y:-2,vx:rnd(-.3,.3),vy:rnd(.6,1.2),life:150,k:'sq',c:['#ff6fa3','#ffd166','#7df9ff','#c77dff'][t%4],g:0});
+    parts=parts.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;return--p.life>0&&p.y<H+4});
+    texts=texts.filter(o=>{if(o.max-o.life<40)o.y-=.3;return--o.life>0});
+    if(hop>0)hop--;if(flash>0)flash--;if(shake>0)shake--;if(bubble&&--bubble.life<=0)bubble=null;
+    // ---- 그리기
+    cx.save();if(shake)cx.translate(Math.round(rnd(-1,1)),0);
+    if(ok(IM.bg)){const o=(t*.15)%IM.bg.naturalHeight;for(let x=0;x<W;x+=IM.bg.naturalWidth)for(let y=-o;y<FLOOR;y+=IM.bg.naturalHeight)cx.drawImage(IM.bg,x,Math.round(y))}else px(0,0,W,FLOOR,'#2b1a55');
+    px(0,0,W,FLOOR,fev?`rgba(255,80,160,${.18+.1*Math.sin(t*.25)})`:'rgba(20,10,40,.25)');
+    px(0,FLOOR-2,W,3,'#1a1426');for(let x=0;x<W;x+=8)for(let y=FLOOR+1;y<H;y+=8)px(x,y,8,8,((x+y)/8)%2?'#3a2a5c':'#46336e');
+    // 이벤트 현수막
+    if(ev){const sw=Math.sin(t*.05)*1.5,s=EV.m>=2?'EVENT DAY  x2':'EVENT SEASON  +25%';px(74,3+sw,108,12,'#1a1426');px(75,4+sw,106,10,EV.m>=2?'#ff4f9a':'#6b5bd6');label(s,128,12+sw,'#fff')}
+    // 설비 소품 + 일꾼 + 개수 + 마일스톤 별. 아직 없는 다음 설비는 흐린 실루엣
+    const nextLocked=ST.n.findIndex((n,i)=>!n&&(i===0||ST.n[i-1]>0));
+    GEN.forEach((g,i)=>{const[X,Y]=PROP[i],n=ST.n[i];
+      if(!n){if(i===nextLocked){img(IM.gen[i],X,Y,.22);label('?',X+16,Y+20,'#fff',.6)}return}
+      if(i===6){cx.globalAlpha=.18+.08*Math.sin(t*.1);cx.fillStyle='#fff8c0';cx.beginPath();cx.moveTo(X+12,0);cx.lineTo(X+20,0);cx.lineTo(X+38,Y+34);cx.lineTo(X-6,Y+34);cx.fill();cx.globalAlpha=1}
+      img(IM.gen[i],X,Y);
+      cx.font='bold 8px monospace';label('x'+n,X+16,Y+40,'#fff');const st=msCount(n);for(let k=0;k<st;k++)px(X+16-st*2+k*4,Y-4,3,3,'#ffd166');
+      const w=IM.work[i];if(ok(w)){const busy=Math.max(8,40-msCount(n)*6),b=Math.floor((t+i*13)/busy)%2;img(w,WORKX[i]+(24-w.naturalWidth)/2,(i%2?118:112)-w.naturalHeight-b)}});
+    // 서클 랭크에 따라 부스 뒤가 바뀐다: 셔터 앞(셔터) → 벽 서클(포스터) → 대형(전구 줄) → 기업 부스(대형 LED 화면)
+    if(rk>=6){px(70,18,116,62,'#1a1426');px(72,20,112,58,'#2a1f4a');for(let x=74;x<182;x+=4)for(let y=22;y<76;y+=4){const v=(Math.sin(x*.21+t*.08)+Math.cos(y*.3-t*.05))*.5;px(x,y,3,3,v>.3?'#8a5cf6':v>-.2?'#ff6fa3':'#3a2a6c')}label('CORP BOOTH',128,32,'#fff')}
+    else if(rk>=3){px(74,30,108,62,'#1a1426');px(75,31,106,61,'#8a92a8');for(let y=34;y<92;y+=4)px(75,y,106,1,'#6a7088');px(124,84,8,3,'#1a1426')}
+    if(rk>=4&&rk<6){for(const[x,c]of[[60,'#ff6fa3'],[184,'#7df9ff']]){px(x,20,14,20,'#1a1426');px(x+1,21,12,18,c);px(x+3,24,8,6,'#fff');px(x+3,32,8,2,'#1a1426')}}
+    if(rk>=5){for(let x=66;x<192;x+=8){const on=(Math.floor(t/8)+x/8)%3;px(x,16+Math.round(Math.sin(x*.07)*2),3,3,on===0?'#ffd166':on===1?'#ff6fa3':'#7df9ff')}}
+    // 어시스턴트(배치한 순서대로 릴리 오른쪽·왼쪽)
+    ST.slots.forEach((j,k)=>{const a=IM.ast[j];if(!ok(a)||k>=SLOT.length)return;const b=Math.floor((t+k*20)/40)%2;img(a,SLOT[k]-a.naturalWidth/2,94-a.naturalHeight-b)});
+    // 릴리(FEVER 면 마법 포즈), 탭하면 점프
+    const li=fev&&ok(IM.fever)?IM.fever:IM.lilly,jy=hop>0?-Math.sin(hop/12*Math.PI)*6:Math.floor(t/30)%2;
+    if(ok(li))img(li,128-li.naturalWidth/2,95-li.naturalHeight+jy);
+    // 부스 책상 + 위에 쌓인 동인지(동인지 설비 수)
+    const CL=['#ff6fa3','#2e8b6e','#ff9ad5','#6b5bd6','#c83c78','#e0a800','#8a5cf6'][rk];
+    px(TABLE.x,TABLE.y,TABLE.w,4,'#f4ecd8');px(TABLE.x,TABLE.y+4,TABLE.w,12,CL);px(TABLE.x,TABLE.y+15,TABLE.w,2,'#1a142688');px(TABLE.x,TABLE.y-1,TABLE.w,1,'#1a1426');
+    for(let k=0;k<Math.min(6,Math.ceil(ST.n[2]/5));k++){const bx=TABLE.x+6+k*9;for(let h=0;h<3;h++)px(bx,TABLE.y-2-h*2,7,2,h%2?'#8a5cf6':'#ff6fa3')}
+    label(['NEW CIRCLE','ISLAND','B-DAY SEAT','SHUTTER','WALL','BIG CIRCLE','CORP BOOTH'][rk],136,TABLE.y+12,'#fff');if(ok(IM.rank[rk]))img(IM.rank[rk],TABLE.x+4,TABLE.y+1);
+    vis.slice().sort((a,b)=>a.y-b.y).forEach(drawVisitor);
+    for(const p of parts){cx.globalAlpha=Math.min(1,p.life/15);if(p.k==='heart')drawHeart(p.x,p.y,p.c);else if(p.k==='coin'){px(p.x,p.y,3,4,'#ffd166');px(p.x+1,p.y+1,1,2,'#b8860b')}else if(p.k==='star'){px(p.x+1,p.y,1,3,p.c);px(p.x,p.y+1,3,1,p.c)}else px(p.x,p.y,2,2,p.c);cx.globalAlpha=1}
+    for(const o of texts)label(o.s,o.x,o.y,o.col,Math.min(1,o.life/15));
+    if(bubble){const bw=bubble.s.length*9+10,bx=128-bw/2,by=30;px(bx,by,bw,12,'#1a1426');px(bx+1,by+1,bw-2,10,'#fff');px(126,by+12,3,2,'#1a1426');cx.font='bold 8px monospace';cx.textAlign='center';cx.fillStyle='#1a1426';cx.fillText(bubble.s,128,by+9)}
+    if(flash>0){cx.globalAlpha=flash/30*.6;px(0,0,W,H,flashCol);cx.globalAlpha=1}
+    cx.restore()}
+  const near=(x,y)=>vis.reduce((b,v)=>!b||Math.hypot(v.x-x,v.y-y)<Math.hypot(b.x-x,b.y-y)?v:b,null);
+  return{cv,frame,
+    tap(lx,ly){hop=12;for(let k=0;k<3;k++)heart(lx+rnd(-6,6),ly+rnd(-4,4));const v=near(lx,ly);if(v)v.jump=10},
+    buy(i,before,after){const[X,Y]=PROP[i];spark(X+16,Y+16,before?8:20,i<3?'#ff6fa3':'#ffd166');if(!before)txt(X+16,Y-4,'NEW!','#7df9ff',80);if(msCount(after)>msCount(before)){txt(X+16,Y-8,'x2!','#ffd166',90);spark(X+16,Y+10,24,'#ffd166')}},
+    upg(){txt(128,40,'UP!','#2ee8a0',60);spark(128,70,10,'#2ee8a0')},
+    pull(res){const top=Math.max(...res.map(x=>x.r));flash=30;flashCol=top>=5?'#ffd166':top>=4?'#c77dff':'#ffffff';if(top>=5){shake=20;txt(128,42,'★5!','#ffd166',100)}spark(128,60,top>=5?40:16,flashCol)},
+    prestige(){flash=40;flashCol='#ffd166';burst=1;txt(128,42,'COMIKET!','#ff6fa3',150);for(let k=0;k<80;k++)parts.push({x:rnd(0,W),y:rnd(-40,0),vx:rnd(-.4,.4),vy:rnd(.6,1.4),life:160,k:'sq',c:['#ff6fa3','#ffd166','#7df9ff','#c77dff'][k%4],g:0});vis=[]},
+    back(g){bubble={s:'おかえり！',life:200};txt(128,56,'+'+fmt(g),'#ffd166',150)},
+    fever(){txt(128,42,'FEVER!','#ff4f9a',100);flash=20;flashCol='#ff6fa3'},
+    rank(r){if(!r)return;flash=36;flashCol='#ffd166';shake=12;txt(128,42,'RANK UP!','#ffd166',150);for(let k=0;k<60;k++)parts.push({x:rnd(0,W),y:rnd(-30,0),vx:rnd(-.4,.4),vy:rnd(.6,1.3),life:150,k:'sq',c:['#ff6fa3','#ffd166','#7df9ff','#c77dff'][k%4],g:0})},
+    toLocal(cxp,cyp){const r=cv.getBoundingClientRect();return[(cxp-r.left)*W/r.width,(cyp-r.top)*H/r.height]}};
+})();
+$('idStage').prepend(SC.cv);
+const gensEl=$('idGens');
+GEN.forEach((g,i)=>{const d=document.createElement('div');d.className='id-gen'+(AS.pixel?' id-px':'');d.innerHTML=`<div class="ic">${art(genArt(i),g.e)}</div><div><div class="nm">${g.k} <span class="sub" data-n></span></div><div class="sub" data-r></div><div class="ms"><i data-ms></i></div></div><button data-b></button>`;
+  d.querySelector('[data-b]').addEventListener('click',()=>buy(i));gensEl.appendChild(d)});
+const upgEl=$('idUpg');
+Object.entries(UPG).forEach(([k,u])=>{const d=document.createElement('div');d.className='id-upg';d.innerHTML=`<span><b>${u.name}</b> <span data-v></span></span><button data-u></button>`;d.querySelector('[data-u]').addEventListener('click',()=>upg(k));upgEl.appendChild(d)});
+document.querySelectorAll('.id-mode button').forEach(b=>b.addEventListener('click',()=>{mode=Number(b.dataset.m);document.querySelectorAll('.id-mode button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));draw()}));
+function qty(i){return mode===0?Math.max(1,maxK(i,ST.n[i],ST.F)):mode}
+function buy(i){const k=qty(i),c=costK(i,ST.n[i],k);if(c>ST.F)return;const b=ST.n[i];ST.F-=c;ST.n[i]+=k;ST.st.buy+=k;SC.buy(i,b,ST.n[i]);save();draw()}
+function upg(k){const u=UPG[k],l=ST.u[k];if(l>=u.max)return;const c=u.cost(l);if(c>ST.F)return;ST.F-=c;ST.u[k]++;ST.st.upg++;SC.upg();save();draw()}
+// cheer tap
+let taps=[];const stage=$('idStage');
+stage.addEventListener('pointerdown',e=>{const add=Math.max(1,baseRate()*(0.5+ST.u.tap*.25)*(1+bonus('tap')));ST.F+=add;ST.L+=add;ST.LT+=add;ST.st.earn+=add;ST.st.tap++;
+  const now=Date.now();taps=taps.filter(t=>now-t<5000);taps.push(now);if(taps.length>=20&&now>feverUntil){feverUntil=now+15000;taps=[];SC.fever()}
+  SC.tap(...SC.toLocal(e.clientX,e.clientY));
+  const r=stage.getBoundingClientRect(),p=document.createElement('span');p.className='pop';p.textContent='+'+fmt(add);p.style.left=(e.clientX-r.left-10)+'px';p.style.top=(e.clientY-r.top-10)+'px';stage.appendChild(p);setTimeout(()=>p.remove(),700)});
+// prestige
+$('idPre').addEventListener('click',()=>{const g=preGain();if(g<1)return;if(!confirm(`설비와 팬이 초기화되고 열정 +${g}을 얻습니다 (전역 +${Math.round(g*PRE_PER*100)}%). 강화·랭크·어시스턴트는 유지됩니다. 참가할까요?`))return;
+  ST.E+=g;ST.runs++;ST.best=Math.max(ST.best,ST.L);ST.F=0;ST.L=0;ST.n=GEN.map((_,i)=>i===0?1:0);save();SC.prestige();modal('코미케 참가!',`<p>${ST.runs}번째 코미케 · 열정 +${g}</p><p>전역 생산 +${Math.round(ST.E*PRE_PER*100)}%</p>`);draw()});
+// save io
+$('idExp').addEventListener('click',async()=>{save();const t=btoa(unescape(encodeURIComponent(JSON.stringify(ST))));try{await navigator.clipboard.writeText(t);modal('내보내기','<p>세이브 문자열을 복사했습니다.</p>')}catch(e){prompt('이 문자열을 복사해 두세요',t)}});
+$('idImp').addEventListener('click',()=>{const t=prompt('세이브 문자열을 붙여 넣으세요');if(!t)return;try{const o=JSON.parse(decodeURIComponent(escape(atob(t.trim()))));ST=Object.assign(fresh(),o);save();draw();modal('가져오기','<p>불러왔습니다.</p>')}catch(e){alert('형식이 맞지 않습니다')}});
+$('idReset').addEventListener('click',()=>{if(!confirm('열정까지 모두 지우고 처음부터 시작할까요?'))return;ST=fresh();save();draw()});
+// 탭이 안 보일 때(다른 탭을 보는 중) 생긴 알림은 쌓아 두었다가 이 탭을 열 때 보여 준다
+const MQ=[];function modal(t,b){if(sec.hidden||$('idModal').classList.contains('open')){MQ.push([t,b]);return}$('idMT').textContent=t;$('idMB').innerHTML=b;$('idModal').classList.add('open')}
+$('idMOk').addEventListener('click',()=>{$('idModal').classList.remove('open');const n=MQ.shift();if(n)modal(n[0],n[1])});
+// ---------- offline ----------
+function offline(){const now=Date.now(),dt=Math.max(0,(now-(ST.t||now))/1000);if(dt<60){ST.t=now;return}
+  const cap=OFF_CAP[ST.u.cap]*3600,eff=Math.min(1,OFF_EFF[ST.u.eff]+bonus('off')),used=Math.min(dt,cap);EV=eventBuff();const g=baseRate()*used*eff;
+  ST.F+=g;ST.L+=g;ST.LT+=g;ST.st.earn+=g;ST.t=now;save();if(g>0)SC.back(g);if(g>0)modal('다녀오셨어요',`<p>${fmtT(dt)} 동안</p><p style="font-size:22px;font-weight:800">팬 +${fmt(g)}</p><p style="font-size:12px;color:var(--muted)">상한 ${OFF_CAP[ST.u.cap]}시간 · 효율 ${Math.round(eff*100)}%${dt>cap?' · 상한 초과분 제외':''}</p>`)}
+// ---------- assistants / gacha ----------
+const bimg=j=>(AS.ast&&AS.ast[j])||BS[j]||'';
+const collEl=$('idColl'),slotsEl=$('idSlots');
+ASST.forEach((a,j)=>{const d=document.createElement('div');d.className='id-card';d.innerHTML=`${bimg(j)?`<img src="${bimg(j)}" alt="">`:'<div style="font-size:24px;text-align:center;padding-top:20%">🎴</div>'}<span class="r">${'★'.repeat(a.r)}</span><span class="lv"></span>`;
+  d.addEventListener('click',()=>{$('idDesc').textContent=`${a.k} (${'★'.repeat(a.r)}) — ${a.d}${ST.own[j]?` · Lv${ST.own[j]} → 효과 ×${lvScale(ST.own[j]).toFixed(1)}`:' · 미획득'}`;
+    if(!ST.own[j])return;const k=ST.slots.indexOf(j);if(k>=0)ST.slots.splice(k,1);else{if(ST.slots.length>=SLOTS)ST.slots.shift();ST.slots.push(j)}save();draw()});collEl.appendChild(d)});
+function roll(forceMin){ST.pity++;let r;if(ST.pity>=PITY){r=5}else{const x=Math.random();r=x<RATE[5]?5:x<RATE[5]+RATE[4]?4:3}if(forceMin&&r<forceMin)r=forceMin;if(r===5)ST.pity=0;
+  const pool=ASST.map((a,j)=>j).filter(j=>ASST[j].r===r);const j=pool[Math.floor(Math.random()*pool.length)];const isNew=!ST.own[j];ST.own[j]=Math.min(MAXLV,(ST.own[j]||0)+1);
+  if(isNew&&ST.slots.length<SLOTS)ST.slots.push(j);return{j,r,isNew}}
+function pull(n){if(ST.tk<n)return;ST.tk-=n;const res=[];for(let i=0;i<n;i++)res.push(roll(n===10&&i===n-1&&!res.some(x=>x.r>=4)?4:0));ST.st.pull+=n;save();SC.pull(res);
+  modal(n===10?'10연 결과':'가챠 결과',`<div class="id-res" style="grid-template-columns:repeat(${Math.min(5,n)},1fr)">${res.map(x=>`<div class="r${x.r}">${bimg(x.j)?`<img src="${bimg(x.j)}" alt="">`:'🎴'}<span>${x.isNew?'NEW ':''}${'★'.repeat(x.r)}</span></div>`).join('')}</div><p style="font-size:12px;color:var(--muted)">${res.map(x=>ASST[x.j].k+(x.isNew?'(NEW)':'(Lv'+ST.own[x.j]+')')).join(' · ')}</p>`);draw()}
+const tkPrice=()=>Math.max(5e3,Math.round(baseRate()*900));
+$('idG1').addEventListener('click',()=>pull(1));$('idG10').addEventListener('click',()=>pull(10));
+$('idGBuy').addEventListener('click',()=>{const c=tkPrice();if(ST.F<c)return;ST.F-=c;ST.tk++;save();draw()});
+document.querySelectorAll('.id-tabs2 button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.id-tabs2 button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==b.dataset.p);draw()}));
+// ---------- daily ----------
+const jst=t=>new Date(t).toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'});
+const dayDiff=(a,b)=>Math.round((new Date(b+'T00:00:00Z')-new Date(a+'T00:00:00Z'))/864e5);
+function daily(){const today=jst(Date.now());if(ST.day===today)return;
+  const gap=ST.lastDay?dayDiff(ST.lastDay,today):99;ST.streak=gap>=1&&gap<=2?ST.streak+1:1;ST.lastDay=today;ST.day=today;
+  let rw=2+(ST.streak%7===0?5:0);ST.tk+=rw;
+  const pick=MPOOL.slice().sort(()=>Math.random()-.5).slice(0,3);const r=baseRate();
+  ST.mis=pick.map(p=>({id:p.id,g:p.g(r),c:false}));ST.misAll=false;ST.st={tap:0,buy:0,earn:0,upg:0,pull:0};save();
+  modal('오늘의 출석',`<p>연속 접속 <b>${ST.streak}일</b></p><p style="font-size:20px;font-weight:800">🎫 +${rw}</p><p style="font-size:12px;color:var(--muted)">${ST.streak%7===0?'7일째 보너스 포함 · ':''}하루 쉬어도 연속은 유지됩니다</p>`)}
+const misProg=m=>Math.min(m.g,ST.st[m.id]||0);
+const misEl=$('idMis');
+function drawMis(){const sig=ST.day+'|'+ST.mis.map(x=>x.id).join(',');
+  if(misEl.dataset.sig!==sig){misEl.dataset.sig=sig;misEl.innerHTML='';
+    ST.mis.forEach((m,k)=>{const d=document.createElement('div');d.className='id-mis';d.innerHTML=`<div><span data-t></span> <span data-v style="color:var(--muted);font-size:12px"></span><div class="pb"><i data-w></i></div></div><button data-c></button>`;
+      d.querySelector('[data-c]').addEventListener('click',()=>{const mm=ST.mis[k];if(!mm||mm.c||misProg(mm)<mm.g)return;mm.c=true;ST.tk+=MREW;if(!ST.misAll&&ST.mis.every(x=>x.c)){ST.misAll=true;ST.tk+=MALL;modal('미션 올클리어',`<p>🎫 +${MREW+MALL}</p>`)}save();draw()});misEl.appendChild(d)});
+    const f=document.createElement('div');f.className='id-gmeta';f.innerHTML='<span>전부 완료 보너스</span><span data-all></span>';misEl.appendChild(f)}
+  let ready=false;
+  ST.mis.forEach((m,k)=>{const d=misEl.children[k];if(!d)return;const p=MPOOL.find(x=>x.id===m.id),pr=misProg(m),ok=pr>=m.g;if(ok&&!m.c)ready=true;
+    d.querySelector('[data-t]').textContent=p.txt(m.g);d.querySelector('[data-v]').textContent=`${fmt(pr)}/${fmt(m.g)}`;d.querySelector('[data-w]').style.width=(pr/m.g*100)+'%';
+    const b=d.querySelector('[data-c]');b.textContent=m.c?'완료':'🎫'+MREW;b.disabled=m.c||!ok});
+  const al=misEl.querySelector('[data-all]');if(al)al.textContent=ST.misAll?'받음 ✓':'🎫+'+MALL;
+  $('idMisDot').classList.toggle('on',ready)}
+// ---------- 서클 랭크 ----------
+const fmtD=ms=>{const d=ms/864e5;return d<1?Math.max(1,Math.round(d*24))+'시간':d.toFixed(1)+'일'};
+function drawRank(){const r=rankIdx(),nx=RANKS[r+1];
+  if(r>ST.rank){for(let k=ST.rank+1;k<=r;k++){ST.tk+=RANK_TK[k];modal('서클 랭크 업!',`${AS.rank?`<img src="${AS.rank[k]}" alt="" style="width:48px;height:48px;image-rendering:pixelated">`:''}<p style="font-size:18px;font-weight:800">${RANKS[k].k}</p><p>전역 생산 +${Math.round(k*RANK_PER*100)}% · 🎫 +${RANK_TK[k]}</p>`)}ST.rank=r;SC.rank(r);
+    if(r===RANKS.length-1&&!ST.done){ST.done=Date.now();modal('기업 부스 달성! 🎉',`<p>신입 서클에서 <b>${fmtD(ST.done-ST.start)}</b> 만에 최종 랭크에 올랐어요.</p><p style="font-size:12px;color:var(--muted)">코미케 ${ST.runs}회 · 열정 ${ST.E}. 이제부터는 자유 플레이(어시스턴트 Lv5 모으기, 더 큰 기록)예요.</p>`)}save()}
+  if(AS.rank)$('idRkI').src=AS.rank[r];$('idRkN').textContent=RANKS[r].k;$('idRkS').textContent='★'.repeat(r);
+  if(nx){const a=Math.log10(RANKS[r].at||1),b=Math.log10(nx.at),c=Math.log10(Math.max(1,ST.LT));$('idRkB').style.width=Math.max(0,Math.min(100,(c-a)/(b-a)*100))+'%';$('idRkT').textContent=`다음 ${nx.k}: 누적 팬 ${fmt(ST.LT)} / ${fmt(nx.at)} · 랭크 보너스 +${Math.round(r*RANK_PER*100)}%`}
+  else{$('idRkB').style.width='100%';$('idRkT').textContent=`완료! ${ST.done?fmtD(ST.done-ST.start)+' 만에 달성 · ':''}코미케 ${ST.runs}회 · 랭크 보너스 +${Math.round(r*RANK_PER*100)}%`}}
+// ---------- draw ----------
+function draw(){
+  $('idF').textContent=fmt(ST.F);$('idP').textContent=fmt(rate());$('idE').textContent=ST.E;$('idEm').textContent=Math.round(ST.E*PRE_PER*100);drawRank();
+  $('idBuff').textContent=EV.txt;
+  const fev=Date.now()<feverUntil;$('idFev').classList.toggle('on',fev);$('idBar').style.width=fev?((feverUntil-Date.now())/150)+'%':(Math.min(100,taps.filter(t=>Date.now()-t<5000).length*5))+'%';
+  [...gensEl.children].forEach((d,i)=>{const n=ST.n[i],k=qty(i),c=costK(i,n,k),unlocked=i===0||ST.n[i-1]>0||n>0;
+    d.classList.toggle('locked',!unlocked);d.querySelector('[data-n]').textContent=n?'×'+n:'';
+    const nm=nextMs(n);d.querySelector('[data-r]').textContent=n?`초당 ${fmt(genRate(i)*gMult())}${nm?` · ${nm}개에 ×2`:' · MAX'}`:`개당 초당 ${fmt(GEN[i].p*gMult())}`;
+    const prev=nm?(MS[MS.indexOf(nm)-1]||0):n;d.querySelector('[data-ms]').style.width=nm?((n-prev)/(nm-prev)*100)+'%':'100%';
+    const b=d.querySelector('[data-b]');b.innerHTML=`${mode===0?'×'+k:mode===10?'×10':'구매'}<br>${fmt(c)}`;b.disabled=!unlocked||c>ST.F});
+  [...upgEl.children].forEach((d,j)=>{const k=Object.keys(UPG)[j],u=UPG[k],l=ST.u[k];d.querySelector('[data-v]').textContent=u.val(l)+(l<u.max?' → '+u.val(l+1):'');const b=d.querySelector('[data-u]');if(l>=u.max){b.textContent='MAX';b.disabled=true}else{b.textContent=fmt(u.cost(l));b.disabled=u.cost(l)>ST.F}});
+  $('idTk').textContent=ST.tk;$('idPity').textContent=ST.pity;$('idStreak').textContent=ST.streak;
+  $('idG1').disabled=ST.tk<1;$('idG10').disabled=ST.tk<10;const tp=tkPrice();$('idGBuyC').textContent=fmt(tp)+' 팬';$('idGBuy').disabled=ST.F<tp;
+  [...collEl.children].forEach((d,j)=>{const lv=ST.own[j]||0;d.classList.toggle('lock',!lv);d.classList.toggle('on',ST.slots.includes(j));d.querySelector('.lv').textContent=lv?'Lv'+lv:''});
+  const ssig=ST.slots.map(j=>j+':'+ST.own[j]).join(',');if(slotsEl.dataset.sig!==ssig){slotsEl.dataset.sig=ssig;slotsEl.innerHTML='';for(let k=0;k<SLOTS;k++){const j=ST.slots[k];const d=document.createElement('div');d.className='id-slot';if(j!=null){d.style.borderStyle='solid';d.innerHTML=`${bimg(j)?`<img src="${bimg(j)}" alt="">`:''}<div class="t"><b>${ASST[j].k}</b> Lv${ST.own[j]}<br>${ASST[j].d}</div>`}else d.textContent='빈 자리';slotsEl.appendChild(d)}}
+  drawMis();
+  const g=preGain();$('idPreT').textContent=g>=1?`지금 참가하면 열정 +${g} (전역 +${Math.round((ST.E+g)*PRE_PER*100)}%로)${g>=Math.max(2,ST.E)?' · 추천: 열정이 두 배 이상 돼요':''} · 다음 열정까지 팬 ${fmt(Math.pow(g+1,3)*PRE_DIV-ST.L)}`:`이번 회차 누적 팬 ${fmt(ST.L)} — ${fmt(PRE_DIV)} 이상이면 참가 가능`;$('idPre').disabled=g<1;
+}
+// ---------- loop ----------
+let last=Date.now(),acc=0,lastSave=Date.now(),lastEv=0,lastScene=0;
+function loop(){const now=Date.now();let dt=(now-last)/1000;last=now;if(dt>5){ST.t=now-dt*1000;offline();dt=0}
+  if(now-lastEv>30000){EV=eventBuff();lastEv=now}
+  const g=rate()*dt;ST.F+=g;ST.L+=g;ST.LT+=g;ST.st.earn+=g;acc+=dt;
+  if(acc>.25&&!sec.hidden){acc=0;draw()}
+  if(!sec.hidden&&now-lastScene>=33){lastScene=now;SC.frame()}
+  if(now-lastSave>10000){lastSave=now;save()}
+  requestAnimationFrame(loop)}
+// 보드 방문자 모두에게 저장·출석 창이 뜨지 않게, 이 탭을 처음 열 때 시작한다
+let started=false;
+function boot(){if(started||sec.hidden)return;started=true;last=Date.now();EV=eventBuff();offline();daily();draw();requestAnimationFrame(loop)}
+new MutationObserver(()=>{boot();if(!sec.hidden&&MQ.length&&!$('idModal').classList.contains('open'))modal(...MQ.shift())}).observe(sec,{attributes:true,attributeFilter:['hidden']});
+document.addEventListener('visibilitychange',()=>{if(!started)return;if(document.hidden)save();else{last=Date.now();offline();daily();draw()}});
+window.addEventListener('pagehide',()=>{if(started)save()});
+boot();
+})();
+</script>
+</body>
+</html>
