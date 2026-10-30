@@ -2,7 +2,7 @@
 """마토메 보드 수집기 — GitHub 공개 보드용
 
 GitHub Actions가 정해진 시간마다 실행해서 data/ 폴더의 JSON을 갱신한다.
-  python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS), data/calendar*.ics(구독용 달력)
+  python3 collector.py           소식 수집 → data/items.json, data/meta.json(출처 상태 포함), data/feed.xml(RSS), data/calendar*.ics(구독용 달력), data/xbuzz.json(X 화제)
   python3 collector.py --anime   방영 목록·썸네일 → data/anime.json, data/thumbs.json, data/thumbs/*.jpg
   python3 collector.py --comics  디시 만화갤러리 개념글의 연재작 색인 → data/comics.json
   python3 collector.py --alert          출처가 3회 연속 실패하거나 2일 연속 빈 피드면 GitHub 이슈(워크플로 전용, GITHUB_TOKEN)
@@ -775,6 +775,14 @@ def main():
             print(f"{name}: 실패 ({e})", file=sys.stderr)
             # f: 연속 실패 횟수, at: 마지막으로 성공한 시각(이전 기록에서 이어받음)
             status.append({"n": name, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
+    p = prev.get(BUZZ_NAME, {})
+    try:  # X 화제(Togetter): 소식 피드와 별개 파일. 출처 상태·알림에는 같이 들어간다
+        braw = collect_buzz(ref)
+        status.append({"n": BUZZ_NAME, "ok": True, "c": braw, "raw": braw, "new": 0, "at": ref.isoformat(timespec="minutes"),
+                       "zr": int(p.get("zr", 0)) + 1 if braw == 0 else 0})
+    except Exception as e:
+        print(f"{BUZZ_NAME}: 실패 ({e})", file=sys.stderr)
+        status.append({"n": BUZZ_NAME, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
     for n in new:
         n["addedAt"] = ref.isoformat()
     enrich(new + old)
@@ -856,6 +864,52 @@ def write_feed(ref):
     xml.append("</channel></rss>")
     with open(FEED, "w", encoding="utf-8") as f:
         f.write("\n".join(xml) + "\n")
+
+
+# ---- X 화제(data/xbuzz.json): Togetter 의 인기·새 정리 ----
+# X 는 무료 API 가 없어 직접 못 읽는다. 대신 X 게시물을 사람이 묶은 Togetter 의 RSS(인기 10건·새 정리 100건)를 모은다.
+# 제목·요약·링크·썸네일만 두고(X 게시물 본문은 가져오지 않음), 보드 작품 이름 태그와 오타쿠 화제 여부를 붙인다. 유행 순위(trends)에는 넣지 않는다.
+BUZZ = os.path.join(DATA, "xbuzz.json")
+BUZZ_NAME = "Togetter(X 화제)"
+BUZZ_FEEDS = [("hot", "https://togetter.com/rss/hot"), ("news", "https://togetter.com/rss/news")]
+BUZZ_DAYS, BUZZ_MAX = 7, 400
+OTAKU_RE = re.compile(r"アニメ|漫画|マンガ|まんが|コミック|ゲーム|声優|VTuber|Vtuber|ブイチューバー|ホロライブ|にじさんじ|コミケ|同人|ラノベ|イラスト|絵師|"
+                      r"ガンプラ|フィギュア|アニメイト|ポケモン|任天堂|Switch|プレステ|PS5|ガチャ|ソシャゲ|コスプレ|推し|オタク|特撮|プリキュア|ジャンプ|"
+                      r"劇場版|聖地巡礼|一番くじ|ボカロ|初音ミク|ニコニコ|コラボカフェ", re.I)
+
+
+def collect_buzz(ref):
+    """Togetter RSS 두 개를 읽어 data/xbuzz.json 을 갱신하고 읽은 글 수를 돌려준다. 둘 다 실패하면 예외.
+    h: 인기 목록에 오른 실행 횟수, ha: 마지막으로 인기 목록에 있던 시각, hot: 이번 실행의 인기 목록(순서대로)."""
+    old = load_json(BUZZ, {})
+    by = {x["u"]: x for x in old.get("items", []) if isinstance(x, dict) and x.get("u")}
+    hot_now, raw, errs = [], 0, []
+    now = ref.isoformat(timespec="minutes")
+    for kind, url in BUZZ_FEEDS:
+        try:
+            entries = parse_feed(fetch(url))
+        except Exception as e:
+            errs.append(f"{kind}: {e}"); print(f"{BUZZ_NAME} {kind}: 실패 ({e})", file=sys.stderr); continue
+        raw += len(entries)
+        for ti, de, li, when, img in entries:
+            if not li or not ti: continue
+            ti, de = clean(ti), clean(de)
+            x = by.get(li) or {"u": li, "at": now, "h": 0}
+            text = f"{ti}\n{de}"
+            x.update(t=ti[:200], s=re.sub(r"\s+", " ", de)[:200], d=(when or _when(x["at"]) or ref).astimezone(JST).isoformat(timespec="minutes"))
+            if img: x["img"] = urllib.parse.urljoin(li, img.strip())
+            x["w"] = tag_works(text, [])[:5]
+            x["o"] = bool(x["w"] or OTAKU_RE.search(text))
+            if kind == "hot" and li not in hot_now:
+                x["h"] = int(x.get("h", 0)) + 1; x["ha"] = now; hot_now.append(li)
+            by[li] = x
+    if len(errs) == len(BUZZ_FEEDS):
+        raise RuntimeError("; ".join(errs))
+    cut = ref - timedelta(days=BUZZ_DAYS)
+    items = sorted((x for x in by.values() if (_when(x.get("d")) or ref) > cut or x["u"] in hot_now), key=lambda x: x.get("d", ""), reverse=True)[:BUZZ_MAX]
+    save_json(BUZZ, {"updated": now, "hot": hot_now, "items": items})
+    print(f"→ data/xbuzz.json: 인기 {len(hot_now)}건, 모두 {len(items)}건 (오타쿠 화제 {sum(1 for x in items if x.get('o'))}건)")
+    return raw
 
 
 # ---- 장소 사전(data/venues.json, 사람이 고침) ----
@@ -2121,7 +2175,15 @@ def check():
         except Exception as e:
             bad += 1
             print(f"FAIL {name}: {e}")
-    print(f"→ 실패 {bad}/{len(SOURCES)}")
+    for kind, url in BUZZ_FEEDS:  # X 화제(Togetter)도 같이 본다
+        try:
+            es = parse_feed(fetch(url))
+            print(f"OK   {BUZZ_NAME} {kind}: {len(es)}건 (그림 {sum(1 for e in es if e[4])}건, 요약 {sum(1 for e in es if clean(e[1]))}건, 오타쿠 {sum(1 for e in es if OTAKU_RE.search(e[0] + e[1]))}건)")
+            for e in es[:3]:
+                print(f"       + {clean(e[0])[:60]} | {clean(e[1])[:50]} | {e[4][:60]}")
+        except Exception as e:
+            bad += 1; print(f"FAIL {BUZZ_NAME} {kind}: {e}")
+    print(f"→ 실패 {bad}/{len(SOURCES) + len(BUZZ_FEEDS)}")
     return 1 if bad else 0
 
 
