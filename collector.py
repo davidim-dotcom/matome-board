@@ -91,12 +91,6 @@ SOURCES = [
     # にじさんじ 공식: RSS가 없어 사이트가 쓰는 JSON API를 읽음(제목·게시일만 있고 본문 없음)
     {"type": "json", "name": "にじさんじ公式", "url": "https://www.nijisanji.jp/api/news", "items": "newsList",
      "title": "title", "date": "publishedAtForUser", "image": "thumbnail.url", "link": "https://www.nijisanji.jp/news/{id}", "works": ["にじさんじ"], "extra_words": VTUBER_WORDS},
-    {"type": "rss", "name": "TG news(점검)", "url": "https://togetter.com/rss/news", "extra_words": ["アニメ", "漫画", "マンガ", "ゲーム", "声優", "VTuber"]},
-    {"type": "rss", "name": "TG rss/hot(점검)", "url": "https://togetter.com/rss/hot"},
-    {"type": "rss", "name": "TG rss/ranking(점검)", "url": "https://togetter.com/rss/ranking"},
-    {"type": "rss", "name": "TG rss/cat/anime(점검)", "url": "https://togetter.com/rss/cat/anime"},
-    {"type": "rss", "name": "TG rss/category/anime(점검)", "url": "https://togetter.com/rss/category/anime"},
-    {"type": "html", "name": "TG hot(점검)", "url": "https://togetter.com/hot", "item": "(?P<title>x)(?P<link>x)"},
     # 버튜버 방송 예정 (HOLODEX_API_KEY 필요, holodex.net 계정 설정에서 무료 발급)
     {"type": "holodex", "name": "Hololive", "org": "Hololive", "hours": 48},
     {"type": "holodex", "name": "Nijisanji", "org": "Nijisanji", "hours": 48},
