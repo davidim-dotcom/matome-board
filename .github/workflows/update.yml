@@ -40,6 +40,9 @@ jobs:
       - name: 연재 만화 색인
         run: python collector.py --comics
 
+      - name: 주간 요약 자동 초안(이번 주 것이 없을 때만)
+        run: python collector.py --weekly-draft
+
       - name: 바뀐 내용 저장
         run: |
           git config user.name "matome-bot"

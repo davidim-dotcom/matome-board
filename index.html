@@ -68,6 +68,20 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .wh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .wh-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;min-width:0}
 .wh-card .n{font-weight:700;font-size:14px;line-height:1.3;overflow-wrap:anywhere}
+.wh-card{padding:0 0 10px;overflow:hidden}
+.wh-card>span:not(.pic){padding:0 12px}
+.wh-card .pic{position:relative;display:block;width:100%;aspect-ratio:16/9;margin-bottom:6px;overflow:hidden}
+.wh-card .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wh-card .pic .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;font-weight:700;color:rgba(255,255,255,.85)}
+.wh-card .pic .rise{position:absolute;left:6px;top:6px;font-size:11px;font-weight:700;color:#fff;background:var(--pink);padding:1px 7px;border-radius:999px}
+.wh-rise{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0 2px}
+.wh-rise>b{font-size:13px;color:var(--pink)}
+.wh-rise button{border:1px solid var(--pink);background:var(--pink-soft);color:var(--pink);border-radius:999px;padding:3px 10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.wh-rise button small{font-weight:400}
+.wh-rise .aside{font-size:12px;width:100%;margin:0}
+.wh-ics{margin:2px 0 6px}
+.actions button.lnk{background:none;border:0;font-family:inherit;cursor:pointer}
+.wk-auto{font-size:12px;color:var(--muted);background:var(--surface);border-radius:8px;padding:6px 10px;margin:6px 0 0}
 .wh-card .ko{font-size:12px;color:var(--muted)}
 .wh-card .m{font-size:12px;color:var(--muted);margin-top:2px}
 .wh-card .m b{color:var(--pink);font-weight:700;margin-right:6px}
@@ -472,6 +486,7 @@ const wkey=n=>wnorm(n).replace(WK_STRIP,"");
 const cleanName=n=>String(n||"").replace(/^[『「【\s]+|[』」】\s]+$/g,"").trim();
 const WORKS={alias:new Map(),ko:new Map(),skip:new Set(),parents:new Map(),variants:new Map()};
 let trendNames=[]; // meta.json 의 유행 작품(대표 이름, 순위순)
+let rising=[]; // meta.json 의 급상승 작품 [{name,key,x(최근 3일 하루 평균 ÷ 그 전 평균)}]
 function canonBase(n){const c=cleanName(n).slice(0,60);return WORKS.alias.get(wkey(c))||c}
 function setWorks(raw,names){
   const r=raw&&typeof raw==="object"?raw:{}, al=r.alias&&typeof r.alias==="object"?r.alias:{}, ko=r.ko&&typeof r.ko==="object"?r.ko:{};
@@ -535,6 +550,7 @@ async function initStore(){
     getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{}),getJSON("data/works.json",{})]);
   const tn=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x)).filter(Boolean).slice(0,20);
   setWorks(worksRaw,tn); trendNames=canonList(tn);
+  rising=(Array.isArray(meta.rising)?meta.rising:[]).slice(0,6).map(r=>{const n=canonWork(String(r&&r.n||"").slice(0,60));return {name:n,key:wkey(n),vars:workOf(n).vars,x:Math.min(99,Math.max(0,+(r&&r.x)||0))}}).filter(r=>r.key.length>=2);
   const bu=new Set(block.urls||[]), bt=(block.titles||[]).map(x=>String(x).toLowerCase()), bi=new Set(block.ids||[]);
   items=new Map();
   for(const raw of [...(Array.isArray(manual)?manual:[]),...(Array.isArray(auto)?auto:[])]){
@@ -586,7 +602,7 @@ function rowHtml(it,ev,cls=""){
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
-    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${hotScore(it).why===1?"유행":"방영 중"}</span>`:""}${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
+    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${["","유행","방영 중","급상승"][hotScore(it).why]}</span>`:""}${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
     <div class="title">${esc(tx(it,"title"))}</div>
     ${tx(it,"summary")?`<p class="sum">${esc(tx(it,"summary"))}</p>`:""}
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
@@ -594,6 +610,7 @@ function rowHtml(it,ev,cls=""){
     <div class="actions">
       ${it.ticketUrls.map(u=>`<a class="btn ticket" href="${esc(u)}" target="_blank" rel="noopener">${esc(ticketSite(u))}에서 예약</a>`).join("")}
       ${it.url?`<a class="btn" href="${esc(it.url)}" target="_blank" rel="noopener">원문</a>`:""}
+      ${icsEvents(it).length?`<button type="button" class="lnk" data-ics="${esc(it.id)}" title="휴대폰·구글 캘린더에 넣을 .ics 파일을 받아요">📅 달력에 추가</button>`:""}
     </div></div></article>`;
 }
 function render(){
@@ -619,6 +636,45 @@ function render(){
   renderAnime(all);
   if(!$("#works").hidden) renderWorks();
 }
+/* ---------- 달력에 추가(.ics) ----------
+   행사일(기간이면 시작~끝)·판매 시작·마감을 iCalendar 일정으로 만든다. 시각이 00:00 이면 하루 종일 일정, 판매 시작·마감은 30분 일정 + 30분 전 알림.
+   지난 행사·지난 판매 시작/마감은 넣지 않는다. 파일은 브라우저에서 만들어 내려받게 한다(서버 없음). */
+function icsEvents(it){
+  if(it._ics) return it._ics;
+  const out=[], now=Date.now(), ev=parseDate(it.eventDate), end=parseDate(it.endDate);
+  if(ev&&(end||ev)>now-DAY/2) out.push({k:"ev",d:ev,e:end&&end>ev?end:null,label:""});
+  const pre=PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작";
+  for(const [k,label] of [["ticketOpen",pre],["deadline","마감"]]){const d=parseDate(it[k]);if(d&&d>now)out.push({k,d,e:null,label})}
+  return it._ics=out;
+}
+function icsText(list){
+  const ymd=d=>jstYmd(d).replace(/-/g,""), utc=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");
+  const nextDay=d=>ymd(new Date(d.getTime()+DAY)), esc1=t=>String(t||"").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
+  const enc=new TextEncoder(), fold=l=>{let o="",n=0;for(const ch of l){const b=enc.encode(ch).length;if(n+b>73){o+="\r\n ";n=1}o+=ch;n+=b}return o};
+  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//matome-board//ics//KO","CALSCALE:GREGORIAN","METHOD:PUBLISH"], stamp=utc(new Date());
+  for(const it of list) for(const x of icsEvents(it)){
+    const allDay=!hm(x.d)&&(!x.e||!hm(x.e)), title=(x.label?`[${x.label}] `:"")+tx(it,"title");
+    L.push("BEGIN:VEVENT",`UID:${it.id}-${x.k}@matome-board`,`DTSTAMP:${stamp}`);
+    if(x.k==="ev"&&allDay) L.push(`DTSTART;VALUE=DATE:${ymd(x.d)}`,`DTEND;VALUE=DATE:${nextDay(x.e||x.d)}`);
+    else if(allDay) L.push(`DTSTART;VALUE=DATE:${ymd(x.d)}`,`DTEND;VALUE=DATE:${nextDay(x.d)}`);
+    else L.push(`DTSTART:${utc(x.d)}`,`DTEND:${utc(x.e&&x.e>x.d?x.e:new Date(x.d.getTime()+(x.k==="ev"?2*3600000:1800000)))}`);
+    L.push(`SUMMARY:${esc1(title)}`);
+    if(it.venue) L.push(`LOCATION:${esc1(it.venue+(it.address&&!it.venue.includes(it.address)?" "+it.address:""))}`);
+    L.push(`DESCRIPTION:${esc1([it.source,it.url,...it.ticketUrls.slice(0,2)].filter(Boolean).join("\n"))}`);
+    if(it.url) L.push(`URL:${it.url}`);
+    if(x.k!=="ev"&&!allDay) L.push("BEGIN:VALARM","ACTION:DISPLAY",`DESCRIPTION:${esc1(title)}`,"TRIGGER:-PT30M","END:VALARM");
+    L.push("END:VEVENT");
+  }
+  L.push("END:VCALENDAR");
+  return L.map(fold).join("\r\n")+"\r\n";
+}
+function icsDownload(list,name){ // name: 파일 이름에 붙일 영문 id
+  list=list.filter(it=>icsEvents(it).length); if(!list.length){toast("넣을 일정이 없어요");return}
+  const url=URL.createObjectURL(new Blob([icsText(list)],{type:"text/calendar;charset=utf-8"})), a=document.createElement("a");
+  a.href=url; a.download="matome-"+String(name||"board").replace(/[^\w-]+/g,"").slice(0,40)+".ics"; // 파일 이름이 한글·일본어면 받는 쪽 브라우저가 "download" 로 바꿔 버리기도 해서 영문으로
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),10000);
+  toast(`일정 ${list.reduce((n,it)=>n+icsEvents(it).length,0)}개를 .ics 로 받았어요. 열면 달력에 들어가요`);
+}
 /* ---------- feed helpers ---------- */
 function notOver(x){const e=parseDate(x.it.endDate)||parseDate(x.it.eventDate);return !e||e>Date.now()-DAY/2}
 // 추천 점수: 최근 유행 작품(trends 순위)과 방영 중 인기작(AniList 인기도) 관련 소식을 올리고, 오래된 소식은 서서히 내린다.
@@ -628,6 +684,7 @@ function hotScore(it){
   const text=(it.title+" "+it.works.join(" ")).toLowerCase();
   let s=0, why=0;
   trends.forEach((n,i)=>{if(n.length>=2&&text.includes(n)){s+=(20-i)/4;why=1}});
+  if(rising.length){const wn=wnorm(text);if(rising.some(r=>r.vars.some(v=>wn.includes(v)))){s+=2;why=3}}
   if(season){for(const a of season.list){if(!a.w)continue;const b=baseTitle(a.t).toLowerCase();if(b.length>=3&&text.includes(b)){s+=Math.min(5,Math.log10(a.w||1));why=why||2;break}}}
   if(it.ticketUrls.length) s+=0.5;
   const r={s:s-(Date.now()-new Date(it.addedAt))/DAY/5, why};
@@ -864,7 +921,7 @@ function normWeekly(raw){
     category:CATS[p.category]?p.category:"other", tag:str(p.tag,20), when:str(p.when,200), where:str(p.where,160),
     desc:str(p.desc,1500), links:(Array.isArray(p.links)?p.links:[]).slice(0,6).map(l=>({label:str(l&&l.label,80),url:safeUrl(l&&l.url||"")})).filter(l=>l.url),
     items:(Array.isArray(p.items)?p.items:[]).slice(0,8).map(u=>safeUrl(u)).filter(Boolean)})).filter(p=>p.title&&p.desc);
-  return picks.length?{title:str(raw.title,80),range:str(raw.range,60),updated:str(raw.updated,16),picks}:null;
+  return picks.length?{title:str(raw.title,80),range:str(raw.range,60),updated:str(raw.updated,16),auto:raw.auto===true,picks}:null;
 }
 async function loadWeekly(){
   if(weeklyTried) return; weeklyTried=true;
@@ -892,7 +949,7 @@ function renderWeekly(){
       ${rel?`<ul class="wk-items">${rel}</ul>`:""}
       ${src?`<div class="wk-src">출처 · ${src}</div>`:""}
     </div></li>`}).join("");
-  el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}</div>
+  el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}${weekly.auto?`<p class="wk-auto">봇이 유행 순위로 자동으로 고른 초안이에요. 설명은 기사 원문 요약이라 일본어가 섞여 있어요. 운영자가 다시 쓰면 바뀌어요.</p>`:""}</div>
     <ol class="wk-list">${li}</ol>`;
 }
 /* ---------- 작품 허브(작품 탭, 주소 #work=이름) ----------
@@ -918,12 +975,20 @@ function workIndex(){
   const map=new Map(), live=[...items.values()].filter(it=>notOver({it}));
   const add=n=>{const w=workOf(n);if(w.key.length<2||WORKS.skip.has(w.key)||map.has(w.key))return;map.set(w.key,{...w,live:0,rank:0,air:false})};
   trendNames.forEach(add); for(const it of live) it.works.forEach(add);
-  for(const e of map.values()){e.rank=trendNames.findIndex(x=>wkey(x)===e.key)+1;e.live=live.filter(it=>itemHasWork(it,e)).length;e.air=!!(season&&season.list.some(a=>animeHas(a,e)))}
+  for(const e of map.values()){
+    const mine=live.filter(it=>itemHasWork(it,e)), ani=season?season.list.find(a=>animeHas(a,e)):null;
+    e.rank=trendNames.findIndex(x=>wkey(x)===e.key)+1;e.live=mine.length;e.air=!!ani;e.rise=rising.find(r=>r.key===e.key)||null;
+    // 카드 그림: 방영 썸네일 → 작품 태그가 붙은 소식의 대표 이미지 → 이름만 들어간 소식의 이미지
+    const img=(ani&&thumbs.get(tkey(ani.t)))||(mine.find(it=>it.image&&it.works.some(x=>wkey(x)===e.key))||mine.find(it=>it.image)||{}).image;
+    e.pic=img||"";
+  }
   return [...map.values()].filter(e=>e.live||e.rank).sort((a,b)=>(a.rank||99)-(b.rank||99)||b.live-a.live||a.name.localeCompare(b.name,"ja"));
 }
 function workGrid(){
   const q=wkey(workQ), list=workIndex().filter(e=>!q||e.key.includes(q)||wkey(e.ko).includes(q));
-  const cards=list.map(e=>`<button type="button" class="wh-card" data-work="${esc(e.name)}"><span class="n">${esc(e.name)}</span>${e.ko?`<span class="ko">${esc(e.ko)}</span>`:""}<span class="m">${e.rank?`<b>유행 ${e.rank}위</b>`:""}${[e.live?`소식 ${e.live}`:"",e.air?"방영 중":""].filter(Boolean).join(" · ")}</span></button>`).join("");
+  const pic=e=>{const hue=parseInt(hashId(e.key).slice(1),36)%360;
+    return `<span class="pic" style="background:linear-gradient(160deg,hsl(${hue} 35% 62%),hsl(${(hue+40)%360} 40% 38%))" aria-hidden="true"><span class="ini">${esc([...e.name][0]||"")}</span>${e.pic?`<img src="${esc(e.pic)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}${e.rise?`<span class="rise">급상승</span>`:""}</span>`};
+  const cards=list.map(e=>`<button type="button" class="wh-card" data-work="${esc(e.name)}">${pic(e)}<span class="n">${esc(e.name)}</span>${e.ko?`<span class="ko">${esc(e.ko)}</span>`:""}<span class="m">${e.rank?`<b>유행 ${e.rank}위</b>`:""}${[e.live?`소식 ${e.live}`:"",e.air?"방영 중":""].filter(Boolean).join(" · ")}</span></button>`).join("");
   const free=workQ.trim()&&!list.some(e=>e.key===q)?`<button type="button" class="wh-card" data-work="${esc(workQ.trim())}"><span class="n">「${esc(workQ.trim())}」</span><span class="m">이 이름으로 모아 보기</span></button>`:"";
   return cards+free||`<div class="empty">찾는 작품이 없어요.</div>`;
 }
@@ -931,6 +996,7 @@ function renderWorks(){
   const el=$("#works"); if(!el) return;
   if(!workSel){
     el.innerHTML=`<div class="wh-head"><h2>작품</h2><p class="aside">유행 순위에 오른 작품과 지금 소식이 있는 작품이에요. 누르면 그 작품의 소식·방영·만갤·유행 추이를 한 화면에서 봐요. 피드 카드의 작품 이름을 눌러도 와요.</p></div>
+      ${rising.length?`<div class="wh-rise"><b>급상승</b>${rising.map(r=>`<button type="button" data-work="${esc(r.name)}">${esc(r.name)} <small>×${r.x}</small></button>`).join("")}<span class="aside">최근 3일 기사가 그 전보다 크게 늘어난 작품</span></div>`:""}
       <input type="search" class="wh-q" id="whQ" placeholder="작품 이름 검색 (일본어·한국어)" value="${esc(workQ)}" autocomplete="off"><div class="wh-grid" id="whGrid">${workGrid()}</div>`;
     return;
   }
@@ -943,7 +1009,8 @@ function renderWorks(){
   const cms=comics?comics.series.filter(x=>comicHas(x,w)):[];
   const picks=weekly&&weekly.picks?weekly.picks.filter(p=>p.works.some(x=>wkey(canonWork(x))===w.key)):[];
   const sr=trendHist?trendSeries(w):[];
-  const badges=[rank?`<span>유행 ${rank}위</span>`:"",live.length?`<span class="c">소식 ${live.length}건</span>`:"",ani.length?`<span class="c">방영 중</span>`:"",cms.length?`<span class="c">만갤 연재</span>`:""].join("");
+  const rise=rising.find(r=>r.key===w.key);
+  const badges=[rank?`<span>유행 ${rank}위</span>`:"",rise?`<span title="최근 3일 하루 평균 기사 수가 그 전의 ${rise.x}배">급상승 ×${rise.x}</span>`:"",live.length?`<span class="c">소식 ${live.length}건</span>`:"",ani.length?`<span class="c">방영 중</span>`:"",cms.length?`<span class="c">만갤 연재</span>`:""].join("");
   const todayIso=new Date().toLocaleDateString("sv-SE",{timeZone:"Asia/Tokyo"}), ws=new Set(S.watching);
   const aniHtml=ani.map(a=>{const meta=[a.d<7?DAYS[a.d]+"요일":DAYS[a.d],a.tm&&esc(a.tm)+" JST",a.st&&esc(a.st),a.s&&(a.s>todayIso?`<span class="soon">${esc(a.s.slice(5).replace("-","/"))} 시작</span>`:"")].filter(Boolean).join(" · ");
     const img=thumbs.get(tkey(a.t)),hue=parseInt(hashId(a.t).slice(1),36)%360;
@@ -962,6 +1029,7 @@ function renderWorks(){
     ${sr.some(x=>x.c)?`<h3 class="wh-sec">유행 추이 <small>최근 ${sr.length}일, 뉴스 제목·본문에 이름이 나온 기사 수</small></h3>${trendHtml(sr)}`:trendTried?"":`<p class="note">유행 추이를 불러오는 중…</p>`}
     ${wkHtml?`<h3 class="wh-sec">주간 요약에서 <small>${esc(weekly.range||"")}</small></h3>${wkHtml}`:""}
     <h3 class="wh-sec">지금 소식 ${live.length}건 <small>다가오는 날짜순 · 날짜 없는 소식은 새로 들어온 순</small></h3>
+    ${live.some(it=>icsEvents(it).length)?`<button type="button" class="btn ghost wh-ics" data-icsall>📅 이 작품 일정 전부 달력에 (${live.reduce((a,it)=>a+icsEvents(it).length,0)}개)</button>`:""}
     ${live.length?shownLive.map(it=>rowHtml(it,{})).join("")+(live.length>LIM&&!workAll?`<button type="button" class="btn ghost wh-more" data-workall>${live.length-LIM}건 더 보기</button>`:""):`<div class="empty">지금 진행 중이거나 다가오는 소식이 없어요.</div>`}
     ${mine.length>live.length?`<p class="note">끝난 소식 ${mine.length-live.length}건은 빼고 보여 줘요.</p>`:""}
     ${aniHtml?`<h3 class="wh-sec">방영 <small>${esc(season.name||"")}</small></h3>${aniHtml}`:""}
@@ -1121,11 +1189,13 @@ function onAction(e){
       const w=workOf(workSel),n=live.filter(it=>itemHasWork(it,w)).length,r=trendNames.findIndex(x=>wkey(x)===w.key)+1,nm=cut(w.name,6);
       const soon=live.filter(it=>itemHasWork(it,w)).map(it=>parseDate(it.eventDate)).filter(d=>d&&d>now).sort((a,b)=>a-b)[0];
       if(n)out.push(`「${nm}」 소식 ${n}개야롱`); if(r)out.push(`「${nm}」 유행 ${r}위야롱`);
+      if(rising.some(x=>x.key===w.key))out.push(`「${nm}」 요즘 급상승 중이롱`);
       if(soon){const dd=Math.ceil((soon-now)/DAY);out.push(dd<=1?"내일까지 일정 있어롱!":`다음 일정은 ${dd}일 뒤야롱`)}
       out.push("링크 공유로 친구한테 보내롱");
       return out.filter(t=>t.length<=18);
     }
     if(trendNames.length){const k=trendNames[0];if(k.length<=7)out.push(`작품 탭에서 「${k}」 봐롱`)}
+    if(rising.length){const k=rising[Math.floor(Math.random()*rising.length)].name;if(k.length<=7)out.push(`「${k}」 급상승 중이롱!`)}
     if(live.length) out.push(`지금 소식 ${live.length}개 모아놨어롱`);
     if(trends.length){const k=trends[Math.floor(Math.random()*Math.min(5,trends.length))];if(k.length<=8)out.push(`요즘 「${k}」 얘기가 많아롱`)}
     const week=live.filter(it=>{const d=parseDate(it.eventDate);return d&&d>now&&d-now<7*DAY});
@@ -1168,6 +1238,8 @@ document.addEventListener("click",e=>{
   const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
   if(e.target.closest("[data-workback]")){openWork(null);return}
   if(e.target.closest("[data-workall]")){workAll=true;renderWorks();return}
+  const ic=e.target.closest("[data-ics]"); if(ic){const it=items.get(ic.dataset.ics);if(it)icsDownload([it],it.id);return}
+  if(e.target.closest("[data-icsall]")&&workSel){const w=workOf(workSel);icsDownload([...items.values()].filter(it=>notOver({it})&&itemHasWork(it,w)),"work-"+hashId(w.key));return}
   if(e.target.closest("[data-workshare]")&&workSel){const url=location.origin+location.pathname+"#work="+encodeURIComponent(workSel);
     if(navigator.share)navigator.share({title:workSel+" · 마토메 보드",url}).catch(()=>{});
     else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>toast("링크를 복사했어요"),()=>toast(url));
