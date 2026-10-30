@@ -873,6 +873,7 @@ BUZZ = os.path.join(DATA, "xbuzz.json")
 BUZZ_NAME = "Togetter(X 화제)"
 BUZZ_FEEDS = [("hot", "https://togetter.com/rss/hot"), ("news", "https://togetter.com/rss/news")]
 BUZZ_DAYS, BUZZ_MAX = 7, 400
+BUZZ_IMG_MAX = 20  # 실행마다 그림(og:image)을 찾으러 여는 Togetter 페이지 수. RSS 에 그림이 없어서(2026-10), 인기·오타쿠 화제만 한 번씩 연다
 OTAKU_RE = re.compile(r"アニメ|漫画|マンガ|まんが|コミック|ゲーム|声優|VTuber|Vtuber|ブイチューバー|ホロライブ|にじさんじ|コミケ|同人|ラノベ|イラスト|絵師|"
                       r"ガンプラ|フィギュア|アニメイト|ポケモン|任天堂|Switch|プレステ|PS5|ガチャ|ソシャゲ|コスプレ|推し|オタク|特撮|プリキュア|ジャンプ|"
                       r"劇場版|聖地巡礼|一番くじ|ボカロ|初音ミク|ニコニコ|コラボカフェ", re.I)
@@ -896,7 +897,9 @@ def collect_buzz(ref):
             ti, de = clean(ti), clean(de)
             x = by.get(li) or {"u": li, "at": now, "h": 0}
             text = f"{ti}\n{de}"
-            x.update(t=ti[:200], s=re.sub(r"\s+", " ", de)[:200], d=(when or _when(x["at"]) or ref).astimezone(JST).isoformat(timespec="minutes"))
+            de = re.sub(r"\s+", " ", de)
+            if de[:30] == ti[:30]: de = ""  # Togetter RSS 의 요약은 대개 제목 그대로라 겹치면 비운다
+            x.update(t=ti[:200], s=de[:200], d=(when or _when(x["at"]) or ref).astimezone(JST).isoformat(timespec="minutes"))
             if img: x["img"] = urllib.parse.urljoin(li, img.strip())
             x["w"] = tag_works(text, [])[:5]
             x["o"] = bool(x["w"] or OTAKU_RE.search(text))
@@ -905,6 +908,15 @@ def collect_buzz(ref):
             by[li] = x
     if len(errs) == len(BUZZ_FEEDS):
         raise RuntimeError("; ".join(errs))
+    want = [x for x in by.values() if not x.get("img") and not x.get("it") and (x["u"] in hot_now or x.get("o"))]
+    want.sort(key=lambda x: (x["u"] not in hot_now, x.get("d", "")))  # 지금 인기부터
+    for x in want[:BUZZ_IMG_MAX]:
+        x["it"] = 1  # 한 번 열어 본 정리는 다시 열지 않는다
+        try:
+            img = og_from_html(fetch(x["u"]).decode("utf-8", "replace"), x["u"])
+            if img.startswith("https://"): x["img"] = img
+        except Exception as e:
+            print(f"{BUZZ_NAME}: 그림 실패 {x['u']} ({e})", file=sys.stderr)
     cut = ref - timedelta(days=BUZZ_DAYS)
     items = sorted((x for x in by.values() if (_when(x.get("d")) or ref) > cut or x["u"] in hot_now), key=lambda x: x.get("d", ""), reverse=True)[:BUZZ_MAX]
     save_json(BUZZ, {"updated": now, "hot": hot_now, "items": items})
