@@ -258,6 +258,12 @@ nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:v
 nav.tabs button{border:0;background:none;padding:8px 10px;flex:none;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
 nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
+/* 게임 고르기(게임 탭 맨 위) */
+.gpick{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin:10px 0 12px}
+.gpick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px 7px;border:1px solid var(--line);border-radius:12px;background:var(--surface);line-height:1.2;min-width:0}
+.gpick button[hidden]{display:none}
+.gpick i{font-style:normal;font-size:20px;margin-bottom:2px} .gpick b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%} .gpick small{font-size:11px;color:var(--muted);white-space:nowrap}
+.gpick button[aria-pressed="true"]{background:var(--pink-soft);border-color:var(--pink)} .gpick button[aria-pressed="true"] b{color:var(--pink)}
 
 /* Feed rows */
 .filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
@@ -466,10 +472,7 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
-    <button role="tab" data-tab="game" aria-selected="false">弾幕</button>
-    <button role="tab" data-tab="g2048" aria-selected="false">Holo Mobile</button>
-    <button role="tab" data-tab="derby" aria-selected="false">ラン (Test)</button>
-    <button role="tab" data-tab="idle" aria-selected="false" hidden>放置 (Test)</button>
+    <button role="tab" data-tab="play" aria-selected="false">🎮 게임</button>
   </nav>
 
   <section id="feed"></section>
@@ -505,6 +508,13 @@ textarea{min-height:110px;resize:vertical}
       <div id="srcStat"><p class="note">불러오는 중…</p></div>
     </div>
   </section>
+  <!-- 게임 탭 하나에 게임 4개(2026-10 말 탭을 모음): 고르는 칸 + 각 게임 section. 마지막에 고른 게임은 localStorage matome-game -->
+  <div class="gpick" id="gpick" hidden>
+    <button type="button" data-game="game"><i aria-hidden="true">🚀</i><b>弾幕</b><small>탄막 슈팅</small></button>
+    <button type="button" data-game="g2048"><i aria-hidden="true">🍉</i><b>Holo Mobile</b><small>수박·2048</small></button>
+    <button type="button" data-game="derby"><i aria-hidden="true">🏇</i><b>まとめラン</b><small>달리기</small></button>
+    <button type="button" data-game="idle" hidden><i aria-hidden="true">📚</i><b>放置</b><small>서클 육성</small></button>
+  </div>
   <section id="game" hidden></section>
   <section id="g2048" hidden><div class="hm-jump"><button type="button" id="hmJump">▼ 스코어 보드로</button></div>
     <div class="gamewrap"><iframe id="holo2048" class="gameframe" data-src="games/holo2048.html" title="Holo Mobile" loading="lazy" allow="autoplay"></iframe><div class="gamegrip" aria-hidden="true">여기를 밀어 스크롤</div></div>
@@ -514,7 +524,7 @@ textarea{min-height:110px;resize:vertical}
       <form class="dm-sub" id="hmSub" hidden><span class="me" id="hmSubMe"></span><input id="hmName" maxlength="12" placeholder="이름 (12자까지)" autocomplete="nickname" enterkeyhint="send"><button id="hmSubBtn">기록 등록</button></form>
       <ol class="dm-rank" id="hmRank"></ol></div></section>
   <section id="derby" hidden></section>
-  <section id="idle" hidden><iframe id="idleFrame" class="gameframe" data-src="games/idle.html" title="放置 (Test)" loading="lazy"></iframe></section>
+  <section id="idle" hidden><iframe id="idleFrame" class="gameframe" data-src="games/idle.html" title="放置" loading="lazy"></iframe></section>
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
@@ -1441,6 +1451,7 @@ function routeHash(){
   if(location.hash==="#works"){openWork(null,false);return true}
   const mt=location.hash.match(/^#trip=(\d{4}-\d\d-\d\d)~(\d{4}-\d\d-\d\d)(?:,(\w+))?$/);
   if(mt){trip=tripFix({s:mt[1],e:mt[2],r:mt[3]||"kanto"});calDay="trip";showTab("sched");render();return true}
+  if(location.hash==="#idle"){$('#gpick [data-game="idle"]').hidden=false;showTab("idle");return true} // 放置는 숨겨 두고 주소 끝 #idle 로만 연다
   return false;
 }
 window.addEventListener("popstate",()=>{if(!routeHash()&&!$("#works").hidden)showTab("feed")});
@@ -1654,9 +1665,14 @@ function onAction(e){
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
 })();
+const GAME_TABS=["game","g2048","derby","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
 function showTab(target){
-  document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
-  const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
+  if(target==="play"){let g="game";try{g=localStorage.getItem("matome-game")||g}catch{};target=GAME_TABS.includes(g)&&!($(`#gpick [data-game="${g}"]`)||{}).hidden?g:"game"} // 게임 탭은 마지막에 하던 게임부터
+  const isGame=GAME_TABS.includes(target), navKey=isGame?"play":target;
+  if(isGame){try{localStorage.setItem("matome-game",target)}catch{}}
+  $("#gpick").hidden=!isGame; document.querySelectorAll("#gpick [data-game]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.game===target));
+  document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===navKey));
+  const nb=document.querySelector(`nav.tabs [data-tab="${navKey}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
   document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
   if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
   if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
@@ -1676,6 +1692,7 @@ document.addEventListener("click",e=>{
     if(target==="works"){openWork(null);return} // 작품 탭 버튼은 목록부터
     if(/^#(work|trip)/.test(location.hash))history.replaceState(null,"",location.pathname+location.search); // 다른 탭으로 가면 주소의 #work·#trip 은 지운다
     showTab(target);window.scrollTo(0,0);return}
+  const gp=e.target.closest("[data-game]"); if(gp){showTab(gp.dataset.game);return}
   const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
   if(e.target.closest("[data-workback]")){openWork(null);return}
   if(e.target.closest("[data-workall]")){workAll=true;renderWorks();return}
@@ -2379,7 +2396,7 @@ requestAnimationFrame(loop);
 'use strict';
 const sec=document.getElementById('derby');if(!sec)return;
 sec.innerHTML=`<div class="panel" style="padding:12px">
-<span class="id-test">TEST</span><p class="id-note">「まとめラン」 테스트판. 쿠키런식 달리기 — 탭 또는 위로 밀기 = 점프(공중에서 한 번 더), 아래로 밀기 = 슬라이드. HP가 다 닳으면 끝. 밸런스·그림은 바뀔 수 있어요.</p>
+<p class="id-note">「まとめラン」 쿠키런식 달리기 — 탭 또는 위로 밀기 = 점프(공중에서 한 번 더), 아래로 밀기 = 슬라이드. HP가 다 닳으면 끝. 밸런스·그림은 바뀔 수 있어요.</p>
 <div class="dm-skin"><p class="lab">RUNNER · 선수 선택 <small id="dbSkillD"></small></p><div class="db-sel" id="dbSel"></div><p class="db-trait" id="dbTrait"></p></div>
 <div class="dm-hud"><span>SCORE <b id="dbScore">0</b></span><span>DIST <b id="dbDist">0</b>m</span><span>STAGE <b id="dbStage">-</b></span><span>HI <b id="dbHi">0</b></span></div>
 <div class="dm-wrap" id="dbWrap"><canvas id="dbCv" width="360" height="480"></canvas></div>
@@ -2992,7 +3009,7 @@ requestAnimationFrame(loop);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){bgmStop()}else if(!sec.hidden&&G.state!=='gacha')bgmFor()});
 })();
 </script>
-<script>if(location.hash==="#idle"){const b=document.querySelector('[data-tab="idle"]');if(b)b.hidden=false}</script>
+
 <!-- ===== end ラン ===== -->
 
 
