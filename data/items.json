@@ -1,5 +1,24 @@
 [
  {
+  "title": "しまむら・アベイルで「ミッフィー」グッズが発売！アパレルはじめ、耳当てやミトンなど冬物アイテム多数",
+  "category": "goods",
+  "source": "インサイド",
+  "platform": "site",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "2026-10-31T00:00",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.inside-games.jp/article/2026/10/30/190118.html",
+  "summary": "アベイルにて、「ミッフィー」のグッズを2026年10月31日より発売！同日12時よりしまむらパーク（オンラインストア）でも取り扱われます。",
+  "image": "https://www.inside-games.jp/imgs/rss/1798136.jpg",
+  "addedAt": "2026-10-30T21:46:37.783490+09:00",
+  "scanned": true
+ },
+ {
   "title": "‘진격의 거인展 FINAL’ 11월 14일 부산 개막",
   "category": "exhibit",
   "source": "BNT뉴스",
@@ -6944,7 +6963,8 @@
   "addedAt": "2026-10-28T12:40:16.067566+09:00",
   "scanned": true,
   "title_ko": "무라카미 타카시, 기하라 쿠니히코, 미즈시마 세이지 등이 나고야의 애니메이션 영화제에 집결 「애니메이션과 AI」특집도",
-  "summary_ko": "「아이치・나고야 인터내셔널・애니메이션・필름・페스티벌」(ANIAFF)이 제2회의 초대 상영 작품이나 특별 기획, 등단 게스트를 발표했다. 현대 미술가·무라카미 타카시씨와 애니메이션 감독·기하라 쿠니히코씨가, 각각 데자키 통씨의 애니메이션 표현을 말하는 기획에 등단. 또한, \"애니메이션"
+  "summary_ko": "「아이치・나고야 인터내셔널・애니메이션・필름・페스티벌」(ANIAFF)이 제2회의 초대 상영 작품이나 특별 기획, 등단 게스트를 발표했다. 현대 미술가·무라카미 타카시씨와 애니메이션 감독·기하라 쿠니히코씨가, 각각 데자키 통씨의 애니메이션 표현을 말하는 기획에 등단. 또한, \"애니메이션",
+  "ps": true
  },
  {
   "title": "明治ミルクチョコレートが100周年 『葬送のフリーレン』『NANA』など漫画40作とコラボ",
@@ -7092,7 +7112,8 @@
   "image": "https://cimg.kgl-systems.io/camion/files/92237/ogp_nxYt.jpg?x=1280",
   "title_ko": "【홀로라이브】우사다 페코라가 「Relax time」으로 피규어화! 하늘색 니트 모습으로 27년 봄 등장",
   "summary_ko": "",
-  "tg": "bf6c"
+  "tg": "bf6c",
+  "ps": true
  },
  {
   "title": "バーチャルシンガー獅子神レオナ、7thワンマンライブ「Identity」開催決定",
@@ -7102,7 +7123,7 @@
   "works": [],
   "eventDate": "2026-12-26T00:00",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-26T22:00",
   "deadline": "",
   "venue": "",
   "ticketUrl": "https://react-event.zaiko.io/e/identity-2026",
@@ -7115,7 +7136,14 @@
   "addedAt": "2026-10-28T00:43:35.727365+09:00",
   "scanned": true,
   "title_ko": "가상 가수 사자신 레오나, 7th 원맨 라이브 'Identity' 개최 결정",
-  "summary_ko": "2026년 12월 26일, 도쿄·이케부쿠로 harevutai에서 “사자신 레오나 7th 원맨 라이브 “Identity””가 개최됩니다. VTuber 사무소 Re:AcT에 소속된 사자신 레오나에게 7번째 원맨 라이브로 낮 […] The post 가상 가수 사자신 레오나,"
+  "summary_ko": "2026년 12월 26일, 도쿄·이케부쿠로 harevutai에서 “사자신 레오나 7th 원맨 라이브 “Identity””가 개최됩니다. VTuber 사무소 Re:AcT에 소속된 사자신 레오나에게 7번째 원맨 라이브로 낮 […] The post 가상 가수 사자신 레오나,",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般先着",
+    "s": "2026-10-26T22:00"
+   }
+  ]
  },
  {
   "title": "らんま1/2 × 舞浜ユーラシア 湯めぐりコラボ 12月1日より開催!",
@@ -7550,7 +7578,8 @@
   "scanned": true,
   "image": "https://cimg.kgl-systems.io/camion/files/92179/ogp_GdDw.jpg?x=1280",
   "title_ko": "『FF14』 팬 페스티벌 2026 도쿄가 이번 주말 개최. 신확장 “시라가네의 원더러”의 최신 정보를 전달하는 기조 강연이나, 개발 패널, 나오키의 방 등을 무료 전달",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "ちろぴのクエスト!! ストア in 全国4会場 11月6日より順次開催!",
@@ -7874,7 +7903,8 @@
   "addedAt": "2026-10-27T18:35:41.327533+09:00",
   "scanned": true,
   "title_ko": "러브 라이브 러브 나고야! 페스 나고야에서 11 월 6 일부터 개최!",
-  "summary_ko": "『15th Anniversary 러브라이브! 페스」에 맞추어 나고야의 16사업자가 「러브라이브! 시리즈」라고 콜라보하는 「러브 나고야! 페스티벌」이 2026년 11월 6일~12월 6일까지 개최. 야바 돈이나 야마모토야 등 참가 사업자의 일람과, 선행 공개된 묘향원의 콜라보레이션 상품・한정 드링크・노"
+  "summary_ko": "『15th Anniversary 러브라이브! 페스」에 맞추어 나고야의 16사업자가 「러브라이브! 시리즈」라고 콜라보하는 「러브 나고야! 페스티벌」이 2026년 11월 6일~12월 6일까지 개최. 야바 돈이나 야마모토야 등 참가 사업자의 일람과, 선행 공개된 묘향원의 콜라보레이션 상품・한정 드링크・노",
+  "ps": true
  },
  {
   "title": "ガンダム × チョコフレーク ザクザク出撃せよ!! 11月16日開始!",
@@ -7987,7 +8017,8 @@
   "scanned": true,
   "title_ko": "홀로라이브 오텀 스트리트 페어 10 월 29 일부터 개최!",
   "summary_ko": "VTuber 그룹 「홀로라이브」의 신작 상품 「홀로라이브 Seasonal Days 오텀 스트리트」의 발매를 기념해, TSUTAYA BOOKSTORE 가와사키역 앞점・요코스카 아와다점 한정의 페어가 2026년 10월 29일~11월 15일까지 개최. 2,200엔(부가세 포함) 이상의 구매",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "入間くん グッズフェア in アニメイト 2027年1月16日より開催!",
@@ -8144,7 +8175,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/27175654/109030-192-76734de858a37ff768a6a828eb3503f9-1920x1080-1.webp",
   "title_ko": "아이돌 VTuber 「라비파레!!」, 결성 2주년 기념 라이브의 상품 라인업을 공개 멤버 본인이 디자인을 다룬 오리지널 아이템이 등장",
-  "summary_ko": "주식회사 Blackbox 주식회사 Blackbox(본사：도쿄도 신주쿠구, 대표 이사 CEO：사카모토 류우)가 운영하는, 만나러 갈 수 있는 아이돌 VTuber 프로덕션 「러브 박스」는, 2026년 11월 8일(일)에 개최하는 소속 유 The post 아이돌 VTuber 「라비파레!!」, 결"
+  "summary_ko": "주식회사 Blackbox 주식회사 Blackbox(본사：도쿄도 신주쿠구, 대표 이사 CEO：사카모토 류우)가 운영하는, 만나러 갈 수 있는 아이돌 VTuber 프로덕션 「러브 박스」는, 2026년 11월 8일(일)에 개최하는 소속 유 The post 아이돌 VTuber 「라비파레!!」, 결",
+  "ps": true
  },
  {
   "title": "7人組バーチャルアイドル「FouRTe Project」ハロウィングッズが受注販売開始　受注期間は11/3 17時までの1週間限定",
@@ -8188,7 +8220,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/27175226/44525-703-514b5c58e0e0535cbd8beaaf590e9918-1920x1080-1.webp",
   "title_ko": "VRChat 음악 페스티벌 「ESPERA -AdHoc Live Festival 2026-」마지막 날 11/22의 전 출연 아티스트가 공개 Kizuna AI, 춘원화, 등 다채로운 세계관을 가진 아티스트가 출연",
-  "summary_ko": "주식회사 Brave group 주식회사 RIOT MUSIC(본사:도쿄도 미나토구, 대표 이사:舩橋 純,읽기:라이오트 뮤직, 이하 「RIOT MUSIC」)는, 컬쳐 엔터테인먼트 주식회사(본사:도쿄 도품 The post VRChat 음악 페스티벌 「ESPERA -"
+  "summary_ko": "주식회사 Brave group 주식회사 RIOT MUSIC(본사:도쿄도 미나토구, 대표 이사:舩橋 純,읽기:라이오트 뮤직, 이하 「RIOT MUSIC」)는, 컬쳐 엔터테인먼트 주식회사(본사:도쿄 도품 The post VRChat 음악 페스티벌 「ESPERA -",
+  "ps": true
  },
  {
   "title": "学生によるゲーム制作イベント「holo Indie GameJAM@YDA」が横浜デジタルアーツ専門学校にて12月に開催決定",
@@ -8640,7 +8673,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/27120335/5d161aac2f50fad6afb2a6d4ab1a5387-680x383-1.jpg",
   "title_ko": "남성 VTuber 「장구」 2기생 오디션이 개시 하면 북구 1기생의 콜라보레이션도 결정",
-  "summary_ko": "MBS 이노베이션 드라이브와 업랜드는 27일, 공동으로 다루는 신규 남성 VTuber 프로젝트 「장구」의 2기생 오디션의 개최를 발표(오디션 사이트). 아울러 키 비주얼에 찍혀 있던 주민의 전모 공개를 The post 남성 VTuber 「장구」2기생 오디시"
+  "summary_ko": "MBS 이노베이션 드라이브와 업랜드는 27일, 공동으로 다루는 신규 남성 VTuber 프로젝트 「장구」의 2기생 오디션의 개최를 발표(오디션 사이트). 아울러 키 비주얼에 찍혀 있던 주민의 전모 공개를 The post 남성 VTuber 「장구」2기생 오디시",
+  "ps": true
  },
  {
   "title": "ホロライブ所属・姫森ルーナが「ケロロ軍曹☆ ハチャメチャTVショー」実況プレイに参戦　10/27 19時より配信開始",
@@ -8707,7 +8741,8 @@
   "addedAt": "2026-10-27T12:31:50.232961+09:00",
   "scanned": true,
   "title_ko": "성우 카지 히로키의 음성 AI \"가미 소요기\"가 AITuber화 본인과의 게임 실황을 생 전달",
-  "summary_ko": "성우 · 카지 유키 씨가 프로듀스하는 음성 AI 프로젝트 「소요기 프랙탈」의 캐릭터 · 카지 소요기가 AITuber로서 라이브 전달을 실시한다. 가미소요기의 생일인 11월 21일(토) 16시부터 카지 유키씨 본인과 실시간으로 대화하는 특별 프로그램을 공식 YouTube 채널로 전달"
+  "summary_ko": "성우 · 카지 유키 씨가 프로듀스하는 음성 AI 프로젝트 「소요기 프랙탈」의 캐릭터 · 카지 소요기가 AITuber로서 라이브 전달을 실시한다. 가미소요기의 생일인 11월 21일(토) 16시부터 카지 유키씨 본인과 실시간으로 대화하는 특별 프로그램을 공식 YouTube 채널로 전달",
+  "ps": true
  },
  {
   "title": "にじさんじChroNoiR、2ndライブをGMOアリーナさいたまで開催　初のCDシングルも発売",
@@ -8739,6 +8774,7 @@
   ],
   "address": "埼玉県",
   "tg": "bf6c",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -8763,7 +8799,8 @@
   "scanned": true,
   "title_ko": "홀로라이브의 2차 창작 게임을 학생 70명이 제작 「holo Indie」협력의 게임 개발 이벤트 개최",
   "summary_ko": "학교법인 이와사키 학원이, VTuber 사무소·홀로라이브의 2차 창작 게임 브랜드 「holo Indie」와 협력한 게임 개발 이벤트 「holo Indie GameJAM@YDA」를 개최한다. 회장은 요코하마 디지털 아트 전문 학교. 기간은 12월 23일(수)부터 25일(금)까지",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "ボボボーボ・ボーボボ展 DIVE INTO THE BO-BOBO WORLD【東京】",
@@ -9294,7 +9331,8 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "「데이트 어 라이브 F Last Date」27년 3월 26일 공개 특보 영상과 티저 비주얼 제2탄이 피로",
-  "summary_ko": "'데이트 어 라이브' 시리즈의 완결편이 되는 '데이트 어 라이브 F Last Date'가 2027년 3월 26일부터 극장 상영되는 것이 결정되었다. 아울러 특보 영상(https://www.yo..."
+  "summary_ko": "'데이트 어 라이브' 시리즈의 완결편이 되는 '데이트 어 라이브 F Last Date'가 2027년 3월 26일부터 극장 상영되는 것이 결정되었다. 아울러 특보 영상(https://www.yo...",
+  "ps": true
  },
  {
   "title": "アニメ「暗殺教室」スペシャルイベント“同窓会の時間”【夜の部】",
@@ -10062,8 +10100,8 @@
   "works": [],
   "eventDate": "2026-10-31T15:30",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-07-15T12:00",
+  "deadline": "2026-07-27T23:59",
   "venue": "Shibuya LOVEZ",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10078,7 +10116,25 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・1회째】",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット先行受付",
+    "s": "2026-07-15T12:00",
+    "e": "2026-07-27T23:59"
+   },
+   {
+    "n": "プレリクエスト先行",
+    "s": "2026-07-28T12:00",
+    "e": "2026-08-09T23:59"
+   },
+   {
+    "n": "2次先行",
+    "s": "2026-08-10T12:00",
+    "e": "2026-08-17T23:59"
+   }
+  ]
  },
  {
   "title": "フォーガットン・アイランド 忘却の魔法島【2回目】　第39回東京国際映画祭(TIFF)",
@@ -10156,7 +10212,8 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "시모노 히로 음악 축제",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true
  },
  {
   "title": "CHERRY AND VIRGIN【1回目】　第39回東京国際映画祭(TIFF)",
@@ -10218,8 +10275,8 @@
   "works": [],
   "eventDate": "2026-10-31T19:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-07-15T12:00",
+  "deadline": "2026-07-27T23:59",
   "venue": "Shibuya LOVEZ",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10234,7 +10291,25 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・2회째】",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット先行受付",
+    "s": "2026-07-15T12:00",
+    "e": "2026-07-27T23:59"
+   },
+   {
+    "n": "プレリクエスト先行",
+    "s": "2026-07-28T12:00",
+    "e": "2026-08-09T23:59"
+   },
+   {
+    "n": "2次先行",
+    "s": "2026-08-10T12:00",
+    "e": "2026-08-17T23:59"
+   }
+  ]
  },
  {
   "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【石川】",
@@ -10267,8 +10342,8 @@
   "works": [],
   "eventDate": "2026-11-01T13:30",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-07-15T12:00",
+  "deadline": "2026-07-27T23:59",
   "venue": "Shibuya LOVEZ",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10283,7 +10358,25 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・3회째】",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット先行受付",
+    "s": "2026-07-15T12:00",
+    "e": "2026-07-27T23:59"
+   },
+   {
+    "n": "プレリクエスト先行",
+    "s": "2026-07-28T12:00",
+    "e": "2026-08-09T23:59"
+   },
+   {
+    "n": "2次先行",
+    "s": "2026-08-10T12:00",
+    "e": "2026-08-17T23:59"
+   }
+  ]
  },
  {
   "title": "『デモンズ・クレスト』 先行上映イベント",
@@ -10293,7 +10386,7 @@
   "works": [],
   "eventDate": "2026-11-01T15:00",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-10T10:00",
   "deadline": "",
   "venue": "ユナイテッド・シネマ アクアシティお台場",
   "ticketUrl": "https://eplus.jp/demonscrest-anime/",
@@ -10311,7 +10404,14 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "「데몬즈 크레스트」 선행 상영 이벤트",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般販売",
+    "s": "2026-10-10T10:00"
+   }
+  ]
  },
  {
   "title": "時をかける少女　第39回東京国際映画祭(TIFF)",
@@ -10373,8 +10473,8 @@
   "works": [],
   "eventDate": "2026-11-01T17:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-07-15T12:00",
+  "deadline": "2026-07-27T23:59",
   "venue": "Shibuya LOVEZ",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10389,7 +10489,25 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・4회째】",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット先行受付",
+    "s": "2026-07-15T12:00",
+    "e": "2026-07-27T23:59"
+   },
+   {
+    "n": "プレリクエスト先行",
+    "s": "2026-07-28T12:00",
+    "e": "2026-08-09T23:59"
+   },
+   {
+    "n": "2次先行",
+    "s": "2026-08-10T12:00",
+    "e": "2026-08-17T23:59"
+   }
+  ]
  },
  {
   "title": "ウォーキング・ウィズ・アニメーターズ【2回目】　第39回東京国際映画祭(TIFF)",
@@ -10702,8 +10820,8 @@
   "works": [],
   "eventDate": "2026-11-07T17:30",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-03-18T10:00",
+  "deadline": "2026-04-12T23:59",
   "venue": "市民会館シアーズホーム夢ホール(熊本市民会館)",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10718,7 +10836,15 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "후루카와 신 3rd Live[구마모토]",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "ray封入先行",
+    "s": "2026-03-18T10:00",
+    "e": "2026-04-12T23:59"
+   }
+  ]
  },
  {
   "title": "TVアニメ『SPY×FAMILY』：スペシャルイベント『SPY×FAMILY』ANIME EXTRA MISSION Ⅱ【昼の部】",
@@ -10743,7 +10869,8 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "TV 애니메이션 「SPY×FAMILY」：스페셜 이벤트 「SPY×FAMILY」ANIME EXTRA MISSION Ⅱ【낮의 부】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true
  },
  {
   "title": "TVアニメ『SPY×FAMILY』：スペシャルイベント『SPY×FAMILY』ANIME EXTRA MISSION Ⅱ【夜の部】",
@@ -10768,7 +10895,8 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "TV 애니메이션 「SPY×FAMILY」：스페셜 이벤트 「SPY×FAMILY」ANIME EXTRA MISSION Ⅱ【밤의 부】",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true
  },
  {
   "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【広島】",
@@ -10824,8 +10952,8 @@
   "works": [],
   "eventDate": "2026-11-18T19:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-05T10:00",
+  "deadline": "2026-10-12T23:59",
   "venue": "調布市文化会館たづくり　くすのきホール",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10840,7 +10968,19 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "오오타 아키히로 작화전 기념 데이 게게게 2026",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-10-05T10:00",
+    "e": "2026-10-12T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-23T10:00"
+   }
+  ]
  },
  {
   "title": "菅叶和NEW BORN LIVE",
@@ -10850,8 +10990,8 @@
   "works": [],
   "eventDate": "2026-11-19T19:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2025-12-09T00:00",
+  "deadline": "2025-12-15T23:59",
   "venue": "KT Zepp Yokohama",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10866,7 +11006,25 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "스가이와 NEW BORN LIVE",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "FCプレミアム抽選先行",
+    "s": "2025-12-09T00:00",
+    "e": "2025-12-15T23:59"
+   },
+   {
+    "n": "2次先行",
+    "s": "2025-12-19T12:00",
+    "e": "2026-01-04T23:59"
+   },
+   {
+    "n": "FC先着先行",
+    "s": "2026-01-13T12:00",
+    "e": "2026-01-26T23:59"
+   }
+  ]
  },
  {
   "title": "第6期デー　ゲゲゲ忌2026",
@@ -10876,8 +11034,8 @@
   "works": [],
   "eventDate": "2026-11-21T17:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-05T10:00",
+  "deadline": "2026-10-12T23:59",
   "venue": "調布市文化会館たづくり　くすのきホール",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10892,7 +11050,19 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "제6기 데이 게게게 2026",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-10-05T10:00",
+    "e": "2026-10-12T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-23T10:00"
+   }
+  ]
  },
  {
   "title": "スペシャルトークショー「京極夏彦、\"悪魔くん\"を大いに語る」　ゲゲゲ忌2026",
@@ -10902,8 +11072,8 @@
   "works": [],
   "eventDate": "2026-11-27T19:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-05T10:00",
+  "deadline": "2026-10-12T23:59",
   "venue": "調布市文化会館たづくり　くすのきホール",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -10918,7 +11088,19 @@
   "addedAt": "2026-10-27T01:00:44.919838+09:00",
   "scanned": true,
   "title_ko": "스페셜 토크 쇼 「쿄고쿠 나츠히코, \"악마군\"을 많이 말한다\"게게게기 2026",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-10-05T10:00",
+    "e": "2026-10-12T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-23T10:00"
+   }
+  ]
  },
  {
   "title": "【BLEACH】アニメ『千年血戦篇』が堂々完結。最終回スペシャルED＆一護の軌跡を辿る特別ムービーが解禁",
@@ -11109,6 +11291,7 @@
    139.7193
   ],
   "address": "東京都豊島区",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -11119,7 +11302,7 @@
   "works": [],
   "eventDate": "2026-12-26T00:00",
   "endDate": "",
-  "ticketOpen": "",
+  "ticketOpen": "2026-10-26T22:00",
   "deadline": "",
   "venue": "",
   "ticketUrl": "https://react-event.zaiko.io/e/identity-2026",
@@ -11132,7 +11315,14 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/26184342/1.png",
   "title_ko": "Re:AcT 소속 사자신 레오나, 7th 원맨 라이브 「Identity」가 12/26에 개최 결정 11/5에는 12th 싱글이 BOOTH에서 선행 판매",
-  "summary_ko": "mikai는 26일, Re:AcT 소속의 가상 아티스트·사자신 레오나의 7th 원맨 라이브 「Identity」를, 12월 26일(토)에 이케부쿠로 harevutai에서 주야 2 공연에서 개최하는 것을 발표. 아울러 키 비주어 The post Re:AcT 소속 사자신 레오나, 7th와"
+  "summary_ko": "mikai는 26일, Re:AcT 소속의 가상 아티스트·사자신 레오나의 7th 원맨 라이브 「Identity」를, 12월 26일(토)에 이케부쿠로 harevutai에서 주야 2 공연에서 개최하는 것을 발표. 아울러 키 비주어 The post Re:AcT 소속 사자신 레오나, 7th와",
+  "ps": true,
+  "phases": [
+   {
+    "n": "一般先着",
+    "s": "2026-10-26T22:00"
+   }
+  ]
  },
  {
   "title": "ChroNoiR、ニューシングルを1/27に発売＆2ndライブを5/15にGMOアリーナさいたまで開催決定",
@@ -11161,6 +11351,7 @@
    139.6312
   ],
   "address": "埼玉県",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -11247,6 +11438,7 @@
    139.6312
   ],
   "address": "埼玉県",
+  "ps": true,
   "placeGuess": true
  },
  {
@@ -11497,7 +11689,8 @@
   "scanned": true,
   "title_ko": "「걸즈 앤 판처 최종장 제5화」대히트 기념 무대 인사",
   "summary_ko": "애니메이션 공식 이벤트",
-  "tg": "107da"
+  "tg": "107da",
+  "ps": true
  },
  {
   "title": "南條愛乃 ニューアルバム リリースイベント【大阪・1部】",
@@ -11576,8 +11769,8 @@
   "works": [],
   "eventDate": "2026-11-28T17:30",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-03-18T10:00",
+  "deadline": "2026-04-12T23:59",
   "venue": "川口リリア・フカガワみらいホール",
   "ticketUrl": "",
   "ticketUrls": [],
@@ -11592,7 +11785,15 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "후루카와 신 3rd Live[사이타마]",
-  "summary_ko": "라이브 이벤트"
+  "summary_ko": "라이브 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "ray封入先行",
+    "s": "2026-03-18T10:00",
+    "e": "2026-04-12T23:59"
+   }
+  ]
  },
  {
   "title": "南條愛乃 ニューアルバム リリースイベント【名古屋・1部】",
@@ -11648,8 +11849,8 @@
   "works": [],
   "eventDate": "2026-11-29T17:00",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-05T10:00",
+  "deadline": "2026-10-12T23:59",
   "venue": "調布市文化会館たづくり　くすのきホール",
   "ticketUrl": "https://w.pia.jp/t/gegegeki/",
   "ticketUrls": [
@@ -11666,7 +11867,19 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "제5기 서양 요괴 데이 게게게 2026",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-10-05T10:00",
+    "e": "2026-10-12T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-23T10:00"
+   }
+  ]
  },
  {
   "title": "第5期デー（命日当日）　ゲゲゲ忌2026",
@@ -11676,8 +11889,8 @@
   "works": [],
   "eventDate": "2026-11-30T18:30",
   "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
+  "ticketOpen": "2026-10-05T10:00",
+  "deadline": "2026-10-12T23:59",
   "venue": "調布市文化会館たづくり　くすのきホール",
   "ticketUrl": "https://w.pia.jp/t/gegegeki/",
   "ticketUrls": [
@@ -11694,7 +11907,19 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "제5기 데이(내일 당일) 게게게기 2026",
-  "summary_ko": "애니메이션 공식 이벤트"
+  "summary_ko": "애니메이션 공식 이벤트",
+  "ps": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-10-05T10:00",
+    "e": "2026-10-12T23:59"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-23T10:00"
+   }
+  ]
  },
  {
   "title": "高橋和希原画展 YU-GI-OH! ART WORKS",
@@ -11866,7 +12091,8 @@
   "scanned": true,
   "image": "https://cimg.kgl-systems.io/camion/files/92087/ogp_znKm.jpg?x=1280",
   "title_ko": "『데이트·아·라이브』천제 셔츠의 입는 방법을 자유롭게 조정 가능, 그 안에는 호사스러운…! 1/4스케일의 빅 사이즈도 기쁜 토키사키 미츠조의 신작 피규어",
-  "summary_ko": ""
+  "summary_ko": "",
+  "ps": true
  },
  {
   "title": "【くら寿司×にじさんじ】コラボ第3弾が10/30開催！ 剣持刀也らの限定メニューやグッズ登場",
@@ -11914,7 +12140,8 @@
   "image": "https://cimg.kgl-systems.io/camion/files/92077/ogp_Ubby.jpg?x=1280",
   "title_ko": "『퍼즈드라』×『약사의 혼잣말』 첫 콜라보레이션 개막! 마오마오나 진시가 등장하는 갓페스 개최",
   "summary_ko": "",
-  "tg": "bf6c"
+  "tg": "bf6c",
+  "ps": true
  },
  {
   "title": "アサヒビール「攻殻機動隊」コラボ 缶をスキャンするとAR演出を楽しめる",
@@ -11959,7 +12186,8 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "업랜드 주최의 VTuber 라이브 「＊ASTERISK」개최 결정! 장소는 VRChat의 \"Virtual Sanrio Puroland\"",
-  "summary_ko": "2026년 12월 12일, VRChat 상의 가상 테마파크 「Virtual Sanrio Puroland」에서 VTuber 음악 라이브 이벤트 「*ASTERISK in Virtual Sanrio Puroland」 […] The post 업랜드 주최의 VTuber라"
+  "summary_ko": "2026년 12월 12일, VRChat 상의 가상 테마파크 「Virtual Sanrio Puroland」에서 VTuber 음악 라이브 이벤트 「*ASTERISK in Virtual Sanrio Puroland」 […] The post 업랜드 주최의 VTuber라",
+  "ps": true
  },
  {
   "title": "しろたんふんわりストア in 池袋 2会場 10月27日より開催!",
@@ -12075,7 +12303,8 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "헌터 헌터 NEON DINER in 애니메이트 11월 13일부터 개최!",
-  "summary_ko": "「HUNTER×HUNTER」와 애니메이트 카페의 콜라보레이션 「NEON DINER(네온 다이너)」가, 2026년 11월 13일부터 애니메이트 카페 이케부쿠로 3호점·나고야 2호점, 11월 19일부터 애니메이트 카페 스탠드 라식 후쿠오카 텐진에서 개최 결정!신작 일러스트를 사용"
+  "summary_ko": "「HUNTER×HUNTER」와 애니메이트 카페의 콜라보레이션 「NEON DINER(네온 다이너)」가, 2026년 11월 13일부터 애니메이트 카페 이케부쿠로 3호점·나고야 2호점, 11월 19일부터 애니메이트 카페 스탠드 라식 후쿠오카 텐진에서 개최 결정!신작 일러스트를 사용",
+  "ps": true
  },
  {
   "title": "にじさんじ × くら寿司 コラボ第3弾 10月30日より開催!",
@@ -12529,7 +12758,8 @@
   "scanned": true,
   "image": "https://asset.panora.tokyo/wp-content/uploads/2026/10/26180804/181923-14-61c29ab6cb7ccc17e84d296a169ffdfc-2180x1226-1.webp",
   "title_ko": "간사이 시그널, 메타 버스로 가상 앰배서더 「나루」의 데뷔 라이브를 개최",
-  "summary_ko": "간사이 시그널 서비스 주식회사 교통 인프라 사업을 전개하는 간사이 시그널 서비스 주식회사(본사:교토시 미나미구 대표 이사:미츠노 마사히로, 이하 당사)는, 가상 음악 사무소·메타버스 사업을 전개하는 주식회사 STAR Collect The post 간사이 시그널, 메타버스로 가상"
+  "summary_ko": "간사이 시그널 서비스 주식회사 교통 인프라 사업을 전개하는 간사이 시그널 서비스 주식회사(본사:교토시 미나미구 대표 이사:미츠노 마사히로, 이하 당사)는, 가상 음악 사무소·메타버스 사업을 전개하는 주식회사 STAR Collect The post 간사이 시그널, 메타버스로 가상",
+  "ps": true
  },
  {
   "title": "ゆめかいろプロダクション 第1期生「華咲みもざ」、オリジナル楽曲「Smile Ready!」のMVを公開",
@@ -12696,7 +12926,8 @@
   "addedAt": "2026-10-26T18:38:48.339174+09:00",
   "scanned": true,
   "title_ko": "VRChat 뮤직 페스티벌 'ESPERA'에 키즈나 아이, 사루가 하루 등 9팀이 집결하다 출연자들과 VRChat의 뜻밖의 인연",
-  "summary_ko": "버추얼 아티스트 사무소 RIOT MUSIC과 컬처 엔터테인먼트가 공동 개최하는 가상 음악 페스티벌 'ESPERA -AdHoc Live Festival 2026-'의 출연자가 발표됐다. 11월 20일(금)~22일(일)의 3일간 개최되는 본 이벤트. 10월 2"
+  "summary_ko": "버추얼 아티스트 사무소 RIOT MUSIC과 컬처 엔터테인먼트가 공동 개최하는 가상 음악 페스티벌 'ESPERA -AdHoc Live Festival 2026-'의 출연자가 발표됐다. 11월 20일(금)~22일(일)의 3일간 개최되는 본 이벤트. 10월 2",
+  "ps": true
  },
  {
   "title": "Number_i、初の5大ドームツアー開幕　5ヶ月ぶりの札幌で味噌ラーメンを食べる",
