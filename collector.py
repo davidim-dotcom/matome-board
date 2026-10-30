@@ -1348,11 +1348,23 @@ def gloss_pre(text):
     return text
 
 
+GLOSS_SP = {ko: re.compile(r"\s*".join(re.escape(c) for c in re.sub(r"\s", "", ko))) for _, ko in GLOSS}
+
+
+def gloss_fix(it):
+    """구글 번역이 미리 넣은 한국어 이름도 띄어 쓴다(홀로라이브 → 홀로 라이브). 원문에 그 작품이 있으면 띄어쓰기만 다른 표기를 용어집 표기로 되돌린다."""
+    src = it.get("title", "") + "\n" + it.get("summary", "")
+    for ja, ko in GLOSS:
+        if ja in src:
+            for k in ("title_ko", "summary_ko"):
+                if it.get(k): it[k] = GLOSS_SP[ko].sub(ko, it[k])
+
+
 def gloss_miss(it):
-    """용어집 작품 이름이 원문에 있는데 번역문에 한국어 이름이 없으면 True(예전 번역 다시 하기)"""
+    """용어집 작품 이름이 원문에 있는데 번역문에 한국어 이름이 없으면 True(예전 번역 다시 하기). 띄어쓰기는 무시."""
     if it.get("tg") == GLOSS_VER: return False
-    src, ko = it.get("title", "") + "\n" + it.get("summary", ""), it.get("title_ko", "") + "\n" + it.get("summary_ko", "")
-    return any(ja in src and k not in ko for ja, k in GLOSS)
+    src, ko = it.get("title", "") + "\n" + it.get("summary", ""), re.sub(r"\s", "", it.get("title_ko", "") + it.get("summary_ko", ""))
+    return any(ja in src and re.sub(r"\s", "", k) not in ko for ja, k in GLOSS)
 
 
 def translate_items(items):
@@ -1362,7 +1374,7 @@ def translate_items(items):
     done = 0
     for it in items:
         if "title_ko" in it and not gloss_miss(it):
-            continue
+            gloss_fix(it); continue
         if done >= TRANSLATE_MAX:
             break
         try:
@@ -1372,6 +1384,7 @@ def translate_items(items):
                 sko = translate_ja_ko(gloss_pre(it["summary"]))[:400] if it.get("summary") and JA_RE.search(it["summary"]) else ""
                 time.sleep(0.2)
                 it["title_ko"], it["summary_ko"] = tko, sko
+                gloss_fix(it)
                 if any(ja in it["title"] + it.get("summary", "") for ja, _ in GLOSS): it["tg"] = GLOSS_VER
             else:
                 it["title_ko"], it["summary_ko"] = "", ""
