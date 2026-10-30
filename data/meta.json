@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-30T19:02:14.997744+09:00",
+ "updated": "2026-10-30T19:38:41.779173+09:00",
  "trends": [
   "ちいかわ",
   "薬屋のひとりごと",
@@ -46,147 +46,115 @@
  "sources": [
   {
    "n": "アニメ!アニメ!",
-   "ok": true,
-   "c": 19,
-   "raw": 50,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "アニメハック",
-   "ok": true,
-   "c": 7,
-   "raw": 20,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "アニメハック イベント",
-   "ok": true,
-   "c": 109,
-   "raw": 109,
-   "new": 4,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "電撃オンライン",
-   "ok": true,
-   "c": 15,
-   "raw": 100,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "4Gamer",
-   "ok": true,
-   "c": 13,
-   "raw": 100,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "インサイド",
-   "ok": true,
-   "c": 11,
-   "raw": 50,
-   "new": 1,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "GAME Watch",
-   "ok": true,
-   "c": 6,
-   "raw": 29,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "MoguLive",
-   "ok": true,
-   "c": 4,
-   "raw": 10,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "コラボカフェ",
-   "ok": true,
-   "c": 26,
-   "raw": 40,
-   "new": 1,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "原画展.info",
-   "ok": true,
-   "c": 10,
-   "raw": 10,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "スイーツパラダイス",
-   "ok": true,
-   "c": 9,
-   "raw": 10,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "PANORA",
-   "ok": true,
-   "c": 5,
-   "raw": 12,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "KAI-YOU",
-   "ok": true,
-   "c": 9,
-   "raw": 20,
-   "new": 2,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "ホロライブ公式",
-   "ok": true,
-   "c": 9,
-   "raw": 10,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "ぶいすぽっ！公式",
-   "ok": true,
-   "c": 0,
-   "raw": 54,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "にじさんじ公式",
-   "ok": true,
-   "c": 11,
-   "raw": 12,
-   "new": 1,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   },
   {
    "n": "Hololive",
@@ -204,13 +172,46 @@
    "e": "HOLODEX_API_KEY 없음(건너뜀)"
   },
   {
+   "n": "한국 뉴스(애니 팝업스토어)",
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": ""
+  },
+  {
+   "n": "한국 뉴스(애니메이션 콜라보 카페)",
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": ""
+  },
+  {
+   "n": "한국 뉴스(애니 전시회)",
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": ""
+  },
+  {
+   "n": "한국 뉴스(애니 내한 공연)",
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": ""
+  },
+  {
+   "n": "한국 뉴스(일본 애니 콜라보)",
+   "ok": false,
+   "e": "name 'UA' is not defined",
+   "f": 1,
+   "at": ""
+  },
+  {
    "n": "Togetter(X 화제)",
-   "ok": true,
-   "c": 110,
-   "raw": 110,
-   "new": 0,
-   "at": "2026-10-30T19:02+09:00",
-   "zr": 0
+   "ok": false,
+   "e": "hot: name 'UA' is not defined; news: name 'UA' is not defined",
+   "f": 1,
+   "at": "2026-10-30T19:02+09:00"
   }
  ]
 }
