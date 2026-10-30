@@ -177,6 +177,10 @@ def t_gloss():
     assert C.gloss_miss(it)
     C.translate_items([it])
     assert "약사의 혼잣말" in it["title_ko"] and it.get("tg") == C.GLOSS_VER and not C.gloss_miss(it)
+    it = {"title": "ホロライブ 3Dライブ", "title_ko": "홀로 라이브 3D 라이브", "summary": "", "summary_ko": ""}
+    assert not C.gloss_miss(it)  # 띄어쓰기만 다르면 다시 번역하지 않고
+    C.translate_items([it])
+    assert it["title_ko"] == "홀로라이브 3D 라이브", it["title_ko"]  # 표기만 고친다
 
 
 def t_weekly():
