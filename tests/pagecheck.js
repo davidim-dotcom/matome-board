@@ -66,6 +66,15 @@ async function run(dev) {
   const ov = await page.evaluate(OVERFLOW);
   if (ov.length) bad.push(`${dev} 작품 허브: 화면 밖으로 넘침 → ${ov.join(" | ")}`);
   console.log(`${hub && !ov.length ? "OK  " : "FAIL"} ${dev} 작품 허브`);
+  // 여행 플래너 주소(#trip=)로 바로 들어오는 길
+  const d0 = new Date(Date.now() + 9 * 36e5 + 7 * 864e5).toISOString().slice(0, 10), d1 = new Date(Date.now() + 9 * 36e5 + 10 * 864e5).toISOString().slice(0, 10);
+  await page.goto(`http://127.0.0.1:${PORT}/#trip=${d0}~${d1},kanto`, { waitUntil: "load" });
+  await page.waitForTimeout(2000);
+  const trip = await page.evaluate(() => !!document.querySelector("#sched .trip-sum") && !document.getElementById("sched").hidden);
+  if (!trip) bad.push(`${dev}: #trip= 주소로 여행 플래너가 안 열림`);
+  const ov2 = await page.evaluate(OVERFLOW);
+  if (ov2.length) bad.push(`${dev} 여행 플래너: 화면 밖으로 넘침 → ${ov2.join(" | ")}`);
+  console.log(`${trip && !ov2.length ? "OK  " : "FAIL"} ${dev} 여행 플래너`);
   await browser.close();
 }
 
