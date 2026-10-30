@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (10/30 기준)",
+ "src": "AniList 방영 정보 (10/31 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 764295
+   "w": 764559
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81067
+   "w": 81093
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -386,7 +386,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20312
+   "w": 20320
   },
   {
    "t": "桃源暗鬼 日光・華厳の滝編",
@@ -652,7 +652,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8040
+   "w": 8041
   },
   {
    "t": "幻想水滸伝",
@@ -917,7 +917,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2563
+   "w": 2562
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -941,7 +941,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2253
+   "w": 2255
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -965,7 +965,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1905
+   "w": 1904
   },
   {
    "t": "ケロロ軍曹☆",
@@ -1159,7 +1159,7 @@
    "pv": "",
    "site": "http://www9.nhk.or.jp/anime/ojaru/",
    "x": "",
-   "w": 693
+   "w": 692
   },
   {
    "t": "おでかけ子ザメ シーズン2",
@@ -1364,7 +1364,7 @@
    "pv": "",
    "site": "https://www.webtsc.com/prog/anime/shimajiro/",
    "x": "ShimaWowStaff",
-   "w": 239
+   "w": 238
   },
   {
    "t": "のりプロアニメ",
