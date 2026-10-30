@@ -62,6 +62,40 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 .hotbadge{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px}
 /* 주간 요약(data/weekly.json, 사람이 쓰는 글): 번호 매긴 소식 몇 개 + 보드 밖에서 찾은 배경 설명 */
+/* 작품 허브 */
+.wh-head h2{margin:12px 0 2px;font-size:20px}
+.wh-q{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;background:var(--surface);color:var(--ink);margin:8px 0 10px}
+.wh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.wh-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;min-width:0}
+.wh-card .n{font-weight:700;font-size:14px;line-height:1.3;overflow-wrap:anywhere}
+.wh-card .ko{font-size:12px;color:var(--muted)}
+.wh-card .m{font-size:12px;color:var(--muted);margin-top:2px}
+.wh-card .m b{color:var(--pink);font-weight:700;margin-right:6px}
+.wh-card:hover{border-color:var(--pink)}
+.wh-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.wh-title{font-size:22px;margin:6px 0 0;line-height:1.3;overflow-wrap:anywhere}
+.wh-ko{color:var(--muted);font-size:14px;margin:2px 0 0}
+.wh-badges{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.wh-badges span{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--pink-soft);color:var(--pink)}
+.wh-badges span.c{background:color-mix(in srgb,var(--cyan) 14%,transparent);color:var(--cyan)}
+.wh-sec{margin:18px 0 6px;font-size:15px;display:flex;align-items:baseline;gap:8px}
+.wh-sec small{font-weight:400;color:var(--muted);font-size:12px}
+.wh-trend svg{display:block;width:100%;height:56px;background:var(--surface);border-radius:10px;padding:6px 6px 2px;box-sizing:border-box}
+.wh-trend rect{fill:var(--pink)}
+.wh-trend rect.z{fill:var(--line)}
+.wh-axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px}
+.wh-wk{background:var(--surface);border-radius:12px;padding:12px 14px;margin:8px 0}
+.wh-wk h4{margin:0 0 4px;font-size:15px;line-height:1.4}
+.wh-wk .wf{font-size:12px;color:var(--muted);margin-bottom:6px}
+.wh-wk p{margin:0;font-size:14px;line-height:1.65}
+.wh-wk .src{font-size:12px;margin-top:6px;color:var(--muted)}
+.wh-wk .src a{color:var(--cyan)}
+.wh-cm{background:var(--surface);border-radius:12px;padding:12px 14px;margin:8px 0}
+.wh-cm .nm{font-weight:700}
+.wh-cm .last{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.wh-more{display:block;margin:8px auto;}
+.meta .wtags a{color:inherit;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:3px}
+a.wk-work{text-decoration:none}
 .wk-head{margin:12px 0 4px}
 .wk-kicker{font-family:"Black Han Sans","Noto Sans JP",sans-serif;font-size:22px;line-height:1.2;margin:0}
 .wk-range{color:var(--muted);font-size:13px;margin:2px 0 8px}
@@ -326,6 +360,7 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="feed" aria-selected="true">피드<span class="cnt" id="cFeed"></span></button>
     <button role="tab" data-tab="sched" aria-selected="false">캘린더</button>
     <button role="tab" data-tab="weekly" aria-selected="false">주간 요약</button>
+    <button role="tab" data-tab="works" aria-selected="false">작품</button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
@@ -338,6 +373,7 @@ textarea{min-height:110px;resize:vertical}
   <section id="feed"></section>
   <section id="sched" hidden></section>
   <section id="weekly" hidden></section>
+  <section id="works" hidden></section>
   <section id="anime" hidden></section>
   <section id="comics" hidden></section>
   <section id="about" hidden>
@@ -427,6 +463,36 @@ function fmt(v){const d=parseDate(v);if(!d)return"";const t=hm(d);return jst(d,{
 function toLocalInput(v){const d=parseDate(v);if(!d)return"";const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(d).map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}T${p.hour==="24"?"00":p.hour}:${p.minute}`}
 function fromLocalInput(v){return v?v+":00+09:00":""}
 
+/* ---------- 작품 이름 정리 ----------
+   같은 작품을 같은 키로 본다: NFKC·소문자·공백·문장부호를 뗀 키(collector.py 의 wkey 와 같은 규칙). data/works.json 의
+   alias(다른 이름 → 대표 이름)·ko(허브에 같이 보일 한국어 이름)·skip(작품이 아닌 이름). 'X 부제'는 X 가 작품이면 X 로 묶는다. */
+const WK_STRIP=/[\s・·:!?~〜\-_.,()\[\]【】「」『』'"\/|&＆×✕]/g;
+const wnorm=s=>String(s||"").normalize("NFKC").toLowerCase();
+const wkey=n=>wnorm(n).replace(WK_STRIP,"");
+const cleanName=n=>String(n||"").replace(/^[『「【\s]+|[』」】\s]+$/g,"").trim();
+const WORKS={alias:new Map(),ko:new Map(),skip:new Set(),parents:new Map(),variants:new Map()};
+let trendNames=[]; // meta.json 의 유행 작품(대표 이름, 순위순)
+function canonBase(n){const c=cleanName(n).slice(0,60);return WORKS.alias.get(wkey(c))||c}
+function setWorks(raw,names){
+  const r=raw&&typeof raw==="object"?raw:{}, al=r.alias&&typeof r.alias==="object"?r.alias:{}, ko=r.ko&&typeof r.ko==="object"?r.ko:{};
+  WORKS.alias=new Map(Object.entries(al).map(([k,v])=>[wkey(k),String(v).slice(0,60)]).filter(([k,v])=>k&&v));
+  WORKS.ko=new Map(Object.entries(ko).map(([k,v])=>[wkey(k),String(v).slice(0,60)]).filter(([k])=>k));
+  WORKS.skip=new Set((Array.isArray(r.skip)?r.skip:[]).map(wkey).filter(Boolean));
+  WORKS.parents=new Map(); // 키 → 대표 이름(유행 작품·별칭 대상·한국어 이름이 있는 작품)
+  const addP=n=>{const c=canonBase(n),k=wkey(c);if(k.length>=2&&!WORKS.skip.has(k)&&!WORKS.parents.has(k))WORKS.parents.set(k,c)};
+  [...WORKS.alias.values(),...Object.keys(ko)].forEach(addP);
+  const one=names.filter(n=>!/[\s　]/.test(cleanName(n)));one.forEach(addP); // 유행 이름 중 'X 부제'는 X 가 작품이면 X 로(예전 수집기의 meta 에는 부제가 따로 올라 있다)
+  for(const n of names){if(one.includes(n))continue;const head=canonBase(cleanName(n).split(/[\s　]+/)[0]);if(!WORKS.parents.has(wkey(head)))addP(n)}
+  WORKS.variants=new Map([...WORKS.parents].map(([k,c])=>[k,new Set([wnorm(c)])])); // 제목·요약에서 찾을 표기: 대표 이름 + 3글자 이상 별칭
+  for(const [a,v] of Object.entries(al)){const k=wkey(v);if(WORKS.variants.has(k)&&wkey(a).length>=3)WORKS.variants.get(k).add(wnorm(a))}
+}
+function canonWork(n){
+  const c=canonBase(n),k=wkey(c); if(WORKS.parents.has(k)) return WORKS.parents.get(k);
+  const head=canonBase(c.split(/[\s　]+/)[0]),hk=wkey(head);
+  return hk!==k&&WORKS.parents.has(hk)?WORKS.parents.get(hk):c;
+}
+function canonList(arr){const out=[],seen=new Set();for(const w of arr){const c=canonWork(w),k=wkey(c);if(c&&k&&!seen.has(k)){seen.add(k);out.push(c)}}return out}
+
 /* ---------- normalize ---------- */
 // 수집 소스가 장소를 못 찾으면 東京都庁 좌표를 넣는다(秋葉原 행사가 新宿에 찍히는 원인). 그런 좌표는 버린다.
 function geoOk(g,venue){
@@ -440,7 +506,7 @@ function normalize(raw){
     category:CATS[raw.category]?raw.category:"other",
     source:String(raw.source||"").trim(),
     platform:String(raw.platform||"").trim(),
-    works:(Array.isArray(raw.works)?raw.works:String(raw.works||"").split(/[,、]/)).map(s=>String(s).trim()).filter(Boolean).slice(0,8),
+    works:canonList((Array.isArray(raw.works)?raw.works:String(raw.works||"").split(/[,、]/)).map(s=>String(s).trim()).filter(Boolean)).slice(0,8),
     eventDate:raw.eventDate||"", endDate:raw.endDate||"", ticketOpen:raw.ticketOpen||"", deadline:raw.deadline||"",
     venue:String(raw.venue||"").trim().slice(0,80),
     address:String(raw.address||"").trim().slice(0,80),
@@ -464,9 +530,11 @@ function flush(){try{localStorage.setItem(KEY,JSON.stringify({S:{watching:S.watc
 async function getJSON(path,fallback){try{const r=await fetch(path+"?v="+Math.floor(Date.now()/600000),{cache:"no-store"});if(!r.ok)return fallback;return await r.json()}catch{return fallback}}
 async function initStore(){
   loadLocal(); render();
-  const [auto,manual,block,anime,thumbMap,meta]=await Promise.all([
+  const [auto,manual,block,anime,thumbMap,meta,worksRaw]=await Promise.all([
     getJSON("data/items.json",[]),getJSON("data/manual.json",[]),getJSON("data/blocklist.json",{}),
-    getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{})]);
+    getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{}),getJSON("data/works.json",{})]);
+  const tn=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x)).filter(Boolean).slice(0,20);
+  setWorks(worksRaw,tn); trendNames=canonList(tn);
   const bu=new Set(block.urls||[]), bt=(block.titles||[]).map(x=>String(x).toLowerCase()), bi=new Set(block.ids||[]);
   items=new Map();
   for(const raw of [...(Array.isArray(manual)?manual:[]),...(Array.isArray(auto)?auto:[])]){
@@ -475,7 +543,7 @@ async function initStore(){
   }
   if(anime&&Array.isArray(anime.list)) season={id:anime.season||"current",name:anime.name||"",src:anime.src||"",list:anime.list.map(normAnime).filter(a=>a.t)};
   thumbs=new Map(Object.entries(thumbMap||{}).filter(([,v])=>typeof v==="string"&&/^(data\/thumbs\/[\w.\-]+|https:\/\/)/.test(v)).map(([k,v])=>[tkey(k),v]));
-  trends=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x).toLowerCase()).filter(Boolean).slice(0,20);
+  trends=trendNames.map(x=>x.toLowerCase());
   if(meta.updated){const d=new Date(meta.updated);$("#storeNote").innerHTML=`일본 게임·애니·버튜버·만화 소식<br><span style="white-space:nowrap">${esc(jst(d,{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}))} 업데이트</span>`}
   render();
 }
@@ -518,7 +586,7 @@ function rowHtml(it,ev,cls=""){
   if(it.deadline) facts.push(`<span class="${near(it.deadline)?"hot":""}">마감 ${esc(fmt(it.deadline))}</span>`);
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
-    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${hotScore(it).why===1?"유행":"방영 중"}</span>`:""}${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span>${esc(it.works.join(", "))}</span>`:""}</div>
+    <div class="meta"><span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${hotScore(it).why===1?"유행":"방영 중"}</span>`:""}${it.source?`<span>${esc(it.source)}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
     <div class="title">${esc(tx(it,"title"))}</div>
     ${tx(it,"summary")?`<p class="sum">${esc(tx(it,"summary"))}</p>`:""}
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
@@ -549,6 +617,7 @@ function render(){
     + (feed.length?feed.map(x=>rowHtml(x.it,x.ev)).join(""):`<div class="empty">${filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
   renderCalendar(shown);
   renderAnime(all);
+  if(!$("#works").hidden) renderWorks();
 }
 /* ---------- feed helpers ---------- */
 function notOver(x){const e=parseDate(x.it.endDate)||parseDate(x.it.eventDate);return !e||e>Date.now()-DAY/2}
@@ -722,7 +791,7 @@ function renderAnime(all){
         ${a.pv?`<a class="lnk" href="${esc(a.pv)}" target="_blank" rel="noopener">PV</a>`:""}
         ${a.site?`<a class="lnk" href="${esc(a.site)}" target="_blank" rel="noopener">공식 사이트</a>`:""}
         ${a.x?`<a class="lnk" href="https://x.com/${esc(a.x)}" target="_blank" rel="noopener">공식 X</a>`:""}
-        ${rel?`<span class="note">관련 소식 ${rel}건</span>`:""}
+        ${rel?`<a class="lnk" href="#work=${esc(encodeURIComponent(baseTitle(a.t)))}" data-work="${esc(baseTitle(a.t))}">관련 소식 ${rel}건 ›</a>`:""}
       </div></div></article>`}).join("");
   el.innerHTML=`<p class="aside">${esc(season.name)} · ${season.list.length}편${season.src?" · 출처 "+esc(season.src):""}</p><div class="filters">${chips}</div>`
     +(rows||`<div class="empty">${animeOnlyWatch?"‘보는 중에 추가’를 누른 작품이 여기 모여요.":"이 요일에 방송하는 작품이 없어요."}</div>`)
@@ -816,7 +885,7 @@ function renderWeekly(){
       return `<li><a href="${esc(u)}" target="_blank" rel="noopener"><span class="d">원문</span>${esc(u.replace(/^https?:\/\//,"").slice(0,70))}</a></li>`}).join("");
     const src=p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||l.url.replace(/^https?:\/\//,""))}</a>`).join(" · ");
     return `<li class="wk"><div class="wk-no">${i+1}</div><div>
-      <div class="meta"><span class="cat cat-${p.category}">${CATS[p.category]}</span>${p.tag?`<span class="hotbadge">${esc(p.tag)}</span>`:""}${p.works.map(w=>`<span class="wk-work">${esc(w)}</span>`).join("")}</div>
+      <div class="meta"><span class="cat cat-${p.category}">${CATS[p.category]}</span>${p.tag?`<span class="hotbadge">${esc(p.tag)}</span>`:""}${p.works.map(w=>`<a class="wk-work" href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join("")}</div>
       <h3 class="wk-title">${esc(p.title)}</h3>
       <div class="wk-facts">${p.when?`<span><b>언제</b>${esc(p.when)}</span>`:""}${p.where?`<span><b>어디서</b>${esc(p.where)}</span>`:""}</div>
       <p class="wk-desc">${esc(p.desc)}</p>
@@ -826,6 +895,91 @@ function renderWeekly(){
   el.innerHTML=`<div class="wk-head"><h2 class="wk-kicker">${esc(weekly.title||"이번 주 요약")}</h2>${weekly.range?`<p class="wk-range">${esc(weekly.range)}${weekly.updated?` · ${esc(weekly.updated)} 정리`:""}</p>`:""}</div>
     <ol class="wk-list">${li}</ol>`;
 }
+/* ---------- 작품 허브(작품 탭, 주소 #work=이름) ----------
+   한 작품의 지금 소식·방영·만갤·유행 추이·주간 요약을 한 화면에. 데이터는 이미 있는 파일만 엮는다(trends.json 은 허브를 열 때 읽음). */
+let workSel=null, workQ="", workAll=false, trendHist=null, trendTried=false;
+function workOf(name){const c=canonWork(name),k=wkey(c);return {name:c,key:k,ko:WORKS.ko.get(k)||"",vars:[...(WORKS.variants.get(k)||[wnorm(c)])].filter(v=>wkey(v).length>=2)}}
+const itemText=it=>it._wn||(it._wn=wnorm(it.title+" "+it.summary+" "+it.title_ko));
+function itemHasWork(it,w){return it.works.some(x=>wkey(x)===w.key)||w.vars.some(v=>itemText(it).includes(v))}
+function animeHas(a,w){const t=wkey(baseTitle(a.t));return w.key.length>=2&&(t.includes(w.key)||(t.length>=4&&w.key.includes(t)))}
+function comicHas(x,w){const t=wkey(x.title||x.name);return w.key.length>=2&&(t.includes(w.key)||(t.length>=4&&w.key.includes(t)))}
+async function loadTrendHist(){if(trendTried)return;trendTried=true;const r=await getJSON("data/trends.json",null);trendHist=r&&r.history&&typeof r.history==="object"?r.history:{}}
+function trendSeries(w){ // 최근 14일, 날마다 그 작품 이름이 나온 기사 수(같은 작품의 다른 표기·부제 포함)
+  const days=Object.keys(trendHist||{}).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).sort().slice(-14);
+  return days.map(d=>{let c=0;const v=trendHist[d];if(v&&typeof v==="object")for(const [n,x] of Object.entries(v))if(Number.isFinite(x)&&wkey(canonWork(n))===w.key)c+=x;return {d,c}});
+}
+function trendHtml(sr){
+  if(!sr.length||!sr.some(x=>x.c)) return "";
+  const mx=Math.max(...sr.map(x=>x.c)),W=sr.length*10,H=40,day=d=>d.slice(5).replace("-","/");
+  return `<div class="wh-trend"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="최근 ${sr.length}일 기사 언급 수">${sr.map((x,i)=>{const h=x.c?Math.max(2,x.c/mx*(H-2)):1;return `<rect class="${x.c?"":"z"}" x="${i*10+1}" y="${H-h}" width="8" height="${h}" rx="1.5"><title>${esc(day(x.d))} · ${x.c}건</title></rect>`}).join("")}</svg>
+    <div class="wh-axis"><span>${esc(day(sr[0].d))}</span><span>하루 최대 ${mx}건 · 합계 ${sr.reduce((a,x)=>a+x.c,0)}건</span><span>${esc(day(sr[sr.length-1].d))}</span></div></div>`;
+}
+function workIndex(){
+  const map=new Map(), live=[...items.values()].filter(it=>notOver({it}));
+  const add=n=>{const w=workOf(n);if(w.key.length<2||WORKS.skip.has(w.key)||map.has(w.key))return;map.set(w.key,{...w,live:0,rank:0,air:false})};
+  trendNames.forEach(add); for(const it of live) it.works.forEach(add);
+  for(const e of map.values()){e.rank=trendNames.findIndex(x=>wkey(x)===e.key)+1;e.live=live.filter(it=>itemHasWork(it,e)).length;e.air=!!(season&&season.list.some(a=>animeHas(a,e)))}
+  return [...map.values()].filter(e=>e.live||e.rank).sort((a,b)=>(a.rank||99)-(b.rank||99)||b.live-a.live||a.name.localeCompare(b.name,"ja"));
+}
+function workGrid(){
+  const q=wkey(workQ), list=workIndex().filter(e=>!q||e.key.includes(q)||wkey(e.ko).includes(q));
+  const cards=list.map(e=>`<button type="button" class="wh-card" data-work="${esc(e.name)}"><span class="n">${esc(e.name)}</span>${e.ko?`<span class="ko">${esc(e.ko)}</span>`:""}<span class="m">${e.rank?`<b>유행 ${e.rank}위</b>`:""}${[e.live?`소식 ${e.live}`:"",e.air?"방영 중":""].filter(Boolean).join(" · ")}</span></button>`).join("");
+  const free=workQ.trim()&&!list.some(e=>e.key===q)?`<button type="button" class="wh-card" data-work="${esc(workQ.trim())}"><span class="n">「${esc(workQ.trim())}」</span><span class="m">이 이름으로 모아 보기</span></button>`:"";
+  return cards+free||`<div class="empty">찾는 작품이 없어요.</div>`;
+}
+function renderWorks(){
+  const el=$("#works"); if(!el) return;
+  if(!workSel){
+    el.innerHTML=`<div class="wh-head"><h2>작품</h2><p class="aside">유행 순위에 오른 작품과 지금 소식이 있는 작품이에요. 누르면 그 작품의 소식·방영·만갤·유행 추이를 한 화면에서 봐요. 피드 카드의 작품 이름을 눌러도 와요.</p></div>
+      <input type="search" class="wh-q" id="whQ" placeholder="작품 이름 검색 (일본어·한국어)" value="${esc(workQ)}" autocomplete="off"><div class="wh-grid" id="whGrid">${workGrid()}</div>`;
+    return;
+  }
+  const w=workOf(workSel), now=Date.now(), all=[...items.values()];
+  const mine=all.filter(it=>itemHasWork(it,w)), live=mine.filter(it=>notOver({it}));
+  const when=it=>parseDate(it.eventDate)||Infinity;
+  live.sort((a,b)=>{const da=when(a),db=when(b);const fa=da!==Infinity&&da>now-DAY,fb=db!==Infinity&&db>now-DAY;return (fb-fa)||(fa?da-db:new Date(b.addedAt)-new Date(a.addedAt))});
+  const rank=trendNames.findIndex(x=>wkey(x)===w.key)+1;
+  const ani=season?season.list.filter(a=>animeHas(a,w)):[];
+  const cms=comics?comics.series.filter(x=>comicHas(x,w)):[];
+  const picks=weekly&&weekly.picks?weekly.picks.filter(p=>p.works.some(x=>wkey(canonWork(x))===w.key)):[];
+  const sr=trendHist?trendSeries(w):[];
+  const badges=[rank?`<span>유행 ${rank}위</span>`:"",live.length?`<span class="c">소식 ${live.length}건</span>`:"",ani.length?`<span class="c">방영 중</span>`:"",cms.length?`<span class="c">만갤 연재</span>`:""].join("");
+  const todayIso=new Date().toLocaleDateString("sv-SE",{timeZone:"Asia/Tokyo"}), ws=new Set(S.watching);
+  const aniHtml=ani.map(a=>{const meta=[a.d<7?DAYS[a.d]+"요일":DAYS[a.d],a.tm&&esc(a.tm)+" JST",a.st&&esc(a.st),a.s&&(a.s>todayIso?`<span class="soon">${esc(a.s.slice(5).replace("-","/"))} 시작</span>`:"")].filter(Boolean).join(" · ");
+    const img=thumbs.get(tkey(a.t)),hue=parseInt(hashId(a.t).slice(1),36)%360;
+    const pic=img?`<img class="thumb" src="${esc(img)}" alt="" loading="lazy">`:`<div class="tile" style="background:linear-gradient(160deg,hsl(${hue} 35% 62%),hsl(${(hue+40)%360} 40% 38%))" aria-hidden="true"></div>`;
+    return `<article class="row arow" data-anime="${esc(a.t)}"><div class="thumbcol">${pic}<div class="tm">${a.tm?esc(a.tm):(a.d<7?"–":a.d===7?"스트리밍":"미정")}</div></div><div><div class="meta">${meta}</div><div class="title">${esc(a.t)}</div><div class="actions">
+      <button class="watch" data-act="watch" aria-pressed="${ws.has(a.t)}">${ws.has(a.t)?"보는 중":"보는 중에 추가"}</button>
+      ${a.pv?`<a class="lnk" href="${esc(a.pv)}" target="_blank" rel="noopener">PV</a>`:""}${a.site?`<a class="lnk" href="${esc(a.site)}" target="_blank" rel="noopener">공식 사이트</a>`:""}${a.x?`<a class="lnk" href="https://x.com/${esc(a.x)}" target="_blank" rel="noopener">공식 X</a>`:""}</div></div></article>`}).join("");
+  const cmHtml=cms.map(x=>{const last=x.eps[x.eps.length-1],ri=x.eps.findIndex(e=>(e.u||e.no)===comicRead[x.id]),next=ri>=0&&ri<x.eps.length-1?x.eps[ri+1]:null;
+    const link=(e,label,cls="btn")=>`<a class="${cls}" href="${esc(e.u||dcUrl(e))}" target="_blank" rel="noopener" data-cid="${esc(x.id)}" data-ep="${esc(String(e.u||e.no))}">${label}</a>`;
+    return `<div class="wh-cm"><div class="nm">${esc(x.title)}${next?`<span class="newep">새 화</span>`:""}</div><p class="last">회차 ${x.eps.length}개 · 최신: ${esc(last.title||last.label||"")} · ${esc(relDay(x.updatedAt))} 갱신</p>
+      <div class="actions">${next?link(next,"이어 보기","btn ticket"):""}${link(x.eps[0],"1화부터")}${x.eps.length>1?link(last,"최신화"):""}</div></div>`}).join("");
+  const wkHtml=picks.map(p=>`<div class="wh-wk"><h4>${esc(p.title)}</h4>${p.when?`<div class="wf">${esc(p.when)}${p.where?" · "+esc(p.where):""}</div>`:""}<p>${esc(p.desc)}</p>${p.links.length?`<div class="src">출처 · ${p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||l.url.replace(/^https?:\/\//,""))}</a>`).join(" · ")}</div>`:""}</div>`).join("");
+  const LIM=20, shownLive=workAll?live:live.slice(0,LIM);
+  el.innerHTML=`<div class="wh-top"><button type="button" class="btn ghost" data-workback>← 작품 목록</button><button type="button" class="btn ghost" data-workshare>링크 공유</button></div>
+    <h2 class="wh-title">${esc(w.name)}</h2>${w.ko?`<p class="wh-ko">${esc(w.ko)}</p>`:""}<div class="wh-badges">${badges}</div>
+    ${sr.some(x=>x.c)?`<h3 class="wh-sec">유행 추이 <small>최근 ${sr.length}일, 뉴스 제목·본문에 이름이 나온 기사 수</small></h3>${trendHtml(sr)}`:trendTried?"":`<p class="note">유행 추이를 불러오는 중…</p>`}
+    ${wkHtml?`<h3 class="wh-sec">주간 요약에서 <small>${esc(weekly.range||"")}</small></h3>${wkHtml}`:""}
+    <h3 class="wh-sec">지금 소식 ${live.length}건 <small>다가오는 날짜순 · 날짜 없는 소식은 새로 들어온 순</small></h3>
+    ${live.length?shownLive.map(it=>rowHtml(it,{})).join("")+(live.length>LIM&&!workAll?`<button type="button" class="btn ghost wh-more" data-workall>${live.length-LIM}건 더 보기</button>`:""):`<div class="empty">지금 진행 중이거나 다가오는 소식이 없어요.</div>`}
+    ${mine.length>live.length?`<p class="note">끝난 소식 ${mine.length-live.length}건은 빼고 보여 줘요.</p>`:""}
+    ${aniHtml?`<h3 class="wh-sec">방영 <small>${esc(season.name||"")}</small></h3>${aniHtml}`:""}
+    ${cmHtml?`<h3 class="wh-sec">만갤 연재 <small>누르면 원문(디시)이 열리고 마지막으로 연 화를 기억해요</small></h3>${cmHtml}`:""}`;
+}
+function openWork(name,push=true){
+  workSel=name?canonWork(name):null; workAll=false;
+  if(push){const h=workSel?"#work="+encodeURIComponent(workSel):"#works";if(location.hash!==h)history.pushState(null,"",h)}
+  showTab("works"); window.scrollTo(0,0);
+  if(workSel) Promise.all([loadTrendHist(),loadWeekly(),loadComics()]).then(()=>{if(!$("#works").hidden)renderWorks()});
+}
+function routeHash(){
+  const m=location.hash.match(/^#work=(.+)$/);
+  if(m){let n="";try{n=decodeURIComponent(m[1])}catch{}openWork(n.slice(0,80),false);return true}
+  if(location.hash==="#works"){openWork(null,false);return true}
+  return false;
+}
+window.addEventListener("popstate",()=>{if(!routeHash()&&!$("#works").hidden)showTab("feed")});
 /* ---------- Holo Mobile 스코어 보드 ----------
    스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(합체 보이스는 games/holo-voice.js 가 그 파일 끝에서 로드된다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
    열리는 것을 MutationObserver 로 지켜보고 부제 글("최종 점수: 1,234점 (최고 타일: 512)")에서 점수를 읽는다.
@@ -959,10 +1113,19 @@ function onAction(e){
 (function(){
   const box=$("#mochi"), say=$("#mochiSay"), back=$("#mochiBack");
   // 고정 대사 + 누를 때마다 보드 데이터로 만드는 대사(talkData). 짧게, 말끝은 "~롱"
-  const LINES=["도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?","원문 링크도 꼭 확인해롱","하루 네 번 새 소식이 와롱","캘린더에서 날짜를 눌러 봐롱","지도 열면 도쿄 행사가 보여롱","원문/한국어 바꿀 수 있어롱","만갤 이어 보기 해 봤어롱?","弾幕 탭에서 릴리랑 놀자롱","익명 게시판에 한마디 남겨롱","쓰다듬어 줘서 고마워롱","졸려롱… zzz"];
+  const LINES=["도로롱~♪","로손 다녀왔어롱","오늘도 행사 체크!","티켓 마감 조심~","귤 먹을래롱?","원문 링크도 꼭 확인해롱","하루 네 번 새 소식이 와롱","캘린더에서 날짜를 눌러 봐롱","지도 열면 도쿄 행사가 보여롱","원문/한국어 바꿀 수 있어롱","만갤 이어 보기 해 봤어롱?","작품 이름 누르면 모아 봐롱","弾幕 탭에서 릴리랑 놀자롱","익명 게시판에 한마디 남겨롱","쓰다듬어 줘서 고마워롱","졸려롱… zzz"];
   const cut=(t,n=13)=>{t=String(t||"").replace(/[「」『』]/g,"").replace(/\s+/g," ").trim();return t.length>n?t.slice(0,n)+"…":t};
   function talkData(){
     const out=[],now=Date.now(),live=[...items.values()].filter(it=>notOver({it}));
+    if(workSel&&!$("#works").hidden){ // 작품 허브를 보는 중이면 그 작품 얘기
+      const w=workOf(workSel),n=live.filter(it=>itemHasWork(it,w)).length,r=trendNames.findIndex(x=>wkey(x)===w.key)+1,nm=cut(w.name,6);
+      const soon=live.filter(it=>itemHasWork(it,w)).map(it=>parseDate(it.eventDate)).filter(d=>d&&d>now).sort((a,b)=>a-b)[0];
+      if(n)out.push(`「${nm}」 소식 ${n}개야롱`); if(r)out.push(`「${nm}」 유행 ${r}위야롱`);
+      if(soon){const dd=Math.ceil((soon-now)/DAY);out.push(dd<=1?"내일까지 일정 있어롱!":`다음 일정은 ${dd}일 뒤야롱`)}
+      out.push("링크 공유로 친구한테 보내롱");
+      return out.filter(t=>t.length<=18);
+    }
+    if(trendNames.length){const k=trendNames[0];if(k.length<=7)out.push(`작품 탭에서 「${k}」 봐롱`)}
     if(live.length) out.push(`지금 소식 ${live.length}개 모아놨어롱`);
     if(trends.length){const k=trends[Math.floor(Math.random()*Math.min(5,trends.length))];if(k.length<=8)out.push(`요즘 「${k}」 얘기가 많아롱`)}
     const week=live.filter(it=>{const d=parseDate(it.eventDate);return d&&d>now&&d-now<7*DAY});
@@ -986,13 +1149,29 @@ function onAction(e){
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
 })();
+function showTab(target){
+  document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
+  const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
+  document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
+  if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();
+  if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
+}
+document.addEventListener("input",e=>{if(e.target.id==="whQ"){workQ=e.target.value;const g=$("#whGrid");if(g)g.innerHTML=workGrid()}});
 document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
 document.addEventListener("keydown",e=>{const p=e.target.closest&&e.target.closest("[data-pin]");if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
-  if(tab){const target=tab.dataset.tab;document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===target));
-    const nb=document.querySelector(`nav.tabs [data-tab="${target}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
-    document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});window.scrollTo(0,0);if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}return}
+  if(tab){const target=tab.dataset.tab;
+    if(target==="works"){openWork(null);return} // 작품 탭 버튼은 목록부터
+    if(/^#work/.test(location.hash))history.replaceState(null,"",location.pathname+location.search); // 다른 탭으로 가면 주소의 #work 는 지운다
+    showTab(target);window.scrollTo(0,0);return}
+  const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
+  if(e.target.closest("[data-workback]")){openWork(null);return}
+  if(e.target.closest("[data-workall]")){workAll=true;renderWorks();return}
+  if(e.target.closest("[data-workshare]")&&workSel){const url=location.origin+location.pathname+"#work="+encodeURIComponent(workSel);
+    if(navigator.share)navigator.share({title:workSel+" · 마토메 보드",url}).catch(()=>{});
+    else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>toast("링크를 복사했어요"),()=>toast(url));
+    else toast(url);return}
   const c=e.target.closest("[data-cat]"); if(c){filterCat=c.dataset.cat||null;render();return}
   const ad=e.target.closest("[data-aday]"); if(ad){animeDay=Number(ad.dataset.aday);animeOnlyWatch=false;render();return}
   if(e.target.closest("[data-awatch]")){animeOnlyWatch=!animeOnlyWatch;render();return}
@@ -1014,7 +1193,7 @@ document.addEventListener("click",e=>{
   const cd=e.target.closest("[data-calday]"); if(cd){const d=cd.dataset.calday;calDay=calDay===d?null:d;
     if(!d.startsWith(`${calYM.y}-${String(calYM.m).padStart(2,"0")}`))calYM={y:+d.slice(0,4),m:+d.slice(5,7)};render();return}
   const so=e.target.closest("[data-sort]"); if(so){sortMode=so.dataset.sort;render();return}
-  const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=/^\d+$/.test(ce.dataset.ep)?Number(ce.dataset.ep):ce.dataset.ep;try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(renderComics,0);return} // 링크는 그대로 열린다
+  const ce=e.target.closest("a[data-cid][data-ep]"); if(ce){comicRead[ce.dataset.cid]=/^\d+$/.test(ce.dataset.ep)?Number(ce.dataset.ep):ce.dataset.ep;try{localStorage.setItem("matome-comics-read",JSON.stringify(comicRead))}catch{}setTimeout(()=>{renderComics();if(!$("#works").hidden)renderWorks()},0);return} // 링크는 그대로 열린다
   const co=e.target.closest("[data-cmopen]"); if(co){comicOpen=comicOpen===co.dataset.cmopen?null:co.dataset.cmopen;renderComics();return}
   const cs=e.target.closest("[data-cmsort]"); if(cs){comicSort=cs.dataset.cmsort;renderComics();return}
   const lg=e.target.closest("[data-lang]"); if(lg){lang=lg.dataset.lang==="ja"?"ja":"ko";try{localStorage.setItem("matome-lang2",lang)}catch{}syncLang();render();return}
@@ -1023,7 +1202,8 @@ document.addEventListener("click",e=>{
 
 function syncLang(){document.querySelectorAll(".langsw [data-lang]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lang===lang)))}
 syncLang();
-initStore();
+initStore().then(()=>{if(/^#work/.test(location.hash)&&!$("#works").hidden)renderWorks()});
+routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터가 오면 다시 그림)
 </script>
 <!-- ===== 弾幕 mini game: まとめ結界 / MAID BUSTER LILLY (그림은 운영자 시트에서 assets/game/extract.py 로 잘라낸 assets/game/*.png, 우주 배경만 paint.py) ===== -->
 <style>
