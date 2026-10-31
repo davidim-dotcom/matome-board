@@ -55,7 +55,10 @@ jobs:
           VC: ${{ github.run_number }}
         run: |
           # 설명 끝의 <!-- vc:N --> 은 앱 안의 보드가 GitHub API 로 읽어 '새 버전' 띠를 띄우는 표시(파일을 다 올린 뒤에 고친다)
-          NOTES=$(printf "폰에서 matome-board.apk 를 받아 열면 설치돼요. 처음 한 번은 '출처를 알 수 없는 앱' 허용이 필요해요.\n\n버전 1.0.%s\n<!-- vc:%s -->" "$VC" "$VC")
+          NOTES=$(printf "폰에서 matome-board.apk 를 받아 열면 설치돼요. 처음 한 번은 '출처를 알 수 없는 앱' 허용이 필요해요. 카톡으로 보낼 때는 matome-board-apk.zip(압축을 풀어 설치).\n\n버전 1.0.%s\n<!-- vc:%s -->" "$VC" "$VC")
           gh release view app -R "$R" >/dev/null 2>&1 || gh release create app -R "$R" --title "마토메 보드 안드로이드 앱" --notes "설치 파일을 올리는 중이에요." --target main
-          gh release upload app matome-board.apk -R "$R" --clobber
+          # 카톡은 apk 를 바로 못 보내서 zip(버전 붙은 apk + 설치 안내 android/install-guide.txt)도 같이 올린다
+          mkdir -p zipdir && cp matome-board.apk "zipdir/matome-board-1.0.$VC.apk" && cp android/install-guide.txt zipdir/install-guide.txt
+          (cd zipdir && zip -q -X ../matome-board-apk.zip ./*)
+          gh release upload app matome-board.apk matome-board-apk.zip -R "$R" --clobber
           gh release edit app -R "$R" --notes "$NOTES"
