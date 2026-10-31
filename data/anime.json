@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 73504
+   "w": 73892
   },
   {
    "t": "転生したら剣でした 第2期",
@@ -73,7 +73,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 53619
+   "w": 53833
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 37503
+   "w": 37799
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -182,7 +182,7 @@
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 33275
+   "w": 33453
   },
   {
    "t": "ドラゴンボール超 ビルス",
@@ -206,7 +206,7 @@
    "pv": "https://www.youtube.com/watch?v=8_Lxr7vO9l0",
    "site": "https://kanteiskill.com/",
    "x": "kanteiskill",
-   "w": 28786
+   "w": 28895
   },
   {
    "t": "どうも、好きな人に惚れ薬を依頼された魔女です。",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26219
+   "w": 26285
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -290,7 +290,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24875
+   "w": 24901
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -302,7 +302,7 @@
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 23825
+   "w": 23948
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -470,7 +470,7 @@
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 16642,
+   "w": 16736,
    "rd": 6
   },
   {
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 15325
+   "w": 15386
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12581
+   "w": 12597
   },
   {
    "t": "天は赤い河のほとり",
@@ -604,7 +604,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 11811
+   "w": 11858
   },
   {
    "t": "#ゾンビさがしてます",
@@ -652,7 +652,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8041
+   "w": 8046
   },
   {
    "t": "幻想水滸伝",
@@ -676,7 +676,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7456
+   "w": 7471
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -772,7 +772,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4856
+   "w": 4876
   },
   {
    "t": "バーテックスフォース",
@@ -844,7 +844,7 @@
    "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
    "site": "https://www.koupenchan-anime.jp/",
    "x": "koupenchananime",
-   "w": 3339
+   "w": 3343
   },
   {
    "t": "Yu-Gi-Oh! CARD GAME: THE CHRONICLES",
@@ -880,7 +880,7 @@
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 2889
+   "w": 2901
   },
   {
    "t": "うまゆるふるげ〜と!",
@@ -1001,7 +1001,7 @@
    "pv": "https://www.youtube.com/watch?v=rV-fcFL5vtU",
    "site": "https://rilakkuma-anime.com/",
    "x": "rilakkuma_anime",
-   "w": 1792
+   "w": 1793
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1097,7 +1097,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1311,
+   "w": 1313,
    "rd": 5
   },
   {
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1053
+   "w": 1054
   },
   {
    "t": "mofusand",
@@ -1364,7 +1364,7 @@
    "pv": "",
    "site": "https://www.webtsc.com/prog/anime/shimajiro/",
    "x": "ShimaWowStaff",
-   "w": 238
+   "w": 239
   },
   {
    "t": "のりプロアニメ",
@@ -1388,7 +1388,7 @@
    "pv": "https://www.youtube.com/watch?v=q2T_19WuOfQ",
    "site": "",
    "x": "",
-   "w": 221
+   "w": 222
   },
   {
    "t": "ガイナタマガー",
@@ -1549,28 +1549,28 @@
    "w": 125
   },
   {
-   "t": "ロクローの大ぼうけん",
-   "d": 7,
-   "tm": "",
-   "st": "",
-   "s": "2024-04-01",
-   "r": 161,
-   "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
-   "site": "https://rokurostudio.jp/",
-   "x": "planetstudio696",
-   "w": 123
-  },
-  {
    "t": "太鼓の達人 (2022)",
    "d": 7,
    "tm": "",
    "st": "",
    "s": "2022-01-07",
-   "r": 162,
+   "r": 161,
    "pv": "",
    "site": "https://taiko-ch.net/anime/",
    "x": "",
-   "w": 122
+   "w": 123
+  },
+  {
+   "t": "ロクローの大ぼうけん",
+   "d": 7,
+   "tm": "",
+   "st": "",
+   "s": "2024-04-01",
+   "r": 162,
+   "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
+   "site": "https://rokurostudio.jp/",
+   "x": "planetstudio696",
+   "w": 123
   },
   {
    "t": "タヌキとキツネ",
@@ -1822,7 +1822,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 41063
+   "w": 41214
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1858,7 +1858,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30228
+   "w": 30283
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -2171,7 +2171,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3486
+   "w": 3493
   },
   {
    "t": "魔術を極めて旅に出た転生エルフ、持て余した寿命で生ける伝説となる",
