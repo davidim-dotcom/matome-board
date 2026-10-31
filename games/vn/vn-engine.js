@@ -63,7 +63,7 @@ function run(){for(let guard=0;guard<500;guard++){const ops=SC.scenes[G.scene];i
   if(op.when&&!G.flags[op.when])continue;if(op.unless&&G.flags[op.unless])continue;if(op.whenVar&&!((G.vars[op.whenVar[0]]||0)>=op.whenVar[1]))continue;
   switch(op.t){
    case 'bg':setBg(op.id);break;
-   case 'bgm':G.bgm=op.id;break;
+   case 'bgm':G.bgm=op.id;window.VN_BGM&&VN_BGM.play(op.id);break;
    case 'caption':G.cap=op.text;$('vnCap').textContent=op.text||'';break;
    case 'show':G.chars[op.ch]={at:op.at||'c',face:op.face};drawChars();break;
    case 'hide':if(op.ch==='*')G.chars={};else delete G.chars[op.ch];drawChars();break;
@@ -87,8 +87,8 @@ function advance(){if(!G||$('vnChoice').classList.contains('on')||$('vnCard').cl
 // ---------- save/load ----------
 const snap=()=>JSON.parse(JSON.stringify(Object.assign({},G,{idx:Math.max(0,G.idx-1),t:Date.now()})));
 function autosave(){if(!G)return;P.auto=snap();persist()}
-function restore(s){G=JSON.parse(JSON.stringify(s));log=[];$('vnTitle').style.display='none';$('vnCap').textContent=G.cap||'';setBg(G.bg||'classroom');setCg(G.cg);drawChars();run()}
-function toTitle(){clearTimeout(timer);clearInterval(typing);typing=null;auto=skip=false;['vnAuto','vnSkip'].forEach(id=>$(id).setAttribute('aria-pressed','false'));
+function restore(s){G=JSON.parse(JSON.stringify(s));window.VN_BGM&&VN_BGM.play(G.bgm||'');log=[];$('vnTitle').style.display='none';$('vnCap').textContent=G.cap||'';setBg(G.bg||'classroom');setCg(G.cg);drawChars();run()}
+function toTitle(){window.VN_BGM&&VN_BGM.play('타이틀');clearTimeout(timer);clearInterval(typing);typing=null;auto=skip=false;['vnAuto','vnSkip'].forEach(id=>$(id).setAttribute('aria-pressed','false'));
   $('vnCont').disabled=!P.auto;$('vnTitle').style.display='flex'}
 function panel(html){$('vnPB').innerHTML=html;$('vnPanel').classList.add('on')}
 $('vnPX').addEventListener('click',e=>{e.stopPropagation();$('vnPanel').classList.remove('on')});

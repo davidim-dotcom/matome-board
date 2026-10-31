@@ -6,7 +6,7 @@
 <meta name="google" content="notranslate"><!-- 늘 한국어로: 크롬 등이 페이지를 다른 말로 자동 번역하지 않게 -->
 <title>2년짜리 마을 (테스트)</title>
 <!-- 비주얼 노벨 테스트(2026-10 말). 보드 사이트 개요 맨 아래 '테스트 중' 칸이 iframe 으로 연다.
-     내용은 games/vn/ 세 파일: vn-assets.js(VN_ASSETS 그림, 아티팩트 것) + vn-assets-sheet.js(운영자 그림 시트에서 자른 그림, sheets.py, 같은 이름을 덮어씀) → vn-script.js(VN_SCRIPT 시나리오) → vn-engine.js·css(엔진, section#vn 에 그림).
+     내용은 games/vn/ 세 파일: vn-assets.js(VN_ASSETS 그림, 아티팩트 것) + vn-assets-sheet.js(운영자 그림 시트에서 자른 그림, sheets.py, 같은 이름을 덮어씀) → vn-script.js(VN_SCRIPT 시나리오) → vn-engine.js·css(엔진, section#vn 에 그림). vn-bgm.js(장면 음악, Web Audio 로 연주)는 엔진 앞에 읽혀 엔진이 VN_BGM.play 를 부른다.
      운영자 아티팩트를 받으면 games/vn/import.py 가 세 블록을 나눠 이 파일들을 다시 쓴다(이 껍데기는 그대로).
      정식 탭으로 옮길 때는 이 페이지를 그대로 쓰고 보드에 탭만 더한다. -->
 <style>
@@ -29,6 +29,7 @@ html,body{margin:0;background:transparent;color:var(--ink);font-family:"IBM Plex
 <script src="vn/vn-assets.js"></script>
 <script src="vn/vn-assets-sheet.js"></script>
 <script src="vn/vn-script.js"></script>
+<script src="vn/vn-bgm.js"></script>
 <script src="vn/vn-engine.js"></script>
 </body>
 </html>
