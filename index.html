@@ -269,6 +269,13 @@ button{cursor:pointer}
 .appbox .apk img{border-radius:12px;flex:none}
 .appbox .apk b{display:block;font-size:16px} .appbox .apk small{display:block;font-size:12px;opacity:.85}
 .appbox[hidden]{display:none}
+.verline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:14px;margin:2px 0 8px}
+.verline b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:20px;color:var(--ink)} .verline small{color:var(--muted);font-size:12px}
+.verline .new{color:var(--pink);font-weight:700}
+.verlog summary{cursor:pointer;font-size:14px;color:var(--cyan);font-weight:600}
+.verlog h3{font-size:14px;margin:12px 0 4px} .verlog h3 small{color:var(--muted);font-weight:400;margin-left:6px}
+.verlog ul{margin:0;padding-left:18px;font-size:13px;line-height:1.55;color:var(--ink)}
+.bsheet-in .bver{grid-column:1/-1;justify-content:center;font-size:12px;font-weight:500;color:var(--muted);padding:8px;border-top:1px solid var(--line);border-radius:0 0 12px 12px}
 .empty-stub{color:var(--muted);font-size:14px;padding:6px 0 14px}
 
 /* Tabs */
@@ -653,6 +660,11 @@ textarea{min-height:110px;resize:vertical}
       <p class="help" id="pwaRow" hidden>설치 파일 없이: <button class="btn" type="button" id="pwaInstall">홈 화면에 바로 추가</button></p>
       <p class="help">아이폰은 앱 파일을 설치할 수 없어요. 사파리에서 <b>공유 버튼 → 홈 화면에 추가</b>를 하면 앱처럼 열려요.</p>
     </div>
+    <div class="panel" id="verBox"><!-- 버전·업데이트 내역(2026-10 말). 보드 버전은 아래 스크립트의 BOARD_VER·CHANGES, 앱 버전은 앱 UA(MatomeApp/1.0.N) -->
+      <h2>버전</h2>
+      <div id="verInfo"></div>
+      <details class="verlog"><summary>업데이트 내역</summary><div id="verLog"></div></details>
+    </div>
     <div class="panel">
       <h2>구독 · 출처 상태</h2>
       <p class="help">새 소식과 주간 요약을 RSS로 받을 수 있어요: <a href="data/feed.xml" target="_blank" rel="noopener" id="rssLink">RSS 피드</a> <button type="button" class="btn ghost" id="rssCopy">주소 복사</button><br>RSS 앱(Feedly, Inoreader 등)이나 디스코드의 RSS 봇에 이 주소를 넣으면 갱신될 때마다 알려 줘요.</p>
@@ -700,6 +712,7 @@ textarea{min-height:110px;resize:vertical}
   <button type="button" data-tab="anime"><i data-ic="tv"></i>방영중</button>
   <button type="button" data-tab="comics"><i data-ic="books"></i>만갤</button>
   <button type="button" data-tab="about"><i data-ic="info"></i>사이트 개요</button>
+  <button type="button" class="bver" id="bVer" data-vergo></button>
 </div></div>
 <div class="mochi" id="mochi" hidden>
   <span class="bubble" id="mochiSay" aria-live="polite"></span>
@@ -1854,6 +1867,7 @@ function routeHash(){
   if(location.hash==="#weekend"){const t=weekendDays()[0];calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay="weekend";showTab("sched");render();return true} // 홈 화면 바로가기(manifest shortcuts)
   if(location.hash==="#cal"){calDay=null;calYM=null;showTab("sched");render();return true}
   if(location.hash==="#play"){showTab("play");return true}
+  if(location.hash==="#ver"){goVer();return true}
   if(location.hash==="#app"){showTab("about");setTimeout(()=>{const b=$("#appBox");if(b&&!b.hidden)b.scrollIntoView({block:"start"})},50);return true} // 친구에게 '앱 받기' 주소로 보낼 때
   if(location.hash==="#trip"){trip=tripFix(trip||tripDefault());calDay="trip";history.replaceState(null,"",tripHash());showTab("sched");render();return true}
   if(location.hash==="#idle"){$('#gpick [data-game="idle"]').hidden=false;showTab("idle");return true} // 放置는 숨겨 두고 주소 끝 #idle 로만 연다
@@ -2134,6 +2148,7 @@ document.addEventListener("keydown",e=>{const p=e.target.closest&&e.target.close
 function sheetOpen(on){const b=$("#bsheet"),m=$("#bnMore");if(!b)return;b.hidden=!on;m.setAttribute("aria-expanded",on)}
 document.addEventListener("click",e=>{
   if(e.target.closest("#bnMore")){sheetOpen($("#bsheet").hidden);return}
+  if(e.target.closest("[data-vergo]")){sheetOpen(false);goVer();return}
   if(e.target.id==="bsheet"){sheetOpen(false);return} // 시트 바깥(어두운 곳)을 누르면 닫음
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;
@@ -2236,19 +2251,43 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // 앱 받기 칸: 안드로이드 앱(UA 에 MatomeApp) 안에서는 숨기고, 크롬이 PWA 설치를 제안하면(beforeinstallprompt) '홈 화면에 바로 추가' 버튼을 보인다
 // 안드로이드 앱 새 버전 알림(2026-10 말): 앱 UA 의 버전(MatomeApp/1.0.N, N=빌드 번호)과 Releases 'app' 설명 끝 <!-- vc:N --> 를 비교.
 // GitHub API(api.github.com, CORS 됨, 키 없이 시간당 60회)를 6시간에 한 번만 읽고, 새 버전이면 띠를 띄운다. [받기]는 APK 주소로 가서 앱이 브라우저로 넘긴다
+// 보드 버전(2026-10 말). index.html·games/ 를 고치는 PR 마다 올린다: 기능 추가는 가운데 자리(2.1.0), 고침은 끝자리(2.0.1).
+// CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
+const BOARD_VER="2.0.0";
+const CHANGES=[
+  ["2.0.0","2026-10-31",["폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일과 앱 새 버전 알림","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","보드·앱 버전과 업데이트 내역 표시"]],
+  ["1.x","2026-10-19~30",["게임 탭(弾幕·Holo Mobile·まとめラン·ペンライト·도쿄 원정)과 업적·칭호","작품 허브·X 화제·성지순례 지도·만갤","오늘 카드·그림으로 보기·스와이프로 고르기·응원 알림","여행 플래너·주말 한 장·기간 행사·콜라보 카페","홈 화면 앱(PWA)·달력 구독·RSS"]],
+  ["1.0.0","2026-10-18",["첫 공개: 피드·캘린더·방영중·사이트 개요"]]];
+let appVer={cur:+((navigator.userAgent.match(/MatomeApp\/1\.0\.(\d+)/)||[])[1]||0),latest:0}; // 앱 안이면 cur = 빌드 번호
+const APK_URL="https://github.com/davidim-dotcom/matome-board/releases/download/app/matome-board.apk";
+function renderVer(){
+  const app=appVer.cur?`<span>앱 <b>1.0.${appVer.cur}</b>${appVer.latest>appVer.cur?` <a class="new" href="${APK_URL}">새 버전 1.0.${appVer.latest} 받기</a>`:appVer.latest?" <small>최신</small>":""}</span>`:"";
+  const vi=$("#verInfo");if(vi)vi.innerHTML=`<div class="verline"><span>보드 <b>v${BOARD_VER}</b> <small>${CHANGES[0][1]}</small></span>${app}</div>`;
+  const vl=$("#verLog");if(vl&&!vl.childElementCount)vl.innerHTML=CHANGES.map(([v,d,l])=>`<h3>v${esc(v)}<small>${esc(d)}</small></h3><ul>${l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`).join("");
+  const bv=$("#bVer");if(bv)bv.textContent=`보드 v${BOARD_VER}${appVer.cur?` · 앱 1.0.${appVer.cur}`:""}${appVer.latest>appVer.cur&&appVer.cur?" · 새 버전 있음":""} · 업데이트 내역 ›`;
+}
+function goVer(){showTab("about");const d=$("#verBox details");if(d)d.open=true;setTimeout(()=>{const b=$("#verBox");if(b)b.scrollIntoView({block:"start"})},50)}
+// 띠(.cheer)가 이미 떠 있으면 사라질 때까지 기다렸다가 띄운다(응원·앱·보드 알림이 겹치지 않게)
+function cheerLater(make,delay=0,tries=12){setTimeout(()=>{if(document.querySelector(".cheer")){if(tries>0)cheerLater(make,4000,tries-1);return}const el=make();if(el)document.body.appendChild(el)},delay)}
+function cheerEl(title,text,btn,onBtn,onClose){const el=document.createElement("div");el.className="cheer";el.setAttribute("role","status");
+  el.innerHTML=`<img src="assets/lilly/badge.png" alt=""><div class="ct"><b>${esc(title)}</b><em>${esc(text)}</em></div>${btn?`<button type="button" data-cgo>${esc(btn)}</button>`:""}<button type="button" class="x" aria-label="닫기">${ic("close")}</button>`;
+  if(btn)el.querySelector("[data-cgo]").onclick=()=>{el.remove();onBtn&&onBtn()};
+  el.querySelector(".x").onclick=()=>{el.remove();onClose&&onClose()};return el}
+// 보드가 새 버전이면(전에 온 적 있는 사람에게만) 한 번: 'v2.1.0 으로 업데이트됐어 · 첫 줄' [바뀐 점]
+(function boardVerNote(){let seen=null;try{seen=localStorage.getItem("matome-boardver");localStorage.setItem("matome-boardver",BOARD_VER)}catch{return}
+  if(!seen||seen===BOARD_VER)return;
+  cheerLater(()=>cheerEl(`보드가 업데이트됐어! (v${BOARD_VER})`,CHANGES[0][2][0]+(CHANGES[0][2].length>1?` 외 ${CHANGES[0][2].length-1}가지`:""),"바뀐 점",goVer),7000)})();
 function appUpdateCheck(){
-  const cur=+((navigator.userAgent.match(/MatomeApp\/1\.0\.(\d+)/)||[])[1]||0);if(!cur)return;
+  const cur=appVer.cur;if(!cur)return;
   let st={};try{st=JSON.parse(localStorage.getItem("matome-appver")||"{}")}catch{}
-  const show=vc=>{if(!(vc>cur)||st.skip===vc)return;
-    setTimeout(()=>{const el=document.createElement("div");el.className="cheer";el.setAttribute("role","status");
-      el.innerHTML=`<img src="assets/lilly/badge.png" alt=""><div class="ct"><b>앱 새 버전이 나왔어!</b><em>1.0.${cur} → 1.0.${vc} · 받아서 열면 그대로 업데이트돼(기록은 남아)</em></div><button type="button" data-appget>받기</button><button type="button" class="x" aria-label="닫기">${ic("close")}</button>`;
-      el.querySelector("[data-appget]").onclick=()=>{el.remove();location.href="https://github.com/davidim-dotcom/matome-board/releases/download/app/matome-board.apk"};
-      el.querySelector(".x").onclick=()=>{el.remove();st.skip=vc;try{localStorage.setItem("matome-appver",JSON.stringify(st))}catch{}}; // 닫으면 그 버전은 다시 안 묻는다
-      document.body.appendChild(el)},5000)}; // 응원 알림(2.5초)과 겹치지 않게
+  const show=vc=>{appVer.latest=vc||0;renderVer();if(!(vc>cur)||st.skip===vc)return;
+    cheerLater(()=>cheerEl("앱 새 버전이 나왔어!",`1.0.${cur} → 1.0.${vc} · 받아서 열면 그대로 업데이트돼(기록은 남아)`,"받기",
+      ()=>{location.href=APK_URL},()=>{st.skip=vc;try{localStorage.setItem("matome-appver",JSON.stringify(st))}catch{}}),5000)}; // 닫으면 그 버전은 다시 안 묻는다
   if(st.at&&Date.now()-st.at<6*36e5){show(st.vc);return}
   fetch("https://api.github.com/repos/davidim-dotcom/matome-board/releases/tags/app",{headers:{Accept:"application/vnd.github+json"}})
     .then(r=>r.ok?r.json():null).then(j=>{const vc=+(((j&&j.body)||"").match(/<!-- vc:(\d+) -->/)||[])[1]||0;
       st.at=Date.now();st.vc=vc;try{localStorage.setItem("matome-appver",JSON.stringify(st))}catch{};show(vc)}).catch(()=>{})}
+renderVer();
 if(/MatomeApp/.test(navigator.userAgent)){$("#appBox").hidden=true;appUpdateCheck()}
 else{let bip=null;addEventListener("beforeinstallprompt",e=>{e.preventDefault();bip=e;$("#pwaRow").hidden=false});
   $("#pwaInstall").onclick=()=>{if(!bip)return;bip.prompt();bip.userChoice.finally(()=>{bip=null;$("#pwaRow").hidden=true})}}

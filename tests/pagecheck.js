@@ -100,6 +100,7 @@ async function run(dev) {
       sh.querySelector('[data-tab="comics"]').click(); await new Promise((f) => setTimeout(f, 300));
       if (!sh.hidden) return "탭을 골라도 시트가 안 닫힘";
       if (document.getElementById("comics").hidden) return "만갤이 안 열림";
+      if (!/보드 v\d/.test(document.getElementById("bVer").textContent)) return "더보기에 보드 버전 줄이 없음";
       const m = document.getElementById("bnMore"); if (m.getAttribute("aria-current") !== "page" || !/만갤/.test(m.textContent)) return "더보기 칸이 만갤 선택을 안 보여 줌";
       return "";
     });
