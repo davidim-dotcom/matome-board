@@ -1996,6 +1996,23 @@ if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostnam
 #game{max-width:420px;margin:0 auto}
 .dm-wrap{position:relative;width:100%;aspect-ratio:3/4;background:#05060f;border-radius:12px;overflow:hidden;border:1px solid var(--line);touch-action:none;user-select:none;-webkit-user-select:none}
 .dm-wrap canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+/* 대기 화면 일러(2026-10 말): canvas(360×480)에 그리면 흐려서 HTML 그림 층을 위에 얹는다. 누르기는 아래 canvas 로 그대로(pointer-events:none). 기본 스킨 타이틀에서만 */
+.dm-title{position:absolute;inset:0;pointer-events:none;overflow:hidden;animation:dmTin .5s ease-out}
+.dm-title[hidden]{display:none}
+@keyframes dmTin{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+.dm-title img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 30%;animation:dmTpan 14s ease-in-out infinite alternate}
+@keyframes dmTpan{from{transform:scale(1.04) translateY(0)}to{transform:scale(1.1) translateY(-2%)}}
+.dm-title::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,15,.82) 0,rgba(5,6,15,.15) 30%,rgba(5,6,15,0) 52%,rgba(5,6,15,.55) 72%,rgba(5,6,15,.92) 100%)}
+.dm-title .tt{position:absolute;left:0;right:0;top:6%;text-align:center;z-index:1;color:#fff}
+.dm-title .tt b{display:block;font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:clamp(30px,11vw,46px);letter-spacing:.06em;text-shadow:0 0 18px rgba(255,92,154,.75),0 2px 0 #3a0f2a}
+.dm-title .tt small{display:block;margin-top:4px;font:clamp(10px,3.1vw,12px)/1.4 ui-monospace,monospace;color:#7df9ff;letter-spacing:.1em;text-shadow:0 1px 3px #000}
+.dm-title .tt .luna[hidden]{display:none} .dm-title .tt .luna{display:inline-block;margin-top:6px;padding:1px 10px;border-radius:999px;background:#ff4d6d;color:#fff;font:bold 11px ui-monospace,monospace;letter-spacing:.1em}
+.dm-title .tb{position:absolute;left:0;right:0;bottom:7%;text-align:center;z-index:1}
+.dm-title .tb b{display:inline-block;font:bold 14px ui-monospace,monospace;color:#fff;letter-spacing:.08em;padding:6px 16px;border-radius:999px;background:rgba(255,92,154,.88);box-shadow:0 0 16px rgba(255,92,154,.6);animation:dmTblink 1.1s steps(1) infinite}
+.dm-title .tb b.arm{background:#ffd166;color:#1b1f3b;animation:none}
+@keyframes dmTblink{50%{opacity:.35}}
+.dm-title .tb small{display:block;margin:8px 12px 0;font:clamp(10px,3vw,11px)/1.4 "Noto Sans JP",sans-serif;color:#d7d9ee;text-shadow:0 1px 3px #000}
+@media (prefers-reduced-motion:reduce){.dm-title img,.dm-title .tb b{animation:none}}
 .dm-hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0 4px;font-size:13px;color:var(--muted)}
 .dm-hud b{color:var(--ink);font-variant-numeric:tabular-nums}
 .dm-ctl{display:flex;gap:8px;margin-top:8px}
@@ -2064,7 +2081,7 @@ const sec=document.getElementById('game');if(!sec)return;
 sec.innerHTML=`<div class="panel" style="padding:12px">
 <div class="dm-skin"><p class="lab">SKIN · 스킨 선택</p><div class="sk" id="dmSkin"><button type="button" data-skin="base">기본 · 릴리</button><button type="button" data-skin="holo">ホロ</button></div><div class="mem" id="dmMem" hidden></div></div>
 <div class="dm-hud"><span>SCORE <b id="dmScore">0</b></span><span>GRAZE <b id="dmGraze">0</b></span><span>残機 <b id="dmLives">5</b> · 結界 <b id="dmBombs">2</b></span><span>HI <b id="dmHi">0</b></span></div>
-<div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas></div>
+<div class="dm-wrap" id="dmWrap"><canvas id="dmCv" width="360" height="480"></canvas><div class="dm-title" id="dmTitle" hidden><img src="assets/lilly/poster.jpg" alt="" loading="lazy" decoding="async"><div class="tt"><b>まとめ結界</b><small>MAID BUSTER LILLY ─ 5 STAGES</small><span class="luna" hidden>─ LUNATIC ─</span></div><div class="tb"><b>DOUBLE TAP TO START</b><small>お掃除の時間です。弾幕は火力、グレイズは美学。</small></div></div></div>
 <div class="dm-ctl"><button id="dmSlow" aria-pressed="false">低速 (SHIFT)</button><button class="bomb" id="dmBomb">結界 (X)</button><button id="dmSound" aria-pressed="true">♪ BGM</button></div>
 <div class="dm-diff"><p class="lab">DIFFICULTY · 난이도</p><div class="sk" id="dmDiff"><button type="button" data-diff="normal">NORMAL</button><button type="button" data-diff="lunatic" class="luna">LUNATIC <small>탄 ×1.2 · 탄속 ×1.1</small></button></div></div>
 <div class="dm-stages"><p class="lab">STAGE SELECT · 누르면 그 스테이지부터 시작 (★ 클리어)</p><div class="row5" id="dmStages"></div></div>
@@ -2074,6 +2091,7 @@ sec.innerHTML=`<div class="panel" style="padding:12px">
 <ol class="dm-rank" id="dmRank"></ol></div>
 <p class="dm-help">시작·재도전은 화면을 <b>두 번 탭</b>(PC는 더블 클릭이나 Z). 화면을 드래그하면 자기(自機)가 따라오고 공격은 자동. 피탄 판정은 가운데 작은 점(저속 모드에서 더 작아짐) 하나뿐이니 탄 사이를 스치며 <b>그레이즈</b>를 쌓으세요. 적이 떨어뜨리는 <b>金貨</b>(점수) · <b>緑ジェム</b>(파워) · <b>紫ジェム</b>(結界 +1) · <b>ハート</b>(残機 +1)를 모으고, 보스의 必殺技를 피탄·結界 없이 깨면 <b>ノーダメ 보너스</b>. 주황 <b>エネルギー地雷</b>는 가까이 가거나 시간이 지나면 터지니 멀리서 피하고, 보스 위에 비치는 패턴 그림은 다음 공격의 예고.<br>PC: 방향키 이동 · SHIFT 저속 · X 結界 · R 재시작</p></div>`;
 const cv=document.getElementById('dmCv'),cx=cv.getContext('2d');const W=360,H=480;cx.imageSmoothingEnabled=false;
+const TT={el:document.getElementById('dmTitle')};TT.go=TT.el.querySelector('.tb b');TT.sub=TT.el.querySelector('.tt small');TT.luna=TT.el.querySelector('.luna');
 const $=id=>document.getElementById(id);
 const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
 // ---------- sprites (assets/game/*.png, 픽셀 아트. 못 읽으면 도형으로 대신 그림) ----------
@@ -2534,7 +2552,11 @@ function draw(){
     cx.fillStyle='#ffd6f5';cx.font='bold 16px serif';cx.textAlign='center';cx.fillText('VS',W/2,H*.2+30);cx.fillStyle='#fff';cx.font='bold 11px monospace';cx.fillText(st.bossName,W/2,H*.2+52);cx.restore()}
   // overlay text
   if(G.msgT>0&&G.state==='play'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.45)';cx.fillRect(0,H/2-26,W,52);cx.fillStyle='#fff';cx.font='bold 14px serif';cx.fillText(G.msg,W/2,H/2+5)}
-  if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
+  // 대기 화면: 기본 스킨이면 HTML 일러 층(#dmTitle), ホロ 스킨은 예전대로 canvas 에 그린다(일러가 릴리라서)
+  const tShow=G.state==='title'&&skin!=='holo';if(TT.el.hidden===tShow)TT.el.hidden=!tShow;
+  if(tShow){const arm=performance.now()-armAt<500,t=arm?'もう一度タップ！':'DOUBLE TAP TO START';if(TT.go.textContent!==t){TT.go.textContent=t;TT.go.classList.toggle('arm',arm)}
+    const sub='MAID BUSTER LILLY ─ '+STAGES.length+' STAGES';if(TT.sub.textContent!==sub)TT.sub.textContent=sub;if(TT.luna.hidden===(diff==='lunatic'))TT.luna.hidden=diff!=='lunatic'}
+  else if(G.state==='title'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.35)';cx.fillRect(0,0,W,H);spr('player',W/2,H*.5,2.6);spr('cat',W/2+52,H*.5+10,2);
     cx.fillStyle='#ffd6f5';cx.font='bold 28px serif';cx.fillText('まとめ結界',W/2,H*.3);cx.font='12px monospace';cx.fillStyle='#7df9ff';cx.fillText((skin==='holo'?'HOLO SKIN  ─  '+HOLO_NAME[mem]:'MAID BUSTER LILLY')+'  ─  '+STAGES.length+' STAGES',W/2,H*.3+22);cx.fillStyle='#fff';cx.font='bold 13px monospace';cx.fillText(performance.now()-armAt<500?'もう一度タップ！':Math.floor(G.t/30)%2?'DOUBLE TAP TO START':'',W/2,H*.72);if(diff==='lunatic'){cx.fillStyle='#ff4d6d';cx.font='bold 13px monospace';cx.fillText('─ LUNATIC ─',W/2,H*.3+42)}cx.fillStyle='#9a9ebb';cx.font='11px monospace';cx.fillText('お掃除の時間です。弾幕は火力、グレイズは美学。',W/2,H*.8)}
   if(G.state==='over'){cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,H/2-60,W,132);cx.fillStyle='#ff5fb0';cx.font='bold 24px serif';cx.fillText('GAME OVER',W/2,H/2-18);cx.fillStyle='#fff';cx.font='12px monospace';cx.fillText('SCORE '+G.score.toLocaleString()+'   GRAZE '+G.graze,W/2,H/2+10);cx.fillStyle='#9a9ebb';cx.fillText(performance.now()-armAt<500?'もう一度タップ！':'再挑戦はダブルタップ / Z',W/2,H/2+34);if(RK.run&&!RK.sent){cx.fillStyle='#ffd166';cx.fillText('▼ 아래 스코어 보드에 기록 등록',W/2,H/2+56)}}
   if(G.state==='clear'||G.state==='allclear'){const fin=G.state==='allclear';cx.textAlign='center';cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(20,H/2-90,W-40,fin?206:190);cx.fillStyle='#ffd166';cx.font='bold 24px serif';cx.fillText(fin?'ALL CLEAR':'STAGE '+(G.stage+1)+' CLEAR',W/2,H/2-55);cx.fillStyle='#fff';cx.font='12px monospace';
