@@ -74,7 +74,7 @@ function run(){for(let guard=0;guard<500;guard++){const ops=SC.scenes[G.scene];i
    case 'if':go(G.flags[op.flag]?op.go:(op.else||op.go));break;
    case 'ending':{const e=SC.endings.find(x=>x.cond(G.vars));G.ending=e.id;if(!P.endings.includes(e.id)){P.endings.push(e.id);persist()}go(e.go);break}
    case 'chapter':autosave();return card(op.n,op.title,run);
-   case 'say':return show(op.who,op.text);
+   case 'say':if(op.face&&G.chars[op.who])G.chars[op.who].face=op.face;return show(op.who,op.text);
    case 'nar':return show(null,op.text);
    case 'choice':return choose(op);
    case 'end':skip=false;$('vnSkip').setAttribute('aria-pressed','false');return card(0,`엔딩 ${G.ending||''} 「${(SC.endings.find(x=>x.id===G.ending)||{}).name||''}」`,toTitle);
