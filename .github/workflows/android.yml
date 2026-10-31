@@ -1,0 +1,58 @@
+name: 안드로이드 앱
+
+# android/ 를 빌드해 서명한 APK 를 Releases 의 'app' 에 올린다(사이트 '앱 받기'가 가리키는 곳).
+# PR 에서는 빌드만 확인하고 올리지 않는다. 앱은 사이트를 그대로 보여 주므로 보드 내용이 바뀔 때는 다시 빌드할 필요가 없다.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["android/**", ".github/workflows/android.yml"]
+  pull_request:
+    paths: ["android/**", ".github/workflows/android.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+      - name: 서명 키 풀기(비밀값이 있을 때만)
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE }}
+        run: |
+          if [ -n "$KS" ]; then echo "$KS" | base64 -d > android/release.keystore; echo "저장소 서명 키 사용"; else echo "::warning::ANDROID_KEYSTORE 비밀값이 없어 임시 키로 서명합니다(기존 앱 위에 업데이트로 안 깔림)"; fi
+      - name: APK 빌드
+        env:
+          APP_VERSION_CODE: ${{ github.run_number }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          gradle -p android assembleRelease --no-daemon --stacktrace
+          cp android/app/build/outputs/apk/release/app-release.apk matome-board.apk
+          ls -la matome-board.apk
+          "$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner" verify --print-certs matome-board.apk | head -3
+          rm -f android/release.keystore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: matome-board-apk
+          path: matome-board.apk
+      - name: Releases 에 올리기
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          R: ${{ github.repository }}
+        run: |
+          gh release view app -R "$R" >/dev/null 2>&1 || gh release create app -R "$R" --title "마토메 보드 안드로이드 앱" --notes "폰에서 matome-board.apk 를 받아 열면 설치돼요. 처음 한 번은 '출처를 알 수 없는 앱' 허용이 필요해요." --target main
+          gh release upload app matome-board.apk -R "$R" --clobber
