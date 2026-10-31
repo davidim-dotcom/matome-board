@@ -59,6 +59,7 @@ form.subm .me{flex-basis:100%;font-size:13px} form.subm input{flex:1;min-width:0
 .help{font-size:12px;color:var(--muted);margin:6px 0 0}
 .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 12px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
 .toast.on{opacity:1}
+.ttl{display:inline-block;margin-left:5px;padding:0 6px;border-radius:999px;font-size:10px;font-style:normal;font-weight:700;color:var(--amber);border:1px solid var(--amber);vertical-align:1px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -165,7 +166,7 @@ function go(sp){const tr=trip(sp);if(tr.why){toast(tr.why);return}if(S.anim)retu
     if(S.hp<=0||!spots.some(s=>!trip(s).why))finish();render();renderMap()},720);
   animate()}
 function bonus(){const kinds=new Set(S.route.map(r=>r.cat)).size;return {kinds,var:kinds>=4?120:kinds>=3?60:0,money:Math.floor(Math.max(0,S.yen)/200)}}
-function finish(){if(S.over)return;S.over=true;const b=bonus();S.final=S.star+b.var+b.money;render();renderMap();runEnd()}
+function finish(){if(S.over)return;S.over=true;const b=bonus();S.final=S.star+b.var+b.money;if(S.final>=600)ach('en_600');if(S.final>=900)ach('en_900');render();renderMap();runEnd()}
 const TITLE=s=>s>=900?'전설의 원정대':s>=650?'숙련 원정러':s>=400?'주말 오타쿠':'새내기 원정러';
 
 // ---------- 화면 ----------
@@ -223,18 +224,20 @@ matchMedia('(prefers-color-scheme:dark)').addEventListener?.('change',()=>S&&ren
 
 // ---------- 스코어 보드(game=ensei, skin=원정 날짜: 주마다 따로) ----------
 const RK={ready:false,run:null,sent:false,mine:null};
+// 업적·칭호: 보드(parent.MATOME)의 공통 기록
+const ach=id=>{try{parent.MATOME.ach(id)}catch(e){}},ttl=()=>{try{return String(parent.MATOME.title()||'').slice(0,12)}catch(e){return ''}};
 const api=()=>{try{const a=P&&P.api;return /^https:\/\/script\.google\.com\/macros\//.test(a||'')?a:''}catch(e){return ''}};
 function nil(t){$('rank').innerHTML='<li class="nil">'+t+'</li>'}
 async function loadRank(){$('rkTitle').textContent=`${dl(DAY)} 원정 순위`;const a=api();if(!a){nil('순위는 보드의 게임 탭에서 열면 보여요.');return}nil('불러오는 중…');
   try{const r=await fetch(a+'?scores=1&limit=30&game=ensei&skin='+encodeURIComponent(DAY)+'&v='+Date.now(),{cache:'no-store'});const j=await r.json();if(!Array.isArray(j.scores)){nil('순위는 준비 중이에요.');return}RK.ready=true;
     const L=j.scores.filter(v=>String(v.skin||'')===DAY).slice(0,30);
-    $('rank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;return `<li class="${mine?'mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(String(v.name).slice(0,12))}</span><span class="st">${Math.floor(+v.stage||0)}곳</span><b>⭐${Math.floor(+v.score||0).toLocaleString()}</b></li>`}).join('')
+    $('rank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;return `<li class="${mine?'mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(String(v.name).slice(0,12))}${v.title?`<em class="ttl">${esc(String(v.title).slice(0,12))}</em>`:''}</span><span class="st">${Math.floor(+v.stage||0)}곳</span><b>⭐${Math.floor(+v.score||0).toLocaleString()}</b></li>`}).join('')
       :'<li class="nil">이번 주 첫 원정 기록을 남겨 보세요.</li>'}catch(e){nil('순위를 불러오지 못했어요. ↻ 로 다시 시도해 주세요.')}}
 function runEnd(){if(!RK.ready||S.final<=0)return;RK.run={score:S.final,stage:Math.max(1,S.route.length)};RK.sent=false;$('subMe').innerHTML=`이번 원정 <b>⭐${S.final}</b> · ${S.route.length}곳 · ${TITLE(S.final)}`;
   const n=$('name');if(!n.value){try{n.value=localStorage.getItem('dm-name')||''}catch(e){}}$('subBtn').disabled=false;$('subm').hidden=false}
 $('subm').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run,a=api();if(!run||RK.sent||!a)return;const name=$('name').value.replace(/\s+/g,' ').trim().slice(0,12);if(!name){toast('이름을 적어 주세요');return}
   let lastSent=0;try{lastSent=+localStorage.getItem('ensei-sent')||0}catch(err){}if(Date.now()-lastSent<30000){toast('조금 뒤에 다시 등록해 주세요');return}
-  const body=JSON.stringify({type:'score',game:'ensei',name,score:run.score,stage:run.stage,skin:DAY,clear:false});$('subBtn').disabled=true;
+  const body=JSON.stringify({type:'score',game:'ensei',name,score:run.score,stage:run.stage,skin:DAY,clear:false,title:ttl()});$('subBtn').disabled=true;
   try{let ok=false;try{const r=await fetch(a,{method:'POST',body});ok=r.ok&&(await r.json()).ok===true}catch(err){await fetch(a,{method:'POST',body,mode:'no-cors'});ok=true}if(!ok)throw 0;
     RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('ensei-sent',String(Date.now()))}catch(err){}$('subm').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200)}
   catch(err){$('subBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
