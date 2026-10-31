@@ -403,6 +403,7 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .cheer{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);z-index:40;width:min(440px,calc(100% - 20px));display:flex;align-items:center;gap:10px;padding:10px 10px 10px 12px;border-radius:16px;background:var(--surface);border:1px solid color-mix(in srgb,var(--pink) 45%,var(--line));box-shadow:0 10px 28px rgba(0,0,0,.22);animation:cheerIn .35s ease-out}
 @keyframes cheerIn{from{opacity:0;transform:translate(-50%,-14px)}to{opacity:1;transform:translate(-50%,0)}}
 .cheer img{width:46px;height:46px;border-radius:50%;flex:none}
+.cheer .ct em{display:block;font-style:normal;color:var(--ink);font-size:13px;line-height:1.4}
 .cheer .ct{flex:1;min-width:0;font-size:12px;color:var(--muted)} .cheer .ct b{display:block;color:var(--pink);font-size:14px} .cheer .ct span{display:block;color:var(--ink);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cheer button{flex:none;border:0;border-radius:10px;padding:7px 10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--pink);color:#fff} .cheer button.x{background:none;color:var(--muted);padding:6px}
 @media (prefers-reduced-motion:reduce){.swc,.cheer{transition:none;animation:none}}
@@ -575,6 +576,7 @@ textarea{min-height:110px;resize:vertical}
 .mochi:hover .bye,.mochi:focus-within .bye{opacity:1}
 @media (hover:none){.mochi .bye{opacity:.75}}
 @media (max-width:520px){.mochi{width:64px;height:74px}}
+.mochi{transition:opacity .25s} .mochi.dim{opacity:.22} .mochi.dim .bubble{opacity:0} /* 화면을 내리는 동안은 흐리게(글을 가리지 않게), 멈추면 0.9초 뒤 돌아옴 */
 .mochi.season{height:125px} /* 계절 그림은 모자 때문에 세로가 길다(316×412) */
 @media (max-width:520px){.mochi.season{height:83px}}
 @keyframes mochi-dance{0%,100%{transform:translateY(0) rotate(-7deg) scale(1.03,.97)}25%{transform:translateY(-8px) rotate(0) scale(.98,1.03)}50%{transform:translateY(0) rotate(7deg) scale(1.03,.97)}75%{transform:translateY(-8px) rotate(0) scale(.98,1.03)}}
@@ -2049,6 +2051,7 @@ function onAction(e){
   body.addEventListener("click",e=>{if(longed){e.stopImmediatePropagation();longed=false}},true); // 길게 누른 뒤의 클릭은 대사로 안 넘김
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
+  let dimT=0; addEventListener("scroll",()=>{if(box.hidden)return;box.classList.add("dim");clearTimeout(dimT);dimT=setTimeout(()=>box.classList.remove("dim"),900)},{passive:true});
 })();
 const GAME_TABS=["game","g2048","derby","pen","ensei","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
 function showTab(target){
@@ -2179,6 +2182,13 @@ syncLang();
 initStore().then(()=>{if(/^#work/.test(location.hash)&&!$("#works").hidden)renderWorks();setTimeout(cheerCheck,2500)});
 routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터가 오면 다시 그림)
 // 홈 화면 앱·오프라인용 서비스 워커(sw.js). file:// 이나 http 미리보기에서는 등록하지 않는다(localhost 는 테스트용으로 허용)
+// 홈 화면 앱으로 연 사람에게 한 번만: 앱 아이콘이 새 릴리로 바뀌었고, 폰 홈 화면 아이콘이 예전 그림이면 다시 추가하라는 안내(2026-10 말).
+// 폰은 홈 화면 아이콘을 처음 추가할 때 받아 두고 잘 안 바꾼다(아이폰은 절대, 안드로이드 크롬은 하루쯤 뒤 '앱 아이콘 업데이트' 확인 창).
+(function iconNote(){const sa=(matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;if(!sa)return;
+  try{if(localStorage.getItem("matome-icon")==="v2")return}catch{return}
+  setTimeout(()=>{const el=document.createElement("div");el.className="cheer";el.setAttribute("role","status");
+    el.innerHTML=`<img src="assets/lilly/badge.png" alt=""><div class="ct"><b>앱 아이콘이 새 릴리로 바뀌었어</b><em>홈 화면 아이콘이 아직 예전 그림이면 아이콘을 지우고, 브라우저에서 보드를 열어 '홈 화면에 추가'를 다시 해 줘.</em></div><button type="button" class="x" aria-label="닫기">${ic("close")}</button>`;
+    el.querySelector("button").onclick=()=>el.remove();document.body.appendChild(el);try{localStorage.setItem("matome-icon","v2")}catch{}},4000)})(); // 한 번 보여 주면 끝 // 응원 알림(2.5초)과 겹치지 않게 조금 늦게
 if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")) window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 <!-- ===== 弾幕 mini game: まとめ結界 / MAID BUSTER LILLY (그림은 운영자 시트에서 assets/game/extract.py 로 잘라낸 assets/game/*.png, 우주 배경만 paint.py) ===== -->
