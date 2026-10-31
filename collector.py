@@ -107,7 +107,9 @@ SOURCES = [
     {"type": "rss", "name": "한국 뉴스(애니 국내 발매)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EA%B5%AD%EB%82%B4%20%EC%A0%95%EC%8B%9D%20%EB%B0%9C%EB%A7%A4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(일본 애니 콜라보)", "url": "https://news.google.com/rss/search?q=%EC%9D%BC%EB%B3%B8%20%EC%95%A0%EB%8B%88%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     # 작은 갤러리의 원화전·색지전(2026-10 말): X 에만 올라오는 게 많아 일본어 Google 뉴스 검색으로 보도자료라도 잡는다(링크는 Google 이동 주소라 기사 보강은 안 함)
-    {"type": "rss", "name": "일본 뉴스(原画展·色紙展)", "url": "https://news.google.com/rss/search?q=" + urllib.parse.quote("原画展 OR 色紙展 OR 複製原画展 OR イラスト展 when:30d") + "&hl=ja&gl=JP&ceid=JP:ja", "gnews": True},
+    {"type": "rss", "name": "일본 뉴스(原画展·色紙展)", "url": "https://news.google.com/rss/search?q=" + urllib.parse.quote("原画展 OR 色紙展 OR 複製原画展 OR イラスト展 when:30d") + "&hl=ja&gl=JP&ceid=JP:ja", "gnews": True,
+     # 그림책·지역 미술전 같은 원화전이 많아(첫 점검 100건 중 94건 통과) 제목에 전시 말 + 작품·애니·만화 신호가 둘 다 있어야 한다
+     "title_re": [r"原画展|色紙展|複製原画|イラスト展|原画展示", r"[『「].+?[』」]|アニメ|漫画|マンガ|コミック|ゲーム|声優|劇場版|周年|画業"]},
     # 제보(2026-10 말): 보드 사이트 개요의 '소식 제보'로 들어온 주소(X 글·행사 페이지)를 게시판 웹 앱 ?tips=1 에서 읽는다. X 글은 oEmbed 로 본문을 읽는다(collect_tips)
     {"type": "tips", "name": "제보(X·행사 페이지)"},
     # 직접 추가 예시
@@ -328,6 +330,8 @@ def classify(text, default="other", kr=False):
 def build(title, body, link, src, ref, default_cat="other"):
     text = f"{title}\n{body}"
     if is_noise(title) or (src.get("game") and is_game_noise(title)):
+        return None
+    if any(not re.search(r, title) for r in src.get("title_re", [])):  # 출처별로 제목에 꼭 있어야 하는 말(정규식마다 하나 이상)
         return None
     kr = src.get("region") == "KR"
     words = MUST_HAVE_ANY + list(src.get("extra_words", []))  # 소스별로 걸러낼 단어를 더할 수 있다
