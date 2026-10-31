@@ -692,6 +692,7 @@ def collect_one(src, ref):
 # 시트의 상태 칸에 no 를 적은 제보는 웹 앱이 돌려주지 않는다(숨김). X 글은 키 없는 oEmbed(publish.twitter.com)로 본문·작성자를 읽고,
 # 그 밖의 주소는 페이지의 og:title·og:description·og:image 를 읽는다. 이미 보드에 있는 주소는 다시 열지 않는다(TIPS_MAX 건까지).
 TIPS_MAX = 60
+TIP_REDO = {}  # 이번 실행에서 다시 읽은 제보 주소 → 처음 들어온 시각
 X_URL_RE = re.compile(r"^https://(?:www\.|mobile\.)?(?:x|twitter)\.com/(\w{1,15})/status/(\d+)")
 
 
@@ -729,12 +730,47 @@ def tip_page(url):
     return t, meta("og:description") or meta("description"), og_from_html(page, url)
 
 
+DECO_RE = re.compile(r"^[^\w『「【（(＜<〈]+|[^\w』」】）)＞>〉！!？?]+$")  # 줄 앞뒤의 이모지·장식(🌟 ▷ ▶︎ ★ 등), 괄호·느낌표는 남김
+TIP_SHOW_RE = re.compile(r"個展|原画展|複製原画|色紙展|イラスト展|展示|展覧会|企画展|フェア|POP ?UP|ポップアップ|開催|イベント", re.I)
+TIP_PLACE_RE = re.compile(r"Gallery|GALLERY|ギャラリー|画廊|美術館|博物館|ミュージアム|会場|ホール|カフェ|Cafe|CAFE|BOOKS|ブックス|書店|書房|店|館|スペース|SPACE|Space")
+TIP_VER = 2  # 제보 읽는 규칙을 바꾸면 올린다 → 이미 보드에 있는 제보도 한 번 다시 읽어 고친다
+
+
 def tip_title(body):
-    """제목이 없는 X 글: 『』「」 안 이름이 있으면 그 줄, 없으면 첫 줄(해시태그·이모지 정리), 80자."""
-    lines = [re.sub(r"[#＃]\S+", "", x).strip(" 　・|") for x in body.splitlines()]
-    lines = [x for x in lines if len(x) >= 4]
-    pick = next((x for x in lines if re.search(r"[『「].+?[』」]", x) and re.search(r"展|開催|イベント|フェア", x)), None) or (lines[0] if lines else "")
+    """제목이 없는 X 글: 『』「」 이름 + 전시·개최 말이 든 줄 → 전시 말이 든 줄 → 첫 줄(해시태그·앞뒤 장식 정리), 80자.
+    전시 줄을 골랐는데 첫 줄이 짧은 이름(작가 '○○先生' 등)이면 앞에 붙인다(「やすみみらきち先生 …個展」)."""
+    lines = [DECO_RE.sub("", re.sub(r"[#＃]\S+", "", x)).strip(" 　・|") for x in body.splitlines()]
+    lines = [x for x in lines if len(x) >= 4 and not re.match(r"^\d{1,4}\s*[/.年月:：]", x)  # 날짜·시각 줄은 제목 후보에서 뺌
+             and not re.fullmatch(r"[【\[［(（].{1,8}[】\]］)）]", x)]  # 【告知】【お知らせ】 같은 머리말 줄
+    pick = next((x for x in lines if re.search(r"[『「].+?[』」]", x) and TIP_SHOW_RE.search(x)), None) \
+        or next((x for x in lines if TIP_SHOW_RE.search(x) and not TIP_PLACE_RE.search(x)), None) or (lines[0] if lines else "")
+    if lines and pick != lines[0] and len(lines[0]) <= 20 and not TIP_SHOW_RE.search(lines[0]) and not TIP_PLACE_RE.search(lines[0]):
+        pick = f"{lines[0]} {pick}"
     return pick[:80]
+
+
+def tip_text(body):
+    """날짜 읽기 전 손질: 「10.31(Sat)-11.8(日)」의 점 날짜를 10/31 로, 휴관·休み 줄(휴관일 목록이 행사일로 잡혔다)은 뺀다."""
+    t = "\n".join(x for x in body.splitlines() if not re.search(r"休み|休館|休廊|定休|休業|お休み", x))
+    t = re.sub(r"(20\d\d)\.(\d{1,2})\.(\d{1,2})(?!\d)", r"\1/\2/\3", t)  # 2026.11.20
+    return re.sub(r"(?<![\d./])(\d{1,2})\.(\d{1,2})(?=\s*[（(]|\s*[-〜～~－]|\s|$)", r"\1/\2", t)  # 10.31(Sat)
+
+
+def tip_fix(x, body, ref):
+    """제보는 대개 전시라 「11月3日(火)まで」는 판매 마감이 아니라 끝나는 날. 시작일이 없고 「開催中」이면 수집한 날을 시작으로.
+    장소는 📍·会場:·▷ 뒤의 갤러리·매장 이름 줄, 주소는 ○○市·区 + 번지 줄."""
+    if not x["endDate"] and x["deadline"] and not x["ticketOpen"] and x["category"] in ("exhibit", "popup", "collab", "event", "other"):
+        x["endDate"], x["deadline"] = x["deadline"], ""
+    if x["endDate"] and (not x["eventDate"] or x["eventDate"] > x["endDate"]):
+        x["eventDate"] = ref.strftime("%Y-%m-%dT00:00") if re.search(r"開催中|開催してい|好評", body) or not x["eventDate"] else x["eventDate"]
+    segs = [s.strip(" 　\ufe0e\ufe0f") for s in re.split(r"[\n📍▷▶►◆■●・]|▶︎|会場[:：]|場所[:：]", body) if s.strip(" 　")]
+    m = re.search(r"📍\s*([^\n📅🗓⏰]{2,40})", body)
+    venue = (m.group(1).strip() if m else "") or next((s for s in segs if TIP_PLACE_RE.search(s) and len(s) <= 40 and not re.search(r"駅|徒歩|線", s)), "")
+    venue = re.split(r"\s*(?:企画展|個展|原画展|複製原画|展示|展覧会|[『「])", venue)[0].strip() or venue  # 「ギャラリー彩 企画展「…」」 → 장소 이름만
+    if venue and not x.get("venue"): x["venue"] = DECO_RE.sub("", venue)[:60]
+    addr = next((s for s in segs if re.search(r"[都道府県市区町村]\S*\d", s) and len(s) <= 40 and not re.search(r"駅|徒歩|線|まで|時", s)), "")
+    if addr and not x.get("address"): x["address"] = addr[:80]
+    return x
 
 
 def collect_tips(src, ref):
@@ -744,15 +780,18 @@ def collect_tips(src, ref):
     data = json.loads(fetch(api + ("&" if "?" in api else "?") + "tips=1"))
     tips = [t for t in data.get("tips", []) if re.match(r"^https?://", str(t.get("url", "")))]
     RAW[src["name"]] = len(tips)
-    try: known = {x.get("url") for x in json.load(open(OUT, encoding="utf-8"))}
-    except Exception: known = set()
+    try: known = {x.get("url"): x for x in json.load(open(OUT, encoding="utf-8"))}
+    except Exception: known = {}
     out, seen = [], set()
     trust = {**src, "trust": True}
     for t in tips[:TIPS_MAX]:
         url, note = str(t["url"]).strip()[:300], str(t.get("note", "")).strip()[:300]
         mx = X_URL_RE.match(url)
         key = f"https://x.com/{mx.group(1)}/status/{mx.group(2)}" if mx else url  # x.com·twitter.com·?s= 꼬리를 하나로
-        if key in known or key in seen: continue
+        if key in seen: continue
+        if key in known:  # 이미 보드에 있으면 건너뛰고, 예전 규칙으로 읽은 제보만 한 번 다시 읽는다(main 이 옛 항목을 바꿔 끼움)
+            if known[key].get("platform") != "tip" or known[key].get("tv") == TIP_VER: continue
+            TIP_REDO[key] = known[key].get("addedAt", "")
         seen.add(key)
         try:
             if mx:
@@ -765,9 +804,12 @@ def collect_tips(src, ref):
             print(f"  제보 {url[:60]}: 읽지 못함 ({e})", file=sys.stderr); continue
         if not title and note: title = note.splitlines()[0][:80]
         if not title: continue
-        x = build(title, f"{body}\n{note}".strip(), key, trust, ref, "exhibit")
+        text = tip_text(f"{body}\n{note}".strip())
+        x = build(title, text, key, trust, ref, "exhibit")
         if not x: continue
-        x["source"], x["platform"], x["tip"] = source, "tip", True
+        x["summary"] = re.sub(r"\s+", " ", f"{body} {note}").strip()[:140]  # 요약은 손질 전 원문으로
+        tip_fix(x, text, ref)
+        x["source"], x["platform"], x["tip"], x["tv"] = source, "tip", True, TIP_VER
         if img: x["image"] = img
         if mx: x["scanned"] = True  # X 페이지는 열어도 그림·티켓 링크를 못 얻는다(기사 보강 건너뜀)
         out.append(x)
@@ -994,7 +1036,7 @@ def main():
                 for k in ("geo", "address"):
                     if o is not None and g.get(k) and not o.get(k):
                         o[k] = g[k]
-            fresh = [g for g in got if (g["url"], g["title"]) not in seen and not blocked(g, block)]
+            fresh = [g for g in got if ((g["url"], g["title"]) not in seen or g["url"] in TIP_REDO) and not blocked(g, block)]
             seen.update((g["url"], g["title"]) for g in fresh)
             new += fresh
             print(f"{name}: {len(got)}건 중 새 소식 {len(fresh)}건")
@@ -1033,8 +1075,10 @@ def main():
     except Exception as e:
         print(f"{BUZZ_NAME}: 실패 ({e})", file=sys.stderr)
         status.append({"n": BUZZ_NAME, "ok": False, "e": str(e)[:160], "f": int(p.get("f", 0)) + 1, "at": p.get("at", "")})
+    if TIP_REDO:  # 다시 읽은 제보: 옛 항목(제목이 달랐을 수 있음)을 빼고 처음 들어온 시각을 이어받는다
+        old = [o for o in old if not (o.get("platform") == "tip" and o.get("url") in TIP_REDO)]
     for n in new:
-        n["addedAt"] = ref.isoformat()
+        n["addedAt"] = TIP_REDO.get(n["url"]) or ref.isoformat() if n.get("platform") == "tip" else ref.isoformat()
     enrich(new + old, ref)
     translate_items(new + old)
     update_trends(_tr, ref)
