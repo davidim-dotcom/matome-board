@@ -13,13 +13,16 @@ games/vn.html 은 <section id="vn"> 과 assets → script → engine 순서로 �
 덧붙이는 처리
   · 그림: vn-assets.js 는 아티팩트 그림 그대로. 운영자 그림 시트에서 자른 그림은 따로 vn-assets-sheet.js(games/vn/sheets.py)가
     그 다음에 읽혀 같은 이름을 덮어쓰므로, 아티팩트를 다시 가져와도 시트 그림이 남는다.
-  · 엔진의 영어 표기 두 곳을 한국어로(장 카드 CHAPTER n → 제n장, 빈 CG 칸 [CG] → [이벤트 그림]).
+  · 엔진의 영어 표기 두 곳을 한국어로(장 카드 CHAPTER n → 제n장, 빈 CG 칸 [CG] → [이벤트 그림]), 대사 face 로 표정 바꾸기 한 줄.
+  · 대사 표정: games/vn/faces.json 의 표정을 faces.py 가 시나리오 say 줄에 다시 넣는다(아티팩트 시나리오엔 표정이 없어서).
 """
 import json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKS = [("assets", "VN 리소스"), ("script", "VN 시나리오"), ("engine", "VN 엔진")]
-KO_FIX = [(r"`CHAPTER \$\{n\}`", "`제${n}장`"), (r"\[CG\]", "[이벤트 그림]")]
+KO_FIX = [(r"`CHAPTER \$\{n\}`", "`제${n}장`"), (r"\[CG\]", "[이벤트 그림]"),
+          # 대사(say)의 face 로 화면의 그 인물 표정을 바꾼다(원본 엔진은 show 의 face 만 봄)
+          (r"case 'say':return show\(op\.who,op\.text\);", "case 'say':if(op.face&&G.chars[op.who])G.chars[op.who].face=op.face;return show(op.who,op.text);")]
 
 
 def read_source(paths):
@@ -110,6 +113,9 @@ def main():
     for f, s in files.items():
         open(os.path.join(HERE, f), "w", encoding="utf-8").write(s)
         print(f"썼음 games/vn/{f} ({len(s.encode()) // 1024}KB)")
+    sys.path.insert(0, HERE)
+    import faces
+    faces.apply()
     # 요약
     sc = files["vn-script.js"]
     ver = re.search(r"ver:'([^']*)'", sc)
