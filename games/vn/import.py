@@ -11,7 +11,8 @@
 games/vn.html 은 <section id="vn"> 과 assets → script → engine 순서로 읽는 껍데기라 건드리지 않는다.
 
 덧붙이는 처리
-  · 그림: 새 VN_ASSETS 를 쓰되, 저장소에만 있는 그림(예: 운영자 시트에서 따로 잘라 넣은 library)은 남긴다(--drop-old 면 버림).
+  · 그림: vn-assets.js 는 아티팩트 그림 그대로. 운영자 그림 시트에서 자른 그림은 따로 vn-assets-sheet.js(games/vn/sheets.py)가
+    그 다음에 읽혀 같은 이름을 덮어쓰므로, 아티팩트를 다시 가져와도 시트 그림이 남는다.
   · 엔진의 영어 표기 두 곳을 한국어로(장 카드 CHAPTER n → 제n장, 빈 CG 칸 [CG] → [이벤트 그림]).
 """
 import json, os, re, sys
@@ -93,7 +94,7 @@ def main():
         out[key] = split(block(page, name))
     # 그림
     head, _, js = out["assets"]
-    js, kept = merge_assets(js, "--drop-old" not in sys.argv)
+    js, kept = merge_assets(js, False)
     files = {"vn-assets.js": f"/*\n{head}\n*/\n{js}\n"}
     # 시나리오
     head, _, js = out["script"]
