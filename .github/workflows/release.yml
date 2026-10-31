@@ -1,0 +1,44 @@
+name: 보드 릴리즈
+
+# 지금 main 의 보드 버전(index.html 의 BOARD_VER)으로 GitHub 릴리즈 v버전 을 만든다(이미 있으면 설명만 고침).
+# 설명은 CHANGELOG.md 의 '## v버전' 칸. 운영자가 '릴리즈'라고 할 때 수동 실행(Actions → 보드 릴리즈 → Run workflow).
+# 클라우드 Claude 세션은 태그를 직접 올릴 수 없어(작업 브랜치에만 푸시) 이 워크플로를 실행한다.
+# 앱 설치 파일 릴리즈(태그 app)는 android.yml 이 따로 다룬다.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 버전과 설명 읽기
+        id: v
+        run: |
+          python3 - <<'EOF'
+          import os, re
+          ver = re.search(r'const BOARD_VER="([^"]+)"', open("index.html", encoding="utf-8").read()).group(1)
+          log = open("CHANGELOG.md", encoding="utf-8").read()
+          m = re.search(r"^## v" + re.escape(ver) + r"\b.*?\n(.*?)(?=^## |\Z)", log, re.S | re.M)
+          notes = (m.group(1).strip() if m else "") + "\n\n사이트: https://davidim-dotcom.github.io/matome-board/ · 안드로이드 앱은 Releases 의 '마토메 보드 안드로이드 앱'(태그 app)"
+          open("release-notes.md", "w", encoding="utf-8").write(notes)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"ver={ver}\n")
+          print("v" + ver); print(notes)
+          EOF
+      - name: 릴리즈 만들기(있으면 설명만 고침)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          R: ${{ github.repository }}
+          VER: ${{ steps.v.outputs.ver }}
+        run: |
+          if gh release view "v$VER" -R "$R" >/dev/null 2>&1; then
+            gh release edit "v$VER" -R "$R" --notes-file release-notes.md
+            echo "v$VER 설명 고침"
+          else
+            gh release create "v$VER" -R "$R" --target "$GITHUB_SHA" --title "마토메 보드 v$VER" --notes-file release-notes.md
+            echo "v$VER 만듦"
+          fi
