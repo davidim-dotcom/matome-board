@@ -22,7 +22,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BLOCKS = [("assets", "VN 리소스"), ("script", "VN 시나리오"), ("engine", "VN 엔진")]
 KO_FIX = [(r"`CHAPTER \$\{n\}`", "`제${n}장`"), (r"\[CG\]", "[이벤트 그림]"),
           # 대사(say)의 face 로 화면의 그 인물 표정을 바꾼다(원본 엔진은 show 의 face 만 봄)
-          (r"case 'say':return show\(op\.who,op\.text\);", "case 'say':if(op.face&&G.chars[op.who])G.chars[op.who].face=op.face;return show(op.who,op.text);")]
+          (r"case 'say':return show\(op\.who,op\.text\);", "case 'say':if(op.face&&G.chars[op.who])G.chars[op.who].face=op.face;return show(op.who,op.text);"),
+          # 장면 음악(vn-bgm.js): bgm 줄·불러오기·타이틀에서 VN_BGM.play
+          (r"case 'bgm':G\.bgm=op\.id;break;", "case 'bgm':G.bgm=op.id;window.VN_BGM&&VN_BGM.play(op.id);break;"),
+          (r"function restore\(s\)\{G=JSON\.parse\(JSON\.stringify\(s\)\);", "function restore(s){G=JSON.parse(JSON.stringify(s));window.VN_BGM&&VN_BGM.play(G.bgm||'');"),
+          (r"function toTitle\(\)\{", "function toTitle(){window.VN_BGM&&VN_BGM.play('타이틀');")]
 
 
 def read_source(paths):
