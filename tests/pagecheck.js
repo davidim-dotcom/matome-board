@@ -62,14 +62,14 @@ async function run(dev) {
   }
   // 피드 '그림으로 보기'(격자)와 카드 상자
   await page.evaluate(() => document.querySelector('nav.tabs [data-tab="feed"]').click());
-  await page.evaluate(() => { const b = document.querySelector("[data-fview]"); if (b && b.getAttribute("aria-pressed") !== "true") b.click(); });
+  await page.evaluate(() => document.querySelector('[data-fview="grid"]')?.click());
   await page.waitForTimeout(700);
   const tiles = await page.$$eval(".ptile", (a) => a.length), ovg = await page.evaluate(OVERFLOW);
   await page.evaluate(() => { const t = document.querySelector(".ptile"); if (t) t.click(); });
   const modal = await page.evaluate(() => !!document.querySelector(".pmodal .row"));
   if (!tiles || !modal) bad.push(`${dev} 그림 보기: 타일 ${tiles}개, 카드 상자 ${modal ? "열림" : "안 열림"}`);
   if (ovg.length) bad.push(`${dev} 그림 보기: 화면 밖으로 넘침 → ${ovg.join(" | ")}`);
-  await page.evaluate(() => { document.querySelector(".pmodal")?.remove(); const b = document.querySelector("[data-fview]"); if (b) b.click(); });  // 목록으로 되돌림
+  await page.evaluate(() => { document.querySelector(".pmodal")?.remove(); document.querySelector('[data-fview="list"]')?.click(); });  // 목록으로 되돌림
   console.log(`${tiles && modal && !ovg.length ? "OK  " : "FAIL"} ${dev} 그림 보기`);
   // 도쿄 지도의 '⛩ 성지'(data/seichi.json): 켜면 ⛩ 표시가 찍히고, 누르면 설명이 나온다
   await page.evaluate(() => { const d = document.querySelector(".mapbox"); if (d) d.open = true; document.querySelector("[data-mapseichi]")?.click(); });
