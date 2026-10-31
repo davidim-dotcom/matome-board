@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 밝은 테마. 페이지의 밝은 배경(--bg #EEF1F8)과 같은 색. WebView 의 prefers-color-scheme 은 이 테마의 밝기를 따른다 -->
+    <style name="Theme.Matome" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <color name="bg">#EEF1F8</color>
+    <color name="icon_bg">#13152A</color>
+</resources>

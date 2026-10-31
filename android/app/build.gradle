@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.application'
+}
+
+// 버전 번호는 Actions 실행 번호(APP_VERSION_CODE)라 새로 빌드할 때마다 올라가 폰에서 '업데이트'로 깔린다.
+def vc = Integer.parseInt(System.getenv('APP_VERSION_CODE') ?: '1')
+
+android {
+    namespace 'io.github.davidimdotcom.matome'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'io.github.davidimdotcom.matome'
+        minSdk 24
+        targetSdk 34 // 35 는 화면 끝까지 그리기(edge-to-edge)가 강제라 상태 표시줄 밑으로 페이지가 들어간다
+        versionCode vc
+        versionName "1.0.${vc}"
+    }
+
+    // 서명 키는 저장소 비밀값(Settings → Secrets → Actions)에서 받는다: ANDROID_KEYSTORE(키 파일 base64), ANDROID_KEY_PASSWORD.
+    // 워크플로가 키 파일을 android/release.keystore 로 풀어 둔다. 비밀값이 없으면 그 실행의 임시 디버그 키로 서명한다
+    // (그 경우 새 APK 는 기존 앱 위에 업데이트로 안 깔리고 지우고 다시 깔아야 한다).
+    def ks = rootProject.file('release.keystore')
+    signingConfigs {
+        release {
+            if (ks.exists()) {
+                storeFile ks
+                storePassword System.getenv('ANDROID_KEY_PASSWORD')
+                keyAlias 'matome'
+                keyPassword System.getenv('ANDROID_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig ks.exists() ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.11.0'
+    implementation 'androidx.core:core:1.13.1'
+}
