@@ -44,6 +44,7 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
 .help{font-size:12px;color:var(--muted);margin:8px 0 0}
 .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:7px 12px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
+.ttl{display:inline-block;margin-left:5px;padding:0 6px;border-radius:999px;font-size:10px;font-style:normal;font-weight:700;color:var(--amber);border:1px solid var(--amber);vertical-align:1px;white-space:nowrap}
 .res{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .res[hidden]{display:none}
 .res .hd{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted);letter-spacing:.04em}
@@ -51,6 +52,7 @@ form.sub button{border:0;background:var(--pink);color:#fff;border-radius:8px;pad
 .res .lg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--muted)} .res .lg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:0}
 .res p{margin:6px 0 0;font-size:13px;overflow-wrap:anywhere}
 .res button{border:0;background:var(--pink);color:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;margin-left:4px}
+.res .hd button{padding:3px 10px;font-size:12px;letter-spacing:0}
 .pbtn{position:absolute;left:8px;top:8px;width:42px;height:42px;border:1px solid rgba(255,255,255,.35);border-radius:10px;background:rgba(10,8,30,.6);color:#fff;font-size:15px;cursor:pointer;touch-action:manipulation}
 .pmenu{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,5,15,.66)}
 .pbtn[hidden],.pmenu[hidden]{display:none}
@@ -417,18 +419,44 @@ function resultPanel(){const song=G.song,T=song.len*song.st()||1,hits=G.notes.fi
   // MISS 가 가장 많은 8초 구간
   const B=8,cnt={};for(const n of miss){const k=Math.floor(n.t/B);cnt[k]=(cnt[k]||0)+1}const worst=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
   const fix=ds.length>=20&&Math.abs(med)>=15?clamp(Math.round((OFFSET+med)/10)*10,-300,300):null;
-  $('res').innerHTML=`<div class="hd"><span>RESULT GRAPH · 판정 그래프</span><span>${hits.length+miss.length}노트</span></div>${svg}
+  $('res').innerHTML=`<div class="hd"><span>RESULT GRAPH · 판정 그래프</span><span>${hits.length+miss.length}노트 <button type="button" id="resCard">결과 카드</button></span></div>${svg}
     <div class="lg"><span><i style="background:#ffe066"></i>PERFECT</span><span><i style="background:#7ee0ff"></i>GREAT</span><span><i style="background:#c9c9ff"></i>GOOD</span><span><i style="background:#ff6b6b;border-radius:1px"></i>MISS</span><span>위 = 일찍 · 아래 = 늦게</span></div>
     <p>FAST ${fast} · LATE ${late} · 누른 시각 중앙값 <b>${med>0?'+':''}${Math.round(med)}ms</b>${med>0?' (늦게)':med<0?' (일찍)':''}${worst&&worst[1]>=2?` · MISS 가 많았던 곳 <b>${sec(worst[0]*B)}~${sec((+worst[0]+1)*B)}</b> (${worst[1]}개)`:''}</p>
     ${fix!=null&&fix!==OFFSET?`<p>한쪽으로 쏠려 있어요. 타이밍을 <b>${OFFSET}ms → ${fix>0?'+':''}${fix}ms</b> 로 바꾸면 노트와 더 잘 맞을 거예요.<button type="button" id="resFix">적용</button></p>`:ds.length>=20?'<p>타이밍은 잘 맞아요.</p>':''}`;
-  $('res').hidden=false;const b=$('resFix');if(b)b.onclick=()=>{setOff(fix);b.disabled=true;toast(`타이밍을 ${fix}ms 로 바꿨어요`)}}
+  $('res').hidden=false;$('resCard').onclick=resultCard;const b=$('resFix');if(b)b.onclick=()=>{setOff(fix);b.disabled=true;toast(`타이밍을 ${fix}ms 로 바꿨어요`)}}
+// 결과 카드(2026-10 말): 곡·난이도·랭크·점수·판정·릴리 만세 그림을 1080×1350 카드 한 장으로 그려 공유(되면) 또는 저장
+async function resultCard(){const r=G.result;if(!r)return;const song=SONGS[songI],lv=LEVELS[lvI],th=THEMES[song.theme]||null,CW=1080,CH=1350;
+  try{await Promise.all(['900 120px "Black Han Sans"','700 40px "IBM Plex Sans KR"'].map(f=>document.fonts.load(f)))}catch(e){}
+  const c=document.createElement('canvas');c.width=CW;c.height=CH;const g=c.getContext('2d');
+  const bg=g.createLinearGradient(0,0,0,CH);bg.addColorStop(0,th?th.top:'#2a1554');bg.addColorStop(.55,'#0c0b24');bg.addColorStop(1,'#05050f');g.fillStyle=bg;g.fillRect(0,0,CW,CH);
+  g.save();g.globalCompositeOperation='lighter';(th?th.spot:['rgba(255,111,181,.16)','rgba(95,212,255,.14)','rgba(255,212,71,.13)','rgba(180,130,255,.14)']).forEach((col,i)=>{const x=140+i*270,sw=(i%2?-1:1)*90;g.fillStyle=col;g.beginPath();g.moveTo(x,0);g.lineTo(x+sw-110,820);g.lineTo(x+sw+110,820);g.closePath();g.fill()});g.restore();
+  const RC={S:'#ffd447',A:'#ff6fb5',B:'#5fd4ff',C:'#c9c9ff'}[r.rank];g.textBaseline='alphabetic';
+  g.fillStyle='#ff5c9a';g.font='700 34px "IBM Plex Sans KR",sans-serif';g.fillText('ペンライト・オンステージ',80,120);
+  g.fillStyle='#fff';g.font='700 66px "IBM Plex Sans KR",sans-serif';g.fillText(song.name,80,205,CW-160);
+  g.fillStyle='rgba(255,255,255,.12)';g.font='700 34px ui-monospace,monospace';const lt=lv.name,ltw=g.measureText(lt).width+48;g.beginPath();g.roundRect?g.roundRect(80,236,ltw,56,28):g.rect(80,236,ltw,56);g.fill();g.fillStyle='#fff';g.fillText(lt,104,276);
+  // 랭크·점수
+  g.fillStyle=RC;g.font='900 400px "Black Han Sans",sans-serif';g.shadowColor=RC;g.shadowBlur=60;g.fillText(r.rank,70,700);g.shadowBlur=0;
+  if(r.fc){g.fillStyle='#ffe066';g.font='900 64px "Black Han Sans",sans-serif';g.fillText(G.j.g+G.j.o===0?'ALL PERFECT!':'FULL COMBO!',80,800)}
+  const L=IMG.jig;if(L&&L.complete&&L.naturalWidth){const fw=L.naturalWidth/8,fh=L.naturalHeight,s2=520/fh;g.imageSmoothingEnabled=false;g.drawImage(L,3*fw,0,fw,fh,CW-fw*s2-40,300,fw*s2,fh*s2);g.imageSmoothingEnabled=true}
+  g.fillStyle='#fff';g.font='700 120px ui-monospace,monospace';g.fillText(G.score.toLocaleString(),80,960,CW-160);
+  g.fillStyle='#b8a8ff';g.font='500 34px "IBM Plex Sans KR",sans-serif';g.fillText(`MAX COMBO ${G.maxCombo}   ·   정확도 ${(r.acc*100).toFixed(1)}%`,80,1020);
+  [['PERFECT',G.j.p,'#ffe066'],['GREAT',G.j.g,'#7ee0ff'],['GOOD',G.j.o,'#c9c9ff'],['MISS',G.j.m,'#ff6b6b']].forEach(([k,v,col],i)=>{const x=80+i*235;g.fillStyle='rgba(255,255,255,.07)';g.beginPath();g.roundRect?g.roundRect(x,1070,215,130,22):g.rect(x,1070,215,130);g.fill();
+    g.fillStyle=col;g.font='700 28px ui-monospace,monospace';g.fillText(k,x+24,1116);g.fillStyle='#fff';g.font='700 56px ui-monospace,monospace';g.fillText(String(v),x+24,1180)});
+  g.fillStyle='#9a9ebb';g.font='500 28px "IBM Plex Sans KR",sans-serif';const d=new Date(Date.now()+9*36e5).toISOString().slice(0,10).replace(/-/g,'.');g.fillText(`${d}  ·  마토메 보드 · davidim-dotcom.github.io/matome-board`,80,1290,CW-160);
+  const blob=await new Promise(res=>c.toBlob(res,'image/png'));if(!blob){toast('카드를 만들지 못했어요');return}
+  const file=new File([blob],`penlight-${song.id}-${lv.name.toLowerCase()}.png`,{type:'image/png'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:`${song.name} ${lv.name} ${r.rank}`});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast('결과 카드를 저장했어요')}
 function finish(){stop();G.state='result';G.resumeTo=null;ui();G.feverT=0;const N=G.notes.length||1,acc=(G.j.p+G.j.g*.7+G.j.o*.4)/N;G.result={acc,rank:acc>=.95?'S':acc>=.85?'A':acc>=.7?'B':'C',fc:G.j.m===0};
   let hi=0;const key='pen-hi-'+SONGS[songI].id+'-'+LEVELS[lvI].id;try{hi=+localStorage.getItem(key)||0;if(G.score>hi)localStorage.setItem(key,G.score)}catch(e){}
+  if(G.result.fc)ach('pen_fc');if(G.result.fc&&G.j.g+G.j.o===0)ach('pen_ap');if(LEVELS[lvI].id===4&&G.result.rank==='S')ach('pen_ex');if(SONGS[songI].season)ach('pen_season');
   runEnd();try{resultPanel()}catch(e){}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pause('화면을 떠나서 일시정지했어요')});
 
 // ---------- 스코어 보드(보드의 게시판 웹 앱, game=pen, skin=곡:난이도 로 따로 모음) ----------
 const RK={ready:false,run:null,sent:false,mine:null};
+// 업적·칭호: 보드(parent.MATOME)의 공통 기록을 쓴다. 혼자 열면 조용히 건너뜀
+const ach=id=>{try{parent.MATOME.ach(id)}catch(e){}},ttl=()=>{try{return String(parent.MATOME.title()||'').slice(0,12)}catch(e){return ''}};
 const api=()=>{try{const a=parent&&parent.MATOME&&parent.MATOME.api;return /^https:\/\/script\.google\.com\/macros\//.test(a||'')?a:''}catch(e){return ''}};
 const boardKey=()=>SONGS[songI].id+':'+LEVELS[lvI].name;
 function nil(t){$('rank').innerHTML='<li class="nil">'+t+'</li>'}
@@ -436,20 +464,20 @@ async function loadRank(){const a=api();if(!a){nil('스코어 보드는 보드�
   try{const r=await fetch(a+'?scores=1&limit=30&game=pen&skin='+encodeURIComponent(boardKey())+'&v='+Date.now(),{cache:'no-store'});const j=await r.json();
     if(!Array.isArray(j.scores)){nil('스코어 보드는 준비 중이에요.');return}RK.ready=true;
     const L=j.scores.filter(v=>String(v.skin||'')===boardKey()).slice(0,30);
-    $('rank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;return `<li class="${i<3?'top'+(i+1):''}${mine?' mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(String(v.name).slice(0,12))}</span><span class="st">${v.clear?'FULL COMBO':''}</span><b>${Math.floor(+v.score||0).toLocaleString()}</b></li>`}).join('')
+    $('rank').innerHTML=L.length?L.map((v,i)=>{const mine=RK.mine&&RK.mine.name===v.name&&RK.mine.score===v.score;return `<li class="${i<3?'top'+(i+1):''}${mine?' mine':''}"><span class="no">${i+1}</span><span class="nm">${esc(String(v.name).slice(0,12))}${v.title?`<em class="ttl">${esc(String(v.title).slice(0,12))}</em>`:''}</span><span class="st">${v.clear?'FULL COMBO':''}</span><b>${Math.floor(+v.score||0).toLocaleString()}</b></li>`}).join('')
       :'<li class="nil">이 곡·난이도의 첫 기록을 남겨 보세요.</li>'}catch(e){nil('기록을 불러오지 못했어요. ↻ 로 다시 시도해 주세요.')}}
 function runEnd(){if(G.score<=0||!RK.ready)return;RK.run={score:G.score,stage:LEVELS[lvI].id,skin:boardKey(),clear:G.result.fc};RK.sent=false;
   $('subMe').innerHTML=`이번 기록 <b>${G.score.toLocaleString()}</b> · ${esc(SONGS[songI].name)} ${LEVELS[lvI].name} · ${G.result.rank}${G.result.fc?' · FULL COMBO':''}`;
   const n=$('name');if(!n.value){try{n.value=localStorage.getItem('dm-name')||''}catch(e){}}$('subBtn').disabled=false;$('sub').hidden=false}
 $('sub').addEventListener('submit',async e=>{e.preventDefault();const run=RK.run,a=api();if(!run||RK.sent||!a)return;const name=$('name').value.replace(/\s+/g,' ').trim().slice(0,12);if(!name){toast('이름을 적어 주세요');return}
   let lastSent=0;try{lastSent=+localStorage.getItem('pen-sent')||0}catch(err){}if(Date.now()-lastSent<30000){toast('조금 뒤에 다시 등록해 주세요');return}
-  const body=JSON.stringify({type:'score',game:'pen',name,score:run.score,stage:run.stage,skin:run.skin,clear:run.clear});$('subBtn').disabled=true;
+  const body=JSON.stringify({type:'score',game:'pen',name,score:run.score,stage:run.stage,skin:run.skin,clear:run.clear,title:ttl()});$('subBtn').disabled=true;
   try{let ok=false;try{const r=await fetch(a,{method:'POST',body});ok=r.ok&&(await r.json()).ok===true}catch(err){await fetch(a,{method:'POST',body,mode:'no-cors'});ok=true}if(!ok)throw 0;
     RK.sent=true;RK.mine={name,score:run.score};try{localStorage.setItem('dm-name',name);localStorage.setItem('pen-sent',String(Date.now()))}catch(err){}$('sub').hidden=true;toast('기록을 등록했어요');setTimeout(loadRank,1200)}
   catch(err){$('subBtn').disabled=false;toast('등록하지 못했어요. 잠시 뒤 다시 시도해 주세요')}});
 $('rkRe').onclick=loadRank;loadRank();
 $('pbtn').onclick=()=>pause();$('pGo').onclick=resume;$('pRe').onclick=()=>{quit();start()};$('pQuit').onclick=()=>quit('곡을 그만뒀어요');
-window.PEN={G,SONGS,LEVELS,buildChart,start,songNow,pause,resume,quit}; // 점검용
+window.PEN={G,SONGS,LEVELS,buildChart,start,songNow,pause,resume,quit,resultCard}; // 점검용
 })();
 </script>
 </body>

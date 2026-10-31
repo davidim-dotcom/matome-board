@@ -99,26 +99,27 @@ function topScores_(n, g, skin) { // skin 을 주면 그 값인 기록만(펜라
   const last = sh.getLastRow();
   if (last < 2) return [];
   const k = Math.min(SCORE_SCAN, last - 1);
-  const rows = sh.getRange(last - k + 1, 1, k, 6).getValues();
-  return rows.map((r, i) => ({ i, at: r[0], name: String(r[1] || '익명'), score: Number(r[2]) || 0, stage: Number(r[3]) || 1, skin: String(r[4] || ''), clear: r[5] === true || r[5] === 'TRUE' || r[5] === 1 }))
+  const rows = sh.getRange(last - k + 1, 1, k, 7).getValues(); // 7번째 칸 = 칭호(예전 기록은 빈 칸)
+  return rows.map((r, i) => ({ i, at: r[0], name: String(r[1] || '익명'), score: Number(r[2]) || 0, stage: Number(r[3]) || 1, skin: String(r[4] || ''), clear: r[5] === true || r[5] === 'TRUE' || r[5] === 1, title: String(r[6] || '').slice(0, 12) }))
     .filter(r => r.score > 0 && (!skin || r.skin === String(skin).slice(0, 12)))
     .sort((a, b) => b.score - a.score || a.i - b.i)
     .slice(0, n)
-    .map(r => ({ at: fmt_(r.at).slice(0, 10), name: r.name, score: r.score, stage: r.stage, skin: r.skin, clear: r.clear }));
+    .map(r => ({ at: fmt_(r.at).slice(0, 10), name: r.name, score: r.score, stage: r.stage, skin: r.skin, clear: r.clear, title: r.title }));
 }
 
-// POST {"type":"score","game":"dm|suika|2048","name":"…","score":123,"stage":3,"skin":"릴리","clear":false}
+// POST {"type":"score","game":"dm|suika|2048","name":"…","score":123,"stage":3,"skin":"릴리","clear":false,"title":"칭호(선택)"}
 function addScore_(d) {
   const g = game_(d.game);
   const name = String(d.name || '').replace(/\s+/g, ' ').trim().slice(0, SCORE_NAME);
   const score = Math.floor(Number(d.score));
   const stage = Math.max(1, Math.min(GAMES[g].stage, Math.floor(Number(d.stage)) || 1));
   const skin = String(d.skin || '').trim().slice(0, 12);
+  const title = String(d.title || '').replace(/\s+/g, ' ').trim().slice(0, 12); // 칭호(2026-10 말 업적): 7번째 칸
   if (!name) return out_({ ok: false, error: 'name' });
   if (!(score > 0 && score <= SCORE_MAX)) return out_({ ok: false, error: 'score' });
   const lock = LockService.getScriptLock();
   lock.waitLock(5000);
-  try { scoreSheet_(g).appendRow([new Date(), noFormula_(name), score, stage, noFormula_(skin), d.clear === true]); } finally { lock.releaseLock(); }
+  try { scoreSheet_(g).appendRow([new Date(), noFormula_(name), score, stage, noFormula_(skin), d.clear === true, noFormula_(title)]); } finally { lock.releaseLock(); }
   return out_({ ok: true });
 }
 

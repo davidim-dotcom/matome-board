@@ -3,11 +3,15 @@
   python3 assets/lilly/extract.py        # assets/lilly/*.png 와 앱 아이콘(assets/icon-lilly-*.png, apple-touch-icon-lilly.png)을 다시 씀
 
 src/poster.jpg  (2816×1536): 가운데 포스터(날개 달고 쏘는 릴리)와 오른쪽 둥근 배지(윙크·엄지척 얼굴)
+src/samples.jpg (2816×1536): 고해상도 도트 견본 5칸(발차기·윙크 얼굴·비행·단말기·전투복)
+src/extended.jpg (2760×1504): 확장 도시에(HD 패널: 비행·빗자루(화난 얼굴)·발차기·단말기·표정·전투복)
 src/dossier.jpg (2816×1536): 9열×8행 도트 애니메이션 시트(대기·인사·기지개·걷기·달리기·대시·회전 춤·만세·테크노),
                               칸마다 남색 우주 배경 + 격자선
 결과
   badge.png        둥근 배지 512px(원 밖 투명) — 제목 옆 로고·아이콘·주말 한 장
   poster.png       포스터 윗부분(글자 위까지) — og 그림용
+  cutin.jpg        화난 얼굴(이를 악문 표정) 정사각 — 弾幕 보스 등장·필살 컷인
+  ../game/lilly_armor.png  전투복 릴리 전신(높이 46px) — 弾幕 해금 스킨 「アーマー」의 자기 그림, armor.png 는 큰 미리보기(스킨 버튼)
   anim_<이름>.png  애니메이션 한 줄(프레임 8칸, 칸 크기는 그 애니메이션 프레임들을 다 담는 상자, 발 기준 아래 정렬)
                    + anim.json {이름: [칸 폭, 칸 높이, 프레임 수]}
 배경 지우기: 칸 가장자리에서 시작해 배경색(칸 가장자리 중앙값)에서 가까운 어두운 색만 flood 로 지우고,
@@ -28,15 +32,15 @@ ROWS = [(145, 298), (303, 455), (459, 615), (620, 759), (764, 913), (917, 1062),
 ANIMS = {'walk': 3, 'twirl': 6, 'jig': 7}  # 열 번호. 대기(0)·인사(1)는 상반신 그림이라 무대에 안 맞고, 달리기(4)·대시(5)는 먼지·잔상이 몸에 붙어 깨끗이 안 떨어져서 뺐다. 필요하면 여기 더하고 다시 돌린다
 
 
-def cut_cell(a):
-    """칸 하나(RGB 배열) → RGBA. 배경 flood + 큰 덩어리만."""
+def cut_cell(a, thr=34, lum_max=70):
+    """칸 하나(RGB 배열) → RGBA. 배경 flood + 큰 덩어리만. thr = 배경색과의 거리 기준(배경이 단색이면 작게)."""
     h, w, _ = a.shape
     ai = a.astype(int)
     edge = np.concatenate([ai[:3].reshape(-1, 3), ai[-3:].reshape(-1, 3), ai[:, :3].reshape(-1, 3), ai[:, -3:].reshape(-1, 3)])
     bg = np.median(edge, 0)
     dist = np.sqrt(((ai - bg) ** 2).sum(2))
     lum = ai.mean(2)
-    cand = (dist < 34) & (lum < 70)          # 배경 후보: 배경색 근처의 어두운 색
+    cand = (dist < thr) & (lum < lum_max)    # 배경 후보: 배경색 근처의 어두운 색
     seen = np.zeros((h, w), bool)
     q = deque()
     for y in range(h):
@@ -124,6 +128,28 @@ def poster():
     p.save(os.path.join(HERE, 'poster.jpg'), quality=86, optimize=True)
 
 
+def cutin():
+    im = Image.open(os.path.join(SRC, 'extended.jpg')).convert('RGB')
+    s = im.width / 2000
+    c = im.crop((int(1158 * s), int(42 * s), int(1560 * s), int(448 * s)))  # 'BATTLE-BROOM (HD)' 칸 안쪽(테두리 빼고)
+    c.resize((360, 360), Image.LANCZOS).save(os.path.join(HERE, 'cutin.jpg'), quality=86, optimize=True)
+
+
+def armor():
+    im = Image.open(os.path.join(SRC, 'samples.jpg')).convert('RGB')
+    s = im.width / 2000
+    a = np.asarray(im.crop((int(1598 * s), int(198 * s), int(1938 * s), int(892 * s))))  # 전투복 칸 안쪽
+    f = cut_cell(a, thr=12, lum_max=255)  # 이 칸 배경은 거의 단색(표준편차 0.4)이라 좁게: 넓으면 검은 수트까지 지워졌다
+    big = f.resize((f.width * 160 // f.height, 160), Image.LANCZOS)
+    big.save(os.path.join(HERE, 'armor.png'), optimize=True)
+    # 弾幕 자기 그림 크기(기본 player 36×41 와 비슷). BOX 평균은 얼굴이 뭉개져서 LANCZOS + 선명하게 + 32색
+    small = f.resize((max(1, f.width * 48 // f.height), 48), Image.LANCZOS).filter(ImageFilter.UnsharpMask(1.2, 120, 2))
+    al = small.getchannel('A').point(lambda v: 255 if v >= 120 else 0)  # 도트답게 알파는 0/255
+    small = small.convert('RGB').quantize(32, method=Image.Quantize.MEDIANCUT).convert('RGBA'); small.putalpha(al)
+    small.save(os.path.join(ROOT, 'assets', 'game', 'lilly_armor.png'), optimize=True)
+    print('armor', small.size, big.size)
+
+
 def icons(b):
     BG = (19, 21, 42)
     def tile(size, pad, rounded):
@@ -146,6 +172,8 @@ def icons(b):
 
 if __name__ == '__main__':
     anims()
+    cutin()
+    armor()
     b = badge()
     poster()
     icons(b)
