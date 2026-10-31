@@ -190,7 +190,7 @@ a.wk-work{text-decoration:none}
 .gamegrip{display:none}
 .hm-jump{display:flex;justify-content:flex-end;margin:0 0 6px}
 .hm-jump button{border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:2px 4px;cursor:pointer}
-.hm-fab{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;padding:10px 18px;border-radius:999px;border:0;background:#ff5c9a;color:#fff;font:inherit;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.hm-fab{position:fixed;left:50%;bottom:calc(14px + max(var(--bnav),env(safe-area-inset-bottom,0px)));transform:translateX(-50%);z-index:40;padding:10px 18px;border-radius:999px;border:0;background:#ff5c9a;color:#fff;font:inherit;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.3)}
 .hm-fab[hidden]{display:none}
 @media (pointer:coarse){
   .gamewrap{display:grid;grid-template-columns:1fr 26px;gap:4px}
@@ -251,6 +251,7 @@ button{cursor:pointer}
 .stub .k{font-size:12px;color:var(--pink);font-weight:700}
 .stub .n{font-weight:700;font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .stub a{margin-top:auto;font-size:13px;color:var(--cyan);font-weight:500;text-decoration:none}
+.stubs[hidden]{display:none}
 .empty-stub{color:var(--muted);font-size:14px;padding:6px 0 14px}
 
 /* Tabs */
@@ -258,6 +259,25 @@ nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:v
 nav.tabs button{border:0;background:none;padding:8px 10px;flex:none;border-radius:999px;color:var(--muted);font-weight:500;white-space:nowrap}
 nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
+/* 폰 아래 탭 막대(.bnav)와 더보기 시트(.bsheet). --bnav 는 아래에 붙는 고정 요소(마스코트·토스트·기록 등록 버튼)를 막대 위로 올리는 높이 */
+:root{--bnav:0px}
+.bnav,.bsheet{display:none}
+@media (max-width:639px){
+  :root{--bnav:calc(58px + env(safe-area-inset-bottom,0px))}
+  nav.tabs{display:none}
+  body{padding-bottom:var(--bnav)}
+  .bnav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:20;height:var(--bnav);padding:0 max(4px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(4px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .bnav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);padding:0;-webkit-tap-highlight-color:transparent}
+  .bnav button .ic{font-size:22px;width:1em;height:1em;padding:3px 14px;box-sizing:content-box;border-radius:999px;transition:background .15s}
+  .bnav button[aria-current="page"]{color:var(--ink)}
+  .bnav button[aria-current="page"] .ic{background:color-mix(in srgb,var(--pink) 22%,transparent);color:var(--pink)}
+  .bsheet:not([hidden]){display:block;position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.35)}
+  .bsheet-in{position:absolute;left:8px;right:8px;bottom:calc(var(--bnav) + 8px);background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .bsheet-in button{border:0;background:none;display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;font-weight:600;color:var(--ink);text-align:left}
+  .bsheet-in button .ic{font-size:20px;color:var(--muted)}
+  .bsheet-in button[aria-current="page"]{background:color-mix(in srgb,var(--pink) 16%,transparent)}
+  .bsheet-in button[aria-current="page"] .ic{color:var(--pink)}
+}
 /* 게임 고르기(게임 탭 맨 위) */
 .gpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin:10px 0 12px} /* 게임이 늘어 여러 줄로 */
 .gpick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px 7px;border:1px solid var(--line);border-radius:12px;background:var(--surface);line-height:1.2;min-width:0}
@@ -474,7 +494,6 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .post .meta{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:baseline}
 .post .meta b{color:var(--ink);font-size:13px}
 .post p{margin:4px 0 0;font-size:14px;white-space:pre-wrap;word-break:break-word}
-.month-h{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:20px;margin:22px 0 2px}
 /* 캘린더 */
 .cal-head{display:flex;align-items:center;gap:6px;margin:12px 0 8px}
 .cal-head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:22px;margin:0;flex:1;text-align:center;letter-spacing:-.3px;white-space:nowrap}
@@ -528,13 +547,9 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
 input[type=text],input[type=url],input[type=datetime-local],textarea,select{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px}
 textarea{min-height:110px;resize:vertical}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
-@media (max-width:520px){.grid2{grid-template-columns:1fr}}
-.primary{border:0;background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 16px;font-weight:700;margin-top:12px}
 .note{font-size:13px;color:var(--muted)}
 .status{font-size:13px;margin-top:8px;min-height:1.2em}
 .empty{color:var(--muted);padding:28px 0;text-align:center}
-.atime .dd{font-size:20px;letter-spacing:-.5px}
 .arow{grid-template-columns:104px minmax(0,1fr)}
 .thumbcol{display:flex;flex-direction:column;align-items:center;gap:4px}
 .thumb{width:104px;aspect-ratio:16/9;border-radius:6px;object-fit:cover;display:block;background:var(--line)}
@@ -545,11 +560,11 @@ textarea{min-height:110px;resize:vertical}
 .watch[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);font-weight:700}
 .soon{color:var(--pink);font-weight:500}
 .aside{font-size:13px;color:var(--muted);margin:6px 0 2px}
-.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+.toast{position:fixed;left:50%;bottom:calc(16px + max(var(--bnav),env(safe-area-inset-bottom,0px)));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 /* 오른쪽 아래에서 춤추는 도로롱(assets/mascot.png, 운영자 제공 그림). CSS 로만 움직인다. 누르면 한 바퀴 돌며 한마디, ×로 숨김(사이트 개요에서 다시 부름) */
-.mochi{position:fixed;right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(6px + env(safe-area-inset-bottom,0px));z-index:15;width:96px;height:110px}
+.mochi{position:fixed;right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(6px + max(var(--bnav),env(safe-area-inset-bottom,0px)));z-index:15;width:96px;height:110px}
 .mochi>button.body{all:unset;cursor:pointer;display:block;width:100%;height:100%;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .mochi .hop{width:100%;height:100%;transform-origin:50% 100%}
 .mochi img.dance{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 92%;animation:mochi-dance 1.1s ease-in-out infinite;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))}
@@ -646,6 +661,20 @@ textarea{min-height:110px;resize:vertical}
 </div>
 <p class="note" style="max-width:760px;margin:0 auto;padding:0 16px 40px">소식은 공식 사이트·뉴스 RSS에서 자동으로 모으며 하루 몇 차례 갱신됩니다. 날짜와 예약 정보는 원문에서 꼭 확인하세요. ‘보는 중’ 목록은 이 브라우저에만 저장됩니다.</p>
 <div class="toast" id="toast" role="status"></div>
+<nav class="bnav" aria-label="빠른 이동"><!-- 폰에서만 보이는 아래 탭 막대(2026-10 말). 위 탭 줄은 9개라 폰에서 뒤쪽이 안 보였다 -->
+  <button type="button" data-tab="feed" aria-current="page"><i data-ic="news"></i><span>피드</span></button>
+  <button type="button" data-tab="sched"><i data-ic="cal"></i><span>캘린더</span></button>
+  <button type="button" data-tab="works"><i data-ic="star"></i><span>작품</span></button>
+  <button type="button" data-tab="play"><i data-ic="game"></i><span>게임</span></button>
+  <button type="button" id="bnMore" aria-haspopup="true" aria-expanded="false"><i data-ic="more"></i><span>더보기</span></button>
+</nav>
+<div class="bsheet" id="bsheet" hidden><div class="bsheet-in" role="menu" aria-label="다른 탭">
+  <button type="button" data-tab="weekly"><i data-ic="chart"></i>주간 요약</button>
+  <button type="button" data-tab="buzz"><i data-ic="fire"></i>X 화제</button>
+  <button type="button" data-tab="anime"><i data-ic="tv"></i>방영중</button>
+  <button type="button" data-tab="comics"><i data-ic="books"></i>만갤</button>
+  <button type="button" data-tab="about"><i data-ic="info"></i>사이트 개요</button>
+</div></div>
 <div class="mochi" id="mochi" hidden>
   <span class="bubble" id="mochiSay" aria-live="polite"></span>
   <button class="body" type="button" id="mochiBody" aria-label="도로롱 쓰다듬기">
@@ -700,6 +729,10 @@ const ICONS={
   heart:'<path class="d" d="M12 20.2s-7.8-4.6-7.8-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.8 2.5c0 5.5-7.8 10.1-7.8 10.1z"/>',
   cards:'<rect class="d" x="8.2" y="3.6" width="11" height="15" rx="2.4" transform="rotate(12 13.7 11.1)"/><rect x="4.8" y="5.4" width="11" height="15" rx="2.4"/>',
   close:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+  news:'<rect class="d" x="3.5" y="4.5" width="17" height="15" rx="3.2"/><path d="M7.5 9h4.5M7.5 12.5h9M7.5 16h9"/><rect class="o" x="14" y="7.8" width="2.6" height="2.4" rx=".6"/>',
+  star:'<path class="d" d="m12 3.6 2.5 5.2 5.7.8-4.1 4 1 5.6L12 16.5l-5.1 2.7 1-5.6-4.1-4 5.7-.8z"/>',
+  more:'<circle class="o" cx="5.5" cy="12" r="1.6"/><circle class="o" cx="12" cy="12" r="1.6"/><circle class="o" cx="18.5" cy="12" r="1.6"/>',
+  info:'<circle class="d" cx="12" cy="12" r="8.6"/><path d="M12 11v5.4"/><circle class="o" cx="12" cy="7.8" r="1.1"/>',
   undo:'<path d="M9 13.5 4.5 9 9 4.5"/><path d="M4.5 9h9.5a5.5 5.5 0 0 1 0 11h-3"/>',
   chart:'<path d="M4 20h16"/><rect class="d" x="5.5" y="11" width="3.2" height="7" rx="1"/><rect class="d" x="10.4" y="6" width="3.2" height="12" rx="1"/><rect class="d" x="15.3" y="13.5" width="3.2" height="4.5" rx="1"/>',
 };
@@ -733,8 +766,6 @@ const jst = (d,o)=>d.toLocaleString("ko-KR",{timeZone:"Asia/Tokyo",...o});
 // 시각이 00:00 이면 날짜만 안 것으로 보고 시각을 숨긴다
 function hm(d){const t=jst(d,{hour:"2-digit",minute:"2-digit",hour12:false});return t==="00:00"||t==="24:00"?"":t}
 function fmt(v){const d=parseDate(v);if(!d)return"";const t=hm(d);return jst(d,{month:"numeric",day:"numeric",weekday:"short"})+(t?" "+t:"")}
-function toLocalInput(v){const d=parseDate(v);if(!d)return"";const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(d).map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}T${p.hour==="24"?"00":p.hour}:${p.minute}`}
-function fromLocalInput(v){return v?v+":00+09:00":""}
 
 /* ---------- 작품 이름 정리 ----------
    같은 작품을 같은 키로 본다: NFKC·소문자·공백·문장부호를 뗀 키(collector.py 의 wkey 와 같은 규칙). data/works.json 의
@@ -2026,8 +2057,13 @@ function showTab(target){
   if(isGame){try{localStorage.setItem("matome-game",target)}catch{}}
   $("#gpick").hidden=!isGame; $("#achBox").hidden=!isGame; document.querySelectorAll("#gpick [data-game]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.game===target));
   document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===navKey));
+  const cur=(el,on)=>on?el.setAttribute("aria-current","page"):el.removeAttribute("aria-current");
+  document.querySelectorAll(".bnav [data-tab],.bsheet [data-tab]").forEach(t=>cur(t,t.dataset.tab===navKey));
+  {const m=$("#bnMore"),sb=document.querySelector(`.bsheet [data-tab="${navKey}"]`);cur(m,!!sb);sheetOpen(false); // 더보기 안의 탭이면 '더보기' 칸이 그 탭 이름·아이콘으로 바뀌어 선택 표시
+    m.innerHTML=sb?`${sb.querySelector("svg").outerHTML}<span>${esc(sb.textContent.trim())}</span>`:`${ic("more")}<span>더보기</span>`}
   const nb=document.querySelector(`nav.tabs [data-tab="${navKey}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
   document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
+  $("#stubs").hidden=target!=="feed"; // 마감 임박 띠는 피드에서만(다른 탭에선 내용을 아래로 밀기만 했다)
   if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
   if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
   {const f=$(`#${target} iframe.autoh`);if(f&&!f.src){f.src=f.dataset.src; // 독립 게임 페이지(放置·ペンライト·도쿄 원정)는 탭을 처음 열 때만 받는다
@@ -2041,7 +2077,10 @@ document.addEventListener("change",e=>{if(e.target.id==="tripS"||e.target.id==="
 document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("today")){todayOpen=e.target.open;try{localStorage.setItem("matome-today",todayOpen?"1":"0")}catch{}}
   if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
 document.addEventListener("keydown",e=>{const p=e.target.closest&&e.target.closest("[data-pin]");if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
+function sheetOpen(on){const b=$("#bsheet"),m=$("#bnMore");if(!b)return;b.hidden=!on;m.setAttribute("aria-expanded",on)}
 document.addEventListener("click",e=>{
+  if(e.target.closest("#bnMore")){sheetOpen($("#bsheet").hidden);return}
+  if(e.target.id==="bsheet"){sheetOpen(false);return} // 시트 바깥(어두운 곳)을 누르면 닫음
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;
     if(target==="works"){openWork(null);return} // 작품 탭 버튼은 목록부터

@@ -90,6 +90,22 @@ async function run(dev) {
     if (ovc.length) bad.push(`${dev} 캘린더 ${k}: 화면 밖으로 넘침 → ${ovc.join(" | ")}`);
     console.log(`${ok && !ovc.length ? "OK  " : "FAIL"} ${dev} 캘린더 ${k}`);
   }
+  // 폰 아래 탭 막대: 보이는지, 더보기 시트로 만갤을 열 수 있는지, 그때 '더보기' 칸이 '만갤'로 바뀌는지
+  {
+    const r = await page.evaluate(async () => {
+      const nav = document.querySelector(".bnav"); if (!nav || !nav.offsetHeight) return "막대가 안 보임";
+      if (nav.getBoundingClientRect().bottom > innerHeight + 1) return "막대가 화면 아래로 나감";
+      document.getElementById("bnMore").click(); const sh = document.getElementById("bsheet");
+      if (sh.hidden || !sh.querySelector(".bsheet-in").offsetHeight) return "더보기 시트가 안 열림";
+      sh.querySelector('[data-tab="comics"]').click(); await new Promise((f) => setTimeout(f, 300));
+      if (!sh.hidden) return "탭을 골라도 시트가 안 닫힘";
+      if (document.getElementById("comics").hidden) return "만갤이 안 열림";
+      const m = document.getElementById("bnMore"); if (m.getAttribute("aria-current") !== "page" || !/만갤/.test(m.textContent)) return "더보기 칸이 만갤 선택을 안 보여 줌";
+      return "";
+    });
+    if (r) bad.push(`${dev} 아래 탭 막대: ${r}`);
+    console.log(`${r ? "FAIL" : "OK  "} ${dev} 아래 탭 막대`);
+  }
   // 작품 허브 주소로 바로 들어오는 길(#work=)
   await page.goto(`http://127.0.0.1:${PORT}/#work=${encodeURIComponent("ホロライブ")}`, { waitUntil: "load" });
   await page.waitForTimeout(2000);

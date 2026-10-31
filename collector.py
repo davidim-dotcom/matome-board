@@ -1591,11 +1591,6 @@ def ticket_links_in(page, exclude=()):
     return []
 
 
-def ticket_link_in(page, exclude=()):
-    tk = ticket_links_in(page, exclude)
-    return tk[0] if tk else ""
-
-
 _site_links = {}
 
 
@@ -2201,9 +2196,7 @@ def parse_index(url, part="", depth=1):
             out.append({"part": part, "vol": vol, "arc": arc, "label": lab, "u": u, "g": link[0] if link else "", "no": link[1] if link else 0})
         else:
             x = clean(text)
-            hit = False
             for mm in re.finditer(r"◆([^◆]+)◆|제\s*(\d+)\s*권|「\s*([^」]+?)\s*」", x):
-                hit = True
                 if mm.group(1):
                     part, vol, arc = mm.group(1).strip(), "", ""
                 elif mm.group(2):
