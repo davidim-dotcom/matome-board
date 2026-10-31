@@ -17,6 +17,12 @@ html,body{margin:0;background:transparent;color:var(--ink);font-family:"IBM Plex
 .panel{background:var(--surface);border-radius:14px}
 </style>
 <link rel="stylesheet" href="vn/vn-engine.css">
+<style>
+/* 키리누키: 바탕을 따낸 인물 그림(vn/img/ch_*.webp)은 동그란 액자·그림자 없이 배경 위에 바로 세운다.
+   이니셜 실루엣(그림 없는 인물)은 엔진 모양 그대로. 엔진 css 를 다시 가져와도 이 줄이 이긴다(#vn 이 더 구체적). */
+#vn .vn-ch:has(img){width:56%;border-radius:0;overflow:visible;box-shadow:none;background:none}
+#vn .vn-ch img{object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 6px 12px rgba(0,0,0,.28))}
+</style>
 </head>
 <body>
 <section id="vn"></section>
