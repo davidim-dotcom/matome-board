@@ -107,8 +107,19 @@ public class MainActivity extends Activity {
     }
 
     String startUrl(Intent it) {
+        String tip = sharedText(it);
+        if (tip != null) return HOME + "#tip=" + Uri.encode(tip);
         Uri u = it == null ? null : it.getData();
         return u != null && inApp(u) ? u.toString() : HOME;
+    }
+
+    /** '공유 → 마토메 보드'로 들어온 글(X 글 주소와 본문 등). 아니면 null. */
+    static String sharedText(Intent it) {
+        if (it == null || !Intent.ACTION_SEND.equals(it.getAction())) return null;
+        CharSequence t = it.getCharSequenceExtra(Intent.EXTRA_TEXT);
+        if (t == null || t.length() == 0) return null;
+        String s = t.toString().trim();
+        return s.length() > 1000 ? s.substring(0, 1000) : s;
     }
 
     void openOutside(Uri u) {
@@ -134,7 +145,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onNewIntent(Intent it) {
         super.onNewIntent(it);
-        if (it != null && it.getData() != null && inApp(it.getData())) web.loadUrl(it.getData().toString());
+        if (sharedText(it) != null) web.loadUrl(startUrl(it)); // 앱이 떠 있을 때 공유가 또 오면 해시만 바뀌어 페이지가 hashchange 로 받는다
+        else if (it != null && it.getData() != null && inApp(it.getData())) web.loadUrl(it.getData().toString());
     }
 
     @Override
