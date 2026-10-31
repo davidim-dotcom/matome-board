@@ -306,6 +306,13 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .cat-other,.cat-goods,.cat-stream,.cat-campaign{color:var(--muted)}
 .cat-live{color:var(--pink)} .cat-event{color:var(--cyan)} .cat-collab,.cat-popup{color:var(--amber)} .cat-exhibit,.cat-manga{color:var(--cyan)} .cat-official{color:var(--pink)} .cat-doujin{color:var(--amber)}
 .chip.sort{color:var(--muted);border-style:dashed}
+/* 보기 방식(목록|그림)·스와이프 줄: 칩 줄 위, 화면 안에 다 보이게 */
+.fview-row{display:flex;align-items:center;gap:8px;margin:10px 0 2px}
+.fview-row .seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;flex:none}
+.fview-row .seg button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.fview-row .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.fview-row .swbtn{margin-left:auto;display:flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:#fff;background:var(--pink);box-shadow:0 4px 12px color-mix(in srgb,var(--pink) 35%,transparent);white-space:nowrap;min-width:0}
+@media (max-width:360px){.fview-row .seg button{padding:5px 9px}.fview-row .swbtn{padding:8px 11px}}
 .chip.sort.first{margin-left:10px}
 .chip.sort[aria-pressed="true"]{color:var(--bg);border-style:solid}
 .cat-goods,.cat-campaign,.cat-other{color:var(--muted)} .cat-stream{color:var(--cyan)}
@@ -920,10 +927,11 @@ function render(){
   const newBar=nNew?`<div class="newbar"><span>지난 방문(${ago<1?"방금":ago<48?ago+"시간 전":Math.round(ago/24)+"일 전"}) 이후 새 소식 <b>${nNew}</b>건${nMineNew?` · 내 작품 <b>${nMineNew}</b>건`:""}</span><button type="button" class="chip" data-fnew aria-pressed="${feedNew}">${feedNew?"전체 보기":"새 소식만"}</button></div>`:"";
   if(!$("#feedBody")) $("#feed").innerHTML=`<div class="fsearch"><input type="search" id="fq" placeholder="소식 검색 (제목·장소·작품, 한국어 작품명도)" autocomplete="off" enterkeyhint="search"></div><div id="feedBody"></div>`;
   const sortChips=[["rec","추천순"],["new","최신순"],["date","날짜순"]].map(([k,l],i)=>`<button class="chip sort${i===0?" first":""}" data-sort="${k}" aria-pressed="${sortMode===k}">${l}</button>`).join("")
-    +`<button class="chip sort view" data-swipe title="소식을 한 장씩 넘기며 관심·패스">${ic("cards")} 스와이프</button><button class="chip sort view" data-fview aria-pressed="${feedView==="grid"}" title="목록 / 그림으로 보기">${feedView==="grid"?ic("list")+" 목록":ic("grid")+" 그림"}</button>`;
+    ; // 목록/그림 전환과 스와이프는 칩 줄 끝에 있으면 안 보여서(2026-10 말) 칩 위 따로 한 줄 .fview-row
+  const viewRow=`<div class="fview-row"><div class="seg" role="group" aria-label="보기 방식"><button type="button" data-fview="list" aria-pressed="${feedView!=="grid"}">${ic("list")} 목록</button><button type="button" data-fview="grid" aria-pressed="${feedView==="grid"}">${ic("grid")} 그림</button></div><button type="button" class="swbtn" data-swipe>${ic("cards")} 스와이프로 고르기</button></div>`;
   const sh=sharedId&&items.get(sharedId);
   const sharedBox=sh?`<div class="shared"><div class="shared-h"><b>공유된 소식</b><button type="button" class="btn ghost" data-unshare>닫기</button></div>${rowHtml(sh,{},notOver({it:sh})?"":"over")}</div>`:"";
-  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)) + (q.length?"":renderMap(feed)) + newBar + `<div class="filters">${vtChips}${sortChips}</div>`
+  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)) + (q.length?"":renderMap(feed)) + newBar + viewRow + `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (q.length?`<div class="fcount"><span class="note">「${esc(feedQ.trim())}」 검색 결과 ${feed.length}건${feedPast?` (끝난 소식 ${feed.filter(x=>!notOver(x)).length}건 포함)`:""}</span><button type="button" class="chip" data-fpast aria-pressed="${feedPast}">지난 소식 포함</button></div>`:"")
     + (feed.length?(feedView==="grid"?gridHtml(feed):feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join("")):q.length?"":`<div class="empty">${feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
@@ -2041,7 +2049,7 @@ document.addEventListener("click",e=>{
     showTab(target);window.scrollTo(0,0);return}
   const gp=e.target.closest("[data-game]"); if(gp){showTab(gp.dataset.game);return}
   const pt=e.target.closest("[data-ptile]"); if(pt){openCard(pt.dataset.ptile);return}
-  if(e.target.closest("[data-fview]")){feedView=feedView==="grid"?"list":"grid";try{localStorage.setItem("matome-view",feedView)}catch{};render();return}
+  const fv=e.target.closest("[data-fview]"); if(fv){const v=fv.dataset.fview==="grid"?"grid":"list";if(v===feedView)return;feedView=v;try{localStorage.setItem("matome-view",feedView)}catch{};render();return}
   if(e.target.closest("[data-fmine-new]")){feedMine=true;feedNew=true;render();return}
   const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
   if(e.target.closest("[data-workback]")){openWork(null);return}
