@@ -103,6 +103,32 @@ def cut(spec, frame=True):
     return im.crop(box)
 
 
+def cutout(im, tol=30, fade=.16):
+    """표정 일러의 크림색 종이 바탕을 따낸다(키리누키): 위·양옆 위쪽에서 이어진 종이색만 지우고(인물 윤곽선이 막음),
+    가장자리를 1px 깎아 흐리게 하고, 몸이 잘린 아래쪽은 fade 비율만큼 서서히 투명하게 해 배경에 녹아들게 한다."""
+    from PIL import ImageFilter
+    a = np.asarray(im.convert("RGB")).astype(int)
+    H, W, _ = a.shape
+    paper = np.median(a[:3].reshape(-1, 3), axis=0)
+    near = np.sqrt(((a - paper) ** 2).sum(2)) < tol
+    bg = np.zeros((H, W), bool)
+    st = [(0, x) for x in range(W)] + [(y, 0) for y in range(int(H * .6))] + [(y, W - 1) for y in range(int(H * .6))]
+    st = [p for p in st if near[p]]
+    for y, x in st: bg[y, x] = True
+    while st:
+        y, x = st.pop()
+        for yy, xx in ((y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)):
+            if 0 <= yy < H and 0 <= xx < W and near[yy, xx] and not bg[yy, xx]:
+                bg[yy, xx] = True; st.append((yy, xx))
+    al = Image.fromarray(np.where(bg, 0, 255).astype("uint8"))
+    al = al.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(.9))
+    al = np.asarray(al).astype(float)
+    f0 = int(H * (1 - fade))
+    al[f0:] *= np.linspace(1, 0, H - f0)[:, None] ** 1.3
+    out = im.convert("RGBA"); out.putalpha(Image.fromarray(al.clip(0, 255).astype("uint8")))
+    return out
+
+
 def build():
     out = {"bg": {}, "ch": {}, "cg": {}}
     for k, s in CG.items():
@@ -115,7 +141,7 @@ def build():
         for f, s in faces.items():
             im = cut(s)
             w = min(im.size)  # 정사각형으로(인물 칸이 1:1)
-            out["ch"][c][f] = im.crop(((im.width - w) // 2, 0, (im.width - w) // 2 + w, w))
+            out["ch"][c][f] = cutout(im.crop(((im.width - w) // 2, 0, (im.width - w) // 2 + w, w)))
     return out
 
 
@@ -139,9 +165,13 @@ def main():
     # 그림은 파일로(games/vn/img/), 엔진은 vn.html 기준 주소 'vn/img/…' 로 쓴다 — 장면에 나올 때만 받는다
     os.makedirs(os.path.join(HERE, "img"), exist_ok=True)
     for f in os.listdir(os.path.join(HERE, "img")):
-        if f.endswith(".jpg"): os.remove(os.path.join(HERE, "img", f))
+        if f.endswith((".jpg", ".webp")): os.remove(os.path.join(HERE, "img", f))
     def save(fn, im):
-        im.save(os.path.join(HERE, "img", fn), "JPEG", quality=84, optimize=True, progressive=True)
+        if im.mode == "RGBA":  # 따낸 인물은 투명 WebP
+            fn = fn[:-4] + ".webp"
+            im.save(os.path.join(HERE, "img", fn), "WEBP", quality=88, method=6)
+        else:
+            im.save(os.path.join(HERE, "img", fn), "JPEG", quality=84, optimize=True, progressive=True)
         return "vn/img/" + fn
     data = {}
     for kind, d in imgs.items():
