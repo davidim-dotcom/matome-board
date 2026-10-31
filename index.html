@@ -656,6 +656,7 @@ textarea{min-height:110px;resize:vertical}
     <div class="panel appbox" id="appBox"><!-- 앱 받기(2026-10 말). 안드로이드 앱(android/ 를 Actions 가 빌드해 Releases 'app' 에 올림) 안에서는 숨김 -->
       <h2>앱으로 보기</h2>
       <a class="apk" href="https://github.com/davidim-dotcom/matome-board/releases/download/app/matome-board.apk"><img src="assets/icon-lilly-192.png" alt="" width="48" height="48"><span><b>안드로이드 앱 받기</b><small>APK 파일 · 받아서 열면 설치</small></span></a>
+      <p class="help" id="zipRow" hidden>카톡으로 친구에게 보낼 때는 apk 를 바로 못 보내요: <a class="btn" id="zipLink" href="https://github.com/davidim-dotcom/matome-board/releases/download/app/matome-board-apk.zip">카톡용 zip 받기</a> (받은 사람은 압축을 풀고 apk 를 누르면 설치)</p>
       <p class="help">처음 한 번은 폰이 '출처를 알 수 없는 앱'이라며 막아요. 그때 나오는 <b>설정</b>에서 이 브라우저(크롬·카카오톡 등)의 '이 출처 허용'을 켜고 다시 열면 설치돼요. 앱은 이 사이트를 그대로 보여 줘서 보드가 바뀌어도 다시 받을 필요가 없어요.</p>
       <p class="help" id="pwaRow" hidden>설치 파일 없이: <button class="btn" type="button" id="pwaInstall">홈 화면에 바로 추가</button></p>
       <p class="help">아이폰은 앱 파일을 설치할 수 없어요. 사파리에서 <b>공유 버튼 → 홈 화면에 추가</b>를 하면 앱처럼 열려요.</p>
@@ -2132,7 +2133,7 @@ function showTab(target){
   const nb=document.querySelector(`nav.tabs [data-tab="${navKey}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
   document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
   $("#stubs").hidden=target!=="feed"; // 마감 임박 띠는 피드에서만(다른 탭에선 내용을 아래로 밀기만 했다)
-  if(target==="about")loadBbs();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
+  if(target==="about"){loadBbs();zipCheck()}if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
   if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
   {const f=$(`#${target} iframe.autoh`);if(f&&!f.src){f.src=f.dataset.src; // 독립 게임 페이지(放置·ペンライト·도쿄 원정)는 탭을 처음 열 때만 받는다
     f.addEventListener("load",()=>{try{const d=f.contentDocument,fit=()=>{f.style.height=d.documentElement.scrollHeight+8+"px"};fit();new ResizeObserver(fit).observe(d.body)}catch{}})}} // 같은 출처라 안쪽 높이에 맞춰 늘려 페이지가 통째로 스크롤되게(iframe 안 스크롤 없음)
@@ -2253,8 +2254,9 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // GitHub API(api.github.com, CORS 됨, 키 없이 시간당 60회)를 6시간에 한 번만 읽고, 새 버전이면 띠를 띄운다. [받기]는 APK 주소로 가서 앱이 브라우저로 넘긴다
 // 보드 버전(2026-10 말). index.html·games/ 를 고치는 PR 마다 올린다: 기능 추가는 가운데 자리(2.1.0), 고침은 끝자리(2.0.1).
 // CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
-const BOARD_VER="2.0.0";
+const BOARD_VER="2.1.0";
 const CHANGES=[
+  ["2.1.0","2026-10-31",["앱 받기에 카톡으로 보낼 zip 파일 추가(다음 앱 배포부터)"]],
   ["2.0.0","2026-10-31",["폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일과 앱 새 버전 알림","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","보드·앱 버전과 업데이트 내역 표시"]],
   ["1.x","2026-10-19~30",["게임 탭(弾幕·Holo Mobile·まとめラン·ペンライト·도쿄 원정)과 업적·칭호","작품 허브·X 화제·성지순례 지도·만갤","오늘 카드·그림으로 보기·스와이프로 고르기·응원 알림","여행 플래너·주말 한 장·기간 행사·콜라보 카페","홈 화면 앱(PWA)·달력 구독·RSS"]],
   ["1.0.0","2026-10-18",["첫 공개: 피드·캘린더·방영중·사이트 개요"]]];
@@ -2288,6 +2290,14 @@ function appUpdateCheck(){
     .then(r=>r.ok?r.json():null).then(j=>{const vc=+(((j&&j.body)||"").match(/<!-- vc:(\d+) -->/)||[])[1]||0;
       st.at=Date.now();st.vc=vc;try{localStorage.setItem("matome-appver",JSON.stringify(st))}catch{};show(vc)}).catch(()=>{})}
 renderVer();
+// 사이트 개요의 '카톡용 zip 받기'는 Releases 에 zip 이 있을 때만 보인다(2026-10 말부터 배포 때 같이 올림). 사이트 개요를 처음 열 때 한 번, 6시간 기억
+function zipCheck(){if(zipCheck.done||/MatomeApp/.test(navigator.userAgent))return;zipCheck.done=1;
+  let st={};try{st=JSON.parse(localStorage.getItem("matome-relzip")||"{}")}catch{}
+  const show=z=>{const r=$("#zipRow");if(r)r.hidden=!z};
+  if(st.at&&Date.now()-st.at<6*36e5){show(st.zip);return}
+  fetch("https://api.github.com/repos/davidim-dotcom/matome-board/releases/tags/app",{headers:{Accept:"application/vnd.github+json"}})
+    .then(r=>r.ok?r.json():null).then(j=>{const z=!!(j&&(j.assets||[]).some(a=>a.name==="matome-board-apk.zip"));
+      try{localStorage.setItem("matome-relzip",JSON.stringify({at:Date.now(),zip:z}))}catch{};show(z)}).catch(()=>{})}
 if(/MatomeApp/.test(navigator.userAgent)){$("#appBox").hidden=true;appUpdateCheck()}
 else{let bip=null;addEventListener("beforeinstallprompt",e=>{e.preventDefault();bip=e;$("#pwaRow").hidden=false});
   $("#pwaInstall").onclick=()=>{if(!bip)return;bip.prompt();bip.userChoice.finally(()=>{bip=null;$("#pwaRow").hidden=true})}}
