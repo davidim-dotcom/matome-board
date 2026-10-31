@@ -20,7 +20,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 | `data/weekly.json` | 주간 요약 탭의 글 `{week, range, title, updated, picks:[{title, works, category, tag, when, where, desc, links:[{label,url}], items:[보드 소식 url]}]}`. 유행 순위(`meta.trends`) 상위 작품의 소식을 골라 **보드 밖에서 검색한** 배경 설명을 붙인다. 매주 덮어쓴다. 운영자가 요청하면 Claude 세션이 쓴다. 지금 글의 기간(`week`부터 7일)이 끝나면 봇(`--weekly-draft`)이 그 주 월요일 시작으로 유행 순위로 자동 초안(`auto:true`)을 쓴다. | 사람 + 봇(초안) |
 | `data/comics.json` | 연재 만화 색인 `{v, updated, gallery, series:[{id,name,title,author,episodes:[{no,g?,title,date?,u?}],rec,cover,coverNo,updatedAt,seenTo?}], scanned:[글번호], bad:["갤러리/글번호"]}`. 색인 글형 작품은 `kind:"index"`와 목차 `parts:[{name, arcs:[{name, vol, eps:[{label,u,g,no}]}]}]`가 더 있고 `episodes`는 그 목차를 편 순서(`u`=글 주소, 디시 밖 링크면 `g`/`no` 없음). 지정 작품만 들어간다. `g`는 `gallery`와 다른 갤러리(옛 `comic_new3`·`comic_new4`)에 있는 화에만 붙는다. `bad`는 낚시글로 판정해 다시 넣지 않는 글. `name`·`title`은 지정한 제목. | 봇만 |
 | `data/anime.json` | 이번 시즌 방영 목록. 요일·시각 등은 사람이 고치고, `--anime`가 Annict 정보를 덧붙인다. | 사람 + 봇 |
-| `data/items.json` | 수집된 소식(최대 `KEEP`=600건). | 봇만 |
+| `data/items.json` | 수집된 소식(최대 `KEEP`=900건). 자를 때 `keep_items`가 앞으로 일정(행사 끝·행사일·판매 시작·마감·단계)이 남은 소식을 가까운 일정 순으로 먼저 남기고, 남는 자리를 나머지(새로 들어온 순)로 채운다(2026-10 말: 예전엔 새로 들어온 순 600건이라 6일치만 남아 7월 말에 발표된 池袋ハロウィンコスプレフェス가 행사 당일 보드에 없었다). | 봇만 |
 | `data/meta.json` | `{updated, trends(상위 20), rising(급상승), count, sources:[{n,ok,c,new,at,f,e}]}`(출처별 이번 실행 결과: ok true/false/null=건너뜀, c 가져온 수, new 새 소식, f 연속 실패, at 마지막 성공 시각, e 오류). 페이지 상단 "n/n hh:mm 업데이트" 표기용. | 봇만 |
 | `data/trends.json` | 유행 감지 기록 `{history:{날짜:{작품명:횟수}}, top:[...], rising:[{n,r,b,x}], updated}`. 최근 14일. | 봇만 |
 | `data/thumbs.json`, `data/thumbs/*.jpg` | 작품 제목 → 208×117 JPEG 썸네일 경로. 파일명은 `sha1(공백 제거·소문자 제목)[:16].jpg`. | 봇만 |
@@ -126,7 +126,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 6. **X 화제**(`collect_buzz`, 출처 루프 직후): X 는 무료 API 가 없어(2026-02 종량제) 직접 못 읽으므로 Togetter RSS 두 개 `BUZZ_FEEDS`(`rss/hot` 인기 10건, `rss/news` 새 정리 100건. 랭킹·카테고리 RSS 는 404)를 읽는다. 정리마다 `t`(제목)·`s`(요약, 대개 제목과 같아 앞 30자가 같으면 비움)·`u`·`d`(게시 시각)·`w`(`tag_works` 작품 태그)·`o`(작품 태그나 `OTAKU_RE` 애니·만화·게임·성우·버튜버 단어)·`h`(인기 목록에 오른 실행 수)·`ha`(마지막 인기 시각)를 두고, RSS 에 그림이 없어 지금 인기·오타쿠 정리 중 그림 없는 것만 실행당 `BUZZ_IMG_MAX`=20개 페이지를 열어 og:image(`img`, 한 번 연 것은 `it:1`). X 게시물 본문은 가져오지 않는다. 유행 순위(`SEEN_TEXT`)에는 넣지 않는다(잡담이 뉴스 기반 순위를 흔들지 않게). 대신 일주일치 정리 제목의 『』「」 이름을 유행 감지와 같은 규칙(`canon`·`base_title`·`STOP`·`SKIP`·`rank_works`)으로 따로 세어 2건 이상 40개를 `names`에 둔다(작품 탭 'X에서 화제'). 출처 상태에 `Togetter(X 화제)`로 들어가 알림 이슈 대상. `--check`도 두 피드를 본다.
 7. 장소 추정(`guess_place`, 정리 단계에서 모든 소식): 장소 칸이 비면 `data/venues.json`의 `venues`(이름·별칭, NFKC, 긴 이름 먼저)를 제목 → 요약 순으로 찾아 넣고, 없으면 `areas`(池袋·渋谷·秋葉原·横浜 등)가 제목에 **딱 하나만** 있을 때 `○○周辺`으로 넣는다. 제목에 `AREA_SKIP_RE`(巡回·全国·各地·n都市·n会場·ツアー·順次·ほか·「・大阪」 등 여러 곳 행사)가 있으면 넣지 않는다. 추정한 소식은 `placeGuess:true`이고 실행마다 지우고 다시 찾아 사전 수정이 바로 반영된다. 방송(stream·holodex·youtube)은 제외. 中野는 성우 이름에 흔해 지역에서 뺐다. 2026-10 데이터에서 68건(도쿄 지도 행사장 21→43곳).
 8. 구독용 달력(`write_calendars`, `CALENDARS`): 방송을 뺀 소식마다 `ics_events`(행사일~종료, 끝난 지 7일 넘으면 뺌 / 앞으로의 판매 시작·마감)를 페이지 '달력에 추가'와 같은 규칙(00:00 은 하루 종일, 판매·마감 30분 + 30분 전 VALARM, UID `sha1(url|title|eventDate)[:16]-종류@matome-board`)으로 세 파일에 쓴다. `X-WR-CALNAME`·`REFRESH-INTERVAL PT6H`. 구글은 구독 달력의 알림을 무시한다.
-9. 정리: 블록리스트 해당, 종료 후 30일 초과, 날짜 없이 추가 후 45일 초과 항목을 버리고 새 항목을 앞에 둔 채 600건까지 저장. `meta.json` 갱신, `data/feed.xml`(RSS) 다시 쓰기.
+9. 정리: 블록리스트 해당, 종료 후 30일 초과, 날짜 없이 추가 후 45일 초과 항목을 버리고 새 항목을 앞에 둔 채 900건까지 저장(`keep_items`: 앞으로 일정이 있는 소식 먼저). `meta.json` 갱신, `data/feed.xml`(RSS) 다시 쓰기.
 
 ### 방영 목록·썸네일 (`python3 collector.py --anime`)
 

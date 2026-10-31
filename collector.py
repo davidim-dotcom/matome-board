@@ -45,7 +45,7 @@ JST = timezone(timedelta(hours=9))
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(DATA, "items.json")
-KEEP = 600  # items.json에 남길 최대 건수
+KEEP = 900  # items.json에 남길 최대 건수(앞으로 일정이 있는 소식을 먼저 채운다, keep_items)
 
 # ── 여기만 고쳐서 쓰면 된다 ─────────────────────────────────────
 VTUBER_WORDS = ["グッズ", "フェア", "物販", "受注", "周年", "お披露目", "展"]  # 버튜버 전용 소스에서 추가로 통과시키는 단어
@@ -839,6 +839,31 @@ def item_end(it):
         return None
 
 
+def _jst(v):
+    try:
+        return datetime.fromisoformat(v if re.search(r"[+-]\d\d:\d\d$|Z$", v) else v + "+09:00") if v else None
+    except Exception:
+        return None
+
+
+def next_date(it, ref):
+    """아직 오지 않았거나 진행 중인 일정(행사 끝·행사일·판매 시작·마감·접수 단계) 중 가장 이른 것. 없으면 None."""
+    ds = [_jst(it.get(k)) for k in ("endDate", "eventDate", "ticketOpen", "deadline")]
+    ds += [_jst(p.get(k)) for p in it.get("phases") or [] for k in ("s", "e")]
+    ds = [d for d in ds if d and d >= ref]
+    return min(ds) if ds else None
+
+
+def keep_items(keep, ref, n=KEEP):
+    """n건으로 자를 때 앞으로 일정이 있는 소식(가까운 일정 먼저)을 먼저 남기고, 남는 자리를 나머지(새로 들어온 순)로 채운다.
+    예전에는 새로 들어온 순으로만 잘라 6일치(약 600건)만 남아, 몇 주 전에 발표된 행사가 열리기도 전에 빠졌다
+    (2026-10 말 池袋ハロウィンコスプレフェス: 7월 말 발표 기사가 행사 당일 보드에 없었다). 순서는 원래대로 둔다."""
+    fut = sorted((it for it in keep if next_date(it, ref)), key=lambda it: next_date(it, ref))[:n]
+    pick = {id(it) for it in fut}
+    pick |= {id(it) for it in [it for it in keep if id(it) not in pick][:n - len(pick)]}
+    return [it for it in keep if id(it) in pick]
+
+
 def blocked(it, block):
     t = (it.get("title") or "").lower()
     return (it.get("url") and it["url"] in block.get("urls", [])) or it.get("id") in block.get("ids", []) \
@@ -950,7 +975,7 @@ def main():
             except Exception:
                 pass
         keep.append(it)
-    items = keep[:KEEP]
+    items = keep_items(keep, ref)
     save_json(OUT, items)
     meta.update({"updated": ref.isoformat(), "trends": _tr.get("top", [])[:20], "rising": _tr.get("rising", []), "count": len(items), "sources": status})
     save_json(os.path.join(DATA, "meta.json"), meta)
