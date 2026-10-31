@@ -733,7 +733,7 @@ def tip_page(url):
 DECO_RE = re.compile(r"^[^\w『「【（(＜<〈]+|[^\w』」】）)＞>〉！!？?]+$")  # 줄 앞뒤의 이모지·장식(🌟 ▷ ▶︎ ★ 등), 괄호·느낌표는 남김
 TIP_SHOW_RE = re.compile(r"個展|原画展|複製原画|色紙展|イラスト展|展示|展覧会|企画展|フェア|POP ?UP|ポップアップ|開催|イベント", re.I)
 TIP_PLACE_RE = re.compile(r"Gallery|GALLERY|ギャラリー|画廊|美術館|博物館|ミュージアム|会場|ホール|カフェ|Cafe|CAFE|BOOKS|ブックス|書店|書房|店|館|スペース|SPACE|Space")
-TIP_VER = 2  # 제보 읽는 규칙을 바꾸면 올린다 → 이미 보드에 있는 제보도 한 번 다시 읽어 고친다
+TIP_VER = 3  # 제보 읽는 규칙을 바꾸면 올린다 → 이미 보드에 있는 제보도 한 번 다시 읽어 고친다
 
 
 def tip_title(body):
@@ -744,6 +744,7 @@ def tip_title(body):
              and not re.fullmatch(r"[【\[［(（].{1,8}[】\]］)）]", x)]  # 【告知】【お知らせ】 같은 머리말 줄
     pick = next((x for x in lines if re.search(r"[『「].+?[』」]", x) and TIP_SHOW_RE.search(x)), None) \
         or next((x for x in lines if TIP_SHOW_RE.search(x) and not TIP_PLACE_RE.search(x)), None) or (lines[0] if lines else "")
+    pick = re.split(r"\s*[▶▷►◆■●📍📅🗓⏰]", pick)[0].strip() or pick  # 한 줄에 항목이 이어진 글: 첫 표시 앞까지
     if lines and pick != lines[0] and len(lines[0]) <= 20 and not TIP_SHOW_RE.search(lines[0]) and not TIP_PLACE_RE.search(lines[0]):
         pick = f"{lines[0]} {pick}"
     return pick[:80]
@@ -751,18 +752,20 @@ def tip_title(body):
 
 def tip_text(body):
     """날짜 읽기 전 손질: 「10.31(Sat)-11.8(日)」의 점 날짜를 10/31 로, 휴관·休み 줄(휴관일 목록이 행사일로 잡혔다)은 뺀다."""
-    t = "\n".join(x for x in body.splitlines() if not re.search(r"休み|休館|休廊|定休|休業|お休み", x))
+    # 「▷休み 10月13,14…日、11月…」: 休み 말부터 그 줄의 다음 ▶▷📍📅 표시 앞까지만 뺀다(한 줄에 여러 항목이 이어진 글도 있어서)
+    t = re.sub(r"(?:定休日?|休館日?|休廊日?|休業日?|お?休み)[^\n▶▷►◆■●📍📅🗓⏰]*", " ", body)
     t = re.sub(r"(20\d\d)\.(\d{1,2})\.(\d{1,2})(?!\d)", r"\1/\2/\3", t)  # 2026.11.20
     return re.sub(r"(?<![\d./])(\d{1,2})\.(\d{1,2})(?=\s*[（(]|\s*[-〜～~－]|\s|$)", r"\1/\2", t)  # 10.31(Sat)
 
 
-def tip_fix(x, body, ref):
+def tip_fix(x, body, ref, orig=""):
     """제보는 대개 전시라 「11月3日(火)まで」는 판매 마감이 아니라 끝나는 날. 시작일이 없고 「開催中」이면 수집한 날을 시작으로.
     장소는 📍·会場:·▷ 뒤의 갤러리·매장 이름 줄, 주소는 ○○市·区 + 번지 줄."""
     if not x["endDate"] and x["deadline"] and not x["ticketOpen"] and x["category"] in ("exhibit", "popup", "collab", "event", "other"):
         x["endDate"], x["deadline"] = x["deadline"], ""
-    if x["endDate"] and (not x["eventDate"] or x["eventDate"] > x["endDate"]):
-        x["eventDate"] = ref.strftime("%Y-%m-%dT00:00") if re.search(r"開催中|開催してい|好評", body) or not x["eventDate"] else x["eventDate"]
+    if x["endDate"] and (not x["eventDate"] or x["eventDate"] >= x["endDate"]):  # 시작이 없거나 끝나는 날 이후면
+        if re.search(r"開催中|開催してい|好評", orig or body) or not x["eventDate"] or x["eventDate"] > x["endDate"]:
+            x["eventDate"] = min(ref.strftime("%Y-%m-%dT00:00"), x["endDate"])
     segs = [s.strip(" 　\ufe0e\ufe0f") for s in re.split(r"[\n📍▷▶►◆■●・]|▶︎|会場[:：]|場所[:：]", body) if s.strip(" 　")]
     m = re.search(r"📍\s*([^\n📅🗓⏰]{2,40})", body)
     venue = (m.group(1).strip() if m else "") or next((s for s in segs if TIP_PLACE_RE.search(s) and len(s) <= 40 and not re.search(r"駅|徒歩|線", s)), "")
@@ -808,7 +811,8 @@ def collect_tips(src, ref):
         x = build(title, text, key, trust, ref, "exhibit")
         if not x: continue
         x["summary"] = re.sub(r"\s+", " ", f"{body} {note}").strip()[:140]  # 요약은 손질 전 원문으로
-        tip_fix(x, text, ref)
+        tip_fix(x, text, ref, body)
+        print(f"  제보 {key[-22:]}: {re.sub(chr(10), ' / ', body)[:200]}", file=sys.stderr)  # 원문 앞부분(읽기 규칙 점검용)
         x["source"], x["platform"], x["tip"], x["tv"] = source, "tip", True, TIP_VER
         if img: x["image"] = img
         if mx: x["scanned"] = True  # X 페이지는 열어도 그림·티켓 링크를 못 얻는다(기사 보강 건너뜀)
