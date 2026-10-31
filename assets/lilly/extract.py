@@ -1,6 +1,6 @@
 """메이드 버스터 릴리 새 그림(2026-10 말, 운영자가 Gemini 로 만든 시트)을 잘라 보드에 쓸 PNG 로 만든다.
 
-  python3 assets/lilly/extract.py        # assets/lilly/*.png 와 앱 아이콘(assets/icon-*.png, apple-touch-icon.png)을 다시 씀
+  python3 assets/lilly/extract.py        # assets/lilly/*.png 와 앱 아이콘(assets/icon-lilly-*.png, apple-touch-icon-lilly.png)을 다시 씀
 
 src/poster.jpg  (2816×1536): 가운데 포스터(날개 달고 쏘는 릴리)와 오른쪽 둥근 배지(윙크·엄지척 얼굴)
 src/dossier.jpg (2816×1536): 9열×8행 도트 애니메이션 시트(대기·인사·기지개·걷기·달리기·대시·회전 춤·만세·테크노),
@@ -138,10 +138,10 @@ def icons(b):
         t.alpha_composite(bb, ((size - inner) // 2, (size - inner) // 2))
         return t
     q = lambda im: im.quantize(256, method=Image.Quantize.FASTOCTREE)  # 256색이면 눈으로 차이가 없고 파일이 1/3
-    q(tile(512, .06, True)).save(os.path.join(ROOT, 'assets', 'icon-512.png'), optimize=True)
-    q(tile(192, .06, True)).save(os.path.join(ROOT, 'assets', 'icon-192.png'), optimize=True)
-    tile(180, .07, False).convert('RGB').quantize(256).save(os.path.join(ROOT, 'assets', 'apple-touch-icon.png'), optimize=True)
-    tile(512, .14, False).convert('RGB').quantize(256).save(os.path.join(ROOT, 'assets', 'icon-maskable-512.png'), optimize=True)  # 안전 영역(가운데 80%) 안
+    q(tile(512, .06, True)).save(os.path.join(ROOT, 'assets', 'icon-lilly-512.png'), optimize=True)
+    q(tile(192, .06, True)).save(os.path.join(ROOT, 'assets', 'icon-lilly-192.png'), optimize=True)
+    tile(180, .07, False).convert('RGB').quantize(256).save(os.path.join(ROOT, 'assets', 'apple-touch-icon-lilly.png'), optimize=True)
+    tile(512, .14, False).convert('RGB').quantize(256).save(os.path.join(ROOT, 'assets', 'icon-lilly-maskable-512.png'), optimize=True)  # 안전 영역(가운데 80%) 안
 
 
 if __name__ == '__main__':
