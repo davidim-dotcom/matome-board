@@ -106,6 +106,10 @@ SOURCES = [
     {"type": "rss", "name": "한국 뉴스(애니 국내 방영)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%ED%94%8C%EB%9F%AC%EC%8A%A4%20OR%20%EB%9D%BC%ED%94%84%ED%85%94%20%EC%8B%A0%EC%9E%91%20%EB%B0%A9%EC%98%81%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(애니 국내 발매)", "url": "https://news.google.com/rss/search?q=%EC%95%A0%EB%8B%88%20%EA%B5%AD%EB%82%B4%20%EC%A0%95%EC%8B%9D%20%EB%B0%9C%EB%A7%A4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
     {"type": "rss", "name": "한국 뉴스(일본 애니 콜라보)", "url": "https://news.google.com/rss/search?q=%EC%9D%BC%EB%B3%B8%20%EC%95%A0%EB%8B%88%20%EC%BD%9C%EB%9D%BC%EB%B3%B4%20when%3A30d&hl=ko&gl=KR&ceid=KR:ko", "region": "KR", "gnews": True},
+    # 작은 갤러리의 원화전·색지전(2026-10 말): X 에만 올라오는 게 많아 일본어 Google 뉴스 검색으로 보도자료라도 잡는다(링크는 Google 이동 주소라 기사 보강은 안 함)
+    {"type": "rss", "name": "일본 뉴스(原画展·色紙展)", "url": "https://news.google.com/rss/search?q=" + urllib.parse.quote("原画展 OR 色紙展 OR 複製原画展 OR イラスト展 when:30d") + "&hl=ja&gl=JP&ceid=JP:ja", "gnews": True},
+    # 제보(2026-10 말): 보드 사이트 개요의 '소식 제보'로 들어온 주소(X 글·행사 페이지)를 게시판 웹 앱 ?tips=1 에서 읽는다. X 글은 oEmbed 로 본문을 읽는다(collect_tips)
+    {"type": "tips", "name": "제보(X·행사 페이지)"},
     # 직접 추가 예시
     # {"type": "rss", "name": "@official_x", "url": "http://localhost:1200/twitter/user/official_x"},  # RSSHub
     # {"type": "youtube", "name": "채널명", "channel_id": "UCxxxxxxxx", "works": ["이름"]},
@@ -121,7 +125,7 @@ TREND_DAYS = 14      # 최근 며칠치 언급을 셀지
 TREND_MIN = 3        # 이만큼 이상 다른 기사에 나와야 유행으로 본다
 TREND_TOP = 30
 # 이 단어가 하나도 없으면 버린다(빈 리스트면 전부 통과). 공지 이외 잡담을 1차로 거른다.
-MUST_HAVE_ANY = ["即売会", "オンリー", "コミケ", "コミックマーケット", "COMITIA", "単行本", "新連載", "完結", "アニメ化", "原画展", "展覧会", "ライブ", "LIVE", "公演", "イベント", "チケット", "先行", "抽選", "コラボ", "開催", "ツアー", "フェス", "POP UP", "ポップアップ", "カフェ", "ストア"]
+MUST_HAVE_ANY = ["即売会", "オンリー", "コミケ", "コミックマーケット", "COMITIA", "単行本", "新連載", "完結", "アニメ化", "原画展", "色紙展", "複製原画", "イラスト展", "展覧会", "ライブ", "LIVE", "公演", "イベント", "チケット", "先行", "抽選", "コラボ", "開催", "ツアー", "フェス", "POP UP", "ポップアップ", "カフェ", "ストア"]
 # 제목이 이런 식이면 반복성 기사로 보고 버린다: 어디서 볼 수 있나, 몇 화 줄거리·선행 컷, 감상·고찰, 주간 순위, 세일.
 # 단 상영회·이벤트·개최·라이브처럼 행사 단어가 함께 있으면 남긴다.
 NOISE_RE = re.compile(r"どこで(見|観|視聴)|配信(サービス|サイト|先)|視聴方法|見逃し|無料(で|配信|視聴)|見る順番|何話まで|第\d+話|話数|"
@@ -330,7 +334,7 @@ def build(title, body, link, src, ref, default_cat="other"):
     if kr:  # 한국 출처: 제목에 일본 IP 단어(또는 works.json 의 한국어 작품 이름)와 행사 단어가 둘 다
         if not kr_ok(title):
             return None
-    elif words and default_cat != "stream" and not any(w in text for w in words):
+    elif words and default_cat != "stream" and not src.get("trust") and not any(w in text for w in words):  # trust: 제보처럼 사람이 고른 출처
         return None
     # 게임 뉴스는 본문에 '이벤트'(게임 안 이벤트)가 흔해서 제목에 행사 단어나 바깥 행사 단어가 있어야 통과(신작 발표·Steam 페이지 공개 등을 거름)
     if src.get("game") and not (any(w in game_title(title) for w in words) or GAME_REAL_RE.search(game_title(title))):
@@ -658,6 +662,8 @@ def collect_one(src, ref):
                     seen_u.add(x["url"]); out.append(x)
         RAW[src.get("name", t)] = len(out)
         return out
+    if t == "tips":
+        return collect_tips(src, ref)
     if t == "holodex":
         key = os.environ.get("HOLODEX_API_KEY")
         if not key:
@@ -675,6 +681,93 @@ def collect_one(src, ref):
                         "ticketUrl": "", "url": f"https://www.youtube.com/watch?v={v.get('id','')}", "summary": ""})
         return out
     raise ValueError(f"알 수 없는 소스 종류: {t}")
+
+
+# ---- 제보(2026-10 말) ----
+# 보드 사이트 개요의 '소식 제보'(X 글 주소나 행사 페이지 주소 + 메모)가 게시판 웹 앱(bbs/Code.gs)의 tips 시트에 쌓이고, 여기서 GET ?tips=1 로 읽는다.
+# 시트의 상태 칸에 no 를 적은 제보는 웹 앱이 돌려주지 않는다(숨김). X 글은 키 없는 oEmbed(publish.twitter.com)로 본문·작성자를 읽고,
+# 그 밖의 주소는 페이지의 og:title·og:description·og:image 를 읽는다. 이미 보드에 있는 주소는 다시 열지 않는다(TIPS_MAX 건까지).
+TIPS_MAX = 60
+X_URL_RE = re.compile(r"^https://(?:www\.|mobile\.)?(?:x|twitter)\.com/(\w{1,15})/status/(\d+)")
+
+
+def tips_api():
+    """게시판 웹 앱 주소: 환경변수 TIPS_API, 없으면 index.html 의 BBS.api(한 곳에만 적어 두려고)."""
+    if os.environ.get("TIPS_API"): return os.environ["TIPS_API"]
+    try:
+        m = re.search(r'const BBS\s*=\s*\{\s*api:\s*"(https://script\.google\.com/macros/[^"]+)"', open(os.path.join(ROOT, "index.html"), encoding="utf-8").read())
+        return m.group(1) if m else ""
+    except Exception:
+        return ""
+
+
+def tip_x(url):
+    """X 글 → (본문, 작성자). oEmbed 의 html 은 <blockquote><p>본문</p>&mdash; 이름 (@id) <a>날짜</a></blockquote>."""
+    m = X_URL_RE.match(url)
+    q = urllib.parse.urlencode({"url": f"https://twitter.com/{m.group(1)}/status/{m.group(2)}", "omit_script": "true", "dnt": "true", "lang": "ja"})
+    d = json.loads(fetch(f"https://publish.twitter.com/oembed?{q}"))
+    h = d.get("html", "")
+    p = re.search(r"<p[^>]*>(.*?)</p>", h, re.S)
+    body = html.unescape(re.sub(r"<br\s*/?>", "\n", p.group(1) if p else "")) if p else ""
+    body = re.sub(r"<[^>]+>", "", body)
+    body = re.sub(r"https?://t\.co/\w+|pic\.twitter\.com/\w+", "", body).strip()
+    return body, (d.get("author_name") or m.group(1))
+
+
+def tip_page(url):
+    """일반 페이지 → (제목, 설명, 그림)."""
+    page = fetch(url).decode("utf-8", "replace")
+    def meta(prop):
+        m = re.search(r'<meta[^>]+(?:property|name)=["\']' + prop + r'["\'][^>]*content=["\']([^"\']*)', page, re.I) \
+            or re.search(r'<meta[^>]+content=["\']([^"\']*)["\'][^>]*(?:property|name)=["\']' + prop + r'["\']', page, re.I)
+        return html.unescape(m.group(1)).strip() if m else ""
+    t = meta("og:title") or html.unescape((re.search(r"<title[^>]*>(.*?)</title>", page, re.S | re.I) or [None, ""])[1]).strip()
+    return t, meta("og:description") or meta("description"), og_from_html(page, url)
+
+
+def tip_title(body):
+    """제목이 없는 X 글: 『』「」 안 이름이 있으면 그 줄, 없으면 첫 줄(해시태그·이모지 정리), 80자."""
+    lines = [re.sub(r"[#＃]\S+", "", x).strip(" 　・|") for x in body.splitlines()]
+    lines = [x for x in lines if len(x) >= 4]
+    pick = next((x for x in lines if re.search(r"[『「].+?[』」]", x) and re.search(r"展|開催|イベント|フェア", x)), None) or (lines[0] if lines else "")
+    return pick[:80]
+
+
+def collect_tips(src, ref):
+    api = tips_api()
+    if not api:
+        raise ValueError("게시판 웹 앱 주소(index.html 의 BBS.api 또는 TIPS_API)를 못 찾음")
+    data = json.loads(fetch(api + ("&" if "?" in api else "?") + "tips=1"))
+    tips = [t for t in data.get("tips", []) if re.match(r"^https?://", str(t.get("url", "")))]
+    RAW[src["name"]] = len(tips)
+    try: known = {x.get("url") for x in json.load(open(OUT, encoding="utf-8"))}
+    except Exception: known = set()
+    out, seen = [], set()
+    trust = {**src, "trust": True}
+    for t in tips[:TIPS_MAX]:
+        url, note = str(t["url"]).strip()[:300], str(t.get("note", "")).strip()[:300]
+        mx = X_URL_RE.match(url)
+        key = f"https://x.com/{mx.group(1)}/status/{mx.group(2)}" if mx else url  # x.com·twitter.com·?s= 꼬리를 하나로
+        if key in known or key in seen: continue
+        seen.add(key)
+        try:
+            if mx:
+                body, who = tip_x(url)
+                title, img, source = tip_title(body), "", f"X · {who}"[:40]
+            else:
+                title, body, img = tip_page(url)
+                source = urllib.parse.urlparse(url).hostname or "제보"
+        except Exception as e:
+            print(f"  제보 {url[:60]}: 읽지 못함 ({e})", file=sys.stderr); continue
+        if not title and note: title = note.splitlines()[0][:80]
+        if not title: continue
+        x = build(title, f"{body}\n{note}".strip(), key, trust, ref, "exhibit")
+        if not x: continue
+        x["source"], x["platform"], x["tip"] = source, "tip", True
+        if img: x["image"] = img
+        if mx: x["scanned"] = True  # X 페이지는 열어도 그림·티켓 링크를 못 얻는다(기사 보강 건너뜀)
+        out.append(x)
+    return out
 
 
 # ---- 작품 이름 정리(data/works.json, 사람이 고침) ----
@@ -1658,7 +1751,7 @@ def enrich(items, ref=None):
     for it in items:
         if it.get("scanned") or not it.get("url"):
             continue
-        if it.get("platform") in ("holodex", "youtube") or it.get("region") == "KR":  # 방송 항목은 열어 볼 게 없고, 한국 기사(Google 뉴스 링크)는 열면 이동 페이지라 소용없다
+        if it.get("platform") in ("holodex", "youtube") or it.get("region") == "KR" or "news.google.com/" in it.get("url", ""):  # 방송 항목은 열어 볼 게 없고, 한국 기사(Google 뉴스 링크)는 열면 이동 페이지라 소용없다
             it["scanned"] = True
             continue
         if tried >= ENRICH_MAX:
@@ -2596,7 +2689,13 @@ def check():
                 print(f"       + {clean(e[0])[:60]} | {clean(e[1])[:50]} | {e[4][:60]}")
         except Exception as e:
             bad += 1; print(f"FAIL {BUZZ_NAME} {kind}: {e}")
-    print(f"→ 실패 {bad}/{len(SOURCES) + len(BUZZ_FEEDS)}")
+    try:  # 제보의 X 글 읽기(oEmbed)가 키 없이 되는지: X 개발자 문서의 예시 글
+        body, who = tip_x("https://twitter.com/Interior/status/507185938620219395")
+        print(f"OK   X oEmbed(제보): {who}: {body[:60]!r}" if body else "FAIL X oEmbed(제보): 본문이 비었음")
+        bad += 0 if body else 1
+    except Exception as e:
+        bad += 1; print(f"FAIL X oEmbed(제보): {e}")
+    print(f"→ 실패 {bad}/{len(SOURCES) + len(BUZZ_FEEDS) + 1}")
     return 1 if bad else 0
 
 

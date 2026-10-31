@@ -14,6 +14,7 @@ from xml.sax.saxutils import escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP = tempfile.mkdtemp(prefix="matome-smoke-")
 shutil.copy(os.path.join(ROOT, "collector.py"), TMP)
+shutil.copy(os.path.join(ROOT, "index.html"), TMP)  # 제보 출처가 index.html 의 BBS.api(게시판 웹 앱 주소)를 읽는다
 shutil.copytree(os.path.join(ROOT, "data"), os.path.join(TMP, "data"))
 os.environ["RUNNER_TEMP"] = TMP
 os.environ.pop("HOLODEX_API_KEY", None)
@@ -64,6 +65,12 @@ def fake_fetch(url, headers=None, data=None):
         evs = [{"@type": "Event", "name": t, "url": f"{url}e{i}", "startDate": D1.strftime("%Y-%m-%dT18:00:00"), "description": "イベント",
                 "location": {"@type": "Place", "name": "東京ガーデンシアター", "geo": {"latitude": 35.645, "longitude": 139.79}}} for i, t in enumerate(JA)]
         return f'<html><script type="application/ld+json">{json.dumps(evs, ensure_ascii=False)}</script></html>'.encode()
+    if "script.google.com/macros/" in url and "tips=1" in url:  # 제보 목록(게시판 웹 앱 ?tips=1)
+        return json.dumps({"tips": [{"at": "", "url": "https://x.com/smoke_gallery/status/1234567890?s=20", "note": "中野 ギャラリー"},
+                                    {"at": "", "url": "https://twitter.com/smoke_gallery/status/1234567890", "note": ""}]}, ensure_ascii=False).encode()
+    if "publish.twitter.com/oembed" in url:  # X 글 본문(oEmbed)
+        d1 = D1.strftime("%-m月%-d日")
+        return json.dumps({"author_name": "スモーク画廊", "html": f'<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">『スモーク』複製原画展を開催します！<br>{d1}〜 #スモーク <a href="https://t.co/abc">pic.twitter.com/abc</a></p>&mdash; スモーク画廊 (@smoke_gallery) <a href="#">Oct 31, 2026</a></blockquote>'}, ensure_ascii=False).encode()
     if "news.google.com" in url and "hl=ko" in url:
         return rss([t + " - 스모크일보" for t in KO], url)
     art = re.search(r"#(\d+)$|/smoke(\d+)/$|/news/s(\d+)$|/e(\d+)$", url)
@@ -128,6 +135,10 @@ def t_main():
     new = [x for x in items if x.get("addedAt", "")[:16] == meta["updated"][:16]]
     assert new and all(x.get("title") and x.get("url") for x in new)
     assert any(x.get("region") == "KR" for x in new), "한국 소식이 하나도 안 남음"
+    tip = [x for x in new if x.get("platform") == "tip"]
+    assert len(tip) == 1, f"제보(X 주소 두 개가 같은 글)가 한 건이어야 함: {[x.get('url') for x in tip]}"
+    assert tip[0]["url"] == "https://x.com/smoke_gallery/status/1234567890" and "複製原画展" in tip[0]["title"] and tip[0]["eventDate"], tip[0]
+    assert tip[0]["category"] == "exhibit" and tip[0]["source"].startswith("X"), tip[0]
     assert any("[번역]" in (x.get("title_ko") or "") for x in new), "번역이 안 붙음"
     ph = [x for x in new if x.get("phases")]
     assert ph and all(x["title"].startswith("『にじさんじ』") or x["title"].startswith("にじさんじ 『にじさんじ』") for x in ph), [(x["title"][:30], x["phases"]) for x in ph]

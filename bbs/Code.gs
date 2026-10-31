@@ -71,6 +71,7 @@ function get_(e) {
   migrate_(false);
   const p = (e && e.parameter) || {};
   if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP), p.game, p.skin) });
+  if (p.tips) return out_({ tips: tips_() });
   const sh = sheet_();
   const n = Math.min(Number((e && e.parameter && e.parameter.limit) || PAGE), 500);
   const last = sh.getLastRow();
@@ -84,6 +85,7 @@ function post_(e) {
   let d = {};
   try { d = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (err) {}
   if (d.type === 'score') return addScore_(d);
+  if (d.type === 'tip') return addTip_(d);
   const name = String(d.name || '익명').trim().slice(0, MAX_NAME) || '익명';
   const text = String(d.text || '').trim().slice(0, MAX_TEXT);
   if (!text) return out_({ ok: false, error: 'empty' });
@@ -121,6 +123,30 @@ function addScore_(d) {
   lock.waitLock(5000);
   try { scoreSheet_(g).appendRow([new Date(), noFormula_(name), score, stage, noFormula_(skin), d.clear === true, noFormula_(title)]); } finally { lock.releaseLock(); }
   return out_({ ok: true });
+}
+
+// 소식 제보(2026-10 말): 보드 사이트 개요의 '소식 제보'가 POST {"type":"tip","url":"https://…","note":"메모"}.
+// tips 시트에 [시각, 주소, 메모, 상태]. 상태 칸에 no 를 적으면 숨김(수집기에 안 감). 수집기(collector.py)가 GET ?tips=1 로 최근 60일 것을 읽어
+// X 글은 본문을, 그 밖은 페이지 제목을 읽어 소식으로 만든다.
+const TIPS = 'tips';
+function tipSheet_() { return sheet_(TIPS, ['시각', '주소', '메모', '상태(no=숨김)']); }
+function addTip_(d) {
+  const url = String(d.url || '').trim().slice(0, 300);
+  const note = String(d.note || '').replace(/\s+$/, '').slice(0, 300);
+  if (!/^https?:\/\/[^\s]+$/.test(url)) return out_({ ok: false, error: 'url' });
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try { tipSheet_().appendRow([new Date(), noFormula_(url), noFormula_(note), '']); } finally { lock.releaseLock(); }
+  return out_({ ok: true });
+}
+function tips_() {
+  const sh = tipSheet_();
+  const last = sh.getLastRow();
+  if (last < 2) return [];
+  const k = Math.min(300, last - 1), since = Date.now() - 60 * 864e5;
+  return sh.getRange(last - k + 1, 1, k, 4).getValues()
+    .filter(r => String(r[3] || '').trim().toLowerCase() !== 'no' && new Date(r[0]).getTime() > since && String(r[1] || ''))
+    .reverse().map(r => ({ at: fmt_(r[0]), url: String(r[1]), note: String(r[2] || '') }));
 }
 
 // = + - @ 로 시작하는 글자는 시트가 수식으로 읽으므로 ' 를 붙여 글자로 둔다(읽을 때는 ' 없이 나온다)
