@@ -8,7 +8,7 @@ const { chromium, devices } = require("playwright");
 
 const ROOT = path.dirname(__dirname);
 const PORT = 8799;
-const TABS = ["feed", "sched", "weekly", "works", "buzz", "anime", "comics", "about", "game", "g2048", "derby", "pen", "ensei"];
+const TABS = ["feed", "sched", "weekly", "works", "buzz", "anime", "comics", "tip", "about", "game", "g2048", "derby", "pen", "ensei"];
 const DEVS = ["Pixel 7", "iPhone SE"];  // 보통 폰(412px)과 좁은 폰(320px)
 const bad = [];
 

@@ -271,6 +271,10 @@ button{cursor:pointer}
 .appbox[hidden]{display:none}
 .tipbox input,.tipbox textarea{width:100%;box-sizing:border-box;margin:4px 0}
 .tipbox textarea{min-height:64px}
+.tiphow{margin:10px 0 0;padding-left:18px;font-size:12px;color:var(--muted);line-height:1.6}
+.tiplist{list-style:none;margin:0;padding:0} .tiplist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 8px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.tiplist li a{overflow-wrap:anywhere} .tiplist li small{grid-column:2;color:var(--muted);overflow-wrap:anywhere} .tiplist time{color:var(--muted);font-size:11px}
+.tiplist .st{font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%,transparent);color:var(--muted)} .tiplist .st.ok{background:color-mix(in srgb,var(--green) 22%,transparent);color:var(--green)}
 .vntest summary{cursor:pointer;font-size:14px;color:var(--muted)} .vntest summary b{color:var(--pink)}
 .vntest iframe{display:block;width:100%;height:720px;border:0;margin-top:10px;background:transparent}
 .verline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:14px;margin:2px 0 8px}
@@ -630,6 +634,7 @@ textarea{min-height:110px;resize:vertical}
     <button role="tab" data-tab="buzz" aria-selected="false">X 화제</button>
     <button role="tab" data-tab="anime" aria-selected="false">방영중</button>
     <button role="tab" data-tab="comics" aria-selected="false">만갤</button>
+    <button role="tab" data-tab="tip" aria-selected="false">제보</button>
     <button role="tab" data-tab="about" aria-selected="false">사이트 개요</button>
     <button role="tab" data-tab="play" aria-selected="false"><i data-ic="game"></i> 게임</button>
   </nav>
@@ -641,14 +646,19 @@ textarea{min-height:110px;resize:vertical}
   <section id="buzz" hidden></section>
   <section id="anime" hidden></section>
   <section id="comics" hidden></section>
-  <section id="about" hidden>
-    <div class="panel tipbox" id="tipBox"><!-- 소식 제보(2026-10 말): 게시판 웹 앱 tips 시트 → 수집기 '제보' 출처가 하루 4번 읽어 소식으로 만든다 -->
+  <section id="tip" hidden><!-- 소식 제보(2026-10 말 사이트 개요에서 따로 뗌): 게시판 웹 앱 tips 시트 → 수집기 '제보' 출처가 하루 4번 읽어 소식으로 만든다 -->
+    <div class="panel tipbox" id="tipBox">
       <h2>소식 제보</h2>
       <p class="help">X 에만 올라온 작은 원화전·색지전 같은 소식을 알려 주세요. <b>X 글 주소</b>나 행사 페이지 주소를 붙여 넣으면 다음 수집(하루 4번) 때 본문을 읽어 보드에 올라가요.</p>
       <input type="url" id="tipUrl" placeholder="https://x.com/… 또는 행사 페이지 주소" maxlength="300" autocomplete="off" inputmode="url">
       <textarea id="tipNote" placeholder="메모(선택): 날짜·장소를 적어 주면 더 정확해요. 예) 11/8~11/16 中野 ギャラリー○○" maxlength="300"></textarea>
       <div class="bbs-bar"><span class="note">잘못 들어간 제보는 운영자가 숨길 수 있어요</span><button class="btn" id="tipSend">제보하기</button></div>
+      <ul class="tiphow"><li><b>글 하나씩</b> 넣어 주세요. 계정 주소(x.com/아이디)만으로는 그 계정의 글을 계속 모을 수 없어요(X 는 글을 하나씩만 읽을 수 있어요).</li>
+        <li>안드로이드 앱이면 X 앱에서 글의 <b>공유 → 마토메 보드</b>를 누르면 이 칸이 채워진 채로 열려요.</li></ul>
     </div>
+    <div class="panel"><h2>최근 제보</h2><div id="tipList"><p class="note">불러오는 중…</p></div></div>
+  </section>
+  <section id="about" hidden>
     <div class="panel">
       <h2>게시판</h2> <!-- 2026-10: 글쓰기 쉽게 사이트 개요 맨 위로 -->
       <p class="help">누구나 익명으로 쓸 수 있어요. 한 번 올린 글은 고치거나 지울 수 없으니 올리기 전에 한 번 더 읽어 주세요.</p>
@@ -728,7 +738,7 @@ textarea{min-height:110px;resize:vertical}
   <button type="button" data-tab="anime"><i data-ic="tv"></i>방영중</button>
   <button type="button" data-tab="comics"><i data-ic="books"></i>만갤</button>
   <button type="button" data-tab="about"><i data-ic="info"></i>사이트 개요</button>
-  <button type="button" data-tipgo><i data-ic="link"></i>소식 제보</button>
+  <button type="button" data-tab="tip"><i data-ic="link"></i>소식 제보</button>
   <button type="button" class="bver" id="bVer" data-vergo></button>
 </div></div>
 <div class="mochi" id="mochi" hidden>
@@ -1886,12 +1896,14 @@ function routeHash(){
   if(location.hash==="#play"){showTab("play");return true}
   if(location.hash==="#ver"){goVer();return true}
   if(location.hash==="#tip"){goTip();return true}
+  if(location.hash.startsWith("#tip=")){let t="";try{t=decodeURIComponent(location.hash.slice(5))}catch{}history.replaceState(null,"",location.pathname+location.search);goTip(t);return true} // 안드로이드 앱 '공유 → 마토메 보드'가 여는 주소
   if(location.hash==="#app"){showTab("about");setTimeout(()=>{const b=$("#appBox");if(b&&!b.hidden)b.scrollIntoView({block:"start"})},50);return true} // 친구에게 '앱 받기' 주소로 보낼 때
   if(location.hash==="#trip"){trip=tripFix(trip||tripDefault());calDay="trip";history.replaceState(null,"",tripHash());showTab("sched");render();return true}
   if(location.hash==="#idle"){$('#gpick [data-game="idle"]').hidden=false;showTab("idle");return true} // 放置는 숨겨 두고 주소 끝 #idle 로만 연다
   return false;
 }
 window.addEventListener("popstate",()=>{if(!routeHash()&&!$("#works").hidden)showTab("feed")});
+window.addEventListener("hashchange",()=>{if(location.hash.startsWith("#tip="))routeHash()}); // 앱이 떠 있는 채로 공유가 또 들어오면 주소의 해시만 바뀐다
 /* ---------- Holo Mobile 스코어 보드 ----------
    스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(합체 보이스는 games/holo-voice.js 가 그 파일 끝에서 로드된다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
    열리는 것을 MutationObserver 로 지켜보고 부제 글("최종 점수: 1,234점 (최고 타일: 512)")에서 점수를 읽는다.
@@ -2026,11 +2038,19 @@ async function sendTip(){
     catch{await fetch(BBS.api,{method:"POST",mode:"no-cors",body:JSON.stringify({type:"tip",url,note})});ok=true} // 응답을 못 읽는 환경이면 보내기만
     if(!ok)throw 0;
     try{localStorage.setItem("matome-tip-sent",Date.now())}catch{}
-    $("#tipUrl").value="";$("#tipNote").value="";toast("고마워! 다음 수집 때 보드에 올라가요");
+    $("#tipUrl").value="";$("#tipNote").value="";toast("고마워! 다음 수집 때 보드에 올라가요");setTimeout(loadTips,1500);
   }catch{toast("보내지 못했어요. 잠시 뒤 다시 해 주세요")}finally{btn.disabled=false}}
 $("#tipSend").onclick=sendTip;
-function goTip(){showTab("about");setTimeout(()=>{const b=$("#tipBox");if(b){b.scrollIntoView({block:"start"});$("#tipUrl").focus({preventScroll:true})}},50)}
-$("#bbsText").oninput=e=>{$("#bbsCount").textContent=e.target.value.length+"/500"};
+function goTip(text){showTab("tip");if(text){const m=String(text).match(/https?:\/\/\S+/);if(m)$("#tipUrl").value=m[0].slice(0,300);const rest=String(text).replace(m?m[0]:"","").trim();if(rest&&!$("#tipNote").value)$("#tipNote").value=rest.slice(0,300)}
+  setTimeout(()=>{const u=$("#tipUrl");if(u&&!u.value)u.focus({preventScroll:true})},50)}
+// 최근 제보 목록(게시판 웹 앱 GET ?tips=1). 보드에 이미 올라간 것은 '보드에 있음'(X 주소는 수집기와 같은 x.com/아이디/status/번호 꼴로 맞춤)
+const tipKey=u=>{const m=String(u||"").match(/^https:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/(\w{1,15})\/status\/(\d+)/);return m?`https://x.com/${m[1]}/status/${m[2]}`:String(u||"")};
+async function loadTips(){const box=$("#tipList");if(!box)return;if(!bbsReady()){box.innerHTML='<p class="note">제보 받기가 아직 준비되지 않았어요</p>';return}
+  try{const r=await fetch(BBS.api+(BBS.api.includes("?")?"&":"?")+"tips=1",{cache:"no-store"});const j=await r.json();const t=(j.tips||[]).slice(0,30);
+    const on=new Map();for(const it of items.values())on.set(it.url,it);
+    box.innerHTML=t.length?`<ul class="tiplist">${t.map(x=>{const k=tipKey(x.url),it=on.get(k)||on.get(x.url);const u=safeUrl(x.url);
+      return `<li><span class="st ${it?"ok":""}">${it?"보드에 있음":"수집 대기"}</span>${it?`<a href="#" data-tipitem="${esc(it.id)}">${esc(tx(it,"title"))}</a>`:`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(x.url.replace(/^https?:\/\//,"").slice(0,60))}</a>`}${x.note?`<small>${esc(x.note)}</small>`:""}<time>${esc(String(x.at||"").slice(5,16))}</time></li>`}).join("")}</ul>`:'<p class="note">아직 제보가 없어요. 첫 제보를 해 주세요!</p>'}
+  catch{box.innerHTML='<p class="note">목록을 불러오지 못했어요</p>'}}$("#bbsText").oninput=e=>{$("#bbsCount").textContent=e.target.value.length+"/500"};
 
 /* ---------- actions ---------- */
 function onAction(e){
@@ -2168,7 +2188,7 @@ function showTab(target){
   const nb=document.querySelector(`nav.tabs [data-tab="${navKey}"]`); if(nb&&nb.scrollIntoView) nb.scrollIntoView({inline:"nearest",block:"nearest"});
   document.querySelectorAll("section").forEach(sec=>{sec.hidden=sec.id!==target});
   $("#stubs").hidden=target!=="feed"; // 마감 임박 띠는 피드에서만(다른 탭에선 내용을 아래로 밀기만 했다)
-  if(target==="about"){loadBbs();zipCheck()}if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
+  if(target==="about"){loadBbs();zipCheck()}if(target==="tip")loadTips();if(target==="comics")loadComics();if(target==="weekly")loadWeekly();if(target==="works")renderWorks();if(target==="buzz")loadBuzz();
   if(target==="g2048"){const f=$("#holo2048");if(f&&!f.src)f.src=f.dataset.src;if(!HM.tried)loadHmRank()}
   {const f=$(`#${target} iframe.autoh`);if(f&&!f.src){f.src=f.dataset.src; // 독립 게임 페이지(放置·ペンライト·도쿄 원정)는 탭을 처음 열 때만 받는다
     f.addEventListener("load",()=>{try{const d=f.contentDocument,fit=()=>{f.style.height=d.documentElement.scrollHeight+8+"px"};fit();new ResizeObserver(fit).observe(d.body)}catch{}})}} // 같은 출처라 안쪽 높이에 맞춰 늘려 페이지가 통째로 스크롤되게(iframe 안 스크롤 없음)
@@ -2187,7 +2207,6 @@ function sheetOpen(on){const b=$("#bsheet"),m=$("#bnMore");if(!b)return;b.hidden
 document.addEventListener("click",e=>{
   if(e.target.closest("#bnMore")){sheetOpen($("#bsheet").hidden);return}
   if(e.target.closest("[data-vergo]")){sheetOpen(false);goVer();return}
-  if(e.target.closest("[data-tipgo]")){sheetOpen(false);goTip();return}
   if(e.target.id==="bsheet"){sheetOpen(false);return} // 시트 바깥(어두운 곳)을 누르면 닫음
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;
@@ -2196,6 +2215,7 @@ document.addEventListener("click",e=>{
     showTab(target);window.scrollTo(0,0);return}
   const gp=e.target.closest("[data-game]"); if(gp){showTab(gp.dataset.game);return}
   const pt=e.target.closest("[data-ptile]"); if(pt){openCard(pt.dataset.ptile);return}
+  const ti=e.target.closest("[data-tipitem]"); if(ti){e.preventDefault();openCard(ti.dataset.tipitem);return}
   const fv=e.target.closest("[data-fview]"); if(fv){const v=fv.dataset.fview==="grid"?"grid":"list";if(v===feedView)return;feedView=v;try{localStorage.setItem("matome-view",feedView)}catch{};render();return}
   if(e.target.closest("[data-fmine-new]")){feedMine=true;feedNew=true;render();return}
   const wk=e.target.closest("[data-work]"); if(wk){e.preventDefault();openWork(wk.dataset.work);return}
@@ -2292,8 +2312,9 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // GitHub API(api.github.com, CORS 됨, 키 없이 시간당 60회)를 6시간에 한 번만 읽고, 새 버전이면 띠를 띄운다. [받기]는 APK 주소로 가서 앱이 브라우저로 넘긴다
 // 보드 버전(2026-10 말). index.html·games/ 를 고치는 PR 마다 올린다: 기능 추가는 가운데 자리(2.1.0), 고침은 끝자리(2.0.1).
 // CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
-const BOARD_VER="2.2.0";
+const BOARD_VER="2.3.0";
 const CHANGES=[
+  ["2.3.0","2026-10-31",["소식 제보를 따로 된 「제보」 탭으로(더보기에도) — 최근 제보와 보드에 올라갔는지 보기","안드로이드 앱: X 앱에서 공유 → 마토메 보드 로 바로 제보(앱 업데이트)"]],
   ["2.2.0","2026-10-31",["소식 제보: X 글이나 행사 페이지 주소를 넣으면 보드에 올라가요(사이트 개요·더보기)","원화전·색지전 보도자료를 일본 뉴스 검색에서도 모아요"]],
   ["2.1.0","2026-10-31",["앱 받기에 카톡으로 보낼 zip 파일 추가(다음 앱 배포부터)"]],
   ["2.0.0","2026-10-31",["폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일과 앱 새 버전 알림","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","보드·앱 버전과 업데이트 내역 표시"]],
