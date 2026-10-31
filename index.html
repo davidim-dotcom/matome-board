@@ -67,7 +67,20 @@ h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;fo
 .brand{display:flex;align-items:center;gap:10px}
 .brand .lilly{height:52px;width:52px;border-radius:50%;animation:lilly-bob 2.4s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(0,0,0,.28));flex:none}
 @keyframes lilly-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
-@media (prefers-reduced-motion:reduce){.brand .lilly{animation:none}}
+/* 제목 옆 릴리를 누르면(2026-10 말): 통통 튀며 하트·별이 튀고 말풍선. 2초 안에 5번 누르면 화난 얼굴(cutin.jpg)로 부들부들 */
+.brand{position:relative}
+.lilly-btn{border:0;padding:0;background:none;border-radius:50%;cursor:pointer;flex:none;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.lilly-btn .lilly{object-fit:cover;-webkit-touch-callout:none}
+.lilly-btn.pop .lilly{animation:lilly-pop .55s cubic-bezier(.3,1.5,.5,1)}
+.lilly-btn.mad .lilly{animation:lilly-shake .12s linear 8}
+@keyframes lilly-pop{0%{transform:none}25%{transform:scale(1.18,.84)}55%{transform:translateY(-11px) rotate(-12deg) scale(.95,1.08)}100%{transform:none}}
+@keyframes lilly-shake{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(-3px) rotate(-4deg)}75%{transform:translateX(3px) rotate(4deg)}}
+.lilly-fx{position:absolute;left:50%;top:50%;pointer-events:none;font-size:15px;animation:lilly-fx .8s ease-out forwards}
+@keyframes lilly-fx{from{transform:translate(-50%,-50%) scale(.4);opacity:1}to{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.15);opacity:0}}
+.lilly-say{position:absolute;left:2px;top:calc(100% + 8px);z-index:12;width:max-content;max-width:min(260px,calc(100vw - 40px));background:var(--surface);color:var(--ink);border:1px solid color-mix(in srgb,var(--pink) 45%,var(--line));border-radius:14px;padding:8px 12px;font-size:13px;font-weight:600;line-height:1.4;box-shadow:0 8px 22px rgba(0,0,0,.18);opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s;pointer-events:none}
+.lilly-say::before{content:"";position:absolute;left:20px;top:-6px;width:10px;height:10px;background:var(--surface);border-left:1px solid color-mix(in srgb,var(--pink) 45%,var(--line));border-top:1px solid color-mix(in srgb,var(--pink) 45%,var(--line));transform:rotate(45deg)}
+.lilly-say.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.brand .lilly,.lilly-btn.pop .lilly,.lilly-btn.mad .lilly{animation:none}}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 .hotbadge{font-size:11px;font-weight:700;color:var(--pink);background:var(--pink-soft);padding:1px 7px;border-radius:999px}
 /* 주간 요약(data/weekly.json, 사람이 쓰는 글): 번호 매긴 소식 몇 개 + 보드 밖에서 찾은 배경 설명 */
@@ -586,7 +599,7 @@ textarea{min-height:110px;resize:vertical}
 </head>
 <body>
 <div class="wrap">
-  <div class="brand"><img class="lilly" src="assets/lilly/badge.png" alt="" width="52" height="52" decoding="async"><h1>마토메 보드</h1></div>
+  <div class="brand"><button type="button" class="lilly-btn" id="lillyBtn" aria-label="릴리 누르기"><img class="lilly" src="assets/lilly/badge.png" alt="" width="52" height="52" decoding="async"></button><h1>마토메 보드</h1></div>
   <div class="topbar">
     <p class="sub" id="storeNote">일본 게임·애니·버튜버·만화 공연과 이벤트 소식</p>
     <div class="langsw" role="group" aria-label="표시 언어"><button type="button" data-lang="ja" aria-pressed="true">原文</button><button type="button" data-lang="ko" aria-pressed="false">한국어</button></div>
@@ -2052,6 +2065,32 @@ function onAction(e){
   $("#mochiBye").onclick=()=>{hide=true;try{localStorage.setItem("matome-mochi","off")}catch{};sync();toast("도로롱을 숨겼어요. 사이트 개요에서 다시 부를 수 있어요")};
   $("#mochiCall").onclick=()=>{hide=false;try{localStorage.removeItem("matome-mochi")}catch{};sync()};
   let dimT=0; addEventListener("scroll",()=>{if(box.hidden)return;box.classList.add("dim");clearTimeout(dimT);dimT=setTimeout(()=>box.classList.remove("dim"),900)},{passive:true});
+})();
+(function lillyTap(){ // 제목 옆 릴리 배지를 누르면 반응(대사는 고정 대사와 지금 보드 데이터로 만든 대사를 반반)
+  const b=$("#lillyBtn"),im=b&&b.querySelector("img");if(!b||!im)return;
+  const say=document.createElement("div");say.className="lilly-say";say.setAttribute("role","status");b.parentNode.appendChild(say);
+  const LINES=["메이드 버스터 릴리, 출동!","오늘 소식 정리 끝! 칭찬해 줘","에헤헤, 간지러워","티켓 마감은 절대 놓치지 마!","마음에 드는 소식엔 ♥ 관심 눌러 줘","弾幕 한 판 어때? 게임 탭에 있어","주말 계획은 캘린더에서 세우자","도로롱이랑은 라이벌이야","작품 ☆ 누르면 내 작품으로 모아 줄게"];
+  const MAD=["그, 그만 눌러—!","연타 금지! 메이드 버스트 날린다?!","으으… 화났어!"];
+  let taps=[],last="",sayT=0,madT=0;
+  function data(){const o=[];try{const v=[...items.values()],now=Date.now();
+    const nw=v.filter(isNew).length;if(nw)o.push(`지난번 이후 새 소식 ${nw}건 들어왔어!`);
+    const mine=follow.length?v.filter(it=>isNew(it)&&isMine(it)).length:0;if(mine)o.push(`내 작품 새 소식 ${mine}건!`);
+    const we=v.filter(it=>it.category!=="stream"&&onWeekend(it)).length;if(we)o.push(`이번 주말 행사 ${we}건이야`);
+    const dl=upcomingDeadlines().filter(x=>x.d-now<3*DAY).length;if(dl)o.push(`3일 안에 판매·마감 ${dl}건, 서둘러!`)}catch{}return o}
+  function burst(mad){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const n=mad?10:6,cols=["var(--pink)","var(--cyan)","var(--amber)"];
+    for(let i=0;i<n;i++){const s=document.createElement("span"),a=Math.PI*2*i/n+Math.random()*.5,r=34+Math.random()*22;s.className="lilly-fx";
+      s.style.setProperty("--dx",Math.cos(a)*r+"px");s.style.setProperty("--dy",Math.sin(a)*r+"px");s.style.color=mad?"var(--pink)":cols[i%3];
+      s.innerHTML=ic(mad?"fire":i%2?"heart":"spark","d");b.appendChild(s);setTimeout(()=>s.remove(),850)}}
+  b.addEventListener("contextmenu",e=>e.preventDefault());
+  b.addEventListener("click",()=>{if(b.classList.contains("mad"))return; // 화난 동안은 무시
+    const now=Date.now();taps=taps.filter(t=>now-t<2000);taps.push(now);const mad=taps.length>=5;
+    b.classList.remove("pop","mad");void b.offsetWidth;b.classList.add(mad?"mad":"pop");
+    if(mad){taps=[];im.src="assets/lilly/cutin.jpg";clearTimeout(madT);madT=setTimeout(()=>{im.src="assets/lilly/badge.png";b.classList.remove("mad")},1600)}
+    burst(mad);
+    const d=mad?[]:data(),pool=mad?MAD:d.length&&Math.random()<.5?d:LINES;
+    let l=pool[0];for(let k=0;k<6;k++){l=pool[Math.floor(Math.random()*pool.length)];if(l!==last)break}last=l;
+    say.textContent=l;say.classList.add("on");clearTimeout(sayT);sayT=setTimeout(()=>say.classList.remove("on"),2600)});
 })();
 const GAME_TABS=["game","g2048","derby","pen","ensei","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
 function showTab(target){
