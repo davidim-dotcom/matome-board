@@ -107,6 +107,17 @@ async function run(dev) {
     if (r) bad.push(`${dev} 아래 탭 막대: ${r}`);
     console.log(`${r ? "FAIL" : "OK  "} ${dev} 아래 탭 막대`);
   }
+  // 사이트 개요 맨 아래 '테스트 중' 비주얼 노벨(games/vn.html): 펼치면 불러와서 타이틀이 그려지는지
+  {
+    await page.evaluate(() => { document.querySelector('nav.tabs [data-tab="about"]').click(); const d = document.getElementById("vnTest"); d.open = true; });
+    await page.waitForTimeout(1500);
+    const fr = page.frames().find((f) => /games\/vn\.html/.test(f.url()));
+    const ok = fr ? await fr.evaluate(() => !!document.querySelector(".vn-box .vn-title h2")) : false;
+    const ovv = await page.evaluate(OVERFLOW);
+    if (!ok) bad.push(`${dev} 비주얼 노벨 테스트: 타이틀이 안 그려짐`);
+    if (ovv.length) bad.push(`${dev} 비주얼 노벨 테스트: 화면 밖으로 넘침 → ${ovv.join(" | ")}`);
+    console.log(`${ok && !ovv.length ? "OK  " : "FAIL"} ${dev} 비주얼 노벨 테스트`);
+  }
   // 작품 허브 주소로 바로 들어오는 길(#work=)
   await page.goto(`http://127.0.0.1:${PORT}/#work=${encodeURIComponent("ホロライブ")}`, { waitUntil: "load" });
   await page.waitForTimeout(2000);

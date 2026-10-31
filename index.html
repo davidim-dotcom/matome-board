@@ -271,6 +271,8 @@ button{cursor:pointer}
 .appbox[hidden]{display:none}
 .tipbox input,.tipbox textarea{width:100%;box-sizing:border-box;margin:4px 0}
 .tipbox textarea{min-height:64px}
+.vntest summary{cursor:pointer;font-size:14px;color:var(--muted)} .vntest summary b{color:var(--pink)}
+.vntest iframe{display:block;width:100%;height:720px;border:0;margin-top:10px;background:transparent}
 .verline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:14px;margin:2px 0 8px}
 .verline b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:20px;color:var(--ink)} .verline small{color:var(--muted);font-size:12px}
 .verline .new{color:var(--pink);font-weight:700}
@@ -683,6 +685,10 @@ textarea{min-height:110px;resize:vertical}
       <div class="calsubs" id="calSubs"></div>
       <div id="srcStat"><p class="note">불러오는 중…</p></div>
     </div>
+    <details class="panel vntest" id="vnTest"><!-- 테스트 중(2026-10 말): 비주얼 노벨 games/vn.html. 펼칠 때만 iframe 을 불러온다. 정식으로 쓰게 되면 게임 탭이나 새 탭으로 옮긴다 -->
+      <summary><b>테스트 중</b> · 비주얼 노벨 「2년짜리 마을」</summary>
+      <iframe id="vnFrame" class="gameframe" data-src="games/vn.html" title="비주얼 노벨 테스트"></iframe>
+    </details>
   </section>
   <!-- 게임 탭 하나에 게임 4개(2026-10 말 탭을 모음): 고르는 칸 + 각 게임 section. 마지막에 고른 게임은 localStorage matome-game -->
   <div class="gpick" id="gpick" hidden>
@@ -2173,6 +2179,8 @@ document.addEventListener("change",e=>{if(e.target.id==="tripS"||e.target.id==="
   if(e.target.id==="tripS"){const len=Math.round((new Date(trip.e)-new Date(trip.s))/DAY);trip.s=v;trip.e=addYmd(v,len)}else trip.e=v; // 출발을 바꾸면 기간 길이는 그대로
   tripFix(trip);history.replaceState(null,"",tripHash());render()}});
 document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("today")){todayOpen=e.target.open;try{localStorage.setItem("matome-today",todayOpen?"1":"0")}catch{}}
+  if(e.target.id==="vnTest"&&e.target.open){const f=$("#vnFrame");if(f&&!f.src){f.src=f.dataset.src; // 테스트 비주얼 노벨: 펼칠 때 처음 한 번만 받고 안쪽 높이에 맞춘다
+    f.addEventListener("load",()=>{try{const d=f.contentDocument,fit=()=>{f.style.height=d.body.scrollHeight+4+"px"};fit();new ResizeObserver(fit).observe(d.body)}catch{}})}} // body 높이(문서 높이는 iframe 높이보다 작아지지 않아 빈칸이 남았다)
   if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
 document.addEventListener("keydown",e=>{const p=e.target.closest&&e.target.closest("[data-pin]");if(p&&(e.key==="Enter"||e.key===" ")){e.preventDefault();p.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 function sheetOpen(on){const b=$("#bsheet"),m=$("#bnMore");if(!b)return;b.hidden=!on;m.setAttribute("aria-expanded",on)}
