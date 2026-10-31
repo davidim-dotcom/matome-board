@@ -3,8 +3,8 @@
    - 그림·게임 등 나머지 같은 출처 파일은 캐시를 먼저 보여 주고 뒤에서 새로 받아 둔다.
    - 다른 출처(Google Fonts·GoatCounter·게시판 웹 앱)와 소리 파일(Range 요청)은 건드리지 않는다.
    캐시 구조를 바꾸면 V 를 올린다(예전 캐시는 activate 에서 지움). */
-const V = "matome-v1";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "assets/icon-192.png", "assets/mascot.png", "assets/game/player.png"];
+const V = "matome-v2"; // 2026-10 말 v2: 앱 아이콘·미리보기 그림을 새 릴리로 바꾸며 파일 이름을 바꿨다(옛 캐시를 지우게)
+const SHELL = ["./", "index.html", "manifest.webmanifest", "assets/icon-lilly-192.png", "assets/mascot.png", "assets/game/player.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).catch(() => {}).then(() => self.skipWaiting()));

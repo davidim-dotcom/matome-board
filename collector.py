@@ -1211,7 +1211,7 @@ def write_share_pages():
         body = it.get("summary_ko") or it.get("summary") or ""
         ko = it.get("title_ko") or ""
         desc = (head + (" — " + ko if ko else "") + (" | " + body if body else ""))[:200]
-        img = it.get("image") if str(it.get("image") or "").startswith("https://") else SITE + "assets/og.png"
+        img = it.get("image") if str(it.get("image") or "").startswith("https://") else SITE + "assets/og-lilly.png"
         go = f"../../#item={pid}"
         page = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8">

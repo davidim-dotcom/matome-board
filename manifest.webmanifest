@@ -9,14 +9,14 @@
  "background_color": "#13152A",
  "theme_color": "#13152A",
  "shortcuts": [
-  {"name": "이번 주말", "short_name": "이번 주말", "description": "이번 토·일 일정", "url": "./#weekend", "icons": [{"src": "assets/icon-192.png", "sizes": "192x192"}]},
-  {"name": "캘린더", "short_name": "캘린더", "url": "./#cal", "icons": [{"src": "assets/icon-192.png", "sizes": "192x192"}]},
-  {"name": "여행 일정", "short_name": "여행 일정", "description": "날짜·지역으로 행사 모으기", "url": "./#trip", "icons": [{"src": "assets/icon-192.png", "sizes": "192x192"}]},
-  {"name": "게임", "short_name": "게임", "url": "./#play", "icons": [{"src": "assets/icon-192.png", "sizes": "192x192"}]}
+  {"name": "이번 주말", "short_name": "이번 주말", "description": "이번 토·일 일정", "url": "./#weekend", "icons": [{"src": "assets/icon-lilly-192.png", "sizes": "192x192"}]},
+  {"name": "캘린더", "short_name": "캘린더", "url": "./#cal", "icons": [{"src": "assets/icon-lilly-192.png", "sizes": "192x192"}]},
+  {"name": "여행 일정", "short_name": "여행 일정", "description": "날짜·지역으로 행사 모으기", "url": "./#trip", "icons": [{"src": "assets/icon-lilly-192.png", "sizes": "192x192"}]},
+  {"name": "게임", "short_name": "게임", "url": "./#play", "icons": [{"src": "assets/icon-lilly-192.png", "sizes": "192x192"}]}
  ],
  "icons": [
-  {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-  {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-  {"src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  {"src": "assets/icon-lilly-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+  {"src": "assets/icon-lilly-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+  {"src": "assets/icon-lilly-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
  ]
 }
