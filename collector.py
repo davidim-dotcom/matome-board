@@ -168,7 +168,7 @@ TICKET_DOMAINS = ["eplus.jp", "l-tike.com", "pia.jp", "ticket.rakuten.co.jp", "l
                   "tiget.net", "zaiko.io", "teket.jp", "asobistore.jp", "passmarket.yahoo.co.jp", "peatix.com"]
 CAT_RULES = [
     ("doujin", r"同人誌即売会|同人イベント|オンリーイベント|オンリー即売会|プチオンリー|WEBオンリー|コミックマーケット|コミケ|COMITIA|コミティア|COMIC CITY|コミックシティ|即売会"),
-    ("official", r"ジャンプフェスタ|AnimeJapan|東京ゲームショウ|ワンダーフェスティバル|コミコン|ニコニコ超会議|超会議|ファンフェスタ|ファン感謝祭|公式イベント"),
+    ("official", r"ジャンプフェスタ|AnimeJapan|東京ゲームショウ|ワンダーフェスティバル|コミコン|ニコニコ超会議|超会議|ファンフェス|ファン感謝祭|公式イベント"),
     # 제목이 스토어·팝업숍이면 'ライブ'가 들어 있어도(ラブライブ, ホロライブ, 学園祭ライブVer. ストア …) 공연이 아니라 팝업으로 본다. \A…[^\n]* 는 제목 줄만 본다
     ("popup", r"\A[^\n]*(?:ストア|ショップ|SHOP|STORE|POP ?UP|ポップアップ)"),
     ("live", r"ライブ|LIVE|Live|公演|コンサート|ツアー|フェス"),
@@ -320,8 +320,26 @@ def dice(a, b):
     return 2 * len(a & b) / (len(a) + len(b)) if a and b else 0
 
 
+# 공연 오분류 방지(2026-11, 'ガシャポン…発売' 이 공연으로): ① 작품·회사 이름 속 ライブ(ホロライブ·ラブライブ 등)는 공연 신호가 아니다 → 공연 규칙만 그 이름을 뗀 글로 본다
+# ② 제목에 상품 말(ガシャポン·フィギュア·発売·販売中 등)이 있고 행사 말(開催·会場·チケット·公演…)이 없으면 공연 대신 굿즈
+LIVE_NAME_RE = re.compile(r"ホロライブ|ラブライブ|ライブラリ|ライブドア|ドライブ|アライブ|ア・ライブ|hololive|Love ?Live", re.I)  # 이름·일반어 속 ライブ(ドライブ 등)
+GOODS_RE = re.compile(r"ガシャポン|ガチャ|カプセル|ラバーマスコット|ラバマス|フィギュア|ぬいぐるみ|ぬい(?![た-ん])|アクリルスタンド|アクスタ|缶バッジ|キーホルダー|プラモ|ガンプラ|ROBOT魂|トレーディング|Blu-ray|DVD|グッズ|発売|販売中|受注|予約開始|一番くじ|スケール")
+REAL_EVENT_RE = re.compile(r"開催|会場|来場|チケット|公演|コンサート|ツアー|出演|ステージ|観客|上映|カフェ|ショップ|ストア|店|ポップアップ|POP ?UP|展|フェス|イベント|"
+                           r"一般発売|先行|抽選|ファンクラブ|FC|メッセ|ホール|アリーナ|ドーム|Zepp|会館|劇場|シアター|ライブハウス", re.I)  # 티켓 판매·공연장 말이 있으면 상품이 아니다
+
+
 def classify(text, default="other", kr=False):
+    title = text.split("\n", 1)[0]
+    plain = LIVE_NAME_RE.sub("", text)
     for cat, pat in (KR_CAT_RULES if kr else []) + CAT_RULES:
+        if cat == "live" and not kr:
+            if GOODS_RE.search(title) and not REAL_EVENT_RE.search(title):
+                return "goods"
+            if re.search(r"配信|生放送", title) and not re.search(r"開催|会場|チケット|公演|ビューイング", title):
+                continue  # 공연의 무료 배신·실황 배신 → 아래 stream 규칙으로
+            if re.search(pat, plain):
+                return cat
+            continue
         if re.search(pat, text):
             return cat
     return default
@@ -1126,8 +1144,9 @@ def main():
     for it in new + old:
         if it.get("geo") and not geo_ok(it["geo"], it.get("venue", "")):  # 예전에 저장된 都庁 대체 좌표 정리
             it["geo"] = []
-        if it.get("category") == "live" and re.search(CAT_RULES[2][1], it.get("title", "")):  # 예전에 공연으로 잘못 분류된 스토어 소식
-            it["category"] = classify(it["title"] + "\n" + it.get("summary", ""), "other")
+        if it.get("category") == "live" and it.get("region") != "KR":  # 예전에 공연으로 잘못 분류된 스토어·굿즈·작품 이름 속 ライブ 소식을 지금 규칙으로 다시
+            c = classify(it["title"] + "\n" + it.get("summary", ""), "other")
+            if c != "live": it["category"] = c
         if blocked(it, block) or (it.get("platform") != "ldjson" and is_noise(it.get("title", ""))) \
                 or (it.get("source") in GAME_SOURCES and is_game_noise(it.get("title", ""))):
             continue
