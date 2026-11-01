@@ -135,7 +135,7 @@ async function run(dev) {
   console.log(`${hub && !ov.length ? "OK  " : "FAIL"} ${dev} 작품 허브`);
   // 작품 허브의 [한 달 일정 한 장](canvas 그림 → .shot 미리보기)
   await page.evaluate(() => document.querySelector("[data-workshot]")?.click());
-  await page.waitForSelector(".shot img[src^='blob:']", { timeout: 6000 }).catch(() => {});
+  await page.waitForSelector(".shot img[src^='blob:']", { timeout: 20000 }).catch(() => {});  // CI 는 글꼴(document.fonts.load)을 기다리느라 6초를 넘긴 적이 있다
   const wsh = await page.evaluate(() => !!document.querySelector(".shot img[src^='blob:']"));
   if (!wsh) bad.push(`${dev}: 작품 허브의 '한 달 일정 한 장' 그림이 안 만들어짐`);
   console.log(`${wsh ? "OK  " : "FAIL"} ${dev} 작품 한 달 일정 한 장`);
