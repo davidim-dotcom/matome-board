@@ -274,7 +274,7 @@ button{cursor:pointer}
 .tiphow{margin:10px 0 0;padding-left:18px;font-size:12px;color:var(--muted);line-height:1.6}
 .tiplist{list-style:none;margin:0;padding:0} .tiplist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 8px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
 .tiplist li a{overflow-wrap:anywhere} .tiplist li small{grid-column:2;color:var(--muted);overflow-wrap:anywhere} .tiplist time{color:var(--muted);font-size:11px}
-.tiplist .st{font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%,transparent);color:var(--muted)} .tiplist .st.ok{background:color-mix(in srgb,var(--green) 22%,transparent);color:var(--green)}
+.tiplist .st{font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--muted) 18%,transparent);color:var(--muted)} .tiplist .st.ok{background:color-mix(in srgb,var(--green) 22%,transparent);color:var(--green)} .tiplist li.over{opacity:.6} .tipend{margin-top:8px;font-size:13px} .tipend summary{color:var(--muted);cursor:pointer;padding:4px 0}
 .vntest summary{cursor:pointer;font-size:14px;color:var(--muted)} .vntest summary b{color:var(--pink)}
 .vntest iframe{display:block;width:100%;height:720px;border:0;margin-top:10px;background:transparent}
 .verline{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:14px;margin:2px 0 8px}
@@ -391,6 +391,17 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .today li.past{opacity:.5} .today li.more{font-size:12px;color:var(--muted);padding:2px 0}
 .today .tair{font-size:13px;margin:0 0 8px;overflow-wrap:anywhere}
 .today>:last-child{margin-bottom:10px}
+/* 릴리 일기·놓친 소식(.today 모양을 같이 씀) */
+.diary summary img{width:28px;height:28px;border-radius:50%;align-self:center;flex:none}
+.diary summary .dd{flex:none} .diary summary .dd.stale{opacity:.5} .diary summary .pre{flex:1 1 140px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.diary .dtext{display:grid;gap:4px;margin:4px 0 8px;font-size:14px;line-height:1.5} .diary .dtext span{overflow-wrap:anywhere}
+.diary .dtop{font-size:13px;color:var(--muted);margin:0 0 6px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline} .diary .dtop a{color:var(--pink);text-decoration:none;font-weight:600}
+.diary .dold{margin:8px 0 10px;font-size:13px} .diary .dold summary{padding:4px 0;color:var(--muted);cursor:pointer} .diary .dold summary::after{content:none}
+.diary .de{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px;padding:4px 0;border-top:1px dashed var(--line)} .diary .de b{color:var(--muted);font-weight:600}
+.missed summary b{color:var(--pink)}
+.mapinfo .vnb{all:unset;cursor:pointer;color:inherit} .mapinfo .vnb:hover{text-decoration:underline}
+.pl-acts{margin:4px 0 2px} .pl-near{list-style:none;margin:0;padding:0;font-size:14px} .pl-near li{display:flex;gap:8px;align-items:baseline;padding:4px 0;min-width:0} .pl-near li>small{flex:none;color:var(--muted)} .pl-near li>small.v{flex:0 1 auto;min-width:0;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .pl-near li button{all:unset;cursor:pointer;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-card{padding:10px 12px} .pl-card .n .ic{color:var(--torii)}
 /* 그림으로 보기 */
 .pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:8px 0}
 @media (min-width:600px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -466,8 +477,10 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
 .shot>div{background:var(--surface);border-radius:14px;padding:12px;width:100%;max-width:380px;max-height:100%;overflow:auto}
 .shot img{width:100%;border-radius:8px;display:block;border:1px solid var(--line)}
 .shot .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap} .shot .actions .btn{flex:1;text-align:center}
-.facts a.place{color:inherit;text-decoration:none;justify-self:start}
-.facts a.place::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg) translateY(-1px);background:var(--pink)}
+.facts .placerow{display:flex;align-items:baseline;gap:8px;min-width:0;justify-self:start}
+.facts button.place{all:unset;cursor:pointer;color:inherit;min-width:0;overflow-wrap:anywhere} .facts button.place:hover span{text-decoration:underline}
+.facts .placerow .gm{flex:none;font-size:12px;color:var(--muted)}
+.facts button.place::before,.facts a.place::before{content:"";display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg) translateY(-1px);background:var(--pink)}
 .facts a.place span{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
 /* 도쿄 지도 */
 .mapbox{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:10px 0 4px}
@@ -643,6 +656,7 @@ textarea{min-height:110px;resize:vertical}
   <section id="sched" hidden></section>
   <section id="weekly" hidden></section>
   <section id="works" hidden></section>
+  <section id="place" hidden></section><!-- 장소 허브(2026-11): 탭은 없고 카드의 장소·지도 점·#place= 주소로 연다 -->
   <section id="buzz" hidden></section>
   <section id="anime" hidden></section>
   <section id="comics" hidden></section>
@@ -903,6 +917,7 @@ function normalize(raw){
     title_ko:String(raw.title_ko||"").slice(0,200).trim(), summary_ko:String(raw.summary_ko||"").slice(0,400).trim(), // 수집기가 Google 번역으로 만든 한국어
     image:/^https:\/\//.test(raw.image||"")?safeUrl(raw.image):"", // 기사 대표 이미지(주소만 저장, https 만)
     phases:(Array.isArray(raw.phases)?raw.phases:[]).filter(p=>p&&typeof p==="object"&&(parseDate(p.s)||parseDate(p.e))).slice(0,6).map(p=>({n:String(p.n||"").slice(0,30),s:parseDate(p.s)?String(p.s):"",e:parseDate(p.e)?String(p.e):""})), // 티켓 접수 단계(FC先行 → 一般発売 …): 수집기가 기사에서 찾음
+    reports:(Array.isArray(raw.reports)?raw.reports:[]).map(u=>safeUrl(String(u||""))).filter(Boolean).slice(0,10), tipN:Math.min(99,Math.max(0,+(raw.tipN)||0)), // 제보 자동 정리: 같은 전시의 다른 제보 주소와 제보 수(수집기 tip_merge)
     addedAt:raw.addedAt||new Date().toISOString()
   };
   it.id = raw.id || hashId((it.url||"")+"|"+it.title+"|"+(it.eventDate||""));
@@ -917,9 +932,10 @@ function flush(){try{localStorage.setItem(KEY,JSON.stringify({S:{watching:S.watc
 async function getJSON(path,fallback){try{const r=await fetch(path+"?v="+Math.floor(Date.now()/600000),{cache:"no-store"});if(!r.ok)return fallback;return await r.json()}catch{return fallback}}
 async function initStore(){
   loadLocal(); render();
-  const [auto,manual,block,anime,thumbMap,meta,worksRaw]=await Promise.all([
+  const [auto,manual,block,anime,thumbMap,meta,worksRaw,diaryRaw]=await Promise.all([
     getJSON("data/items.json",[]),getJSON("data/manual.json",[]),getJSON("data/blocklist.json",{}),
-    getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{}),getJSON("data/works.json",{})]);
+    getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{}),getJSON("data/works.json",{}),getJSON("data/diary.json",null)]);
+  setDiary(diaryRaw);
   const tn=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x)).filter(Boolean).slice(0,20);
   setWorks(worksRaw,tn); trendNames=canonList(tn);
   rising=(Array.isArray(meta.rising)?meta.rising:[]).slice(0,6).map(r=>{const n=canonWork(String(r&&r.n||"").slice(0,60));return {name:n,key:wkey(n),vars:workOf(n).vars,x:Math.min(99,Math.max(0,+(r&&r.x)||0))}}).filter(r=>r.key.length>=2);
@@ -974,7 +990,7 @@ function rowHtml(it,ev,cls=""){
   const dshort=v=>{const d=parseDate(v);return d?jst(d,{month:"numeric",day:"numeric",weekday:"short"}):""};
   if(it.endDate){const left=Math.ceil((parseDate(it.endDate)-Date.now())/DAY);facts.push(`<span>기간 ${esc(dshort(it.eventDate))} ~ ${esc(dshort(it.endDate))}${left>=0&&left<=7?` <b class="hot">${left===0?"오늘 종료":left+"일 뒤 종료"}</b>`:""}</span>`)}
   else if(it.eventDate) facts.push(`<span>행사 ${esc(fmt(it.eventDate))}</span>`);
-  if(it.venue) facts.push(hasPlace(it)?`<a class="place" href="${esc(gmapUrl(it))}" target="_blank" rel="noopener" title="구글 지도에서 보기"><span>${esc(it.venue)}</span>${it.address&&!it.venue.includes(it.address)?` · ${esc(it.address)}`:""}${it.pg?` <small class="pg" title="장소 칸이 비어 있어 기사 제목·요약에서 찾은 장소예요">기사 기준</small>`:""}</a>`:`<span>장소 ${esc(it.venue)}</span>`);
+  if(it.venue) facts.push(hasPlace(it)?`<span class="placerow"><button type="button" class="place" data-place="${esc(it.venue)}" title="이 장소의 소식 모아 보기"><span>${esc(it.venue)}</span>${it.address&&!it.venue.includes(it.address)?` · ${esc(it.address)}`:""}${it.pg?` <small class="pg" title="장소 칸이 비어 있어 기사 제목·요약에서 찾은 장소예요">기사 기준</small>`:""}</button><a class="gm" href="${esc(gmapUrl(it))}" target="_blank" rel="noopener" title="구글 지도에서 보기">지도</a></span>`:`<span>장소 ${esc(it.venue)}</span>`);
   const near=v=>{const d=parseDate(v);return d&&d-Date.now()<7*DAY&&d>Date.now()};
   if(it.phases.length){ // 티켓 접수 단계: 「FC先行 11/1(토) 12:00 ~ 11/8(일) · 一般発売 11/29(토) 10:00」, 지난 단계는 줄 긋기, 7일 안이면 분홍
     const now=Date.now(), ph=it.phases.map(p=>{const s=parseDate(p.s),e=parseDate(p.e);const over=(e||s)<now;return `<span class="${over?"over":near(p.s)||near(p.e)?"hot":""}"><b>${esc(p.n)}</b> ${s?esc(fmt(p.s)):""}${e?` ~ ${esc(fmt(p.e))}`:""}</span>`});
@@ -985,7 +1001,7 @@ function rowHtml(it,ev,cls=""){
   }
   return `<article class="row${cls?" "+cls:""}" data-id="${esc(it.id)}">${dateCol(it)}<div>
     <div class="head"><div class="txt">
-    <div class="meta">${isNew(it)?`<span class="newbadge">NEW</span>`:""}${it.region==="KR"?`<span class="krbadge" title="한국에서 열리는 행사(한국 기사)">한국</span>`:""}<span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${["","유행","방영 중","급상승"][hotScore(it).why]}</span>`:""}${it.source?`<span>${esc(it.source)}${it.also?` 외 ${it.also.length}곳`:""}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
+    <div class="meta">${isNew(it)?`<span class="newbadge">NEW</span>`:""}${it.region==="KR"?`<span class="krbadge" title="한국에서 열리는 행사(한국 기사)">한국</span>`:""}<span class="cat cat-${it.category}">${CATS[it.category]}</span>${hotScore(it).why?`<span class="hotbadge">${["","유행","방영 중","급상승"][hotScore(it).why]}</span>`:""}${it.source?`<span>${esc(it.source)}${it.also?` 외 ${it.also.length}곳`:""}${it.tipN>1?` · 제보 ${it.tipN}명`:""}</span>`:""}${it.works.length?`<span class="wtags">${it.works.map(w=>`<a href="#work=${esc(encodeURIComponent(w))}" data-work="${esc(w)}">${esc(w)}</a>`).join(", ")}</span>`:""}</div>
     <div class="title">${esc(tx(it,"title"))}</div>
     ${tx(it,"summary")?`<p class="sum">${esc(tx(it,"summary"))}</p>`:""}
     </div>${it.image?`<img class="pic" src="${esc(it.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">`:""}</div>
@@ -1028,7 +1044,7 @@ function render(){
   const viewRow=`<div class="fview-row"><div class="seg" role="group" aria-label="보기 방식"><button type="button" data-fview="list" aria-pressed="${feedView!=="grid"}">${ic("list")} 목록</button><button type="button" data-fview="grid" aria-pressed="${feedView==="grid"}">${ic("grid")} 그림</button></div><button type="button" class="swbtn" data-swipe>${ic("cards")} 스와이프로 고르기</button></div>`;
   const sh=sharedId&&items.get(sharedId);
   const sharedBox=sh?`<div class="shared"><div class="shared-h"><b>공유된 소식</b><button type="button" class="btn ghost" data-unshare>닫기</button></div>${rowHtml(sh,{},notOver({it:sh})?"":"over")}</div>`:"";
-  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)) + (q.length?"":renderMap(feed)) + newBar + viewRow + `<div class="filters">${vtChips}${sortChips}</div>`
+  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)+diaryHtml()+missedHtml(all.map(x=>x.it))) + (q.length?"":renderMap(feed)) + newBar + viewRow + `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (q.length?`<div class="fcount"><span class="note">「${esc(feedQ.trim())}」 검색 결과 ${feed.length}건${feedPast?` (끝난 소식 ${feed.filter(x=>!notOver(x)).length}건 포함)`:""}</span><button type="button" class="chip" data-fpast aria-pressed="${feedPast}">지난 소식 포함</button></div>`:"")
     + (feed.length?(feedView==="grid"?gridHtml(feed):feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join("")):q.length?"":`<div class="empty">${feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
@@ -1094,7 +1110,7 @@ function openCard(id){
   const it=items.get(id); if(!it) return;
   const box=document.createElement("div");box.className="pmodal";
   box.innerHTML=`<div role="dialog" aria-label="소식"><button type="button" class="pclose" data-pclose aria-label="닫기">×</button>${rowHtml(it,{},notOver({it})?"":"over")}</div>`;
-  box.addEventListener("click",e=>{if(e.target===box||e.target.closest("[data-pclose],a[data-work]"))box.remove()}); // 작품 이름을 누르면 상자를 닫고 허브로
+  box.addEventListener("click",e=>{if(e.target===box||e.target.closest("[data-pclose],a[data-work],[data-place]"))box.remove()}); // 작품·장소 이름을 누르면 상자를 닫고 허브로
   document.body.appendChild(box);
 }
 /* ---------- 오늘 카드 ---------- 피드 맨 위: 오늘(JST) 판매·추첨 시작, 마감, 시작하는 행사, 오늘 방송, 내 작품 새 소식. 접어 두면 기억(matome-today) */
@@ -1120,7 +1136,37 @@ function todayHtml(live,nMineNew){
     ${air.length?`<p class="th">${ic("tv")} 오늘 방송 ${air.length}편${mine.length?` · 보는 중 ${mine.length}편`:""}</p><p class="tair">${(mine.length?mine:air.slice().sort((a,b)=>(a.r||999)-(b.r||999))).slice(0,4).map(a=>`${esc(a.tm)} ${esc(a.t.slice(0,18))}`).join(" · ")}</p>`:""}
     ${nMineNew?`<p class="th">★ 내 작품 새 소식 ${nMineNew}건 <button type="button" class="chip" data-fmine-new>모아 보기</button></p>`:""}</details>`;
 }
+/* ---------- 릴리 일기(data/diary.json, 2026-11) ---------- 수집기가 하루(JST)마다 그날 결과를 릴리 말투로 적는다(write_diary). 오늘 카드 아래 접힌 칸, 지난 7일은 안에 */
+let diary=null, diaryOpen=false; try{diaryOpen=localStorage.getItem("matome-diary")==="1"}catch{}
+function setDiary(raw){const str=(v,n)=>String(v??"").slice(0,n);
+  const days=(raw&&Array.isArray(raw.days)?raw.days:[]).slice(0,14).map(e=>e&&typeof e==="object"&&/^\d{4}-\d{2}-\d{2}$/.test(e.d)?{d:e.d,new:Math.max(0,+e.new||0),live:Math.max(0,+e.live||0),runs:Math.max(0,+e.runs||0),
+    text:(Array.isArray(e.text)?e.text:[]).map(t=>str(t,120)).filter(Boolean).slice(0,6),top:(Array.isArray(e.top)?e.top:[]).map(t=>canonWork(str(t,60))).filter(Boolean).slice(0,3)}:null).filter(e=>e&&e.text.length).sort((a,b)=>b.d.localeCompare(a.d));
+  diary=days.length?{days}:null}
+function diaryHtml(){
+  if(!diary) return "";
+  const t=diary.days[0], lab=d=>`${+d.slice(5,7)}/${+d.slice(8,10)}(${WD[new Date(d+"T00:00:00Z").getUTCDay()]})`, old=diary.days.slice(1,8);
+  const stale=Math.floor((Date.now()-new Date(t.d+"T00:00:00+09:00"))/DAY)>=2; // 이틀 넘게 새 일기가 없으면(수집 멈춤) 날짜를 흐리게
+  return `<details class="today diary"${diaryOpen?" open":""}><summary><img src="assets/lilly/badge.png" alt="" width="28" height="28"><b>릴리 일기</b><span class="dd${stale?" stale":""}">${esc(lab(t.d))}</span><span class="pre">${esc(t.text[0]||"")}</span></summary>
+    <div class="dbody"><p class="dtext">${t.text.map(l=>`<span>${esc(l)}</span>`).join("")}</p>${t.top.length?`<p class="dtop">요즘 작품 ${t.top.map(w=>`<a href="#work=${encodeURIComponent(w)}" data-work="${esc(w)}">${esc(w)}</a>`).join("")}</p>`:""}
+    <small class="note">하루 4번 소식을 모을 때마다 그날 일기를 고쳐 써요 · 새 소식 ${t.new}건 · 보드 소식 ${t.live}건${t.runs?` · 오늘 ${t.runs}번째 순찰`:""}</small>
+    ${old.length?`<details class="dold"><summary>지난 일기 ${old.length}일</summary>${old.map(e=>`<div class="de"><b>${esc(lab(e.d))}</b><span>${esc(e.text.join(" "))}</span></div>`).join("")}</details>`:""}</div></details>`;
+}
+/* ---------- 놓친 소식(2026-11) ---------- 매달 24일부터 다음 달 3일까지: 그달에 끝난 내 작품·관심 소식을 모아 '다음엔 미리 관심을 걸자'. 닫으면 그달은 다시 안 뜸(matome-missed) */
+let missedHide=""; try{missedHide=localStorage.getItem("matome-missed")||""}catch{}
+function missedList(ym,all){const now=Date.now(),endOf=it=>parseDate(it.endDate)||parseDate(it.eventDate);
+  return all.filter(it=>{if(it.category==="stream"||!(isMine(it)||liked.has(it.id)))return false;const e=endOf(it);return e&&e<now-DAY/2&&jstYmd(e).slice(0,7)===ym}).sort((a,b)=>endOf(b)-endOf(a))}
+function missedHtml(all){
+  const t=jstYmd(new Date()), day=+t.slice(8,10); if(day<24&&day>3) return "";
+  const ym=day<=3?addYmd(t.slice(0,7)+"-01",-1).slice(0,7):t.slice(0,7); if(missedHide===ym||(!follow.length&&!liked.size)) return "";
+  const L=missedList(ym,all); if(!L.length) return "";
+  const endOf=it=>parseDate(it.endDate)||parseDate(it.eventDate);
+  return `<details class="today missed"><summary><b>${+ym.slice(5,7)}월에 끝난 내 작품·관심 소식 ${L.length}건</b><span>놓친 게 있나 돌아보기</span></summary>
+    <p class="note" style="margin:4px 0 6px">다음엔 미리 ♥ 관심을 걸거나 달력에 추가해 두면 판매·마감 30분 전에 릴리가 알려 줘요.</p>
+    <ul>${L.slice(0,8).map(it=>`<li><button type="button" data-ptile="${esc(it.id)}"><span class="tm">${esc(jst(endOf(it),{month:"numeric",day:"numeric"}))}</span><span class="tl">${CATS[it.category]}</span><span class="tt">${esc(tx(it,"title"))}</span></button></li>`).join("")}${L.length>8?`<li class="more">외 ${L.length-8}건</li>`:""}</ul>
+    <p style="margin:0 0 10px"><button type="button" class="chip" data-missedhide="${ym}">이번 달은 그만 보기</button></p></details>`;
+}
 /* ---------- 피드 검색 ---------- 제목·요약(원문·한국어)·장소·출처·작품 이름과 그 한국어 이름을 NFKC·소문자로 부분 일치 */
+
 function searchText(it){return it._st||(it._st=wnorm([it.title,it.summary,it.title_ko,it.summary_ko,it.venue,it.address,it.source,...it.works,...it.works.map(w=>WORKS.ko.get(wkey(w))||"")].join(" ")))}
 /* ---------- 같은 소식 묶기 ----------
    여러 출처가 같은 콜라보·행사를 따로 보도하면 카드가 여러 개 생긴다. 행사일(JST 날짜)이 같고 출처가 다르며 제목 글자 2-gram 의
@@ -1294,16 +1340,72 @@ async function weekendShot(){
   }
   F(400,26);g.fillStyle=C.mut;g.textAlign="center";g.fillText("예매 링크·지도·달력은 보드에서  ·  davidim-dotcom.github.io/matome-board",W/2,H-70);g.textAlign="left";
   g.fillStyle=C.pink;g.fillRect(0,H-14,W,14);
+  shotBox(c,`matome-weekend-${days[0]}.png`,"이번 주말 일정 · 마토메 보드");
+}
+// 만든 그림을 미리보기 상자로: 공유(navigator.canShare 파일이 되면)·저장·닫기. 주말 한 장·작품 한 달 일정이 같이 쓴다
+function shotBox(c,name,title){
   c.toBlob(blob=>{
     if(!blob){toast("그림을 만들지 못했어요");return}
-    const url=URL.createObjectURL(blob), file=new File([blob],`matome-weekend-${days[0]}.png`,{type:"image/png"});
+    const url=URL.createObjectURL(blob), file=new File([blob],name,{type:"image/png"});
     const can=!!(navigator.canShare&&navigator.canShare({files:[file]}));
-    const box=document.createElement("div");box.className="shot";box.innerHTML=`<div><img alt="이번 주말 일정 그림"><div class="actions">${can?`<button type="button" class="btn" data-shotshare>공유</button>`:""}<a class="btn" download="${esc(file.name)}">저장</a><button type="button" class="btn ghost" data-shotclose>닫기</button></div></div>`;
+    const box=document.createElement("div");box.className="shot";box.innerHTML=`<div><img alt="${esc(title)}"><div class="actions">${can?`<button type="button" class="btn" data-shotshare>공유</button>`:""}<a class="btn" download="${esc(file.name)}">저장</a><button type="button" class="btn ghost" data-shotclose>닫기</button></div></div>`;
     box.querySelector("img").src=url; box.querySelector("a").href=url;
     box.addEventListener("click",ev=>{if(ev.target===box||ev.target.closest("[data-shotclose]")){box.remove();setTimeout(()=>URL.revokeObjectURL(url),10000)}
-      else if(ev.target.closest("[data-shotshare]")) navigator.share({files:[file],title:"이번 주말 일정 · 마토메 보드"}).catch(()=>{})});
+      else if(ev.target.closest("[data-shotshare]")) navigator.share({files:[file],title}).catch(()=>{})});
     document.body.appendChild(box);
   },"image/png");
+}
+/* ---------- 작품 한 달 일정 한 장(2026-11) ---------- 작품 허브의 [한 달 일정 한 장]: 오늘부터 35일 달력 격자(날짜 칸에 분류색 점, 판매·마감 날은 호박색 테두리) + 일정 목록 + 판매·마감. 1080×1440 */
+async function workShot(){
+  if(!workSel) return; const w=workOf(workSel), now=Date.now(), t0=jstYmd(new Date()), N=35, tEnd=addYmd(t0,N-1), rank=trendNames.findIndex(x=>wkey(x)===w.key)+1;
+  const all=[...items.values()].filter(it=>itemHasWork(it,w)&&it.category!=="stream");
+  const ev=all.filter(it=>{const s=parseDate(it.eventDate);if(!s)return false;const e=parseDate(it.endDate)||s;return jstYmd(e)>=t0&&jstYmd(s)<=tEnd}).sort((a,b)=>parseDate(a.eventDate)-parseDate(b.eventDate));
+  const dl=[];for(const it of all){const ph=it.phases.length?it.phases.flatMap(p=>[[p.s,p.n+" 시작"],[p.e,p.n+" 마감"]]):[[it.ticketOpen,PERIOD_CATS.includes(it.category)?"예약 시작":"판매·추첨 시작"],[it.deadline,"마감"]];
+    for(const [v,l] of ph){const d=parseDate(v);if(d&&d>now&&jstYmd(d)<=tEnd)dl.push({it,d,l})}}
+  dl.sort((a,b)=>a.d-b.d);
+  try{await Promise.all(['400 72px "Black Han Sans"','700 34px "IBM Plex Sans KR"','400 28px "IBM Plex Sans KR"'].map(f=>document.fonts.load(f)))}catch{}
+  const W=1080,H=1440,c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");
+  const C={bg:"#13152A",sur:"#1E2139",ink:"#ECEDF6",mut:"#9A9EBB",line:"#30345A",pink:"#FF5C9A",cyan:"#4FC3D9",amber:"#F2B655"};
+  const catC=k=>["live","official"].includes(k)?C.pink:["collab","popup","doujin"].includes(k)?C.amber:["other","goods","campaign"].includes(k)?C.mut:C.cyan;
+  const F=(wt,px,fam="IBM Plex Sans KR")=>g.font=`${wt} ${px}px "${fam}","Noto Sans JP","Hiragino Sans",sans-serif`;
+  g.fillStyle=C.bg;g.fillRect(0,0,W,H);g.fillStyle=C.pink;g.fillRect(0,0,W,14);g.textBaseline="top";
+  F(500,30);g.fillStyle=C.mut;g.fillText("마토메 보드 · 작품 일정",60,56);
+  F(400,72,"Black Han Sans");g.fillStyle=C.ink;g.fillText(wrapLines(g,w.name,W-120-200,1)[0]||w.name,60,100);
+  const ko=w.ko||seichiKo.get(w.key)||"";F(500,30);g.fillStyle=C.mut;g.fillText([ko,rank?`유행 ${rank}위`:"",`지금 소식 ${all.filter(it=>notOver({it})).length}건`].filter(Boolean).join("  ·  "),60,196);
+  try{const im=$(".brand .lilly");if(im&&im.complete&&im.naturalWidth){g.save();g.shadowColor="rgba(0,0,0,.45)";g.shadowBlur=20;g.drawImage(im,W-60-150,50,150,150);g.restore()}}catch{}
+  // 달력 격자: 오늘부터 35일, 7칸 × 5줄
+  let y=262; const cw=(W-120)/7, ch=84, wd0=new Date(t0+"T00:00:00Z").getUTCDay();
+  F(700,24);g.textAlign="center";for(let i=0;i<7;i++){const d=(wd0+i)%7;g.fillStyle=d===0?C.pink:d===6?C.cyan:C.mut;g.fillText(WD[d],60+cw*i+cw/2,y)}g.textAlign="left";y+=34;
+  const dots=new Map(), rings=new Set();
+  for(const it of ev){const s=parseDate(it.eventDate),e=parseDate(it.endDate)||s;for(let d=jstYmd(s)<t0?t0:jstYmd(s);d<=jstYmd(e)&&d<=tEnd;d=addYmd(d,1)){if(!dots.has(d))dots.set(d,[]);if(dots.get(d).length<3)dots.get(d).push(catC(it.category))}}
+  for(const x of dl)rings.add(jstYmd(x.d));
+  for(let i=0;i<N;i++){const d=addYmd(t0,i),cx=60+cw*(i%7),cy=y+ch*Math.floor(i/7),dd=+d.slice(8,10),wdx=(wd0+i)%7;
+    g.fillStyle=i===0?C.pink:C.sur;g.beginPath();g.roundRect(cx+3,cy+3,cw-6,ch-6,12);g.fill();
+    if(rings.has(d)){g.strokeStyle=C.amber;g.lineWidth=3;g.beginPath();g.roundRect(cx+4.5,cy+4.5,cw-9,ch-9,11);g.stroke()}
+    F(700,26);g.fillStyle=i===0?"#fff":wdx===0?C.pink:wdx===6?C.cyan:C.ink;g.fillText(dd===1||i===0?`${+d.slice(5,7)}/${dd}`:String(dd),cx+14,cy+12);
+    (dots.get(d)||[]).forEach((col,k)=>{g.fillStyle=i===0?"#fff":col;g.beginPath();g.arc(cx+22+k*22,cy+ch-22,7,0,Math.PI*2);g.fill()});
+  }
+  y+=ch*5+24;
+  g.fillStyle=C.line;g.fillRect(60,y,W-120,2);y+=22;
+  const DB=dl.length?90+Math.min(dl.length,4)*66:0, RH=96, rows=[], maxY=H-110-DB;
+  F(700,30);g.fillStyle=C.ink;g.fillText(`일정 ${ev.length}건`,60,y);F(400,22);g.fillStyle=C.mut;g.fillText(`${+t0.slice(5,7)}/${+t0.slice(8,10)} ~ ${+tEnd.slice(5,7)}/${+tEnd.slice(8,10)} · 점은 그날 열리는 일정, 호박색 테두리는 판매·마감`,230,y+7);y+=50;
+  for(const it of ev){if(y+RH>maxY){rows.push({more:ev.length-rows.length,y});break}rows.push({it,y});y+=RH}
+  if(!ev.length){F(400,28);g.fillStyle=C.mut;g.fillText("앞으로 35일 안에 날짜가 정해진 일정이 없어요.",60,y);y+=50}
+  for(const r of rows){
+    if(r.more){F(400,26);g.fillStyle=C.mut;g.fillText(`… 외 ${r.more}건은 보드에서`,60,r.y+4);y=r.y+40;continue}
+    const it=r.it,d=parseDate(it.eventDate),e=parseDate(it.endDate),f=x=>{const s=jstYmd(x);return `${+s.slice(5,7)}/${+s.slice(8,10)}`};
+    g.fillStyle=C.sur;g.beginPath();g.roundRect(60,r.y,W-120,RH-10,16);g.fill();g.fillStyle=catC(it.category);g.fillRect(60,r.y+14,7,RH-38);
+    F(700,26);g.fillStyle=C.pink;const when=e&&jstYmd(e)!==jstYmd(d)?`${f(d)}~${f(e)}`:`${f(d)}(${WD[new Date(jstYmd(d)+"T00:00:00Z").getUTCDay()]})${hm(d)?" "+hm(d):""}`;g.fillText(when,86,r.y+14);
+    const wx=86+g.measureText(when).width+18;F(700,22);g.fillStyle=catC(it.category);g.fillText(CATS[it.category],wx,r.y+17);const cwid=g.measureText(CATS[it.category]).width;
+    F(400,22);g.fillStyle=C.mut;if(hasPlace(it))g.fillText(wrapLines(g,it.venue,W-60-(wx+cwid+40),1)[0]||"",wx+cwid+16,r.y+17);
+    F(700,28);g.fillStyle=C.ink;g.fillText(wrapLines(g,tx(it,"title"),W-120-50,1)[0]||"",86,r.y+48);
+  }
+  if(dl.length){y=Math.max(y+10,H-110-DB);g.fillStyle=C.line;g.fillRect(60,y,W-120,2);y+=22;F(700,30);g.fillStyle=C.amber;g.fillText("판매·마감",60,y);y+=50;
+    for(const {it,d,l} of dl.slice(0,4)){const days=Math.ceil((d-now)/DAY);F(400,34,"Black Han Sans");g.fillStyle=C.pink;g.fillText(days<=0?"오늘":"D-"+days,60,y-2);
+      F(700,24);g.fillStyle=C.amber;g.fillText(`${+jstYmd(d).slice(5,7)}/${+jstYmd(d).slice(8,10)} ${l}${hm(d)?" "+hm(d):""}`,190,y+2);F(400,24);g.fillStyle=C.ink;g.fillText(wrapLines(g,tx(it,"title"),W-250,1)[0]||"",190,y+32);y+=66}}
+  F(400,24);g.fillStyle=C.mut;g.textAlign="center";g.fillText(`${+t0.slice(5,7)}/${+t0.slice(8,10)} 기준  ·  davidim-dotcom.github.io/matome-board/#work=${w.name}`,W/2,H-64);g.textAlign="left";
+  g.fillStyle=C.pink;g.fillRect(0,H-14,W,14);
+  shotBox(c,`matome-work-${hashId(w.key)}-${t0}.png`,`${w.name} 한 달 일정 · 마토메 보드`);
 }
 /* ---------- 출처 상태(사이트 개요) ---------- 수집기가 실행마다 meta.json 에 남기는 출처별 결과 */
 // 달력 구독: 구글은 cid=webcal 주소, 아이폰·맥은 webcal:// 링크를 누르면 구독 창이 뜬다. 그 밖은 주소 복사
@@ -1390,7 +1492,7 @@ let akibaOpen=false;
 // 오타쿠 행사가 몰리는 곳. [이름, 위도, 경도]. 23구 보기 / 수도권 보기에 따로 둔다
 const SPOTS={"23":[["秋葉原",35.6985,139.7731],["池袋",35.7325,139.7095],["有楽町",35.675,139.763],["お台場",35.627,139.776],["豊洲",35.649,139.79]], // 구 이름과 같은 新宿·渋谷·中野는 뺐다
   kanto:[["幕張メッセ",35.6478,140.0347],["舞浜",35.6329,139.8853],["横浜",35.4593,139.6351],["川崎",35.5313,139.6976],["さいたま新都心",35.8946,139.6309],["ところざわサクラタウン",35.7868,139.4847],["立川",35.6984,139.4139],["千葉",35.6131,140.1133],["海老名",35.4525,139.3905]]};
-let mapView="23", mapSel=null, mapGroups=[], mapOutside=0, mapOpen=false, mapList=[];
+let mapView="23", mapSel=null, mapSelWant=null, mapGroups=[], mapOutside=0, mapOpen=false, mapList=[];
 try{mapOpen=localStorage.getItem("matome-map")==="1"}catch{}
 /* 성지순례(data/seichi.json, 사람이 고침): 작품의 무대·명소. 지도의 '⛩ 성지' 칩을 켜면 ⛩ 표시(누르면 설명·근처 2km 안 행사), 작품 허브에 '성지' 칸 */
 let mapSeichi=false, seichi=null, seichiKo=new Map(), seichiTried=false;
@@ -1457,6 +1559,7 @@ function renderMap(list){
     if(!groups.has(k)) groups.set(k,{k,x:px,y:py,venue:it.venue,it,items:[]});
     groups.get(k).items.push(it);
   }
+  if(mapSelWant){const want=mapSelWant;mapSelWant=null;mapSel=null;for(const g of groups.values())if(g.items.some(it=>itemAtPlace(it,want))){mapSel=g.k;break}} // 장소 허브의 "보드 지도에서 보기"
   // 이 보기에서 점이 겹칠 만큼 가까운 행사장은 한 점으로 묶는다(많은 곳부터 중심을 잡는다)
   const V=mapV(mapView), [vx,vy,vw,vh]=V.box, near=V.R*1.8;
   mapGroups=[];
@@ -1490,9 +1593,9 @@ function mapInfo(){
   if(/^s\d+$/.test(mapSel||"")) return seichiInfo(+mapSel.slice(1));
   const g=mapGroups.find(g=>g.k===mapSel);
   const [vx,vy,vw,vh]=MAPBOX[mapView], hidden=mapGroups.filter(g=>!(g.x>=vx&&g.x<=vx+vw&&g.y>=vy&&g.y<=vy+vh)).reduce((n,g)=>n+g.items.length,0);
-  if(!g) return `<span class="note">점을 누르면 그곳에서 열리는 행사가 보여요. 숫자는 그 자리의 소식 수, ◆는 행사가 자주 열리는 동네예요.${mapSeichi?" ⛩는 작품의 무대·명소(성지)예요.":""}${hidden?` 이 범위 밖 행사 ${hidden}건은 수도권 보기에 있어요.`:""}${mapOutside?` 수도권 밖 행사 ${mapOutside}건은 각 소식의 장소 링크로 지도를 열 수 있어요.`:""}</span>`;
+  if(!g) return `<span class="note">점을 누르면 그곳에서 열리는 행사가 보여요. 숫자는 그 자리의 소식 수, ◆는 행사가 자주 열리는 동네예요.${mapSeichi?" ⛩는 작품의 무대·명소(성지)예요.":""}${hidden?` 이 범위 밖 행사 ${hidden}건은 수도권 보기에 있어요.`:""}${mapOutside?` 수도권 밖 행사 ${mapOutside}건은 각 소식의 장소 링크로 지도를 열 수 있어요.`:""} <button type="button" class="lnk" data-places>장소별로 보기 ›</button></span>`;
   const byDate=(a,b)=>(parseDate(a.eventDate)||Infinity)-(parseDate(b.eventDate)||Infinity);
-  return g.venues.map(v=>`<div class="vn">${esc(v.venue)}</div><a href="${esc(gmapUrl(v.it))}" target="_blank" rel="noopener">구글 지도에서 보기</a>
+  return g.venues.map(v=>`<div class="vn"><button type="button" class="vnb" data-place="${esc(v.venue)}">${esc(v.venue)} ›</button></div><a href="${esc(gmapUrl(v.it))}" target="_blank" rel="noopener">구글 지도에서 보기</a>
     <ul>${[...v.items].sort(byDate).map(it=>`<li><small>${esc(it.eventDate?jst(parseDate(it.eventDate),{month:"numeric",day:"numeric",weekday:"short"}):"날짜 미정")}</small><button data-goto="${esc(it.id)}">${esc(tx(it,"title"))}</button></li>`).join("")}</ul>`).join(`<hr class="vsep">`);
 }
 
@@ -1782,7 +1885,7 @@ function renderBuzz(){
 }
 /* ---------- 작품 허브(작품 탭, 주소 #work=이름) ----------
    한 작품의 지금 소식·방영·만갤·유행 추이·주간 요약을 한 화면에. 데이터는 이미 있는 파일만 엮는다(trends.json 은 허브를 열 때 읽음). */
-let workSel=null, workQ="", workAll=false, trendHist=null, trendTried=false;
+let workSel=null, workQ="", workAll=false, workOver=false, trendHist=null, trendTried=false;
 function workOf(name){const c=canonWork(name),k=wkey(c);return {name:c,key:k,ko:WORKS.ko.get(k)||"",vars:[...(WORKS.variants.get(k)||[wnorm(c)])].filter(v=>wkey(v).length>=2)}}
 // X 화제(Togetter) 정리 중 이 작품 태그가 있거나 제목에 이름(3글자 이상 별칭 포함)이 든 것
 function buzzOf(w){return buzz?buzz.items.filter(x=>x.w.some(v=>wkey(v)===w.key)||w.vars.some(v=>(x._wn||(x._wn=wnorm(x.t))).includes(v))):[]}
@@ -1861,8 +1964,8 @@ function renderWorks(){
     return `<div class="wh-cm"><div class="nm">${esc(x.title)}${next?`<span class="newep">새 화</span>`:""}</div><p class="last">회차 ${x.eps.length}개 · 최신: ${esc(last.title||last.label||"")} · ${esc(relDay(x.updatedAt))} 갱신</p>
       <div class="actions">${next?link(next,"이어 보기","btn ticket"):""}${link(x.eps[0],"1화부터")}${x.eps.length>1?link(last,"최신화"):""}</div></div>`}).join("");
   const wkHtml=picks.map(p=>`<div class="wh-wk"><h4>${esc(p.title)}</h4>${p.when?`<div class="wf">${esc(p.when)}${p.where?" · "+esc(p.where):""}</div>`:""}<p>${esc(p.desc)}</p>${p.links.length?`<div class="src">출처 · ${p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||l.url.replace(/^https?:\/\//,""))}</a>`).join(" · ")}</div>`:""}</div>`).join("");
-  const LIM=20, shownLive=workAll?live:live.slice(0,LIM);
-  el.innerHTML=`<div class="wh-top"><button type="button" class="btn ghost" data-workback>← 작품 목록</button><span class="wh-acts"><button type="button" class="btn ghost wh-fol" data-follow aria-pressed="${myWorks().some(x=>x.key===w.key)}">${myWorks().some(x=>x.key===w.key)?"★ 내 작품":"☆ 내 작품에 추가"}</button><button type="button" class="btn ghost" data-workshare>링크 공유</button></span></div>
+  const LIM=20, shownLive=workAll?live:live.slice(0,LIM), over=mine.filter(it=>!notOver({it})).sort((a,b)=>(parseDate(b.endDate)||parseDate(b.eventDate))-(parseDate(a.endDate)||parseDate(a.eventDate)));
+  el.innerHTML=`<div class="wh-top"><button type="button" class="btn ghost" data-workback>← 작품 목록</button><span class="wh-acts"><button type="button" class="btn ghost wh-fol" data-follow aria-pressed="${myWorks().some(x=>x.key===w.key)}">${myWorks().some(x=>x.key===w.key)?"★ 내 작품":"☆ 내 작품에 추가"}</button><button type="button" class="btn ghost" data-workshot title="오늘부터 35일 일정을 한 장 그림으로">${ic("image")} 한 달 일정 한 장</button><button type="button" class="btn ghost" data-workshare>링크 공유</button></span></div>
     <h2 class="wh-title">${esc(w.name)}</h2>${w.ko||seichiKo.get(w.key)?`<p class="wh-ko">${esc(w.ko||seichiKo.get(w.key))}</p>`:""}<div class="wh-badges">${badges}</div>
     ${sr.some(x=>x.c)?`<h3 class="wh-sec">유행 추이 <small>최근 ${sr.length}일, 뉴스 제목·본문에 이름이 나온 기사 수</small></h3>${trendHtml(sr)}`:trendTried?"":`<p class="note">유행 추이를 불러오는 중…</p>`}
     ${wkHtml?`<h3 class="wh-sec">주간 요약에서 <small>${esc(weekly.range||"")}</small></h3>${wkHtml}`:""}
@@ -1870,7 +1973,7 @@ function renderWorks(){
     <h3 class="wh-sec">지금 소식 ${live.length}건 <small>다가오는 날짜순 · 날짜 없는 소식은 새로 들어온 순</small></h3>
     ${live.some(it=>icsEvents(it).length)?`<button type="button" class="btn ghost wh-ics" data-icsall>${ic("cal")} 이 작품 일정 전부 달력에 (${live.reduce((a,it)=>a+icsEvents(it).length,0)}개)</button>`:""}
     ${live.length?shownLive.map(it=>rowHtml(it,{})).join("")+(live.length>LIM&&!workAll?`<button type="button" class="btn ghost wh-more" data-workall>${live.length-LIM}건 더 보기</button>`:""):`<div class="empty">지금 진행 중이거나 다가오는 소식이 없어요.</div>`}
-    ${mine.length>live.length?`<p class="note">끝난 소식 ${mine.length-live.length}건은 빼고 보여 줘요.</p>`:""}
+    ${over.length?`<p class="note">끝난 소식 ${over.length}건 <button type="button" class="chip" data-workover aria-pressed="${workOver}">${workOver?"접기":"돌아보기"}</button></p>${workOver?over.slice(0,30).map(it=>rowHtml(it,{},"over")).join(""):""}`:""}
     ${bz.length?`<h3 class="wh-sec">X 반응 <small>Togetter 정리 · 최근 일주일</small></h3>${bz.map(x=>buzzRow(x,0)).join("")}`:""}
     ${aniHtml?`<h3 class="wh-sec">방영 <small>${esc(season.name||"")}</small></h3>${aniHtml}`:""}
     ${sjs.length?`<h3 class="wh-sec">${ic("torii")} 성지 <small>작품의 무대·명소 · 위치는 대략이에요</small></h3>${sjs.map(x=>{const [px,py]=mproj(x.geo),inMap=px>=330&&px<=1290&&py>=-50&&py<=750;
@@ -1878,10 +1981,64 @@ function renderWorks(){
     ${cmHtml?`<h3 class="wh-sec">만갤 연재 <small>누르면 원문(디시)이 열리고 마지막으로 연 화를 기억해요</small></h3>${cmHtml}`:""}`;
 }
 function openWork(name,push=true){
-  workSel=name?canonWork(name):null; workAll=false;
+  workSel=name?canonWork(name):null; workAll=false; workOver=false;
   if(push){const h=workSel?"#work="+encodeURIComponent(workSel):"#works";if(location.hash!==h)history.pushState(null,"",h)}
   showTab("works"); window.scrollTo(0,0);
   if(workSel) Promise.all([loadTrendHist(),loadWeekly(),loadComics(),loadBuzz()]).then(()=>{if(!$("#works").hidden)renderWorks()});
+}
+/* ---------- 장소 허브(section#place, 2026-11) ---------- 작품 허브처럼 장소(アニメイト池袋本店·秋葉原UDX·池袋周辺 …) 하나를 한 화면에: 이 장소의 작품 → 지금 소식 → 끝난 소식 → 근처 성지 → 근처 2km 행사.
+   장소 이름은 data/venues.json(수집기 장소 사전)의 이름·별칭으로 대표 이름을 맞추고(サンシャインシティ 噴水広場 → サンシャインシティ), 사전에 없으면 소식의 장소 글자 그대로. 「○○周辺」(기사 기준 추정)은 ○○ 일대.
+   들어오는 길: 카드의 장소 줄, 지도 점 안내의 장소 이름, 지도 안내의 '장소별로 보기'(#places 목록), 주소 #place=이름 */
+let placeSel=null, placeOver=false, venues=null, venuesTried=false;
+async function loadVenues(){if(venuesTried)return;venuesTried=true;const r=await getJSON("data/venues.json",null),str=(v,n)=>String(v??"").slice(0,n);
+  const row=x=>x&&typeof x==="object"&&x.n?{n:str(x.n,60),a:(Array.isArray(x.a)?x.a:[]).map(v=>str(v,60)).filter(Boolean).slice(0,6),geo:geoOk(x.geo,"")?x.geo.map(Number):[],addr:str(x.addr,60)}:null;
+  venues=[...(r&&Array.isArray(r.venues)?r.venues:[]).slice(0,400).map(row),...(r&&Array.isArray(r.areas)?r.areas:[]).slice(0,100).map(x=>{const v=row(x);if(v)v.area=true;return v})].filter(Boolean);
+  if(!$("#place").hidden)renderPlace()}
+const pkey=v=>wkey(String(v||"").replace(/周辺$/,""));
+function placeOf(name){
+  const raw=String(name||"").slice(0,80), k=pkey(raw);
+  let v=venues?venues.find(x=>pkey(x.n)===k||x.a.some(a=>pkey(a)===k)):null;
+  const areaish=/エリア|周辺|一帯|各所|全域/.test(raw); // 「池袋エリア(中池袋公園・サンシャインシティ…)」는 동네 행사 → 지역(池袋)을 먼저
+  if(!v&&venues&&k.length>=2) v=venues.filter(x=>pkey(x.n).length>=(x.area?2:3)&&k.includes(pkey(x.n))).sort((a,b)=>(areaish?((!!b.area)-(!!a.area)):0)||pkey(b.n).length-pkey(a.n).length)[0]||null; // 긴 이름 먼저
+  const n=v?v.n:raw.replace(/周辺$/,"").trim(), keys=[...new Set([pkey(n),...(v?v.a.map(pkey):[])].filter(x=>x.length>=2))];
+  return {name:n,key:pkey(n),keys,geo:v?v.geo:[],addr:v?v.addr:"",area:!!(v&&v.area)||/周辺$/.test(raw)}}
+function itemAtPlace(it,p){if(!it.venue||/某所/.test(it.venue))return false;const k=pkey(it.venue);return p.keys.some(x=>k===x||(x.length>=3&&k.includes(x)))}
+function placeIndex(){
+  const live=[...items.values()].filter(it=>notOver({it})&&hasPlace(it)), map=new Map();
+  for(const it of live){const p=placeOf(it.venue);if(p.key.length<2)continue;const e=map.get(p.key)||{...p,n:0,geo:p.geo.length?p.geo:it.geo,addr:p.addr||it.address||"",works:new Set()};e.n++;if(!e.geo.length&&it.geo.length)e.geo=it.geo;it.works.forEach(w=>e.works.add(w));map.set(p.key,e)}
+  return [...map.values()].sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name,"ja"));
+}
+function renderPlace(){
+  const el=$("#place"); if(!el) return; if(!venuesTried) loadVenues(); if(!seichiTried) loadSeichi();
+  if(!placeSel){const L=placeIndex();
+    el.innerHTML=`<div class="wh-head"><h2>장소</h2><p class="aside">지금 소식이 있는 장소예요. 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에서 봐요. 피드 카드의 장소 이름이나 지도의 점을 눌러도 열려요.</p></div>
+      <div class="wh-grid pl-grid">${L.slice(0,80).map(e=>`<button type="button" class="wh-card pl-card" data-place="${esc(e.name)}"><span class="n">${ic("map")} ${esc(e.name)}</span><span class="m">소식 ${e.n}건${e.addr.replace(/^東京都/,"")?` · ${esc(e.addr.replace(/^東京都/,""))}`:""}</span>${e.works.size?`<span class="m">${esc([...e.works].slice(0,3).join(" · "))}</span>`:""}</button>`).join("")||`<div class="empty">장소가 있는 소식이 아직 없어요.</div>`}</div>`;return}
+  const p=placeOf(placeSel), all=[...items.values()].filter(it=>itemAtPlace(it,p));
+  const live=all.filter(it=>notOver({it})).sort((a,b)=>(parseDate(a.eventDate)||Infinity)-(parseDate(b.eventDate)||Infinity)||new Date(b.addedAt)-new Date(a.addedAt));
+  const over=all.filter(it=>!notOver({it})).sort((a,b)=>(parseDate(b.endDate)||parseDate(b.eventDate))-(parseDate(a.endDate)||parseDate(a.eventDate)));
+  const geo=p.geo.length?p.geo:(all.find(it=>it.geo.length)||{geo:[]}).geo, addr=p.addr||(all.find(it=>it.address)||{address:""}).address;
+  const near=geo.length?[...items.values()].filter(it=>notOver({it})&&it.geo.length&&hasPlace(it)&&!itemAtPlace(it,p)).map(it=>({it,km:kmDist(geo,it.geo)})).filter(x=>x.km<=2).sort((a,b)=>a.km-b.km).slice(0,8):[];
+  const sj=geo.length&&seichi?seichi.filter(x=>kmDist(geo,x.geo)<=1.5):[];
+  const co=new Map();for(const it of all)for(const x of new Set(it.works.map(canonWork))){const k=wkey(x);if(k.length>=2&&!WORKS.skip.has(k))co.set(k,{n:x,c:(co.get(k)?.c||0)+1})}
+  const coHtml=[...co.values()].sort((a,b)=>b.c-a.c).slice(0,10).map(x=>`<button type="button" data-work="${esc(x.n)}">${esc(x.n)} <small>${x.c}</small></button>`).join("");
+  const gm="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(geo.length&&!addr?geo.join(","):`${p.name} ${addr||""}`.trim());
+  const [px,py]=geo.length?mproj(geo):[0,0], inMap=geo.length&&px>=330&&px<=1290&&py>=-50&&py<=750;
+  const km=x=>x<1?Math.round(x*1000/50)*50+"m":x.toFixed(1)+"km";
+  el.innerHTML=`<div class="wh-top"><button type="button" class="btn ghost" data-placeback>← 장소 목록</button><span class="wh-acts"><button type="button" class="btn ghost" data-placeshare>링크 공유</button></span></div>
+    <h2 class="wh-title">${ic("map")} ${esc(p.name)}${p.area?` <small class="note">일대</small>`:""}</h2>${addr?`<p class="wh-ko">${esc(addr)}</p>`:""}
+    <div class="wh-badges">${live.length?`<span class="c">소식 ${live.length}건</span>`:""}${over.length?`<span>끝난 소식 ${over.length}건</span>`:""}${sj.length?`<span class="c">근처 성지 ${sj.length}곳</span>`:""}</div>
+    <div class="actions pl-acts">${inMap?`<button type="button" class="btn ghost" data-placemap>보드 지도에서 보기</button>`:""}<a class="btn ghost" href="${esc(gm)}" target="_blank" rel="noopener">구글 지도</a></div>
+    ${coHtml?`<h3 class="wh-sec">이 장소의 작품 <small>숫자는 소식 수</small></h3><div class="wh-co">${coHtml}</div>`:""}
+    <h3 class="wh-sec">지금 소식 ${live.length}건 <small>다가오는 날짜순</small></h3>
+    ${live.length?live.slice(0,30).map(it=>rowHtml(it,{})).join(""):`<div class="empty">지금 진행 중이거나 다가오는 소식이 없어요.</div>`}
+    ${over.length?`<p class="note">끝난 소식 ${over.length}건 <button type="button" class="chip" data-placeover aria-pressed="${placeOver}">${placeOver?"접기":"돌아보기"}</button></p>${placeOver?over.slice(0,20).map(it=>rowHtml(it,{},"over")).join(""):""}`:""}
+    ${sj.length?`<h3 class="wh-sec">${ic("torii")} 근처 성지 <small>1.5km 안</small></h3>${sj.map(x=>`<div class="wh-sj"><b>${esc(x.n)}</b> <span class="note">· ${x.t==="명소"?"명소":"작품 무대"} · ${km(kmDist(geo,x.geo))}</span><p>${esc(x.d)}</p><div class="sjw">${x.w.map(w=>`<a href="#work=${encodeURIComponent(w)}" data-work="${esc(w)}">${esc(seichiWorkName(w))}</a>`).join("")}</div></div>`).join("")}`:""}
+    ${near.length?`<h3 class="wh-sec">근처 행사 <small>2km 안 · 다른 장소</small></h3><ul class="pl-near">${near.map(({it,km:d})=>`<li><small>${km(d)}</small><button type="button" data-ptile="${esc(it.id)}">${esc(tx(it,"title"))}</button><small class="v">${esc(it.venue)}</small></li>`).join("")}</ul>`:""}`;
+}
+function openPlace(name,push=true){
+  placeSel=name?String(name).slice(0,80):null; placeOver=false;
+  if(push){const h=placeSel?"#place="+encodeURIComponent(placeSel):"#places";if(location.hash!==h)history.pushState(null,"",h)}
+  showTab("place"); window.scrollTo(0,0); renderPlace();
 }
 function routeHash(){
   const mi=location.hash.match(/^#item=([\w-]{1,20})$/);
@@ -1889,6 +2046,9 @@ function routeHash(){
   const m=location.hash.match(/^#work=(.+)$/);
   if(m){let n="";try{n=decodeURIComponent(m[1])}catch{}openWork(n.slice(0,80),false);return true}
   if(location.hash==="#works"){openWork(null,false);return true}
+  const mp=location.hash.match(/^#place=(.+)$/);
+  if(mp){let n="";try{n=decodeURIComponent(mp[1])}catch{}openPlace(n.slice(0,80),false);return true}
+  if(location.hash==="#places"){openPlace(null,false);return true}
   const mt=location.hash.match(/^#trip=(\d{4}-\d\d-\d\d)~(\d{4}-\d\d-\d\d)(?:,(\w+))?$/);
   if(mt){trip=tripFix({s:mt[1],e:mt[2],r:mt[3]||"kanto"});calDay="trip";showTab("sched");render();return true}
   if(location.hash==="#weekend"){const t=weekendDays()[0];calYM={y:+t.slice(0,4),m:+t.slice(5,7)};calDay="weekend";showTab("sched");render();return true} // 홈 화면 바로가기(manifest shortcuts)
@@ -1902,7 +2062,7 @@ function routeHash(){
   if(location.hash==="#idle"){$('#gpick [data-game="idle"]').hidden=false;showTab("idle");return true} // 放置는 숨겨 두고 주소 끝 #idle 로만 연다
   return false;
 }
-window.addEventListener("popstate",()=>{if(!routeHash()&&!$("#works").hidden)showTab("feed")});
+window.addEventListener("popstate",()=>{if(!routeHash()&&(!$("#works").hidden||!$("#place").hidden))showTab("feed")});
 window.addEventListener("hashchange",()=>{if(location.hash.startsWith("#tip="))routeHash()}); // 앱이 떠 있는 채로 공유가 또 들어오면 주소의 해시만 바뀐다
 /* ---------- Holo Mobile 스코어 보드 ----------
    스코어 보드는 games/holo2048.html 을 건드리지 않고 읽기만 한다(합체 보이스는 games/holo-voice.js 가 그 파일 끝에서 로드된다). 같은 출처 iframe 이므로 결과 창(#suikaOverlay·#puzzleOverlay)이
@@ -2047,9 +2207,11 @@ function goTip(text){showTab("tip");if(text){const m=String(text).match(/https?:
 const tipKey=u=>{const m=String(u||"").match(/^https:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/(\w{1,15})\/status\/(\d+)/);return m?`https://x.com/${m[1]}/status/${m[2]}`:String(u||"")};
 async function loadTips(){const box=$("#tipList");if(!box)return;if(!bbsReady()){box.innerHTML='<p class="note">제보 받기가 아직 준비되지 않았어요</p>';return}
   try{const r=await fetch(BBS.api+(BBS.api.includes("?")?"&":"?")+"tips=1",{cache:"no-store"});const j=await r.json();const t=(j.tips||[]).slice(0,30);
-    const on=new Map();for(const it of items.values())on.set(it.url,it);
-    box.innerHTML=t.length?`<ul class="tiplist">${t.map(x=>{const k=tipKey(x.url),it=on.get(k)||on.get(x.url);const u=safeUrl(x.url);
-      return `<li><span class="st ${it?"ok":""}">${it?"보드에 있음":"수집 대기"}</span>${it?`<a href="#" data-tipitem="${esc(it.id)}">${esc(tx(it,"title"))}</a>`:`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(x.url.replace(/^https?:\/\//,"").slice(0,60))}</a>`}${x.note?`<small>${esc(x.note)}</small>`:""}<time>${esc(String(x.at||"").slice(5,16))}</time></li>`}).join("")}</ul>`:'<p class="note">아직 제보가 없어요. 첫 제보를 해 주세요!</p>'}
+    const on=new Map();for(const it of items.values()){on.set(it.url,it);for(const r of it.reports)on.set(r,it)} // 같은 전시로 묶인 제보(reports)도 그 소식으로
+    const row=x=>{const k=tipKey(x.url),it=on.get(k)||on.get(x.url);const u=safeUrl(x.url),over=it&&!notOver({it}),grp=it&&it.reports.includes(k)&&it.url!==k;
+      return `<li${over?' class="over"':""}><span class="st ${it?over?"end":"ok":""}">${it?over?"종료":grp?"묶임":"보드에 있음":"수집 대기"}</span>${it?`<a href="#" data-tipitem="${esc(it.id)}">${esc(tx(it,"title"))}</a>`:`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(x.url.replace(/^https?:\/\//,"").slice(0,60))}</a>`}${x.note?`<small>${esc(x.note)}</small>`:""}<time>${esc(String(x.at||"").slice(5,16))}</time></li>`};
+    const live=t.filter(x=>{const it=on.get(tipKey(x.url))||on.get(x.url);return !(it&&!notOver({it}))}),ended=t.filter(x=>!live.includes(x));
+    box.innerHTML=t.length?`<ul class="tiplist">${live.map(row).join("")}</ul>${ended.length?`<details class="tipend"><summary>끝난 제보 ${ended.length}건</summary><ul class="tiplist">${ended.map(row).join("")}</ul></details>`:""}`:'<p class="note">아직 제보가 없어요. 첫 제보를 해 주세요!</p>'}
   catch{box.innerHTML='<p class="note">목록을 불러오지 못했어요</p>'}}$("#bbsText").oninput=e=>{$("#bbsCount").textContent=e.target.value.length+"/500"};
 
 /* ---------- actions ---------- */
@@ -2099,6 +2261,7 @@ function onAction(e){
       if(today.length)out.push(`오늘 방송 ${today.length}편이롱`)
       out.push(`이번 시즌 애니 ${season.list.length}편이롱`)}
     if(weekly&&weekly.picks&&weekly.picks.length)out.push("주간 요약 봤어롱?")
+    if(diary)out.push("릴리 일기 읽었어롱?")
     try{const hi=Number(localStorage.getItem("dm-hi")||0);if(hi>0)out.push(`弾幕 최고 기록 ${hi.toLocaleString()}점이롱`)}catch{}
     return out.filter(t=>t.length<=18);
   }
@@ -2158,7 +2321,8 @@ function onAction(e){
     const nw=v.filter(isNew).length;if(nw)o.push(`지난번 이후 새 소식 ${nw}건 들어왔어!`);
     const mine=follow.length?v.filter(it=>isNew(it)&&isMine(it)).length:0;if(mine)o.push(`내 작품 새 소식 ${mine}건!`);
     const we=v.filter(it=>it.category!=="stream"&&onWeekend(it)).length;if(we)o.push(`이번 주말 행사 ${we}건이야`);
-    const dl=upcomingDeadlines().filter(x=>x.d-now<3*DAY).length;if(dl)o.push(`3일 안에 판매·마감 ${dl}건, 서둘러!`)}catch{}return o}
+    const dl=upcomingDeadlines().filter(x=>x.d-now<3*DAY).length;if(dl)o.push(`3일 안에 판매·마감 ${dl}건, 서둘러!`);
+    if(diary&&diary.days[0].text[0])o.push(diary.days[0].text[0])}catch{}return o}
   function burst(mad){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
     const n=mad?10:6,cols=["var(--pink)","var(--cyan)","var(--amber)"];
     for(let i=0;i<n;i++){const s=document.createElement("span"),a=Math.PI*2*i/n+Math.random()*.5,r=34+Math.random()*22;s.className="lilly-fx";
@@ -2177,7 +2341,7 @@ function onAction(e){
 const GAME_TABS=["game","g2048","derby","pen","ensei","idle"]; // '게임' 탭(data-tab="play") 안의 게임 section
 function showTab(target){
   if(target==="play"){let g="game";try{g=localStorage.getItem("matome-game")||g}catch{};target=GAME_TABS.includes(g)&&!($(`#gpick [data-game="${g}"]`)||{}).hidden?g:"game"} // 게임 탭은 마지막에 하던 게임부터
-  const isGame=GAME_TABS.includes(target), navKey=isGame?"play":target;
+  const isGame=GAME_TABS.includes(target), navKey=isGame?"play":target==="place"?"feed":target; // 장소 허브는 피드(지도)에서 들어오니 피드 탭 표시
   if(isGame){try{localStorage.setItem("matome-game",target)}catch{}}
   $("#gpick").hidden=!isGame; $("#achBox").hidden=!isGame; document.querySelectorAll("#gpick [data-game]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.game===target));
   document.querySelectorAll("nav.tabs [data-tab]").forEach(t=>t.setAttribute("aria-selected",t.dataset.tab===navKey));
@@ -2198,7 +2362,8 @@ document.addEventListener("input",e=>{if(e.target.id==="whQ"){workQ=e.target.val
 document.addEventListener("change",e=>{if(e.target.id==="tripS"||e.target.id==="tripE"){const v=e.target.value;if(!v)return;
   if(e.target.id==="tripS"){const len=Math.round((new Date(trip.e)-new Date(trip.s))/DAY);trip.s=v;trip.e=addYmd(v,len)}else trip.e=v; // 출발을 바꾸면 기간 길이는 그대로
   tripFix(trip);history.replaceState(null,"",tripHash());render()}});
-document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("today")){todayOpen=e.target.open;try{localStorage.setItem("matome-today",todayOpen?"1":"0")}catch{}}
+document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("diary")){diaryOpen=e.target.open;try{localStorage.setItem("matome-diary",diaryOpen?"1":"0")}catch{}}
+  else if(e.target.classList&&e.target.classList.contains("today")&&!e.target.classList.contains("missed")){todayOpen=e.target.open;try{localStorage.setItem("matome-today",todayOpen?"1":"0")}catch{}}
   if(e.target.id==="vnTest"&&e.target.open){const f=$("#vnFrame");if(f&&!f.src){f.src=f.dataset.src; // 테스트 비주얼 노벨: 펼칠 때 처음 한 번만 받고 안쪽 높이에 맞춘다
     f.addEventListener("load",()=>{try{const d=f.contentDocument,fit=()=>{f.style.height=d.body.scrollHeight+4+"px"};fit();new ResizeObserver(fit).observe(d.body)}catch{}})}} // body 높이(문서 높이는 iframe 높이보다 작아지지 않아 빈칸이 남았다)
   if(e.target.classList&&e.target.classList.contains("mapbox")){mapOpen=e.target.open;try{localStorage.setItem("matome-map",mapOpen?"1":"0")}catch{}}},true);
@@ -2211,7 +2376,7 @@ document.addEventListener("click",e=>{
   const tab=e.target.closest("[data-tab]");
   if(tab){const target=tab.dataset.tab;
     if(target==="works"){openWork(null);return} // 작품 탭 버튼은 목록부터
-    if(/^#(work|trip)/.test(location.hash))history.replaceState(null,"",location.pathname+location.search); // 다른 탭으로 가면 주소의 #work·#trip 은 지운다
+    if(/^#(work|trip|place)/.test(location.hash))history.replaceState(null,"",location.pathname+location.search); // 다른 탭으로 가면 주소의 #work·#trip·#place 는 지운다
     showTab(target);window.scrollTo(0,0);return}
   const gp=e.target.closest("[data-game]"); if(gp){showTab(gp.dataset.game);return}
   const pt=e.target.closest("[data-ptile]"); if(pt){openCard(pt.dataset.ptile);return}
@@ -2253,6 +2418,21 @@ document.addEventListener("click",e=>{
   const chx=e.target.closest("[data-cheerx]"); if(chx){chx.closest(".cheer").remove();return}
   const cho=e.target.closest("[data-cheeropen]"); if(cho){const id=cho.dataset.cheeropen;cho.closest(".cheer").remove();openCard(id);return}
   if(e.target.closest("[data-fnew]")){feedNew=!feedNew;render();return}
+  const pl=e.target.closest("[data-place]"); if(pl){openPlace(pl.dataset.place);return}
+  if(e.target.closest("[data-places]")){openPlace(null);return}
+  if(e.target.closest("[data-placeback]")){openPlace(null);return}
+  if(e.target.closest("[data-placeover]")){placeOver=!placeOver;renderPlace();return}
+  if(e.target.closest("[data-placemap]")&&placeSel){mapSelWant=placeOf(placeSel);mapOpen=true;try{localStorage.setItem("matome-map","1")}catch{}
+    const g=mapSelWant.geo.length?mapSelWant.geo:([...items.values()].find(it=>itemAtPlace(it,mapSelWant)&&it.geo.length)||{geo:[]}).geo;
+    if(g.length){const [px,py]=mproj(g),[bx,by,bw,bh]=MAPBOX["23"];mapView=px>=bx&&px<=bx+bw&&py>=by&&py<=by+bh?"23":"kanto"}
+    history.replaceState(null,"",location.pathname+location.search);showTab("feed");render();
+    requestAnimationFrame(()=>{const m=document.querySelector(".mapbox");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})});return}
+  if(e.target.closest("[data-placeshare]")&&placeSel){const url=location.origin+location.pathname+"#place="+encodeURIComponent(placeOf(placeSel).name);
+    if(navigator.share)navigator.share({title:placeOf(placeSel).name+" · 마토메 보드",url}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>toast("링크를 복사했어요"),()=>toast(url));else toast(url);return}
+  if(e.target.closest("[data-workshot]")&&workSel){workShot();return}
+  if(e.target.closest("[data-workover]")){workOver=!workOver;renderWorks();return}
+  const mh=e.target.closest("[data-missedhide]"); if(mh){missedHide=mh.dataset.missedhide;try{localStorage.setItem("matome-missed",missedHide)}catch{}render();return}
+
   if(e.target.closest("[data-mapweekend]")){mapWeekend=!mapWeekend;mapSel=null;render();return}
   const ic=e.target.closest("[data-ics]"); if(ic){const it=items.get(ic.dataset.ics);if(it)icsDownload([it],it.id);return}
   if(e.target.closest("[data-icsall]")&&workSel){const w=workOf(workSel);icsDownload([...items.values()].filter(it=>notOver({it})&&itemHasWork(it,w)),"work-"+hashId(w.key));return}
@@ -2312,8 +2492,9 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // GitHub API(api.github.com, CORS 됨, 키 없이 시간당 60회)를 6시간에 한 번만 읽고, 새 버전이면 띠를 띄운다. [받기]는 APK 주소로 가서 앱이 브라우저로 넘긴다
 // 보드 버전(2026-10 말). index.html·games/ 를 고치는 PR 마다 올린다: 기능 추가는 가운데 자리(2.1.0), 고침은 끝자리(2.0.1).
 // CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
-const BOARD_VER="2.4.0";
+const BOARD_VER="2.5.0";
 const CHANGES=[
+  ["2.5.0","2026-11-01",["릴리 일기: 피드 오늘 카드 아래, 하루 4번 수집할 때마다 릴리가 그날 소식을 몇 줄로 정리해요","장소 허브: 카드의 장소 이름이나 지도의 점을 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에","작품 화면의 [한 달 일정 한 장]: 앞으로 35일 달력과 일정을 한 장 그림으로 저장·공유","월말에 끝난 내 작품·관심 소식을 돌아보는 '놓친 소식' 칸","같은 전시를 여러 명이 제보하면 하나로 묶고, 끝난 제보는 정리해요","주간 요약이 월요일 아침마다 자동으로 발행돼요(배경 설명 포함)"]],
   ["2.4.0","2026-11-01",["비주얼 노벨 테스트판에 장면 음악 8곡·새 그림·표정(사이트 개요 맨 아래 '테스트 중')","소식 제보: X 글의 전시 기간·장소·제목을 더 정확히 읽어요","안드로이드 앱 1.0.11"]],
   ["2.3.0","2026-10-31",["소식 제보: 「제보」 탭에 X 글이나 행사 페이지 주소를 넣으면 보드에 올라가요","폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일(카톡용 zip)·앱 새 버전 알림·X 앱에서 공유로 바로 제보","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","원화전·색지전 보도자료를 일본 뉴스 검색에서도 모아요","보드·앱 버전과 업데이트 내역 표시"]],
   ["1.x","2026-10-19~30",["게임 탭(弾幕·Holo Mobile·まとめラン·ペンライト·도쿄 원정)과 업적·칭호","작품 허브·X 화제·성지순례 지도·만갤","오늘 카드·그림으로 보기·스와이프로 고르기·응원 알림","여행 플래너·주말 한 장·기간 행사·콜라보 카페","홈 화면 앱(PWA)·달력 구독·RSS"]],

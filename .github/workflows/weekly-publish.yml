@@ -1,0 +1,55 @@
+name: 주간 요약 발행
+
+# 주간 요약 자동 발행(2026-11): 월요일 아침 예약 실행된 Claude 세션이 WebSearch 배경 설명까지 붙인 data/weekly.json 을
+# 브랜치 claude/weekly-summary-auto 에 푸시하면, 이 워크플로가 그 파일만 main 에 올린다(클라우드 세션은 작업 브랜치에만 푸시할 수 있고
+# 예약 세션에는 GitHub 도구가 없어 PR 을 못 만든다). 형식(week·picks, auto 없음)을 확인한 뒤 RSS(feed.xml)도 다시 쓴다.
+on:
+  push:
+    branches: [claude/weekly-summary-auto]
+    paths: [data/weekly.json]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data   # 소식 자동 업데이트와 같은 묶음: main 커밋이 겹치지 않게
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 브랜치의 weekly.json 가져와 확인
+        run: |
+          git fetch origin claude/weekly-summary-auto
+          git checkout origin/claude/weekly-summary-auto -- data/weekly.json
+          python3 - <<'PY'
+          import json, re, sys
+          w = json.load(open("data/weekly.json", encoding="utf-8"))
+          assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(w.get("week", ""))), "week 형식"
+          assert isinstance(w.get("picks"), list) and 1 <= len(w["picks"]) <= 12, "picks 1~12개"
+          assert not w.get("auto"), "auto 가 있으면 봇 초안으로 취급됨"
+          for p in w["picks"]:
+              assert p.get("title") and isinstance(p.get("works"), list) and p.get("desc"), f"pick 형식: {p.get('title')}"
+              assert all(isinstance(l, dict) and str(l.get("url", "")).startswith("http") for l in p.get("links", [])), "links 형식"
+          print(f"주간 요약 {w['week']} 주 · {len(w['picks'])}건 · {w.get('title', '')}")
+          PY
+          python3 -c "import collector, datetime; collector.write_feed(datetime.datetime.now(collector.JST))"
+      - name: main 에 커밋
+        run: |
+          git config user.name "matome-bot"
+          git config user.email "matome-bot@users.noreply.github.com"
+          git add data/weekly.json data/feed.xml
+          if git diff --cached --quiet; then echo "바뀐 것 없음"; exit 0; fi
+          WEEK=$(python3 -c "import json;w=json.load(open('data/weekly.json'));print(w['week'][5:7].lstrip('0')+'/'+w['week'][8:10].lstrip('0'))")
+          git commit -m "주간 요약 $WEEK 주 발행"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push && exit 0; sleep $((i*5)); done
+          exit 1

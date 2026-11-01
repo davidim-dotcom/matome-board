@@ -734,6 +734,28 @@ DECO_RE = re.compile(r"^[^\w『「【（(＜<〈]+|[^\w』」】）)＞>〉！!�
 TIP_SHOW_RE = re.compile(r"個展|原画展|複製原画|色紙展|イラスト展|展示|展覧会|企画展|フェア|POP ?UP|ポップアップ|開催|イベント", re.I)
 TIP_PLACE_RE = re.compile(r"Gallery|GALLERY|ギャラリー|画廊|美術館|博物館|ミュージアム|会場|ホール|カフェ|Cafe|CAFE|BOOKS|ブックス|書店|書房|店|館|スペース|SPACE|Space")
 TIP_VER = 3  # 제보 읽는 규칙을 바꾸면 올린다 → 이미 보드에 있는 제보도 한 번 다시 읽어 고친다
+TIP_KEEP_DAYS = 7  # 끝난 제보(전시)는 이 날수 뒤에 보드에서 뺀다(보통 소식의 30일보다 빨리. 제보 자동 정리)
+
+
+def tip_same(a, b):
+    """같은 전시를 여러 사람이 제보한 것인지: 장소가 같고(한쪽 이름이 다른 쪽에 들어감) 기간이 겹치거나(날짜가 없으면 겹친 것으로),
+    제목 2-gram Dice 가 .5 이상이면 같은 전시로 본다."""
+    va, vb = wkey(a.get("venue", "")), wkey(b.get("venue", ""))
+    if va and vb and len(va) >= 3 and len(vb) >= 3 and (va in vb or vb in va):
+        sa, ea = (a.get("eventDate") or "")[:10], (a.get("endDate") or a.get("eventDate") or "")[:10]
+        sb, eb = (b.get("eventDate") or "")[:10], (b.get("endDate") or b.get("eventDate") or "")[:10]
+        if not (sa and sb) or (sa <= eb and sb <= ea): return True
+    return dice(kr_gram(a.get("title", "")), kr_gram(b.get("title", ""))) >= .5
+
+
+def tip_merge(keep, dup):
+    """같은 전시의 다른 제보를 keep 에 합친다: reports(묶인 제보 주소)·tipN(제보 수), 빈 칸은 채움. 제목·주소는 안 바꿔 id 가 유지된다."""
+    reps = [u for u in keep.get("reports", []) if u]
+    if dup["url"] not in reps and dup["url"] != keep.get("url"): reps.append(dup["url"])
+    keep["reports"], keep["tipN"] = reps[:10], 1 + len(reps[:10])
+    for k in ("venue", "address", "image", "endDate", "eventDate"):
+        if dup.get(k) and not keep.get(k): keep[k] = dup[k]
+    return keep
 
 
 def tip_title(body):
@@ -785,13 +807,15 @@ def collect_tips(src, ref):
     RAW[src["name"]] = len(tips)
     try: known = {x.get("url"): x for x in json.load(open(OUT, encoding="utf-8"))}
     except Exception: known = {}
+    tips_on = [x for x in known.values() if x.get("platform") == "tip"]
+    reported = {u for x in tips_on for u in x.get("reports", [])}  # 다른 제보에 묶인 주소(다시 읽지 않음)
     out, seen = [], set()
     trust = {**src, "trust": True}
     for t in tips[:TIPS_MAX]:
         url, note = str(t["url"]).strip()[:300], str(t.get("note", "")).strip()[:300]
         mx = X_URL_RE.match(url)
         key = f"https://x.com/{mx.group(1)}/status/{mx.group(2)}" if mx else url  # x.com·twitter.com·?s= 꼬리를 하나로
-        if key in seen: continue
+        if key in seen or key in reported: continue
         if key in known:  # 이미 보드에 있으면 건너뛰고, 예전 규칙으로 읽은 제보만 한 번 다시 읽는다(main 이 옛 항목을 바꿔 끼움)
             if known[key].get("platform") != "tip" or known[key].get("tv") == TIP_VER: continue
             TIP_REDO[key] = known[key].get("addedAt", "")
@@ -816,6 +840,10 @@ def collect_tips(src, ref):
         x["source"], x["platform"], x["tip"], x["tv"] = source, "tip", True, TIP_VER
         if img: x["image"] = img
         if mx: x["scanned"] = True  # X 페이지는 열어도 그림·티켓 링크를 못 얻는다(기사 보강 건너뜀)
+        # 제보 자동 정리: 같은 전시를 다른 사람이 또 제보했으면 먼저 온 소식에 묶는다(보드에 이미 있는 제보 → 이번 묶음 순)
+        same = next((k for k in tips_on if k.get("url") not in TIP_REDO and tip_same(k, x)), None) or next((o for o in out if tip_same(o, x)), None)
+        if same is not None:
+            tip_merge(same, x); print(f"  제보 {key[-22:]}: 같은 전시로 묶음 → {same.get('title', '')[:40]}", file=sys.stderr); continue
         out.append(x)
     return out
 
@@ -1111,7 +1139,7 @@ def main():
             if kk and kr_best.get(kk, (0, id(it)))[1] != id(it): continue
         guess_place(it)  # 장소 칸이 비면 data/venues.json 으로 채움(예전 추정은 다시 찾음)
         end = item_end(it)
-        if end and end < ref - timedelta(days=30):
+        if end and end < ref - timedelta(days=TIP_KEEP_DAYS if it.get("platform") == "tip" else 30):  # 끝난 제보(전시)는 빨리 정리
             continue
         if not end:
             try:
@@ -1127,7 +1155,76 @@ def main():
     write_feed(ref)
     write_calendars(ref)
     write_share_pages()
+    try: write_diary(ref, status, new, items)
+    except Exception as e: print(f"릴리 일기 실패: {e}", file=sys.stderr)
     print(f"→ data/items.json: 총 {len(items)}건 (이번에 {len(new)}건 추가)")
+
+
+# ---- 릴리 일기(data/diary.json, 2026-11): 하루(JST)마다 그날 수집 결과를 릴리 말투 몇 줄로. 페이지 피드 맨 위 '릴리 일기' 칸 ----
+DIARY = os.path.join(DATA, "diary.json")
+DIARY_DAYS = 14
+CAT_KO = {"live": "공연", "event": "이벤트", "official": "공식 행사", "doujin": "동인 행사", "collab": "콜라보", "popup": "팝업", "exhibit": "전시",
+          "manga": "만화", "goods": "굿즈", "stream": "방송", "campaign": "캠페인", "other": "그 밖"}
+
+
+def diary_lines(e, ref):
+    """그날 숫자로 릴리 대사 4~6줄. 같은 날은 같은 문장이 나오게 날짜로 고른다(실행마다 바뀌지 않게)."""
+    import random
+    rnd = random.Random(e["d"])
+    pick = lambda *xs: xs[rnd.randrange(len(xs))]
+    n, out = e.get("new", 0), []  # 첫 줄(새 소식 수) + 가운데 최대 4줄 + 맺음말
+    if n == 0: out.append(pick("오늘은 아직 새 소식이 없어. 조용한 날이네.", "새 소식은 아직이야. 출처들이 쉬는 날인가?"))
+    elif n < 10: out.append(pick(f"오늘 새 소식 {n}건 정리했어. 하나하나 다 읽어 봤지!", f"새 소식 {n}건을 보드에 올렸어."))
+    else: out.append(pick(f"오늘 새 소식 {n}건! 손이 바빴어.", f"오늘은 {n}건이나 들어왔어. 정리 끝, 칭찬해 줘!"))
+    cats = sorted(e.get("cats", {}).items(), key=lambda x: -x[1])
+    if cats and cats[0][1] >= 3: out.append(f"새로 온 건 {CAT_KO.get(cats[0][0], cats[0][0])}가 {cats[0][1]}건으로 제일 많았어.")
+    if e.get("rise"): out.append(pick(f"『{e['rise'][0]}』가 갑자기 뜨고 있어, 주목!", f"요즘 『{e['rise'][0]}』 얘기가 확 늘었어."))
+    elif e.get("top"): out.append(f"요즘은 {'·'.join('『' + t + '』' for t in e['top'][:2])} 얘기가 제일 많아.")
+    if e.get("dl"): out.append(pick(f"3일 안에 판매·마감이 {e['dl']}건이야. 놓치지 마!", f"판매·마감 {e['dl']}건이 코앞이야, 서둘러!"))
+    if e.get("wk"): out.append(pick(f"이번 주말 일정은 {e['wk']}건. 나갈 준비 됐어?", f"주말에 열리는 게 {e['wk']}건이나 돼. 캘린더 확인!"))
+    if e.get("tips"): out.append(f"제보 {e['tips']}건을 보드에 올렸어. 고마워!")
+    if e.get("kr"): out.append(f"한국 행사도 {e['kr']}건 들어왔어.")
+    if e.get("bad"): out.append(f"출처 {e['bad']}곳이 응답이 없었어… 다음에 다시 들러 볼게.")
+    out = out[:5]
+    out.append(pick("오늘도 수고했어, 내일 또 봐!", "원문 링크도 꼭 확인해 줘. 그럼 또 올게!", "마음에 드는 소식엔 ♥ 눌러 두면 내가 챙겨 줄게.", "다음 순찰은 6시간 뒤! 그때 봐."))
+    return out
+
+
+def write_diary(ref, status, new, items):
+    today = ref.date().isoformat()
+    cur = load_json(DIARY, {})
+    days = {d["d"]: d for d in cur.get("days", []) if isinstance(d, dict) and isinstance(d.get("d"), str)}
+    e = days.get(today) or {"d": today, "runs": 0, "new": 0, "cats": {}, "tips": 0, "kr": 0}
+    e["runs"] = int(e.get("runs", 0)) + 1; e["new"] = int(e.get("new", 0)) + len(new)
+    for it in new:
+        c = it.get("category", "other"); e.setdefault("cats", {})[c] = int(e["cats"].get(c, 0)) + 1
+        if it.get("platform") == "tip": e["tips"] = int(e.get("tips", 0)) + 1
+        if it.get("region") == "KR": e["kr"] = int(e.get("kr", 0)) + 1
+    tried = [x for x in status if x.get("ok") is not None]
+    e["ok"], e["bad"] = sum(1 for x in tried if x["ok"]), sum(1 for x in tried if not x["ok"])
+    live = [it for it in items if not (item_end(it) and item_end(it) < ref - timedelta(hours=12))]
+    e["live"] = len(live)
+    e["top"] = [str(x) for x in _tr.get("top", [])[:3]]
+    e["rise"] = [x["n"] for x in _tr.get("rising", []) if isinstance(x, dict) and x.get("n")][:2]
+    sat = ref.date() + timedelta(days=(5 - ref.weekday()) % 7)  # 이번 주말(오늘이 일요일이면 오늘)
+    if ref.weekday() == 6: sat = ref.date()
+    sun = sat + timedelta(days=1) if ref.weekday() != 6 else sat
+    def _d(v):
+        try: return datetime.fromisoformat(v if re.search(r"[+-]\d\d:\d\d$|Z$", v) else v + "+09:00").astimezone(JST).date()
+        except Exception: return None
+    e["wk"] = sum(1 for it in live if it.get("category") != "stream" and _d(it.get("eventDate") or "") and _d(it.get("eventDate")) <= sun and (_d(it.get("endDate") or "") or _d(it.get("eventDate"))) >= sat)
+    soon = ref + timedelta(days=3); dl = 0
+    for it in live:
+        for v in ([p.get("s") for p in it.get("phases", [])] + [p.get("e") for p in it.get("phases", [])]) if it.get("phases") else [it.get("ticketOpen"), it.get("deadline")]:
+            t = _jst(v) if v else None
+            if t and ref < t <= soon: dl += 1
+    e["dl"] = dl
+    e["at"] = ref.isoformat(timespec="minutes")
+    e["text"] = diary_lines(e, ref)
+    days[today] = e
+    out = sorted(days.values(), key=lambda x: x["d"], reverse=True)[:DIARY_DAYS]
+    save_json(DIARY, {"updated": ref.isoformat(timespec="minutes"), "days": out})
+    print(f"릴리 일기: {today} ({e['runs']}번째 실행, 새 소식 {e['new']}건) → data/diary.json")
 
 
 SITE = "https://davidim-dotcom.github.io/matome-board/"

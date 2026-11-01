@@ -47,6 +47,13 @@ async function run(dev) {
   const W = await page.evaluate(() => document.documentElement.clientWidth);
   const rows = await page.$$eval("#feedBody .row", (a) => a.length);
   if (!rows) bad.push(`${dev}: 피드에 소식 카드가 없음`);
+  if (require("fs").existsSync(path.join(ROOT, "data", "diary.json"))) {  // 릴리 일기(봇이 쓰는 파일이라 없을 수 있음): 칸이 그려지는지
+    const dy = await page.evaluate(() => { const d = document.querySelector("#feedBody .diary"); if (!d) return 0; d.open = true; return d.querySelectorAll(".dtext span").length; });
+    if (!dy) bad.push(`${dev}: 릴리 일기 칸이 안 그려짐`);
+    const ovd = await page.evaluate(OVERFLOW);
+    if (ovd.length) bad.push(`${dev} 릴리 일기: 화면 밖으로 넘침 → ${ovd.join(" | ")}`);
+    console.log(`${dy && !ovd.length ? "OK  " : "FAIL"} ${dev} 릴리 일기 (${dy}줄)`);
+  }
   for (const t of TABS) {
     const n0 = errs.length;
     await page.evaluate((t) => (document.querySelector(`nav.tabs [data-tab="${t}"]`) || document.querySelector(`#gpick [data-game="${t}"]`)).click(), t);  // 게임은 게임 탭 안의 고르는 칸
@@ -126,6 +133,28 @@ async function run(dev) {
   const ov = await page.evaluate(OVERFLOW);
   if (ov.length) bad.push(`${dev} 작품 허브: 화면 밖으로 넘침 → ${ov.join(" | ")}`);
   console.log(`${hub && !ov.length ? "OK  " : "FAIL"} ${dev} 작품 허브`);
+  // 작품 허브의 [한 달 일정 한 장](canvas 그림 → .shot 미리보기)
+  await page.evaluate(() => document.querySelector("[data-workshot]")?.click());
+  await page.waitForSelector(".shot img[src^='blob:']", { timeout: 6000 }).catch(() => {});
+  const wsh = await page.evaluate(() => !!document.querySelector(".shot img[src^='blob:']"));
+  if (!wsh) bad.push(`${dev}: 작품 허브의 '한 달 일정 한 장' 그림이 안 만들어짐`);
+  console.log(`${wsh ? "OK  " : "FAIL"} ${dev} 작품 한 달 일정 한 장`);
+  await page.evaluate(() => document.querySelector("[data-shotclose]")?.click());
+  // 장소 허브(#place=이름)와 장소 목록(#places) — 2026-11
+  const venue = await page.evaluate(() => { for (const it of items.values()) if (it.venue && !/某所/.test(it.venue)) return it.venue; return ""; });
+  await page.goto(`http://127.0.0.1:${PORT}/#place=${encodeURIComponent(venue || "池袋")}`, { waitUntil: "load" });
+  await page.waitForTimeout(2000);
+  const pl = await page.evaluate(() => !!document.querySelector("#place .wh-title") && !document.getElementById("place").hidden);
+  if (!pl) bad.push(`${dev}: #place= 주소로 장소 허브가 안 열림`);
+  const ovp = await page.evaluate(OVERFLOW);
+  if (ovp.length) bad.push(`${dev} 장소 허브: 화면 밖으로 넘침 → ${ovp.join(" | ")}`);
+  await page.evaluate(() => document.querySelector("[data-placeback]")?.click());
+  await page.waitForTimeout(400);
+  const pls = await page.$$eval("#place .pl-card", (a) => a.length);
+  if (!pls) bad.push(`${dev}: 장소 목록(#places)에 카드가 없음`);
+  const ovp2 = await page.evaluate(OVERFLOW);
+  if (ovp2.length) bad.push(`${dev} 장소 목록: 화면 밖으로 넘침 → ${ovp2.join(" | ")}`);
+  console.log(`${pl && pls && !ovp.length && !ovp2.length ? "OK  " : "FAIL"} ${dev} 장소 허브 (${venue.slice(0, 20)} · 목록 ${pls}곳)`);
   // 여행 플래너 주소(#trip=)로 바로 들어오는 길
   const d0 = new Date(Date.now() + 9 * 36e5 + 7 * 864e5).toISOString().slice(0, 10), d1 = new Date(Date.now() + 9 * 36e5 + 10 * 864e5).toISOString().slice(0, 10);
   await page.goto(`http://127.0.0.1:${PORT}/#trip=${d0}~${d1},kanto`, { waitUntil: "load" });
