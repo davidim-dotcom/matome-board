@@ -155,6 +155,25 @@ async function run(dev) {
   const ovp2 = await page.evaluate(OVERFLOW);
   if (ovp2.length) bad.push(`${dev} 장소 목록: 화면 밖으로 넘침 → ${ovp2.join(" | ")}`);
   console.log(`${pl && pls && !ovp.length && !ovp2.length ? "OK  " : "FAIL"} ${dev} 장소 허브 (${venue.slice(0, 20)} · 목록 ${pls}곳)`);
+  // 티켓 트래커(tickets/, 2026-11): 게시판 웹 앱 없이(로컬 모드) 보드 소식 후보 → 공연 추가 → 내 상태 저장 → 기한 타임라인
+  await ctx.route(/script\.google\.com/, (r) => r.abort());
+  await page.goto(`http://127.0.0.1:${PORT}/tickets/`, { waitUntil: "load" });
+  await page.waitForTimeout(1200);
+  await page.evaluate(() => { document.querySelector('[data-tab="me"]').click(); document.getElementById("who").value = "점검"; document.querySelector("[data-savewho]").click(); document.querySelector('[data-tab="add"]').click(); });
+  await page.waitForSelector(".cand", { timeout: 6000 }).catch(() => {});
+  const nCand = await page.$$eval(".cand", (a) => a.length);
+  if (nCand) { await page.evaluate(() => document.querySelector(".cand[data-pick]").click()); await page.waitForTimeout(300); await page.evaluate(() => document.querySelector("#sf [type=submit]").click()); await page.waitForTimeout(400);
+    await page.evaluate(() => document.querySelector('[data-cell="0"]')?.click()); await page.waitForTimeout(200);
+    await page.evaluate(() => { document.querySelector('[data-st="applied"]')?.click(); document.querySelector("[data-msave]")?.click(); }); await page.waitForTimeout(300); }
+  const tkDetail = await page.$$eval(".phase .cell.me", (a) => a.length);
+  await page.evaluate(() => document.querySelector('[data-tab="home"]').click()); await page.waitForTimeout(300);
+  const tkHome = await page.$$eval(".tl li", (a) => a.length);
+  const ovt = await page.evaluate(OVERFLOW);
+  if (!nCand) bad.push(`${dev} 티켓 트래커: 보드 소식 후보가 없음`);
+  if (nCand && !tkDetail) bad.push(`${dev} 티켓 트래커: 내 상태가 저장되지 않음`);
+  if (ovt.length) bad.push(`${dev} 티켓 트래커: 화면 밖으로 넘침 → ${ovt.join(" | ")}`);
+  console.log(`${nCand && tkDetail && !ovt.length ? "OK  " : "FAIL"} ${dev} 티켓 트래커 (후보 ${nCand} · 기한 ${tkHome}줄)`);
+  await ctx.unroute(/script\.google\.com/);
   // 여행 플래너 주소(#trip=)로 바로 들어오는 길
   const d0 = new Date(Date.now() + 9 * 36e5 + 7 * 864e5).toISOString().slice(0, 10), d1 = new Date(Date.now() + 9 * 36e5 + 10 * 864e5).toISOString().slice(0, 10);
   await page.goto(`http://127.0.0.1:${PORT}/#trip=${d0}~${d1},kanto`, { waitUntil: "load" });

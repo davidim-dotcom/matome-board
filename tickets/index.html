@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#13152A">
+<title>마토메 티켓 트래커</title>
+<!-- 티켓 트래커(2026-11): 일본 공연 티켓의 단계(FC 선행 → 플레이가이드 선행 → 일반 → 리세일)마다 친구들이 응모·당첨·결제 상태를 적는 공동 표.
+     보드(../index.html)와 떨어진 독립 페이지. 데이터는 보드와 같은 Apps Script 웹 앱(bbs/Code.gs 의 tk API)의 tk_shows·tk_entries 시트.
+     로그인 없음: 닉네임 + 이 브라우저가 만든 토큰(tk-me). 서버는 토큰의 sha1 앞 8자리(key)로 '내 칸'을 구분한다.
+     공연은 보드 소식(../data/items.json 의 판매 정보가 있는 공연·행사)에서 가져오거나 직접 적는다. 서버가 안 되면 이 폰에만 저장(tk-db)하고 보낼 것을 tk-queue 에 두었다가 다음에 보낸다.
+     기한 알림은 개인 달력 구독(?tk=ics&tok=…)과, 페이지가 열려 있을 때의 릴리 띠. 자세한 건 CLAUDE.md '티켓 트래커'. -->
+<link rel="icon" href="../assets/icon-lilly-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F8;--surface:#FFFFFF;--ink:#1B1F3B;--muted:#646985;--line:#D5DAE8;--pink:#D6246E;--cyan:#13819A;--amber:#B7791F;--pink-soft:#FBE3EE;--green:#1F8A5B;--violet:#6D4FD8;color-scheme:light;--bnav:62px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13152A;--surface:#1E2139;--ink:#ECEDF6;--muted:#9A9EBB;--line:#30345A;--pink:#FF5C9A;--cyan:#4FC3D9;--amber:#F2B655;--pink-soft:#3A1F33;--green:#5FD39A;--violet:#A893FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13152A;--surface:#1E2139;--ink:#ECEDF6;--muted:#9A9EBB;--line:#30345A;--pink:#FF5C9A;--cyan:#4FC3D9;--amber:#F2B655;--pink-soft:#3A1F33;--green:#5FD39A;--violet:#A893FF;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR","Noto Sans JP","Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.5;padding:0 0 calc(var(--bnav) + env(safe-area-inset-bottom,0px))}
+a{color:var(--cyan)} button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:12px 16px 24px}
+header.top{display:flex;align-items:center;gap:10px;padding:10px 16px 0;max-width:720px;margin:0 auto}
+header.top img{width:40px;height:40px;border-radius:50%;flex:none}
+header.top h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:24px;margin:0;letter-spacing:.5px;flex:1;min-width:0}
+header.top .back{font-size:13px;color:var(--muted);text-decoration:none;flex:none}
+header.top .st{flex:none;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+header.top .st i{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block} header.top .st.off i{background:var(--amber)}
+.note{font-size:12px;color:var(--muted)} .help{font-size:13px;color:var(--muted);margin:4px 0 10px}
+h2{font-size:17px;margin:14px 0 6px} h3{font-size:14px;margin:14px 0 6px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px 12px;font-size:13px;text-decoration:none;color:var(--ink);display:inline-block;cursor:pointer}
+.btn.pri{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:700} .btn.ghost{border-color:transparent;background:none;color:var(--muted);padding:6px 6px} .btn:disabled{opacity:.5}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:13px;cursor:pointer;margin:0 6px 6px 0}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.empty{color:var(--muted);text-align:center;padding:30px 10px;font-size:14px}
+/* 아래 탭 막대 */
+nav.bnav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);height:calc(var(--bnav) + env(safe-area-inset-bottom,0px))}
+nav.bnav button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;color:var(--muted);height:var(--bnav)}
+nav.bnav button b{font-size:18px;font-weight:400;line-height:1} nav.bnav button[aria-current="page"]{color:var(--pink)} nav.bnav button[aria-current="page"] b{background:var(--pink-soft);border-radius:12px;padding:1px 12px}
+/* 기한 타임라인 */
+.tl{list-style:none;margin:0;padding:0} .tl li{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tl .d{display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:2px dashed var(--line);padding-right:6px}
+.tl .d b{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:20px;color:var(--pink);line-height:1.1} .tl .d small{font-size:11px;color:var(--muted)}
+.tl li.over .d b{color:#D0342C} .tl li.past{opacity:.55}
+.tl .k{font-size:12px;font-weight:700;color:var(--amber)} .tl .k.p{color:#D0342C} .tl .k.r{color:var(--violet)} .tl .k.s{color:var(--green)}
+.tl .t{font-weight:700;overflow-wrap:anywhere} .tl .t button{all:unset;cursor:pointer} .tl .m{font-size:12px;color:var(--muted)}
+/* 공연 카드 */
+.show{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer;min-width:0}
+.show .tt{font-weight:700;font-size:15px;overflow-wrap:anywhere} .show .mt{font-size:12px;color:var(--muted);margin-top:2px}
+.ph{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px} .ph span{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.ph span.now{border-color:var(--pink);color:var(--pink);font-weight:700} .ph span.done{opacity:.5;text-decoration:line-through} .ph span.next{border-color:var(--amber);color:var(--amber)}
+.ppl{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px} .ppl i{font-style:normal;font-size:11px;padding:1px 8px;border-radius:999px;background:color-mix(in srgb,var(--muted) 15%,transparent);color:var(--muted)}
+.ppl i.won,.ppl i.paid{background:color-mix(in srgb,var(--pink) 18%,transparent);color:var(--pink)} .ppl i.applied,.ppl i.plan{background:color-mix(in srgb,var(--cyan) 18%,transparent);color:var(--cyan)} .ppl i.me{outline:2px solid var(--pink);outline-offset:1px}
+.ppl i.give,.ppl i.want{background:color-mix(in srgb,var(--amber) 22%,transparent);color:var(--amber)}
+/* 공연 상세 */
+.dt-head h2{margin:6px 0 2px;font-size:20px;overflow-wrap:anywhere} .dt-head .mt{font-size:13px;color:var(--muted)}
+.phase{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:var(--surface)}
+.phase.now{border-color:var(--pink)} .phase .nm{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap} .phase .nm b{font-size:15px} .phase .nm .kd{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 7px}
+.phase .dates{font-size:12px;color:var(--muted);margin-top:2px;display:flex;flex-wrap:wrap;gap:2px 10px} .phase .dates b{color:var(--ink);font-weight:500} .phase .dates .soon{color:var(--pink);font-weight:700}
+.cells{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px} .cell{all:unset;cursor:pointer;font-size:12px;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--muted) 14%,transparent);color:var(--ink);display:inline-flex;gap:5px;align-items:baseline}
+.cell.me{outline:2px solid var(--pink);outline-offset:1px} .cell.won,.cell.paid{background:color-mix(in srgb,var(--pink) 18%,transparent)} .cell.applied,.cell.plan{background:color-mix(in srgb,var(--cyan) 16%,transparent)} .cell.give,.cell.want{background:color-mix(in srgb,var(--amber) 22%,transparent)} .cell.lost,.cell.drop{opacity:.55}
+.cell small{color:var(--muted)} .cell.add{background:none;border:1px dashed var(--line);color:var(--muted)}
+.match{background:var(--pink-soft);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:13px} .match b{color:var(--pink)}
+.diff{border:1px dashed var(--amber);border-radius:12px;padding:8px 12px;margin:8px 0;font-size:13px}
+/* 추가 */
+.search{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);margin:6px 0}
+.cand{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0;cursor:pointer;min-width:0}
+.cand .tt{font-weight:600;font-size:14px;overflow-wrap:anywhere} .cand .mt{font-size:12px;color:var(--muted)} .cand .on{font-size:11px;color:var(--pink);font-weight:700}
+form.f label{display:block;font-size:12px;color:var(--muted);margin:8px 0 2px} form.f input,form.f select,form.f textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--bg)}
+.prow{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0;background:var(--bg)} .prow .g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.prow .g label{margin:4px 0 2px} .prow .top{display:flex;gap:6px;align-items:center} .prow .top input{flex:1;min-width:0} .prow .top select{flex:none;width:auto}
+/* 모달 */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.modal>div{background:var(--surface);border-radius:18px 18px 0 0;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px));width:100%;max-width:720px;max-height:92vh;overflow:auto}
+.modal h3{margin:0 0 8px;color:var(--ink);font-size:16px}
+.stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0 10px} .stgrid button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 4px;font-size:13px;cursor:pointer} .stgrid button[aria-pressed="true"]{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:700}
+.num{display:inline-flex;align-items:center;gap:8px} .num button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer} .num b{min-width:28px;text-align:center}
+/* 설정 */
+.tok{font-family:ui-monospace,monospace;font-size:12px;background:var(--bg);border-radius:8px;padding:6px 8px;overflow-wrap:anywhere}
+/* 릴리 띠·토스트 */
+.cheer{position:fixed;left:50%;top:max(10px,env(safe-area-inset-top));transform:translateX(-50%);z-index:40;width:min(440px,calc(100% - 20px));display:flex;align-items:center;gap:10px;padding:10px 10px 10px 12px;border-radius:16px;background:var(--surface);border:1px solid color-mix(in srgb,var(--pink) 45%,var(--line));box-shadow:0 10px 28px rgba(0,0,0,.22)}
+.cheer img{width:46px;height:46px;border-radius:50%;flex:none} .cheer .ct{flex:1;min-width:0;font-size:12px;color:var(--muted)} .cheer .ct b{display:block;color:var(--pink);font-size:14px} .cheer .ct span{display:block;color:var(--ink);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cheer button{flex:none;border:0;border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700;cursor:pointer;background:var(--pink);color:#fff} .cheer button.x{background:none;color:var(--muted);padding:4px}
+.toast{position:fixed;left:50%;bottom:calc(var(--bnav) + 14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;max-width:calc(100% - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header class="top"><img src="../assets/lilly/badge.png" alt="" width="40" height="40"><h1>티켓 트래커</h1><span class="st" id="st"><i></i>연결 중</span><a class="back" href="../">← 보드</a></header>
+<main class="wrap" id="main"></main>
+<nav class="bnav" aria-label="화면"><button data-tab="home"><b>⏰</b>기한</button><button data-tab="shows"><b>🎫</b>공연</button><button data-tab="add"><b>＋</b>추가</button><button data-tab="me"><b>☺</b>설정</button></nav>
+<div class="toast" id="toast" role="status"></div>
+<script>
+"use strict";
+const API="https://script.google.com/macros/s/AKfycbwicvRL8WIQI0U0nuKnWZRPPLdVFI2jxm5rksg6X-T34Jy28V-Xi3EknmyQCUM28J5A/exec"; // 보드 index.html 의 BBS.api 와 같은 주소(같은 웹 앱). 바꾸면 둘 다 고친다
+const DAY=864e5, $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const KINDS={lottery:"추첨 선행",first:"선착 선행",general:"일반 발매",resale:"리세일"};
+const STS=[["plan","예정"],["applied","응모함"],["won","당첨"],["lost","낙선"],["paid","결제 완료"],["want","양도 구함"],["give","양도 가능"],["drop","포기"]], STK=Object.fromEntries(STS);
+const SITES=["e+","ぴあ","ローチケ","イープラス","楽天チケット","CNプレイガイド","チケトレ","チケット流通センター","チケジャム","공식","기타"];
+const TPL={fc:{n:"FC先行抽選",kind:"lottery",site:"공식"},pg:{n:"プレイガイド先行",kind:"lottery",site:"e+"},first:{n:"先着先行",kind:"first",site:"e+"},gen:{n:"一般発売",kind:"general",site:"e+"},resale:{n:"リセール",kind:"resale",site:"チケトレ"}};
+const WD=["일","월","화","수","목","금","토"];
+const parseDate=v=>{if(!v)return null;const d=new Date(/[zZ]|[+-]\d\d:?\d\d$/.test(v)?v:v+(v.length>10?"":"T00:00")+"+09:00");return isNaN(d)?null:d};
+const jst=(d,o)=>d.toLocaleString("ko-KR",{timeZone:"Asia/Tokyo",...o});
+const jstYmd=d=>d?new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).format(d):"";
+const hm=d=>{const t=jst(d,{hour:"2-digit",minute:"2-digit",hour12:false});return t==="00:00"||t==="24:00"?"":t};
+const fmt=v=>{const d=parseDate(v);if(!d)return"";const y=jstYmd(d);return `${+y.slice(5,7)}/${+y.slice(8,10)}(${WD[new Date(y+"T00:00:00Z").getUTCDay()]})${hm(d)?" "+hm(d):""}`};
+function hashId(s){let h=2166136261;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return "i"+(h>>>0).toString(36)}
+const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:""}catch{return""}};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),1800)}
+async function sha1(s){try{const b=await crypto.subtle.digest("SHA-1",new TextEncoder().encode(s));return [...new Uint8Array(b)].slice(0,4).map(x=>x.toString(16).padStart(2,"0")).join("")}catch{return hashId(s).slice(1,9)}}
+/* ---------- 상태 ---------- */
+let ME={who:"",tok:"",key:""}, DB={shows:[],entries:[],at:""}, Q=[], online=null, tab="home", showSel=null, addPick=null, addQ="", board=null, boardTried=false, allPeople=false;
+const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch{return null}};
+async function initMe(){ME=LS("tk-me")||{};if(!ME.tok||ME.tok.length<16){ME.tok=[...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,"0")).join("")}
+  ME.who=String(ME.who||"").slice(0,12);ME.key=await sha1(ME.tok);LS("tk-me",ME)}
+const myKey=()=>ME.key, mine=e=>e.key===ME.key;
+const entryId=(showId,phase,key)=>`${showId}.${phase}.${key}`;
+/* ---------- 서버 ---------- */
+async function load(){DB=LS("tk-db")||DB;Q=LS("tk-queue")||[];render();
+  try{const r=await fetch(API+"?tk=1",{cache:"no-store"});const j=await r.json();if(Array.isArray(j.shows)){DB={shows:j.shows.map(normShow).filter(Boolean),entries:j.entries.map(normEntry).filter(Boolean),at:String(j.at||"")};online=true;LS("tk-db",DB)}else throw 0}
+  catch{online=false}
+  status();await flush();render()}
+function status(){const s=$("#st");s.classList.toggle("off",online===false);s.innerHTML=`<i></i>${online===false?"서버 연결 안 됨 · 이 폰에만 저장":online?"연결됨":"연결 중"}`}
+function normShow(x){if(!x||typeof x!=="object"||!/^[\w-]{4,24}$/.test(String(x.id||"")))return null;const str=(v,n)=>String(v??"").slice(0,n);
+  return {id:String(x.id),title:str(x.title,120),date:str(x.date,16),end:str(x.end,16),venue:str(x.venue,80),url:safeUrl(x.url||""),boardId:str(x.boardId,20),by:str(x.by,12),at:str(x.at,16),
+    phases:(Array.isArray(x.phases)?x.phases:[]).slice(0,8).map(p=>p&&typeof p==="object"?{n:str(p.n,30),kind:KINDS[p.kind]?p.kind:"lottery",s:str(p.s,16),e:str(p.e,16),r:str(p.r,16),p:str(p.p,16),site:str(p.site,20),url:safeUrl(p.url||"")}:null).filter(p=>p&&p.n)}}
+function normEntry(x){if(!x||typeof x!=="object")return null;const str=(v,n)=>String(v??"").slice(0,n);const e={id:str(x.id,60),showId:str(x.showId,24),phase:Math.max(0,Math.min(7,+x.phase||0)),key:str(x.key,8),who:str(x.who,12)||"익명",st:STK[x.st]?x.st:"plan",n:Math.max(1,Math.min(8,+x.n||1)),area:str(x.area,16),note:str(x.note,80),at:str(x.at,16)};return e.showId&&e.key?e:null}
+async function send(body){Q.push(body);LS("tk-queue",Q);await flush(true)}
+async function flush(quiet){if(!Q.length)return;const left=[];
+  for(const b of Q){try{const r=await fetch(API,{method:"POST",body:JSON.stringify(b)});const j=await r.json();if(j.ok!==true)throw new Error(j.error||"서버 거절");online=true}
+    catch(err){if(/서버 거절/.test(String(err))){toast("서버가 거절했어요: "+err.message)}else{left.push(b);online=false}}}
+  Q=left;LS("tk-queue",Q);status();if(Q.length&&!quiet)toast(`보낼 것 ${Q.length}건은 다음 연결 때 보내요`)}
+function putShow(s){const i=DB.shows.findIndex(x=>x.id===s.id);if(s.del){if(i>=0)DB.shows.splice(i,1);DB.entries=DB.entries.filter(e=>e.showId!==s.id)}else if(i>=0)DB.shows[i]=s;else DB.shows.push(s);LS("tk-db",DB);send({type:"tk_show",show:s})}
+function putEntry(showId,phase,st,n,area,note,del){const id=entryId(showId,phase,ME.key),i=DB.entries.findIndex(e=>e.id===id);
+  const e={id,showId,phase,key:ME.key,who:ME.who||"익명",st,n,area,note,at:new Date().toISOString().slice(0,16)};
+  if(del){if(i>=0)DB.entries.splice(i,1)}else if(i>=0)DB.entries[i]=e;else DB.entries.push(e);LS("tk-db",DB);
+  send({type:"tk_entry",entry:{showId,phase,tok:ME.tok,who:ME.who||"익명",st,n,area,note,del:!!del}})}
+/* ---------- 보드 소식(공연 후보·날짜 변경 확인) ---------- */
+async function loadBoard(){if(boardTried)return board;boardTried=true;
+  try{const [a,m]=await Promise.all(["../data/items.json","../data/manual.json"].map(p=>fetch(p+"?v="+Math.floor(Date.now()/6e5),{cache:"no-store"}).then(r=>r.ok?r.json():[]).catch(()=>[])));
+    const str=(v,n)=>String(v??"").slice(0,n),out=new Map();
+    for(const raw of [...(Array.isArray(m)?m:[]),...(Array.isArray(a)?a:[])]){if(!raw||typeof raw!=="object")continue;
+      const it={title:str(raw.title,200).trim(),url:safeUrl(raw.url||""),eventDate:str(raw.eventDate,25),endDate:str(raw.endDate,25),venue:str(raw.venue,80),category:str(raw.category,12),ticketOpen:str(raw.ticketOpen,25),deadline:str(raw.deadline,25),
+        ticketUrls:[...new Set([raw.ticketUrl,...(Array.isArray(raw.ticketUrls)?raw.ticketUrls:[])].map(u=>safeUrl(u||"")).filter(Boolean))].slice(0,4),
+        phases:(Array.isArray(raw.phases)?raw.phases:[]).filter(p=>p&&typeof p==="object"&&(p.s||p.e)).slice(0,6).map(p=>({n:str(p.n,30),s:str(p.s,16),e:str(p.e,16)}))};
+      if(!it.title)continue;it.id=hashId(it.url+"|"+it.title+"|"+(it.eventDate||""));if(!out.has(it.id))out.set(it.id,it)}
+    board=out}catch{board=new Map()}
+  return board}
+const kindOf=n=>/リセール|リセ|流通|トレ/.test(n)?"resale":/一般/.test(n)?"general":/先着/.test(n)?"first":"lottery";
+const siteOf=u=>/eplus/.test(u)?"e+":/pia\.jp/.test(u)?"ぴあ":/l-tike/.test(u)?"ローチケ":/rakuten/.test(u)?"楽天チケット":/cnplayguide/.test(u)?"CNプレイガイド":"";
+function fromBoard(it){ // 보드 소식 → 공연 틀. 단계가 없으면 판매 시작·마감으로 한 단계
+  const ph=it.phases.length?it.phases.map(p=>({n:p.n,kind:kindOf(p.n),s:p.s,e:p.e,r:"",p:"",site:siteOf(it.ticketUrls[0]||""),url:it.ticketUrls[0]||""})):(it.ticketOpen||it.deadline?[{n:"販売",kind:"general",s:it.ticketOpen,e:it.deadline,r:"",p:"",site:siteOf(it.ticketUrls[0]||""),url:it.ticketUrls[0]||""}]:[]);
+  return {id:it.id,title:it.title,date:it.eventDate.slice(0,16),end:it.endDate.slice(0,16),venue:it.venue,url:it.url,boardId:it.id,by:ME.who||"",phases:ph}}
+function candidates(){if(!board)return[];const now=Date.now(),q=addQ.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  return [...board.values()].filter(it=>(["live","official","event","doujin"].includes(it.category)||/ライブ|公演|コンサート|チケット|ツアー|フェス/.test(it.title))&&(it.phases.length||it.ticketOpen||it.deadline)&&(!it.eventDate||(parseDate(it.endDate||it.eventDate)||0)>now-DAY))
+    .filter(it=>!q.length||q.every(t=>(it.title+" "+it.venue).toLowerCase().includes(t)))
+    .map(it=>{const ds=[...it.phases.flatMap(p=>[p.s,p.e]),it.ticketOpen,it.deadline].map(parseDate).filter(d=>d&&d>now);return {it,next:ds.length?Math.min(...ds):Infinity}})
+    .sort((a,b)=>a.next-b.next||(parseDate(a.it.eventDate)||Infinity)-(parseDate(b.it.eventDate)||Infinity)).slice(0,60).map(x=>x.it)}
+/* ---------- 계산 ---------- */
+const phaseState=(p,now)=>{const s=parseDate(p.s),e=parseDate(p.e),r=parseDate(p.r),pp=parseDate(p.p);const last=pp||r||e||s;if(last&&last<now)return "done";if(s&&s>now)return "next";return "now"};
+const peopleOf=sid=>{const m=new Map();for(const e of DB.entries)if(e.showId===sid){const rank={paid:6,won:5,applied:4,plan:3,want:2,give:2,lost:1,drop:0};const o=m.get(e.key);if(!o||rank[e.st]>rank[o.st])m.set(e.key,e)}return [...m.values()]};
+function myEvents(all){ // 기한 타임라인: 기록이 있는 단계의 시작·마감·결과·결제. all=친구 전부
+  const now=Date.now(),out=[],seen=new Set();
+  for(const e of DB.entries){if(!all&&!mine(e))continue;const s=DB.shows.find(x=>x.id===e.showId),p=s&&s.phases[e.phase];if(!p||["lost","drop"].includes(e.st))continue;
+    const push=(k,v,lab)=>{const d=parseDate(v);if(!d||d<now-3*DAY)return;const id=`${e.id}|${k}`;if(seen.has(id))return;seen.add(id);out.push({k,d,lab,s,p,e,over:d<now})};
+    if(["plan","applied","want","give"].includes(e.st))push("e",p.e,"접수 마감");
+    if(["plan","want","give"].includes(e.st))push("s",p.s,p.kind==="resale"?"리세일 오픈":"접수 시작");
+    if(["applied","plan"].includes(e.st))push("r",p.r,"결과 발표");
+    if(["won","applied"].includes(e.st))push("p",p.p,"결제 기한")}
+  return out.sort((a,b)=>a.d-b.d)}
+/* ---------- 화면 ---------- */
+function render(){const m=$("#main");document.querySelectorAll("nav.bnav [data-tab]").forEach(b=>b.dataset.tab===tab?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current"));
+  m.innerHTML=tab==="home"?homeHtml():tab==="shows"?(showSel?detailHtml():showsHtml()):tab==="add"?addHtml():meHtml();
+  if(tab==="add"&&!board)loadBoard().then(()=>{if(tab==="add")render()})}
+function homeHtml(){const ev=myEvents(allPeople);
+  const li=x=>{const days=Math.ceil((x.d-Date.now())/DAY),dn=x.over?"지남":days<=0?"오늘":"D-"+days;
+    return `<li class="${x.over?"over":""}"><div class="d"><b>${dn}</b><small>${esc(fmt(x.d.toISOString()).slice(0,-6)||jst(x.d,{month:"numeric",day:"numeric"}))}</small></div><div><div class="k ${x.k}">${x.lab}${hm(x.d)?" "+esc(hm(x.d)):""}${x.over&&x.k==="p"?" · 결제했으면 상태를 바꿔 주세요":""}</div><div class="t"><button type="button" data-show="${esc(x.s.id)}">${esc(x.s.title)}</button></div><div class="m">${esc(x.p.n)} · ${allPeople?esc(x.e.who)+" · ":""}${esc(STK[x.e.st])}${x.e.n>1?` ${x.e.n}매`:""}${x.p.site?" · "+esc(x.p.site):""}</div></div></li>`};
+  const my=DB.entries.filter(mine).length;
+  return `<h2>다가오는 기한 <small class="note">${allPeople?"친구 전부":"내 기록"}</small></h2>
+    <div class="actions" style="margin:0 0 6px"><button type="button" class="chip" data-all aria-pressed="${allPeople}">친구 전부 보기</button>${my?"":`<span class="note">아직 내 기록이 없어요. 공연에서 내 칸을 채우면 여기에 기한이 모여요.</span>`}</div>
+    ${ev.length?`<ul class="tl">${ev.map(li).join("")}</ul>`:`<div class="empty">${my?"앞으로 올 기한이 없어요.":"공연 탭에서 공연을 고르거나 추가 탭에서 보드 소식을 가져와 보세요."}</div>`}
+    <p class="help" style="margin-top:14px">폰 달력에 넣어 두면 1시간 전·하루 전 알림이 와요 → <button type="button" class="btn ghost" data-tab="me">설정의 달력 구독</button></p>`}
+function showsHtml(){const now=Date.now(),L=DB.shows.slice().sort((a,b)=>(parseDate(a.date)||Infinity)-(parseDate(b.date)||Infinity));
+  if(!L.length)return `<h2>공연</h2><div class="empty">추적 중인 공연이 없어요. 추가 탭에서 보드 소식을 가져오거나 직접 적어 보세요.</div>`;
+  return `<h2>공연 ${L.length}</h2>`+L.map(s=>{const ppl=peopleOf(s.id),me=ppl.find(mine);
+    return `<button type="button" class="show" data-show="${esc(s.id)}"><div class="tt">${esc(s.title)}</div><div class="mt">${s.date?esc(fmt(s.date)):"날짜 미정"}${s.venue?" · "+esc(s.venue):""}</div>
+      <div class="ph">${s.phases.map(p=>`<span class="${phaseState(p,now)}">${esc(p.n)}</span>`).join("")||`<span>단계 없음</span>`}</div>
+      ${ppl.length?`<div class="ppl">${ppl.map(e=>`<i class="${e.st}${mine(e)?" me":""}">${esc(e.who)} ${esc(STK[e.st])}</i>`).join("")}</div>`:`<div class="ppl"><i>아직 아무도 없음</i></div>`}</button>`}).join("")}
+function detailHtml(){const s=DB.shows.find(x=>x.id===showSel);if(!s){showSel=null;return showsHtml()}const now=Date.now();
+  const ents=DB.entries.filter(e=>e.showId===s.id),gives=ents.filter(e=>e.st==="give"),wants=ents.filter(e=>e.st==="want");
+  const dl=(k,v,lab)=>{const d=parseDate(v);if(!d)return"";const soon=d>now&&d-now<2*DAY;return `<span>${lab} <b class="${soon?"soon":""}">${esc(fmt(v))}</b></span>`};
+  const phases=s.phases.map((p,i)=>{const cells=ents.filter(e=>e.phase===i),me=cells.find(mine);
+    return `<div class="phase ${phaseState(p,now)}"><div class="nm"><b>${esc(p.n)}</b><span class="kd">${KINDS[p.kind]}</span>${p.site?`<span class="note">${esc(p.site)}</span>`:""}${p.url?`<a href="${esc(p.url)}" target="_blank" rel="noopener" class="note">예매처 ↗</a>`:""}<button type="button" class="btn ghost" data-phedit="${i}" style="margin-left:auto">✎</button></div>
+      <div class="dates">${dl("s",p.s,p.kind==="resale"?"오픈":"접수")}${dl("e",p.e,"마감")}${dl("r",p.r,"결과")}${dl("p",p.p,"결제")}${!p.s&&!p.e&&!p.r&&!p.p?`<span class="note">날짜 없음 · ✎로 적어요</span>`:""}</div>
+      <div class="cells">${cells.map(e=>`<button type="button" class="cell ${e.st}${mine(e)?" me":""}" data-cell="${i}" ${mine(e)?"":"disabled"}>${esc(e.who)} <small>${esc(STK[e.st])}${e.n>1?` ${e.n}매`:""}${e.area?" · "+esc(e.area):""}</small></button>`).join("")}${me?"":`<button type="button" class="cell add" data-cell="${i}">+ 내 상태</button>`}</div>
+      ${cells.some(e=>e.note)?`<div class="note" style="margin-top:4px">${cells.filter(e=>e.note).map(e=>`${esc(e.who)}: ${esc(e.note)}`).join(" · ")}</div>`:""}</div>`}).join("");
+  const match=gives.length&&wants.length?`<div class="match"><b>양도 매칭</b> ${gives.map(e=>`${esc(e.who)}(양도 가능 ${e.n}매)`).join(", ")} ↔ ${wants.map(e=>`${esc(e.who)}(구함 ${e.n}매)`).join(", ")} · 메모로 연락해 보세요</div>`:gives.length?`<div class="match"><b>양도 가능</b> ${gives.map(e=>`${esc(e.who)} ${e.n}매`).join(", ")}</div>`:wants.length?`<div class="match"><b>양도 구함</b> ${wants.map(e=>`${esc(e.who)} ${e.n}매`).join(", ")}</div>`:"";
+  return `<div class="actions" style="margin:0"><button type="button" class="btn ghost" data-back>← 공연 목록</button><span style="flex:1"></span><button type="button" class="btn ghost" data-share>링크 공유</button></div>
+    <div class="dt-head"><h2>${esc(s.title)}</h2><div class="mt">${s.date?esc(fmt(s.date))+(s.end&&s.end!==s.date?" ~ "+esc(fmt(s.end)):""):"날짜 미정"}${s.venue?" · "+esc(s.venue):""}</div></div>
+    <div class="actions">${s.url?`<a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener">원문</a>`:""}${s.boardId?`<a class="btn" href="../#item=${esc(s.boardId)}">보드 소식</a>`:""}<button type="button" class="btn" data-showedit>공연 정보 고치기</button></div>
+    <div id="diff"></div>${match}
+    <h3>단계 ${s.phases.length} · 내 칸을 누르면 상태를 바꿔요</h3>${phases||`<div class="empty">단계가 없어요.</div>`}
+    <div class="actions"><button type="button" class="btn" data-phadd>+ 단계 추가</button><span class="note">FC 선행 → 플레이가이드 선행 → 일반 → 리세일 순으로 두면 보기 좋아요</span></div>`}
+async function diffCheck(s){const el=$("#diff");if(!el||!s.boardId)return;const b=await loadBoard();const it=b.get(s.boardId);if(!it||$("#diff")!==el)return;
+  const bs=fromBoard(it),ch=[];for(const bp of bs.phases){const p=s.phases.find(x=>x.n===bp.n);if(p&&((bp.s&&bp.s!==p.s)||(bp.e&&bp.e!==p.e)))ch.push(`${bp.n}: ${fmt(p.s)||"?"}~${fmt(p.e)||"?"} → ${fmt(bp.s)||"?"}~${fmt(bp.e)||"?"}`)}
+  const newp=bs.phases.filter(bp=>!s.phases.some(p=>p.n===bp.n));
+  if(!ch.length&&!newp.length)return;el.innerHTML=`<div class="diff"><b>보드 소식 기준으로 달라진 날짜</b><div class="note">${ch.map(esc).join("<br>")}${newp.length?`<br>보드에 새 단계: ${esc(newp.map(p=>p.n).join(", "))}`:""}</div><div class="actions"><button type="button" class="btn" data-syncboard>보드 날짜로 맞추기</button></div></div>`}
+function addHtml(){const L=candidates();
+  const form=addPick?formHtml(addPick):"";
+  return `<h2>공연 추가</h2>${addPick?"":`<p class="help">보드에 올라온 공연·행사 중 판매 정보가 있는 것을 가져오거나, 맨 아래에서 직접 적어요.</p>
+    <input class="search" id="aq" type="search" placeholder="공연·장소 검색" value="${esc(addQ)}" autocomplete="off">
+    ${board?L.length?L.map(it=>{const on=DB.shows.find(s=>s.id===it.id);return `<button type="button" class="cand" data-pick="${esc(it.id)}"><div class="tt">${esc(it.title)}</div><div class="mt">${it.eventDate?esc(fmt(it.eventDate)):"날짜 미정"}${it.venue?" · "+esc(it.venue):""} · ${it.phases.length?esc(it.phases.map(p=>p.n).join(" → ")):"판매 "+esc(fmt(it.ticketOpen)||"")+(it.deadline?" ~ "+esc(fmt(it.deadline)):"")}</div>${on?`<div class="on">추적 중 · 누르면 열어요</div>`:""}</button>`}).join(""):`<div class="empty">맞는 소식이 없어요.</div>`:`<div class="empty">보드 소식을 불러오는 중…</div>`}
+    <div class="actions"><button type="button" class="btn" data-manual>직접 적기</button></div>`}${form}`}
+function formHtml(s){const ph=s.phases.map((p,i)=>`<div class="prow" data-pi="${i}"><div class="top"><input name="n" value="${esc(p.n)}" placeholder="단계 이름(FC先行抽選 등)" maxlength="30"><select name="kind">${Object.entries(KINDS).map(([k,v])=>`<option value="${k}"${p.kind===k?" selected":""}>${v}</option>`).join("")}</select><button type="button" class="btn ghost" data-phdel="${i}">✕</button></div>
+    <div class="g"><label>${p.kind==="resale"?"오픈":"접수 시작"}<input type="datetime-local" name="s" value="${esc(p.s)}"></label><label>접수 마감<input type="datetime-local" name="e" value="${esc(p.e)}"></label><label>결과 발표<input type="datetime-local" name="r" value="${esc(p.r)}"></label><label>결제 기한<input type="datetime-local" name="p" value="${esc(p.p)}"></label>
+    <label>예매처<input name="site" list="sites" value="${esc(p.site)}" maxlength="20"></label><label>예매처 주소<input name="url" type="url" value="${esc(p.url)}" maxlength="300"></label></div></div>`).join("");
+  return `<form class="f panel" id="sf"><h3 style="margin-top:0">${s._edit?"공연 정보 고치기":"공연 추가"}${s.boardId?` <span class="note">· 보드 소식에서</span>`:""}</h3>
+    <label>제목<input name="title" value="${esc(s.title)}" maxlength="120" required></label>
+    <div class="prow"><div class="g"><label>공연 일시<input type="datetime-local" name="date" value="${esc(s.date)}"></label><label>끝(기간이면)<input type="datetime-local" name="end" value="${esc(s.end)}"></label></div></div>
+    <label>장소<input name="venue" value="${esc(s.venue)}" maxlength="80"></label><label>원문·공식 주소<input name="url" type="url" value="${esc(s.url)}" maxlength="300"></label>
+    <h3>단계 ${s.phases.length}</h3>${ph}<datalist id="sites">${SITES.map(x=>`<option value="${x}">`).join("")}</datalist>
+    <div class="actions">${Object.entries(TPL).map(([k,t])=>`<button type="button" class="chip" data-tpl="${k}">+ ${esc(t.n)}</button>`).join("")}</div>
+    <div class="actions" style="margin-top:12px"><button type="submit" class="btn pri">${s._edit?"저장":"추가"}</button><button type="button" class="btn ghost" data-cancel>취소</button>${s._edit?`<button type="button" class="btn ghost" data-showdel style="margin-left:auto;color:#D0342C">공연 지우기</button>`:""}</div></form>`}
+function readForm(){const f=$("#sf");if(!f)return null;const v=n=>f.querySelector(`[name="${n}"]:not(.prow [name])`)?.value||"";
+  const phases=[...f.querySelectorAll(".prow[data-pi]")].map(r=>{const g=n=>r.querySelector(`[name="${n}"]`)?.value||"";return {n:g("n").trim().slice(0,30),kind:g("kind"),s:g("s"),e:g("e"),r:g("r"),p:g("p"),site:g("site").trim().slice(0,20),url:safeUrl(g("url"))}}).filter(p=>p.n);
+  return {...addPick,title:v("title").trim().slice(0,120),date:v("date"),end:v("end"),venue:v("venue").trim().slice(0,80),url:safeUrl(v("url")),phases}}
+function meHtml(){const ics=API+"?tk=ics&tok="+encodeURIComponent(ME.tok),wc=ics.replace(/^https?:/,"webcal:");
+  return `<h2>설정</h2><div class="panel"><label class="note">닉네임 (친구들에게 보이는 이름, 12자)</label><div class="actions" style="margin-top:4px"><input id="who" value="${esc(ME.who)}" maxlength="12" placeholder="예: 테라" style="flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--bg)"><button type="button" class="btn pri" data-savewho>저장</button></div>
+    <p class="note" style="margin:8px 0 0">공개 페이지라 닉네임과 상태가 친구 모두에게 보여요. 좌석 번호·금액은 적지 않아요.</p></div>
+    <div class="panel"><b>달력 구독 · 내 기한 알림</b><p class="note">내 기록이 있는 단계의 접수 마감·결과 발표·결제 기한·리세일 오픈이 일정으로 들어오고 1시간 전·하루 전 알림이 와요. 상태를 바꾸면 달력도 따라 바뀌어요(몇 시간 안).</p>
+    <div class="actions"><a class="btn" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(wc)}" target="_blank" rel="noopener">구글 캘린더</a><a class="btn" href="${esc(wc)}">아이폰·맥</a><button type="button" class="btn" data-copy="${esc(ics)}">주소 복사</button></div></div>
+    <div class="panel"><b>내 토큰</b><p class="note">이 브라우저가 만든 열쇠예요. 다른 폰에서도 '나'로 쓰려면 이 토큰을 복사해 그쪽 설정에 붙여 넣어요. 남에게 주면 내 칸을 고칠 수 있으니 친구에게도 안 보내요.</p>
+    <div class="tok">${esc(ME.tok.slice(0,6))}…${esc(ME.tok.slice(-4))} <span class="note">(key ${esc(ME.key)})</span></div>
+    <div class="actions"><button type="button" class="btn" data-copy="${esc(ME.tok)}">토큰 복사</button><button type="button" class="btn" data-pastetok>다른 폰 토큰 붙여넣기</button></div></div>
+    <div class="panel"><b>보드와 연결</b><p class="note">보드 카드의 '티켓 추적' 링크로 공연을 바로 가져와요. 보드 소식의 날짜가 바뀌면 공연 화면 위에 '보드 기준으로 달라진 날짜'가 떠요.</p><div class="actions"><a class="btn" href="../">마토메 보드 열기</a></div></div>
+    <p class="note">서버 ${online===false?"연결 안 됨":"연결됨"} · 마지막 동기화 ${esc(DB.at||"없음")}${Q.length?` · 보낼 것 ${Q.length}건`:""}</p>`}
+/* ---------- 모달 ---------- */
+function modal(html){closeModal();const m=document.createElement("div");m.className="modal";m.id="modal";m.innerHTML=`<div>${html}</div>`;m.addEventListener("click",e=>{if(e.target===m)closeModal()});document.body.appendChild(m);return m}
+function closeModal(){$("#modal")?.remove()}
+function cellModal(s,i){const p=s.phases[i],e=DB.entries.find(x=>x.id===entryId(s.id,i,ME.key))||{st:"plan",n:1,area:"",note:""};
+  const m=modal(`<h3>${esc(s.title)}</h3><p class="note" style="margin:0 0 6px">${esc(p.n)} · ${KINDS[p.kind]}${p.e?" · 마감 "+esc(fmt(p.e)):""}</p>
+    ${ME.who?"":`<p class="note" style="color:var(--pink)">닉네임이 없어요. 아래에 적으면 같이 저장돼요.</p><input id="mwho" maxlength="12" placeholder="닉네임" style="width:100%;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--bg);margin-bottom:8px">`}
+    <div class="stgrid">${STS.map(([k,v])=>`<button type="button" data-st="${k}" aria-pressed="${e.st===k}">${v}</button>`).join("")}</div>
+    <div class="actions"><span class="num">매수 <button type="button" data-n="-1">−</button><b id="mn">${e.n}</b><button type="button" data-n="1">＋</button></span><input id="marea" value="${esc(e.area)}" maxlength="16" placeholder="구역(아레나·스탠드 등, 선택)" style="flex:1;min-width:120px;border:1px solid var(--line);border-radius:9px;padding:6px 10px;background:var(--bg)"></div>
+    <input id="mnote" value="${esc(e.note)}" maxlength="80" placeholder="메모(친구에게 보임, 80자)" style="width:100%;margin-top:8px;border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--bg)">
+    <div class="actions" style="margin-top:12px"><button type="button" class="btn pri" data-msave>저장</button><button type="button" class="btn ghost" data-mclose>닫기</button>${e.id?`<button type="button" class="btn ghost" data-mdel style="margin-left:auto;color:#D0342C">내 칸 지우기</button>`:""}</div>`);
+  let st=e.st,n=e.n;
+  m.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
+    if(b.dataset.st){st=b.dataset.st;m.querySelectorAll("[data-st]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.st===st))}
+    else if(b.dataset.n){n=Math.max(1,Math.min(8,n+(+b.dataset.n)));$("#mn").textContent=n}
+    else if(b.dataset.msave!==undefined){const w=$("#mwho");if(w&&w.value.trim()){ME.who=w.value.trim().slice(0,12);LS("tk-me",ME)}if(!ME.who){toast("닉네임을 적어 주세요");return}
+      putEntry(s.id,i,st,n,$("#marea").value.trim().slice(0,16),$("#mnote").value.trim().slice(0,80));closeModal();render();toast("저장했어요")}
+    else if(b.dataset.mdel!==undefined){putEntry(s.id,i,st,n,"","",true);closeModal();render()}
+    else if(b.dataset.mclose!==undefined)closeModal()})}
+function phaseModal(s,i){const p=i>=0?s.phases[i]:{n:"",kind:"lottery",s:"",e:"",r:"",p:"",site:"",url:""};
+  const m=modal(`<h3>${i>=0?"단계 고치기":"단계 추가"}</h3><form class="f" id="pf">${i<0?`<div class="actions">${Object.entries(TPL).map(([k,t])=>`<button type="button" class="chip" data-ptpl="${k}">${esc(t.n)}</button>`).join("")}</div>`:""}
+    <label>이름<input name="n" value="${esc(p.n)}" maxlength="30" required placeholder="FC先行抽選 / 一般発売 / リセール"></label><label>종류<select name="kind">${Object.entries(KINDS).map(([k,v])=>`<option value="${k}"${p.kind===k?" selected":""}>${v}</option>`).join("")}</select></label>
+    <div class="prow"><div class="g"><label>접수 시작·오픈<input type="datetime-local" name="s" value="${esc(p.s)}"></label><label>접수 마감<input type="datetime-local" name="e" value="${esc(p.e)}"></label><label>결과 발표<input type="datetime-local" name="r" value="${esc(p.r)}"></label><label>결제 기한<input type="datetime-local" name="p" value="${esc(p.p)}"></label></div></div>
+    <label>예매처<input name="site" list="sites2" value="${esc(p.site)}" maxlength="20"><datalist id="sites2">${SITES.map(x=>`<option value="${x}">`).join("")}</datalist></label><label>예매처 주소<input name="url" type="url" value="${esc(p.url)}" maxlength="300"></label>
+    <div class="actions" style="margin-top:12px"><button type="submit" class="btn pri">저장</button><button type="button" class="btn ghost" data-mclose>닫기</button>${i>=0?`<button type="button" class="btn ghost" data-pdel style="margin-left:auto;color:#D0342C">단계 지우기</button>`:""}</div></form>`);
+  const f=m.querySelector("#pf");
+  m.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
+    if(b.dataset.ptpl){const t=TPL[b.dataset.ptpl];f.n.value=t.n;f.kind.value=t.kind;f.site.value=t.site}
+    else if(b.dataset.mclose!==undefined)closeModal();
+    else if(b.dataset.pdel!==undefined){if(!confirm("이 단계와 친구들의 기록을 지울까요?"))return;const ns={...s,phases:s.phases.filter((_,k)=>k!==i)};DB.entries=DB.entries.filter(e=>!(e.showId===s.id&&e.phase===i));putShow(ns);closeModal();render()}});
+  f.addEventListener("submit",ev=>{ev.preventDefault();const g=n=>f.querySelector(`[name="${n}"]`).value;const np={n:g("n").trim().slice(0,30),kind:g("kind"),s:g("s"),e:g("e"),r:g("r"),p:g("p"),site:g("site").trim().slice(0,20),url:safeUrl(g("url"))};if(!np.n)return;
+    const ph=s.phases.slice();if(i>=0)ph[i]=np;else{if(ph.length>=8){toast("단계는 8개까지예요");return}ph.push(np)}putShow({...s,phases:ph});closeModal();render();toast("저장했어요")})}
+/* ---------- 릴리 띠(30분 안 기한) ---------- */
+let cheerSeen=LS("tk-cheer")||{};
+function cheerCheck(){if(document.hidden||$(".cheer"))return;const now=Date.now();const ev=myEvents(false).filter(x=>!x.over&&x.d-now<=30*60e3&&!cheerSeen[`${x.e.id}|${x.k}|${+x.d}`]);if(!ev.length)return;const x=ev[0];cheerSeen[`${x.e.id}|${x.k}|${+x.d}`]=now;for(const k in cheerSeen)if(now-cheerSeen[k]>4*DAY)delete cheerSeen[k];LS("tk-cheer",cheerSeen);
+  const el=document.createElement("div");el.className="cheer";el.innerHTML=`<img src="../assets/lilly/badge.png" alt=""><div class="ct"><b>${x.k==="p"?"결제 기한이 코앞이야!":x.k==="e"?"곧 접수 마감이야!":x.k==="r"?"곧 결과 발표야":"곧 열려!"}</b><span>${esc(x.s.title)} · ${esc(x.p.n)}</span>${esc(hm(x.d))} (${Math.max(0,Math.ceil((x.d-now)/60e3))}분 뒤)</div><button type="button" data-show="${esc(x.s.id)}">보기</button><button type="button" class="x" data-cheerx>✕</button>`;document.body.appendChild(el);setTimeout(()=>el.remove(),25000)}
+setInterval(cheerCheck,60e3);
+/* ---------- 이벤트 ---------- */
+document.addEventListener("click",async e=>{const t=e.target;
+  const cx=t.closest("[data-cheerx]");if(cx){cx.closest(".cheer").remove();return}
+  const tb=t.closest("[data-tab]");if(tb){tab=tb.dataset.tab;if(tab!=="shows")showSel=null;if(tab!=="add")addPick=null;history.replaceState(null,"","#"+tab);window.scrollTo(0,0);render();return}
+  const sh=t.closest("[data-show]");if(sh){t.closest(".cheer")?.remove();tab="shows";showSel=sh.dataset.show;history.replaceState(null,"","#show="+encodeURIComponent(showSel));window.scrollTo(0,0);render();diffCheck(DB.shows.find(x=>x.id===showSel));return}
+  if(t.closest("[data-back]")){showSel=null;history.replaceState(null,"","#shows");render();return}
+  if(t.closest("[data-all]")){allPeople=!allPeople;render();return}
+  if(t.closest("[data-share]")&&showSel){const url=location.origin+location.pathname+"#show="+encodeURIComponent(showSel);if(navigator.share)navigator.share({title:(DB.shows.find(x=>x.id===showSel)||{}).title+" · 티켓 트래커",url}).catch(()=>{});else copy(url);return}
+  const cp=t.closest("[data-copy]");if(cp){copy(cp.dataset.copy);return}
+  if(t.closest("[data-savewho]")){ME.who=$("#who").value.trim().slice(0,12);LS("tk-me",ME);toast(ME.who?`닉네임 「${ME.who}」`:"닉네임을 비웠어요");render();return}
+  if(t.closest("[data-pastetok]")){const v=prompt("다른 폰의 토큰(32자)을 붙여 넣어요. 이 브라우저의 기록 열쇠가 그 토큰으로 바뀌어요.");if(!v)return;const tk=v.trim();if(!/^[0-9a-f]{32}$/.test(tk)){toast("토큰 모양이 아니에요");return}ME.tok=tk;ME.key=await sha1(tk);LS("tk-me",ME);toast("토큰을 바꿨어요");load();return}
+  const pk=t.closest("[data-pick]");if(pk){const on=DB.shows.find(s=>s.id===pk.dataset.pick);if(on){tab="shows";showSel=on.id;render();diffCheck(on);return}const it=board&&board.get(pk.dataset.pick);if(!it)return;addPick=fromBoard(it);render();window.scrollTo(0,0);return}
+  if(t.closest("[data-manual]")){addPick={id:"",title:"",date:"",end:"",venue:"",url:"",boardId:"",by:ME.who||"",phases:[{...TPL.fc,s:"",e:"",r:"",p:"",url:""}]};render();window.scrollTo(0,0);return}
+  if(t.closest("[data-cancel]")){addPick=null;render();return}
+  const tp=t.closest("[data-tpl]");if(tp){const cur=readForm();if(!cur)return;if(cur.phases.length>=8){toast("단계는 8개까지예요");return}addPick={...cur,phases:[...cur.phases,{...TPL[tp.dataset.tpl],s:"",e:"",r:"",p:"",url:""}]};render();return}
+  const pd=t.closest("[data-phdel]");if(pd){const cur=readForm();if(!cur)return;addPick={...cur,phases:cur.phases.filter((_,i)=>i!==+pd.dataset.phdel)};render();return}
+  if(t.closest("[data-showedit]")&&showSel){const s=DB.shows.find(x=>x.id===showSel);tab="add";addPick={...s,_edit:true};render();window.scrollTo(0,0);return}
+  if(t.closest("[data-showdel]")&&addPick&&addPick._edit){if(!confirm("이 공연과 친구들의 기록을 모두 지울까요?"))return;putShow({...addPick,del:true});addPick=null;showSel=null;tab="shows";render();return}
+  const ce=t.closest("[data-cell]");if(ce&&showSel){cellModal(DB.shows.find(x=>x.id===showSel),+ce.dataset.cell);return}
+  const pe=t.closest("[data-phedit]");if(pe&&showSel){phaseModal(DB.shows.find(x=>x.id===showSel),+pe.dataset.phedit);return}
+  if(t.closest("[data-phadd]")&&showSel){phaseModal(DB.shows.find(x=>x.id===showSel),-1);return}
+  if(t.closest("[data-syncboard]")&&showSel){const s=DB.shows.find(x=>x.id===showSel),it=board&&board.get(s.boardId);if(!it)return;const bs=fromBoard(it);
+    const ph=s.phases.map(p=>{const bp=bs.phases.find(x=>x.n===p.n);return bp?{...p,s:bp.s||p.s,e:bp.e||p.e,url:p.url||bp.url}:p});for(const bp of bs.phases)if(!ph.some(p=>p.n===bp.n)&&ph.length<8)ph.push(bp);
+    putShow({...s,title:it.title||s.title,date:it.eventDate.slice(0,16)||s.date,venue:it.venue||s.venue,phases:ph});render();toast("보드 날짜로 맞췄어요");return}
+});
+document.addEventListener("submit",e=>{if(e.target.id!=="sf")return;e.preventDefault();const s=readForm();if(!s||!s.title)return;const {_edit,...show}=s;
+  show.id=show.id||("m"+hashId(show.title+"|"+show.date).slice(1,13));show.by=show.by||ME.who||"";putShow(show);const was=_edit;addPick=null;tab="shows";showSel=show.id;history.replaceState(null,"","#show="+encodeURIComponent(show.id));render();toast(was?"저장했어요":"공연을 추가했어요");if(show.boardId)diffCheck(show)});
+document.addEventListener("input",e=>{if(e.target.id==="aq"){addQ=e.target.value.slice(0,40);clearTimeout(render._q);render._q=setTimeout(render,120)}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+function copy(txt){if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>toast("복사했어요"),()=>prompt("복사:",txt));else prompt("복사:",txt)}
+function route(){const h=location.hash;const ms=h.match(/^#show=(.+)$/);if(ms){tab="shows";try{showSel=decodeURIComponent(ms[1]).slice(0,24)}catch{}return}
+  const ma=h.match(/^#add=([\w-]{1,20})$/);if(ma){tab="add";loadBoard().then(b=>{const it=b.get(ma[1]);const on=DB.shows.find(s=>s.id===ma[1]);if(on){tab="shows";showSel=on.id;render();diffCheck(on)}else if(it){addPick=fromBoard(it);render();toast("보드 소식을 가져왔어요. 확인하고 추가를 누르세요")}else render()});return}
+  if(["#home","#shows","#add","#me"].includes(h))tab=h.slice(1)}
+window.addEventListener("hashchange",()=>{route();render()});
+(async()=>{await initMe();route();await load();if(showSel)diffCheck(DB.shows.find(x=>x.id===showSel));setTimeout(cheerCheck,2500)})();
+</script>
+</body>
+</html>
