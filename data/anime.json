@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/1 기준)",
+ "src": "AniList 방영 정보 (11/2 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 73892
+   "w": 74158
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 53833
+   "w": 53993
   },
   {
    "t": "アオのハコ Season２",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 37799
+   "w": 38033
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -182,7 +182,7 @@
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 33453
+   "w": 33587
   },
   {
    "t": "ドラゴンボール超 ビルス",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26285
+   "w": 26339
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -290,7 +290,19 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24901
+   "w": 24921
+  },
+  {
+   "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
+   "d": 6,
+   "tm": "24:00",
+   "st": "TOKYO MX・BS11ほか",
+   "s": "2026-09-27",
+   "r": 32,
+   "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
+   "site": "https://majieku.com/",
+   "x": "Majieku_anime",
+   "w": 24445
   },
   {
    "t": "貸した魔力は【リボ払い】で強制徴収",
@@ -298,7 +310,7 @@
    "tm": "25:30",
    "st": "テレビ朝日系ほか",
    "s": "2026-10-04",
-   "r": 32,
+   "r": 33,
    "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
    "site": "https://revo-anime.com",
    "x": "revo_anime",
@@ -310,23 +322,11 @@
    "tm": "22:30",
    "st": "TOKYO MXほか",
    "s": "2026-09-26",
-   "r": 33,
+   "r": 34,
    "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
    "site": "https://lastboss-anime.com/",
    "x": "lastboss_anime",
    "w": 23974
-  },
-  {
-   "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
-   "d": 6,
-   "tm": "24:00",
-   "st": "TOKYO MX・BS11ほか",
-   "s": "2026-09-27",
-   "r": 34,
-   "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
-   "site": "https://majieku.com/",
-   "x": "Majieku_anime",
-   "w": 23948
   },
   {
    "t": "PSYREN -サイレン-",
@@ -466,11 +466,11 @@
    "tm": "21:00",
    "st": "",
    "s": "2026-10-03",
-   "r": 48,
+   "r": 47,
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 16736,
+   "w": 17171,
    "rd": 6
   },
   {
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 15386
+   "w": 15426
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14858,
+   "w": 14863,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12597
+   "w": 12620
   },
   {
    "t": "天は赤い河のほとり",
@@ -604,7 +604,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 11858
+   "w": 11902
   },
   {
    "t": "#ゾンビさがしてます",
@@ -676,7 +676,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7471
+   "w": 7487
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -772,7 +772,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4876
+   "w": 4888
   },
   {
    "t": "バーテックスフォース",
@@ -880,7 +880,7 @@
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 2901
+   "w": 2914
   },
   {
    "t": "うまゆるふるげ〜と!",
@@ -1001,7 +1001,7 @@
    "pv": "https://www.youtube.com/watch?v=rV-fcFL5vtU",
    "site": "https://rilakkuma-anime.com/",
    "x": "rilakkuma_anime",
-   "w": 1793
+   "w": 1794
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1054
+   "w": 1055
   },
   {
    "t": "mofusand",
@@ -1822,7 +1822,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 41214
+   "w": 41390
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1858,7 +1858,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30283
+   "w": 30345
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -1903,7 +1903,7 @@
    "tm": "",
    "st": "",
    "s": "2027-01-01",
-   "r": 47,
+   "r": 48,
    "pv": "https://www.youtube.com/watch?v=VR9MRmP2GF8",
    "site": "https://onepunchman-anime.net/",
    "x": "opm_anime",
@@ -2171,7 +2171,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3493
+   "w": 3503
   },
   {
    "t": "魔術を極めて旅に出た転生エルフ、持て余した寿命で生ける伝説となる",
