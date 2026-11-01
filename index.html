@@ -829,7 +829,7 @@ let animeDay = null, animeOnlyWatch = false;
 let thumbs = new Map(); // titleKey -> data URI
 const tkey = t=>String(t||"").replace(/[\s　]/g,"").toLowerCase();
 const DAYS = ["일","월","화","수","목","금","토","스트리밍","요일 미정"];
-let items = new Map();
+let items = new Map(), loadErr=false, loading=true; // loading: 첫 데이터를 받기 전(피드 빈 화면 문구용)
 let filterCat = null, filterVt = "all", sortMode = "rec"; // 피드 필터(분류·버튜버)와 정렬(추천순이 기본)
 let feedView="list"; try{feedView=localStorage.getItem("matome-view")==="grid"?"grid":"list"}catch{} // 피드 보기: 목록 / 그림(2026-10 말)
 let todayOpen=true; try{todayOpen=localStorage.getItem("matome-today")!=="0"}catch{}
@@ -933,13 +933,15 @@ function normalize(raw){
 const KEY="matome-public-v1";
 function loadLocal(){try{const d=JSON.parse(localStorage.getItem(KEY)||"null");const w=d&&d.S&&Array.isArray(d.S.watching)?d.S.watching:[];S.watching=w.filter(x=>typeof x==="string").slice(0,300)}catch{}}
 function flush(){try{localStorage.setItem(KEY,JSON.stringify({S:{watching:S.watching}}))}catch{}}
-async function getJSON(path,fallback){try{const r=await fetch(path+"?v="+Math.floor(Date.now()/600000),{cache:"no-store"});if(!r.ok)return fallback;return await r.json()}catch{return fallback}}
+async function getJSON(path,fallback,retry=1){try{const r=await fetch(path+"?v="+Math.floor(Date.now()/600000),{cache:"no-store"});if(!r.ok)throw new Error(r.status);return await r.json()}
+  catch{if(retry>0){await new Promise(ok=>setTimeout(ok,1200));return getJSON(path,fallback,retry-1)}return fallback}} // 배포 직후 404·일시 오류면 한 번 더(2026-11 빈 화면 보고)
 async function initStore(){
   loadLocal(); render();
   const [auto,manual,block,anime,thumbMap,meta,worksRaw,diaryRaw]=await Promise.all([
-    getJSON("data/items.json",[]),getJSON("data/manual.json",[]),getJSON("data/blocklist.json",{}),
+    getJSON("data/items.json",null),getJSON("data/manual.json",[]),getJSON("data/blocklist.json",{}),
     getJSON("data/anime.json",null),getJSON("data/thumbs.json",{}),getJSON("data/meta.json",{}),getJSON("data/works.json",{}),getJSON("data/diary.json",null)]);
   setDiary(diaryRaw);
+  loadErr=!Array.isArray(auto); // 소식 파일을 못 받음(사이트·네트워크 문제) → 피드에 '다시 시도'
   const tn=(Array.isArray(meta.trends)?meta.trends:[]).map(x=>String(x)).filter(Boolean).slice(0,20);
   setWorks(worksRaw,tn); trendNames=canonList(tn);
   rising=(Array.isArray(meta.rising)?meta.rising:[]).slice(0,6).map(r=>{const n=canonWork(String(r&&r.n||"").slice(0,60));return {name:n,key:wkey(n),vars:workOf(n).vars,x:Math.min(99,Math.max(0,+(r&&r.x)||0))}}).filter(r=>r.key.length>=2);
@@ -956,6 +958,7 @@ async function initStore(){
   if(anime&&Array.isArray(anime.list)) season={id:anime.season||"current",name:anime.name||"",src:anime.src||"",list:anime.list.map(normAnime).filter(a=>a.t)};
   thumbs=new Map(Object.entries(thumbMap||{}).filter(([,v])=>typeof v==="string"&&/^(data\/thumbs\/[\w.\-]+|https:\/\/)/.test(v)).map(([k,v])=>[tkey(k),v]));
   trends=trendNames.map(x=>x.toLowerCase());
+  loading=false;
   if(meta.updated){const d=new Date(meta.updated);$("#storeNote").innerHTML=`일본 게임·애니·버튜버·만화 소식<br><span style="white-space:nowrap">${esc(jst(d,{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}))} 업데이트${navigator.onLine===false?" · 오프라인(저장된 소식)":""}</span>`}
   render();
 }
@@ -1049,10 +1052,11 @@ function render(){
   const viewRow=`<div class="fview-row"><div class="seg" role="group" aria-label="보기 방식"><button type="button" data-fview="list" aria-pressed="${feedView!=="grid"}">${ic("list")} 목록</button><button type="button" data-fview="grid" aria-pressed="${feedView==="grid"}">${ic("grid")} 그림</button></div><button type="button" class="swbtn" data-swipe>${ic("cards")} 스와이프로 고르기</button></div>`;
   const sh=sharedId&&items.get(sharedId);
   const sharedBox=sh?`<div class="shared"><div class="shared-h"><b>공유된 소식</b><button type="button" class="btn ghost" data-unshare>닫기</button></div>${rowHtml(sh,{},notOver({it:sh})?"":"over")}</div>`:"";
-  $("#feedBody").innerHTML = sharedBox + (q.length?"":todayHtml(live,nMineNew)+diaryHtml()+missedHtml(all.map(x=>x.it))) + (q.length?"":renderMap(feed)) + newBar + viewRow + `<div class="filters">${vtChips}${sortChips}</div>`
+  const errBar=loadErr?`<div class="newbar"><span>소식을 불러오지 못했어요. 사이트가 잠깐 응답하지 않거나 네트워크가 끊겼을 수 있어요.</span><button type="button" class="chip" data-reload>다시 시도</button></div>`:"";
+  $("#feedBody").innerHTML = errBar + sharedBox + (q.length?"":todayHtml(live,nMineNew)+diaryHtml()+missedHtml(all.map(x=>x.it))) + (q.length?"":renderMap(feed)) + newBar + viewRow + `<div class="filters">${vtChips}${sortChips}</div>`
     + (cats.length>1?`<div class="filters"><button class="chip" data-cat="" aria-pressed="${!filterCat}">전체</button>${cats.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${filterCat===c}">${CATS[c]}</button>`).join("")}</div>`:"")
     + (q.length?`<div class="fcount"><span class="note">「${esc(feedQ.trim())}」 검색 결과 ${feed.length}건${feedPast?` (끝난 소식 ${feed.filter(x=>!notOver(x)).length}건 포함)`:""}</span><button type="button" class="chip" data-fpast aria-pressed="${feedPast}">지난 소식 포함</button></div>`:"")
-    + (feed.length?(feedView==="grid"?gridHtml(feed):feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join("")):q.length?"":`<div class="empty">${feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요. 데이터를 불러오는 중이거나 아직 소식이 없어요."}</div>`);
+    + (feed.length?(feedView==="grid"?gridHtml(feed):feed.map(x=>rowHtml(x.it,x.ev,notOver(x)?"":"over")).join("")):q.length?"":`<div class="empty">${loadErr?`소식을 불러오지 못했어요. 사이트가 잠깐 응답하지 않거나 네트워크가 끊겼을 수 있어요.<br><button type="button" class="btn" data-reload style="margin-top:10px">다시 시도</button>`:loading?"소식을 불러오는 중…":feedMine?"내 작품의 지금 소식이 없어요. 작품 탭에서 ☆로 작품을 더해 보세요.":filterVt==="vt"?"지금 보여 줄 버튜버 소식이 없어요.":"아직 소식이 없어요."}</div>`);
   if(sharedScroll&&sh){sharedScroll=false;const row=document.querySelector("#feedBody .shared .row");if(row)requestAnimationFrame(()=>{row.scrollIntoView({block:"center"});row.classList.add("flash")})}
   renderCalendar(shown);
   renderAnime(all);
@@ -2423,6 +2427,7 @@ document.addEventListener("click",e=>{
   const chx=e.target.closest("[data-cheerx]"); if(chx){chx.closest(".cheer").remove();return}
   const cho=e.target.closest("[data-cheeropen]"); if(cho){const id=cho.dataset.cheeropen;cho.closest(".cheer").remove();openCard(id);return}
   if(e.target.closest("[data-fnew]")){feedNew=!feedNew;render();return}
+  if(e.target.closest("[data-reload]")){loading=true;loadErr=false;render();initStore();return}
   const pl=e.target.closest("[data-place]"); if(pl){openPlace(pl.dataset.place);return}
   if(e.target.closest("[data-places]")){openPlace(null);return}
   if(e.target.closest("[data-placeback]")){openPlace(null);return}
@@ -2499,7 +2504,7 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
 const BOARD_VER="2.5.0";
 const CHANGES=[
-  ["2.5.0","2026-11-01",["릴리 일기: 피드 오늘 카드 아래, 하루 4번 수집할 때마다 릴리가 그날 소식을 몇 줄로 정리해요","장소 허브: 카드의 장소 이름이나 지도의 점을 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에","작품 화면의 [한 달 일정 한 장]: 앞으로 35일 달력과 일정을 한 장 그림으로 저장·공유","월말에 끝난 내 작품·관심 소식을 돌아보는 '놓친 소식' 칸","같은 전시를 여러 명이 제보하면 하나로 묶고, 끝난 제보는 정리해요","주간 요약이 월요일 아침마다 자동으로 발행돼요(배경 설명 포함)","티켓 트래커(더보기 → 티켓 트래커): 공연 티켓의 선행·일반·리세일 단계마다 친구들이 응모·당첨·결제 상태를 적고, 기한을 달력으로 구독해 알림을 받아요"]],
+  ["2.5.0","2026-11-01",["릴리 일기: 피드 오늘 카드 아래, 하루 4번 수집할 때마다 릴리가 그날 소식을 몇 줄로 정리해요","장소 허브: 카드의 장소 이름이나 지도의 점을 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에","작품 화면의 [한 달 일정 한 장]: 앞으로 35일 달력과 일정을 한 장 그림으로 저장·공유","월말에 끝난 내 작품·관심 소식을 돌아보는 '놓친 소식' 칸","같은 전시를 여러 명이 제보하면 하나로 묶고, 끝난 제보는 정리해요","주간 요약이 월요일 아침마다 자동으로 발행돼요(배경 설명 포함)","티켓 트래커(더보기 → 티켓 트래커): 공연 티켓의 선행·일반·리세일 단계마다 친구들이 응모·당첨·결제 상태를 적고, 기한을 달력으로 구독해 알림을 받아요","소식을 잠깐 못 불러오면 자동으로 한 번 더 받고, 그래도 안 되면 '다시 시도' 띠가 떠요"]],
   ["2.4.0","2026-11-01",["비주얼 노벨 테스트판에 장면 음악 8곡·새 그림·표정(사이트 개요 맨 아래 '테스트 중')","소식 제보: X 글의 전시 기간·장소·제목을 더 정확히 읽어요","안드로이드 앱 1.0.11"]],
   ["2.3.0","2026-10-31",["소식 제보: 「제보」 탭에 X 글이나 행사 페이지 주소를 넣으면 보드에 올라가요","폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일(카톡용 zip)·앱 새 버전 알림·X 앱에서 공유로 바로 제보","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","원화전·색지전 보도자료를 일본 뉴스 검색에서도 모아요","보드·앱 버전과 업데이트 내역 표시"]],
   ["1.x","2026-10-19~30",["게임 탭(弾幕·Holo Mobile·まとめラン·ペンライト·도쿄 원정)과 업적·칭호","작품 허브·X 화제·성지순례 지도·만갤","오늘 카드·그림으로 보기·스와이프로 고르기·응원 알림","여행 플래너·주말 한 장·기간 행사·콜라보 카페","홈 화면 앱(PWA)·달력 구독·RSS"]],

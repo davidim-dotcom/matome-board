@@ -22,8 +22,9 @@ async function networkFirst(req, fallbackKey) {
   const c = await caches.open(V);
   try {
     const r = await fetch(req);
-    if (r.ok) c.put(keyOf(req), r.clone());
-    return r;
+    if (r.ok) { c.put(keyOf(req), r.clone()); return r; }
+    const hit = await c.match(keyOf(req)) || (fallbackKey && await c.match(fallbackKey)); // 404·5xx(배포 직후 등)면 받아 둔 것을 쓴다(2026-11)
+    return hit || r;
   } catch (err) {
     const hit = await c.match(keyOf(req)) || (fallbackKey && await c.match(fallbackKey));
     if (hit) return hit;
