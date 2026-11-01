@@ -1163,8 +1163,14 @@ def main():
 # ---- 릴리 일기(data/diary.json, 2026-11): 하루(JST)마다 그날 수집 결과를 릴리 말투 몇 줄로. 페이지 피드 맨 위 '릴리 일기' 칸 ----
 DIARY = os.path.join(DATA, "diary.json")
 DIARY_DAYS = 14
-CAT_KO = {"live": "공연", "event": "이벤트", "official": "공식 행사", "doujin": "동인 행사", "collab": "콜라보", "popup": "팝업", "exhibit": "전시",
-          "manga": "만화", "goods": "굿즈", "stream": "방송", "campaign": "캠페인", "other": "그 밖"}
+DIARY_CAT = {"live": "공연", "event": "이벤트", "official": "공식 행사", "doujin": "동인 행사", "collab": "콜라보", "popup": "팝업", "exhibit": "전시",
+             "manga": "만화", "goods": "굿즈", "stream": "방송", "campaign": "캠페인", "other": "그 밖의 소식"}
+
+
+def josa(w, a="이", b="가"):
+    """받침에 맞는 조사: 한글이면 받침 유무로, 그 밖(한자·가나·영문)은 'a(b)' 꼴 대신 b 로."""
+    c = ord(w[-1]) if w else 0
+    return w + (a if 0xAC00 <= c <= 0xD7A3 and (c - 0xAC00) % 28 else b)
 
 
 def diary_lines(e, ref):
@@ -1177,8 +1183,8 @@ def diary_lines(e, ref):
     elif n < 10: out.append(pick(f"오늘 새 소식 {n}건 정리했어. 하나하나 다 읽어 봤지!", f"새 소식 {n}건을 보드에 올렸어."))
     else: out.append(pick(f"오늘 새 소식 {n}건! 손이 바빴어.", f"오늘은 {n}건이나 들어왔어. 정리 끝, 칭찬해 줘!"))
     cats = sorted(e.get("cats", {}).items(), key=lambda x: -x[1])
-    if cats and cats[0][1] >= 3: out.append(f"새로 온 건 {CAT_KO.get(cats[0][0], cats[0][0])}가 {cats[0][1]}건으로 제일 많았어.")
-    if e.get("rise"): out.append(pick(f"『{e['rise'][0]}』가 갑자기 뜨고 있어, 주목!", f"요즘 『{e['rise'][0]}』 얘기가 확 늘었어."))
+    if cats and cats[0][1] >= 3: out.append(f"새로 온 건 {josa(DIARY_CAT.get(cats[0][0], cats[0][0]))} {cats[0][1]}건으로 제일 많았어.")
+    if e.get("rise"): out.append(pick(f"급상승 중인 작품은 『{e['rise'][0]}』! 주목해 줘.", f"요즘 『{e['rise'][0]}』 얘기가 확 늘었어."))
     elif e.get("top"): out.append(f"요즘은 {'·'.join('『' + t + '』' for t in e['top'][:2])} 얘기가 제일 많아.")
     if e.get("dl"): out.append(pick(f"3일 안에 판매·마감이 {e['dl']}건이야. 놓치지 마!", f"판매·마감 {e['dl']}건이 코앞이야, 서둘러!"))
     if e.get("wk"): out.append(pick(f"이번 주말 일정은 {e['wk']}건. 나갈 준비 됐어?", f"주말에 열리는 게 {e['wk']}건이나 돼. 캘린더 확인!"))
