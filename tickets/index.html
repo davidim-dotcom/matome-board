@@ -114,7 +114,7 @@ const safeUrl=u=>{try{const x=new URL(u);return /^https?:$/.test(x.protocol)?x.h
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),1800)}
 async function sha1(s){try{const b=await crypto.subtle.digest("SHA-1",new TextEncoder().encode(s));return [...new Uint8Array(b)].slice(0,4).map(x=>x.toString(16).padStart(2,"0")).join("")}catch{return hashId(s).slice(1,9)}}
 /* ---------- 상태 ---------- */
-let ME={who:"",tok:"",key:""}, DB={shows:[],entries:[],at:""}, Q=[], online=null, tab="home", showSel=null, addPick=null, addQ="", board=null, boardTried=false, allPeople=false;
+let ME={who:"",tok:"",key:""}, DB={shows:[],entries:[],at:""}, Q=[], online=null, tab="home", showSel=null, addPick=null, addQ="", board=null, boardP=null, allPeople=false;
 const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||"null");localStorage.setItem(k,JSON.stringify(v))}catch{return null}};
 async function initMe(){ME=LS("tk-me")||{};if(!ME.tok||ME.tok.length<16){ME.tok=[...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,"0")).join("")}
   ME.who=String(ME.who||"").slice(0,12);ME.key=await sha1(ME.tok);LS("tk-me",ME)}
@@ -141,7 +141,9 @@ function putEntry(showId,phase,st,n,area,note,del){const id=entryId(showId,phase
   if(del){if(i>=0)DB.entries.splice(i,1)}else if(i>=0)DB.entries[i]=e;else DB.entries.push(e);LS("tk-db",DB);
   send({type:"tk_entry",entry:{showId,phase,tok:ME.tok,who:ME.who||"익명",st,n,area,note,del:!!del}})}
 /* ---------- 보드 소식(공연 후보·날짜 변경 확인) ---------- */
-async function loadBoard(){if(boardTried)return board;boardTried=true;
+// 보드 소식은 한 번만 받고, 받는 중에 또 부르면 같은 작업을 기다린다(2026-11: 받는 중이면 null 을 바로 돌려줘 render → loadBoard → render 가 끝없이 돌아 '티켓 추적'에서 화면이 멈췄다)
+function loadBoard(){return boardP||(boardP=fetchBoard())}
+async function fetchBoard(){
   try{const [a,m]=await Promise.all(["../data/items.json","../data/manual.json"].map(p=>fetch(p+"?v="+Math.floor(Date.now()/6e5),{cache:"no-store"}).then(r=>r.ok?r.json():[]).catch(()=>[])));
     const str=(v,n)=>String(v??"").slice(0,n),out=new Map();
     for(const raw of [...(Array.isArray(m)?m:[]),...(Array.isArray(a)?a:[])]){if(!raw||typeof raw!=="object")continue;

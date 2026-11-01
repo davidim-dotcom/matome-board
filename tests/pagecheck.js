@@ -173,6 +173,18 @@ async function run(dev) {
   if (nCand && !tkDetail) bad.push(`${dev} 티켓 트래커: 내 상태가 저장되지 않음`);
   if (ovt.length) bad.push(`${dev} 티켓 트래커: 화면 밖으로 넘침 → ${ovt.join(" | ")}`);
   console.log(`${nCand && tkDetail && !ovt.length ? "OK  " : "FAIL"} ${dev} 티켓 트래커 (후보 ${nCand} · 기한 ${tkHome}줄)`);
+  // 보드 카드의 '티켓 추적' 링크(tickets/#add=소식id)로 들어오기 — 2026-11 이 길에서 render↔loadBoard 가 끝없이 돌아 화면이 멈췄다
+  await page.goto(`http://127.0.0.1:${PORT}/`, { waitUntil: "load" });
+  await page.waitForTimeout(2500);
+  const addHref = await page.evaluate(() => document.querySelector('a[href^="tickets/#add="]')?.getAttribute("href") || "");
+  if (addHref) {
+    await page.goto(`http://127.0.0.1:${PORT}/${addHref}`, { waitUntil: "commit" });
+    const tkAdd = await Promise.race([
+      page.waitForSelector("#sf", { timeout: 8000 }).then(() => true).catch(() => false),
+      new Promise((ok) => setTimeout(() => ok(false), 10000))]);
+    if (!tkAdd) bad.push(`${dev} 티켓 트래커: '티켓 추적' 링크(${addHref})로 들어왔을 때 공연 추가 폼이 안 열림(멈춤?)`);
+    console.log(`${tkAdd ? "OK  " : "FAIL"} ${dev} 티켓 추적 링크로 들어오기`);
+  } else bad.push(`${dev}: 피드에 '티켓 추적' 링크가 하나도 없음`);
   await ctx.unroute(/script\.google\.com/);
   // 여행 플래너 주소(#trip=)로 바로 들어오는 길
   const d0 = new Date(Date.now() + 9 * 36e5 + 7 * 864e5).toISOString().slice(0, 10), d1 = new Date(Date.now() + 9 * 36e5 + 10 * 864e5).toISOString().slice(0, 10);
