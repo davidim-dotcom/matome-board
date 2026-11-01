@@ -25,7 +25,7 @@
    "pv": "https://www.youtube.com/watch?v=YvNvvUeCztE",
    "site": "https://kusuriyanohitorigoto.jp/season3/",
    "x": "kusuriya_PR",
-   "w": 107641
+   "w": 108141
   },
   {
    "t": "ブラッククローバー 第2期",
@@ -37,7 +37,7 @@
    "pv": "https://www.youtube.com/watch?v=4MYo8FfiXMA",
    "site": "http://bclover.jp/",
    "x": "bclover_PR",
-   "w": 101587
+   "w": 102567
   },
   {
    "t": "名探偵コナン",
@@ -64,28 +64,28 @@
    "w": 73892
   },
   {
-   "t": "転生したら剣でした 第2期",
-   "d": 3,
-   "tm": "24:30",
-   "st": "",
-   "s": "2026-10-01",
-   "r": 7,
-   "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
-   "site": "https://tenken-anime.com/",
-   "x": "tenken_official",
-   "w": 53833
-  },
-  {
    "t": "テムパル～アイテムの力～",
    "d": 0,
    "tm": "23:30",
    "st": "",
    "s": "2026-09-27",
-   "r": 8,
+   "r": 7,
    "pv": "https://www.youtube.com/watch?v=e1Km0FqUZl0",
    "site": "https://tempal-anime.net/",
    "x": "tempal_anime",
-   "w": 53577
+   "w": 54201
+  },
+  {
+   "t": "転生したら剣でした 第2期",
+   "d": 3,
+   "tm": "24:30",
+   "st": "",
+   "s": "2026-10-01",
+   "r": 8,
+   "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
+   "site": "https://tenken-anime.com/",
+   "x": "tenken_official",
+   "w": 53833
   },
   {
    "t": "アオのハコ Season２",
@@ -97,20 +97,7 @@
    "pv": "https://www.youtube.com/watch?v=hJ6Y8PAOUk8",
    "site": "https://aonohako-anime.com/",
    "x": "aonohako_PR",
-   "w": 51125
-  },
-  {
-   "t": "ジョジョの奇妙な冒険 スティール・ボール・ラン 2nd＆3rd STAGE",
-   "d": 7,
-   "tm": "17:00",
-   "st": "",
-   "s": "2026-09-25",
-   "r": 10,
-   "pv": "https://www.youtube.com/watch?v=jXtG_lcR9P4",
-   "site": "https://jojo-portal-anime.com/sbr/",
-   "x": "anime_jojo",
-   "w": 47996,
-   "rd": 5
+   "w": 51286
   },
   {
    "t": "ホタルの嫁入り",
@@ -118,11 +105,24 @@
    "tm": "23:30",
    "st": "フジテレビ",
    "s": "2026-10-09",
-   "r": 11,
+   "r": 10,
    "pv": "https://www.youtube.com/watch?v=Ex9LrBK-7hk",
    "site": "https://hotaru-anime.com/",
    "x": "hotaru_anime_pr",
-   "w": 47892
+   "w": 48665
+  },
+  {
+   "t": "ジョジョの奇妙な冒険 スティール・ボール・ラン 2nd＆3rd STAGE",
+   "d": 7,
+   "tm": "17:00",
+   "st": "",
+   "s": "2026-09-25",
+   "r": 11,
+   "pv": "https://www.youtube.com/watch?v=jXtG_lcR9P4",
+   "site": "https://jojo-portal-anime.com/sbr/",
+   "x": "anime_jojo",
+   "w": 48340,
+   "rd": 5
   },
   {
    "t": "生徒会にも穴はある！",
@@ -134,7 +134,7 @@
    "pv": "https://www.youtube.com/watch?v=VTRVLnzhl90",
    "site": "https://nama-anaru.com/",
    "x": "nama_anaru",
-   "w": 46140
+   "w": 46757
   },
   {
    "t": "追放されたチート付与魔術師は気ままなセカンドライフを謳歌する。　～俺は武器だけじゃなく、あらゆるものに『強化ポイント』を付与できるし、俺の意思でいつでも効果を解除できるけど、残った人たち大丈夫？～",
@@ -146,7 +146,7 @@
    "pv": "https://www.youtube.com/watch?v=BJXBr_aFF8s",
    "site": "https://sh-anime.shochiku.co.jp/chiifuyo-anime/",
    "x": "chi_fuyo",
-   "w": 41634
+   "w": 41957
   },
   {
    "t": "氷の城壁 第2期",
@@ -158,7 +158,7 @@
    "pv": "https://www.youtube.com/watch?v=VvzeL7UMCE8",
    "site": "https://korinojoheki-pr.com/",
    "x": "korinojoheki_pr",
-   "w": 37933
+   "w": 38121
   },
   {
    "t": "東京リベンジャーズ 三天戦争編",
@@ -194,7 +194,7 @@
    "pv": "https://www.youtube.com/watch?v=CFgEL7ei8VE",
    "site": "https://dragonball-super.com/",
    "x": "DB_anime_info",
-   "w": 29050
+   "w": 29212
   },
   {
    "t": "転生貴族、鑑定スキルで成り上がる 第3期",
@@ -206,7 +206,7 @@
    "pv": "https://www.youtube.com/watch?v=8_Lxr7vO9l0",
    "site": "https://kanteiskill.com/",
    "x": "kanteiskill",
-   "w": 28895
+   "w": 29030
   },
   {
    "t": "どうも、好きな人に惚れ薬を依頼された魔女です。",
@@ -218,7 +218,7 @@
    "pv": "https://www.youtube.com/watch?v=hGRtocAh3iw",
    "site": "https://horemajo-anime.com/",
    "x": "horemajo_anime",
-   "w": 28390
+   "w": 28557
   },
   {
    "t": "凶乱令嬢ニア・リストン",
@@ -230,7 +230,7 @@
    "pv": "https://www.youtube.com/watch?v=gxG4vntLtbk",
    "site": "https://kyoranreijo-pr.com/",
    "x": "kyoranreijo_pr",
-   "w": 27673
+   "w": 27840
   },
   {
    "t": "ダークサモナーとデキている",
@@ -242,7 +242,7 @@
    "pv": "https://www.youtube.com/watch?v=-YCols5lYow",
    "site": "http://darksummoner.deregula.com/",
    "x": "dksummon_anime",
-   "w": 27601
+   "w": 27702
   },
   {
    "t": "目覚めたら最強装備と宇宙船持ちだったので、一戸建て目指して傭兵として自由に生きたい",
@@ -254,7 +254,7 @@
    "pv": "https://www.youtube.com/watch?v=Z9ofT53sz2U",
    "site": "https://saikyosoubi.com/",
    "x": "saikyosoubi",
-   "w": 27385
+   "w": 27547
   },
   {
    "t": "アオアシ 第2期",
@@ -266,7 +266,7 @@
    "pv": "https://www.youtube.com/watch?v=phKPnPXm74c",
    "site": "https://aoashi-pr.com/",
    "x": "aoashi_pr",
-   "w": 26332
+   "w": 26452
   },
   {
    "t": "探偵はもう、死んでいる。Season2",
@@ -286,23 +286,23 @@
    "tm": "18:55",
    "st": "",
    "s": "2023-04-14",
-   "r": 30,
+   "r": 31,
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
    "w": 24901
   },
   {
-   "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
+   "t": "貸した魔力は【リボ払い】で強制徴収",
    "d": 6,
-   "tm": "24:00",
-   "st": "TOKYO MX・BS11ほか",
-   "s": "2026-09-27",
+   "tm": "25:30",
+   "st": "テレビ朝日系ほか",
+   "s": "2026-10-04",
    "r": 32,
-   "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
-   "site": "https://majieku.com/",
-   "x": "Majieku_anime",
-   "w": 23948
+   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
+   "site": "https://revo-anime.com",
+   "x": "revo_anime",
+   "w": 24014
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -314,19 +314,19 @@
    "pv": "https://www.youtube.com/watch?v=LyDMSUR6_Q8",
    "site": "https://lastboss-anime.com/",
    "x": "lastboss_anime",
-   "w": 23738
+   "w": 23974
   },
   {
-   "t": "貸した魔力は【リボ払い】で強制徴収",
+   "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
    "d": 6,
-   "tm": "25:30",
-   "st": "テレビ朝日系ほか",
-   "s": "2026-10-04",
+   "tm": "24:00",
+   "st": "TOKYO MX・BS11ほか",
+   "s": "2026-09-27",
    "r": 34,
-   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
-   "site": "https://revo-anime.com",
-   "x": "revo_anime",
-   "w": 23460
+   "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
+   "site": "https://majieku.com/",
+   "x": "Majieku_anime",
+   "w": 23948
   },
   {
    "t": "PSYREN -サイレン-",
@@ -338,7 +338,7 @@
    "pv": "https://www.youtube.com/watch?v=fmUpSXFbSK0",
    "site": "https://psyren-anime.com/",
    "x": "PSYREN_official",
-   "w": 22882
+   "w": 22971
   },
   {
    "t": "冰剣の魔術師が世界を統べるⅡ",
@@ -350,7 +350,7 @@
    "pv": "https://www.youtube.com/watch?v=oxkxyAcKv2g",
    "site": "https://hyouken-anime.com/",
    "x": "hyouken_pr",
-   "w": 21817
+   "w": 21973
   },
   {
    "t": "塩対応の佐藤さんが俺にだけ甘い",
@@ -362,7 +362,7 @@
    "pv": "https://www.youtube.com/watch?v=8XgKVzuLmJw",
    "site": "https://shioama-anime.com",
    "x": "shioamaofficial",
-   "w": 21705
+   "w": 21826
   },
   {
    "t": "転生ゴブリンだけど質問ある？",
@@ -374,7 +374,7 @@
    "pv": "https://www.youtube.com/watch?v=ynr8tFWrK4c",
    "site": "https://tengobu-anime.com/",
    "x": "tengobu_anime",
-   "w": 21670
+   "w": 21778
   },
   {
    "t": "桃源暗鬼 日光・華厳の滝編",
@@ -386,7 +386,7 @@
    "pv": "https://www.youtube.com/watch?v=upBWYExYoYc",
    "site": "https://tougenanki-anime-global.com/",
    "x": "tougenanki_anm",
-   "w": 20586
+   "w": 20787
   },
   {
    "t": "クレヨンしんちゃん",
@@ -410,19 +410,7 @@
    "pv": "https://www.youtube.com/watch?v=qlMB8vSpLzc",
    "site": "https://zero-believers-anime.com/",
    "x": "zero_believers",
-   "w": 19153
-  },
-  {
-   "t": "世界最強の魔女、始めました",
-   "d": 3,
-   "tm": "22:00",
-   "st": "TOKYO MX・BS11ほか",
-   "s": "2026-10-07",
-   "r": 43,
-   "pv": "https://www.youtube.com/watch?v=snJZD9vxfHY",
-   "site": "https://sekamajo-anime.com/",
-   "x": "sekamajo_anime",
-   "w": 18677
+   "w": 19297
   },
   {
    "t": "転生した大聖女は、聖女であることをひた隠す",
@@ -430,11 +418,23 @@
    "tm": "22:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-10-03",
-   "r": 44,
+   "r": 43,
    "pv": "https://www.youtube.com/watch?v=9oBywQ403ZA",
    "site": "https://daiseijo-anime.com/",
    "x": "daiseijo_anime",
-   "w": 18591
+   "w": 18947
+  },
+  {
+   "t": "世界最強の魔女、始めました",
+   "d": 3,
+   "tm": "22:00",
+   "st": "TOKYO MX・BS11ほか",
+   "s": "2026-10-07",
+   "r": 44,
+   "pv": "https://www.youtube.com/watch?v=snJZD9vxfHY",
+   "site": "https://sekamajo-anime.com/",
+   "x": "sekamajo_anime",
+   "w": 18946
   },
   {
    "t": "FX戦士くるみちゃん",
@@ -446,7 +446,7 @@
    "pv": "https://www.youtube.com/watch?v=7rxIZ3z0S4s",
    "site": "https://fxkurumi-info.com/",
    "x": "fxkurumi_info",
-   "w": 18371
+   "w": 18439
   },
   {
    "t": "らんま1/2 (2024) 第3期",
@@ -458,7 +458,7 @@
    "pv": "https://www.youtube.com/watch?v=dbe8esPSfYI",
    "site": "https://ranma-pr.com/",
    "x": "ranma_pr",
-   "w": 17717
+   "w": 17835
   },
   {
    "t": "ロメリア戦記 〜魔王を倒した後も人類やばそうだから軍隊組織した〜",
@@ -483,7 +483,7 @@
    "pv": "https://www.youtube.com/watch?v=iX4N-Z5Hbxw",
    "site": "https://the-vermilion-mask.com/",
    "x": "vermilion_PR",
-   "w": 16104
+   "w": 16475
   },
   {
    "t": "千歳くんはラムネ瓶のなか 2クール",
@@ -495,7 +495,7 @@
    "pv": "https://www.youtube.com/watch?v=8RHh2AyKRfY",
    "site": "https://chiramune.com/",
    "x": "anime_chiramune",
-   "w": 15805
+   "w": 15879
   },
   {
    "t": "とある暗部の少女共棲",
@@ -507,7 +507,7 @@
    "pv": "https://www.youtube.com/watch?v=NNHxQJgZdbQ",
    "site": "https://toaru-project.com/item/",
    "x": "toaru_project",
-   "w": 15624
+   "w": 15822
   },
   {
    "t": "佐々木とピーちゃん シーズン２",
@@ -544,7 +544,7 @@
    "pv": "https://www.youtube.com/watch?v=E-stx_wwVSs",
    "site": "https://kanojo-no-tomodachi.deregula.com/",
    "x": "kanotomo_anime",
-   "w": 13378
+   "w": 13414
   },
   {
    "t": "うちの弟どもがすみません",
@@ -556,7 +556,7 @@
    "pv": "https://www.youtube.com/watch?v=P927_ZvgUUg",
    "site": "https://uchioto-anime.com/",
    "x": "uchioto_anime",
-   "w": 12960
+   "w": 13036
   },
   {
    "t": "弱気MAX令嬢なのに、辣腕婚約者様の賭けに乗ってしまった",
@@ -568,7 +568,7 @@
    "pv": "https://www.youtube.com/watch?v=e41RGxVwJRs",
    "site": "https://yowaki-max-anime.com/",
    "x": "yowaki_max",
-   "w": 12934
+   "w": 12990
   },
   {
    "t": "ちいかわ",
@@ -592,7 +592,7 @@
    "pv": "https://www.youtube.com/watch?v=qpFcQ1Bek08",
    "site": "https://www.vap.co.jp/sorahaakaikawanohotori/",
    "x": "tenkawa_anime",
-   "w": 11935
+   "w": 11946
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -616,7 +616,7 @@
    "pv": "https://www.youtube.com/watch?v=_0kVb8-uRSI",
    "site": "https://zommasu.com/",
    "x": "zommasu_anime",
-   "w": 11111
+   "w": 11267
   },
   {
    "t": "夜桜さんちの大作戦 第2期 第2クール",
@@ -628,7 +628,7 @@
    "pv": "https://www.youtube.com/watch?v=059cJjeY19Y",
    "site": "https://mission-yozakura-family.com/",
    "x": "OfficialHitsuji",
-   "w": 9947
+   "w": 9999
   },
   {
    "t": "TANK CHAIR-戦車椅子-",
@@ -640,7 +640,7 @@
    "pv": "https://www.youtube.com/watch?v=ihAvU833DHA",
    "site": "https://www.tankchair-anime.com/en/index.php",
    "x": "anime_tankchair",
-   "w": 8916
+   "w": 8949
   },
   {
    "t": "ドラえもん (2005)",
@@ -648,7 +648,7 @@
    "tm": "17:00",
    "st": "",
    "s": "2005-04-15",
-   "r": 69,
+   "r": 70,
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
@@ -664,7 +664,7 @@
    "pv": "https://www.youtube.com/watch?v=m4T9VcBD0vo",
    "site": "https://suikoden-anime.com/",
    "x": "Suikoden_anime",
-   "w": 7531
+   "w": 7547
   },
   {
    "t": "魔法少女育成計画 restart",
@@ -688,7 +688,7 @@
    "pv": "https://www.youtube.com/watch?v=2zhlC9mffas",
    "site": "https://maukuri.af-original.com/en",
    "x": "af_originalMT",
-   "w": 7284
+   "w": 7317
   },
   {
    "t": "超巡！超条先輩",
@@ -700,7 +700,7 @@
    "pv": "https://www.youtube.com/watch?v=rYpXoCdTNQI",
    "site": "https://chojun-anime.com/",
    "x": "Chojun_Anime",
-   "w": 7223
+   "w": 7252
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -708,11 +708,11 @@
    "tm": "18:25",
    "st": "NHK Eテレ",
    "s": "2026-10-03",
-   "r": 77,
+   "r": 76,
    "pv": "https://www.youtube.com/watch?v=wk26nTxUzPY",
    "site": "https://www.nhk-character.com/chara/marronnier/",
    "x": "MarronnierAnime",
-   "w": 7136
+   "w": 7234
   },
   {
    "t": "名探偵プリキュア！",
@@ -724,7 +724,7 @@
    "pv": "https://www.youtube.com/watch?v=qjozo1fh7OI",
    "site": "https://www.toei-anim.co.jp/tv/star-detective_precure/",
    "x": "TVanime_precure",
-   "w": 6879
+   "w": 6888
   },
   {
    "t": "恐怖コレクター",
@@ -736,7 +736,7 @@
    "pv": "",
    "site": "https://www.nhk-character.com/chara/kyoufucollector",
    "x": "nep_horcol",
-   "w": 6656
+   "w": 6765
   },
   {
    "t": "彼方から",
@@ -748,7 +748,7 @@
    "pv": "https://www.youtube.com/watch?v=dLRKywRu3iM",
    "site": "https://kanatakara-anime.com/",
    "x": "kanatakara_anm",
-   "w": 6032
+   "w": 6071
   },
   {
    "t": "おじさんはカワイイものがお好き。",
@@ -760,7 +760,7 @@
    "pv": "https://www.youtube.com/watch?v=YKgjylmYeoA",
    "site": "https://ojikawa.com/",
    "x": "ojikawa_comic",
-   "w": 5656
+   "w": 5684
   },
   {
    "t": "BEYBLADE X",
@@ -784,7 +784,7 @@
    "pv": "https://www.youtube.com/watch?v=JqjXaJysS5w",
    "site": "https://vertexforce.jp/",
    "x": "vertexforce",
-   "w": 4817
+   "w": 4868
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -796,7 +796,7 @@
    "pv": "https://www.youtube.com/watch?v=kLbI4teuPTc",
    "site": "https://diaace.com/",
    "x": "diaace_official",
-   "w": 4318
+   "w": 4352
   },
   {
    "t": "てつりょー！meet with 鉄道むすめ",
@@ -808,7 +808,7 @@
    "pv": "https://www.youtube.com/watch?v=GixEiC7k9_4",
    "site": "https://tetsuryo-anime.com/",
    "x": "tetsuryo_anime",
-   "w": 4215
+   "w": 4235
   },
   {
    "t": "ガールズ＆パンツァー もっとらぶらぶ作戦です！",
@@ -820,7 +820,7 @@
    "pv": "https://www.youtube.com/watch?v=AVIDW2dT2AM",
    "site": "https://gup-mottolovelove.jp/",
    "x": "garupan_love2",
-   "w": 4101
+   "w": 4110
   },
   {
    "t": "ホテル・インヒューマンズ 第2期",
@@ -832,7 +832,7 @@
    "pv": "https://www.youtube.com/watch?v=JxeA37qVwnc",
    "site": "https://hotel-inhumans.com/",
    "x": "HIH_PR",
-   "w": 3691
+   "w": 3705
   },
   {
    "t": "コウペンちゃん",
@@ -844,7 +844,7 @@
    "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
    "site": "https://www.koupenchan-anime.jp/",
    "x": "koupenchananime",
-   "w": 3343
+   "w": 3347
   },
   {
    "t": "Yu-Gi-Oh! CARD GAME: THE CHRONICLES",
@@ -856,7 +856,7 @@
    "pv": "https://www.youtube.com/watch?v=lMZsDhwGi7o",
    "site": "https://www.konami.com/yugioh/thechronicles/en/",
    "x": "",
-   "w": 3175
+   "w": 3177
   },
   {
    "t": "獣王武神ダンデヴァイン",
@@ -868,7 +868,7 @@
    "pv": "https://www.youtube.com/watch?v=ihJfkOT_0wU",
    "site": "https://gattaishin.com/dandivine/",
    "x": "gattaishin",
-   "w": 3130
+   "w": 3162
   },
   {
    "t": "DARK MACHINE -The Animation-",
@@ -892,7 +892,7 @@
    "pv": "https://www.youtube.com/watch?v=rUHYbwZDVVI",
    "site": "",
    "x": "",
-   "w": 2878,
+   "w": 2888,
    "rd": 0
   },
   {
@@ -905,7 +905,7 @@
    "pv": "https://www.youtube.com/watch?v=4QafpDIgjS4",
    "site": "https://welshandshedar-anime.com/",
    "x": "WelshAndShedar",
-   "w": 2814
+   "w": 2838
   },
   {
    "t": "サザエさん",
@@ -929,7 +929,7 @@
    "pv": "https://www.youtube.com/watch?v=vnOrtJ4vRmw",
    "site": "https://animationid.com/kizudarakeseijo2/",
    "x": "animekizudarake",
-   "w": 2327
+   "w": 2337
   },
   {
    "t": "忍たま乱太郎",
@@ -953,19 +953,7 @@
    "pv": "https://www.youtube.com/watch?v=cXd4pKTx2pI",
    "site": "https://www.bn-pictures.co.jp/battlespirits/",
    "x": "bs_official",
-   "w": 1923
-  },
-  {
-   "t": "ちびまる子ちゃん",
-   "d": 8,
-   "tm": "",
-   "st": "",
-   "s": "1995-08-01",
-   "r": 112,
-   "pv": "",
-   "site": "http://chibimaru.tv/",
-   "x": "tweet_maruko",
-   "w": 1904
+   "w": 1930
   },
   {
    "t": "ケロロ軍曹☆",
@@ -973,11 +961,23 @@
    "tm": "09:30",
    "st": "テレビ東京",
    "s": "2026-10-03",
-   "r": 113,
+   "r": 112,
    "pv": "https://www.youtube.com/watch?v=iMyre5xXDzE",
    "site": "https://www.bn-pictures.co.jp/keroro-anime/tv/",
    "x": "keroro_anime",
-   "w": 1898
+   "w": 1906
+  },
+  {
+   "t": "ちびまる子ちゃん",
+   "d": 8,
+   "tm": "",
+   "st": "",
+   "s": "1995-08-01",
+   "r": 113,
+   "pv": "",
+   "site": "http://chibimaru.tv/",
+   "x": "tweet_maruko",
+   "w": 1904
   },
   {
    "t": "お姉ちゃんごっこ",
@@ -989,7 +989,7 @@
    "pv": "https://www.youtube.com/watch?v=Asmti3OS0W0",
    "site": "https://harumakigohan.com/onego/",
    "x": "",
-   "w": 1894
+   "w": 1896
   },
   {
    "t": "リラックマ",
@@ -1013,7 +1013,7 @@
    "pv": "https://www.youtube.com/watch?v=n0na0hTpl1E",
    "site": "https://cf-vanguard.com/anime-ghost_meets_gal/",
    "x": "cfvanguard_PR",
-   "w": 1730
+   "w": 1740
   },
   {
    "t": "ダンジョン＆テレビジョン",
@@ -1025,7 +1025,7 @@
    "pv": "https://www.youtube.com/watch?v=u62TLSncwss",
    "site": "",
    "x": "",
-   "w": 1641
+   "w": 1643
   },
   {
    "t": "新テニスの王子様 U-17 WORLD CUP 決勝メンバー決定戦",
@@ -1037,7 +1037,7 @@
    "pv": "https://www.youtube.com/watch?v=bsNeADDQFD4",
    "site": "http://tenipuri.jp/u17/selection-match/",
    "x": "shintenianime",
-   "w": 1537
+   "w": 1540
   },
   {
    "t": "魔法の姉妹ルルットリリィ 第2クール",
@@ -1049,7 +1049,7 @@
    "pv": "https://www.youtube.com/watch?v=rwUPmzMpECo",
    "site": "https://www.luluttolilly.com/",
    "x": "luluttolilly",
-   "w": 1464
+   "w": 1468
   },
   {
    "t": "それいけ!アンパンマン",
@@ -1085,7 +1085,7 @@
    "pv": "https://www.youtube.com/watch?v=IhhSa_OAs6Y",
    "site": "https://www.azuki.com/",
    "x": "Azuki",
-   "w": 1339
+   "w": 1340
   },
   {
    "t": "ギリギリわるくないわため",
@@ -1135,7 +1135,7 @@
    "pv": "https://www.youtube.com/watch?v=j5MgjyhhUBc",
    "site": "https://aipri.jp/anime/special/onegai/",
    "x": "aipri_animepr",
-   "w": 843
+   "w": 844
   },
   {
    "t": "ぼのぼの (2016)",
@@ -1171,7 +1171,7 @@
    "pv": "https://www.youtube.com/watch?v=Laf46YXDt68",
    "site": "https://odekake-kozame.com/",
    "x": "kozame_info",
-   "w": 674
+   "w": 675
   },
   {
    "t": "MyGO!!!!!メンバーの日常",
@@ -1207,7 +1207,7 @@
    "pv": "https://www.youtube.com/watch?v=dUSYa-7rKpM",
    "site": "https://pandorobo-anime.com/",
    "x": "pandorobo_anime",
-   "w": 564
+   "w": 566
   },
   {
    "t": "しかるねこ",
@@ -1231,7 +1231,7 @@
    "pv": "https://www.youtube.com/watch?v=FuGZ0Cl8YMY",
    "site": "",
    "x": "kusuriya_PR",
-   "w": 422,
+   "w": 435,
    "rd": 1
   },
   {
@@ -1271,28 +1271,16 @@
    "w": 350
   },
   {
-   "t": "Duel Masters LOST ～断罪の少年～",
-   "d": 7,
-   "tm": "21:00",
-   "st": "配信",
-   "s": "2026-10-09",
-   "r": 138,
-   "pv": "",
-   "site": "https://www.shopro.co.jp/anime/duelmasters_lost/",
-   "x": "duema_anime",
-   "w": 338
-  },
-  {
    "t": "しろたん",
    "d": 6,
    "tm": "16:29",
    "st": "テレビ朝日",
    "s": "2026-10-03",
-   "r": 139,
+   "r": 138,
    "pv": "https://www.youtube.com/watch?v=4iOFqQ1E4Mo",
    "site": "https://www.tv-asahi.co.jp/sirotan/",
    "x": "anime_sirotan",
-   "w": 338
+   "w": 341
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
@@ -1300,11 +1288,23 @@
    "tm": "25:17",
    "st": "",
    "s": "2026-10-05",
-   "r": 140,
+   "r": 139,
    "pv": "",
    "site": "https://kanojo-no-tomodachi.deregula.com/",
    "x": "kanotomo_anime",
-   "w": 338
+   "w": 340
+  },
+  {
+   "t": "Duel Masters LOST ～断罪の少年～",
+   "d": 7,
+   "tm": "21:00",
+   "st": "配信",
+   "s": "2026-10-09",
+   "r": 140,
+   "pv": "",
+   "site": "https://www.shopro.co.jp/anime/duelmasters_lost/",
+   "x": "duema_anime",
+   "w": 339
   },
   {
    "t": "JKダークサモナーとデキ。。。。。。でいない!?",
@@ -1316,7 +1316,7 @@
    "pv": "",
    "site": "https://darksummoner.deregula.com/",
    "x": "dksummon_anime",
-   "w": 299
+   "w": 304
   },
   {
    "t": "ホタルの嫁入り ちょいたし",
@@ -1328,7 +1328,7 @@
    "pv": "https://www.youtube.com/watch?v=A2ZuZt01_Po",
    "site": "",
    "x": "hotaru_anime_pr",
-   "w": 288
+   "w": 302
   },
   {
    "t": "パンの赤ちゃん",
@@ -1412,7 +1412,7 @@
    "pv": "https://www.youtube.com/watch?v=cH7enqqATwE",
    "site": "https://www.tv-tokyo.co.jp/anime/yuruyuru/",
    "x": "yuruyuruzukan",
-   "w": 188
+   "w": 189
   },
   {
    "t": "しあわせ配達おみくじタネコ",
@@ -1448,7 +1448,7 @@
    "pv": "https://www.youtube.com/watch?v=hhhuBvugick",
    "site": "",
    "x": "looneytunes_jp",
-   "w": 167
+   "w": 168
   },
   {
    "t": "子猫の配達員うーにゃん (2026)",
@@ -1460,7 +1460,7 @@
    "pv": "https://www.youtube.com/watch?v=Rya5HXrNeww",
    "site": "https://www.studio-nanahoshi.com/unyan-anime-ep01",
    "x": "",
-   "w": 164
+   "w": 165
   },
   {
    "t": "げっかん！なんものアニメ",
@@ -1485,7 +1485,7 @@
    "pv": "https://www.youtube.com/watch?v=WprfleUJVck",
    "site": "https://yusanchi-anime.jp/",
    "x": "yusanchi_anime",
-   "w": 142
+   "w": 143
   },
   {
    "t": "小3アシベ QQゴマちゃん",
@@ -1509,7 +1509,7 @@
    "pv": "",
    "site": "https://www.toei-anim.co.jp/petitcure/",
    "x": "",
-   "w": 136,
+   "w": 134,
    "rd": 4
   },
   {
@@ -1549,12 +1549,24 @@
    "w": 125
   },
   {
+   "t": "タヌキとキツネ",
+   "d": 0,
+   "tm": "07:00",
+   "st": "テレ東系",
+   "s": "2026-10-04",
+   "r": 161,
+   "pv": "https://www.youtube.com/watch?v=DO_UchIVN9Y",
+   "site": "https://tanukitsu-anime.jp/",
+   "x": "tanukitsu_anime",
+   "w": 124
+  },
+  {
    "t": "太鼓の達人 (2022)",
    "d": 7,
    "tm": "",
    "st": "",
    "s": "2022-01-07",
-   "r": 161,
+   "r": 162,
    "pv": "",
    "site": "https://taiko-ch.net/anime/",
    "x": "",
@@ -1566,23 +1578,11 @@
    "tm": "",
    "st": "",
    "s": "2024-04-01",
-   "r": 162,
+   "r": 163,
    "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
    "site": "https://rokurostudio.jp/",
    "x": "planetstudio696",
    "w": 123
-  },
-  {
-   "t": "タヌキとキツネ",
-   "d": 0,
-   "tm": "07:00",
-   "st": "テレ東系",
-   "s": "2026-10-04",
-   "r": 163,
-   "pv": "https://www.youtube.com/watch?v=DO_UchIVN9Y",
-   "site": "https://tanukitsu-anime.jp/",
-   "x": "tanukitsu_anime",
-   "w": 122
   },
   {
    "t": "かなかなかぞく",
@@ -1666,7 +1666,7 @@
    "pv": "",
    "site": "https://www.poplar.co.jp/pr/anime-nezumikun/",
    "x": "nezumikun_anime",
-   "w": 70
+   "w": 71
   },
   {
    "t": "アニメ会社で話すことかよ",
@@ -1702,7 +1702,7 @@
    "pv": "",
    "site": "",
    "x": "punirunes",
-   "w": 60
+   "w": 61
   },
   {
    "t": "ポップパップポルターズ",
@@ -1714,7 +1714,7 @@
    "pv": "",
    "site": "https://ppp-anime.jp",
    "x": "",
-   "w": 59
+   "w": 61
   },
   {
    "t": "マゼンチュ",
@@ -1726,7 +1726,7 @@
    "pv": "",
    "site": "https://www.ktv.jp/mazenchu/",
    "x": "_mazenchu",
-   "w": 57
+   "w": 58
   },
   {
    "t": "インプる君の存在しないお仕事",
@@ -1762,7 +1762,7 @@
    "pv": "",
    "site": "https://s.mxtv.jp/anime/gelpiyo2/",
    "x": "momomomo_piyopi",
-   "w": 46
+   "w": 47
   },
   {
    "t": "おなかがぐ〜ぐ〜アイランド",
@@ -1810,7 +1810,7 @@
    "pv": "",
    "site": "https://www.sylvanianfamilies.com/ja-jp/special/tv/",
    "x": "SylvanianJP",
-   "w": 9
+   "w": 11
   },
   {
    "t": "マッシュル-MASHLE- 三魔対争神覚者最終試験編",
@@ -1834,7 +1834,7 @@
    "pv": "https://www.youtube.com/watch?v=84JvYWUOOaU",
    "site": "https://anime.shangrilafrontier.com/",
    "x": "ShanFro_Comic",
-   "w": 39224
+   "w": 39333
   },
   {
    "t": "気になってる人が男じゃなかった",
@@ -1846,7 +1846,7 @@
    "pv": "https://www.youtube.com/watch?v=kLO7KyjhGR0",
    "site": "https://kinioto-anime.com/",
    "x": "kinioto_anime",
-   "w": 33122
+   "w": 33308
   },
   {
    "t": "世界最高の暗殺者、異世界貴族に転生する 2ndシーズン",
@@ -1870,7 +1870,7 @@
    "pv": "https://www.youtube.com/watch?v=1YSQ1mD20G0",
    "site": "https://sakamotodays.jp/",
    "x": "SAKAMOTODAYS_PR",
-   "w": 29119
+   "w": 29242
   },
   {
    "t": "フールナイト",
@@ -1878,11 +1878,11 @@
    "tm": "17:00",
    "st": "Netflix",
    "s": "2026-11-26",
-   "r": 31,
+   "r": 30,
    "pv": "https://www.youtube.com/watch?v=8E_SDmeOtVw",
    "site": "https://www.foolnight.com/",
    "x": "foolnight_anime",
-   "w": 24829,
+   "w": 24922,
    "rd": 4
   },
   {
@@ -1895,7 +1895,7 @@
    "pv": "https://www.youtube.com/watch?v=q0zQNh0wSb0",
    "site": "https://sekiro-anime.jp/",
    "x": "sekiro_nd_anime",
-   "w": 20201
+   "w": 20298
   },
   {
    "t": "ワンパンマン 第3期第2クール",
@@ -1907,7 +1907,7 @@
    "pv": "https://www.youtube.com/watch?v=VR9MRmP2GF8",
    "site": "https://onepunchman-anime.net/",
    "x": "opm_anime",
-   "w": 16991
+   "w": 17089
   },
   {
    "t": "マリッジトキシン 第2期",
@@ -1919,7 +1919,7 @@
    "pv": "https://www.youtube.com/watch?v=FYJUo8FDUT4",
    "site": "https://www.marriagetoxin-anime.com/",
    "x": "marritoxi_PR",
-   "w": 14926
+   "w": 14993
   },
   {
    "t": "描くなるうえは",
@@ -1931,7 +1931,7 @@
    "pv": "https://www.youtube.com/watch?v=u05QQa7wun4",
    "site": "https://kakunaru-anime.com/",
    "x": "kakunaru_anime",
-   "w": 14112
+   "w": 14175
   },
   {
    "t": "地雷なんですか？地原さん",
@@ -1943,7 +1943,7 @@
    "pv": "https://www.youtube.com/watch?v=9MXzPz2cOYk",
    "site": "https://chiharasan-anime.com/",
    "x": "chihara_anime",
-   "w": 11692
+   "w": 11765
   },
   {
    "t": "異世界でチート能力を手にした俺は、現実世界をも無双する ～レベルアップは人生を変えた～ 2nd Season",
@@ -1955,7 +1955,7 @@
    "pv": "https://www.youtube.com/watch?v=twGVFfRI-7s",
    "site": "https://www.iseleve.com/",
    "x": "iseleve_anime",
-   "w": 11381
+   "w": 11447
   },
   {
    "t": "ふつつかな悪女ではございますが ～雛宮蝶鼠とりかえ伝～ 第二幕",
@@ -1967,7 +1967,7 @@
    "pv": "https://www.youtube.com/watch?v=jJKK3qoVlCI",
    "site": "https://futsutsuka.net/",
    "x": "futsutsuka_PR",
-   "w": 10428
+   "w": 10474
   },
   {
    "t": "黒岩メダカに私の可愛いが通じない 第2期",
@@ -1979,7 +1979,7 @@
    "pv": "https://www.youtube.com/watch?v=OOHTPQCmfYA",
    "site": "https://monaxmedaka.com/",
    "x": "monaxmedaka",
-   "w": 9868
+   "w": 9887
   },
   {
    "t": "死して生きるSSS級ハンター",
@@ -1987,11 +1987,11 @@
    "tm": "",
    "st": "",
    "s": "2027-01-01",
-   "r": 70,
+   "r": 69,
    "pv": "https://www.youtube.com/watch?v=C6ecZk2mHqA",
    "site": "https://sss-revival.com/",
    "x": "SSShunter_anime",
-   "w": 8033
+   "w": 8098
   },
   {
    "t": "あかね噺 第2期",
@@ -2003,7 +2003,7 @@
    "pv": "https://www.youtube.com/watch?v=tkTiGj-Czio",
    "site": "https://akane-banashi.com/",
    "x": "akanebanashi_PR",
-   "w": 7572
+   "w": 7588
   },
   {
    "t": "姫騎士様のヒモ",
@@ -2011,11 +2011,11 @@
    "tm": "",
    "st": "",
    "s": "2027-01-01",
-   "r": 76,
+   "r": 77,
    "pv": "https://www.youtube.com/watch?v=yavypPvVcnw",
    "site": "https://himehimo.jp/",
    "x": "himehimo0410",
-   "w": 7165
+   "w": 7216
   },
   {
    "t": "ひらやすみ",
@@ -2027,7 +2027,7 @@
    "pv": "https://www.youtube.com/watch?v=ZoVtjJsdyB4",
    "site": "https://hirayasumi-anime.jp/",
    "x": "hirayasumi0426",
-   "w": 6938
+   "w": 6965
   },
   {
    "t": "ブレス",
@@ -2039,7 +2039,7 @@
    "pv": "https://www.youtube.com/watch?v=ECI_iIX7LU0",
    "site": "https://bless-anime.com/",
    "x": "bless_anime",
-   "w": 6272
+   "w": 6309
   },
   {
    "t": "ヒストリエ",
@@ -2051,7 +2051,7 @@
    "pv": "https://www.youtube.com/watch?v=GM1Y206Unwg",
    "site": "https://www.historie.info/",
    "x": "historie_off",
-   "w": 6251
+   "w": 6284
   },
   {
    "t": "デモンズ・クレスト",
@@ -2063,7 +2063,7 @@
    "pv": "https://www.youtube.com/watch?v=z_aHrTag3Ig",
    "site": "https://demonscrest-anime.com/",
    "x": "demonscrestPR",
-   "w": 5970
+   "w": 6006
   },
   {
    "t": "魔入りました！入間くん if Episode of 魔フィア",
@@ -2075,7 +2075,7 @@
    "pv": "",
    "site": "https://www.nhk-character.com/chara/irumafia/",
    "x": "nep_irumafia",
-   "w": 5477
+   "w": 5504
   },
   {
    "t": "結界師の一輪華",
@@ -2087,7 +2087,7 @@
    "pv": "https://www.youtube.com/watch?v=QCC-PqpQCCo",
    "site": "https://kekkaishi-ichirinka-anime.com/",
    "x": "ichirinka_anime",
-   "w": 5420
+   "w": 5441
   },
   {
    "t": "一式さんは恋を知りたい。",
@@ -2099,7 +2099,7 @@
    "pv": "https://www.youtube.com/watch?v=A86REZ-veV8",
    "site": "https://isshikisan-anime.com/",
    "x": "isshikisan_pr",
-   "w": 5182
+   "w": 5271
   },
   {
    "t": "BanG Dream! MyGO!!!!! // Ave Mujica",
@@ -2111,7 +2111,7 @@
    "pv": "https://www.youtube.com/watch?v=RL0kTGdR_4M",
    "site": "https://anime.bang-dream.com/mygo-avemujica/",
    "x": "bang_dream_info",
-   "w": 5057
+   "w": 5067
   },
   {
    "t": "ザ・ファブル 第2期",
@@ -2123,7 +2123,7 @@
    "pv": "",
    "site": "https://www.vap.co.jp/the-fable-anime/",
    "x": "the_fable_anime",
-   "w": 4611
+   "w": 4634
   },
   {
    "t": "ムルシエラゴ",
@@ -2135,7 +2135,7 @@
    "pv": "https://www.youtube.com/watch?v=7VHLNvvxWfQ",
    "site": "https://murcielago-anime.com/",
    "x": "murcielago_anm",
-   "w": 4117
+   "w": 4150
   },
   {
    "t": "雑用付与術師が自分の最強に気付くまで",
@@ -2147,7 +2147,7 @@
    "pv": "https://www.youtube.com/watch?v=yqvAv5li9Pw",
    "site": "https://zatsuyofuyo-pr.com/",
    "x": "zatsuyofuyo_pr",
-   "w": 4022
+   "w": 4043
   },
   {
    "t": "電撃デイジー",
@@ -2159,7 +2159,7 @@
    "pv": "https://www.youtube.com/watch?v=9wIJGKQKqZY",
    "site": "https://dengeki-daisy.com/",
    "x": "daisy_anime_pr",
-   "w": 3652
+   "w": 3666
   },
   {
    "t": "ゾンビのあふれた世界で俺だけが襲われない",
@@ -2183,7 +2183,7 @@
    "pv": "https://www.youtube.com/watch?v=swAIVfYAZDQ",
    "site": "https://tenseielf.asmik-ace.co.jp/",
    "x": "tenseielf",
-   "w": 3355
+   "w": 3376
   },
   {
    "t": "サイバーパンク: エッジランナーズ2",
@@ -2195,7 +2195,7 @@
    "pv": "https://www.youtube.com/watch?v=AtJMSUpG9GQ",
    "site": "https://www.cyberpunk.net/ja/edgerunners2",
    "x": "edgerunners",
-   "w": 112881
+   "w": 114005
   }
  ]
 }
