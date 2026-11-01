@@ -307,6 +307,7 @@ nav.tabs .cnt{font-size:12px;opacity:.75;margin-left:3px}
   .bsheet-in{position:absolute;left:8px;right:8px;bottom:calc(var(--bnav) + 8px);background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
   .bsheet-in button{border:0;background:none;display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;font-weight:600;color:var(--ink);text-align:left}
   .bsheet-in button .ic{font-size:20px;color:var(--muted)}
+  .bsheet-in a.blink{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;font-weight:600;color:var(--ink);text-decoration:none} .bsheet-in a.blink .ic{font-size:20px;color:var(--muted)}
   .bsheet-in button[aria-current="page"]{background:color-mix(in srgb,var(--pink) 16%,transparent)}
   .bsheet-in button[aria-current="page"] .ic{color:var(--pink)}
 }
@@ -704,6 +705,8 @@ textarea{min-height:110px;resize:vertical}
     <div class="panel">
       <h2>구독 · 출처 상태</h2>
       <p class="help">새 소식과 주간 요약을 RSS로 받을 수 있어요: <a href="data/feed.xml" target="_blank" rel="noopener" id="rssLink">RSS 피드</a> <button type="button" class="btn ghost" id="rssCopy">주소 복사</button><br>RSS 앱(Feedly, Inoreader 등)이나 디스코드의 RSS 봇에 이 주소를 넣으면 갱신될 때마다 알려 줘요.</p>
+      <h3 class="sub-h">티켓 트래커</h3>
+      <p class="help">공연 티켓의 FC 선행 → 일반 → 리세일 단계마다 친구들이 응모·당첨·결제 상태를 적는 표예요. 기한은 개인 달력으로 구독해 알림을 받아요. <a class="btn" href="tickets/">티켓 트래커 열기</a></p>
       <h3 class="sub-h">달력 구독</h3>
       <p class="help">구독해 두면 새 행사·판매 시작·마감이 갱신될 때마다(하루 4번) 달력에 저절로 들어와요. 한 번 받는 '달력에 추가'와 달리 날짜가 바뀌어도 따라가요.</p>
       <div class="calsubs" id="calSubs"></div>
@@ -753,6 +756,7 @@ textarea{min-height:110px;resize:vertical}
   <button type="button" data-tab="comics"><i data-ic="books"></i>만갤</button>
   <button type="button" data-tab="about"><i data-ic="info"></i>사이트 개요</button>
   <button type="button" data-tab="tip"><i data-ic="link"></i>소식 제보</button>
+  <a href="tickets/" class="blink"><i data-ic="ticket"></i>티켓 트래커</a><!-- 별도 페이지(tickets/, 2026-11): 친구들과 공연 티켓 응모·당첨·결제 단계를 적는 표 -->
   <button type="button" class="bver" id="bVer" data-vergo></button>
 </div></div>
 <div class="mochi" id="mochi" hidden>
@@ -1013,6 +1017,7 @@ function rowHtml(it,ev,cls=""){
       <button type="button" class="lnk" data-share="${esc(it.id)}" title="이 소식으로 바로 가는 링크">공유</button>
       <button type="button" class="lnk like" data-like="${esc(it.id)}" aria-pressed="${liked.has(it.id)}">${ic("heart")} ${liked.has(it.id)?"관심 ✓":"관심"}</button>
       ${icsEvents(it).length?`<button type="button" class="lnk" data-ics="${esc(it.id)}" title="휴대폰·구글 캘린더에 넣을 .ics 파일을 받아요">${ic("cal")} 달력에 추가</button>`:""}
+      ${(it.phases.length||it.ticketOpen||it.deadline)&&["live","official","event","doujin"].includes(it.category)&&notOver({it})?`<a class="lnk" href="tickets/#add=${esc(it.id)}" title="친구들과 응모·당첨·결제 상태를 적는 티켓 트래커로">${ic("ticket")} 티켓 추적</a>`:""}
     </div></div></article>`;
 }
 function render(){
@@ -2494,7 +2499,7 @@ routeHash(); // 주소가 #work=이름 이면 그 작품 허브부터(데이터�
 // CHANGES 맨 앞에 [버전, 날짜, [보는 사람에게 달라진 점]] 을 더하면 사이트 개요 '업데이트 내역'과 '보드 업데이트' 띠에 나온다
 const BOARD_VER="2.5.0";
 const CHANGES=[
-  ["2.5.0","2026-11-01",["릴리 일기: 피드 오늘 카드 아래, 하루 4번 수집할 때마다 릴리가 그날 소식을 몇 줄로 정리해요","장소 허브: 카드의 장소 이름이나 지도의 점을 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에","작품 화면의 [한 달 일정 한 장]: 앞으로 35일 달력과 일정을 한 장 그림으로 저장·공유","월말에 끝난 내 작품·관심 소식을 돌아보는 '놓친 소식' 칸","같은 전시를 여러 명이 제보하면 하나로 묶고, 끝난 제보는 정리해요","주간 요약이 월요일 아침마다 자동으로 발행돼요(배경 설명 포함)"]],
+  ["2.5.0","2026-11-01",["릴리 일기: 피드 오늘 카드 아래, 하루 4번 수집할 때마다 릴리가 그날 소식을 몇 줄로 정리해요","장소 허브: 카드의 장소 이름이나 지도의 점을 누르면 그 장소의 소식·근처 성지·근처 행사를 한 화면에","작품 화면의 [한 달 일정 한 장]: 앞으로 35일 달력과 일정을 한 장 그림으로 저장·공유","월말에 끝난 내 작품·관심 소식을 돌아보는 '놓친 소식' 칸","같은 전시를 여러 명이 제보하면 하나로 묶고, 끝난 제보는 정리해요","주간 요약이 월요일 아침마다 자동으로 발행돼요(배경 설명 포함)","티켓 트래커(더보기 → 티켓 트래커): 공연 티켓의 선행·일반·리세일 단계마다 친구들이 응모·당첨·결제 상태를 적고, 기한을 달력으로 구독해 알림을 받아요"]],
   ["2.4.0","2026-11-01",["비주얼 노벨 테스트판에 장면 음악 8곡·새 그림·표정(사이트 개요 맨 아래 '테스트 중')","소식 제보: X 글의 전시 기간·장소·제목을 더 정확히 읽어요","안드로이드 앱 1.0.11"]],
   ["2.3.0","2026-10-31",["소식 제보: 「제보」 탭에 X 글이나 행사 페이지 주소를 넣으면 보드에 올라가요","폰 화면 아래 탭 막대(피드·캘린더·작품·게임·더보기)","안드로이드 앱 설치 파일(카톡용 zip)·앱 새 버전 알림·X 앱에서 공유로 바로 제보","제목 옆 릴리를 누르면 반응해요(연타 금지!)","미리 발표된 행사가 열리기 전에 보드에서 빠지지 않게","원화전·색지전 보도자료를 일본 뉴스 검색에서도 모아요","보드·앱 버전과 업데이트 내역 표시"]],
   ["1.x","2026-10-19~30",["게임 탭(弾幕·Holo Mobile·まとめラン·ペンライト·도쿄 원정)과 업적·칭호","작품 허브·X 화제·성지순례 지도·만갤","오늘 카드·그림으로 보기·스와이프로 고르기·응원 알림","여행 플래너·주말 한 장·기간 행사·콜라보 카페","홈 화면 앱(PWA)·달력 구독·RSS"]],

@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 bad, n = 0, 0
 with tempfile.TemporaryDirectory() as tmp:
     jobs = []
-    for f in ("index.html", "games/merge.html", "games/idle.html", "games/penlight.html", "games/ensei.html", "games/vn.html"):
+    for f in ("index.html", "games/merge.html", "games/idle.html", "games/penlight.html", "games/ensei.html", "games/vn.html", "tickets/index.html"):
         page = open(os.path.join(ROOT, f), encoding="utf-8").read()
         for i, m in enumerate(re.finditer(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", page, re.S)):
             line = page[:m.start(1)].count("\n") + 1

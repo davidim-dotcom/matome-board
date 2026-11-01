@@ -47,6 +47,9 @@ jobs:
       - name: 페이지 스크립트 문법(node --check)
         run: python tests/jscheck.py
 
+      - name: 티켓 트래커 백엔드(bbs/Code.gs 의 tk API, 가짜 Apps Script)
+        run: node tests/tkcheck.js
+
       # 실제 브라우저(폰 크기 2종)로 페이지를 열어 탭마다 스크립트 오류·화면 가로 넘침·빈 화면을 본다
       - name: 브라우저 설치(playwright chromium, 캐시)
         id: pwcache

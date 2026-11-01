@@ -35,7 +35,7 @@ function book_() {
 
 function setup() {
   const ss = book_();
-  sheet_(); scoreSheet_();
+  sheet_(); scoreSheet_(); tkShowSheet_(); tkEntrySheet_();
   migrate_(true);
   Logger.log('스프레드시트: ' + ss.getUrl());
 }
@@ -72,6 +72,8 @@ function get_(e) {
   const p = (e && e.parameter) || {};
   if (p.scores) return out_({ scores: topScores_(Math.min(Number(p.limit || 30) || 30, SCORE_TOP), p.game, p.skin) });
   if (p.tips) return out_({ tips: tips_() });
+  if (p.tk === 'ics') return tkIcs_(p.tok);  // 티켓 트래커 개인 달력(구독용)
+  if (p.tk) return out_(tkAll_());            // 티켓 트래커 공연·기록 전부
   const sh = sheet_();
   const n = Math.min(Number((e && e.parameter && e.parameter.limit) || PAGE), 500);
   const last = sh.getLastRow();
@@ -86,6 +88,8 @@ function post_(e) {
   try { d = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (err) {}
   if (d.type === 'score') return addScore_(d);
   if (d.type === 'tip') return addTip_(d);
+  if (d.type === 'tk_show') return tkShow_(d.show || {});
+  if (d.type === 'tk_entry') return tkEntry_(d.entry || {});
   const name = String(d.name || '익명').trim().slice(0, MAX_NAME) || '익명';
   const text = String(d.text || '').trim().slice(0, MAX_TEXT);
   if (!text) return out_({ ok: false, error: 'empty' });
@@ -147,6 +151,87 @@ function tips_() {
   return sh.getRange(last - k + 1, 1, k, 4).getValues()
     .filter(r => String(r[3] || '').trim().toLowerCase() !== 'no' && new Date(r[0]).getTime() > since && String(r[1] || ''))
     .reverse().map(r => ({ at: fmt_(r[0]), url: String(r[1]), note: String(r[2] || '') }));
+}
+
+// ---- 티켓 트래커(tickets/, 2026-11) ----
+// 공연(tk_shows)과 친구별 응모 기록(tk_entries). 두 시트 다 행을 '추가만' 하고(게시판과 같은 방식) 같은 id 의 마지막 행이 지금 값이다(지우기도 del 행 추가).
+// 기록 id = 공연id.단계번호.key, key = sha1(그 브라우저의 토큰)[:8]. 토큰은 시트에만 두고 GET 으로는 key 만 내보내 남의 칸을 못 고친다.
+// GET ?tk=1 → {shows:[…], entries:[…]}(공연 날짜가 150일 넘게 지난 것은 뺌)  /  GET ?tk=ics&tok=… → 그 토큰의 기한 달력(ics, 구독용)
+// POST {type:'tk_show', show:{id,title,date,venue,url,boardId,phases:[{n,kind,s,e,r,p,site,url}],by,del}}  — 공연은 친구 누구나 고친다
+// POST {type:'tk_entry', entry:{showId,phase,tok,who,st,n,area,note,del}}   — 자기 토큰의 칸만
+const TK_SHOWS = 'tk_shows', TK_ENTRIES = 'tk_entries', TK_SCAN = 4000, TK_DAYS = 150, TK_PH = 8;
+const TK_KIND = ['lottery', 'first', 'general', 'resale'], TK_ST = ['plan', 'applied', 'won', 'lost', 'paid', 'want', 'give', 'drop'];
+function tkShowSheet_() { return sheet_(TK_SHOWS, ['시각', '공연 id', '제목', 'JSON']); }
+function tkEntrySheet_() { return sheet_(TK_ENTRIES, ['시각', '기록 id', '공연 id', '이름', '토큰', 'JSON']); }
+function tkKey_(tok) {
+  const b = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_1, String(tok || ''), Utilities.Charset.UTF_8);
+  return b.slice(0, 4).map(x => ('0' + ((x + 256) % 256).toString(16)).slice(-2)).join('');
+}
+const tkStr_ = (v, n) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, n);
+const tkDate_ = v => /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2})?$/.test(String(v || '')) ? String(v) : '';
+const tkUrl_ = v => /^https?:\/\/\S{1,300}$/.test(String(v || '')) ? String(v) : '';
+function tkPhase_(p) {
+  if (!p || typeof p !== 'object') return null;
+  const n = tkStr_(p.n, 30); if (!n) return null;
+  return { n, kind: TK_KIND.includes(p.kind) ? p.kind : 'lottery', s: tkDate_(p.s), e: tkDate_(p.e), r: tkDate_(p.r), p: tkDate_(p.p), site: tkStr_(p.site, 20), url: tkUrl_(p.url) };
+}
+function tkShow_(x) {
+  const id = tkStr_(x.id, 24); if (!/^[\w-]{4,24}$/.test(id)) return out_({ ok: false, error: 'id' });
+  const show = { id, title: tkStr_(x.title, 120), date: tkDate_(x.date), end: tkDate_(x.end), venue: tkStr_(x.venue, 80), url: tkUrl_(x.url), boardId: tkStr_(x.boardId, 20),
+    phases: (Array.isArray(x.phases) ? x.phases : []).map(tkPhase_).filter(Boolean).slice(0, TK_PH), by: tkStr_(x.by, 12), del: x.del === true, at: fmt_(new Date()) };
+  if (!show.title && !show.del) return out_({ ok: false, error: 'title' });
+  const lock = LockService.getScriptLock(); lock.waitLock(5000);
+  try { tkShowSheet_().appendRow([new Date(), id, noFormula_(show.title), JSON.stringify(show)]); } finally { lock.releaseLock(); }
+  return out_({ ok: true, show });
+}
+function tkEntry_(x) {
+  const showId = tkStr_(x.showId, 24), tok = tkStr_(x.tok, 48), phase = Math.floor(Number(x.phase));
+  if (!/^[\w-]{4,24}$/.test(showId)) return out_({ ok: false, error: 'showId' });
+  if (tok.length < 8) return out_({ ok: false, error: 'tok' });
+  if (!(phase >= 0 && phase < TK_PH)) return out_({ ok: false, error: 'phase' });
+  const key = tkKey_(tok), id = showId + '.' + phase + '.' + key;
+  const e = { id, showId, phase, key, who: tkStr_(x.who, 12) || '익명', st: TK_ST.includes(x.st) ? x.st : 'plan', n: Math.max(1, Math.min(8, Math.floor(Number(x.n)) || 1)),
+    area: tkStr_(x.area, 16), note: tkStr_(x.note, 80), del: x.del === true, at: fmt_(new Date()) };
+  const lock = LockService.getScriptLock(); lock.waitLock(5000);
+  try { tkEntrySheet_().appendRow([new Date(), id, showId, noFormula_(e.who), tok, JSON.stringify(e)]); } finally { lock.releaseLock(); }
+  return out_({ ok: true, entry: e });
+}
+function tkRows_(sh, col) { // 최근 TK_SCAN 행을 읽어 같은 id 의 마지막 행만
+  const last = sh.getLastRow(); if (last < 2) return [];
+  const k = Math.min(TK_SCAN, last - 1), m = {};
+  sh.getRange(last - k + 1, 1, k, col).getValues().forEach(r => { try { const o = JSON.parse(r[col - 1]); if (o && o.id) m[o.id] = o; } catch (err) {} });
+  return Object.values(m);
+}
+function tkAll_() {
+  const since = Date.now() - TK_DAYS * 864e5;
+  const shows = tkRows_(tkShowSheet_(), 4).filter(s => !s.del && (!s.date || new Date((s.end || s.date) + (s.date.length > 10 ? '' : 'T23:59') + '+09:00').getTime() > since));
+  const ids = new Set(shows.map(s => s.id));
+  const entries = tkRows_(tkEntrySheet_(), 6).filter(e => !e.del && ids.has(e.showId)).map(e => ({ id: e.id, showId: e.showId, phase: e.phase, key: e.key, who: e.who, st: e.st, n: e.n, area: e.area, note: e.note, at: e.at }));
+  return { shows, entries, at: fmt_(new Date()) };
+}
+// 개인 달력: 그 토큰의 기록이 있는 단계의 접수 마감·결과 발표·결제 기한·리세일 오픈을 일정으로(1시간 전·하루 전 알림). 폰 달력에 구독하면 알림이 온다.
+function tkIcs_(tok) {
+  const key = tkKey_(String(tok || '')), all = tkAll_(), byId = {}; all.shows.forEach(s => byId[s.id] = s);
+  const esc = t => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+  const ts = v => { const d = new Date(v + (v.length > 10 ? '' : 'T00:00') + '+09:00'); return Utilities.formatDate(d, 'UTC', "yyyyMMdd'T'HHmmss'Z'"); };
+  const stKo = { plan: '예정', applied: '응모함', won: '당첨', lost: '낙선', paid: '결제 완료', want: '양도 구함', give: '양도 가능', drop: '포기' };
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//matome-board//tickets//KO', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:마토메 티켓 기한', 'X-WR-TIMEZONE:Asia/Tokyo', 'REFRESH-INTERVAL;VALUE=DURATION:PT3H'];
+  all.entries.filter(e => e.key === key && !['lost', 'drop'].includes(e.st)).forEach(e => {
+    const s = byId[e.showId], ph = s && s.phases[e.phase]; if (!ph) return;
+    const evs = [];
+    if (ph.e && ['plan', 'applied', 'want', 'give'].includes(e.st)) evs.push(['e', ph.e, '접수 마감']);
+    if (ph.s && ['plan', 'want', 'give'].includes(e.st)) evs.push(['s', ph.s, ph.kind === 'resale' ? '리세일 오픈' : '접수 시작']);
+    if (ph.r && ['applied', 'plan'].includes(e.st)) evs.push(['r', ph.r, '결과 발표']);
+    if (ph.p && ['won', 'applied'].includes(e.st)) evs.push(['p', ph.p, '결제 기한']);
+    evs.forEach(([k, v, lab]) => {
+      L.push('BEGIN:VEVENT', 'UID:' + e.id + '-' + k + '@matome-tickets', 'DTSTAMP:' + ts(all.at.replace(' ', 'T')), 'DTSTART:' + ts(v),
+        'SUMMARY:' + esc('[' + lab + '] ' + s.title + ' · ' + ph.n), 'DESCRIPTION:' + esc('내 상태: ' + (stKo[e.st] || e.st) + (e.n ? ' · ' + e.n + '매' : '') + (ph.url ? '\n' + ph.url : '')),
+        'BEGIN:VALARM', 'ACTION:DISPLAY', 'TRIGGER:-PT1H', 'DESCRIPTION:' + esc(lab + ' 1시간 전'), 'END:VALARM',
+        'BEGIN:VALARM', 'ACTION:DISPLAY', 'TRIGGER:-P1D', 'DESCRIPTION:' + esc(lab + ' 하루 전'), 'END:VALARM', 'END:VEVENT');
+    });
+  });
+  L.push('END:VCALENDAR');
+  return ContentService.createTextOutput(L.join('\r\n') + '\r\n').setMimeType(ContentService.MimeType.ICAL);
 }
 
 // = + - @ 로 시작하는 글자는 시트가 수식으로 읽으므로 ' 를 붙여 글자로 둔다(읽을 때는 ' 없이 나온다)
