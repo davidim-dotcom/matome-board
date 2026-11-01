@@ -140,7 +140,7 @@ README.md는 운영자(사람)용 설명이고, 이 문서는 코드를 고치�
 
 ### 페이지 (`index.html`)
 
-- 로드 순서: localStorage 복원 → 렌더 → `data/` 7개 파일 병렬 fetch(`works.json` 포함. 만갤·주간 요약·`trends.json`은 탭·허브를 열 때)(10분 단위 캐시 버스터, `cache:"no-store"`) → 다시 렌더.
+- 로드 순서: localStorage 복원 → 렌더 → `data/` 8개 파일 병렬 fetch(`works.json`·`diary.json` 포함. 만갤·주간 요약·`trends.json`은 탭·허브를 열 때)(10분 단위 캐시 버스터, `cache:"no-store"`) → 다시 렌더. `getJSON`은 실패(네트워크·404·5xx)하면 1.2초 뒤 한 번 더 받고, `items.json`을 끝내 못 받으면 `loadErr`로 피드 위에 '다시 시도' 띠(`data-reload` → `initStore` 다시)를 띄운다(2026-11-01 운영자 폰에서 배포 직후 빈 화면 보고. `sw.js`의 `networkFirst`도 404·5xx 면 받아 둔 파일을 쓴다). 첫 데이터 전에는 '불러오는 중…'(`loading`).
 - `normalize()`가 모든 입력 필드를 화이트리스트·길이 제한·`safeUrl()`로 걸러 들어온다. 새 필드를 쓰려면 여기 반드시 추가.
 - 출력은 전부 `esc()`를 거친다. 템플릿 문자열에 데이터 넣을 때 `esc()` 빠뜨리지 말 것(XSS).
 - 개인 설정은 없다(공개 보드). 브라우저에 남는 것은 '보는 중' 목록(localStorage `matome-public-v1`에 `{S:{watching:[]}}`, 예전 구조의 `S.watching`만 읽어 호환)과 '내 작품'(`matome-follow`)·지난 방문 시각(`matome-visit`)뿐이다(아래 피드 검색·내 작품·새 소식). 소식을 빼려면 `data/blocklist.json`을 쓴다. 예전의 관심 있어요/끄기/학습 기능은 2026-10에 제거했다.
