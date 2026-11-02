@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/2 기준)",
+ "src": "AniList 방영 정보 (11/3 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 764872
+   "w": 765579
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81118
+   "w": 81174
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 53993
+   "w": 54157
   },
   {
    "t": "アオのハコ Season２",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26339
+   "w": 26404
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -290,7 +290,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24921
+   "w": 24935
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -398,7 +398,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20323
+   "w": 20334
   },
   {
    "t": "信者ゼロの女神サマと始める異世界攻略",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14863,
+   "w": 14861,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12620
+   "w": 12636
   },
   {
    "t": "天は赤い河のほとり",
@@ -652,7 +652,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8046
+   "w": 8057
   },
   {
    "t": "幻想水滸伝",
@@ -676,7 +676,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7487
+   "w": 7497
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -772,7 +772,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4888
+   "w": 4887
   },
   {
    "t": "バーテックスフォース",
@@ -917,7 +917,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2562
+   "w": 2566
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -977,7 +977,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1904
+   "w": 1905
   },
   {
    "t": "お姉ちゃんごっこ",
@@ -1061,7 +1061,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1442
+   "w": 1443
   },
   {
    "t": "ニンジャラ",
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1055
+   "w": 1058
   },
   {
    "t": "mofusand",
