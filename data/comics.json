@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-02T12:54:08.484236+09:00",
+ "updated": "2026-11-02T18:59:09.246904+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1136,13 +1136,18 @@
      "no": 6843808,
      "title": "번역) 호리데이 야스미 트위터 모음 241",
      "date": "2026-10-28T12:44"
+    },
+    {
+     "no": 6914619,
+     "title": "번역) 호리데이 야스미 트위터 모음 242",
+     "date": "2026-11-02T15:41"
     }
    ],
    "rec": 251,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bfe67dc9c3456a92465b7fb8f70eeda825fd6677d62742eabe0825df3ef97eb01d1d309ff574b981c40e3fd762e9992c13a1192705a6ad2b",
-   "seenTo": 6912587,
-   "coverNo": "comic_new6/6843808",
-   "updatedAt": "2026-10-28T12:44"
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc3c34570c5e9d02a00f663a9f5965d0f40db6d91e77f132ab36c696ed33a76774e46b3724f2b5ace6969efa64b1da06e6cd9386198",
+   "seenTo": 6914796,
+   "coverNo": "comic_new6/6914619",
+   "updatedAt": "2026-11-02T15:41"
   },
   {
    "id": "나니와금융도|",
@@ -1466,16 +1471,21 @@
      "no": 6912871,
      "title": "번역) 나니와 금융도 69화",
      "date": "2026-11-02T12:53"
+    },
+    {
+     "no": 6913240,
+     "title": "번역) 나니와 금융도 70화",
+     "date": "2026-11-02T13:31"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc3c34570c5e9d02a00f663a9f596520f4fd96d718ebe484c540a0e54038410daa93933b1484c4b",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc3c34570c5e9d02a00f663a9f593530c41d96f478056c25ad7a4718a5b392f333d08538c8a2a163386c891cb3b7774a6af0335d004fd12f86c674578f8cd91a37a33ac4ac006712cfe4ba639",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6912587,
-   "coverNo": "comic_new6/6912871",
-   "updatedAt": "2026-11-02T12:53"
+   "seenTo": 6914796,
+   "coverNo": "comic_new6/6913240",
+   "updatedAt": "2026-11-02T13:31"
   },
   {
    "id": "닌자슬레이어|",
@@ -5112,7 +5122,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-02T12:55",
+   "updatedAt": "2026-11-02T19:00",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6748,7 +6758,9 @@
   6901058,
   6906307,
   6908033,
-  6912270
+  6912270,
+  6913767,
+  6914619
  ],
  "bad": [
   "comic_new6/6742384"
