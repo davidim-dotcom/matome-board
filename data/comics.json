@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-05T12:57:54.168055+09:00",
+ "updated": "2026-11-05T19:02:31.907705+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1145,7 +1145,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc3c34570c5e9d02a00f663a9f5965d0f40db6d91e77f132ab36c696ed33a76774e46b3724f2b5ace6969efa64b1da06e6cd9386198",
-   "seenTo": 6953150,
+   "seenTo": 6955235,
    "coverNo": "comic_new6/6914619",
    "updatedAt": "2026-11-02T15:41"
   },
@@ -1530,16 +1530,31 @@
      "no": 6953463,
      "title": "번역) 나니와 금융도 81화",
      "date": "2026-11-05T12:24"
+    },
+    {
+     "no": 6954042,
+     "title": "번역) 나니와 금융도 81화",
+     "date": "2026-11-05T13:26"
+    },
+    {
+     "no": 6954659,
+     "title": "번역) 나니와 금융도 82화",
+     "date": "2026-11-05T14:34"
+    },
+    {
+     "no": 6954864,
+     "title": "번역) 나니와 금융도 83화",
+     "date": "2026-11-05T14:55"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc4c345056aad137958f7c067a27dbd21972b9d84066487549e14f15fa544de41547c0a9b8fbe4081e2ead6b589",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e747b84545038ee4a9dc479597dd76c3176f7f8525d5bd0029fa199649a3fb205ad189dccd2e3b3c8c94b616d82e7e9d6883d50",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6953150,
-   "coverNo": "comic_new6/6953463",
-   "updatedAt": "2026-11-05T12:24"
+   "seenTo": 6955235,
+   "coverNo": "comic_new6/6954864",
+   "updatedAt": "2026-11-05T14:55"
   },
   {
    "id": "닌자슬레이어|",
@@ -5176,7 +5191,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-05T12:59",
+   "updatedAt": "2026-11-05T19:03",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6823,7 +6838,9 @@
   6939201,
   6940372,
   6949066,
-  6953150
+  6953150,
+  6954042,
+  6954659
  ],
  "bad": [
   "comic_new6/6742384"
