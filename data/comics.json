@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-06T18:59:11.829716+09:00",
+ "updated": "2026-11-07T00:50:26.839900+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1145,7 +1145,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe782fa11d02831b9aa83954b71cedd5ba5bee67fc3c34570c5e9d02a00f663a9f5965d0f40db6d91e77f132ab36c696ed33a76774e46b3724f2b5ace6969efa64b1da06e6cd9386198",
-   "seenTo": 6968516,
+   "seenTo": 6973330,
    "coverNo": "comic_new6/6914619",
    "updatedAt": "2026-11-02T15:41"
   },
@@ -1582,7 +1582,7 @@
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6968516,
+   "seenTo": 6973330,
    "coverNo": "comic_new6/6970787",
    "updatedAt": "2026-11-06T18:13"
   },
@@ -6873,9 +6873,11 @@
   6954659,
   6963005,
   6966201,
-  6968383
+  6968383,
+  6972242
  ],
  "bad": [
-  "comic_new6/6742384"
+  "comic_new6/6742384",
+  "comic_new6/6972242"
  ]
 }
