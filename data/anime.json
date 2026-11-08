@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/8 기준)",
+ "src": "AniList 방영 정보 (11/9 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 767285
+   "w": 767664
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81303
+   "w": 81355
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 75564
+   "w": 75788
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 55175
+   "w": 55311
   },
   {
    "t": "ホタルの嫁入り",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 38932
+   "w": 39168
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -182,7 +182,7 @@
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 34652
+   "w": 34787
   },
   {
    "t": "ドラゴンボール超 ビルス",
@@ -278,19 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26758
-  },
-  {
-   "t": "貸した魔力は【リボ払い】で強制徴収",
-   "d": 6,
-   "tm": "25:30",
-   "st": "テレビ朝日系ほか",
-   "s": "2026-10-04",
-   "r": 31,
-   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
-   "site": "https://revo-anime.com",
-   "x": "revo_anime",
-   "w": 25599
+   "w": 26816
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -298,11 +286,23 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 32,
+   "r": 31,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 25364
+   "w": 25781
+  },
+  {
+   "t": "貸した魔力は【リボ払い】で強制徴収",
+   "d": 6,
+   "tm": "25:30",
+   "st": "テレビ朝日系ほか",
+   "s": "2026-10-04",
+   "r": 32,
+   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
+   "site": "https://revo-anime.com",
+   "x": "revo_anime",
+   "w": 25599
   },
   {
    "t": "ポケットモンスター (2023)",
@@ -314,7 +314,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 24991
+   "w": 25000
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -422,7 +422,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20376
+   "w": 20386
   },
   {
    "t": "転生した大聖女は、聖女であることをひた隠す",
@@ -449,29 +449,29 @@
    "w": 19045
   },
   {
-   "t": "らんま1/2 (2024) 第3期",
-   "d": 6,
-   "tm": "24:56",
-   "st": "",
-   "s": "2026-10-04",
-   "r": 46,
-   "pv": "https://www.youtube.com/watch?v=dbe8esPSfYI",
-   "site": "https://ranma-pr.com/",
-   "x": "ranma_pr",
-   "w": 18346
-  },
-  {
    "t": "ロメリア戦記 〜魔王を倒した後も人類やばそうだから軍隊組織した〜",
    "d": 7,
    "tm": "21:00",
    "st": "",
    "s": "2026-10-03",
-   "r": 47,
+   "r": 46,
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 18057,
+   "w": 18447,
    "rd": 6
+  },
+  {
+   "t": "らんま1/2 (2024) 第3期",
+   "d": 6,
+   "tm": "24:56",
+   "st": "",
+   "s": "2026-10-04",
+   "r": 47,
+   "pv": "https://www.youtube.com/watch?v=dbe8esPSfYI",
+   "site": "https://ranma-pr.com/",
+   "x": "ranma_pr",
+   "w": 18346
   },
   {
    "t": "朱色の仮面",
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 15947
+   "w": 16008
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14871,
+   "w": 14875,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12733
+   "w": 12754
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -588,11 +588,11 @@
    "tm": "23:46",
    "st": "",
    "s": "2026-10-07",
-   "r": 61,
+   "r": 60,
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 12222
+   "w": 12259
   },
   {
    "t": "天は赤い河のほとり",
@@ -664,7 +664,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8077
+   "w": 8088
   },
   {
    "t": "幻想水滸伝",
@@ -700,7 +700,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7632
+   "w": 7648
   },
   {
    "t": "超巡！超条先輩",
@@ -796,7 +796,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4917
+   "w": 4921
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -904,7 +904,7 @@
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 3167
+   "w": 3187
   },
   {
    "t": "うまゆるふるげ〜と!",
@@ -929,7 +929,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2567
+   "w": 2568
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -1073,7 +1073,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1443
+   "w": 1445
   },
   {
    "t": "ニンジャラ",
@@ -1109,7 +1109,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1316,
+   "w": 1317,
    "rd": 5
   },
   {
@@ -1159,7 +1159,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 813
+   "w": 814
   },
   {
    "t": "おじゃる丸",
@@ -1304,7 +1304,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 350
+   "w": 351
   },
   {
    "t": "Duel Masters LOST ～断罪の少年～",
@@ -1619,7 +1619,7 @@
    "pv": "https://www.youtube.com/watch?v=ASyVK4DQXVM",
    "site": "https://www.pref.kanagawa.jp/docs/ie2/animation/kanakanakazoku/kanakanakazoku.html",
    "x": "",
-   "w": 118
+   "w": 119
   },
   {
    "t": "チキップダンサーズ　第3期",
@@ -1859,7 +1859,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 42259
+   "w": 42400
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1895,7 +1895,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30687
+   "w": 30746
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -1976,7 +1976,7 @@
    "tm": "24:26",
    "st": "",
    "s": "2027-01-08",
-   "r": 60,
+   "r": 61,
    "pv": "https://www.youtube.com/watch?v=9MXzPz2cOYk",
    "site": "https://chiharasan-anime.com/",
    "x": "chihara_anime",
@@ -2208,7 +2208,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3569
+   "w": 3585
   },
   {
    "t": "魔術を極めて旅に出た転生エルフ、持て余した寿命で生ける伝説となる",
@@ -2268,7 +2268,7 @@
    "pv": "https://www.youtube.com/watch?v=hfrbzeG6v2I",
    "site": "",
    "x": "",
-   "w": 1208
+   "w": 1227
   }
  ]
 }

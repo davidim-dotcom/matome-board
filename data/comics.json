@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-08T18:43:44.915226+09:00",
+ "updated": "2026-11-09T00:34:15.591255+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1150,7 +1150,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e747984544596ca718616bd97443dded4eb4f145958fa0976951baa0f29528f1bc8b62ab195a76e8399756a5d5ea84ace580ec5ede255",
-   "seenTo": 6994981,
+   "seenTo": 6998518,
    "coverNo": "comic_new6/6976938",
    "updatedAt": "2026-11-07T10:15"
   },
@@ -1615,16 +1615,26 @@
      "no": 6993074,
      "title": "번역) 나니와 금융도 93화",
      "date": "2026-11-08T14:03"
+    },
+    {
+     "no": 6997411,
+     "title": "번역) 나니와 금융도 94화",
+     "date": "2026-11-08T20:35"
+    },
+    {
+     "no": 6998518,
+     "title": "번역) 나니와 금융도 95화(약간 카이지 느낌)",
+     "date": "2026-11-08T22:02"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e747684544d0412c1e75577b633515e24e784d49b7518bda88e889cad379c1087dca0b55089228d48",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e747684544d0412c1e75577b633515625e287d29ddef51de0783ed49c5085fde6ca63328fb1333ff7",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 6994981,
-   "coverNo": "comic_new6/6993074",
-   "updatedAt": "2026-11-08T14:03"
+   "seenTo": 6998518,
+   "coverNo": "comic_new6/6998518",
+   "updatedAt": "2026-11-08T22:02"
   },
   {
    "id": "닌자슬레이어|",
@@ -5261,7 +5271,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-08T18:44",
+   "updatedAt": "2026-11-09T00:35",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6921,7 +6931,9 @@
   6984865,
   6987360,
   6988032,
-  6993074
+  6993074,
+  6997411,
+  6998518
  ],
  "bad": [
   "comic_new6/6742384",
