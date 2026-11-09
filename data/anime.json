@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/9 기준)",
+ "src": "AniList 방영 정보 (11/10 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 767664
+   "w": 768018
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81355
+   "w": 81390
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 55311
+   "w": 55458
   },
   {
    "t": "ホタルの嫁入り",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26816
+   "w": 26878
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -314,7 +314,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 25000
+   "w": 25015
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -422,7 +422,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20386
+   "w": 20394
   },
   {
    "t": "転生した大聖女は、聖女であることをひた隠す",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14875,
+   "w": 14880,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12754
+   "w": 12779
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -664,7 +664,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8088
+   "w": 8092
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -700,7 +700,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7648
+   "w": 7662
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -796,7 +796,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4921
+   "w": 4933
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -929,7 +929,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2568
+   "w": 2569
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -1122,7 +1122,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1057
+   "w": 1058
   },
   {
    "t": "mofusand",
@@ -1159,7 +1159,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 814
+   "w": 816
   },
   {
    "t": "おじゃる丸",
@@ -1268,7 +1268,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 408
+   "w": 409
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
