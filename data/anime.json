@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/10 기준)",
+ "src": "AniList 방영 정보 (11/11 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 768018
+   "w": 768380
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81390
+   "w": 81417
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 55458
+   "w": 55559
   },
   {
    "t": "ホタルの嫁入り",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26878
+   "w": 26912
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -286,11 +286,11 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 31,
+   "r": 30,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 26082
+   "w": 26257
   },
   {
    "t": "貸した魔力は【リボ払い】で強制徴収",
@@ -314,7 +314,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 25015
+   "w": 25032
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -422,7 +422,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20394
+   "w": 20396
   },
   {
    "t": "転生した大聖女は、聖女であることをひた隠す",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14880,
+   "w": 14879,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12779
+   "w": 12798
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -632,7 +632,7 @@
   },
   {
    "t": "デモンズ・クレスト",
-   "d": 5,
+   "d": 7,
    "tm": "21:00",
    "st": "Amazon Prime Video",
    "s": "2026-11-06",
@@ -640,7 +640,8 @@
    "pv": "https://www.youtube.com/watch?v=z_aHrTag3Ig",
    "site": "https://demonscrest-anime.com/",
    "x": "demonscrestPR",
-   "w": 10000
+   "w": 10000,
+   "rd": 5
   },
   {
    "t": "TANK CHAIR-戦車椅子-",
@@ -664,7 +665,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8092
+   "w": 8093
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -700,7 +701,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7662
+   "w": 7722
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -796,7 +797,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4933
+   "w": 4942
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -929,7 +930,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2569
+   "w": 2570
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -1001,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1906
+   "w": 1908
   },
   {
    "t": "リラックマ",
@@ -1109,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1317,
+   "w": 1316,
    "rd": 5
   },
   {
@@ -1122,7 +1123,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1058
+   "w": 1059
   },
   {
    "t": "mofusand",
@@ -1207,7 +1208,7 @@
    "pv": "https://www.youtube.com/watch?v=KuKYxjVw3V4",
    "site": "",
    "x": "i_cn_official",
-   "w": 628
+   "w": 629
   },
   {
    "t": "パンどろぼう",
@@ -1329,7 +1330,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 351
+   "w": 352
   },
   {
    "t": "Duel Masters LOST ～断罪の少年～",
@@ -1619,7 +1620,7 @@
    "pv": "https://www.youtube.com/watch?v=ASyVK4DQXVM",
    "site": "https://www.pref.kanagawa.jp/docs/ie2/animation/kanakanakazoku/kanakanakazoku.html",
    "x": "",
-   "w": 119
+   "w": 118
   },
   {
    "t": "チキップダンサーズ　第3期",
@@ -1895,7 +1896,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 30822
+   "w": 30879
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -1915,7 +1916,7 @@
    "tm": "17:00",
    "st": "Netflix",
    "s": "2026-11-26",
-   "r": 30,
+   "r": 31,
    "pv": "https://www.youtube.com/watch?v=p15JWZsi3Ao",
    "site": "https://www.foolnight.com/",
    "x": "foolnight_anime",
