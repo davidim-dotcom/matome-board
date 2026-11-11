@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-12T00:49:05.609396+09:00",
+ "updated": "2026-11-12T07:04:57.473752+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1150,7 +1150,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e747984544596ca718616bd97443dded4eb4f145958fa0976951baa0f29528f1bc8b62ab195a76e8399756a5d5ea84ace580ec5ede255",
-   "seenTo": 7041673,
+   "seenTo": 7045321,
    "coverNo": "comic_new6/6976938",
    "updatedAt": "2026-11-07T10:15"
   },
@@ -1685,16 +1685,21 @@
      "no": 7029958,
      "title": "번역) 나니와 금융도 104화(절반은 댓링)",
      "date": "2026-11-11T01:31"
+    },
+    {
+     "no": 7044145,
+     "title": "번역) 나니와 금융도 107화(잘리면 마음속휴지통 챈으로)",
+     "date": "2026-11-12T02:04"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757f8454606e6ac1ee7faf2465e8007a0e590b3736846a231c32b76689c262993f912518a7c20fac",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86cab464571fa413c57ca523c37b1b13eef924ddfb5678b73f2d4b0",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7041673,
-   "coverNo": "comic_new6/7029958",
-   "updatedAt": "2026-11-11T01:31"
+   "seenTo": 7045321,
+   "coverNo": "comic_new6/7044145",
+   "updatedAt": "2026-11-12T02:04"
   },
   {
    "id": "닌자슬레이어|",
@@ -5331,7 +5336,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-12T00:50",
+   "updatedAt": "2026-11-12T07:05",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6998,7 +7003,8 @@
   7007724,
   7015676,
   7016230,
-  7029958
+  7029958,
+  7044145
  ],
  "bad": [
   "comic_new6/6742384",
