@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/12 기준)",
+ "src": "AniList 방영 정보 (11/13 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 768735
+   "w": 769142
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81453
+   "w": 81490
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 55692
+   "w": 55958
   },
   {
    "t": "ホタルの嫁入り",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 26955
+   "w": 27069
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -326,7 +326,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 25042
+   "w": 25052
   },
   {
    "t": "PSYREN -サイレン-",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14886,
+   "w": 14889,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12818
+   "w": 12838
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -665,7 +665,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8097
+   "w": 8099
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -701,7 +701,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7755
+   "w": 7779
   },
   {
    "t": "超巡！超条先輩",
@@ -797,7 +797,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4943
+   "w": 4949
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1910
+   "w": 1911
   },
   {
    "t": "リラックマ",
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1316,
+   "w": 1318,
    "rd": 5
   },
   {
@@ -1503,8 +1503,8 @@
   },
   {
    "t": "ゆうさんち！from 遊ハち",
-   "d": 4,
-   "tm": "24:00",
+   "d": 1,
+   "tm": "11:00",
    "st": "フジテレビ・カンテレ",
    "s": "2026-10-05",
    "r": 160,
