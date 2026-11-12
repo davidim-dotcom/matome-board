@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-13T01:00:58.377987+09:00",
+ "updated": "2026-11-13T06:45:14.410085+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1155,7 +1155,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca74e4575fe46f116667cdc2ce290a5c2a0be213de9d670f6f803744932f8e272df7d8dbb6ff1c21e",
-   "seenTo": 7056184,
+   "seenTo": 7058759,
    "coverNo": "comic_new6/7047255",
    "updatedAt": "2026-11-12T09:59"
   },
@@ -1692,6 +1692,11 @@
      "g": "post00"
     },
     {
+     "no": 7058726,
+     "title": "번역) 나니와 금융도 104~106화(재재재업이야~)",
+     "date": "2026-11-13T02:39"
+    },
+    {
      "no": 7044145,
      "title": "번역) 나니와 금융도 107화(잘리면 마음속휴지통 챈으로)",
      "date": "2026-11-12T02:04"
@@ -1706,19 +1711,29 @@
      "title": "번역) 나니와 금융도 108화(재업, 잘리면 마음속휴지통 챈으로오)"
     },
     {
+     "no": 7058743,
+     "title": "번역) 나니와 금융도 108화(재업)",
+     "date": "2026-11-13T02:42"
+    },
+    {
      "no": 7050150,
      "title": "번역) 나니와 금융도 109화(메스카스)",
      "date": "2026-11-12T14:33"
+    },
+    {
+     "no": 7058759,
+     "title": "번역) 나니와 금융도 110화(잘리면 마음속휴지통 챈으로오옹)",
+     "date": "2026-11-13T02:44"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca04b4a71fd41edca1724b7139b0d74ff3af0e76eb0eefd6f06b0",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757d84541cb01d5750aa416fe8a276909a70c27e680c0e19cd07a18bd12b48fa70c97a75ac0cc51a",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7056184,
-   "coverNo": "comic_new6/7050150",
-   "updatedAt": "2026-11-12T14:33"
+   "seenTo": 7058759,
+   "coverNo": "comic_new6/7058759",
+   "updatedAt": "2026-11-13T02:44"
   },
   {
    "id": "닌자슬레이어|",
@@ -5355,7 +5370,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-13T01:01",
+   "updatedAt": "2026-11-13T06:46",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7026,7 +7041,8 @@
   7044145,
   7047255,
   7048723,
-  7050150
+  7050150,
+  7058759
  ],
  "bad": [
   "comic_new6/6742384",
