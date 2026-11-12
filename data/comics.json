@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-12T12:52:53.605455+09:00",
+ "updated": "2026-11-12T19:03:11.321313+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1155,7 +1155,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca74e4575fe46f116667cdc2ce290a5c2a0be213de9d670f6f803744932f8e272df7d8dbb6ff1c21e",
-   "seenTo": 7048723,
+   "seenTo": 7052531,
    "coverNo": "comic_new6/7047255",
    "updatedAt": "2026-11-12T09:59"
   },
@@ -1700,16 +1700,25 @@
      "no": 7048723,
      "title": "번역) 나니와 금융도 108화(잘리면 마음속휴지통 챈으로)",
      "date": "2026-11-12T12:18"
+    },
+    {
+     "no": 7049360,
+     "title": "번역) 나니와 금융도 108화(재업, 잘리면 마음속휴지통 챈으로오)"
+    },
+    {
+     "no": 7050150,
+     "title": "번역) 나니와 금융도 109화(메스카스)",
+     "date": "2026-11-12T14:33"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca04a4a7dfa47a30a812a968ced91147a61bc35dd899cdd43e780",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca04b4a71fd41edca1724b7139b0d74ff3af0e76eb0eefd6f06b0",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7048723,
-   "coverNo": "comic_new6/7048723",
-   "updatedAt": "2026-11-12T12:18"
+   "seenTo": 7052531,
+   "coverNo": "comic_new6/7050150",
+   "updatedAt": "2026-11-12T14:33"
   },
   {
    "id": "닌자슬레이어|",
@@ -5346,7 +5355,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-12T12:54",
+   "updatedAt": "2026-11-12T19:04",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7016,7 +7025,8 @@
   7029958,
   7044145,
   7047255,
-  7048723
+  7048723,
+  7050150
  ],
  "bad": [
   "comic_new6/6742384",
