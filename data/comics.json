@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-13T12:51:47.462298+09:00",
+ "updated": "2026-11-13T18:57:07.921043+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1155,7 +1155,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca74e4575fe46f116667cdc2ce290a5c2a0be213de9d670f6f803744932f8e272df7d8dbb6ff1c21e",
-   "seenTo": 7062326,
+   "seenTo": 7064886,
    "coverNo": "comic_new6/7047255",
    "updatedAt": "2026-11-12T09:59"
   },
@@ -1692,11 +1692,6 @@
      "g": "post00"
     },
     {
-     "no": 7058726,
-     "title": "번역) 나니와 금융도 104~106화(재재재업이야~)",
-     "date": "2026-11-13T02:39"
-    },
-    {
      "no": 7044145,
      "title": "번역) 나니와 금융도 107화(잘리면 마음속휴지통 챈으로)",
      "date": "2026-11-12T02:04"
@@ -1709,6 +1704,11 @@
     {
      "no": 7049360,
      "title": "번역) 나니와 금융도 108화(재업, 잘리면 마음속휴지통 챈으로오)"
+    },
+    {
+     "no": 7058726,
+     "title": "번역) 나니와 금융도 104~106화(재재재업이야~)",
+     "date": "2026-11-13T02:39"
     },
     {
      "no": 7058743,
@@ -1734,16 +1734,26 @@
      "no": 7062326,
      "title": "번역) 나니와 금융도 111화(하이바라 이 미친 새끼)",
      "date": "2026-11-13T12:00"
+    },
+    {
+     "no": 7063470,
+     "title": "번역) 나니와 금융도 112화",
+     "date": "2026-11-13T13:37"
+    },
+    {
+     "no": 7065581,
+     "title": "번역) 나니와 금융도 113화 (하이바라 각성!)",
+     "date": "2026-11-13T16:42"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757d84541cb01d5750aa416fe8a277909d75c17b0a8e35a2e9edbc3435dc96cde1dcb5e87e3e3882",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757d84541cb01d5750aa416fe8a27c9a9f7fcd73285e02926f2d3141f94488b9507a1685e4fc102cc6066a8fe76af2e02bfc11",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7062326,
-   "coverNo": "comic_new6/7062326",
-   "updatedAt": "2026-11-13T12:00"
+   "seenTo": 7064886,
+   "coverNo": "comic_new6/7065581",
+   "updatedAt": "2026-11-13T16:42"
   },
   {
    "id": "닌자슬레이어|",
@@ -5380,7 +5390,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-13T12:53",
+   "updatedAt": "2026-11-13T18:58",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7053,7 +7063,8 @@
   7048723,
   7050150,
   7058759,
-  7062326
+  7062326,
+  7063470
  ],
  "bad": [
   "comic_new6/6742384",
