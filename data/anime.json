@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/14 기준)",
+ "src": "AniList 방영 정보 (11/15 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 769479
+   "w": 769791
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81523
+   "w": 81559
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 76698
+   "w": 76970
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 56181
+   "w": 56340
   },
   {
    "t": "ホタルの嫁入り",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 39820
+   "w": 40057
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -182,7 +182,7 @@
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 35609
+   "w": 35764
   },
   {
    "t": "どうも、好きな人に惚れ薬を依頼された魔女です。",
@@ -278,7 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 27144
+   "w": 27186
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -286,11 +286,11 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 31,
+   "r": 30,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 26611
+   "w": 26706
   },
   {
    "t": "貸した魔力は【リボ払い】で強制徴収",
@@ -326,7 +326,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 25063
+   "w": 25081
   },
   {
    "t": "PSYREN -サイレン-",
@@ -422,7 +422,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20410
+   "w": 20421
   },
   {
    "t": "転生した大聖女は、聖女であることをひた隠す",
@@ -458,7 +458,7 @@
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 19113,
+   "w": 19182,
    "rd": 6
   },
   {
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 16369
+   "w": 16421
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14891,
+   "w": 14892,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12854
+   "w": 12870
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -592,7 +592,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 12491
+   "w": 12529
   },
   {
    "t": "天は赤い河のほとり",
@@ -665,7 +665,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8102
+   "w": 8109
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -697,11 +697,11 @@
    "tm": "26:00",
    "st": "テレ東・AT-Xほか",
    "s": "2026-10-06",
-   "r": 76,
+   "r": 75,
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7785
+   "w": 7801
   },
   {
    "t": "超巡！超条先輩",
@@ -797,7 +797,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4950
+   "w": 4962
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -872,28 +872,28 @@
    "w": 3496
   },
   {
-   "t": "コウペンちゃん",
-   "d": 0,
-   "tm": "08:00",
-   "st": "",
-   "s": "2025-04-06",
-   "r": 107,
-   "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
-   "site": "https://www.koupenchan-anime.jp/",
-   "x": "koupenchananime",
-   "w": 3370
-  },
-  {
    "t": "DARK MACHINE -The Animation-",
    "d": 2,
    "tm": "25:45",
    "st": "",
    "s": "2026-10-14",
-   "r": 108,
+   "r": 107,
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 3353
+   "w": 3370
+  },
+  {
+   "t": "コウペンちゃん",
+   "d": 0,
+   "tm": "08:00",
+   "st": "",
+   "s": "2025-04-06",
+   "r": 108,
+   "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
+   "site": "https://www.koupenchan-anime.jp/",
+   "x": "koupenchananime",
+   "w": 3370
   },
   {
    "t": "Yu-Gi-Oh! CARD GAME: THE CHRONICLES",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2259
+   "w": 2260
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1318,
+   "w": 1320,
    "rd": 5
   },
   {
@@ -1123,7 +1123,7 @@
    "pv": "https://www.youtube.com/watch?v=rqYfWyFdZmo",
    "site": "https://wwws.warnerbros.co.jp/tomandjerry/short-animation/",
    "x": "TomAndJerry_JP",
-   "w": 1060
+   "w": 1062
   },
   {
    "t": "mofusand",
@@ -1772,7 +1772,7 @@
    "tm": "",
    "st": "",
    "s": "2025-09-01",
-   "r": 182,
+   "r": 183,
    "pv": "https://www.youtube.com/watch?v=plcwdL2jsvA",
    "site": "https://inpurukun.com/",
    "x": "imp_boar",
@@ -1784,7 +1784,7 @@
    "tm": "21:54",
    "st": "",
    "s": "2026-10-21",
-   "r": 183,
+   "r": 184,
    "pv": "",
    "site": "https://s.mxtv.jp/anime/gelpiyo2/",
    "x": "momomomo_piyopi",
@@ -1796,7 +1796,7 @@
    "tm": "",
    "st": "",
    "s": "2024-09-25",
-   "r": 184,
+   "r": 185,
    "pv": "https://www.youtube.com/watch?v=U4ovr1GInxQ",
    "site": "https://www.yakiniku-king.jp/family/kids/",
    "x": "",
@@ -1808,7 +1808,7 @@
    "tm": "",
    "st": "",
    "s": "2026-08-29",
-   "r": 185,
+   "r": 186,
    "pv": "https://www.youtube.com/watch?v=uOj6eVKSMQo",
    "site": "",
    "x": "matsuken_anime",
@@ -1820,7 +1820,7 @@
    "tm": "",
    "st": "",
    "s": "2022-01-05",
-   "r": 186,
+   "r": 187,
    "pv": "https://www.youtube.com/watch?v=xUIdQ8sQ5Kg",
    "site": "",
    "x": "tokyo_mer_tbs",
@@ -1832,7 +1832,7 @@
    "tm": "",
    "st": "",
    "s": "2026-10-19",
-   "r": 187,
+   "r": 188,
    "pv": "https://www.youtube.com/watch?v=k50v0Y1D1ro",
    "site": "https://www.ocha-ken.com/",
    "x": "ochakenofficial",
@@ -1844,7 +1844,7 @@
    "tm": "19:19",
    "st": "",
    "s": "2026-10-01",
-   "r": 188,
+   "r": 189,
    "pv": "",
    "site": "https://www.sylvanianfamilies.com/ja-jp/special/tv/",
    "x": "SylvanianJP",
@@ -1860,7 +1860,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 43215
+   "w": 43357
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1896,7 +1896,7 @@
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 31038
+   "w": 31082
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -1916,7 +1916,7 @@
    "tm": "17:00",
    "st": "Netflix",
    "s": "2026-11-26",
-   "r": 30,
+   "r": 31,
    "pv": "https://www.youtube.com/watch?v=p15JWZsi3Ao",
    "site": "https://www.foolnight.com/",
    "x": "foolnight_anime",
@@ -2049,7 +2049,7 @@
    "tm": "",
    "st": "",
    "s": "2027-01-01",
-   "r": 75,
+   "r": 76,
    "pv": "https://www.youtube.com/watch?v=ZoVtjJsdyB4",
    "site": "https://hirayasumi-anime.jp/",
    "x": "hirayasumi0426",
@@ -2209,7 +2209,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3631
+   "w": 3640
   },
   {
    "t": "魔術を極めて旅に出た転生エルフ、持て余した寿命で生ける伝説となる",
@@ -2269,7 +2269,19 @@
    "pv": "https://www.youtube.com/watch?v=hfrbzeG6v2I",
    "site": "",
    "x": "",
-   "w": 1262
+   "w": 1267
+  },
+  {
+   "t": "オロチ -Seventh Echoes- Pilot Film",
+   "d": 7,
+   "tm": "",
+   "st": "",
+   "s": "2026-11-13",
+   "r": 182,
+   "pv": "https://www.youtube.com/watch?v=p4TQLRaQZH4",
+   "site": "",
+   "x": "",
+   "w": 55
   }
  ]
 }
