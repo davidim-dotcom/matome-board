@@ -1,5 +1,819 @@
 [
  {
+  "title": "アニメ10周年記念展示会『この素晴らしい世界に祝福を！展』〜Cheerful〜",
+  "category": "exhibit",
+  "source": "アニメハック イベント",
+  "platform": "ldjson",
+  "works": [],
+  "eventDate": "2026-10-12T10:00",
+  "endDate": "2026-10-31T20:30",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "秋葉原UDX AKIBA_SQUARE",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://anime.eiga.com/event/174857/",
+  "summary": "展示会",
+  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
+  "geo": [],
+  "address": "東京都",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "애니메이션 10주년 기념 전시회 “이 멋진 세계에 축복을! 전시회」~Cheerful~",
+  "summary_ko": "전시회",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『楽園追放 心のレゾナンス』完成披露舞台挨拶",
+  "category": "official",
+  "source": "アニメハック イベント",
+  "platform": "ldjson",
+  "works": [],
+  "eventDate": "2026-10-31T13:50",
+  "endDate": "",
+  "ticketOpen": "2026-09-20T11:00",
+  "deadline": "2026-10-04T23:59",
+  "venue": "新宿バルト9",
+  "ticketUrl": "https://w.pia.jp/t/rakuen-tsuiho/",
+  "ticketUrls": [
+   "https://w.pia.jp/t/rakuen-tsuiho/"
+  ],
+  "url": "https://anime.eiga.com/event/174957/",
+  "summary": "アニメ公式イベント",
+  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
+  "geo": [
+   35.690157,
+   139.705896
+  ],
+  "address": "東京都",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "phases": [
+   {
+    "n": "チケット情報先行予約",
+    "s": "2026-09-20T11:00",
+    "e": "2026-10-04T23:59"
+   },
+   {
+    "n": "抽選",
+    "s": "2026-10-05T18:00"
+   },
+   {
+    "n": "一般販売",
+    "s": "2026-10-06T10:00",
+    "e": "2026-10-30T16:00"
+   }
+  ],
+  "title_ko": "『낙원 추방 마음의 레조넌스』 완성 피로 무대 인사",
+  "summary_ko": "애니메이션 공식 이벤트",
+  "tg": "fe5d"
+ },
+ {
+  "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【広島】",
+  "category": "event",
+  "source": "アニメハック イベント",
+  "platform": "ldjson",
+  "works": [],
+  "eventDate": "2026-11-14T15:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "広島市内某所",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://anime.eiga.com/event/174605/",
+  "summary": "アーティストイベント",
+  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
+  "geo": [],
+  "address": "広島県",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출시 이벤트【히로시마】",
+  "summary_ko": "아티스트 이벤트",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「ガールズ＆パンツァー 最終章 第5話」大ヒット記念舞台挨拶",
+  "category": "official",
+  "source": "アニメハック イベント",
+  "platform": "ldjson",
+  "works": [],
+  "eventDate": "2026-11-14T15:55",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "ユナイテッド・シネマ水戸",
+  "ticketUrl": "https://w.pia.jp/t/gup-finale/",
+  "ticketUrls": [
+   "https://w.pia.jp/t/gup-finale/"
+  ],
+  "url": "https://anime.eiga.com/event/174965/",
+  "summary": "アニメ公式イベント",
+  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
+  "geo": [
+   36.369466,
+   140.474521
+  ],
+  "address": "茨城県",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「걸즈 앤 판처 최종장 제5화」대히트 기념 무대 인사",
+  "summary_ko": "애니메이션 공식 이벤트",
+  "tg": "fe5d"
+ },
+ {
+  "title": "HoYoverse新作『プチプラネット』Switch2版を先行体験！美しすぎる星の海と、イケメンご近所さんに惚れ惚れ…",
+  "category": "other",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202611/94019",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/93393/ogp_iHTf.jpg?x=1280",
+  "title_ko": "HoYoverse 신작 「쁘띠 플래닛」Switch2판을 선행 체험! 너무 아름다운 별의 바다와 꽃미남 이웃에게 반해 반해…",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "やだ〜！ もう雷やだ〜!! リュックが苦手な雷平原をパチパチ飴で再現できる！ 濃厚なオレンジ＆マンゴーがフレッシュで美味しいドリンク【FFXコラボカフェ食レポ】",
+  "category": "collab",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://dengekionline.com/article/202611/94020",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://cimg.kgl-systems.io/camion/files/92382/ogp_SFFc.jpg?x=1280",
+  "title_ko": "야다~! 이미 번개 야다 ~!! 배낭이 서투른 천둥 평원을 파치 파치 사탕으로 재현할 수 있다! 진한 오렌지 & 망고가 신선한 맛있는 음료 [FFX 콜라보 카페 음식 레포]",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "100人規模で邪神に挑め。リアル脱出ゲーム「混沌這い寄る教団からの脱出」先行体験レポート。アンバサダー・佐野史郎氏とディズム氏のコメントも",
+  "category": "event",
+  "source": "4Gamer",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "2026-10-28T00:00",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.4gamer.net/games/236/G023687/20261111001/",
+  "summary": "リアル脱出ゲームを企画制作するSCRAPの最新作「混沌這い寄る教団からの脱出」の先行体験会が2026年10月28日，新宿の東京ミステリーサーカスで開催された。アンバサダーとして佐野史郎氏とディズム氏も応援に駆けつけたこのイベントをレポートする。",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://www.4gamer.net/games/236/G023687/20261111001/SS/013.webp",
+  "title_ko": "100명 규모로 사신에게 도전. 리얼 탈출 게임 「혼돈 기어 다니는 교단으로부터의 탈출」선행 체험 리포트. 앰배서더 사노 시로 씨와 디즘 씨의 코멘트도",
+  "summary_ko": "리얼 탈출 게임을 기획 제작하는 SCRAP의 최신작 「혼돈 기어 다니는 교단으로부터의 탈출」의 선행 체험회가 2026년 10월 28일, 신주쿠의 도쿄 미스터리 서커스에서 개최되었다. 앰배서더로서 사노 시로씨와 디즘씨도 응원에 달려온 이 이벤트를 리포트한다.",
+  "tg": "fe5d"
+ },
+ {
+  "title": "生き残りをかけて時間を奪い合う3人チームサバイバルTPS「Time Takers」，第2回プレイテストを11月16日まで開催",
+  "category": "other",
+  "source": "4Gamer",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "2026-11-13T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "2026-11-16T00:00",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.4gamer.net/games/865/G086556/20261113034/",
+  "summary": "NCは本日（2026年11月13日），MistilGamesが開発中の新作タイトル「TimeTakers」の第2回プレイテストを開始した。期間は日本時間の11月16日8：00まで。本作は，12人のプレイヤーが3人ずつのチームに分かれて戦うチームサバイバルTPSだ。",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://www.4gamer.net/games/865/G086556/20261113034/SS/001.jpg",
+  "title_ko": "생존을 걸어 시간을 서로 빼앗는 3인 팀 서바이벌 TPS 「Time Takers」, 제2회 플레이 테스트를 11월 16일까지 개최",
+  "summary_ko": "NC는 오늘(2026년 11월 13일) MistilGames가 개발 중인 신작 타이틀 'TimeTakers'의 제2회 플레이 테스트를 시작했다. 기간은 일본 시간의 11월 16일 8:00까지. 본작은 12명의 플레이어가 3명씩 팀으로 나뉘어 싸우는 팀 서바이벌 TPS다.",
+  "tg": "fe5d"
+ },
+ {
+  "title": "PCを使う時間をホロライブタレントと過ごす，ルームカスタマイズゲーム「HoloCozy」，本日発売",
+  "category": "goods",
+  "source": "4Gamer",
+  "platform": "rss",
+  "works": [
+   "ホロライブ"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "2026-11-13T00:00",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.4gamer.net/games/034/G103436/20261113031/",
+  "summary": "CCMCは本日（2026年11月13日），ホロライブプロダクションの二次創作ゲームブランド「holoIndie（ホロインディー）」より，NinthGamesが開発するPCゲーム「HoloCozy」を発売した。本作は，ホロライブ所属タレントと時間を共に過ごすデスクトップ常駐型のルー",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://www.4gamer.net/games/034/G103436/20261113031/SS/001.png",
+  "title_ko": "PC를 사용하는 시간을 홀로라이브 탤런트와 보내는, 룸 커스터마이즈 게임 「HoloCozy」, 오늘 발매",
+  "summary_ko": "CCMC는 오늘(2026년 11월 13일), 홀로라이브의 2차 창작 게임 브랜드 'holoIndie(홀로인디)'에서 NinthGames가 개발하는 PC 게임 'HoloCozy'를 발매했다. 본작은, 홀로라이브 소속 탤런트와 시간을 함께 보내는 데스크탑 상주형의 루",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「PUBG MOBILE」，VTuber・博衣こよりとのコラボイベントが開幕",
+  "category": "collab",
+  "source": "4Gamer",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.4gamer.net/games/402/G040281/20261113013/",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://www.4gamer.net/games/402/G040281/20261113013/SS/001.jpg",
+  "title_ko": "「PUBG MOBILE」, VTuber・하쿠이 코요리와의 콜라보레이션 이벤트 개막",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "GUの「ハリー・ポッター」コラボグッズに注目！“ホグワーツの冬”テーマのラウンジウェア、ルームソックスなど全8種",
+  "category": "goods",
+  "source": "インサイド",
+  "platform": "site",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.inside-games.jp/article/2026/11/15/190963.html",
+  "summary": "GUと「ハリー・ポッター」のコラボが決定！​ホグワーツの冬をテーマに、寮のエンブレムや魔法動物をあしらったアパレルが登場。",
+  "image": "https://www.inside-games.jp/imgs/rss/1796888.jpg",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "GU의 「해리 포터」콜라보 상품에 주목! “호그와트의 겨울” 테마의 라운지웨어, 룸 양말 등 총 8종",
+  "summary_ko": "GU와 「해리 포터」의 콜라보레이션이 결정! 호그와트의 겨울을 테마로 기숙사의 엠블럼과 마법 동물을 다룬 의류가 등장.",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「プロント」×「パンどろぼう」コラボ「2027ふくぶくろ」が11月15日より事前予約実施！キルティングトートやポーチなど限定オリジナルグッズ封入",
+  "category": "goods",
+  "source": "インサイド",
+  "platform": "site",
+  "works": [],
+  "eventDate": "2026-11-15T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.inside-games.jp/article/2026/11/14/190960.html",
+  "summary": "「PRONTO」アニメ「パンどろぼう」コラボ「2027ふくぶくろ」が事前予約実施！",
+  "image": "https://www.inside-games.jp/imgs/rss/1807681.jpg",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「프롬트」×「빵도로보」 콜라보레이션 「2027 후쿠부쿠로」가 11월 15일부터 사전 예약 실시! 퀼팅 토트나 파우치 등 한정 오리지널 상품 봉입",
+  "summary_ko": "「PRONTO」애니메이션 「빵 도로보」 콜라보레이션 「2027 후쿠부쿠로」가 사전 예약 실시!",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「ウマ娘」、中止となったLA公演の返金に関する詳細な案内を公開宿泊費や渡航運賃、キャンセル費などを返金。グッズの通販もアナウンス",
+  "category": "live",
+  "source": "GAME Watch",
+  "platform": "rss",
+  "works": [
+   "ウマ娘"
+  ],
+  "eventDate": "2026-11-13T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://game.watch.impress.co.jp/docs/news/2156392.html",
+  "summary": "Cygamesは11月13日、「『7th EVENT in LOS ANGELES』返金と公演グッズの通信販売に関するご案内」を公開した。",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/392/1.jpg",
+  "title_ko": "「우마무스메」, 중지가 된 LA 공연의 환불에 관한 상세한 안내를 공개 숙박비나 도항 운임, 캔슬비등을 환불. 상품의 우편 주문도 발표",
+  "summary_ko": "Cygames는 11월 13일 ‘7th EVENT in LOS ANGELES’ 환불과 공연 상품의 통신 판매에 관한 안내’를 공개했다.",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『ブラフラ』×SWEETS PARADISE 開催決定！",
+  "category": "collab",
+  "source": "スイーツパラダイス",
+  "platform": "site",
+  "works": [],
+  "eventDate": "2026-11-06T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.sweets-paradise.jp/collaboration/blackflap?utm_source=rss&utm_medium=rss&utm_campaign=%25e3%2580%258e%25e3%2583%2596%25e3%2583%25a9%25e3%2583%2595%25e3%2583%25a9%25e3%2580%258fxsweets-paradise-%25e9%2596%258b%25e5%2582%25ac%25e6%25b1%25ba%25e5%25ae%259a%25ef%25bc%2581",
+  "summary": "株式会社VOISING所属の2.5次元歌い手グループ『ブラフラ』の1周年を記念して2026年11月6日(金)よりコラボカフェが開催決定！ ※お客様および従業員の安全と健康に最大限の配慮をいたします。 スイーツパラダイスに […] The post 『ブラフラ』×SWEETS PA",
+  "image": "https://www.sweets-paradise.jp/wp-content/uploads/2026/10/2609_ブラフラ_KV_告知用RGB.jpg",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "『브라후라』×SWEETS PARADISE 개최 결정!",
+  "summary_ko": "주식회사 VOISING 소속의 2.5차원 가수 그룹 「브라후라」의 1주년을 기념해 2026년 11월 6일(금)부터 콜라보 카페가 개최 결정! ※고객 및 종업원의 안전과 건강에 최대한의 배려를 합니다. 스위트 파라다이스에 […] The post 『브라후라』×SWEETS PA",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「超かぐや姫！」無料オンラインライブ「ツクヨミ感謝祭」にBlack onyXがゲスト出演決定　PV＆アナザービジュアルが公開",
+  "category": "live",
+  "source": "PANORA",
+  "platform": "rss",
+  "works": [
+   "超かぐや姫！"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://panora.tokyo/archives/163112",
+  "summary": "ツインエンジンは13日、映画「超かぐや姫！」のオンラインライブ「ツクヨミ感謝祭～めちゃうまパンケーキパーティー～」にBlack onyX（ブラックオニキス）がゲスト出演することを発表。あわせてBlack onyX 出演決 The post 「超かぐや姫！」無料オンラインライブ「ツ",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/13214131/b93fb8574de8fd073169a32bef1f6f78.jpg",
+  "ps": true,
+  "title_ko": "「초 가구야 공주!」무료 온라인 라이브 「츠쿠요미 추수 감사절」에 Black onyX가 게스트 출연 결정 PV＆어나더 비주얼이 공개",
+  "summary_ko": "트윈 엔진은 13일, 영화 「초 가구야 공주!」의 온라인 라이브 「츠쿠요미 추수 감사절~메챠마 팬케이크 파티~」에 Black onyX(블랙 오닉스)가 게스트 출연하는 것을 발표. 아울러 Black onyX 출연결 The post 「초 가구야 공주!」무료 온라인 라이브",
+  "tg": "fe5d"
+ },
+ {
+  "title": "大人気バーチャルアイドル「星街すいせい」、プライム１スタジオよりスタチュー化決定！",
+  "category": "other",
+  "source": "PANORA",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://panora.tokyo/archives/163094",
+  "summary": "2027年3月に創立15周年を迎える株式会社プライム１スタジオ（本社：東京都台東区、代表取締役：松本理恵、以下プライム１スタジオ）は、バーチャルアイドル「星街すいせい」のスタチュー化を発表いたしました。 個人事務所「St The post 大人気バーチャルアイドル「星街すいせい」",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/13210130/61479-643-401860ff918bb165b591c15088266f63-1500x1500-1.webp",
+  "title_ko": "대인기 가상 아이돌 「호시마치 스이세이」, 프라임 1 스튜디오보다 스튜츄화 결정!",
+  "summary_ko": "2027년 3월에 창립 15주년을 맞이하는 주식회사 프라임 1 스튜디오(본사: 도쿄도 다이토구, 대표 이사: 마츠모토 리에, 이하 프라임 1 스튜디오)는, 가상 아이돌 「호시마치 스이세이」의 스타튜화를 발표했습니다. 개인 사무소 「St The post 대인기 가상 아이돌 「호시마치 스이세이」",
+  "tg": "fe5d"
+ },
+ {
+  "title": "Brave group、REALITY Studios、SPWNなどが注意喚起 委託先の物流代行業者が情報漏洩",
+  "category": "live",
+  "source": "PANORA",
+  "platform": "rss",
+  "works": [
+   "ぶいすぽっ"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://panora.tokyo/archives/163069",
+  "summary": "ぶいすぽっ！やHIMEHINAを運営するBrave group、すぺしゃりてやRK Musicなどを展開するREALITY Studios、バルス株式会社が運営するライブプラットフォームBalusなどが、2026年11月 The post Brave group、REALITY ",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/13203503/OGP.jpg",
+  "ps": true,
+  "title_ko": "Brave group, REALITY Studios, SPWN 등이 주의 환기 위탁처의 물류 대행업자가 정보 유출",
+  "summary_ko": "부이스뽀! 이나 HIMEHINA를 운영하는 Brave group, 스페샤리테나 RK Music 등을 전개하는 REALITY Studios, 바루스 주식회사가 운영하는 라이브 플랫폼 Balus 등이 2026년 11월 The post Brave group, REALITY",
+  "tg": "fe5d"
+ },
+ {
+  "title": "アニメ『翠星のガルガンティア』監督が語るAI表現の変化「今ならAIを一つの群れとして描く必要がある」",
+  "category": "live",
+  "source": "KAI-YOU",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "2026-11-14T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://kai-you.net/article/97161",
+  "summary": "アニメ『翠星のガルガンティア』の村田和也監督とプロデューサー・平澤直さんが11月14日、愛知県名古屋市で開催中の第2回「あいち・なごやインターナショナル・アニメーション・フィルム・フェスティバル」（ANIAFF）に登壇した。「アニメーションが描いたAI」と題した特集上映の一環とし",
+  "image": "https://img.kai-you.net/storage/2026/11/3805fbd8-cf6a-40ef-8991-b62cd396a22b/main/aniaff_ai1.webp",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "애니메이션 『취성의 가르간티아』 감독이 말하는 AI 표현의 변화 「지금이라면 AI를 하나의 무리로 그릴 필요가 있다」",
+  "summary_ko": "애니메이션 『호세이의 가르간티아』의 무라타 카즈야 감독과 프로듀서 히라사와 나오씨가 11월 14일, 아이치현 나고야시에서 개최중인 제2회 「아이치・나고야 인터내셔널・애니메이션・필름・페스티벌」(ANIAFF)에 등단했다. \"애니메이션이 그린 AI\"라는 제목의 특집 상영의 일환으로",
+  "tg": "fe5d"
+ },
+ {
+  "title": "にじさんじから「PARALLEL CASE: 2434『CASE 02：ソフィア・ヴァレンタインの記録』」が2026年11月6日(金)20時より「調査可能」に。グッズも販売開始",
+  "category": "goods",
+  "source": "にじさんじ公式",
+  "platform": "json",
+  "works": [
+   "にじさんじ"
+  ],
+  "eventDate": "2026-11-06T20:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://www.nijisanji.jp/news/lr7-l12uys",
+  "summary": "",
+  "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/1770b470ba5747308a4dff698b39fdba/KV_CMS.png",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "니지산지로부터 「PARALLEL CASE: 2434 「CASE 02：소피아 발렌타인의 기록」」이 2026년 11월 6일(금) 20시부터 「조사 가능」에. 상품도 판매 개시",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「貝塚の民話」絵本原画展2026",
+  "category": "exhibit",
+  "source": "貝塚市",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9JRUxrekxtUVpMOHBnWW1qb2NHSElPRjRPc2c5TVJUeFczZ2V6aV9zN3lncnFYS09aeHAyVjNZQUkzSjNvRHAzaExRNXEyYTRvNVV4VHg1M3ktQXhWVENIYk5MdW40MEwtNUtDQlFrejFiMkpjUlVGbQ?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "'카라즈카의 민화' 그림책 원화전 2026",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "愛田真夕美「マリオネット」初の本格的原画展、開催！マンガ原稿やカラーイラスト約70点 ヴァニラ画廊で10月28日から",
+  "category": "exhibit",
+  "source": "超！アニメディア",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "2026-10-28T00:00",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9tRHZMMVAyTlFIVXJDdkdyQ0JXMC0zNUU1S0NUbUFBQmY0SmpJOVpVMHFGbnA0ZnBiWXpNWUpaM3FCa1V0LUI3VFA4UVBFY2dWY3BhcDRfX0FxWnY0RnJWOURTdw?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "아이타 마유미 「마리오 넷」 최초의 본격적 원화전, 개최! 만화 원고나 컬러 일러스트 약 70점 바닐라 화랑으로 10월 28일부터",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "【フェア】『すごいぞカラス』（Clever Crow）原画展 | イベント | 代官山T-SITE",
+  "category": "exhibit",
+  "source": "蔦屋書店ポータル",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE11cEtBNWtmWHVZbnZ1ZkM2VnhuQ3o5aWJUQlhuZHRZX0pCNGx1SnY1VXR1RnA3TnMxQzJ2WHAzV3g1MktCSXoyTE4zOHFDSUJKamJaUUZSaXp3SEcxdE9WcS1HWlRVTk1VUjhpWlNqZWJscjBs?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "【페어】 「대단한 까마귀」(Clever Crow) 원화전 | 이벤트 | 다이칸야마 T-SITE",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "ジャンプSQ.＞創刊20周年企画始動 原画展、記念グッズ販売 COIN PARKING DELIVERYがロゴ制作（MANTANWEB）",
+  "category": "live",
+  "source": "Yahoo!ニュース",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9nejhoMHVEZ2E1YzdmQkthV2VrYllBZF95a3h6NE55bTl6enhYMnBoYmRTcDR0OERjbkZSamlqeDhZWmJ6eXgtVE1ERG9kRTU5akxyMHhTNTRwSDJ4UFViWUlqeUtTQkJVYnp0aDh2NmhyNkdBckZFcW8td2tmMm8?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "ps": true,
+  "title_ko": "점프 SQ.> 창간 20주년 기획 시동 원화전, 기념 상품 판매 COIN PARKING DELIVERY가 로고 제작(MANTANWEB)",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「鬼灯の冷徹」鬼灯様も白澤様も！原画展のグッズが豪華すぎる…！美麗複製原画やコミックス表紙、漫画コマ使用でファン必見☆（アニメ！アニメ！）",
+  "category": "exhibit",
+  "source": "Yahoo!ニュース",
+  "platform": "rss",
+  "works": [
+   "鬼灯の冷徹"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFAwQmU2dnA0OTBiSEotelNJQXNJYjdQUUpfSWhDTmYyRFRhenllTkE1VUxMUGpEcVdtTkhKOWIwM0o2OWNHNnJSbVVoejB4bUhOc2VhS285UDZXaFAwd1YtNXFyQlBuWlFUcG5zRUw5YTBZVmFkZnhxSFhIWmc2Tk0?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「귀등의 냉철」귀등님도 시라사와님도! 원화전의 상품이 너무 화려하다… 미려 복제 원화나 만화 표지, 만화 프레임 사용으로 팬 필견☆(애니메이션!애니메이션!)",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「堀文子と挿絵 ～『寂庵こよみ』挿絵原画展～」 （ナカジマアート）",
+  "category": "exhibit",
+  "source": "Tokyo Art Beat",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNMlppSmwzQXhrRTdUczhSYW8tLUdMOTJaSTBpbmV3Ui0zSHBfSXFKR3F0UXdGbzR3NWhLajdfZVNVcVZPY0c1OGx0ekN6Y2V5WFlFM0hOQUZIdFFxRzlwck1SSVVrN0lxVUlVZ3J6dFBLV0tMSVREZUNjTjFuenF3TndiOXhaTGdhZGkydHlscmVvTVp4Mm1vMnNrUlMwWi1DelB6Ujk3djYxOUJjeDhn?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「호리 후미코와 삽화 ～『외로 고요미』 삽화 원화전～」 (나카지마 아트)",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「鬼灯の冷徹」鬼灯様も白澤様も！原画展のグッズが豪華すぎる…！美麗複製原画やコミックス表紙、漫画コマ使用でファン必見☆ (アニメ！アニメ！)",
+  "category": "exhibit",
+  "source": "Yahoo!ニュース",
+  "platform": "rss",
+  "works": [
+   "鬼灯の冷徹"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxONnlfY041bkVDWEs5eHlLM1BKVUFKdVd3LUtFMDR6TDRjdXJrSmNXWlZpZkxxVS1kZElxUnlzbW1YXzlHaGNnbHFORjg3UnBpekNmTnNLZnFWQ1h5ZHZfVGozUG4tQWlkeno0bjFyUTJ5OWw2VmxBSWZiazIxaGtMSU9EVlFNcmxJSGtHSWZB?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「귀등의 냉철」귀등님도 시라사와님도! 원화전의 상품이 너무 화려하다… 미려 복제 원화나 만화 표지, 만화 프레임 사용으로 팬 필견☆ (애니메이션!애니메이션!)",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『鬼灯の冷徹』15周年記念原画展の新作グッズが公開！ 2027年4月からの大阪開催も決定",
+  "category": "exhibit",
+  "source": "電撃オンライン",
+  "platform": "rss",
+  "works": [
+   "鬼灯の冷徹"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5SYlIzeHU0Ykt1aW9KYlN5bm5LSHpVbFRNWUhMNFJCUEVvUWdSblN1bVRGQU0wb2dzOXR0cjNBNkFMOWkyb0ZzcUtudThfTXlJeUpVRXllLWl2QQ?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "『귀등의 냉철』 15주년 기념 원화전의 신작 상품이 공개! 2027년 4월부터 오사카 개최도 결정",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "漫画家・新里さん講話 うるま、２９日まで原画展開催",
+  "category": "exhibit",
+  "source": "琉球新報デジタル",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5QZnd1cVZWTnozS3RuVFNXdEcyeHZyTTBJUUp3WHhpQ3JVWEdFYm80UWVEaTQ1Q3BCWm1MRThEMTZxLXhjVmFXaXgyMnJjWVBLMGt0N0ZFdm92NkJ4MFE?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "만화가·신사토씨 강화 우루마, 29일까지 원화전 개최",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『ヘタリア』20周年原画展が'27年に名古屋・福岡・横浜で開催",
+  "category": "exhibit",
+  "source": "アニメイトタイムズ",
+  "platform": "rss",
+  "works": [
+   "ヘタリア"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE55N3h5enR6RmdncEVIUHFDSWFhWVNvUU5zTDE0OUREUC0xUXo2YjhMRG1SYTJpQnlKdWtIcFpKckE4dE42RVJBTzF6SE1PWk9FbzRPRnJJS0hyMFZHMlBZT2M1b3B2LURVVjZv?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "『헤타리아』 20주년 원화전이 '27년에 나고야・후쿠오카・요코하마에서 개최",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "せりふのない4コマ絵本、想像ふくらむ作品24点 4コマ絵本作家・中原みゆきさんの原画展 11月15日まで、佐賀市のギャラリー「シルクロ」",
+  "category": "exhibit",
+  "source": "佐賀新聞",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "2026-11-15T00:00",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9CTHRlWFhWaXdYR1h4UUowMXRoUllHQkpOR3dyVjk2UG1LT0JaekdLeHZkNGQ5ai1Mc1ZSalY0YXdZY3lqc1JuWktMcUdTLWlOZllTa2NR?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "세리후가 없는 4컷 그림책, 상상 부는 작품 24점 4컷 그림책 작가 나카하라 미유키씨의 원화전 11월 15일까지, 사가시의 갤러리 “실크로”",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "硝煙の香り漂う原画の数々！「BLACK LAGOON 25周年原画展」では「イエロー・フラッグ」も完全再現",
+  "category": "exhibit",
+  "source": "千葉テレビ放送株式会社",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFAtNk9jemxINjhyNWdhN0Q5QVJCSVpDeGgwQjlFX3B0NGR2UUl2R0F5YmtkUFRNRmtJLW9RV0pzTmJFTzIyQzZ1aldzU3M0ejZCV2pYZUNkYzRRUDY2M3BR?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "질연의 향기 감도는 원화의 여러가지! 「BLACK LAGOON 25주년 원화전」에서는 「옐로우 플래그」도 완전 재현",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "「ヘタリア20周年原画展 WorldFesta」東京会場が大盛況のうちに閉幕！2027年に名古屋・福岡・横浜の全国3都市での開催が決定！",
+  "category": "exhibit",
+  "source": "PR TIMES",
+  "platform": "rss",
+  "works": [
+   "ヘタリア"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9YbW12WUo4NGc4NjVybWlzalNaeDQxNTJqa0UyVE93QjREOFhrd3pyS3paWVdRM3B3eDF2NjMyTElGdHZWellHWlJVUW1nU29CTi15bE44d3puT3pNYS1MZExVenBkTVdKcGc?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "「헤타리아 20주년 원화전 WorldFesta」도쿄 회장이 대성황 속에 폐막! 2027년에 나고야・후쿠오카・요코하마의 전국 3도시에서의 개최가 결정!",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『しゅごキャラ！２０周年記念原画展～The Unlocked Sparkle～』 グッズ第1弾情報が到着！！",
+  "category": "exhibit",
+  "source": "PR TIMES",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tMDR0bTVQNUNCT3BXd0xma3ltc3ZnakpfREc0OE5sd0JmVU1rTmtlbEtHRGZwcFZnX2NjU3A1d3F5R2prQWw2b1NFRnBGbUZLOUFEV055b1R2QlZPSE1pVk1DejVMMDdwQVE?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "『슈고 캐릭터! 20주년 기념 원화전~The Unlocked Sparkle~』 상품 제1탄 정보가 도착! !",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "堀文子と挿絵『寂庵こよみ』挿絵原画展 —「花の画家」が描いた四季折々の草花、瀬戸内寂聴の連載エッセイ挿絵50点余りを初公開 | 株式会社ナカジマアートのプレスリリース",
+  "category": "exhibit",
+  "source": "PR TIMES",
+  "platform": "rss",
+  "works": [],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBmdlRoSnBXYnY2WmZwbUQzZVpRN25EdXpIWkRVczJ0a1VVTHRBZjgyb1RuSW5VU2w2NHhVUHRYUzFEVk5Vc2hueTQ1THY0Y0RzWWF4d3lkb3Z2OTVNRjBrM3Q2Nm5OazdlSnc?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "title_ko": "호리 후미코와 삽화 『소안 고요미』 삽화 원화전 — 「꽃의 화가」가 그린 사계절의 풀꽃, 세토우치 외청의 연재 에세이 삽화 50여 점을 첫 공개 | 주식회사 나카지마 아트",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
+  "title": "『ヘタリア20周年原画展 WorldFesta』の大阪会場開催を記念して、＃702 CAFE&DINER なんばパークス店内ミュージアムカフェスペースにて期間限定のコラボレーションカフェがオープン！",
+  "category": "live",
+  "source": "PR TIMES",
+  "platform": "rss",
+  "works": [
+   "ヘタリア"
+  ],
+  "eventDate": "",
+  "endDate": "",
+  "ticketOpen": "",
+  "deadline": "",
+  "venue": "",
+  "ticketUrl": "",
+  "ticketUrls": [],
+  "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBiUmVGZXY5MWRKTFVoZDJhY3I3WTMtWEFzSU1YVEc4aFdObXJJSXpjM010QXIzbkFkX3czb1V5ZmN6UERBcHVyNF83MkhMRXVyWG9TVDJKNkR5Tnc2Nml3Ry14Qm54OUxFbkE?oc=5",
+  "summary": "",
+  "addedAt": "2026-11-16T06:34:42.044620+09:00",
+  "scanned": true,
+  "ps": true,
+  "title_ko": "『헤타리아 20주년 원화전 WorldFesta』의 오사카 회장 개최를 기념해, #702 CAFE&DINER 난바 파크스 점내 뮤지엄 카페 스페이스에서 기간 한정의 콜라보레이션 카페가 오픈!",
+  "summary_ko": "",
+  "tg": "fe5d"
+ },
+ {
   "title": "「ミッキー＆フレンズ」クリスマスに向けて揃えたい！ スキーを楽しむミッキーのスウェットやジャガードミトンなど全11型♪",
   "category": "other",
   "source": "アニメ!アニメ!",
@@ -16,7 +830,10 @@
   "summary": "「ミッキー＆フレンズ」より、クリスマスムード漂う特別なコレクションが登場。AMERICAN HOLICの全国店舗および公式WEBストア「STRIPE CLUB」にて、2026年11月13日より順次発売される。",
   "image": "https://animeanime.jp/imgs/rss/954307.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "\"미키 & 프렌즈\"크리스마스를 향해 정렬하고 싶다! 스키를 즐기는 미키의 스웨트나 재가드 장갑 등 전 11형♪",
+  "summary_ko": "「미키＆프렌즈」보다, 크리스마스 분위기 감도는 특별한 컬렉션이 등장. AMERICAN HOLIC의 전국 점포 및 공식 WEB 스토어 「STRIPE CLUB」에서 2026년 11월 13일부터 순차적으로 발매된다.",
+  "tg": "fe5d"
  },
  {
   "title": "「マイマイ新子と千年の魔法」原画展が東京・池袋で27年2月5日まで開催中　入場は無料",
@@ -41,6 +858,9 @@
    139.7109
   ],
   "address": "東京都豊島区",
+  "title_ko": "「마이 마이 신코와 천년의 마법」원화전이 도쿄 이케부쿠로에서 27년 2월 5일까지 개최 중 입장은 무료",
+  "summary_ko": "「이 세계의 한쪽 구석에」의 카타부치스 나오 감독이 2009년에 다룬 극장 애니메이션 「마이 마이 신코와 천년의 마법」의 원화전이 도쿄 이케부쿠로의 애니메이션 도쿄 스테이션 지하 1층에서 27년 2월 5일까지 개최 중이다. 입장은 무료. 같은...",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -65,7 +885,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "아마데오와 또 하나의 신세계【1회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "ウォーキング・ウィズ・アニメーターズ【1回目】　第39回東京国際映画祭(TIFF)",
@@ -95,7 +918,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "워킹·위즈·애니메이터즈[1회째] 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "我々は宇宙人　第39回東京国際映画祭(TIFF)",
@@ -125,7 +951,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "우리는 우주인 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "GROTESQQQUE-グロテスク-【1回目】　第39回東京国際映画祭(TIFF)",
@@ -155,7 +984,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "GROTESQQQUE-그로테스크-【1회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "フォーガットン・アイランド 忘却の魔法島【1回目】　第39回東京国際映画祭(TIFF)",
@@ -185,7 +1017,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "포가튼 아일랜드 망각의 마법도[1회째] 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "第4期デー（放送30周年記念）　ゲゲゲ忌2026",
@@ -222,7 +1057,10 @@
     "n": "一般販売",
     "s": "2026-10-23T10:00"
    }
-  ]
+  ],
+  "title_ko": "제4기 데이(방송 30주년 기념) 게게게기 2026",
+  "summary_ko": "애니메이션 공식 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "金の国 水の国　第39回東京国際映画祭(TIFF)",
@@ -252,7 +1090,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "김의 나라 물의 나라 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "劇場アニメ『ベルサイユのばら』　第39回東京国際映画祭(TIFF)",
@@ -282,7 +1123,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "극장 애니메이션 “베르사유의 장미” 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "アマデオともうひとつの新世界【2回目】　第39回東京国際映画祭(TIFF)",
@@ -312,7 +1156,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "아마데오와 또 하나의 신세계【2회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "GROTESQQQUE-グロテスク-【2回目】　第39回東京国際映画祭(TIFF)",
@@ -342,7 +1189,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "GROTESQQQUE-그로테스크-【2회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "劇場版「名探偵コナン 紺青の拳（フィスト）」　第39回東京国際映画祭(TIFF)",
@@ -374,7 +1224,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "극장판 「명탐정 코난 청청의 주먹(피스트)」 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "ひゃくえむ。　第39回東京国際映画祭(TIFF)",
@@ -398,7 +1251,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "찡그린다. 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【愛知】",
@@ -419,7 +1275,10 @@
   "geo": [],
   "address": "愛知県",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출시 이벤트【아이치】",
+  "summary_ko": "아티스트 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "LAWSON presents TrySail Event 2026 コワイセイルのTrick運動会【東京・1回目】",
@@ -460,7 +1319,10 @@
     "s": "2026-08-10T12:00",
     "e": "2026-08-17T23:59"
    }
-  ]
+  ],
+  "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・1회째】",
+  "summary_ko": "라이브 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【大阪】",
@@ -481,7 +1343,10 @@
   "geo": [],
   "address": "大阪府",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출시 이벤트【오사카】",
+  "summary_ko": "아티스트 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "Meta Quest アプリストアの2026年1〜9月収益を公表、上位タイトル50本は100万ドルを突破",
@@ -500,7 +1365,10 @@
   "summary": "11月10日、Metaのゲーム部門ディレクターであるクリス・プルエット氏が、Meta VRエコシステムの現状をブログで報告しました。2026年1〜9月の収益は、新型機の発売がないなかでも前年同期並みを維持しています。同期 […] The post Meta Quest アプリスト",
   "image": "https://assets.moguravr.com/uploads/2026/11/3a1b210d8bff5a7b1978400542c57b42-kix.23nwgjg099y6-300x158.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "Meta Quest 앱스토어의 2026년 1~9월 수익을 공표, 상위 타이틀 50개는 100만 달러를 돌파",
+  "summary_ko": "11월 10일, 메타의 게임 부문 이사인 크리스 풀에트는 메타 VR 생태계의 현재 상태를 블로그에서 보고했습니다. 2026년 1~9월의 수익은 신형기의 발매가 없는 가운데도 전년 동기 수준을 유지하고 있습니다. 동기화 […] The post Meta Quest 앱스트",
+  "tg": "fe5d"
  },
  {
   "title": "バーチャルシンガー星街すいせい、世界最大級エージェンシーWMEと契約締結",
@@ -519,7 +1387,10 @@
   "summary": "11月12日、VTuberの星街すいせいさんが世界最大級のエージェンシーWMEとのエージェント契約を発表しました。発表の舞台となったのは、アリーナツアー「HOSHIMACHI SUISEI ARENA TOUR 2026 […] The post バーチャルシンガー星街すいせい、",
   "image": "https://assets.moguravr.com/uploads/2026/11/6f9c6f787b099098ecb9497a2683ec86-kix.nydew5w23qrx-300x169.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "가상 가수 호시마치 스이세이, 세계 최대급 에이전시 WME와 계약 체결",
+  "summary_ko": "11월 12일, VTuber의 호시마치 스이세이씨가 세계 최대급의 에이전시 WME와의 에이전트 계약을 발표했습니다. 발표의 무대가 된 것은, 아레나 투어 「HOSHIMACHI SUISEI ARENA TOUR 2026 […] The post 가상 싱어 호시마치 스이세이,",
+  "tg": "fe5d"
  },
  {
   "title": "生徒会にも穴はある! ポッパレ「尾鳥たん L size」フィギュア発売!",
@@ -538,7 +1409,10 @@
   "summary": "アニメ「生徒会にも穴はある!」より、「尾鳥たん」の新作フィギュア「POP UP PARADE L size」が2027年6月発売!",
   "image": "https://collabo-cafe.com/wp-content/uploads/086711674d70f7e953b3416296c989a7-280-768x403.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "학생회에도 구멍이 있습니다! 뽀빠레 \"꼬리 새 L 크기\"피규어 발매!",
+  "summary_ko": "애니메이션 「학생회에도 구멍은 있다!」보다, 「꼬리 새」의 신작 피규어 「POP UP PARADE L size」가 2027년 6월 발매!",
+  "tg": "fe5d"
  },
  {
   "title": "Suicaのペンギン Penguin Years 感謝祭 in 東京 11月21日より開催!",
@@ -557,7 +1431,10 @@
   "summary": "Suicaのペンギンの「Penguin Years 感謝祭 in 東京駅『ARIGATO Suica Market』」が、11月21日から11月23日までJR東京駅地下1階にて開催決定!「Pensta POP-UP Store」と「オレンジページshop」が出店し、PENDLET",
   "image": "https://collabo-cafe.com/wp-content/uploads/suica-penguin-arigato-eyecatch-768x314.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "Suica의 펭귄 ​​Penguin Years 추수 감사절 in 도쿄 11월 21일부터 개최!",
+  "summary_ko": "Suica의 펭귄 ​​「Penguin Years 추수 감사절 in 도쿄역 「ARIGATO Suica Market」」이 11 월 21 일부터 11 월 23 일까지 JR 도쿄역 지하 1 층에서 개최 결정! 「Pensta POP-UP Store」와 「오렌지 페이지 shop」이 출점하고",
+  "tg": "fe5d"
  },
  {
   "title": "PUMA × たまごっち 30周年コラボアイテム 11月13日より順次発売!",
@@ -578,7 +1455,10 @@
   "summary": "「たまごっち」30周年を記念したプーマとのコラボレーションコレクション「PUMA × TAMAGOTCHI」が、11月13日よりプーマストア・プーマ公式オンラインストアなどにて順次発売!ロープロファイルシューズ「SPEEDCAT」をベースにした「SPEEDCAT TAMAGOTC",
   "image": "https://collabo-cafe.com/wp-content/uploads/tamagotchi-puma-30th-collection-eyecatch-768x551.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "PUMA × 다마고치 30 주년 콜라보레이션 아이템 11 월 13 일부터 순차적으로 발매!",
+  "summary_ko": "「다마고치」30주년을 기념한 푸마와의 콜라보레이션 컬렉션 「PUMA × TAMAGOTCHI」가, 11월 13일부터 푸마 스토어・푸마 공식 온라인 스토어 등에서 순차 발매! 로우 프로파일 슈즈 「SPEEDCAT」를 베이스로 한 「SPEEDCAT TAMAGOTC",
+  "tg": "fe5d"
  },
  {
   "title": "「TVアニメ『おじさんはカワイイものがお好き。』× STELLAMAPCafe ドリンクスタンドフェア」秋葉原にて開催!",
@@ -603,6 +1483,9 @@
    139.7713
   ],
   "address": "東京都千代田区",
+  "title_ko": "\"TV 애니메이션 \"아저씨는 귀여운 것을 좋아합니다.\"× STELLAMAPCafe 음료 스탠드 페어 \"아키하바라에서 개최!",
+  "summary_ko": "“TV 애니메이션 “아저씨는 예쁜 것을 좋아한다.”× STELLAMAPCafe 음료 스탠드 페어”가 아키하바라의 소프 맵 AKIBA 어뮤즈먼트관 6F에서 개최! 퍼그 타로의 귀여운 신작 일러스트를 사용한 상품의 판매와 퍼그 타로를 이미지 한 음료를 제공합니다 🐾",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -622,7 +1505,10 @@
   "summary": "巡回展では横浜会場同様、いのまたむつみが手がけたアニメ・小説・ゲーム・オリジナル作品など、120点を超える色彩豊かなアナログ原画や漫画原稿を展示するほか、今回初めてお披露目される未発表作品の原画も展示致します。緻密な線描 […] 投稿 【名古屋】いのまたむつみ回顧展：2026年1",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
   "scanned": true,
-  "image": "https://gengaten.info/wp-content/uploads/2026/05/MI_KV_Y_nagoya-osaka.webp"
+  "image": "https://gengaten.info/wp-content/uploads/2026/05/MI_KV_Y_nagoya-osaka.webp",
+  "title_ko": "【나고야】이노 또 무츠미 회고전:2026년 10월 9일(금)~10월 18일(일)",
+  "summary_ko": "순회전에서는 요코하마 회장과 마찬가지로, 이노모토 무츠미가 다룬 애니메이션·소설·게임·오리지널 작품 등, 120점을 넘는 색채 풍부한 아날로그 원화나 만화 원고를 전시하는 것 외에 이번 처음으로 선보이는 미발표 작품의 원화도 전시합니다. 치밀한 선묘 […] 투고 【나고야】 이노모토 무츠미 회고전:2026년 1",
+  "tg": "fe5d"
  },
  {
   "title": "【東京】ヘタリア20周年原画展 WorldFesta：2026年10月17日（土）- 10月28日（水）",
@@ -641,7 +1527,10 @@
   "summary": "『ヘタリア』生誕20周年を記念した大規模展覧会です。日丸屋秀和氏による貴重な直筆の鉛筆画や、透明感あふれる色彩で描かれたカラーイラストを一挙に展示し、描き下ろしのイタリアも初解禁されます。 ヘタリア20周年原画展 Wor […] 投稿 【東京】ヘタリア20周年原画展 WorldF",
   "image": "https://gengaten.info/wp-content/uploads/cocoon-resources/blog-card-cache/7049ba0d396132d2108f22852bc272cf.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "【도쿄】헤타리아 20주년 원화전 WorldFesta：2026년 10월 17일(토) - 10월 28일(수)",
+  "summary_ko": "『헤타리아』 탄생 20주년을 기념한 대규모 전람회입니다. 히마루야 히데카즈씨에 의한 귀중한 직필의 연필화나, 투명감 넘치는 색채로 그려진 컬러 일러스트를 일거에 전시해, 신작의 이탈리아도 첫 해금됩니다. 헤타리아 20주년 원화전 Wor […] 투고 【도쿄】헤타리아 20주년 원화전 WorldF",
+  "tg": "fe5d"
  },
  {
   "title": "『名探偵プリキュア！』 COLLABORATION CAFE開催決定！",
@@ -662,7 +1551,10 @@
   "summary": "『名探偵プリキュア！』のコラボカフェが開催決定！ 名探偵プリキュアに加えて歴代シリーズから、イメージカラーが紫のプリキュアも登場しますのでお楽しみに！！ ※お客様および従業員の安全と健康に最大限配慮いたします。 スイ […] The post 『名探偵プリキュア！』 COLLAB",
   "image": "https://www.sweets-paradise.jp/wp-content/uploads/2026/10/KV_pricu_12_01-scaled.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "『명탐정 프리큐어!』 COLLABORATION CAFE 개최 결정!",
+  "summary_ko": "『명탐정 프리큐어!』의 콜라보레이션 카페가 개최 결정! 명탐정 프리큐어에 가세해 역대 시리즈로부터, 이미지 칼라가 보라색의 프리큐어도 등장하기 때문에 기대에! ! ※고객 및 종업원의 안전과 건강에 최대한 배려하겠습니다. 수이 […] The post 『명탐정 프리큐어!』 COLLAB",
+  "tg": "fe5d"
  },
  {
   "title": "「手塚治虫と出﨑統がいないと日本アニメはここまで来ていない」2人を知るプロデューサーが証言",
@@ -681,7 +1573,10 @@
   "summary": "マッドハウスやMAPPAを設立したアニメーションプロデューサー・丸山正雄さんが11月14日、愛知県名古屋市で開催中の映画祭「あいち・なごやインターナショナル・アニメーション・フィルム・フェスティバル」（ANIAFF）に登壇した。第2回となる国際アニメーション映画祭では「ディレクタ",
   "image": "https://img.kai-you.net/storage/2026/11/e3a262a9-62a3-4516-8c6c-3c604e130628/main/aniaff_dezaki1.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「데즈카 오사무와 출원통이 없으면 일본 애니메이션은 여기까지 오지 않았다」 2명을 아는 프로듀서가 증언",
+  "summary_ko": "매드하우스나 MAPPA를 설립한 애니메이션 프로듀서 마루야마 마사오씨가 11월 14일 아이치현 나고야시에서 개최중인 영화제 「아이치・나고야 인터내셔널・애니메이션・필름・페스티벌」(ANIAFF)에 등단했다. 제 2 회가되는 국제 애니메이션 영화제에서는 \"디렉터",
+  "tg": "fe5d"
  },
  {
   "title": "Billboard JAPAN初の総合書籍チャート、朝井リョウ『イン・ザ・メガチャーチ』が年間1位含む3冠",
@@ -700,7 +1595,10 @@
   "summary": "Billboard JAPAN（ビルボードジャパン）が、日本初の総合書籍チャート「Billboard JAPAN Book Charts」の第1回年間チャートを発表。同日、東京・文京区の宝生能楽堂で授賞式を開催した。総合書籍チャート「JAPAN Book Hot 100」では、作",
   "image": "https://img.kai-you.net/storage/2026/11/6891b0dd-da83-4385-acc6-a5081f79507e/main/asairyo_megachurch.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "Billboard JAPAN 최초의 종합 서적 차트, 아사이 료 「인 더 메가 처치」가 연간 1위 포함한 3관",
+  "summary_ko": "Billboard JAPAN(빌보드 재팬)이, 일본 최초의 종합 서적 차트 「Billboard JAPAN Book Charts」의 제1회 연간 차트를 발표. 이날 도쿄·분쿄구의 보생 노가쿠도에서 시상식을 개최했다. 종합 서적 차트 「JAPAN Book Hot 100」에서는, 작",
+  "tg": "fe5d"
  },
  {
   "title": "公式店舗原宿店 空間再現ディスプレイ リニューアルのお知らせ",
@@ -727,6 +1625,9 @@
    139.7027
   ],
   "address": "東京都渋谷区",
+  "title_ko": "공식 점포 하라주쿠점 공간 재현 디스플레이 리뉴얼의 알림",
+  "summary_ko": "언제나 홀로라이브 공식 숍 하라주쿠점을 이용해 주셔서 감사합니다. 이번에, 매장에서 체험해 주시고 있는 「공간 재현 디스플레이」를, 2026년 11월 13일(금)에 리뉴얼하겠습니다. 신작 영상을 4개 추가해, 지금까지의 영상과 아와 […]",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -754,6 +1655,9 @@
    139.7058
   ],
   "address": "東京都渋谷区",
+  "title_ko": "커버×MN 인터 패션, 신 라이프 스타일 라벨 「홀로라이브 – holoSynQ」를 공동 기획 도큐 플라자 오모테산도 「오모카도」로 팝업 스토어를 개최!",
+  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 섬유상사의 MN 인터 패션 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:요시모토 일심)와 공동으로 상품 기획을 실시하는 신 라이프 스타일 라벨 「홀로라이브 – hol [… ]",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -785,6 +1689,9 @@
    139.6247
   ],
   "address": "神奈川県",
+  "title_ko": "홀로라이브 RECORDS MUSIC STAGE 2027 @ K 아레나 요코하마 정보 해금!",
+  "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키)는, 홀로라이브의 음악 라벨 「홀로라이브 RECORDS(홀로라이브 레코즈)」의 최초의 리얼 라이브 「홀로라이브 RECORDS MUSIC STAGE […]",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -812,6 +1719,9 @@
    139.7686
   ],
   "address": "東京都千代田区",
+  "title_ko": "공식 숍 「홀로라이브 official shop in Tokyo Station」, 신구획에서 리뉴얼 오픈 결정!",
+  "summary_ko": "커버 주식회사(본사:도쿄도 미나토구, 대표 이사 사장:타니고 모토아키)는, 2026년 11월 13일(금)부터 「도쿄 캐릭터 스트리트」에서 「홀로라이브」의 공식 숍 「홀로라이브 official shop […]",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -833,7 +1743,10 @@
   "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）は、メディア制作会社、Critical Roleとの初のコラボレーション企画『Shattered Legends（シャタード・レジェンズ）』を実施することをお知らせいたします。Cr […]",
   "image": "https://hololive.hololivepro.com/wp-content/uploads/2026/10/261013_main.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "Critical Role과 홀로라이브에 의한, TRPG 「Daggerheart」플레이 기획 「Shattered Legends」가 스타트",
+  "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표이사 사장：타니고 모토아키)는, 미디어 제작회사, Critical Role와의 첫 콜라보레이션 기획 「Shattered Legends(셔터드 레전드)」를 실시하는 것을 알려 드리겠습니다. Cr […]",
+  "tg": "fe5d"
  },
  {
   "title": "株式会社 Aimingとカバー株式会社の協業タイトル『ホロライブ麻雀 -ホロじゃん-』タイトル発表＆事前登録受付開始！",
@@ -854,7 +1767,10 @@
   "summary": "カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭、以下「カバー」）は、株式会社 Aiming（本社：東京都渋谷区、代表取締役社長：椎葉 忠志、以下「Aiming」）と協業タイトルとして、2026年配信予定の新作ゲーム『ホロライブ麻 […]",
   "image": "https://hololive.hololivepro.com/wp-content/uploads/2026/10/261009_main.webp",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "주식회사 Aiming과 커버 주식회사의 협업 타이틀 「홀로라이브 마작 -호로쨩-」타이틀 발표＆사전 등록 접수 개시!",
+  "summary_ko": "커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키, 이하 「커버」)는, 주식회사 Aiming(본사: 도쿄도 시부야구, 대표 이사 사장: 시바 다다시, 이하 「Aiming」)과 협업 타이틀로서, 2026년 전달 예정의 신작 게임 「홀로라이브 마 […]",
+  "tg": "fe5d"
  },
  {
   "title": "ROF-MAOが2026年11月15日(日)に200kmマラソンの完走をもって活動再開！キービジュアルやロゴを一新し、新曲リリースや新グッズ発売など情報解禁！",
@@ -875,7 +1791,10 @@
   "summary": "",
   "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/e0a7d5bd67ac4668892056e02fd7c42e/01_ROF-MAO_KV.jpg",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "ROF-MAO가 2026년 11월 15일(일)에 200km 마라톤의 완주를 가지고 활동 재개! 키 비주얼이나 로고를 일신해, 신곡 릴리스나 신상품 발매 등 정보 해금!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "にじさんじから「SANBAKA Palais de Rose」グッズが登場！2026年10月30日(金)18時から販売開始！",
@@ -896,7 +1815,10 @@
   "summary": "",
   "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/f34c07cba0864bed8ed89bee00e53b23/SANBAKA_PdR_Press_CMS.png",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "니지산지로부터 「SANBAKA Palais de Rose」 상품이 등장! 2026년 10월 30일(금) 18시부터 판매 개시!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "‘카드캡터 사쿠라’ 콜라보 카페, 서울숲서 개최…日 굿즈 15종 선봬",
@@ -915,7 +1837,10 @@
   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBINHNjRUZyaklLMFVQVnJxWGNuZUprS19VdERTRS1oOVlZQjJSWkxfLTVqU1BjeHlERzBFdXZOUW1xTjJKc2h6bWpBQmhiamFkT1F5Z1k3X1h5eHl0ZG1lUFVuTUoyUQ?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "‘카드캡터 사쿠라’ 콜라보 카페, 서울숲서 개최…일 굿즈 15종 선봬",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "\"세일러문 만난 라인프렌즈\"…IPX, `콜라보 굿즈`로 韓·日·中 공략",
@@ -934,7 +1859,10 @@
   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBPUDBDTzFObGhEOEdzYVR1U1ZRcmZzbERsUnlwalpZa2hYZkhiSXd5TmtFRzVydWNKbGVzWU5rd2ZiMlROdUdmckJFSEJIZEtxaXBrNnluNmF4V3dQNE1NZXJ3?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "\"세일러문 만난 라인프렌즈\"…IPX, `콜라보 굿즈`로 한·일·중 공략",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『ウマ娘 シンデレラグレイ』原画展の新規描き下ろしメインビジュアルを公開　グッズ情報も一部解禁",
@@ -954,7 +1882,10 @@
   "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5Qc3pWUUxZRlloSVBuQ3RJaTJ6ZGY0U2tTVkJIODctMVFCbnpvUmVzS3diSmg0NldXOXVCRkd3MzRNa18tTzNnVklva0FxZ0HSAVRBVV95cUxPNW5xaVYtemxtWGZuV01kRm01X2haamV2Q19zUEZpUEFSUDhTTXU5YUtGM05sN05JTEhJVXdqMllHZ2FMcjdURFRrUTN0QVlrVHpHdHE?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「우마무스메 신데렐라 그레이」원화전의 신규 신작 메인 비주얼을 공개 상품 정보도 일부 해금",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【写真多数】原画展「古舘春一 ハイキュー!!展 挑戦者たち」に潜入！圧巻の展示＆グッズを詳しくレポート【2026・東京】（LEE）",
@@ -974,7 +1905,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE53V25ubjBhdUlxaVVlTjNrcUJmRlpmMVBYd3pDRkJ3TkNIUF9talhPQnZLN1VjRzFKUXQ5NE1WeEtSRTk3TUNzalpLNUNxNEFsUjlVTk9pbUx4UkgxOTMtUG56dTZ6aVdra0o4bWhrM2pjX2NZVW9FLWsxNDF3Y0k?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "【사진 다수】원화전 「고쇼 하루이치 하이큐!!전 도전자들」에 잠입! 압권의 전시＆굿즈를 자세하게 리포트【2026・도쿄】(LEE)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【イベントレポート】「谷川史子 集英社画業40周年原画展」開幕！カラー原画40点、初期の貴重な生原稿も（コミックナタリー）",
@@ -992,7 +1926,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5YanYzY0x6bllMdVF0MDgzeVpudTA3a01LM3o2RmFneUREclBQUzFrLXVOeVM3SUdMczZ5cWVBODJrNmF5VHZiY1FUUnZ4cGxUVnNrNVlnNGNWMVY3SFZaLUFzenVuNXQySHF3cXdGOVoyV1FxeUo5ZzREYlpqY1E?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "【이벤트 리포트】「다니가와 시코 슈에이샤 화업 40주년 원화전」개막! 컬러 원화 40점, 초기의 귀중한 생 원고도(코믹 나탈리)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【POP UP】『つづく生活と、すきなごはんのこと。』日菜乃イラストコミック発売記念イラスト展",
@@ -1010,7 +1947,10 @@
   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE93RFVsZExJeDVVaGE4T1c4OW9MNklyeXEyYnFxMWVyNjdVWWZCM0c0anQzTVBBbFctN0ozcHB2UTZXaTRlZmVPM2xLLVRyeUU5YmlpWDdsc0lEblo3M0xXd20xVDYzVkNfQ3RzUDE3a3ZpUQ?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "【POP UP】『계속하는 생활과, 숙련된 밥. 』 히나노 일러스트 만화 발매 기념 일러스트 전시회",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "人気格闘漫画「刃牙」の原画展開催 初日からファン熱狂（沖縄テレビOTV）",
@@ -1028,7 +1968,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFA1Sk5SUXRuSFM5TEl4Vm5XX3NFcEZ0YjZDa2lnMmZ0S182MDlNRUtqbGFwdVRCd21tZXFkSGxvaS0tY0NJWjNzMFlOdXZ5VExNMjh0NHNEY2VBeTJRNXNld1F0bWJUc0p0NTFrME1WWC0yVGlBYVF1X0QxN1dTNGc?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "인기 격투 만화 “칼 송곳니”의 원화전 개최 첫날부터 팬 열광(오키나와 TV OTV)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "久留米でタケウマさん絵本原画展 「パタパタどうぶつえん」出版記念（みんなの経済新聞ネットワーク）",
@@ -1046,7 +1989,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE13S25LazZvVEsyTmRncFRuRlZkR3B6OVNYcW42MnJxdlh3WG4zMWdicDUzXzRHbnNCTzBPZ1pXek0wSFFPVVVHS3Q4ekN4U1RTd1VUQ29tdjF5U0lvSUZUNzhRemctcDFYRXZ1Tjh1X1M2SVVHa25sVi1pVmphcVE?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "쿠루메에서 타케우마씨 그림책 원화전 “파타파타 도부츠엔” 출판 기념(모두의 경제 신문 네트워크)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "レヴィたちの愛用銃や銃撃戦の舞台も再現「BLACK LAGOON」25周年原画展開幕（イベントレポート / 写真14枚）",
@@ -1064,7 +2010,10 @@
   "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE84Sm9JdTB1bEtCVVlvcUtEdkdvaGhlUU9tX3NWNTRGWXpTXzJ3RHhGSUNGZzNaUXNWNFZCbXZ3aWZ0RWZSZzVJVTRVdko?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "레비들의 애용총이나 총격전의 무대도 재현 「BLACK LAGOON」 25주년 원화 전개막(이벤트 리포트 / 사진 14장)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "漫画『ハイキュー!!』原画展開催 日向に影山、挑戦者たちの成長を追う展覧会（2026年10月30日掲載）｜日テレNEWS NNN",
@@ -1084,7 +2033,10 @@
   "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE0xdUgwZG5UcTdCWFdXcTdYNjdtbHpHUUVRTS1vWDdLbVNVVGtaZ0VpSURKZG9FdmJBaUphUjB4YVZ0YjY1dVc1c2ZtN3Y0d1ZHRUdjbHc3M3hCelJqZ0JfMm42bGlLYldaZ1pRcl9ZQlFiWEZ6Ul9adV95OXQ?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "만화 「하이큐!!」 원화전 개최 히나타에 카게야마, 도전자들의 성장을 쫓는 전람회(2026년 10월 30일 게재) |",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "谷川史子原画展開催記念、画業40年を振り返るロングインタビュー（コミックナタリー）",
@@ -1102,7 +2054,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5HbXh1T1dwQzdFcjduRzdjSFc0UU05LW5WNHdfZDJnSUhfeXprMFBHZ3hVcWtHeVB2ZjJsRjV0dy1ZMGE1VTVKdkc5MHM1Y25YZ2dqZHF4eE5lWHBLaHZQSGtqdzlFOXZ4MWp0bU1UTEgtdGlQUk1KRHdIQ1NDMkU?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "타니가와 시코 원화전 개최 기념, 화업 40년을 되돌아보는 롱 인터뷰(코믹 나탈리)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『ウマ娘 シンデレラグレイ』原画展が池袋で開催 13人のウマ娘を描いた新規メインビジュアル公開（リアルサウンド）",
@@ -1128,6 +2083,9 @@
    139.7109
   ],
   "address": "東京都豊島区",
+  "title_ko": "『우마무스메 신데렐라 그레이』 원화전이 이케부쿠로에서 개최 13명의 우마무스메를 그린 신규 메인 비주얼 공개(리얼 사운드)",
+  "summary_ko": "",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -1152,6 +2110,9 @@
    139.7109
   ],
   "address": "東京都豊島区",
+  "title_ko": "「마이 마이 신코와 천년의 마법」원화전이 도쿄·이케부쿠로에서 27년 2월 5일까지 개최중 입장은 무료 : 뉴스",
+  "summary_ko": "",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -1170,7 +2131,10 @@
   "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1LTTlkNzdGbE9MMUFxX21hV1plS0FZYzNEaHVHUEkwR2ZONlQ1OWNCbi1ZNnZOLTNycnN5SER1NW9JX2l3NTc0TENYczQ2YXFteGc?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "헤타리아 20주년 원화전 WorldFesta｜렛츠엔조이 도쿄",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "「『鬼灯の冷徹』15周年記念原画展～地獄の沙汰もあなた次第～」チケット情報が公開！ 原画展を記念したフォトフレーム＆ポストカードセット付の「記念グッズ付き入場券」の販売が決定",
@@ -1190,7 +2154,10 @@
   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5LSDhLSVFMR25hQWgwY3lmNTBTUXdMNWw0d0xIdldEMmlPWHh3M2FqUG1zN0hCZ3NSOWVzZHRuVGNTWGFEcHVQR0Zpa2o0QzJmWlpXWEEtSy1YWDRjbUprV1p0ekFBV0hkUnc?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「『귀등의 냉철』15주년 기념 원화전～지옥의 사태도 당신 나름～」 티켓 정보가 공개! 원화전을 기념한 포토 프레임 & 엽서 세트 첨부의 「기념 상품 첨부 입장권」의 판매가 결정",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "硝煙の香り漂う原画の数々！「BLACK LAGOON 25周年原画展」では「イエロー・フラッグ」も完全再現 (2026年11月13日掲載)",
@@ -1208,7 +2175,10 @@
   "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFB6enFpS1o3TXRyYnZTa1Z4cVRtYWNTUXM0emVwaWxUckYybVNnbVNicDJ2U0JPVGUtWnRiREZKRjlKM3I1UUE1elFnYmc2R3pmb2JMQ0YzWnZFdnA3NXc?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "질연의 향기 감도는 원화의 여러가지! 「BLACK LAGOON 25주년 원화전」에서는 「옐로우 플래그」도 완전 재현 (2026년 11월 13일 게재)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "あむの猫耳ニット帽や髪飾り風のハート缶も登場！“しゅごキャラ！２０周年記念原画展～The Unlocked Sparkle～”グッズ第1弾",
@@ -1226,7 +2196,10 @@
   "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9oLW54TklhY3l6RFBvNElxWTUycWNlVkFtcXpCOXZQblhMajBvdkJ0dU40SmpGTXVoTGFJTDJidG5kRlh6NnVCMWJJbmFpREI4U1FjcFEySTJ4bS1MZkZv?oc=5",
   "summary": "",
   "addedAt": "2026-11-16T00:36:09.123422+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "아무의 고양이 귀 니트 모자나 머리 장식풍의 하트캔도 등장! “슈고 캐릭터! 20주년 기념 원화전~The Unlocked Sparkle~” 상품 제1탄",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "「WIND BREAKER」桜たちがバンド結成!? “対バン”テーマの描き下ろしグッズが登場！ライブチケット風カードの特典も♪【アニメイト】",
@@ -1246,7 +2219,10 @@
   "image": "https://animeanime.jp/imgs/rss/955655.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "ps": true
+  "ps": true,
+  "title_ko": "「WIND BREAKER」벚꽃들이 밴드 결성!? “대반” 테마의 신작 상품이 등장! 라이브 티켓풍 카드의 특전도♪【애니메이트】",
+  "summary_ko": "TV 애니메이션 「WIND BREAKER」보다, 「대반」을 테마로 한 신작 일러스트를 사용한 신상품이 등장. 2026년 11월 14일부터 애니메이트에서 판매되어 이날부터 '라이브 티켓풍 카드'를 받을 수 있는 페어도 개최 중이다.",
+  "tg": "fe5d"
  },
  {
   "title": "「SAO」キリト、アスナたちがバレエコア衣装に♡ 描き下ろしグッズがアニメガ×ソフマップで先行販売！",
@@ -1265,7 +2241,10 @@
   "summary": "『ソードアート・オンライン』より、描き下ろしイラストと描き起こしデフォルメイラストを使用した新作グッズが登場。2026年11月13日からアニメガ×ソフマップにて先行販売中だ。",
   "image": "https://animeanime.jp/imgs/rss/955823.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「SAO」키리토, 아스나들이 발레 코어 의상에 ♡ 신작 상품이 애니메가×소프 맵으로 선행 판매!",
+  "summary_ko": "『소드 아트 온라인』에서 신작 일러스트와 그려낸 데포르메 일러스트를 사용한 신작 상품이 등장. 2026년 11월 13일부터 애니메가×소프 맵에서 선행 판매 중이다.",
+  "tg": "fe5d"
  },
  {
   "title": "「文スト」太宰や中也たちが水族館へ♪ 八景島シーパラダイスのコラボグッズが事後通販",
@@ -1284,7 +2263,10 @@
   "summary": "TVアニメ『文豪ストレイドッグス』と横浜・八景島シーパラダイスのコラボイベントで販売されたグッズの事後通販が決定した。11月13日より通販サイト「THEキャラ」にて注文を受け付けている。",
   "image": "https://animeanime.jp/imgs/rss/955950.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「문스트」다자이와 나카야들이 수족관에 ♪",
+  "summary_ko": "TV 애니메이션 '문호 스트레이독스'와 요코하마 야케이지마 시파라다이스의 콜라보레이션 이벤트로 판매된 상품의 사후 통판이 결정됐다. 11월 13일부터 통신판매 사이트 「THE 캐릭터」에서 주문을 접수하고 있다.",
+  "tg": "fe5d"
  },
  {
   "title": "「機動戦士ガンダム」「コードギアス」「TIGER & BUNNY」も！ サンライズ50周年記念グッズが登場、全50作品の描き下ろしビジュアルを使用",
@@ -1305,7 +2287,10 @@
   "summary": "サンライズの50周年を記念して、これまでに手掛けてきた50作品の描き下ろしイラストを使用した公式グッズが登場。2026年11月13日よりA-on STOREとプレミアムバンダイにて先行受注する。",
   "image": "https://animeanime.jp/imgs/rss/955881.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「기동전사 건담」 「코드 기어스」 「TIGER & BUNNY」도! 선라이즈 50주년 기념 상품이 등장, 전 50 작품의 신작 비주얼을 사용",
+  "summary_ko": "선라이즈의 50주년을 기념해, 지금까지 다루어 온 50 작품의 신작 일러스트를 사용한 공식 상품이 등장. 2026년 11월 13일부터 A-on STORE와 프리미엄 반다이에서 선주문한다.",
+  "tg": "fe5d"
  },
  {
   "title": "「薬屋のひとりごと」猫猫＆壬氏たちが山手線に登場！ 茨城の四季を巡るラッピングトレインが11月13日から運行",
@@ -1326,7 +2311,10 @@
   "summary": "アニメ『薬屋のひとりごと』より、茨城県とのコラボレーションによるJR山手線ラッピングトレインが走行決定。猫猫、壬氏、馬閃、羅半と茨城の四季折々の魅力を描いた5種類のビジュアルが、2026年11月13日から26日まで車体を彩る。",
   "image": "https://animeanime.jp/imgs/rss/955830.png",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「약사의 혼잣말」마오마오＆진시들이 야마노테선에 등장! 이바라키의 사계절을 둘러싼 랩핑 트레인이 11월 13일부터 운행",
+  "summary_ko": "애니메이션 「약사의 혼잣말」에서 이바라키현과의 콜라보레이션에 의한 JR 야마노테선 랩핑 트레인이 주행 결정. 마오마오, 진시, 마섬, 나반과 이바라키의 사계절의 매력을 그린 5종류의 비주얼이 2026년 11월 13일부터 26일까지 차체를 물들인다.",
+  "tg": "fe5d"
  },
  {
   "title": "「BANANA FISH」アッシュ、英二、ショーターのテーマカフェが新宿に！ キャライメージのドーナツなどを食べよう",
@@ -1351,6 +2339,9 @@
    139.7003
   ],
   "address": "東京都新宿区",
+  "title_ko": "「BANANA FISH」 애쉬, 에이지, 쇼터 테마 카페가 신주쿠에! 캐릭터 이미지의 도넛 등을 먹자.",
+  "summary_ko": "TV 애니메이션 'BANANA FISH'에서 애쉬 링크스, 오쿠무라 에이지, 쇼터 원에 포커스 한 테마 카페 \"BANANA FISH Cafe and Bar - What they see -\"가 개최 결정.",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -1372,7 +2363,10 @@
   "summary": "『ジョジョの奇妙な冒険 黄金の風』の暗殺者チーム、『ジョジョの奇妙な冒険 ストーンオーシャン』のミュッチャー・ミューラーとの戦い…ジョジョの世界をグラニフならではのデザインに☆",
   "image": "https://animeanime.jp/imgs/rss/955503.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "\"조조\" \"암살자 팀\"점퍼와 \"녹색 아기\"니트도! 황금의 바람, 스톤 오션의 세계관이 의류에♪",
+  "summary_ko": "『죠죠의 기묘한 모험 황금의 바람』의 암살자 팀, 『죠죠의 기묘한 모험 스톤 오션』의 뮤처 뮬러와의 싸움…",
+  "tg": "fe5d"
  },
  {
   "title": "フォーガットン・アイランド 忘却の魔法島【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1402,7 +2396,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "포가튼 아일랜드 망각의 마법도[2회째] 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "君と花火と約束と【1回目】　第39回東京国際映画祭(TIFF)",
@@ -1426,7 +2423,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "너와 불꽃과 약속과 【1회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "下野紘音楽祭",
@@ -1450,7 +2450,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "시모노 히로 음악 축제",
+  "summary_ko": "라이브 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "CHERRY AND VIRGIN【1回目】　第39回東京国際映画祭(TIFF)",
@@ -1480,7 +2483,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "CHERRY AND VIRGIN【1회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "サノバビッチ【1回目】　第39回東京国際映画祭(TIFF)",
@@ -1510,7 +2516,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "사노바비치【1회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "LAWSON presents TrySail Event 2026 コワイセイルのTrick運動会【東京・2回目】",
@@ -1551,7 +2560,10 @@
     "s": "2026-08-10T12:00",
     "e": "2026-08-17T23:59"
    }
-  ]
+  ],
+  "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・2회째】",
+  "summary_ko": "라이브 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【石川】",
@@ -1572,7 +2584,10 @@
   "geo": [],
   "address": "石川県",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "히가시야마 나오 「OVER THE RAINBOW」전국 8곳 출시 이벤트【이시카와】",
+  "summary_ko": "아티스트 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "LAWSON presents TrySail Event 2026 コワイセイルのTrick運動会【東京・3回目】",
@@ -1613,7 +2628,10 @@
     "s": "2026-08-10T12:00",
     "e": "2026-08-17T23:59"
    }
-  ]
+  ],
+  "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄・3회째】",
+  "summary_ko": "라이브 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "『デモンズ・クレスト』 先行上映イベント",
@@ -1645,7 +2663,10 @@
     "n": "一般販売",
     "s": "2026-10-10T10:00"
    }
-  ]
+  ],
+  "title_ko": "「데몬즈 크레스트」 선행 상영 이벤트",
+  "summary_ko": "애니메이션 공식 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "時をかける少女　第39回東京国際映画祭(TIFF)",
@@ -1669,7 +2690,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "시간을 걸리는 소녀 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "ghost／夜の果て【1回目】　第39回東京国際映画祭(TIFF)",
@@ -1699,7 +2723,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "ghost/밤의 끝 【1회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "LAWSON presents TrySail Event 2026 コワイセイルのTrick運動会【東京・4回目】",
@@ -1740,7 +2767,10 @@
     "s": "2026-08-10T12:00",
     "e": "2026-08-17T23:59"
    }
-  ]
+  ],
+  "title_ko": "LAWSON presents TrySail Event 2026 코와이세일의 Trick 운동회【도쿄·4회째】",
+  "summary_ko": "라이브 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "ウォーキング・ウィズ・アニメーターズ【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1770,7 +2800,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "워킹·위즈·애니메이터즈[2회째] 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "サノバビッチ【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1800,7 +2833,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "사노바비치【2회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "機動警察パトレイバー EZY　File 1　第39回東京国際映画祭(TIFF)",
@@ -1824,7 +2860,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "기동 경찰 패트레이버 EZY File 1 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "君と花火と約束と【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1848,7 +2887,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "너와 불꽃과 약속과 【2회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "Iron Boy（英題）　第39回東京国際映画祭(TIFF)",
@@ -1878,7 +2920,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "Iron Boy(영제) 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "ghost／夜の果て【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1908,7 +2953,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "ghost/밤의 끝【2회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "アマデオともうひとつの新世界【3回目】　第39回東京国際映画祭(TIFF)",
@@ -1932,7 +2980,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "아마데오와 또 하나의 신세계【3회째】제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "機動警察パトレイバー EZY　File 2　第39回東京国際映画祭(TIFF)",
@@ -1956,7 +3007,10 @@
   ],
   "address": "東京都",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "기동 경찰 패트레이버 EZY File 2 제39회 도쿄 국제 영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "CHERRY AND VIRGIN【2回目】　第39回東京国際映画祭(TIFF)",
@@ -1986,7 +3040,10 @@
     "n": "一般販売",
     "s": "2026-10-17T10:00"
    }
-  ]
+  ],
+  "title_ko": "CHERRY AND VIRGIN【2회째】 제39회 도쿄국제영화제(TIFF)",
+  "summary_ko": "종합 이벤트",
+  "tg": "fe5d"
  },
  {
   "title": "【11月29日まで開催】等身大の桐生や春日にエスコートされ、『龍が如く』20周年記念“冠婚贈祭展 -極-”へ！",
@@ -2007,7 +3064,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/93445/ogp_vdWW.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/93445/ogp_vdWW.jpg?x=1280",
+  "title_ko": "【11월 29일까지 개최】등신대의 키류나 카스가에 에스코트되어, 「용과 같이」20주년 기념 “관혼증제전-극-”에!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【PUBG MOBILE】ホロライブ『博衣こより』コラボ開催！ 衣装やボイスが登場",
@@ -2028,7 +3088,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94067/ogp_GMCQ.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94067/ogp_GMCQ.jpg?x=1280",
+  "title_ko": "【PUBG MOBILE】홀로라이브 “하쿠이 코요리” 콜라보레이션 개최! 의상과 음성이 등장",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『進撃の巨人３』先行プレイレポ。104期の指導役視点でリヴァイとの距離感が近いストーリーや進化した立体機動アクションが楽しすぎる",
@@ -2047,7 +3110,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/93020/ogp_SpRc.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/93020/ogp_SpRc.jpg?x=1280",
+  "title_ko": "『진격의 거인3』 선행 플레이 리포. 104기의 지도역 시점에서 리바이와의 거리감이 가까운 스토리나 진화한 입체 기동 액션이 너무 즐겁다",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『ゴジバト』西川伸司デザイン“剣バトラ”＆“27式機龍”誕生秘話が明かされるゴジフェスステージレポ",
@@ -2067,7 +3133,10 @@
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
   "image": "https://cimg.kgl-systems.io/camion/files/93443/ogp_NtVc.jpg?x=1280",
-  "ps": true
+  "ps": true,
+  "title_ko": "『고지바트』 니시카와 신지 디자인 “검 바트라” & “27식 기룡” 탄생 비화가 밝혀지는 고지페스 스테이지 레포",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『龍が如く 極３』『ペルソナ３R』などセガ人気作が最大60%オフセール開催中",
@@ -2088,7 +3157,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94046/ogp_mDii.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94046/ogp_mDii.jpg?x=1280",
+  "title_ko": "『용과 같이 극 3』 『페르소나 3R』 등 세가 인기작이 최대 60% 오프 세일 개최 중",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『魔法使いの夜』×出前館コラボ実施！ 注文回数に応じて限定グッズが当たる",
@@ -2107,7 +3179,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94045/ogp_QoZs.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94045/ogp_QoZs.jpg?x=1280",
+  "title_ko": "「마법사의 밤」×데젠칸 콜라보 실시! 주문 횟수에 따라 한정 상품이 맞습니다.",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『野球格闘リーグマン』DL版ストア公開中＆ Switch 2版は予約購入受付中",
@@ -2126,7 +3201,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94040/ogp_vqjO.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94040/ogp_vqjO.jpg?x=1280",
+  "title_ko": "「야구 격투 리그맨」DL판 스토어 공개중＆Switch 2판은 선주문 접수중",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『トライガン・マキシマム』ヴァッシュとウルフウッドの特別なラベル・ウイスキー抽選販売決定",
@@ -2145,7 +3223,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94034/ogp_Tsxk.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94034/ogp_Tsxk.jpg?x=1280",
+  "title_ko": "'트라이건 맥시엄' 바쉬와 울프우드의 특별한 라벨 위스키 추첨 판매 결정",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【ダイヤのA×ピザーラ】沢村VS成宮の味を再現!? 限定アクキー＆スリーブ付きコラボピザ登場",
@@ -2164,7 +3245,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/94033/ogp_sCdR.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/94033/ogp_sCdR.jpg?x=1280",
+  "title_ko": "【다이아의 A×피자라】사와무라 VS 나리미야의 맛을 재현!? 한정 액키＆슬리브 첨부 콜라보 피자 등장",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "今こそ決断のときだ！ アーロン推しは迷わず飲むべき、見た目も味も渋いアルコールドリンク【FFXコラボカフェ食レポ】",
@@ -2183,7 +3267,10 @@
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/92376/ogp_Rrsr.jpg?x=1280"
+  "image": "https://cimg.kgl-systems.io/camion/files/92376/ogp_Rrsr.jpg?x=1280",
+  "title_ko": "지금이야말로 결정의 때다! 아론 추격은 망설이지 않고 마셔야 할, 외형도 맛도 차분한 알코올 음료 【FFX 콜라보 카페 음식 레포】",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "「勇者パーティはぜんめつしました。」と「病能探偵」がコラボバンドルセールを実施。Steamで高評価を獲得した2作品がセット購入で20％オフに",
@@ -2202,7 +3289,10 @@
   "summary": "FlashlightGamesは，同社がパブリッシングを手がける高湿度・激重感情RPG「勇者パーティはぜんめつしました。」と，デスゲーム推理アドベンチャー「病能探偵」のコラボバンドルセールを，本日（2026年11月14日）16：00から実施すると発表した。両作品の発売記念セールに",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://www.4gamer.net/games/784/G078437/20261114004/SS/002.jpg"
+  "image": "https://www.4gamer.net/games/784/G078437/20261114004/SS/002.jpg",
+  "title_ko": "「용사 파티는 굳건히 했습니다.」라고 「병능 탐정」이 콜라보 번들 세일을 실시. Steam에서 높은 평가를 받은 2작품 세트 구매로 20% 할인",
+  "summary_ko": "FlashlightGames는, 동사가 퍼블리싱을 다루는 고습도·격중 감정 RPG 「용사 파티는 전혀 했습니다.」라고, 데스 게임 추리 어드벤처 「병능 탐정」의 콜라보 번들 세일을, 오늘(2026년 11월 14일) 16:00부터 실시한다고 발표했다. 두 작품의 발매 기념 세일에",
+  "tg": "fe5d"
  },
  {
   "title": "しまむらで「ちいかわ」グッズが11月18日発売！お出かけ先でのうっかり汚れに活躍する衣類用シミとりペン全3種",
@@ -2223,7 +3313,10 @@
   "summary": "全国のしまむら店舗にて、「ちいかわ」のグッズが2026年11月18日より発売！同日15時よりオンラインストアでも取り扱われます。",
   "image": "https://www.inside-games.jp/imgs/rss/1807698.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "시마무라에서 「치이카와」 상품이 11월 18일 발매! 외출처에서의 확실히 더러움에 활약하는 의류용 기미 취급 펜 전 3종",
+  "summary_ko": "전국의 시마무라 점포에서, 「치이카와」의 상품이 2026년 11월 18일부터 발매! 같은 날 15시부터 온라인 스토어에서도 취급됩니다.",
+  "tg": "fe5d"
  },
  {
   "title": "7年ぶり日本開催「レインボーシックス シージ」世界大会「BLAST R6 OSAKA MAJOR 2026」現地レポート制したのは「FaZe Clan」。前回王者DarkZeroを完封3-0勝利",
@@ -2242,7 +3335,10 @@
   "summary": "ユービーアイソフトの対戦型タクティカルFPS「レインボーシックス シージ」の国際eスポーツ大会「BLAST R6 OSAKA MAJOR 2026」が、11月6日から15日にかけて開催された。11月13日からは大阪府の「ATCホール」にて、観客を迎えてのプレイオフが行われている。",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/533/taikai23.jpg"
+  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/533/taikai23.jpg",
+  "title_ko": "7년 만에 일본 개최 「레인보우 식스 시지」 세계 대회 「BLAST R6 OSAKA MAJOR 2026」현지 리포트제한 것은 「FaZe Clan」. 마지막 왕자 DarkZero 완성 3-0 승리",
+  "summary_ko": "유비아이소프트의 대전형 택티컬 FPS '레인보우 식스 시지'의 국제 e스포츠 대회 'BLAST R6 OSAKA MAJOR 2026'이 11월 6일부터 15일에 걸쳐 개최되었다. 11월 13일부터는 오사카부의 「ATC홀」에서 관객을 맞이한 플레이오프가 진행되고 있다.",
+  "tg": "fe5d"
  },
  {
   "title": "富士急、サンエックス新アトラクション「San-X Paradise Secret Party！」先行体験レポート癒され続ける……！リラックマたちに招待状を届ける体験型アトラクション",
@@ -2261,7 +3357,10 @@
   "summary": "「たれぱんだ」が世に出たのは1990年代の終わりごろ。あのころ、机の上でだらーんと転がっているだけのパンダに、なぜか癒されていたものだ。それからリラックマが生まれ、すみっコぐらしが生まれ、サンエックスのキャラたちは世代を超えて愛されている。",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/483/img-12.jpg"
+  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/483/img-12.jpg",
+  "title_ko": "후지큐, 선엑스 신 어트랙션 「San-X Paradise Secret Party!」선행 체험 리포트 치유 계속… 리락쿠마들에게 초대장을 전달하는 체험형 어트랙션",
+  "summary_ko": "'타레판다'가 세상에 나온 것은 1990년대 말까지. 그 무렵, 책상 위에서 흠뻑 굴리고 있을 뿐의 팬더에, 왠지 치유되고 있던 것이다. 그리고 리락쿠마가 태어나 스미코구라시가 태어나고, 산엑스의 캐릭터들은 세대를 넘어 사랑받고 있다.",
+  "tg": "fe5d"
  },
  {
   "title": "魔道祖師「玉座ver.」ロフト先行 新規描き下ろしグッズ 2月発売!",
@@ -2280,7 +3379,10 @@
   "summary": "大河幻想ラジオドラマ『魔道祖師』から、ロフト先行「玉座」をテーマにした新規描き下ろしグッズが2027年2月中旬に一般発売される。",
   "image": "https://collabo-cafe.com/wp-content/uploads/c478b1a6dedb96603a486610161ab963-454-768x432.jpg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "마도 조사 「옥좌 ver.」로프트 선행 신규 신작 상품 2월 발매!",
+  "summary_ko": "대하 환상 라디오 드라마 '마도 조사'에서 로프트 선행 '옥좌'를 테마로 한 신규 신작 상품이 2027년 2월 중순에 일반 발매된다.",
+  "tg": "fe5d"
  },
  {
   "title": "ヒロアカ × 富士急ハイランド コラボ 描き下ろしグッズが一般発売!",
@@ -2299,7 +3401,10 @@
   "summary": "「僕のヒーローアカデミア」×「富士急ハイランド」コラボより、限定描き下ろしビジュアルを使用した新作グッズが2027年2月発売!",
   "image": "https://collabo-cafe.com/wp-content/uploads/HSbJRb5aMAAbGGh-768x384.jpeg",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "히로아카 × 후지큐 하이랜드 콜라보레이션 신작 상품이 일반 발매!",
+  "summary_ko": "「나의 히어로 아카데미아」×「후지큐 하이랜드」 콜라보레이션보다 한정 신작 비주얼을 사용한 신작 상품이 2027년 2월 발매!",
+  "tg": "fe5d"
  },
  {
   "title": "FF40周年記念展 in 東京国立博物館 2027年1月8日より開催!",
@@ -2329,7 +3434,10 @@
     "n": "先行販売",
     "s": "2027-09-10T00:00"
    }
-  ]
+  ],
+  "title_ko": "FF40주년 기념전 in 도쿄 국립 박물관 2027년 1월 8일부터 개최!",
+  "summary_ko": "「파이널 판타지」시리즈 40주년을 기념한 전시회 「끝없는 판타지의 세계」가, 2027년 1월 8일부터 4월 4일까지 도쿄 국립 박물관 오모테칸에서 개최. 역대 타이틀의 영상이나 음악, 체험형 컨텐츠에 더해, 문화재와 FF의 첫 콜라보도!",
+  "tg": "fe5d"
  },
  {
   "title": "ダイヤのA ゲームセンター POP UP SHOP in 渋谷 1月21日開催!",
@@ -2354,6 +3462,9 @@
    139.7005
   ],
   "address": "東京都渋谷区",
+  "title_ko": "다이아의 A 게임 센터 POP UP SHOP in 시부야 1월 21일 개최!",
+  "summary_ko": "「TV 애니메이션 「다이아의 A actⅡ -Second Season-」POP UP SHOP」이, 1월 21일부터 1월 31일까지 HMV&BOOKS SHIBUYA에서 개최 결정!",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -2373,7 +3484,10 @@
   "summary": "株式会社MissionTime 株式会社Mission Timeが運営するVTuber事務所「REPLAY LIVE（りぷらい！）」は、所属メンバー16名が小学生の姿に大変身した「りぷらい！クリスマス-2026-」を、2 The post VTuber事務所「REPLAY LIV",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
   "scanned": true,
-  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/15184059/183437-9-7c29e45081a4cc6b009c8f60f17dd806-1920x1080-1.webp"
+  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/15184059/183437-9-7c29e45081a4cc6b009c8f60f17dd806-1920x1080-1.webp",
+  "title_ko": "VTuber 사무소 「REPLAY LIVE」, 소속 멤버 16명이 초등학생의 모습으로 대변신한 「리푸라이!크리스마스-2026-」굿즈의 판매를 개시",
+  "summary_ko": "주식회사 MissionTime 주식회사 Mission Time이 운영하는 VTuber 사무소 「REPLAY LIVE(리푸라이!)」는, 소속 멤버 16명이 초등학생의 모습으로 대변신한 「리푸라이!크리스마스-2026-」를, 2 The post VTuber 사무소 「REPLAY LIV",
+  "tg": "fe5d"
  },
  {
   "title": "『超かぐや姫！』ブラックオニキスが「anan AWARD」バーチャルスター部門を受賞 “時代の顔”に",
@@ -2394,7 +3508,10 @@
   "summary": "アニメーション映画『超かぐや姫！』に登場するプロゲーマーグループ・ブラックオニキス（Black onyX）が、週刊誌『anan』が“時代の顔”となるスターを表彰する「anan AWARD 2026」のバーチャルスター部門を受賞した。ブラックオニキスのメンバーである帝アキラ、駒沢雷",
   "image": "https://img.kai-you.net/storage/2026/11/b1a553f7-93e2-4451-a42b-0d98488acf62/main/black.webp",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「초 가구야 공주!」블랙 오닉스가 「anan AWARD」버추얼 스타 부문을 수상 “시대의 얼굴”에",
+  "summary_ko": "애니메이션 영화 '초 가구야 공주!'에 등장하는 프로게이머 그룹 블랙오닉스(Black onyX)가 주간지 'anan'이 '시대의 얼굴'이 되는 스타를 표창하는 'anan AWARD 2026'의 가상 스타 부문을 수상했다. 블랙 오닉스의 멤버 인 테이 아키라, 코마자와 번개",
+  "tg": "fe5d"
  },
  {
   "title": "Netflixアニメ『マジック：ザ・ギャザリング』2027年配信　主人公チャンドラの姿を公開",
@@ -2413,7 +3530,10 @@
   "summary": "Netflixが、トレーディングカードゲーム『マジック：ザ・ギャザリング』（MTG）を原作とするアニメ『PLANESWALKER（原題）』を、2027年に配信すると発表した。あわせて、主人公となる魔法使いのチャンドラ・ナラーの姿や、制作陣へのインタビューなどを収録した映像「PLA",
   "image": "https://img.kai-you.net/storage/2026/11/f225d387-784e-43c8-aff7-2029015310b8/main/PLANESWALKER.webp",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "Netflix 애니메이션 '매직: 더 개더링' 2027년 전달 주인공 찬드라의 모습을 공개",
+  "summary_ko": "Netflix가 트레이딩 카드 게임 '매직 : 더 개더링'(MTG)을 원작으로 하는 애니메이션 'PLANESWALKER(원제)'를 2027년에 전달한다고 발표했다. 아울러, 주인공이 되는 마법사의 챈드라 나라의 모습이나, 제작진에의 인터뷰 등을 수록한 영상 「PLA",
+  "tg": "fe5d"
  },
  {
   "title": "にじさんじから「SILENT SERVANTS」グッズが登場！2026年10月28日(水)18時から販売開始！",
@@ -2434,7 +3554,10 @@
   "summary": "",
   "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/d4dfe74a621747c3b071e0fe8504d49d/SILENT%20SERVANTS_banner.png",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "니지산지로부터 「SILENT SERVANTS」 상품이 등장! 2026년 10월 28일(수) 18시부터 판매 개시!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "[주간 팝업] 2026년 10월 3주차: 토요일 성수에 문 여는 국내 최초 '짱구는 못말려' 시공간 대모험 전시",
@@ -2459,6 +3582,8 @@
    127.0557
   ],
   "address": "서울 성동구",
+  "title_ko": "",
+  "summary_ko": "",
   "placeGuess": true
  },
  {
@@ -2479,7 +3604,10 @@
   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1rM0VnR1A4UG9TWlpuaExseUtEOTBtYzRReHp5eXotcUxybS03MFRvbGFHWDZvQ1FDSGZ4RzZIanlpcVdGdUVTUWRfOE1ndmxhRnRZTg?oc=5",
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "「『귀등의 냉철』15주년 기념 원화전～지옥의 사태도 당신 나름～」신작 상품의 발매가 결정! 에구치 나츠미 선생님 신작 일러스트＆원작 일러스트를 사용한 호화 라인업!!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "【フェア】くらはしれい 2027カレンダー複製原画展 「いきものたち」",
@@ -2497,7 +3625,10 @@
   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBnVm5XbDF5WXRzdWhqaFlERHBJQ0hEV3F1NTIwVjdtM3N5SHZXbTVPRmJsVWZxQ2RWYW9yX2ZiRFd5eWZueTFVOEswTHlYblZqV2dPSGh5bWM5YkNFUEZZc3pteGZTM0MxNnVUa0J3YWF3SmU0OUU0YXRB?oc=5",
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "【페어】쿠라는 2027 캘린더 복제 원화전 “이키모노들”",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "旭川で夫婦イラスト展「話鎔折衷」 スチームパンクと和風ファンタジー（みんなの経済新聞ネットワーク）",
@@ -2515,7 +3646,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5FRFlfTEZDcDBTN3Zvc1oxcG1zOVU3bzhJRmN0Z0dINW5SMHQtZlhQYlVsS1kzT2FXQVhOeTczTTVxRGd1eWlrR21pLVJRMC04MXJ6dUkwOWliVDdpVnZnUXdyMi1SS3djTlBWakN0UGZoSEsxc0tOMWRVUjB5a28?oc=5",
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "아사히카와에서 부부 일러스트 전시회 「화상절절」 스팀펑크와 일본식 판타지(모두의 경제신문 네트워크)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "原画展「古舘春一 ハイキュー!!展 挑戦者たち」先行公開 79枚の写真でリポート（WWDJAPAN.com）",
@@ -2535,7 +3669,10 @@
   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE12VFpud2s0RnRMSm92SlZ4YnBoUktCUjFyRjBsc1UyQjVDT2FVMEpqTEZVR0FrdDl3X2VGa2Z5WUZvbFluMkpDRnA4UEFfUGxGU0hSZ3JPc1EzZ1hNSGtvQ2lrYjh0R1NMbVR6Q1RtcjhleEZRYTc5T2NWOXY5d1k?oc=5",
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "원화전 「코쇼 하루이치 하이큐!!전 도전자들」 선행 공개 79장의 사진으로 리포트(WWDJAPAN.com)",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "『ウマ娘 シンデレラグレイ』原画展 10月26日（月）18時より前売券販売開始！ 新規描き下ろしメインビジュアルも大公開！",
@@ -2555,7 +3692,10 @@
   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XalF6U09BYXo5bV8yU3NyOGpkSnJJbTFEVHhfakI4RlVHVjhtNzBiemZ3YnlraXg2dUZ0WkhKZ3lUWDJoOXhlYTc5ZXNGb2Y5eHhxQUdxaGhHNzlGQUtxRHFmT2pidjQyWEE?oc=5",
   "summary": "",
   "addedAt": "2026-11-15T18:43:29.656254+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "『우마무스메 신데렐라 그레이』 원화전 10월 26일(월) 18시부터 예매권 판매 개시! 신규 신작 메인 비주얼도 대공개!",
+  "summary_ko": "",
+  "tg": "fe5d"
  },
  {
   "title": "アーニャが仮面舞踏会におでけけ!?「SPY×FAMILY」新作グッズにわくわく♪ WIT STUDIOのポップアップショップ、5都市のTSUTAYAで開催",
@@ -2905,80 +4045,6 @@
   "tg": "d688"
  },
  {
-  "title": "「メイプルストーリーM」で「テイルズウィーバー」とのコラボを開催",
-  "category": "collab",
-  "source": "4Gamer",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.4gamer.net/games/324/G032445/20261112041/",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "image": "https://www.4gamer.net/games/324/G032445/20261112041/SS/001.jpg",
-  "title_ko": "「메이플 스토리 M」에서 「테일즈 위버」와의 콜라보레이션 개최",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "「METAL BUILD ガンダムキュリオス」が2次抽選販売！飛行形態への変形や、GNアームズとのオリジナル合体ギミックを搭載",
-  "category": "other",
-  "source": "インサイド",
-  "platform": "site",
-  "works": [
-   "機動戦士ガンダム"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "2026-11-14T17:00",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.inside-games.jp/article/2026/11/14/190948.html",
-  "summary": "プレミアムバンダイにて、「METAL BUILD ガンダムキュリオス」の2次抽選販売が11月14日17時より開始！",
-  "phases": [
-   {
-    "n": "抽選販売",
-    "s": "2026-11-14T17:00"
-   }
-  ],
-  "image": "https://www.inside-games.jp/imgs/rss/1807108.jpg",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「METAL BUILD 건담 큐리오스」가 2차 추첨 판매! 비행 형태로의 변형이나, GN 암즈와의 오리지날 합체 특수 효과를 탑재",
-  "summary_ko": "프리미엄 반다이에서, 「METAL BUILD 건담 큐리오스」의 2차 추첨 판매가 11월 14일 17시부터 개시!",
-  "tg": "d688"
- },
- {
-  "title": "一斉行動「ブリーチ」による爽快感！「レインボーシックス タクティクス」プレゼンレポートポール・ビショップが帰ってくる。「シージ」作中部隊再建の物語を描くターン制戦略ゲーム",
-  "category": "popup",
-  "source": "GAME Watch",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "2026-11-12T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://game.watch.impress.co.jp/docs/preview/2156519.html",
-  "summary": "ユービーアイソフトは11月12日、大阪で開催したメディア向けプレビューイベント「BLAST R6 OSAKA MAJOR PREVIEW EVENT」にて、2027年発売予定のPC/PS5/Xbox Series X|S用ターン制戦略ゲーム「レインボーシックス タクティクス」に関",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "image": "https://game.watch.impress.co.jp/img/gmw/list/2156/519/r6t09.jpg",
-  "title_ko": "일제 행동 「블리치」에 의한 상쾌감! 「레인보우 식스 택틱스」프레젠 리포트 폴 비숍이 돌아온다. '시지' 작중 부대 재건의 이야기를 그리는 턴제 전략 게임",
-  "summary_ko": "유비아이소프트는 11월 12일, 오사카에서 개최한 미디어용 프리뷰 이벤트 「BLAST R6 OSAKA MAJOR PREVIEW EVENT」에서, 2027년 발매 예정인 PC/PS5/Xbox Series X|S용 턴제 전략 게임 「레인보우식스 택틱스」에 관하여",
-  "tg": "d688"
- },
- {
   "title": "デュオリンゴ、ポケモンとコラボか？ ピカチュウらしき“シッポ”を投稿11月17日に発表か",
   "category": "collab",
   "source": "GAME Watch",
@@ -3025,56 +4091,6 @@
   "tg": "d688"
  },
  {
-  "title": "きゅるりんってしてみて「しゅーぱーきゅるりんコア〜カワイイ・リアリズム宣言〜」Kアリーナ横浜公演 キッチンカー出店決定!!",
-  "category": "live",
-  "source": "スイーツパラダイス",
-  "platform": "site",
-  "works": [],
-  "eventDate": "2026-11-14T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "Kアリーナ横浜",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.sweets-paradise.jp/collaboration/kyurushitekc?utm_source=rss&utm_medium=rss&utm_campaign=%25e3%2581%258d%25e3%2582%2585%25e3%2582%258b%25e3%2582%258a%25e3%2582%2593%25e3%2581%25a3%25e3%2581%25a6%25e3%2581%2597%25e3%2581%25a6%25e3%2581%25bf%25e3%2581%25a6%25e3%2580%258c%25e3%2581%2597%25e3%2582%2585%25e3%2583%25bc%25e3%2581%25b1%25e3%2583%25bc%25e3%2581%258d%25e3%2582%2585%25e3%2582%258b%25e3%2582%258a%25e3%2582%2593",
-  "summary": "11月14日(土)に開催される きゅるりんってしてみて「しゅーぱーきゅるりんコア〜カワイイ・リアリズム宣言〜」Kアリーナ横浜公演にキッチンカー by S-PiCK CAFEの出店が決定しました！！！ キッチンカー限定のフ […] The post きゅるりんってしてみて「しゅーぱ",
-  "image": "https://www.sweets-paradise.jp/wp-content/uploads/2026/11/2611_きゅるしてキッチンカー_メニュー表1103_修正-1.jpg",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "큐루린이라고 해보고 \"슈파 큐루린 코어 ~ 귀여운 리얼리즘 선언 ~ \"K 아레나 요코하마 공연 키친 카 출점 결정!!",
-  "summary_ko": "11월 14일(토)에 개최되는 큐루린 해 봐 「슈퍼 큐린 코어 ~카와이이 리얼리즘 선언~」K아레나 요코하마 공연에 키친카 by S-PiCK CAFE의 출점이 결정되었습니다! ! ! 키친카 한정의 […] The post",
-  "tg": "d688",
-  "geo": [
-   35.4641,
-   139.6247
-  ],
-  "address": "神奈川県",
-  "placeGuess": true
- },
- {
-  "title": "『AMPTAKx侵略計画レインボーロード中93％』STPR PARADISE 有明特別出張所  〜1日限定で侵略中！〜開催決定！！",
-  "category": "other",
-  "source": "スイーツパラダイス",
-  "platform": "site",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.sweets-paradise.jp/collaboration/amptak-colors-livetour2026_ariake?utm_source=rss&utm_medium=rss&utm_campaign=%25e3%2580%258eamptakx%25e4%25be%25b5%25e7%2595%25a5%25e8%25a8%2588%25e7%2594%25bb%25e3%2583%25ac%25e3%2582%25a4%25e3%2583%25b3%25e3%2583%259c%25e3%2583%25bc%25e3%2583%25ad%25e3%2583%25bc%25e3%2583%2589%25e4%25b8%25ad93%25ef%25bc%2585%25e3%2580%258fstpr-paradise-%25e6%259c%2589%25e6%2598%258e%25e7%2589%25b9",
-  "summary": "『AMPTAKx侵略計画レインボーロード中93％』(SGC HALL ARIAKE)の開催を記念して、「STPR PARADISE 有明特別出張所 〜1日限定で侵略中〜」の出店が決定しました！ オリジナルのドーナツやキッ […] The post 『AMPTAKx侵略計画レインボ",
-  "image": "https://www.sweets-paradise.jp/wp-content/uploads/2026/11/2611_AMPTAKキッチンカー_有明メニュー表1102t6.jpg",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「AMPTAKx 침략 계획 레인보우 로드 중 93%」STPR PARADISE 아리아케 특별 출장소 ~1일 한정으로 침략중! ~ 개최 결정! !",
-  "summary_ko": "「AMPTAKx 침략 계획 레인보우 로드 중 93%」(SGC HALL ARIAKE)의 개최를 기념해, 「STPR PARADISE 아리아케 특별 출장소 ~1일 한정으로 침략중~」의 출점이 결정되었습니다! 오리지널 도넛이나 키 […] The post 『AMPTAKx 침략 계획 레인보우",
-  "tg": "d688"
- },
- {
   "title": "Pimax、COO来日に伴い日本のVRユーザーとの「特別1on1対話会」を11/24・25に東京・新宿で開催",
   "category": "other",
   "source": "PANORA",
@@ -3103,32 +4119,6 @@
   "placeGuess": true
  },
  {
-  "title": "ホロライブ新イベント「ホロライブわちゃわちゃ学園祭」DAY1の公式速報レポートが公開　アーカイブ視聴チケットも販売中",
-  "category": "event",
-  "source": "PANORA",
-  "platform": "rss",
-  "works": [
-   "ホロライブ"
-  ],
-  "eventDate": "2026-11-14T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "https://holo-wachafes.zaiko.io/ja/e/holo-gakuensai-2026",
-  "ticketUrls": [
-   "https://holo-wachafes.zaiko.io/ja/e/holo-gakuensai-2026"
-  ],
-  "url": "https://panora.tokyo/archives/163125",
-  "summary": "カバー株式会社 カバー株式会社（本社：東京都港区、代表取締役社長：谷郷元昭）が運営するホロライブプロダクションは、2026年11月14日（土）・15日（日）の2日間、京王アリーナTOKYOメインアリーナにて、イベント『ホ The post ホロライブ新イベント「ホロライブわちゃわ",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "image": "https://asset.panora.tokyo/wp-content/uploads/2026/11/15122414/30268-1285-11e11f90f4293bcfa177c76b32f4da15-1920x1080-1.webp",
-  "title_ko": "홀로라이브 신 이벤트 「홀로라이브 와챠와 학원 축제」DAY1의 공식 속보 리포트가 공개 아카이브 시청 티켓도 판매 중",
-  "summary_ko": "커버 주식회사 커버 주식회사(본사：도쿄도 미나토구, 대표 이사 사장：타니고 모토아키)가 운영하는 홀로라이브는, 2026년 11월 14일(토)·15일(일)의 2일간, 게이오 아레나 TOKYO 메인 아레나에서, 이벤트 “호 The post 홀로라이브 신 이벤트 “홀로라이브 와",
-  "tg": "d688"
- },
- {
   "title": "たかくらかずき個展「電脳寺 PLAY＝PRAY」開催　ゲームを遊ぶ身体から現代の“祈り”を考える",
   "category": "exhibit",
   "source": "KAI-YOU",
@@ -3149,678 +4139,6 @@
   "title_ko": "다카쿠라카즈키 개인전 「덴뇌지 PLAY=PRAY」개최 게임을 하는 신체로부터 현대의 “기도”를 생각한다",
   "summary_ko": "현대 미술가·타카쿠라카즈키씨의 개인전 “덴뇌지 PLAY=PRAY”가, 11월 21일(토)부터 도치기현 우쓰노미야시의 오타니 그랜드·센터에서 개최된다. 회기는 2027년 3월 29일(월)까지. 게임과 캐릭터, 그리고 그들을 조작하는 \"인간의 신체\"를 통해 현대의 ​​\"기도\"란 무엇인가",
   "tg": "d688"
- },
- {
-  "title": "bloodthirsty butchersの名盤『kocorono』がサブスク初解禁　後藤正文や又吉直樹らが寄稿",
-  "category": "live",
-  "source": "KAI-YOU",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "2026-11-14T00:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://kai-you.net/article/97144",
-  "summary": "ロックバンド・bloodthirsty butchersのアルバム『kocorono』『NO ALBUM 無題』『youth（青春）』の3作品が、11月14日（土）にサブスクリプションサービスへの配信が解禁された。2026年はbloodthirsty butchersが初ライブか",
-  "image": "https://img.kai-you.net/storage/2026/11/decd5f22-228c-4587-b1d9-72dc2e79779f/main/kokorono.webp",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "bloodthirsty butchers의 명반 「kocorono」가 서브스크 첫 해금",
-  "summary_ko": "록밴드 bloodthirsty butchers의 앨범 'kocorono' 'NO ALBUM 무제' 'youth(청춘)'의 3작품이 11월 14일(토)에 서브스크립션 서비스로의 전달이 해금되었다. 2026년은 bloodthirsty butchers가 첫 라이브인가",
-  "tg": "d688"
- },
- {
-  "title": "『LoL』世界大会「Worlds 2027」が日本で初開催　名古屋で世界の強豪が激突",
-  "category": "other",
-  "source": "KAI-YOU",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://kai-you.net/article/97156",
-  "summary": "ゲーム『League of Legends』（LoL）を開発／運営するライアットゲームズが、世界大会「Worlds 2027」のスイスステージ（※勝ち抜け戦の方式であるスイス式トーナメントに由来）を愛知県名古屋市で開催すると発表した。『LoL』の世界大会「Worlds」が日本で開",
-  "image": "https://img.kai-you.net/storage/2026/11/7e6281bc-fa00-4f29-8a11-7c68ca3e1226/main/lol-worlds-nagoya.webp",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「LoL」세계 대회 「Worlds 2027」이 일본에서 첫 개최 나고야에서 세계의 강호가 격돌",
-  "summary_ko": "게임 'League of Legends'(LoL)를 개발/운영하는 라이어트 게임스가 세계 대회 'Worlds 2027'의 스위스 스테이지(※승리전의 방식인 스위스식 토너먼트에서 유래)를 아이치현 나고야시에서 개최한다고 발표했다. 「LoL」의 세계 대회 「Worlds」가 일본에서 개최",
-  "tg": "d688"
- },
- {
-  "title": "にじさんじから「にじさんじデコラモード PART3」グッズが登場！2026年11月13日(金)18時から販売開始！",
-  "category": "goods",
-  "source": "にじさんじ公式",
-  "platform": "json",
-  "works": [
-   "にじさんじ"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "2026-11-13T18:00",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.nijisanji.jp/news/cf0kx4qk5g",
-  "summary": "",
-  "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/885d23bd9c4b46fb9666b1e8e22d879c/%E3%83%87%E3%82%B3%E3%83%A9%E3%83%A2%E3%83%BC%E3%83%89PART3_KV.png",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "니지산지로부터 「니지산지 데코라 모드 PART3」굿즈가 등장! 2026년 11월 13일(금) 18시부터 판매 개시!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "にじさんじから「Dolly Patchwork」グッズが登場！2026年11月10日(火)18時から販売開始！",
-  "category": "goods",
-  "source": "にじさんじ公式",
-  "platform": "json",
-  "works": [
-   "にじさんじ"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "2026-11-10T18:00",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://www.nijisanji.jp/news/vhb0ztz921pw",
-  "summary": "",
-  "image": "https://images.microcms-assets.io/assets/5694fd90407444338a64d654e407cc0e/eaf2c69604a64a5ab00976024d46bfda/DollyPatchwork_KV.png",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "니지산지로부터 「Dolly Patchwork」 상품이 등장! 2026년 11월 10일(화) 18시부터 판매 개시!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "マンガ＆イラスト展",
-  "category": "exhibit",
-  "source": "豊中市",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9MdElYZkN5MV8yQjM4cTVzN3pCb0loVmhvdTJTLUZaRTdicWdzVEZ0MG1yLThZMjU1NVhWaWNQcmliNGNKd3hpOHM5M3h4ZGZYU0dFZDVZazc0amRKWXFtR05CQkhPMUs2V2ZTa1U0ZldMUms?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "만화 & 일러스트 전시회",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "益田ミリ『中年に飽きた夜は』原画展 全国巡回レポート〜東京凱旋編",
-  "category": "exhibit",
-  "source": "みんなのミシマガジン",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE52UV9VWXpWRzMta0pXMERVOGNia21RT18xWmdvX085a3BXa18tcTVyYnZqeFhJNTlSZzJIcHRUbEprNEFKR1FXemoxWDdGdXdmN1FmdUdQUmFpRjBsNmZhM3JVYm5vSEstX2VBN3RrcFQ?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "마스다 밀리 「중년에 질린 밤은」원화전 전국 순회 리포트~도쿄 개선편",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "喬木村で絵本「森のくまさん」原画展 南信州の自然描いた16点",
-  "category": "exhibit",
-  "source": "飯田経済新聞",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE85aHRVTXVsM0kzWENvYTNCeTBEN1dhcVd6WFdoVVh3S3B0YmZmRWpjVDlDeXh4eGJWOUJSbks4aE1LcU12ZEN0YnBvQW8zVmc?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "가키무라에서 그림책 “모리노 쿠마씨” 원화전 난신슈의 자연 그린 16점",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "【イベントレポート】「ハイキュー!!」原画展、描き下ろしイラストで日向らの“空白の時間”を初公開（コミックナタリー）",
-  "category": "exhibit",
-  "source": "Yahoo!ニュース",
-  "platform": "rss",
-  "works": [
-   "ハイキュー!!"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1BbTNQLVNqNlA3S1dhbWZiOVh5ZGtnX0p0em1WMHUyT3FBM1ZQUUtXeUYtRXpkeUFSeTI0TWJ0R2NFWG9TcDhBT0thdE5MYk50RVR3eUxZdEs2bHUtTkJlV1pxVkdWZW9UVlcwMzVWZ2pxZDlwaG9WWUdSSFB4RG8?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "【이벤트 리포트】 「하이큐!!」원화전, 신작 일러스트로 히나타의 “빈 시간”을 첫 공개(코믹 나탈리)",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "『ウマ娘 シンデレラグレイ』原画展が池袋で開催 13人のウマ娘を描いた新規メインビジュアル公開 (リアルサウンド)",
-  "category": "exhibit",
-  "source": "Yahoo!ニュース",
-  "platform": "rss",
-  "works": [
-   "ウマ娘"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "池袋周辺",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdVZ1S3VqSkJEYndQaVdGb0l1YWk1S3U4N1ZwMWR4QTVKeDBrNmNXNW1NTl83c0hXb2lBQWxscGFlM1ZnSGJYRUFKMnF6Yk1CVmZ5WXVyd2tvUE5yamZfNVdPcUZ2NTZTUWVtVnp6cnk5UGRqUHpwckVqOXV4R01aWUctRG1ybFp4dGJ0U3pR?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「우마무스메 신데렐라 그레이」원화전이 이케부쿠로에서 개최 13명의 우마무스메를 그린 신규 메인 비주얼 공개 (리얼 사운드)",
-  "summary_ko": "",
-  "tg": "d688",
-  "geo": [
-   35.7295,
-   139.7109
-  ],
-  "address": "東京都豊島区",
-  "placeGuess": true
- },
- {
-  "title": "「鬼灯の冷徹」原画展の入場者特典に和紙風ポストカード、チケットは11月6日発売（コミックナタリー）",
-  "category": "exhibit",
-  "source": "Yahoo!ニュース",
-  "platform": "rss",
-  "works": [
-   "鬼灯の冷徹"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "2026-11-06T00:00",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE53SWh2bjZaVWJFQUtpRnA2M0NXOUVrNng1OGIwX2Y2ZlNmY3d0SDkycWEyZUFHWHg2QTVQem5FajhqU3l3S3hIVlJrejZlOEtzQVdWUncxNDhvcDVDalI5MnFWb3NiTHlsRVRqemowQU9sanJISVBvdHhMVW4wYms?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「귀등의 냉철」원화전의 입장자 특전에 일본 종이풍 엽서, 티켓은 11월 6일 발매(코믹 나탈리)",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "ようこそロアナプラへ！血と硝煙と弾幕に彩られた『BLACK LAGOON』の25年の軌跡がここに…『BLACK LAGOON 25周年原画展』レポート",
-  "category": "exhibit",
-  "source": "エンタメ特化型情報メディア スパイス",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1ndTRjSkYwZFFKbGRjRzU5dVRpdXlJTjZ0LWVWSVViMFhxMnhEM00zVlZrNVNRM2U1bE9udzV0THlrWlZwWmxmRG1ObzVtTm_SAVRBVV95cUxPT1hfcGZDMXlZWVllcFp1S3g5X0wzZXYxc3NXMG1nNGRBYjh6WkNIV00zSVp1Z2xoZXFXYkpKVFJ1YVdnWWtHNzg4R3hQcF9QcndVdms?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "환영합니다 로아나 푸라에! 피와 질연과 탄막에 물들인 ‘BLACK LAGOON’의 25년의 궤적이 여기에… ‘BLACK LAGOON 25주년 원화전’ 리포트",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "「鬼灯の冷徹」鬼灯様も白澤様も！原画展のグッズが豪華すぎる…！美麗複製原画やコミックス表紙、漫画コマ使用でファン必見☆ 1枚目の写真・画像",
-  "category": "exhibit",
-  "source": "アニメ！アニメ！",
-  "platform": "rss",
-  "works": [
-   "鬼灯の冷徹"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1UWldlLXVrTS04RGpDTUkwRU0wODFacE53YWl0ekhkM252cHp0Z0ZJXzhoTnltNGV5bEp5czlqRTY4bjFSWk1vVi1kRFY2UGRJX3dTbkdQVUMycjNscFd4ZFhsMWdZVUF3a0I2Z09vYWw?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "「귀등의 냉철」귀등님도 시라사와님도! 원화전의 상품이 너무 화려하다… 미려 복제 원화와 만화 표지, 만화 프레임 사용으로 팬 필견 ☆ 첫 번째 사진 · 이미지",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "『しゅごキャラ！２０周年記念原画展～The Unlocked Sparkle～』 グッズ第1弾情報が到着！！",
-  "category": "exhibit",
-  "source": "Infoseek",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBfXzE3R0EyS1NhbDFLYWVTUHdRcjUwUGl0Rmoxc1JqRnd5Ul9lSWhtTVViN1VxSVczS3VIY1dKVHYxT194ci1mYjR1MEUxdmNpVkpmSDNoMVRWOFJQS1ducVB1NERDcVFoNEhpekZQcVhKQQ?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "『슈고 캐릭터! 20주년 기념 원화전~The Unlocked Sparkle~』 상품 제1탄 정보가 도착! !",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "『しゅごキャラ！20周年記念原画展〜The Unlocked Sparkle〜』グッズ第1弾ラインナップ11点を一挙解禁（SPICE）",
-  "category": "exhibit",
-  "source": "ｄメニューニュース",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOa0Y0ZUd1N3g2eU1EVks0eWd3M1B0UlNNbTZZWkg1NFBXalVSM1I3bktKUGdHR3IxYU9WY0NTV3FXa2NBQ1k2MWJwbE5sSkYzNlExaWlVWm9uejZiYnBoN2hmZlZuLTZIVVNDRTdZeFdMZy1mTVVVRmNyWGRJcGNVVkFvYVdMMVVYRWpGNnE4MGg1emI3VWlxOHB4WFREU2FRZUF5QUp0blJGLTlqY1FmYUJZSUsyVFREYUlxZzZSbVd4dTZvN3dTSWlydm93eWNqM3k4?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "『슈고 캐릭터! 20주년 기념 원화전~The Unlocked Sparkle~』 상품 제1탄 라인업 11점을 일거 해금(SPICE)",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "望月ミネタロウ初の原画展「望月ミネタロウ展 “グラフィズム”」詳報 望月ミネタロウ、スケシン、釣部東京によるグッズ登場！",
-  "category": "exhibit",
-  "source": "Infoseek",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE14aGtkQmh4SmNwTE00cDVGZjZlRjZ5WkxfcE5jS2lhUmFITF9RMFprNFh5SERjczJlR1hnaThkSjUxXzBybFJ3UDBGMHJPdm03c2Y2b2pKT093WmhER3NxMFBOZXdjMnhWelVtX1ppc21fdw?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "모치즈키 미네타로 최초의 원화전 「모치즈키 미네타로전 “그라피즘”」상보 모치즈키 미네타로, 스케신, 어부 도쿄에 의한 상품 등장!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "望月ミネタロウ初の原画展「望月ミネタロウ展 “グラフィズム”」詳報 望月ミネタロウ、スケシン、釣部東京によるグッズ登場！",
-  "category": "exhibit",
-  "source": "PR TIMES",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9XTTBsNVhvaUl1ODJFQVJ4THJCb1NPcm5MZ0F1bElxdTdOMWY0TlNyMGVqTjRreDdxZWhnTmNrNmZpdGswOUpZOVlMQjZmcWg5eTVIZXpNcVZFckxhOGhKSWR0OVl1WjN6MUE?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "모치즈키 미네타로 최초의 원화전 「모치즈키 미네타로전 “그라피즘”」상보 모치즈키 미네타로, 스케신, 어부 도쿄에 의한 상품 등장!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "ヘタリア20周年原画展 2027年 名古屋・福岡・横浜で巡回決定!",
-  "category": "exhibit",
-  "source": "コラボカフェ",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMlR3S3FzSndiTEhuT2hxOVd0QUgwSTVuWlEwV2s0NlROX01odUdmSmFyQm04WURjV0E4QndSNHluU2tXNENaOE95OFdBX0NhQ2tOMXpNdHJYTTdLNkQ4a09xZ1JxblNhd2pYOVh6TFFLRUkyZkRQNXB5SnRPVUI5OEhwLTFWZnZPdi1tN0ZPajhUN244SjBn?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "헤타리아 20주년 원화전 2027년 나고야·후쿠오카·요코하마에서 순회 결정!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "望月ミネタロウ初の原画展「望月ミネタロウ展 “グラフィズム”」詳報 望月ミネタロウ、スケシン、釣部東京によるグッズ登場！",
-  "category": "exhibit",
-  "source": "ライブドアニュース",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5QMmc4UjZLV3l5eHNsU0NvaDZWMXllQTlHVnpqTmpTUktVTEE1Sm9XbGlzNTF2M3BoUHlZbFRWUGNmSmhLNHd3dXlGRG1URFZVY1dXZFctN3V6YUhuNFBTS2J3?oc=5",
-  "summary": "",
-  "addedAt": "2026-11-15T12:50:16.473926+09:00",
-  "scanned": true,
-  "title_ko": "모치즈키 미네타로 최초의 원화전 「모치즈키 미네타로전 “그라피즘”」상보 모치즈키 미네타로, 스케신, 어부 도쿄에 의한 상품 등장!",
-  "summary_ko": "",
-  "tg": "d688"
- },
- {
-  "title": "「タッチ」達也が弟・和也のためにバイト代で買った“グローブ”もデザイン！明青学園野球部のユニフォームがセイコーコラボウオッチに",
-  "category": "collab",
-  "source": "アニメ!アニメ!",
-  "platform": "site",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://animeanime.jp/article/2026/11/13/104755.html",
-  "summary": "あだち充によるマンガ『タッチ』の連載開始45周年を記念する、セイコーとコラボレーションした記念ウオッチ「あだち充 原作『タッチ』 45周年記念ウオッチ」が登場。限定4500点が、プレミアムキャラクターグッズ通販サイト「PREMICO（プレミコ）」にて取り扱い中だ。",
-  "image": "https://animeanime.jp/imgs/rss/955776.jpg",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "「터치」타츠야가 동생 카즈야를 위해 아르바이트 대에서 샀던 \"글로브\"도 디자인! 명칭 학원 야구부의 유니폼이 세이코 콜라보 시계에",
-  "summary_ko": "아다치 미츠루에 의한 만화 “터치”의 연재 개시 45주년을 기념하는, 세이코와 콜라보레이션한 기념 워치 “아다치 미츠루 원작 “터치” 45주년 기념 워치”가 등장. 한정 4500점이 프리미엄 캐릭터 상품 통신판매 사이트 「PREMICO(프레미코)」에서 취급 중이다.",
-  "tg": "5c18"
- },
- {
-  "title": "「ハリー・ポッター」×モンチッチがコラボ！ ホグワーツ生の制服姿を再現したマスコット登場",
-  "category": "collab",
-  "source": "アニメ!アニメ!",
-  "platform": "site",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://animeanime.jp/article/2026/11/13/104750.html",
-  "summary": "『ハリー・ポッター』とモンチッチのコラボレーションによる「SSキーチェーンマスコット」が登場。『ファンタスティック・ビースト』とベビチッチのコラボ商品も発売される。",
-  "image": "https://animeanime.jp/imgs/rss/955637.png",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "「해리 포터」×몬치치가 콜라보레이션! 호그와트생의 제복 모습을 재현한 마스코트 등장",
-  "summary_ko": "『해리 포터』와 몬치치의 콜라보레이션에 의한 「SS 키체인 마스코트」가 등장. '판타스틱 비스트'와 베이비 치치의 콜라보레이션 상품도 발매된다.",
-  "tg": "5c18"
- },
- {
-  "title": "アニメーション特別シンポジウム ～2027年 新たなアニメアワードのスタートに向けて～　第39回東京国際映画祭(TIFF)",
-  "category": "event",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-10-30T11:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "ポートホール",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://anime.eiga.com/event/174964/",
-  "summary": "総合イベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [
-   35.655062,
-   139.760895
-  ],
-  "address": "東京都",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "애니메이션 특별 심포지엄 ～2027년 새로운 애니메이션 어워드의 스타트를 향해～ 제39회 도쿄 국제 영화제(TIFF)",
-  "summary_ko": "종합 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "南條愛乃 ニューアルバム リリースイベント【東京・1部】",
-  "category": "event",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-11-07T13:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "都内某所",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://anime.eiga.com/event/174433/",
-  "summary": "アーティストイベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [],
-  "address": "東京都",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "난죠 아이노 새 앨범 출시 이벤트 [도쿄 · 1 부]",
-  "summary_ko": "아티스트 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "南條愛乃 ニューアルバム リリースイベント【東京・2部】",
-  "category": "event",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-11-07T15:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "都内某所",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://anime.eiga.com/event/174434/",
-  "summary": "アーティストイベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [],
-  "address": "東京都",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "난죠 아이노 새 앨범 릴리스 이벤트【도쿄 2부】",
-  "summary_ko": "아티스트 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "東山奈央「OVER THE RAINBOW」全国8ヶ所リリースイベント【宮城】",
-  "category": "event",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-11-07T15:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "仙台市内某所",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://anime.eiga.com/event/174604/",
-  "summary": "アーティストイベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [],
-  "address": "宮城県",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "히가시야마 나오 “OVER THE RAINBOW” 전국 8곳 출시 이벤트【미야기】",
-  "summary_ko": "아티스트 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "古川 慎 3rd Live【熊本】",
-  "category": "live",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-11-07T17:30",
-  "endDate": "",
-  "ticketOpen": "2026-03-18T10:00",
-  "deadline": "2026-04-12T23:59",
-  "venue": "市民会館シアーズホーム夢ホール(熊本市民会館)",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://anime.eiga.com/event/173740/",
-  "summary": "ライブイベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [
-   32.80205,
-   130.704182
-  ],
-  "address": "熊本県",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "phases": [
-   {
-    "n": "ray封入先行",
-    "s": "2026-03-18T10:00",
-    "e": "2026-04-12T23:59"
-   }
-  ],
-  "title_ko": "후루카와 신 3rd Live[구마모토]",
-  "summary_ko": "라이브 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "TVアニメ『SPY×FAMILY』：スペシャルイベント『SPY×FAMILY』ANIME EXTRA MISSION Ⅱ【夜の部】",
-  "category": "official",
-  "source": "アニメハック イベント",
-  "platform": "ldjson",
-  "works": [],
-  "eventDate": "2026-11-08T18:00",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "ベルサール高田馬場",
-  "ticketUrl": "https://pia.jp/v/spy-family26pkg/",
-  "ticketUrls": [
-   "https://pia.jp/v/spy-family26pkg/"
-  ],
-  "url": "https://anime.eiga.com/event/173562/",
-  "summary": "アニメ公式イベント",
-  "image": "https://media.eiga.com/anime/images/common/rectlogo_anime.png",
-  "geo": [],
-  "address": "東京都",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "title_ko": "TV 애니메이션 「SPY×FAMILY」：스페셜 이벤트 「SPY×FAMILY」ANIME EXTRA MISSION Ⅱ【밤의 부】",
-  "summary_ko": "애니메이션 공식 이벤트",
-  "tg": "5c18"
- },
- {
-  "title": "『超かぐや姫！』無料オンラインライブにBlack onyX参戦決定！ 出演PV＆新ビジュアルも解禁",
-  "category": "live",
-  "source": "電撃オンライン",
-  "platform": "rss",
-  "works": [
-   "超かぐや姫！"
-  ],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://dengekionline.com/article/202611/93963",
-  "summary": "",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/93963/ogp_RyeN.jpg?x=1280",
-  "ps": true,
-  "title_ko": "「초 가구야 공주!」무료 온라인 라이브에 Black onyX참전 결정! 출연 PV&신 비주얼도 해금",
-  "summary_ko": "",
-  "tg": "5c18"
- },
- {
-  "title": "ケンタッキーの人気投票開催。オリジナルチキンで一番好きな部位は？",
-  "category": "other",
-  "source": "電撃オンライン",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://dengekionline.com/article/202611/93942",
-  "summary": "",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/93942/ogp_Qvyg.jpg?x=1280",
-  "title_ko": "켄터키의 인기 투표 개최. 오리지널 치킨에서 가장 좋아하는 부위는?",
-  "summary_ko": "",
-  "tg": "5c18"
- },
- {
-  "title": "アニメ『風を継ぐもの』キービジュアル解禁＆U-NEXT配信決定。本日より劇場先行版が上映スタート",
-  "category": "stream",
-  "source": "電撃オンライン",
-  "platform": "rss",
-  "works": [],
-  "eventDate": "",
-  "endDate": "",
-  "ticketOpen": "",
-  "deadline": "",
-  "venue": "",
-  "ticketUrl": "",
-  "ticketUrls": [],
-  "url": "https://dengekionline.com/article/202611/93964",
-  "summary": "",
-  "addedAt": "2026-11-15T06:33:33.506646+09:00",
-  "scanned": true,
-  "image": "https://cimg.kgl-systems.io/camion/files/93964/ogp_RVhu.jpg?x=1280",
-  "title_ko": "애니메이션 「바람을 이어주는 것」키 비주얼 해금＆U-NEXT 전달 결정. 오늘부터 극장 선행판이 상영 시작",
-  "summary_ko": "",
-  "tg": "5c18"
  },
  {
   "title": "アニメをつくり続けて45年――片渕須直監督の特集上映が開催決定　「この世界の片隅に」や最新作パイロットフィルムなど上映",
@@ -6333,7 +6651,10 @@
   "summary": "「ペルソナ」シリーズ30周年を記念した「望月けい × PERSONA 30th ANNIVERSARY in ロフト」が、12月4日から2027年1月7日まで全国のロフト10店舗にて順次開催決定!望月けい先生の描き起こしイラストを使用したアクリルスタンドやホログラムステッカーなど",
   "image": "https://collabo-cafe.com/wp-content/uploads/persona-30th-kei-mochizuki-loft-eyecatch-768x432.jpg",
   "addedAt": "2026-11-13T12:50:21.561961+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "페르소나 30 주년 × 모치즈키 케이 in 로프트 10 점포 12 월 4 일부터 개최!",
+  "summary_ko": "「페르소나」시리즈 30주년을 기념한 「모치즈키 케이 × PERSONA 30th ANNIVERSARY in 로프트」가, 12월 4일부터 2027년 1월 7일까지 전국의 로프트 10 점포에서 순차 개최 결정!",
+  "tg": "fe5d"
  },
  {
   "title": "KING OF PRISM 10周年記念 POP UP in 新宿 12月12日より開催!",
@@ -6358,6 +6679,9 @@
    139.7055
   ],
   "address": "東京都新宿区",
+  "title_ko": "KING OF PRISM 10주년 기념 POP UP in 신주쿠 12월 12일부터 개최!",
+  "summary_ko": "「KING OF PRISM 10주년 기념 POP UP STORE ～KIRAMEKI KINGDOM～ in Annivroad」가, 12월 12일부터 12월 27일까지 신주쿠 마루이 아넥스 2F의 「Annivroad by Bushiroad Creative Store」에서 개최",
+  "tg": "fe5d",
   "placeGuess": true
  },
  {
@@ -6377,7 +6701,10 @@
   "summary": "TVアニメ「夢色パティシエール」のポップアップショップ「～Dreamy Tea Time～」が、11月6日から12月6日まで上野マルイ・なんばマルイにて順次開催!“それぞれのリラックスタイム”をテーマに、ルームウェア姿のキャラクターたちを描いた描き起こしイラストのグッズが販売され",
   "image": "https://collabo-cafe.com/wp-content/uploads/82313d4996ed6abfc0b03b97f3e4d7ba-768x516.jpg",
   "addedAt": "2026-11-13T12:50:21.561961+09:00",
-  "scanned": true
+  "scanned": true,
+  "title_ko": "유메카 파티시에르 POP UP in 도쿄·오사카 11월 6일부터 개최!",
+  "summary_ko": "TV애니메이션 「꿈색 파티시에르」의 팝업 숍 「~Dreamy Tea Time~」이, 11월 6일부터 12월 6일까지 우에노 마루이·난바 마루이에서 차례차례 개최!",
+  "tg": "fe5d"
  },
  {
   "title": "ホロライブ × ストリートファイター6 コラボ第3弾のカフェメニュー＆グッズが公開　カプコンカフェではコースターのプレゼントも",
