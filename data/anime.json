@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/15 기준)",
+ "src": "AniList 방영 정보 (11/16 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 769791
+   "w": 770120
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81559
+   "w": 81597
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -61,7 +61,7 @@
    "pv": "https://www.youtube.com/watch?v=uC13b3_8riU",
    "site": "https://sh-anime.shochiku.co.jp/jukishi-anime/",
    "x": "jukishi_anime",
-   "w": 76970
+   "w": 77174
   },
   {
    "t": "テムパル～アイテムの力～",
@@ -85,7 +85,7 @@
    "pv": "https://www.youtube.com/watch?v=kbtRqqa2GyA",
    "site": "https://tenken-anime.com/",
    "x": "tenken_official",
-   "w": 56340
+   "w": 56486
   },
   {
    "t": "ホタルの嫁入り",
@@ -170,7 +170,7 @@
    "pv": "https://www.youtube.com/watch?v=Nm21TTXUkf4",
    "site": "https://tokyo-revengers-anime.com/",
    "x": "anime_toman",
-   "w": 40057
+   "w": 40246
   },
   {
    "t": "帰還者の魔法は特別です 第2期",
@@ -178,11 +178,11 @@
    "tm": "24:45",
    "st": "フジテレビ「＋Ultra」ほか",
    "s": "2026-10-08",
-   "r": 19,
+   "r": 18,
    "pv": "https://www.youtube.com/watch?v=YBWOrQCB9r0",
    "site": "https://returners-magic.com/",
    "x": "returners_magic",
-   "w": 35764
+   "w": 35866
   },
   {
    "t": "どうも、好きな人に惚れ薬を依頼された魔女です。",
@@ -214,7 +214,7 @@
    "tm": "23:30",
    "st": "CBC/TBS系全国28局ネット",
    "s": "2026-09-27",
-   "r": 22,
+   "r": 23,
    "pv": "https://www.youtube.com/watch?v=8_Lxr7vO9l0",
    "site": "https://kanteiskill.com/",
    "x": "kanteiskill",
@@ -278,19 +278,7 @@
    "pv": "https://www.youtube.com/watch?v=8AnNxEp733c",
    "site": "https://tanmoshi-anime.jp/Season2/",
    "x": "tanteiwamou_",
-   "w": 27186
-  },
-  {
-   "t": "貸した魔力は【リボ払い】で強制徴収",
-   "d": 6,
-   "tm": "25:30",
-   "st": "テレビ朝日系ほか",
-   "s": "2026-10-04",
-   "r": 30,
-   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
-   "site": "https://revo-anime.com",
-   "x": "revo_anime",
-   "w": 27020
+   "w": 27227
   },
   {
    "t": "マジカル★エクスプローラー　エロゲの友人キャラに転生したけど、ゲーム知識使って自由に生きる",
@@ -298,11 +286,23 @@
    "tm": "24:00",
    "st": "TOKYO MX・BS11ほか",
    "s": "2026-09-27",
-   "r": 32,
+   "r": 30,
    "pv": "https://www.youtube.com/watch?v=XqrBfyUNYZs",
    "site": "https://majieku.com/",
    "x": "Majieku_anime",
-   "w": 26706
+   "w": 27079
+  },
+  {
+   "t": "貸した魔力は【リボ払い】で強制徴収",
+   "d": 6,
+   "tm": "25:30",
+   "st": "テレビ朝日系ほか",
+   "s": "2026-10-04",
+   "r": 31,
+   "pv": "https://www.youtube.com/watch?v=kXqx3rFSkxc",
+   "site": "https://revo-anime.com",
+   "x": "revo_anime",
+   "w": 27020
   },
   {
    "t": "野生のラスボスが現れた！ 第2期",
@@ -326,7 +326,7 @@
    "pv": "https://www.youtube.com/watch?v=_c_hMehCORQ",
    "site": "https://www.tv-tokyo.co.jp/anime/pocketmonster2023/",
    "x": "anipoke_PR",
-   "w": 25081
+   "w": 25090
   },
   {
    "t": "PSYREN -サイレン-",
@@ -434,7 +434,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20421
+   "w": 20427
   },
   {
    "t": "FX戦士くるみちゃん",
@@ -458,7 +458,7 @@
    "pv": "https://www.youtube.com/watch?v=PxXPcoo8uGM",
    "site": "https://romelia-senki.com/",
    "x": "romelia_senki",
-   "w": 19182,
+   "w": 19527,
    "rd": 6
   },
   {
@@ -519,7 +519,7 @@
    "pv": "https://www.youtube.com/watch?v=gY0hpk9E7p8",
    "site": "https://sasapi-anime.com/",
    "x": "sasaki_pichan",
-   "w": 16421
+   "w": 16464
   },
   {
    "t": "ホロのぐらふぃてぃ",
@@ -531,7 +531,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14892,
+   "w": 14889,
    "rd": 0
   },
   {
@@ -580,7 +580,7 @@
    "pv": "https://www.youtube.com/watch?v=m4yfCS_YBUU",
    "site": "https://www.anime-chiikawa.jp/",
    "x": "anime_chiikawa",
-   "w": 12870
+   "w": 12887
   },
   {
    "t": "魔法騎士レイアース (2026)",
@@ -592,7 +592,7 @@
    "pv": "https://www.youtube.com/watch?v=67GqhfLw3ys",
    "site": "https://rayearth-anime.com/",
    "x": "rayearth_info",
-   "w": 12529
+   "w": 12556
   },
   {
    "t": "天は赤い河のほとり",
@@ -665,7 +665,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8109
+   "w": 8113
   },
   {
    "t": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
@@ -701,7 +701,7 @@
    "pv": "https://www.youtube.com/watch?v=34ubb-j0kbI",
    "site": "https://mahoiku.com/anime/restart",
    "x": "mahoiku_anime",
-   "w": 7801
+   "w": 7817
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -797,7 +797,7 @@
    "pv": "https://www.youtube.com/watch?v=SXdTmFshlFs",
    "site": "https://beyblade.takaratomy.co.jp/anime/",
    "x": "beyblade_info",
-   "w": 4962
+   "w": 4968
   },
   {
    "t": "ダイヤのA actⅡ -Second Season- 第2クール",
@@ -872,28 +872,28 @@
    "w": 3503
   },
   {
-   "t": "コウペンちゃん",
-   "d": 0,
-   "tm": "08:00",
-   "st": "",
-   "s": "2025-04-06",
-   "r": 106,
-   "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
-   "site": "https://www.koupenchan-anime.jp/",
-   "x": "koupenchananime",
-   "w": 3381
-  },
-  {
    "t": "DARK MACHINE -The Animation-",
    "d": 2,
    "tm": "25:45",
    "st": "",
    "s": "2026-10-14",
-   "r": 107,
+   "r": 106,
    "pv": "https://www.youtube.com/watch?v=Tvvs_SlUYgA",
    "site": "https://www.fujitv.co.jp/darkmachine_anime/",
    "x": "dark__machine",
-   "w": 3370
+   "w": 3388
+  },
+  {
+   "t": "コウペンちゃん",
+   "d": 0,
+   "tm": "08:00",
+   "st": "",
+   "s": "2025-04-06",
+   "r": 107,
+   "pv": "https://www.youtube.com/watch?v=L4wurjkd0JM",
+   "site": "https://www.koupenchan-anime.jp/",
+   "x": "koupenchananime",
+   "w": 3381
   },
   {
    "t": "Yu-Gi-Oh! CARD GAME: THE CHRONICLES",
@@ -930,7 +930,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2572
+   "w": 2574
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1447
+   "w": 1446
   },
   {
    "t": "ニンジャラ",
@@ -1110,7 +1110,7 @@
    "pv": "https://www.youtube.com/watch?v=c3DcpEy3xd8",
    "site": "",
    "x": "",
-   "w": 1320,
+   "w": 1321,
    "rd": 5
   },
   {
@@ -1354,7 +1354,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 353
+   "w": 352
   },
   {
    "t": "パンの赤ちゃん",
@@ -1587,27 +1587,27 @@
    "w": 127
   },
   {
-   "t": "太鼓の達人 (2022)",
-   "d": 7,
-   "tm": "",
-   "st": "",
-   "s": "2022-01-07",
-   "r": 166,
-   "pv": "",
-   "site": "https://taiko-ch.net/anime/",
-   "x": "",
-   "w": 123
-  },
-  {
    "t": "ロクローの大ぼうけん",
    "d": 7,
    "tm": "",
    "st": "",
    "s": "2024-04-01",
-   "r": 167,
+   "r": 166,
    "pv": "https://www.youtube.com/watch?v=wK0zYdO-y8Y",
    "site": "https://rokurostudio.jp/",
    "x": "planetstudio696",
+   "w": 124
+  },
+  {
+   "t": "太鼓の達人 (2022)",
+   "d": 7,
+   "tm": "",
+   "st": "",
+   "s": "2022-01-07",
+   "r": 167,
+   "pv": "",
+   "site": "https://taiko-ch.net/anime/",
+   "x": "",
    "w": 123
   },
   {
@@ -1860,7 +1860,7 @@
    "pv": "https://www.youtube.com/watch?v=ZivADyFlILE",
    "site": "https://mashle.pw/",
    "x": "mashle_official",
-   "w": 43357
+   "w": 43542
   },
   {
    "t": "シャングリラ・フロンティア 3rd season",
@@ -1880,7 +1880,7 @@
    "tm": "23:00",
    "st": "",
    "s": "2027-01-08",
-   "r": 18,
+   "r": 19,
    "pv": "https://www.youtube.com/watch?v=kLO7KyjhGR0",
    "site": "https://kinioto-anime.com/",
    "x": "kinioto_anime",
@@ -1892,11 +1892,11 @@
    "tm": "",
    "st": "",
    "s": "2027-01-01",
-   "r": 23,
+   "r": 22,
    "pv": "https://www.youtube.com/watch?v=DAXn92SSHIo",
    "site": "https://ansatsu-kizoku.jp/",
    "x": "ansatsu_kizoku",
-   "w": 31082
+   "w": 31140
   },
   {
    "t": "SAKAMOTO DAYS 第2期",
@@ -1916,7 +1916,7 @@
    "tm": "17:00",
    "st": "Netflix",
    "s": "2026-11-26",
-   "r": 31,
+   "r": 32,
    "pv": "https://www.youtube.com/watch?v=p15JWZsi3Ao",
    "site": "https://www.foolnight.com/",
    "x": "foolnight_anime",
@@ -2221,7 +2221,7 @@
    "pv": "https://www.youtube.com/watch?v=ky1EjKvGMrA",
    "site": "https://zom-ore.com/",
    "x": "zom_ore",
-   "w": 3640
+   "w": 3648
   },
   {
    "t": "すだちの魔王城",
@@ -2257,7 +2257,7 @@
    "pv": "https://www.youtube.com/watch?v=hfrbzeG6v2I",
    "site": "",
    "x": "",
-   "w": 1267
+   "w": 1266
   },
   {
    "t": "オロチ -Seventh Echoes- Pilot Film",
