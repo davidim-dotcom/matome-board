@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-17T12:40:07.956691+09:00",
+ "updated": "2026-11-18T03:25:18.073896+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1151,13 +1151,18 @@
      "no": 7047255,
      "title": "번역) 호리데이 야스미 트위터 모음 244",
      "date": "2026-11-12T09:59"
+    },
+    {
+     "no": 7120147,
+     "title": "번역) 호리데이 야스미 트위터 모음 245",
+     "date": "2026-11-17T13:09"
     }
    ],
    "rec": 251,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e757c8454b1649ddd336c9fb1c86ca74e4575fe46f116667cdc2ce290a5c2a0be213de9d670f6f803744932f8e272df7d8dbb6ff1c21e",
-   "seenTo": 7119066,
-   "coverNo": "comic_new6/7047255",
-   "updatedAt": "2026-11-12T09:59"
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75798454bd57ce72dccee8d37e8905ea50cd7a09c88a9ea2fab6b4d9311f6a29318086f912873a73cb5bd1f8f18a3c78ecf200b63531",
+   "seenTo": 7130093,
+   "coverNo": "comic_new6/7120147",
+   "updatedAt": "2026-11-17T13:09"
   },
   {
    "id": "나니와금융도|",
@@ -1814,16 +1819,26 @@
      "no": 7119066,
      "title": "번역) 나니와 금융도 125~126화(무검열은 마음속휴지통챈으로)",
      "date": "2026-11-17T11:13"
+    },
+    {
+     "no": 7120585,
+     "title": "번역) 나니와 금융도 127화",
+     "date": "2026-11-17T13:50"
+    },
+    {
+     "no": 7130093,
+     "title": "번역) 나니와 금융도 128~129화",
+     "date": "2026-11-18T02:38"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75798454bd57ce72dccee8d37e8900eb5ecc760a8b586929757e99c7bce4ac21b2f528d550feaf6b",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75768454f169a5f3146e550195ccfa4b5d8f1ec46617bee659bcc1f9d0f09f5d985563a1889490df",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7119066,
-   "coverNo": "comic_new6/7119066",
-   "updatedAt": "2026-11-17T11:13"
+   "seenTo": 7130093,
+   "coverNo": "comic_new6/7130093",
+   "updatedAt": "2026-11-18T02:38"
   },
   {
    "id": "닌자슬레이어|",
@@ -5460,7 +5475,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-17T12:41",
+   "updatedAt": "2026-11-18T03:26",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7145,7 +7160,10 @@
   7100525,
   7102799,
   7107684,
-  7119066
+  7119066,
+  7120147,
+  7120585,
+  7130093
  ],
  "bad": [
   "comic_new6/6742384",
