@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-19T07:34:39.312631+09:00",
+ "updated": "2026-11-19T20:26:55.000599+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1160,7 +1160,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75798454bd57ce72dccee8d37e8905ea50cd7a09c88a9ea2fab6b4d9311f6a29318086f912873a73cb5bd1f8f18a3c78ecf200b63531",
-   "seenTo": 7144650,
+   "seenTo": 7157687,
    "coverNo": "comic_new6/7120147",
    "updatedAt": "2026-11-17T13:09"
   },
@@ -1839,16 +1839,26 @@
      "no": 7134967,
      "title": "번역) 나니와 금융도 131화",
      "date": "2026-11-18T13:42"
+    },
+    {
+     "no": 7149487,
+     "title": "번역) 나니와 금융도 132~133화",
+     "date": "2026-11-19T11:19"
+    },
+    {
+     "no": 7150981,
+     "title": "번역) 나니와 금융도 134화(야반도주록 니쿠요쿠)",
+     "date": "2026-11-19T13:02"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75768454f169a5f3146e550195ccf84455871fc7fd38cc06d6ca7563f1266e2dc592dd67cb54d917",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e7577845481bee5d49f92856e24eea96cb0ba0197b7dd310be22f468dac457a23dc4f1852d39f7f32",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7144650,
-   "coverNo": "comic_new6/7134967",
-   "updatedAt": "2026-11-18T13:42"
+   "seenTo": 7157687,
+   "coverNo": "comic_new6/7150981",
+   "updatedAt": "2026-11-19T13:02"
   },
   {
    "id": "닌자슬레이어|",
@@ -5485,7 +5495,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-19T07:35",
+   "updatedAt": "2026-11-19T20:28",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7175,7 +7185,9 @@
   7120585,
   7130093,
   7134000,
-  7134967
+  7134967,
+  7149487,
+  7150981
  ],
  "bad": [
   "comic_new6/6742384",
