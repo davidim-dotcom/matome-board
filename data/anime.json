@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/20 기준)",
+ "src": "AniList 방영 정보 (11/21 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 771385
+   "w": 771645
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81707
+   "w": 81721
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -434,7 +434,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20452
+   "w": 20458
   },
   {
    "t": "ロメリア戦記 〜魔王を倒した後も人類やばそうだから軍隊組織した〜",
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8120
+   "w": 8121
   },
   {
    "t": "魔法少女育成計画 restart",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2263
+   "w": 2262
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1915
+   "w": 1916
   },
   {
    "t": "リラックマ",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1449
+   "w": 1450
   },
   {
    "t": "ニンジャラ",
@@ -2225,12 +2225,12 @@
   },
   {
    "t": "魔術を極めて旅に出た転生エルフ、持て余した寿命で生ける伝説となる",
-   "d": 8,
-   "tm": "",
+   "d": 3,
+   "tm": "24:00",
    "st": "",
-   "s": "2027-01-01",
+   "s": "2026-12-31",
    "r": 103,
-   "pv": "https://www.youtube.com/watch?v=swAIVfYAZDQ",
+   "pv": "https://www.youtube.com/watch?v=zRvOQb5Vic8",
    "site": "https://tenseielf.asmik-ace.co.jp/",
    "x": "tenseielf",
    "w": 3822
