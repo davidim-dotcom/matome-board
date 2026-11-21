@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/21 기준)",
+ "src": "AniList 방영 정보 (11/22 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 771645
+   "w": 771892
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81721
+   "w": 81744
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -434,7 +434,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20458
+   "w": 20468
   },
   {
    "t": "ロメリア戦記 〜魔王を倒した後も人類やばそうだから軍隊組織した〜",
@@ -555,7 +555,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 14908,
+   "w": 14913,
    "rd": 0
   },
   {
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8121
+   "w": 8129
   },
   {
    "t": "魔法少女育成計画 restart",
@@ -930,7 +930,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2578
+   "w": 2580
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2262
+   "w": 2263
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1916
+   "w": 1919
   },
   {
    "t": "リラックマ",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1450
+   "w": 1451
   },
   {
    "t": "ニンジャラ",
@@ -1160,7 +1160,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 818
+   "w": 820
   },
   {
    "t": "おじゃる丸",
@@ -1172,7 +1172,7 @@
    "pv": "",
    "site": "http://www9.nhk.or.jp/anime/ojaru/",
    "x": "",
-   "w": 694
+   "w": 695
   },
   {
    "t": "おでかけ子ザメ シーズン2",
@@ -1236,18 +1236,6 @@
    "rd": 1
   },
   {
-   "t": "カードファイト!! ヴァンガード Divinez 運命星戦編",
-   "d": 6,
-   "tm": "23:30",
-   "st": "",
-   "s": "2026-11-07",
-   "r": 138,
-   "pv": "https://www.youtube.com/watch?v=zxgmRfemSMI",
-   "site": "https://anime.cf-vanguard.com/vgd/",
-   "x": "cfvanguard_PR",
-   "w": 550
-  },
-  {
    "t": "しかるねこ",
    "d": 8,
    "tm": "",
@@ -1257,7 +1245,7 @@
    "pv": "https://www.youtube.com/watch?v=WZw7n1avnq0",
    "site": "https://dogatch.jp/feature/shikaruneko/",
    "x": "shikaruneko",
-   "w": 536
+   "w": 537
   },
   {
    "t": "JKダークサモナーとデキ。。。。。。でいない!?",
@@ -1294,7 +1282,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 409
+   "w": 410
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
@@ -1354,7 +1342,7 @@
    "pv": "",
    "site": "https://www.tomoyasu.net/ratio",
    "x": "",
-   "w": 353
+   "w": 354
   },
   {
    "t": "パンの赤ちゃん",
@@ -1390,7 +1378,7 @@
    "pv": "",
    "site": "https://www.webtsc.com/prog/anime/shimajiro/",
    "x": "ShimaWowStaff",
-   "w": 239
+   "w": 240
   },
   {
    "t": "のりプロアニメ",
@@ -1450,7 +1438,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 187
+   "w": 188
   },
   {
    "t": "子猫の配達員うーにゃん (2026)",
@@ -1560,7 +1548,7 @@
    "pv": "",
    "site": "https://www.tv-tokyo.co.jp/anime/kinder/intro/sakuhin21/",
    "x": "",
-   "w": 129
+   "w": 130
   },
   {
    "t": "おしりダンディ ザ・ヤング",
@@ -2270,6 +2258,18 @@
    "site": "",
    "x": "",
    "w": 1289
+  },
+  {
+   "t": "カードファイト!! ヴァンガード Divinez 運命星戦編",
+   "d": 6,
+   "tm": "23:30",
+   "st": "",
+   "s": "2026-11-07",
+   "r": 138,
+   "pv": "https://www.youtube.com/watch?v=zxgmRfemSMI",
+   "site": "https://anime.cf-vanguard.com/vgd/",
+   "x": "cfvanguard_PR",
+   "w": 550
   },
   {
    "t": "オロチ -Seventh Echoes- Pilot Film",
