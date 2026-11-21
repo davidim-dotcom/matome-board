@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-21T07:14:28.097115+09:00",
+ "updated": "2026-11-21T19:56:50.566959+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1160,7 +1160,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75798454bd57ce72dccee8d37e8905ea50cd7a09c88a9ea2fab6b4d9311f6a29318086f912873a73cb5bd1f8f18a3c78ecf200b63531",
-   "seenTo": 7180284,
+   "seenTo": 7188747,
    "coverNo": "comic_new6/7120147",
    "updatedAt": "2026-11-17T13:09"
   },
@@ -1866,19 +1866,34 @@
      "date": "2026-11-20T13:16"
     },
     {
+     "no": 7182504,
+     "title": "번역) 나니와 금융도 104~106화",
+     "date": "2026-11-21T10:55"
+    },
+    {
      "no": 7178199,
      "title": "번역) 나니와 금융도 137화",
      "date": "2026-11-21T01:18"
+    },
+    {
+     "no": 7182699,
+     "title": "번역) 나니와 금융도 138화",
+     "date": "2026-11-21T11:15"
+    },
+    {
+     "no": 7183949,
+     "title": "번역) 나니와 금융도 139화",
+     "date": "2026-11-21T13:14"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767f8454275bb0eecb2437ab97eea90c725993a35a6237da95dd5f602dfab5924a2da4fd37e538d2",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767f8454275bb0eecb2437ab97eeac027d5893ac8ddfa5e7df33776995571ee919c6caae06dd67f3",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7180284,
-   "coverNo": "comic_new6/7178199",
-   "updatedAt": "2026-11-21T01:18"
+   "seenTo": 7188747,
+   "coverNo": "comic_new6/7183949",
+   "updatedAt": "2026-11-21T13:14"
   },
   {
    "id": "닌자슬레이어|",
@@ -3046,6 +3061,12 @@
      "g": "yukiyogo",
      "title": "헬 온 어스 #4",
      "u": "https://m.dcinside.com/board/comic_new6/6273829"
+    },
+    {
+     "no": 371,
+     "g": "yukiyogo",
+     "title": "헬 온 어스 #6",
+     "u": "https://m.dcinside.com/board/comic_new6/7188169"
     },
     {
      "no": 67,
@@ -4983,6 +5004,12 @@
          "u": "https://m.dcinside.com/board/comic_new6/6273829",
          "g": "yukiyogo",
          "no": 364
+        },
+        {
+         "label": "#6",
+         "u": "https://m.dcinside.com/board/comic_new6/7188169",
+         "g": "yukiyogo",
+         "no": 371
         }
        ]
       }
@@ -5515,7 +5542,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-21T07:15",
+   "updatedAt": "2026-11-21T19:58",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7052,6 +7079,12 @@
      "ok": true,
      "n": 0,
      "t": "2026-10-23"
+    },
+    "https://m.dcinside.com/mini/yukiyogo/371": {
+     "u": "https://m.dcinside.com/board/comic_new6/7188169",
+     "ok": true,
+     "n": 0,
+     "t": "2026-11-21"
     }
    }
   }
@@ -7210,7 +7243,9 @@
   7150981,
   7164824,
   7168527,
-  7178199
+  7178199,
+  7182699,
+  7183949
  ],
  "bad": [
   "comic_new6/6742384",
