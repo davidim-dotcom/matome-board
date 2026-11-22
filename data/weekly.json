@@ -1,41 +1,41 @@
 {
- "week": "2026-11-16",
- "range": "11/16(월) ~ 11/22(일)",
+ "week": "2026-11-23",
+ "range": "11/23(월) ~ 11/29(일)",
  "title": "이번 주 요약 · 자동 정리",
- "updated": "2026-11-16",
+ "updated": "2026-11-23",
  "auto": true,
  "picks": [
   {
-   "title": "しまむらで「ちいかわ」グッズが11月18日発売！お出かけ先でのうっかり汚れに活躍する衣類用シミとりペン全3種",
+   "title": "『ちいかわ』×東京ばな奈ポップアップストアが11月24日よりグランスタ東京に出店！",
    "works": [
     "ちいかわ"
    ],
-   "category": "goods",
+   "category": "popup",
    "tag": "유행 1위",
-   "when": "11/18(수)",
+   "when": "11/24(화)",
    "where": "",
-   "desc": "최근 14일 기사 244건으로 유행 1위. 보드에 지금 소식 15건이 있어요. 대표 소식: 全国のしまむら店舗にて、「ちいかわ」のグッズが2026年11月18日より発売！同日15時よりオンラインストアでも取り扱われます。",
+   "desc": "최근 14일 기사 251건으로 유행 1위. 보드에 지금 소식 18건이 있어요.",
    "links": [
     {
-     "label": "インサイド: しまむらで「ちいかわ」グッズが11月18日発売！お出かけ先でのうっかり汚れに活躍",
-     "url": "https://www.inside-games.jp/article/2026/11/15/190992.html"
+     "label": "電撃オンライン: 『치이카와』×도쿄 바나나 팝업 스토어가 11월 24일부터 그란스타 도쿄에",
+     "url": "https://dengekionline.com/article/202611/94603"
     },
     {
-     "label": "コラボカフェ: 치이카와 베이비 카스텔라 교토 · 니시키 시장에 11 월 18 일 오픈!",
-     "url": "https://collabo-cafe.com/events/collabo/chiikawa-shop-tieup-baby-castella-kyoto-nishiki-2026/"
+     "label": "アニメ!アニメ!: 全国初「ちいかわパークストア」オープン！ 同フロアには「ナガノマーケット UME",
+     "url": "https://animeanime.jp/article/2026/11/19/104926.html"
     },
     {
-     "label": "インサイド: GU의 「치이카와」코라보에 대비해! \"눈의 날\"테마 외출복, 룸웨어 등 ",
-     "url": "https://www.inside-games.jp/article/2026/11/14/190956.html"
+     "label": "コラボカフェ: ちいかわ 東京ばな奈 ポップアップストア in 東京駅 11月24日開催!",
+     "url": "https://collabo-cafe.com/events/collabo/chiikawa-tokyobanana-popup-gransta-tokyo-2026/"
     }
    ],
    "items": [
-    "https://www.inside-games.jp/article/2026/11/15/190992.html",
-    "https://collabo-cafe.com/events/collabo/chiikawa-shop-tieup-baby-castella-kyoto-nishiki-2026/",
-    "https://www.inside-games.jp/article/2026/11/14/190956.html",
-    "https://www.inside-games.jp/article/2026/11/10/190674.html",
-    "https://collabo-cafe.com/events/collabo/chiikawa-christmas-popup-store-aeonmall-hamamatsu-ichino-2026/",
-    "https://collabo-cafe.com/events/collabo/chiikawa-nov-popup-jr-ikebukuro-2026/"
+    "https://dengekionline.com/article/202611/94603",
+    "https://animeanime.jp/article/2026/11/19/104926.html",
+    "https://collabo-cafe.com/events/collabo/chiikawa-tokyobanana-popup-gransta-tokyo-2026/",
+    "https://collabo-cafe.com/events/collabo/chiikawa-nov-popup-jr-ikebukuro-2026/",
+    "https://www.inside-games.jp/article/2026/11/09/190572.html",
+    "https://animeanime.jp/article/2026/10/31/104366.html"
    ]
   },
   {
@@ -47,7 +47,7 @@
    "tag": "유행 2위",
    "when": "11/25(수)",
    "where": "",
-   "desc": "최근 14일 기사 119건으로 유행 2위. 보드에 지금 소식 29건이 있어요.",
+   "desc": "최근 14일 기사 143건으로 유행 2위. 보드에 지금 소식 24건이 있어요.",
    "links": [
     {
      "label": "電撃オンライン: 『홀로라이브 마작-홀로쨩-』의 전달일은 11월 25일! 총 37명 참가하",
@@ -58,214 +58,210 @@
      "url": "https://www.inside-games.jp/article/2026/11/04/190361.html"
     },
     {
-     "label": "PANORA: 홀로라이브 소속 VTuber 유닛 FLOW GLOW의 만화 「FLOW G",
-     "url": "https://panora.tokyo/archives/162565"
+     "label": "コラボカフェ: ホロライブ ししわたクッキングカフェ 11月26日より3店舗で開催!",
+     "url": "https://collabo-cafe.com/events/collabo/hololive-cafe-smile-base-cafe-shishiwata-cooking-2026/"
     }
    ],
    "items": [
     "https://dengekionline.com/article/202611/93072",
     "https://www.inside-games.jp/article/2026/11/04/190361.html",
+    "https://collabo-cafe.com/events/collabo/hololive-cafe-smile-base-cafe-shishiwata-cooking-2026/",
     "https://panora.tokyo/archives/162565",
     "https://collabo-cafe.com/events/collabo/hololive-street-fighter-cafe-capcom-2026/",
-    "https://panora.tokyo/archives/162995",
-    "https://www.inside-games.jp/article/2026/11/06/190448.html"
+    "https://panora.tokyo/archives/162995"
    ]
   },
   {
-   "title": "リラックマ × ハイキュー!! POP UP in 5都市 11月20日より登場!",
+   "title": "薬屋のひとりごと × ファミマ 11月24日よりキャンペーン開催!",
    "works": [
-    "ハイキュー!!"
+    "薬屋のひとりごと"
    ],
-   "category": "popup",
+   "category": "collab",
    "tag": "유행 3위",
-   "when": "11/20(금) · 마감 1/17(일)",
+   "when": "11/24(화)",
    "where": "",
-   "desc": "최근 14일 기사 103건으로 유행 3위. 보드에 지금 소식 9건이 있어요. 대표 소식: 『リラックマ×ハイキュー!!』のPOP UP STOREが、11月20日から2027年1月17日まで東京・大阪・札幌・京都・広島のベースヤード トーキョーで開催!第2弾情報として、烏野・青葉城西・音駒・梟谷学園・稲荷崎の各校ユニフォームを着たリラックマたちの「ぶらさげぬいぐるみ」",
+   "desc": "최근 14일 기사 99건으로 유행 3위. 보드에 지금 소식 19건이 있어요. 대표 소식: 『劇場版 薬屋のひとりごと 亡妃の秘宝』とファミリーマートのコラボキャンペーンが、2026年11月24日より全国のファミマで開催。対象商品2個の購入で猫猫・壬氏の限定景品がもらえ、SCRAP制作の謎解きにも挑戦できる!",
    "links": [
     {
-     "label": "コラボカフェ: 리락쿠마 × 하이큐!! POP UP in 5 도시 11월 20일부터 등장",
-     "url": "https://collabo-cafe.com/events/collabo/rilakkuma-haikyu-popup-store-2026-add-info-burasage-nuigurumi/"
+     "label": "コラボカフェ: 약사의 혼잣말 × 파미마 11월 24일부터 캠페인 개최!",
+     "url": "https://collabo-cafe.com/events/collabo/kusuriya-no-hitorigoto-familymart-2026/"
     },
     {
-     "label": "コラボカフェ: 하이큐!! 모코모코 아이템 아베일에서 11월 21일부터 발매!",
-     "url": "https://collabo-cafe.com/events/collabo/haikyu-avail-item-20261121/"
+     "label": "アニメ!アニメ!: 「약사의 혼잣말」마오마오＆진시와 파미마로 수수께끼 풀어! 한정 아이템 다",
+     "url": "https://animeanime.jp/article/2026/11/20/104955.html"
     },
     {
-     "label": "アニメ!アニメ!: 「하이큐!!」“모스 복주머니”가 올해도 발매☆어른의 일상 사용에 딱 맞는",
-     "url": "https://animeanime.jp/article/2026/11/04/104478.html"
+     "label": "インサイド: 패미마에서 「약사의 혼잣말」콜라보레이션이 11월 24일 개최! 마오마오나",
+     "url": "https://www.inside-games.jp/article/2026/11/20/191292.html"
     }
    ],
    "items": [
-    "https://collabo-cafe.com/events/collabo/rilakkuma-haikyu-popup-store-2026-add-info-burasage-nuigurumi/",
-    "https://collabo-cafe.com/events/collabo/haikyu-avail-item-20261121/",
-    "https://animeanime.jp/article/2026/11/04/104478.html",
-    "https://news.google.com/rss/articles/CBMif0FVX3lxTE53V25ubjBhdUlxaVVlTjNrcUJmRlpmMVBYd3pDRkJ3TkNIUF9talhPQnZLN1VjRzFKUXQ5NE1WeEtSRTk3TUNzalpLNUNxNEFsUjlVTk9pbUx4UkgxOTMtUG56dTZ6aVdra0o4bWhrM2pjX2NZVW9FLWsxNDF3Y0k?oc=5",
-    "https://news.google.com/rss/articles/CBMif0FVX3lxTE12VFpud2s0RnRMSm92SlZ4YnBoUktCUjFyRjBsc1UyQjVDT2FVMEpqTEZVR0FrdDl3X2VGa2Z5WUZvbFluMkpDRnA4UEFfUGxGU0hSZ3JPc1EzZ1hNSGtvQ2lrYjh0R1NMbVR6Q1RtcjhleEZRYTc5T2NWOXY5d1k?oc=5",
-    "https://news.google.com/rss/articles/CBMif0FVX3lxTE1BbTNQLVNqNlA3S1dhbWZiOVh5ZGtnX0p0em1WMHUyT3FBM1ZQUUtXeUYtRXpkeUFSeTI0TWJ0R2NFWG9TcDhBT0thdE5MYk50RVR3eUxZdEs2bHUtTkJlV1pxVkdWZW9UVlcwMzVWZ2pxZDlwaG9WWUdSSFB4RG8?oc=5"
+    "https://collabo-cafe.com/events/collabo/kusuriya-no-hitorigoto-familymart-2026/",
+    "https://animeanime.jp/article/2026/11/20/104955.html",
+    "https://www.inside-games.jp/article/2026/11/20/191292.html",
+    "https://game.watch.impress.co.jp/docs/kikaku/2157992.html",
+    "https://collabo-cafe.com/events/collabo/kusuriya-movie-yokohama-city-collabo-2026/",
+    "https://animeanime.jp/article/2026/11/21/104980.html"
    ]
   },
   {
-   "title": "「『鬼灯の冷徹』15周年記念原画展～地獄の沙汰もあなた次第～」チケット情報が公開！ 原画展を記念したフォトフレーム＆ポストカードセット付の「記念グッズ付き入場券」の販売が決定",
-   "works": [
-    "鬼灯の冷徹"
-   ],
-   "category": "exhibit",
-   "tag": "유행 4위",
-   "when": "",
-   "where": "",
-   "desc": "최근 14일 기사 100건으로 유행 4위. 보드에 지금 소식 5건이 있어요.",
-   "links": [
-    {
-     "label": "PR TIMES: 「『鬼灯の冷徹』15周年記念原画展～地獄の沙汰もあなた次第～」チケット情報が公開",
-     "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5LSDhLSVFMR25hQWgwY3lmNTBTUXdMNWw0d0xIdldEMmlPWHh3M2FqUG1zN0hCZ3NSOWVzZHRuVGNTWGFEcHVQR0Zpa2o0QzJmWlpXWEEtSy1YWDRjbUprV1p0ekFBV0hkUnc?oc=5"
-    },
-    {
-     "label": "eeo: 「『鬼灯の冷徹』15周年記念原画展～地獄の沙汰もあなた次第～」新作グッズの発売が",
-     "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1rM0VnR1A4UG9TWlpuaExseUtEOTBtYzRReHp5eXotcUxybS03MFRvbGFHWDZvQ1FDSGZ4RzZIanlpcVdGdUVTUWRfOE1ndmxhRnRZTg?oc=5"
-    },
-    {
-     "label": "Yahoo!ニュース: 「귀등의 냉철」원화전의 입장자 특전에 일본 종이풍 엽서, 티켓은 11월 ",
-     "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE53SWh2bjZaVWJFQUtpRnA2M0NXOUVrNng1OGIwX2Y2ZlNmY3d0SDkycWEyZUFHWHg2QTVQem5FajhqU3l3S3hIVlJrejZlOEtzQVdWUncxNDhvcDVDalI5MnFWb3NiTHlsRVRqemowQU9sanJISVBvdHhMVW4wYms?oc=5"
-    }
-   ],
-   "items": [
-    "https://news.google.com/rss/articles/CBMiakFVX3lxTE5LSDhLSVFMR25hQWgwY3lmNTBTUXdMNWw0d0xIdldEMmlPWHh3M2FqUG1zN0hCZ3NSOWVzZHRuVGNTWGFEcHVQR0Zpa2o0QzJmWlpXWEEtSy1YWDRjbUprV1p0ekFBV0hkUnc?oc=5",
-    "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1rM0VnR1A4UG9TWlpuaExseUtEOTBtYzRReHp5eXotcUxybS03MFRvbGFHWDZvQ1FDSGZ4RzZIanlpcVdGdUVTUWRfOE1ndmxhRnRZTg?oc=5",
-    "https://news.google.com/rss/articles/CBMif0FVX3lxTE53SWh2bjZaVWJFQUtpRnA2M0NXOUVrNng1OGIwX2Y2ZlNmY3d0SDkycWEyZUFHWHg2QTVQem5FajhqU3l3S3hIVlJrejZlOEtzQVdWUncxNDhvcDVDalI5MnFWb3NiTHlsRVRqemowQU9sanJISVBvdHhMVW4wYms?oc=5",
-    "https://news.google.com/rss/articles/CBMicEFVX3lxTE1UWldlLXVrTS04RGpDTUkwRU0wODFacE53YWl0ekhkM252cHp0Z0ZJXzhoTnltNGV5bEp5czlqRTY4bjFSWk1vVi1kRFY2UGRJX3dTbkdQVUMycjNscFd4ZFhsMWdZVUF3a0I2Z09vYWw?oc=5",
-    "https://animeanime.jp/article/2026/11/07/104576.html"
-   ]
-  },
-  {
-   "title": "『ウマ娘 シンデレラグレイ』原画展の新規描き下ろしメインビジュアルを公開　グッズ情報も一部解禁",
-   "works": [
-    "ウマ娘"
-   ],
-   "category": "exhibit",
-   "tag": "유행 5위",
-   "when": "",
-   "where": "",
-   "desc": "최근 14일 기사 98건으로 유행 5위. 보드에 지금 소식 11건이 있어요.",
-   "links": [
-    {
-     "label": "エンタメ特化型情報メディア スパイス: 『ウマ娘 シンデレラグレイ』原画展の新規描き下ろしメインビジュアルを公開　グッズ",
-     "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5Qc3pWUUxZRlloSVBuQ3RJaTJ6ZGY0U2tTVkJIODctMVFCbnpvUmVzS3diSmg0NldXOXVCRkd3MzRNa18tTzNnVklva0FxZ0HSAVRBVV95cUxPNW5xaVYtemxtWGZuV01kRm01X2haamV2Q19zUEZpUEFSUDhTTXU5YUtGM05sN05JTEhJVXdqMllHZ2FMcjdURFRrUTN0QVlrVHpHdHE?oc=5"
-    },
-    {
-     "label": "Yahoo!ニュース: 『ウマ娘 シンデレラグレイ』原画展が池袋で開催 13人のウマ娘を描いた新規メイン",
-     "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1nTGFjclB3NmNUblBFazNjcTNGMXdMTzh2aFlVc052WmtoLWxGR2dQUktpSGxjMnR4WUQzbkhNSUQwYS1pcU5NUXp5UGZSOHlGQXYwOGV4U3Q1bEZENnFwU2llQ3lJT3VxYlVpbTNmV19yWU56UkowSF9iZzRQLTg?oc=5"
-    },
-    {
-     "label": "PR TIMES: 『ウマ娘 シンデレラグレイ』原画展 10月26日（月）18時より前売券販売開始！",
-     "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XalF6U09BYXo5bV8yU3NyOGpkSnJJbTFEVHhfakI4RlVHVjhtNzBiemZ3YnlraXg2dUZ0WkhKZ3lUWDJoOXhlYTc5ZXNGb2Y5eHhxQUdxaGhHNzlGQUtxRHFmT2pidjQyWEE?oc=5"
-    }
-   ],
-   "items": [
-    "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5Qc3pWUUxZRlloSVBuQ3RJaTJ6ZGY0U2tTVkJIODctMVFCbnpvUmVzS3diSmg0NldXOXVCRkd3MzRNa18tTzNnVklva0FxZ0HSAVRBVV95cUxPNW5xaVYtemxtWGZuV01kRm01X2haamV2Q19zUEZpUEFSUDhTTXU5YUtGM05sN05JTEhJVXdqMllHZ2FMcjdURFRrUTN0QVlrVHpHdHE?oc=5",
-    "https://news.google.com/rss/articles/CBMif0FVX3lxTE1nTGFjclB3NmNUblBFazNjcTNGMXdMTzh2aFlVc052WmtoLWxGR2dQUktpSGxjMnR4WUQzbkhNSUQwYS1pcU5NUXp5UGZSOHlGQXYwOGV4U3Q1bEZENnFwU2llQ3lJT3VxYlVpbTNmV19yWU56UkowSF9iZzRQLTg?oc=5",
-    "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XalF6U09BYXo5bV8yU3NyOGpkSnJJbTFEVHhfakI4RlVHVjhtNzBiemZ3YnlraXg2dUZ0WkhKZ3lUWDJoOXhlYTc5ZXNGb2Y5eHhxQUdxaGhHNzlGQUtxRHFmT2pidjQyWEE?oc=5",
-    "https://news.google.com/rss/articles/CBMijgFBVV95cUxPdVZ1S3VqSkJEYndQaVdGb0l1YWk1S3U4N1ZwMWR4QTVKeDBrNmNXNW1NTl83c0hXb2lBQWxscGFlM1ZnSGJYRUFKMnF6Yk1CVmZ5WXVyd2tvUE5yamZfNVdPcUZ2NTZTUWVtVnp6cnk5UGRqUHpwckVqOXV4R01aWUctRG1ybFp4dGJ0U3pR?oc=5",
-    "https://dengekionline.com/article/202611/93657",
-    "https://www.inside-games.jp/article/2026/11/05/190411.html"
-   ]
-  },
-  {
-   "title": "「【画像】「遊☆戯☆王」初の原画展 『高橋和希原画展 YU-GI-OH! ART WORKS』 オリジナルグッズ、特別映像の情報が公開」の画像11/22 | SPICE - エンタメ特化型情報メディア スパイス",
+   "title": "高橋和希原画展 YU-GI-OH! ART WORKS",
    "works": [
     "高橋和希原画展"
    ],
    "category": "exhibit",
-   "tag": "유행 6위",
-   "when": "11/22(일)",
-   "where": "",
-   "desc": "최근 14일 기사 94건으로 유행 6위. 보드에 지금 소식 7건이 있어요.",
+   "tag": "유행 4위 · 급상승",
+   "when": "12/12(토) 10:00 ~ 2/21(일)",
+   "where": "CREATIVE MUSEUM TOKYO",
+   "desc": "최근 14일 기사 93건으로 유행 4위, 최근 3일 39건으로 평소의 2.6배 급상승. 보드에 지금 소식 3건이 있어요. 대표 소식: 展示会",
    "links": [
     {
+     "label": "アニメハック イベント: 다카하시 와키 원화전 YU-GI-OH! ART WORKS",
+     "url": "https://anime.eiga.com/event/174515/"
+    },
+    {
+     "label": "エンタメ特化型情報メディア スパイス: 「유☆희☆왕」 최초의 원화전 「타카하시 와키 원화전 YU-GI-OH! A",
+     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFA3NnUwblBvNzlrdWg4SUdpajltaFFGdUtEN0MxdzBfVmgxSXZnOU5MUnBlY2U5R1lHX04xaUYwSzlTcXJjWGVlM3R1VGlMTk5HalJvc3UzZ3Vscy1BYndhdW1naw?oc=5"
+    },
+    {
      "label": "エンタメ特化型情報メディア スパイス: 「【이미지】「유☆희☆왕」 최초의 원화전 「타카하시 와키 원화전 YU-GI",
-     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1kY3J1dHNKUHlzejNrcVRlMGJxSkt5ZE5rWW54ZGk0cThPbnVDSjlFRDNQa05kOXZja0lJaVg0NkJYc2luLWVvNV9DUXRZRWZzMGg3azF6RVpnUjFxVHRmb0FVcw?oc=5"
-    },
-    {
-     "label": "エンタメ特化型情報メディア スパイス: 「유☆희☆왕」 최초의 원화전 「타카하시 와키 원화전 YU-GI-OH! A",
-     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5CUEcxSjhvRzZUcGo3REhrQ3VMbWFoUzN1aWtBTlV5VDNZYWZJM1FwQ1Q0bEhuYnhsSlJWYmJNd3hWWFdkSFJ4dmJmTWJoOEdMc181cUV5TGpJZUJ5aWlPTnh6aw?oc=5"
-    },
-    {
-     "label": "エンタメ特化型情報メディア スパイス: 「유☆희☆왕」 최초의 원화전 「타카하시 와키 원화전 YU-GI-OH! A",
-     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5FWHJXNzR6UU5tMVVWdUE0dEptZ0ZNT1BGWlh1RHFUNnFsNGoxQnlqQV9VQjAzRE9EWkpDV3VFVHhuSFZNNkEwem0yMkUtVGhqNUxLbWplZFJkOUJhVHpURGNDUQ?oc=5"
+     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1EMGQxdFc1X0ExRTBLcmg3aGFJSkxNMTU3SDVuM1RxMmN1X1JKMkVscnRUMHhzS1NoWUZYYkpIU1htV1hfTl9xOUU4SGYxTEd0S2ZoUkxTYlZFRDg4M2dqSnplaw?oc=5"
     }
    ],
    "items": [
-    "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1kY3J1dHNKUHlzejNrcVRlMGJxSkt5ZE5rWW54ZGk0cThPbnVDSjlFRDNQa05kOXZja0lJaVg0NkJYc2luLWVvNV9DUXRZRWZzMGg3azF6RVpnUjFxVHRmb0FVcw?oc=5",
-    "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5CUEcxSjhvRzZUcGo3REhrQ3VMbWFoUzN1aWtBTlV5VDNZYWZJM1FwQ1Q0bEhuYnhsSlJWYmJNd3hWWFdkSFJ4dmJmTWJoOEdMc181cUV5TGpJZUJ5aWlPTnh6aw?oc=5",
-    "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5FWHJXNzR6UU5tMVVWdUE0dEptZ0ZNT1BGWlh1RHFUNnFsNGoxQnlqQV9VQjAzRE9EWkpDV3VFVHhuSFZNNkEwem0yMkUtVGhqNUxLbWplZFJkOUJhVHpURGNDUQ?oc=5",
+    "https://anime.eiga.com/event/174515/",
     "https://news.google.com/rss/articles/CBMiY0FVX3lxTFA3NnUwblBvNzlrdWg4SUdpajltaFFGdUtEN0MxdzBfVmgxSXZnOU5MUnBlY2U5R1lHX04xaUYwSzlTcXJjWGVlM3R1VGlMTk5HalJvc3UzZ3Vscy1BYndhdW1naw?oc=5",
-    "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBHc0tSZFphNHhtNGQ3SWM4R3VKV0J4RUtUZDV6dE5vY0U2YlBjQmlELVpzSGpBVWdOWFNZM2FqUTdRcUwtZXJaMElaTm5pcEo3TGpQNE4zdVM1dlZBQTNSUlktVQ?oc=5",
     "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1EMGQxdFc1X0ExRTBLcmg3aGFJSkxNMTU3SDVuM1RxMmN1X1JKMkVscnRUMHhzS1NoWUZYYkpIU1htV1hfTl9xOUU4SGYxTEd0S2ZoUkxTYlZFRDg4M2dqSnplaw?oc=5"
    ]
   },
   {
-   "title": "ポケモンとAppleが特別コラボ！カジッチュのApple Gift Cardが11月16日より販売11月30日までの期間限定。「ポケモンGO」でもカジッチュに会えるかも",
+   "title": "「ハイキュー!!」“モス福袋”が今年も発売☆大人の日常使いにピッタリなグッズ登場！日向（CV村瀬歩）の店内放送も♪",
    "works": [
-    "ポケットモンスター"
+    "ハイキュー!!"
    ],
    "category": "collab",
-   "tag": "유행 7위",
-   "when": "11/16(월) · 마감 11/30(월)",
+   "tag": "유행 6위",
+   "when": "11/25(수) 15:00",
    "where": "",
-   "desc": "최근 14일 기사 87건으로 유행 7위. 보드에 지금 소식 17건이 있어요. 대표 소식: Appleは、11月16日より“カジッチュ”デザインのApple Gift Cardを全国11店舗のApple Storeで販売する。価格は1,000円より。数に限りがあり、1人3枚まで。売り切れ次第終了となる。販売期間は11月30日まで。",
+   "desc": "최근 14일 기사 82건으로 유행 6위. 보드에 지금 소식 8건이 있어요. 대표 소식: アニメ『ハイキュー!!』とコラボレーションした「モスバーガー」による「2027モス福袋」が、一部店舗を除く全国のモスバーガー店舗にて数量限定で販売されることがわかった。大人も普段使いしやすい、オリジナル描き下ろしデザインのグッズ4種類が入ったもので、2026年11月25日15時よ",
    "links": [
     {
-     "label": "GAME Watch: 포켓몬과 애플이 특별 콜라보레이션! 카지치의 Apple Gift Card",
-     "url": "https://game.watch.impress.co.jp/docs/preview/2155977.html"
+     "label": "アニメ!アニメ!: 「하이큐!!」“모스 복주머니”가 올해도 발매☆어른의 일상 사용에 딱 맞는",
+     "url": "https://animeanime.jp/article/2026/11/04/104478.html"
     },
     {
-     "label": "GAME Watch: 【포코 포켓】 「카지치」와“토모다치”가 될 수 있다! 11월 16일부터 ",
-     "url": "https://game.watch.impress.co.jp/docs/news/2153788.html"
+     "label": "コラボカフェ: ハイキュー!! × ジョイフル 12月1日よりコラボメニュー登場!",
+     "url": "https://collabo-cafe.com/events/collabo/haikyu-shop-tieup-joyfull-2026/"
     },
     {
-     "label": "コラボカフェ: 포케 피스 × 선샤인 시티 11 월 16 일부터 이벤트 개최!",
-     "url": "https://collabo-cafe.com/events/collabo/pocket-monster-event-pokepeace-sunshine-city-twinkle-star-idol-2026/"
+     "label": "アニメ!アニメ!: 「ハイキュー!!」“俺たちは血液だ”トマトハンバーグや、星海光来の星型のペッパー",
+     "url": "https://animeanime.jp/article/2026/11/17/104855.html"
     }
    ],
    "items": [
-    "https://game.watch.impress.co.jp/docs/preview/2155977.html",
-    "https://game.watch.impress.co.jp/docs/news/2153788.html",
-    "https://collabo-cafe.com/events/collabo/pocket-monster-event-pokepeace-sunshine-city-twinkle-star-idol-2026/",
-    "https://game.watch.impress.co.jp/docs/news/2156521.html",
-    "https://game.watch.impress.co.jp/docs/news/2155998.html",
-    "https://animeanime.jp/article/2026/11/14/104762.html"
+    "https://animeanime.jp/article/2026/11/04/104478.html",
+    "https://collabo-cafe.com/events/collabo/haikyu-shop-tieup-joyfull-2026/",
+    "https://animeanime.jp/article/2026/11/17/104855.html",
+    "https://dengekionline.com/article/202611/94284",
+    "https://gengaten.info/2027/04/11326/",
+    "https://animeanime.jp/article/2026/11/22/105014.html"
    ]
   },
   {
-   "title": "薬屋のひとりごと 新作グッズ in TSUTAYA 11月20日より登場!",
+   "title": "「ウマ娘」公式番組「ぱかライブTV' #9」が11月29日に配信。ゲーム最新情報のほか，実馬を特集する「ぱか'トーク！」も",
    "works": [
-    "薬屋のひとりごと"
+    "ウマ娘"
    ],
-   "category": "goods",
-   "tag": "유행 9위",
-   "when": "11/20(금) · 마감 1/13(수)",
+   "category": "stream",
+   "tag": "유행 8위",
+   "when": "11/29(일)",
    "where": "",
-   "desc": "최근 14일 기사 83건으로 유행 9위. 보드에 지금 소식 15건이 있어요. 대표 소식: アニメ「薬屋のひとりごと」の「薬屋のひとりごと POP UP SHOP」が、11月20日から2027年1月13日までTSUTAYA IP書店『SQUARE ENIX Official Goodsコーナー』ほか全国5店舗にて順次開催決定!猫猫と壬氏の描き下ろしイラストを使用したグッ",
+   "desc": "최근 14일 기사 75건으로 유행 8위. 보드에 지금 소식 8건이 있어요. 대표 소식: Cygamesは本日，「ウマ娘プリティーダービー」の公式生配信番組「ぱかライブTV'#9」を，2026年11月29日20：00より配信すると発表した。番組ではゲームの最新情報に加えて，ウマ娘のモチーフとなった実馬を特集する「ぱか'トーク！」も実施される。",
    "links": [
     {
-     "label": "コラボカフェ: 약사의 혼잣말 신작 상품 in TSUTAYA 11월 20일부터 등장!",
-     "url": "https://collabo-cafe.com/events/collabo/kusuriya-dokusho-popup-tsutaya-ip-shoten-2026/"
+     "label": "4Gamer: 「ウマ娘」公式番組「ぱかライブTV' #9」が11月29日に配信。ゲーム最新情報",
+     "url": "https://www.4gamer.net/games/554/G055489/20261120051/"
     },
     {
-     "label": "コラボカフェ: 극장판 약사의 혼잣말 × 바보 11월 23일부터 발매!",
-     "url": "https://collabo-cafe.com/events/collabo/kusuriya-movie-bakauke-2026/"
+     "label": "電撃オンライン: 【우마무스메】골시와 맥퀸이 “미식 딸”에 ⁉ 12/6에는 콜라보 경기도",
+     "url": "https://dengekionline.com/article/202611/94572"
     },
     {
-     "label": "コラボカフェ: 극장판 약사의 혼잣말 × 요코하마시 12월 4일부터 콜라보레이션 개최!",
-     "url": "https://collabo-cafe.com/events/collabo/kusuriya-movie-yokohama-city-collabo-2026/"
+     "label": "電撃オンライン: 「우마무스메」타키온이나 점포케 등 7th EVENT 런던 공연의 출주자 ",
+     "url": "https://dengekionline.com/article/202611/93657"
     }
    ],
    "items": [
-    "https://collabo-cafe.com/events/collabo/kusuriya-dokusho-popup-tsutaya-ip-shoten-2026/",
-    "https://collabo-cafe.com/events/collabo/kusuriya-movie-bakauke-2026/",
-    "https://collabo-cafe.com/events/collabo/kusuriya-movie-yokohama-city-collabo-2026/",
-    "https://animeanime.jp/article/2026/11/15/104788.html",
-    "https://collabo-cafe.com/events/collabo/kusuriya-movie-tenbou-park-sunshine60-2026/",
-    "https://animeanime.jp/article/2026/11/13/104742.html"
+    "https://www.4gamer.net/games/554/G055489/20261120051/",
+    "https://dengekionline.com/article/202611/94572",
+    "https://dengekionline.com/article/202611/93657",
+    "https://www.inside-games.jp/article/2026/11/05/190411.html",
+    "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1faWN2aVZiMm5EY3BWZG1Iay0xcXl5TnFkY0c4d01GdjNlUUxkSThLX1REczg4YV9lZzdMcWpYV3BubmJlbzdhcWRGZXg0ZUF4alhIcHg2QjFINzZ5ZHcySXpMTQ?oc=5",
+    "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBtNXJBN3ZVT0YtX09MdFZQWi1teEVMNWRpSklrN2ExZmw5RW1vMS1fYzBsck03MlhienBvY01XUl83WFdCdkQxNDlVZGYtNjM4UjJWeW9aQl8?oc=5"
+   ]
+  },
+  {
+   "title": "にじさんじポップコーン4 カフェ店員のカード付き 11月24日発売!",
+   "works": [
+    "にじさんじ"
+   ],
+   "category": "other",
+   "tag": "유행 9위",
+   "when": "11/24(화)",
+   "where": "",
+   "desc": "최근 14일 기사 75건으로 유행 9위. 보드에 지금 소식 12건이 있어요. 대표 소식: 「にじさんじ」の獅子堂あかりさんや渚トラウトさんら6名が参加する『にじさんじポップコーンvol.4 うすしお味』が、2026年11月24日から全国のファミリーマートやアニメイト、Cyber Goods Storeで発売されます。カフェ店員をテーマに撮り下ろしたオリジナルクリアカー",
+   "links": [
+    {
+     "label": "コラボカフェ: 니지산지 팝콘 4 카페 점원의 카드 첨부 11월 24일 발매!",
+     "url": "https://collabo-cafe.com/events/collabo/nijisanji-goods-popcorn-vol4-2026/"
+    },
+    {
+     "label": "PANORA: 니지산지보다, 찍어 내려 비주얼을 사용한 오리지날 클리어 카드 첨부 「니",
+     "url": "https://panora.tokyo/archives/162553"
+    },
+    {
+     "label": "PANORA: Zoff SMART 15周年を記念して、「にじさんじ」のイブラヒム、不破湊がZ",
+     "url": "https://panora.tokyo/archives/163799"
+    }
+   ],
+   "items": [
+    "https://collabo-cafe.com/events/collabo/nijisanji-goods-popcorn-vol4-2026/",
+    "https://panora.tokyo/archives/162553",
+    "https://panora.tokyo/archives/163799",
+    "https://www.nijisanji.jp/news/xw4geh3o0y",
+    "https://collabo-cafe.com/events/collabo/nijisanji-event-girls-idol-festival-intex-osaka-2026-add-info-oshitabi/",
+    "https://panora.tokyo/archives/161467"
+   ]
+  },
+  {
+   "title": "えらぶ!ポケモンイルミネーション 11月25日より赤レンガで開催!",
+   "works": [
+    "ポケットモンスター"
+   ],
+   "category": "other",
+   "tag": "유행 10위",
+   "when": "11/25(수) · 마감 12/25(금)",
+   "where": "",
+   "desc": "최근 14일 기사 74건으로 유행 10위. 보드에 지금 소식 4건이 있어요. 대표 소식: ポケモン30周年を記念した「えらぶ! ポケモン イルミネーション 1025」が、2026年11月25日から12月25日まで「Christmas Market in 横浜赤レンガ倉庫」で開催されます。1,025匹のポケモンを15色のボックスに描いた「ルミナスボックス」や、えらんだポ",
+   "links": [
+    {
+     "label": "コラボカフェ: えらぶ!ポケモンイルミネーション 11月25日より赤レンガで開催!",
+     "url": "https://collabo-cafe.com/events/collabo/pokemon-event-erabu-illumination-1025-akarenga-2026/"
+    },
+    {
+     "label": "電撃オンライン: 「포켓몬」1025마리의 일루미네이션 등장! 11월 25일부터 요코하마 아",
+     "url": "https://dengekionline.com/article/202611/93941"
+    },
+    {
+     "label": "アニメ!アニメ!: 「포켓몬」푸딩이 아이돌 데뷔!? 노래하고 춤추는 「포켓피스」가 귀여운 이",
+     "url": "https://animeanime.jp/article/2026/11/01/104388.html"
+    }
+   ],
+   "items": [
+    "https://collabo-cafe.com/events/collabo/pokemon-event-erabu-illumination-1025-akarenga-2026/",
+    "https://dengekionline.com/article/202611/93941",
+    "https://animeanime.jp/article/2026/11/01/104388.html",
+    "https://game.watch.impress.co.jp/docs/news/2156253.html"
    ]
   }
  ]
