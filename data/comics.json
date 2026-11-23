@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-23T10:37:53.083624+09:00",
+ "updated": "2026-11-23T21:12:45.946990+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1160,7 +1160,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e75798454bd57ce72dccee8d37e8905ea50cd7a09c88a9ea2fab6b4d9311f6a29318086f912873a73cb5bd1f8f18a3c78ecf200b63531",
-   "seenTo": 7210653,
+   "seenTo": 7217223,
    "coverNo": "comic_new6/7120147",
    "updatedAt": "2026-11-17T13:09"
   },
@@ -1904,16 +1904,26 @@
      "no": 7206615,
      "title": "번역) 나니와 금융도 144화",
      "date": "2026-11-22T23:49"
+    },
+    {
+     "no": 7211877,
+     "title": "번역) 나니와 금융도 145~146화",
+     "date": "2026-11-23T11:25"
+    },
+    {
+     "no": 7213160,
+     "title": "번역) 나니와 금융도 147화",
+     "date": "2026-11-23T13:29"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767c845415825505a80f8c41af7d3b75a4e56ffa49916af461dfec35bdff2ec7f16b3a5643b3f250",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767d8454b5ac3b4bbd654ac8b23e2c343962785ac755c24d3cbaf280f9b31df717fe868cc247547c",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7210653,
-   "coverNo": "comic_new6/7206615",
-   "updatedAt": "2026-11-22T23:49"
+   "seenTo": 7217223,
+   "coverNo": "comic_new6/7213160",
+   "updatedAt": "2026-11-23T13:29"
   },
   {
    "id": "닌자슬레이어|",
@@ -5562,7 +5572,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-23T10:38",
+   "updatedAt": "2026-11-23T21:13",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7268,10 +7278,13 @@
   7183949,
   7191382,
   7200798,
-  7206615
+  7206615,
+  7211877,
+  7213160
  ],
  "bad": [
   "comic_new6/6742384",
-  "comic_new6/6972242"
+  "comic_new6/6972242",
+  "comic_new6/7214907"
  ]
 }
