@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/23 기준)",
+ "src": "AniList 방영 정보 (11/24 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 772217
+   "w": 772494
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81779
+   "w": 81812
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -447,7 +447,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20474
+   "w": 20479
   },
   {
    "t": "FX戦士くるみちゃん",
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8139
+   "w": 8143
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -930,7 +930,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2581
+   "w": 2579
   },
   {
    "t": "傷だらけ聖女より報復をこめて Season2",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2265
+   "w": 2263
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1921
+   "w": 1919
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1452
+   "w": 1449
   },
   {
    "t": "ニンジャラ",
@@ -1160,19 +1160,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 821
-  },
-  {
-   "t": "おじゃる丸",
-   "d": 8,
-   "tm": "",
-   "st": "",
-   "s": "1998-10-05",
-   "r": 132,
-   "pv": "",
-   "site": "http://www9.nhk.or.jp/anime/ojaru/",
-   "x": "",
-   "w": 696
+   "w": 820
   },
   {
    "t": "おでかけ子ザメ シーズン2",
@@ -1180,11 +1168,23 @@
    "tm": "07:00",
    "st": "",
    "s": "2026-04-12",
-   "r": 133,
+   "r": 132,
    "pv": "https://www.youtube.com/watch?v=Laf46YXDt68",
    "site": "https://odekake-kozame.com/",
    "x": "kozame_info",
    "w": 695
+  },
+  {
+   "t": "おじゃる丸",
+   "d": 8,
+   "tm": "",
+   "st": "",
+   "s": "1998-10-05",
+   "r": 133,
+   "pv": "",
+   "site": "http://www9.nhk.or.jp/anime/ojaru/",
+   "x": "",
+   "w": 694
   },
   {
    "t": "MyGO!!!!!メンバーの日常",
@@ -1282,7 +1282,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 411
+   "w": 410
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
@@ -1378,7 +1378,7 @@
    "pv": "",
    "site": "https://www.webtsc.com/prog/anime/shimajiro/",
    "x": "ShimaWowStaff",
-   "w": 241
+   "w": 240
   },
   {
    "t": "のりプロアニメ",
@@ -1438,7 +1438,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 189
+   "w": 188
   },
   {
    "t": "子猫の配達員うーにゃん (2026)",
