@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/25 기준)",
+ "src": "AniList 방영 정보 (11/26 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 772769
+   "w": 773024
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81831
+   "w": 81854
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -447,7 +447,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20488
+   "w": 20493
   },
   {
    "t": "FX戦士くるみちゃん",
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8146
+   "w": 8148
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -942,7 +942,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2581
+   "w": 2583
   },
   {
    "t": "忍たま乱太郎",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2265
+   "w": 2264
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1920
+   "w": 1921
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1449
+   "w": 1450
   },
   {
    "t": "ニンジャラ",
@@ -2093,12 +2093,12 @@
   },
   {
    "t": "ヒストリエ",
-   "d": 8,
-   "tm": "",
+   "d": 5,
+   "tm": "25:23",
    "st": "",
-   "s": "2027-01-01",
+   "s": "2027-01-08",
    "r": 84,
-   "pv": "https://www.youtube.com/watch?v=GM1Y206Unwg",
+   "pv": "https://www.youtube.com/watch?v=MSYV142dqsg",
    "site": "https://www.historie.info/",
    "x": "historie_off",
    "w": 7016
