@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-25T08:52:21.664600+09:00",
+ "updated": "2026-11-25T21:32:42.229032+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1165,7 +1165,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767d8454b5ac3b4bbd654ac8b23e2d3f3f6475595d2008b8fb3e5bd3423be13ec52e93b2064ae9b0f5648c837797bdd6909200b6f5de",
-   "seenTo": 7237030,
+   "seenTo": 7246135,
    "coverNo": "comic_new6/7218789",
    "updatedAt": "2026-11-23T21:34"
   },
@@ -1929,16 +1929,31 @@
      "no": 7236015,
      "title": "번역) 나니와 금융도 150화",
      "date": "2026-11-25T02:17"
+    },
+    {
+     "no": 7240735,
+     "title": "번역) 나니와 금융도 151화",
+     "date": "2026-11-25T12:51"
+    },
+    {
+     "no": 7240878,
+     "title": "번역) 나니와 금융도 104~106화",
+     "date": "2026-11-25T13:05"
+    },
+    {
+     "no": 7241536,
+     "title": "번역) 나니와 금융도 152화",
+     "date": "2026-11-25T14:03"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767b84549870c52345c71c6e4e041b145d2a324e1a082ef5c99ce6c8c23d82717642e5870a562da2",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767b84549870c52345c71c6e4e041d175a25304cdbb0cb88597f51deb0f26701396d76f4fe43dccd",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7237030,
-   "coverNo": "comic_new6/7236015",
-   "updatedAt": "2026-11-25T02:17"
+   "seenTo": 7246135,
+   "coverNo": "comic_new6/7241536",
+   "updatedAt": "2026-11-25T14:03"
   },
   {
    "id": "닌자슬레이어|",
@@ -5587,7 +5602,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-25T08:53",
+   "updatedAt": "2026-11-25T21:34",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -7297,13 +7312,16 @@
   7211877,
   7213160,
   7225179,
-  7236015
+  7236015,
+  7240735,
+  7241536
  ],
  "bad": [
   "comic_new6/6742384",
   "comic_new6/6972242",
   "comic_new6/7214907",
   "comic_new6/7229449",
-  "comic_new6/7232485"
+  "comic_new6/7232485",
+  "comic_new6/7245680"
  ]
 }
