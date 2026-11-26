@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/26 기준)",
+ "src": "AniList 방영 정보 (11/27 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 773024
+   "w": 773283
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81854
+   "w": 81882
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -447,7 +447,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20493
+   "w": 20502
   },
   {
    "t": "FX戦士くるみちゃん",
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8148
+   "w": 8154
   },
   {
    "t": "超巡！超条先輩",
@@ -942,7 +942,7 @@
    "pv": "",
    "site": "http://www.sazaesan.jp/",
    "x": "sazaesan68",
-   "w": 2583
+   "w": 2584
   },
   {
    "t": "忍たま乱太郎",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2264
+   "w": 2265
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1921
+   "w": 1922
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1074,7 +1074,7 @@
    "pv": "",
    "site": "https://www.ntv.co.jp/anpanman/",
    "x": "anime_anpanman",
-   "w": 1450
+   "w": 1452
   },
   {
    "t": "ニンジャラ",
@@ -1160,7 +1160,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 820
+   "w": 821
   },
   {
    "t": "おでかけ子ザメ シーズン2",
@@ -1184,7 +1184,7 @@
    "pv": "",
    "site": "http://www9.nhk.or.jp/anime/ojaru/",
    "x": "",
-   "w": 694
+   "w": 696
   },
   {
    "t": "MyGO!!!!!メンバーの日常",
@@ -1282,7 +1282,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 410
+   "w": 411
   },
   {
    "t": "彼女の友達 ミニアニメ劇場",
@@ -1378,7 +1378,7 @@
    "pv": "",
    "site": "https://www.webtsc.com/prog/anime/shimajiro/",
    "x": "ShimaWowStaff",
-   "w": 240
+   "w": 241
   },
   {
    "t": "のりプロアニメ",
@@ -1438,7 +1438,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 188
+   "w": 189
   },
   {
    "t": "子猫の配達員うーにゃん (2026)",
@@ -1478,8 +1478,8 @@
   },
   {
    "t": "ゆうさんち！from 遊ハち",
-   "d": 4,
-   "tm": "24:00",
+   "d": 1,
+   "tm": "11:00",
    "st": "フジテレビ・カンテレ",
    "s": "2026-10-05",
    "r": 161,
@@ -2224,12 +2224,12 @@
   },
   {
    "t": "おデブ悪女に転生したら、なぜかラスボス王子様に執着されています",
-   "d": 8,
-   "tm": "",
+   "d": 5,
+   "tm": "22:30",
    "st": "",
    "s": "2027-01-01",
    "r": 105,
-   "pv": "https://www.youtube.com/watch?v=OL9U8xq13Jo",
+   "pv": "https://www.youtube.com/watch?v=FTug94f5v68",
    "site": "https://odebuakujo-anime.com/",
    "x": "odebuakujo_pr",
    "w": 3779
