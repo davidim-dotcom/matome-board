@@ -1,6 +1,6 @@
 {
  "v": 6,
- "updated": "2026-11-27T21:05:08.433343+09:00",
+ "updated": "2026-11-28T08:22:37.276633+09:00",
  "gallery": "comic_new6",
  "series": [
   {
@@ -1165,7 +1165,7 @@
    ],
    "rec": 251,
    "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e767d8454b5ac3b4bbd654ac8b23e2d3f3f6475595d2008b8fb3e5bd3423be13ec52e93b2064ae9b0f5648c837797bdd6909200b6f5de",
-   "seenTo": 7275698,
+   "seenTo": 7282352,
    "coverNo": "comic_new6/7218789",
    "updatedAt": "2026-11-23T21:34"
   },
@@ -1964,16 +1964,26 @@
      "no": 7270354,
      "title": "번역) 나니와 금융도 156~157화",
      "date": "2026-11-27T13:05"
+    },
+    {
+     "no": 7279942,
+     "title": "번역) 나니와 금융도 158화",
+     "date": "2026-11-28T01:04"
+    },
+    {
+     "no": 7281263,
+     "title": "번역) 나니와 금융도 159화",
+     "date": "2026-11-28T02:52"
     }
    ],
    "rec": 343,
-   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e7679845455f3c82b9e4f8026fa72564ba809e1c38851719e081f699cbc5b787def9625ac374d7e43",
+   "cover": "https://dccdn11.dcinside.co.kr/viewimage.php?no=24b0d769e1d32ca73fe783fa11d02831d94ba5ea472e98c89921229e76768454722c79ec151f28e6b515261689b7952664d6dd55934b401c7a9281f8cf74c7712d68d2f9",
    "name": "나니와 금융도",
    "title": "나니와 금융도",
    "author": "",
-   "seenTo": 7275698,
-   "coverNo": "comic_new6/7270354",
-   "updatedAt": "2026-11-27T13:05"
+   "seenTo": 7282352,
+   "coverNo": "comic_new6/7281263",
+   "updatedAt": "2026-11-28T02:52"
   },
   {
    "id": "닌자슬레이어|",
@@ -5622,7 +5632,7 @@
      ]
     }
    ],
-   "updatedAt": "2026-11-27T21:06",
+   "updatedAt": "2026-11-28T08:24",
    "links": {
     "https://m.dcinside.com/mini/yukiyogo/1": {
      "u": "https://m.dcinside.com/mini/yukiyogo/1",
@@ -6575,86 +6585,86 @@
     "https://m.dcinside.com/board/comic_new3/11525841": {
      "u": "https://m.dcinside.com/board/comic_new3/11525841",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/11555683": {
      "u": "https://m.dcinside.com/board/comic_new3/11555683",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/12120799": {
      "u": "https://m.dcinside.com/board/comic_new3/12120799",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/12654313": {
      "u": "https://m.dcinside.com/board/comic_new3/12654313",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/13201690": {
      "u": "https://m.dcinside.com/board/comic_new3/13201690",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/13748765": {
      "u": "https://m.dcinside.com/board/comic_new3/13748765",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/14276965": {
      "u": "https://m.dcinside.com/board/comic_new3/14276965",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new3/14817888": {
      "u": "https://m.dcinside.com/board/comic_new3/14817888",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/243311": {
      "u": "https://m.dcinside.com/board/comic_new4/243311",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/730877": {
      "u": "https://m.dcinside.com/board/comic_new4/730877",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/1260706": {
      "u": "https://m.dcinside.com/board/comic_new4/1260706",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/1773757": {
      "u": "https://m.dcinside.com/board/comic_new4/1773757",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/2838002": {
      "u": "https://m.dcinside.com/board/comic_new4/2838002",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/board/comic_new4/3332889": {
      "u": "https://m.dcinside.com/board/comic_new4/3332889",
      "ok": false,
-     "n": 6,
-     "t": "2026-11-21"
+     "n": 7,
+     "t": "2026-11-28"
     },
     "https://m.dcinside.com/mini/yukiyogo/297": {
      "u": "https://m.dcinside.com/board/comic_new4/3820320",
@@ -7338,7 +7348,9 @@
   7250954,
   7255442,
   7256319,
-  7270354
+  7270354,
+  7279942,
+  7281263
  ],
  "bad": [
   "comic_new6/6742384",

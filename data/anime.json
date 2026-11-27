@@ -1,7 +1,7 @@
 {
  "season": "2026-autumn",
  "name": "2026년 가을 애니",
- "src": "AniList 방영 정보 (11/27 기준)",
+ "src": "AniList 방영 정보 (11/28 기준)",
  "list": [
   {
    "t": "ONE PIECE",
@@ -13,7 +13,7 @@
    "pv": "",
    "site": "https://one-piece.com/",
    "x": "Eiichiro_Staff",
-   "w": 773283
+   "w": 773553
   },
   {
    "t": "薬屋のひとりごと 第3期",
@@ -49,7 +49,7 @@
    "pv": "",
    "site": "https://www.ytv.co.jp/conan/",
    "x": "conan_anime1000",
-   "w": 81882
+   "w": 81903
   },
   {
    "t": "追放された転生重騎士はゲーム知識で無双する",
@@ -459,7 +459,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/shinchan/",
    "x": "crayon_official",
-   "w": 20502
+   "w": 20508
   },
   {
    "t": "朱色の仮面",
@@ -689,7 +689,7 @@
    "pv": "",
    "site": "https://www.tv-asahi.co.jp/doraemon/",
    "x": "doraemonChannel",
-   "w": 8154
+   "w": 8159
   },
   {
    "t": "マロニエ王国の七人の騎士",
@@ -954,7 +954,7 @@
    "pv": "",
    "site": "",
    "x": "",
-   "w": 2265
+   "w": 2266
   },
   {
    "t": "Battle Spirits [Re] 絶界の空",
@@ -1002,7 +1002,7 @@
    "pv": "",
    "site": "http://chibimaru.tv/",
    "x": "tweet_maruko",
-   "w": 1922
+   "w": 1923
   },
   {
    "t": "ごーすと・みーつ・ぎゃる！",
@@ -1160,7 +1160,7 @@
    "pv": "https://www.youtube.com/watch?v=7wbfll4QKoE",
    "site": "http://www.bonobono.jp/",
    "x": "bonobono_phx",
-   "w": 821
+   "w": 822
   },
   {
    "t": "おでかけ子ザメ シーズン2",
